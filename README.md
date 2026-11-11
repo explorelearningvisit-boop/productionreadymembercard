@@ -1,49 +1,53 @@
 # BAD GYM — Member Intelligence
 
-Cross-platform Flutter application for the BAD GYM Member Intelligence experience. Android and iOS share one Flutter UI codebase.
+Cross-platform Flutter application for the **BAD GYM Member Intelligence** check-in card experience. Android and iOS share one production-ready Flutter UI codebase.
 
-## Current scope
-This repository is dedicated to the first production-quality Member Intelligence card and its four domains: Attendance, Workout, Payment and Body. The UI is built around the supplied purple/neon-lime 3D visual references. Backend and API work are intentionally deferred until visual approval.
+## Current Scope & Visual Implementation
+This repository is dedicated to the production-quality, pixel-perfect **BAD GYM Member Intelligence** card:
+- **Top Header Bar**: Rounded dark menu button, 3D orange dumbbell logo, BAD GYM typography, notification bell with unread badge, and live date pill (`Thu, 16 Oct 2026`).
+- **Member Profile Card**: Warm chocolate/charcoal gradient card with real portrait avatar, gold halo ring, `BG215` identity, `Active` + `Gold Plan` badges, `8 Days Left` coral action, and `22 / 30 Days (73.3% Used)` lime-to-emerald progress bar.
+- **Left Vertical Navigation Rail**: Rounded dark rail with 8 navigation items (`Overview`, active coral `Attendance`, `Workout`, `Body`, `Payment`, divider, `Goals`, `Reports`, and `Offers` with notification dot).
+- **Quick Stats Row**: 4 interactive stat cards (`Attendance 81%`, `Workout 58 min`, `Payment Paid`, `Body 69.5 kg`).
+- **Attendance Intelligence Card**:
+  - Donut chart with 81% progress arc and centered breakdown.
+  - Color-coded legend (Present 23, Late 2, Absent 2, Holiday 4).
+  - Streak badges (6 Days Current Streak flame, 14 Days Best Streak trophy).
+  - Monthly calendar with day status indicators and glowing green double ring for Today (16th).
+  - Attendance Trend spline curve with 0–100% Y-axis, 1–31 X-axis, peak/trough callout pills, and Max/Avg/Min stats.
+- **Promotional Banner**: Muscle Building Program banner with gold member exclusive badge and CTA.
+
+## Verified Live Device Screenshots
+- **Primary Board View**: [`docs/screenshots/verified_pixel_perfect_attendance.png`](docs/screenshots/verified_pixel_perfect_attendance.png)
+- **Scrolled Banner View**: [`docs/screenshots/verified_pixel_perfect_scroll.png`](docs/screenshots/verified_pixel_perfect_scroll.png)
 
 ## Requirements
-- Flutter stable / Dart compatible with `pubspec.yaml`
-- Android Studio + Android SDK + Android emulator or physical Android phone
-- macOS + Xcode for iOS builds and signed iOS releases
+- Flutter stable (>= 3.5.0) / Dart compatible with `pubspec.yaml`
+- Android Studio + Android SDK (API 33+) or connected physical Android device
+- macOS + Xcode for iOS builds
 
 ## Run on Windows / Android
 Clone this repository, then:
 
 ```powershell
-flutter doctor -v
 flutter pub get
-dart format lib test
 flutter analyze
 flutter test
 flutter run
 ```
 
-Start an Android emulator in Android Studio Device Manager or connect a phone with USB debugging enabled. Run `flutter devices` to select the correct device. While the app is running, press `r` in the Flutter terminal for hot reload; this avoids a new APK build for most Dart UI changes.
+While iterating, press `r` in the Flutter terminal for hot reload.
 
-## Build artifacts
+## Build Artifacts
 ```powershell
 flutter build apk --debug
 flutter build appbundle --release
 ```
 
-iOS simulator/release builds require macOS and Xcode:
-
-```bash
-flutter build ios --simulator --no-codesign
-```
-
-Never commit signing credentials, production secrets or real member data.
-
-## Project layout
-- `flutter_app/lib/core`: shared domain and authorization presentation policy.
-- `flutter_app/lib/features`: Attendance, Workout, Payment and Body feature-first layers.
-- `flutter_app/test`: widget and domain policy tests.
-- `docs`: visual reference, migration notes and implementation status.
-- `.github/workflows`: Flutter CI and Android/iOS build checks.
-
-## Data and safety
-All current visible member information is demo data. No real authentication, payment collection or production backend is connected. Owner/member UI permission rules are not a substitute for backend authorization. No body-fat or skeletal-muscle values are inferred from weight/height.
+## Project Layout
+- `lib/core/models`: Data models for member profile, calendar days, and trend points.
+- `lib/core/theme`: Theme tokens, colors, and typography (Poppins & Inter).
+- `lib/presentation/widgets`: Modular, pixel-perfect UI widgets.
+- `lib/presentation/member_checkin_screen.dart`: Main screen assembling the complete board.
+- `assets/images`: High-resolution graphics and 3D icons.
+- `assets/fonts`: Poppins (Regular, Medium, SemiBold, Bold, ExtraBold) and Inter fonts.
+- `test`: Widget and policy test suites (all passing).
