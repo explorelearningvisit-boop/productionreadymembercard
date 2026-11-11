@@ -6,7 +6,7 @@ Cross-platform Flutter application for the BAD GYM Member Intelligence experienc
 This repository is dedicated to the first production-quality Member Intelligence card and its four domains: Attendance, Workout, Payment and Body. The UI is built around the supplied purple/neon-lime 3D visual references. Backend and API work are intentionally deferred until visual approval.
 
 ## Requirements
-- Flutter stable / Dart compatible with `flutter_app/pubspec.yaml`
+- Flutter stable / Dart compatible with `pubspec.yaml`
 - Android Studio + Android SDK + Android emulator or physical Android phone
 - macOS + Xcode for iOS builds and signed iOS releases
 
@@ -14,7 +14,6 @@ This repository is dedicated to the first production-quality Member Intelligence
 Clone this repository, then:
 
 ```powershell
-cd flutter_app
 flutter doctor -v
 flutter pub get
 dart format lib test
@@ -27,7 +26,6 @@ Start an Android emulator in Android Studio Device Manager or connect a phone wi
 
 ## Build artifacts
 ```powershell
-cd flutter_app
 flutter build apk --debug
 flutter build appbundle --release
 ```
@@ -35,7 +33,6 @@ flutter build appbundle --release
 iOS simulator/release builds require macOS and Xcode:
 
 ```bash
-cd flutter_app
 flutter build ios --simulator --no-codesign
 ```
 
