@@ -1,0 +1,34 @@
+# Dart / Flutter
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+
+# Android / Gradle
+.gradle/
+**/local.properties
+**/*.iml
+**/captures/
+
+# iOS / Xcode
+**/Pods/
+**/.symlinks/
+**/Flutter/ephemeral/
+**/Runner.xcworkspace/
+**/DerivedData/
+*.xcuserstate
+
+# IDE
+.idea/
+.vscode/
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
