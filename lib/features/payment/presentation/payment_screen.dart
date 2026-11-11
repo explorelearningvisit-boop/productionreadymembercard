@@ -22,8 +22,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) => FutureBuilder<PaymentSummary>(
     future: _summary,
     builder: (context, snapshot) {
-      if (snapshot.hasError) return const Center(child: Text('Payment history could not be loaded.'));
-      if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+      if (snapshot.hasError) {
+        return const Center(child: Text('Payment history could not be loaded.'));
+      }
+      if (!snapshot.hasData) {
+        return const Center(child: CircularProgressIndicator());
+      }
       final data = snapshot.data!;
       return ListView(
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 20),
