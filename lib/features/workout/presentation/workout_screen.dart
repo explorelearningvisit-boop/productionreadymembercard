@@ -22,8 +22,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   Widget build(BuildContext context) => FutureBuilder<WorkoutSummary>(
     future: _summary,
     builder: (context, snapshot) {
-      if (snapshot.hasError) return const Center(child: Text('Workout data could not be loaded.'));
-      if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+      if (snapshot.hasError) {
+        return const Center(child: Text('Workout data could not be loaded.'));
+      }
+      if (!snapshot.hasData) {
+        return const Center(child: CircularProgressIndicator());
+      }
       final data = snapshot.data!;
       return ListView(
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 20),
@@ -186,7 +190,9 @@ class _Metric extends StatelessWidget {
 
 int _minutesForDay(List<WorkoutSession> sessions, DateTime date) {
   for (final session in sessions) {
-    if (session.date.year == date.year && session.date.month == date.month && session.date.day == date.day) return session.durationMinutes;
+    if (session.date.year == date.year && session.date.month == date.month && session.date.day == date.day) {
+      return session.durationMinutes;
+    }
   }
   return 0;
 }
