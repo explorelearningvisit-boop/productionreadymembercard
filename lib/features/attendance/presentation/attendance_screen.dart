@@ -37,8 +37,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   Widget build(BuildContext context) => FutureBuilder<AttendanceSummary>(
         future: _summary,
         builder: (context, snapshot) {
-          if (snapshot.hasError) return const Center(child: Text('Attendance could not be loaded.'));
-          if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+          if (snapshot.hasError) {
+            return const Center(child: Text('Attendance could not be loaded.'));
+          }
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
           final data = snapshot.data!;
           return ListView(
             padding: const EdgeInsets.fromLTRB(12, 8, 12, 20),
@@ -162,7 +166,9 @@ class _Calendar extends StatelessWidget {
           itemCount: offset + days,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 5, crossAxisSpacing: 5, childAspectRatio: 1.35),
           itemBuilder: (context, index) {
-            if (index < offset) return const SizedBox.shrink();
+            if (index < offset) {
+              return const SizedBox.shrink();
+            }
             final day = index - offset + 1;
             final status = byDay[day];
             final color = switch (status) {
