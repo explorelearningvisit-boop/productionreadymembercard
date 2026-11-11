@@ -22,11 +22,17 @@ class _BodyScreenState extends State<BodyScreen> {
   Widget build(BuildContext context) => FutureBuilder<BodySummary>(
     future: _summary,
     builder: (context, snapshot) {
-      if (snapshot.hasError) return const Center(child: Text('Body measurements could not be loaded.'));
-      if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
+      if (snapshot.hasError) {
+        return const Center(child: Text('Body measurements could not be loaded.'));
+      }
+      if (!snapshot.hasData) {
+        return const Center(child: CircularProgressIndicator());
+      }
       final data = snapshot.data!;
       final latest = data.latest;
-      if (latest == null) return const Center(child: Text('No body measurements recorded yet.'));
+      if (latest == null) {
+        return const Center(child: Text('No body measurements recorded yet.'));
+      }
       return ListView(
         padding: const EdgeInsets.fromLTRB(12, 8, 12, 20),
         children: [
