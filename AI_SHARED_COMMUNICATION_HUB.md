@@ -112,22 +112,36 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 > - **Next Recommendations**: Any instructions for the next agent or user.
 > ```
 
-### [2026-11-12 13:15 UTC] Antigravity
-- **Action**: 
-  - Completed migration of the full Royal Purple / Neon-Glow / Luxury Glass UI matching the user's 3 fixed reference images.
-  - Extracted crisp, high-resolution athlete and 3D shaker bottle assets (`assets/images/vip_athlete_hi.png` and `vip_shaker_hi.png`).
-  - Resolved all layout flex overflows in `TopHeaderBar`, `QuickStatsRow`, `MemberProfileCard`, and `AttendanceDonutChart`.
-  - Consolidated project root to `productionreadymembercard` as the sole primary project (`badnewgym` decommissioned).
-  - Created and committed `AGENTS.md` and `AI_SHARED_COMMUNICATION_HUB.md`.
+### [2026-11-12 16:05 UTC] Antigravity
+- **Action**:
+  - Integrated dynamic intelligence switching across all 4 quick stat tabs:
+    - `AttendanceIntelligenceCard`: interactive month picker, streak counters, donut chart, attendance calendar grid.
+    - `WorkoutIntelligenceCard`: daily workout program (Chest & Arms, intensity high), exercise routine checklist with completion status, duration/calorie/sets metrics, "Log Next Set" action, and active rest timer pill (`01:30`).
+    - `PaymentIntelligenceCard`: current plan status, monthly fee, next due countdown, billing invoice history (`TXN#BG-9921`), "Renew Plan Now", and PDF GST receipt download.
+    - `BodyIntelligenceCard`: weight tracker (`69.5 kg`), body fat (`14.2%`), muscle mass (`34.8 kg`), circumferences (chest, arms, waist), and InBody 570 sync.
+  - Implemented luxury modals matching the Royal Purple / Neon-Glow design system:
+    - `RenewalSheet`: multi-tier membership renewal (Gold 1-mo, Platinum 3-mo with 15% discount), early bird notice, and one-tap UPI checkout button.
+    - `NotificationSheet`: gym alerts and updates with category badges, 3 new notifications (streak, renewal, protein shake perk), and "Mark All as Read" action.
+    - `MemberQrSheet`: VIP access pass modal with full-width barcode, NFC turnstile reader instructions, and gate access confirmation.
+  - Fixed subtle horizontal RenderFlex overflows on narrower physical device widths across all sheets and cards.
+  - Expanded widget test suite from 4 to 6 comprehensive tests covering tab switching, modal presentation, and interaction.
+  - Verified dual-channel device connectivity: Channel A wired (`zxdada69gunb7ls4`) and Channel B Tailscale wireless mesh (`100.123.18.54:5555`).
+  - Captured live device screenshots for all newly added views into `docs/screenshots/`.
 - **Verification**:
-  - `flutter analyze`: **0 issues found** (clean).
-  - `flutter test`: **4/4 tests passed** (`test/widget_test.dart`, `test/auth_policy_test.dart`).
-  - Physical Device Live Test: Deployed to connected Xiaomi 11i 5G (`zxdada69gunb7ls4` / `100.123.18.54:5555`), launched `com.badgym.bad_gym/.MainActivity`, and captured live screen.
-  - Verified screenshot committed to `docs/screenshots/bad_gym_final_real.png`.
-- **Git Commit**: `c79ac6b` and subsequent pushes on `main`.
+  - `flutter analyze`: **0 issues found** (strict clean).
+  - `flutter test`: **6/6 tests passed** (100% test suite green).
+  - Device Verification: Installed debug APK on connected Xiaomi 11i 5G (`21091116I`), verified interactive tab switching and modal sheets live, captured screenshots:
+    - `docs/screenshots/bad_gym_dashboard.png` (Main Attendance Dashboard)
+    - `docs/screenshots/bad_gym_workout.png` (Workout Intelligence Card)
+    - `docs/screenshots/bad_gym_payment.png` (Payment Intelligence Card)
+    - `docs/screenshots/bad_gym_body.png` (Body Intelligence Card)
+    - `docs/screenshots/bad_gym_notifications.png` (Gym Alerts & Updates Sheet)
+    - `docs/screenshots/bad_gym_qr_pass.png` (VIP Access Pass Modal)
+    - `docs/screenshots/bad_gym_live.png` (Live Device Screen)
+- **Git Commit**: `feat: complete interactive intelligence tabs, VIP modals, device verification, test suite`
 - **Next Recommendations**:
-  - Keep `AI_SHARED_COMMUNICATION_HUB.md` updated whenever making changes.
-  - Maintain the dual-channel deployment protocol (Wired `zxdada69gunb7ls4` or Tailscale `100.123.18.54:5555`).
+  - All 4 quick stat intelligence cards and VIP sheets are fully operational and verified on hardware.
+  - Next recommended step: implement offline persistence layer (e.g. SQLite / SharedPreferences or Hive) to save user-logged sets and weight entries between app restarts.
 
 ---
 
@@ -139,9 +153,13 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - [x] Left Vertical Navigation Rail with glowing `Intelligence` pill
 - [x] Attendance Intelligence Donut chart, legend, streaks, and interactive calendar
 - [x] High-res asset pipeline for athlete & 3D shaker bottle
-- [x] Zero-warning static analysis & unit test suite passing
-- [x] Physical device live verification & screencap
+- [x] Zero-warning static analysis & unit test suite passing (6/6 tests)
+- [x] Physical device live verification & dual-channel fallback protocol
 - [x] GitHub remote sync (`main` & `setup/flutter-member-intelligence`)
-- [ ] Workout detail screen expansion (when workout tab is selected)
-- [ ] Payment detail modal / transaction history sheet
+- [x] Workout detail card & routine log checklist (when workout tab is selected)
+- [x] Payment detail card & billing invoice history (when payment tab is selected)
+- [x] Body intelligence card & measurements (when body tab is selected)
+- [x] VIP Access Pass & gate turnstile barcode modal
+- [x] Gym alerts & updates notification sheet
+- [x] Membership renewal multi-tier modal with UPI checkout
 - [ ] Offline local caching via SQLite / SharedPreferences
