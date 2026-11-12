@@ -1,40 +1,50 @@
-# BAD GYM — Repository Execution Rules & Lifetime Device Connection Memory
+# BAD GYM — Production Project Execution Rules & Device Connection Protocol
 
-## ACTIVE PROJECT
-Primary Flutter repository: `productionreadymembercard`
-Remote: `https://github.com/explorelearningvisit-boop/productionreadymembercard.git`
-Branch: `main`
-
-## DEVICE CONNECTION & DEPLOYMENT PROTOCOL (LIFETIME MEMORY)
-
-### PHYSICAL DEVICE SPECIFICATIONS
-- **Device Model**: Xiaomi 11i 5G (Xiaomi 21091116I / MIUI / Android 13, 1080×2400)
-- **Wired ADB Serial**: `zxdada69gunb7ls4`
-- **Tailscale IP**: `100.123.18.54`
-- **Wireless Debugging Port**: `5555` (Target: `100.123.18.54:5555`)
-- **Application Package**: `com.badgym.bad_gym`
+## 🎯 MAIN PROJECT SOURCE OF TRUTH
+- **Sole Primary Project**: `C:\Users\User\AndroidStudioProjects\productionreadymembercard`
+- **Remote Repository**: `https://github.com/explorelearningvisit-boop/productionreadymembercard.git`
+- **Active Branch**: `main`
+- **Application ID**: `com.badgym.bad_gym`
 - **Main Launcher Activity**: `com.badgym.bad_gym/.MainActivity`
+- *Note*: `badnewgym` is deleted and obsolete. All work, commits, builds, tests, and deployments occur strictly in `productionreadymembercard`.
 
-### DUAL-CHANNEL AUTO-FALLBACK STRATEGY
-Always check connection in this exact order:
-1. **Channel A — Wired USB**:
-   - Run `adb devices`.
-   - If `zxdada69gunb7ls4` is listed as `device`:
-     - Keep wireless port active: `adb -s zxdada69gunb7ls4 tcpip 5555`.
+---
+
+## 📱 LIFETIME DEVICE CONNECTION PROFILE
+
+| Parameter | Value | Details |
+| :--- | :--- | :--- |
+| **Model** | **Xiaomi 11i 5G** (`21091116I`) | Android 13, MIUI, 1080×2400 @ 2.75x |
+| **Channel A (Wired USB)** | `zxdada69gunb7ls4` | Fast direct ADB debugging |
+| **Channel B (Tailscale Wireless)** | `100.123.18.54` | Private mesh VPN network |
+| **Wireless Port** | `5555` | Target: `100.123.18.54:5555` |
+
+---
+
+## ⚡ AUTOMATIC DUAL-CHANNEL FALLBACK WORKFLOW
+
+Whenever installing, testing, debugging, or taking screenshots:
+1. **Check Wired Connection**:
+   - Check `adb devices`.
+   - If `zxdada69gunb7ls4` is connected as `device`:
+     - Keep TCP mode enabled: `adb -s zxdada69gunb7ls4 tcpip 5555`.
      - Target commands directly with `-s zxdada69gunb7ls4`.
-2. **Channel B — Tailscale Wireless Network**:
-   - If `zxdada69gunb7ls4` is not connected, immediately connect over Tailscale:
+2. **Fallback to Tailscale Wireless**:
+   - If wired is not connected, immediately connect to Tailscale:
      `adb connect 100.123.18.54:5555`
    - Target commands directly with `-s 100.123.18.54:5555`.
-3. **Screen Wake & Capture**:
-   - To capture clean screenshots on Xiaomi/MIUI without keyguard blanking:
-     `adb -s <device> shell input keyevent 224` (WAKEUP)
-     `adb -s <device> shell wm dismiss-keyguard`
-     `adb -s <device> shell am start -n com.badgym.bad_gym/.MainActivity`
-     `adb -s <device> shell screencap -p /sdcard/bad_gym_live.png`
-     `adb -s <device> pull /sdcard/bad_gym_live.png <target_path>`
+3. **Screen Wake & Screenshot Verification**:
+   - Wake display and dismiss keyguard:
+     `adb -s <target> shell input keyevent 224`
+     `adb -s <target> shell wm dismiss-keyguard`
+     `adb -s <target> shell am start -n com.badgym.bad_gym/.MainActivity`
+   - Capture live screenshot:
+     `adb -s <target> shell screencap -p /sdcard/bad_gym_live.png`
+     `adb -s <target> pull /sdcard/bad_gym_live.png docs/screenshots/`
 
-## EXECUTION MODEL
-- Build → Run on device (Wired or Tailscale) → Screenshot → Inspect → Verify.
-- Never declare completion from compilation alone.
-- Keep `flutter analyze` at 0 issues and all unit/widget tests passing.
+---
+
+## 🏗️ BUILD & TEST COMMANDS
+- Static Analysis: `flutter analyze` (Strict 0 errors/warnings)
+- Test Suite: `flutter test`
+- Build APK: `flutter build apk --debug`
