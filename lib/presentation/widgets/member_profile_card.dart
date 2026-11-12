@@ -6,12 +6,14 @@ class MemberProfileCard extends StatelessWidget {
   final MemberIntelligenceData data;
   final VoidCallback? onRenewPressed;
   final VoidCallback? onPaymentDetailsPressed;
+  final VoidCallback? onQrPassPressed;
 
   const MemberProfileCard({
     super.key,
     required this.data,
     this.onRenewPressed,
     this.onPaymentDetailsPressed,
+    this.onQrPassPressed,
   });
 
   @override
@@ -56,24 +58,31 @@ class MemberProfileCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Athlete Cutout Image (Cleanly integrated without harsh inner box)
-              SizedBox(
-                width: 82,
-                height: 82,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    bottomLeft: Radius.circular(12),
-                  ),
-                  child: Image.asset(
-                    'assets/images/vip_athlete_hi.png',
-                    fit: BoxFit.cover,
-                    alignment: Alignment.topCenter,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        'assets/images/avatar_ashwini.png',
-                        fit: BoxFit.cover,
-                      );
-                    },
+              InkWell(
+                onTap: onQrPassPressed,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  bottomLeft: Radius.circular(12),
+                ),
+                child: SizedBox(
+                  width: 82,
+                  height: 82,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      bottomLeft: Radius.circular(12),
+                    ),
+                    child: Image.asset(
+                      'assets/images/vip_athlete_hi.png',
+                      fit: BoxFit.cover,
+                      alignment: Alignment.topCenter,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          'assets/images/avatar_ashwini.png',
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -87,42 +96,50 @@ class MemberProfileCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     // Checked In Neon Capsule
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFF22C55E),
-                            Color(0xFF16A34A),
+                    InkWell(
+                      onTap: onQrPassPressed,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2.5),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              Color(0xFF22C55E),
+                              Color(0xFF16A34A),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF22C55E).withValues(alpha: 0.4),
+                              blurRadius: 4,
+                            ),
                           ],
                         ),
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF22C55E).withValues(alpha: 0.4),
-                            blurRadius: 4,
+                        child: const FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.qr_code_2_rounded,
+                                size: 11,
+                                color: Colors.white,
+                              ),
+                              SizedBox(width: 3),
+                              Text(
+                                'Checked In',
+                                style: TextStyle(
+                                  fontFamily: BadGymTypography.fontHeading,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 9.5,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.check_circle_rounded,
-                            size: 11,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 3),
-                          Text(
-                            'Checked In',
-                            style: TextStyle(
-                              fontFamily: BadGymTypography.fontHeading,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 9.5,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 2),
@@ -212,111 +229,115 @@ class MemberProfileCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Payment header with 3-dots
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.account_balance_wallet_outlined,
-                                    size: 11,
-                                    color: BadGymColors.inkLight,
-                                  ),
-                                  SizedBox(width: 3),
-                                  Text(
-                                    'Payment',
-                                    style: TextStyle(
-                                      fontFamily: BadGymTypography.fontBody,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 10,
+                      child: InkWell(
+                        onTap: onPaymentDetailsPressed,
+                        borderRadius: BorderRadius.circular(10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Payment header with 3-dots
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      Icons.account_balance_wallet_outlined,
+                                      size: 11,
                                       color: BadGymColors.inkLight,
                                     ),
+                                    SizedBox(width: 3),
+                                    Text(
+                                      'Payment',
+                                      style: TextStyle(
+                                        fontFamily: BadGymTypography.fontBody,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 10,
+                                        color: BadGymColors.inkLight,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  width: 18,
+                                  height: 18,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.12),
+                                    shape: BoxShape.circle,
                                   ),
-                                ],
-                              ),
-                              Container(
-                                width: 18,
-                                height: 18,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.12),
-                                  shape: BoxShape.circle,
-                                ),
-                                alignment: Alignment.center,
-                                child: const Icon(
-                                  Icons.more_vert,
-                                  size: 12,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 2),
-
-                          // Paid Green Capsule
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: BadGymColors.emerald,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.check_circle_rounded,
-                                  size: 9.5,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(width: 2.5),
-                                Text(
-                                  'Paid',
-                                  style: TextStyle(
-                                    fontFamily: BadGymTypography.fontHeading,
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 9,
+                                  alignment: Alignment.center,
+                                  child: const Icon(
+                                    Icons.more_vert,
+                                    size: 12,
                                     color: Colors.white,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          const SizedBox(height: 1),
+                            const SizedBox(height: 2),
 
-                          // Amount
-                          Text(
-                            data.paymentAmount,
-                            style: const TextStyle(
-                              fontFamily: BadGymTypography.fontHeading,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 17,
-                              color: Colors.white,
-                              height: 1.1,
-                            ),
-                          ),
-                          const SizedBox(height: 1),
-
-                          // Next Due
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Next Due: ${data.paymentNextDue}',
-                              style: TextStyle(
-                                fontFamily: BadGymTypography.fontBody,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 8.5,
-                                color: BadGymColors.inkLight.withValues(alpha: 0.9),
-                                letterSpacing: -0.2,
+                            // Paid Green Capsule
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: BadGymColors.emerald,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: const Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.check_circle_rounded,
+                                    size: 9.5,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 2.5),
+                                  Text(
+                                    'Paid',
+                                    style: TextStyle(
+                                      fontFamily: BadGymTypography.fontHeading,
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 9,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 1),
+
+                            // Amount
+                            Text(
+                              data.paymentAmount,
+                              style: const TextStyle(
+                                fontFamily: BadGymTypography.fontHeading,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 17,
+                                color: Colors.white,
+                                height: 1.1,
+                              ),
+                            ),
+                            const SizedBox(height: 1),
+
+                            // Next Due
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Next Due: ${data.paymentNextDue}',
+                                style: TextStyle(
+                                  fontFamily: BadGymTypography.fontBody,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 8.5,
+                                  color: BadGymColors.inkLight.withValues(alpha: 0.9),
+                                  letterSpacing: -0.2,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
 
@@ -404,36 +425,40 @@ class MemberProfileCard extends StatelessWidget {
                     const SizedBox(width: 4),
 
                     // Gold Plan badge
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            BadGymColors.gold,
-                            BadGymColors.goldDark,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.workspace_premium,
-                            size: 10,
-                            color: Color(0xFF1E0E00),
+                    InkWell(
+                      onTap: onRenewPressed,
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [
+                              BadGymColors.gold,
+                              BadGymColors.goldDark,
+                            ],
                           ),
-                          SizedBox(width: 2.5),
-                          Text(
-                            'Gold Plan',
-                            style: TextStyle(
-                              fontFamily: BadGymTypography.fontHeading,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 9,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.workspace_premium,
+                              size: 10,
                               color: Color(0xFF1E0E00),
                             ),
-                          ),
-                        ],
+                            SizedBox(width: 2.5),
+                            Text(
+                              'Gold Plan',
+                              style: TextStyle(
+                                fontFamily: BadGymTypography.fontHeading,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 9,
+                                color: Color(0xFF1E0E00),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

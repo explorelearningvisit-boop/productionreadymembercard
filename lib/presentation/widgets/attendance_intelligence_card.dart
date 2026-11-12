@@ -67,7 +67,7 @@ class AttendanceIntelligenceCard extends StatelessWidget {
               const SizedBox(width: 5),
 
               // Title with Info Icon
-              Expanded(
+              const Expanded(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -75,7 +75,7 @@ class AttendanceIntelligenceCard extends StatelessWidget {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
-                        child: const Text(
+                        child: Text(
                           'Attendance Intelligence',
                           style: TextStyle(
                             fontFamily: BadGymTypography.fontHeading,
@@ -87,8 +87,8 @@ class AttendanceIntelligenceCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 3),
-                    const Icon(
+                    SizedBox(width: 3),
+                    Icon(
                       Icons.info_outline_rounded,
                       size: 13,
                       color: Color(0xFF9CA3AF),
