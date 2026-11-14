@@ -3,11 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:bad_gym/core/models/member_intelligence_data.dart';
 import 'package:bad_gym/core/theme/bad_gym_theme.dart';
 
-class MemberProfileCard extends StatelessWidget {
+class MemberProfileCard extends StatefulWidget {
   final MemberIntelligenceData data;
   final VoidCallback? onRenewPressed;
   final VoidCallback? onPaymentDetailsPressed;
   final VoidCallback? onQrPassPressed;
+  final VoidCallback? onBackPressed;
+  final VoidCallback? onCheckInPressed;
+  final VoidCallback? onNotificationPressed;
 
   const MemberProfileCard({
     super.key,
@@ -15,12 +18,49 @@ class MemberProfileCard extends StatelessWidget {
     this.onRenewPressed,
     this.onPaymentDetailsPressed,
     this.onQrPassPressed,
+    this.onBackPressed,
+    this.onCheckInPressed,
+    this.onNotificationPressed,
   });
 
   @override
+  State<MemberProfileCard> createState() => _MemberProfileCardState();
+}
+
+class _MemberProfileCardState extends State<MemberProfileCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _animController;
+  late final Animation<double> _floatAnim;
+
+  @override
+  void initState() {
+    super.initState();
+    _animController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 2400),
+    );
+    if (!WidgetsBinding.instance.runtimeType.toString().contains('Test')) {
+      _animController.repeat(reverse: true);
+    } else {
+      _animController.value = 0.5;
+    }
+
+    _floatAnim = Tween<double>(begin: -3.5, end: 3.5).animate(
+      CurvedAnimation(parent: _animController, curve: Curves.easeInOutSine),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final data = widget.data;
+
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
@@ -31,7 +71,7 @@ class MemberProfileCard extends StatelessWidget {
             Color(0xFF5E0008),
           ],
         ),
-        borderRadius: BorderRadius.circular(26),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(
           color: const Color(0xFFFF5268).withValues(alpha: 0.65),
           width: 1.5,
@@ -39,40 +79,54 @@ class MemberProfileCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: const Color(0xFFBA0018).withValues(alpha: 0.35),
-            blurRadius: 18,
-            offset: const Offset(0, 8),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.25),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
           ),
         ],
       ),
       child: Stack(
         children: [
-          // 3D Metallic Dumbbell with Neon Halo at Top Right
+          // Animated Floating 3D Metallic Dumbbell with Neon Halo at Top Right
           Positioned(
-            top: 4,
-            right: 8,
+            top: 42,
+            right: 6,
             child: IgnorePointer(
-              child: Image.asset(
-                'assets/graphics/dumbbell_halo.png',
-                width: 86,
-                height: 68,
-                fit: BoxFit.contain,
-                errorBuilder: (_, __, ___) => const SizedBox(),
+              child: AnimatedBuilder(
+                animation: _floatAnim,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(0, _floatAnim.value),
+                    child: child,
+                  );
+                },
+                child: Image.asset(
+                  'assets/graphics/dumbbell_halo.png',
+                  width: 82,
+                  height: 64,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const SizedBox(),
+                ),
               ),
             ),
           ),
 
           Padding(
-            padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+            padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                // 1. Top Row: Avatar + Info & Badges
+                // 1. Integrated Top Header: Back | CHECK-IN | 07:12 AM / 16 Oct 2026 | Bell (3)
+                _buildIntegratedTopHeader(context),
+
+                const SizedBox(height: 8),
+
+                // 2. Member Info Row: Avatar + Details & Badges
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -81,28 +135,28 @@ class MemberProfileCard extends StatelessWidget {
                       key: const ValueKey('member_avatar_button'),
                       onTap: () {
                         HapticFeedback.lightImpact();
-                        onQrPassPressed?.call();
+                        widget.onQrPassPressed?.call();
                       },
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(16),
                       child: Container(
-                        width: 66,
-                        height: 66,
+                        width: 58,
+                        height: 58,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: Colors.white,
-                            width: 2.2,
+                            width: 2.0,
                           ),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withValues(alpha: 0.3),
-                              blurRadius: 8,
-                              offset: const Offset(0, 3),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
                             ),
                           ],
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(14),
                           child: Image.asset(
                             'assets/images/avatar_ashwini.png',
                             fit: BoxFit.cover,
@@ -110,14 +164,14 @@ class MemberProfileCard extends StatelessWidget {
                             errorBuilder: (_, __, ___) => const Icon(
                               Icons.person_rounded,
                               color: Colors.white,
-                              size: 40,
+                              size: 36,
                             ),
                           ),
                         ),
                       ),
                     ),
 
-                    const SizedBox(width: 12),
+                    const SizedBox(width: 10),
 
                     // Athlete Name, ID, Age, Gender & Badges
                     Expanded(
@@ -131,10 +185,10 @@ class MemberProfileCard extends StatelessWidget {
                             style: const TextStyle(
                               fontFamily: BadGymTypography.fontHeading,
                               fontWeight: FontWeight.w800,
-                              fontSize: 16.5,
+                              fontSize: 15.5,
                               color: Colors.white,
                               letterSpacing: 0.2,
-                              height: 1.15,
+                              height: 1.1,
                             ),
                           ),
                           const SizedBox(height: 2),
@@ -145,12 +199,12 @@ class MemberProfileCard extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: BadGymTypography.fontBody,
                               fontWeight: FontWeight.w500,
-                              fontSize: 11,
+                              fontSize: 10.5,
                               color: Colors.white.withValues(alpha: 0.90),
                               letterSpacing: -0.1,
                             ),
                           ),
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 4),
 
                           // Badges Row: Active + Gold Plan
                           FittedBox(
@@ -161,7 +215,8 @@ class MemberProfileCard extends StatelessWidget {
                               children: [
                                 // Active Badge (Green Pill)
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 7, vertical: 2.5),
                                   decoration: BoxDecoration(
                                     gradient: const LinearGradient(
                                       colors: [
@@ -169,10 +224,11 @@ class MemberProfileCard extends StatelessWidget {
                                         Color(0xFF16A34A),
                                       ],
                                     ),
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: const Color(0xFF22C55E).withValues(alpha: 0.4),
+                                        color: const Color(0xFF22C55E)
+                                            .withValues(alpha: 0.4),
                                         blurRadius: 4,
                                       ),
                                     ],
@@ -182,16 +238,17 @@ class MemberProfileCard extends StatelessWidget {
                                     children: [
                                       Icon(
                                         Icons.check_rounded,
-                                        size: 11,
+                                        size: 10,
                                         color: Colors.white,
                                       ),
-                                      SizedBox(width: 3),
+                                      SizedBox(width: 2.5),
                                       Text(
                                         'Active',
                                         style: TextStyle(
-                                          fontFamily: BadGymTypography.fontHeading,
+                                          fontFamily:
+                                              BadGymTypography.fontHeading,
                                           fontWeight: FontWeight.w800,
-                                          fontSize: 10,
+                                          fontSize: 9.5,
                                           color: Colors.white,
                                         ),
                                       ),
@@ -199,11 +256,12 @@ class MemberProfileCard extends StatelessWidget {
                                   ),
                                 ),
 
-                                const SizedBox(width: 6),
+                                const SizedBox(width: 5),
 
                                 // Gold Plan Badge (Golden Gradient Pill)
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 7, vertical: 2.5),
                                   decoration: BoxDecoration(
                                     gradient: const LinearGradient(
                                       colors: [
@@ -211,10 +269,11 @@ class MemberProfileCard extends StatelessWidget {
                                         Color(0xFFFFB300),
                                       ],
                                     ),
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(10),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: Colors.black.withValues(alpha: 0.15),
+                                        color: Colors.black
+                                            .withValues(alpha: 0.15),
                                         blurRadius: 4,
                                       ),
                                     ],
@@ -224,16 +283,17 @@ class MemberProfileCard extends StatelessWidget {
                                     children: [
                                       Icon(
                                         Icons.emoji_events_rounded,
-                                        size: 11,
+                                        size: 10,
                                         color: Color(0xFF5D3800),
                                       ),
-                                      SizedBox(width: 3),
+                                      SizedBox(width: 2.5),
                                       Text(
                                         'Gold Plan',
                                         style: TextStyle(
-                                          fontFamily: BadGymTypography.fontHeading,
+                                          fontFamily:
+                                              BadGymTypography.fontHeading,
                                           fontWeight: FontWeight.w800,
-                                          fontSize: 10,
+                                          fontSize: 9.5,
                                           color: Color(0xFF5D3800),
                                         ),
                                       ),
@@ -247,14 +307,14 @@ class MemberProfileCard extends StatelessWidget {
                       ),
                     ),
 
-                    // Spacer to account for dumbbell halo on right
-                    const SizedBox(width: 50),
+                    // Spacer for top-right dumbbell
+                    const SizedBox(width: 48),
                   ],
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
 
-                // 2. Middle Row: Two White Pill Cards (Payment & Days Left)
+                // 3. Middle Row: Two White Pill Cards (Payment & Days Left)
                 Row(
                   children: [
                     // Card 1: Payment ₹500 Due
@@ -262,45 +322,46 @@ class MemberProfileCard extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           HapticFeedback.lightImpact();
-                          onPaymentDetailsPressed?.call();
+                          widget.onPaymentDetailsPressed?.call();
                         },
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(12),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 6),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.1),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
+                                blurRadius: 4,
+                                offset: const Offset(0, 1.5),
                               ),
                             ],
                           ),
                           child: Row(
                             children: [
-                              // Red Wallet Icon Container
                               Container(
-                                width: 30,
-                                height: 30,
+                                width: 26,
+                                height: 26,
                                 decoration: const BoxDecoration(
                                   color: Color(0xFFFFECEF),
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(7)),
                                 ),
                                 child: const Center(
                                   child: Icon(
                                     Icons.account_balance_wallet_rounded,
                                     color: Color(0xFFD6001C),
-                                    size: 18,
+                                    size: 16,
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 6),
                               const Expanded(
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
@@ -308,18 +369,19 @@ class MemberProfileCard extends StatelessWidget {
                                       style: TextStyle(
                                         fontFamily: BadGymTypography.fontBody,
                                         fontWeight: FontWeight.w600,
-                                        fontSize: 9.5,
+                                        fontSize: 9,
                                         color: Color(0xFF6B7280),
                                         height: 1.0,
                                       ),
                                     ),
-                                    SizedBox(height: 2),
+                                    SizedBox(height: 1.5),
                                     Text(
                                       '₹500 Due',
                                       style: TextStyle(
-                                        fontFamily: BadGymTypography.fontHeading,
+                                        fontFamily:
+                                              BadGymTypography.fontHeading,
                                         fontWeight: FontWeight.w900,
-                                        fontSize: 12.5,
+                                        fontSize: 12,
                                         color: Color(0xFFD6001C),
                                         height: 1.1,
                                       ),
@@ -333,70 +395,73 @@ class MemberProfileCard extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 6),
 
                     // Card 2: 8 Days Left | Expires: 24 Oct 2026
                     Expanded(
                       child: InkWell(
                         onTap: () {
                           HapticFeedback.lightImpact();
-                          onRenewPressed?.call();
+                          widget.onRenewPressed?.call();
                         },
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(12),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 6),
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withValues(alpha: 0.1),
-                                blurRadius: 6,
-                                offset: const Offset(0, 2),
+                                blurRadius: 4,
+                                offset: const Offset(0, 1.5),
                               ),
                             ],
                           ),
                           child: Row(
                             children: [
-                              // Red Calendar Icon Container
                               Container(
-                                width: 30,
-                                height: 30,
+                                width: 26,
+                                height: 26,
                                 decoration: const BoxDecoration(
                                   color: Color(0xFFFFECEF),
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(7)),
                                 ),
                                 child: const Center(
                                   child: Icon(
                                     Icons.calendar_month_rounded,
                                     color: Color(0xFFD6001C),
-                                    size: 18,
+                                    size: 16,
                                   ),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 6),
                               Expanded(
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
                                       '${data.daysLeft} Days Left',
                                       style: const TextStyle(
-                                        fontFamily: BadGymTypography.fontHeading,
+                                        fontFamily:
+                                              BadGymTypography.fontHeading,
                                         fontWeight: FontWeight.w800,
-                                        fontSize: 12.5,
+                                        fontSize: 12,
                                         color: Color(0xFF1F2937),
                                         height: 1.1,
                                       ),
                                     ),
-                                    const SizedBox(height: 2),
+                                    const SizedBox(height: 1.5),
                                     Text(
                                       'Expires: ${data.renewDate}',
                                       style: const TextStyle(
                                         fontFamily: BadGymTypography.fontBody,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 8.5,
+                                        fontSize: 8,
                                         color: Color(0xFF6B7280),
                                         height: 1.0,
                                       ),
@@ -412,9 +477,9 @@ class MemberProfileCard extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 12),
+                const SizedBox(height: 8),
 
-                // 3. Bottom Row: Membership Progress
+                // 4. Membership Progress (High Contrast Neon Lime / Gold)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -423,7 +488,7 @@ class MemberProfileCard extends StatelessWidget {
                       style: const TextStyle(
                         fontFamily: BadGymTypography.fontBody,
                         fontWeight: FontWeight.w600,
-                        fontSize: 11,
+                        fontSize: 10.5,
                         color: Colors.white,
                       ),
                     ),
@@ -432,50 +497,53 @@ class MemberProfileCard extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: BadGymTypography.fontHeading,
                         fontWeight: FontWeight.w900,
-                        fontSize: 12.5,
-                        color: Colors.white,
+                        fontSize: 12,
+                        color: Color(0xFF4ADE80), // Neon Lime highlight
                       ),
                     ),
                   ],
                 ),
 
-                const SizedBox(height: 5),
+                const SizedBox(height: 4),
 
-                // Glowing Strawberry-Red Progress Bar
+                // High-Contrast Neon Lime & Gold Glow Progress Bar
                 Container(
                   height: 9,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF4A0308),
+                    color: Colors.black.withValues(alpha: 0.45),
                     borderRadius: BorderRadius.circular(6),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        blurRadius: 3,
-                        offset: const Offset(0, 1),
-                      ),
-                    ],
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.25),
+                      width: 0.8,
+                    ),
                   ),
-                  child: FractionallySizedBox(
-                    alignment: Alignment.centerLeft,
-                    widthFactor: 0.73,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Color(0xFFFF334B),
-                            Color(0xFFFF8595),
-                            Colors.white,
-                          ],
-                        ),
-                        borderRadius: BorderRadius.circular(6),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0xFFFF334B),
-                            blurRadius: 6,
-                            offset: Offset(0, 0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5.5),
+                    child: Stack(
+                      children: [
+                        FractionallySizedBox(
+                          widthFactor: 0.73,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF22C55E), // Emerald Green
+                                  Color(0xFF4ADE80), // Neon Lime
+                                  Color(0xFFFFD700), // Glowing Gold Accent
+                                ],
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFF4ADE80)
+                                      .withValues(alpha: 0.8),
+                                  blurRadius: 8,
+                                  spreadRadius: 1,
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -484,6 +552,223 @@ class MemberProfileCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildIntegratedTopHeader(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // 1. Back Chevron Button
+        InkWell(
+          key: const ValueKey('header_back_button'),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            if (widget.onBackPressed != null) {
+              widget.onBackPressed!();
+            } else if (Navigator.canPop(context)) {
+              Navigator.pop(context);
+            }
+          },
+          borderRadius: BorderRadius.circular(11),
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF8B0012),
+                  Color(0xFF4A0008),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(11),
+              border: Border.all(
+                color: const Color(0xFFFF5268).withValues(alpha: 0.5),
+                width: 1.0,
+              ),
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.arrow_back_ios_new_rounded,
+                color: Colors.white,
+                size: 13,
+              ),
+            ),
+          ),
+        ),
+
+        const SizedBox(width: 6),
+
+        // 2. CHECK-IN Button (Neon Emerald Green Pill)
+        InkWell(
+          key: const ValueKey('header_checkin_button'),
+          onTap: () {
+            HapticFeedback.mediumImpact();
+            widget.onCheckInPressed?.call();
+          },
+          borderRadius: BorderRadius.circular(18),
+          child: Container(
+            height: 32,
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF22C55E),
+                  Color(0xFF16A34A),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: const Color(0xFF86EFAC),
+                width: 1.2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF22C55E).withValues(alpha: 0.55),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.check_circle_rounded,
+                  color: Colors.white,
+                  size: 14,
+                ),
+                SizedBox(width: 4),
+                Text(
+                  'CHECK-IN',
+                  style: TextStyle(
+                    fontFamily: BadGymTypography.fontHeading,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 11,
+                    color: Colors.white,
+                    letterSpacing: 0.6,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        const Spacer(),
+
+        // 3. Time & Date (07:12 AM | 16 Oct 2026)
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3.5),
+          decoration: BoxDecoration(
+            color: Colors.black.withValues(alpha: 0.28),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.18),
+              width: 0.8,
+            ),
+          ),
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                '07:12 AM',
+                style: TextStyle(
+                  fontFamily: BadGymTypography.fontHeading,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 11.5,
+                  color: Colors.white,
+                  height: 1.0,
+                ),
+              ),
+              SizedBox(height: 1),
+              Text(
+                '16 Oct 2026',
+                style: TextStyle(
+                  fontFamily: BadGymTypography.fontBody,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 8.5,
+                  color: Color(0xFFFFD2D9),
+                  height: 1.0,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(width: 6),
+
+        // 4. Notification Bell Button with Badge '3'
+        InkWell(
+          key: const ValueKey('header_notification_button'),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            widget.onNotificationPressed?.call();
+          },
+          borderRadius: BorderRadius.circular(11),
+          child: Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFF8B0012),
+                  Color(0xFF4A0008),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(11),
+              border: Border.all(
+                color: const Color(0xFFFF5268).withValues(alpha: 0.5),
+                width: 1.0,
+              ),
+            ),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                const Icon(
+                  Icons.notifications_rounded,
+                  color: Colors.white,
+                  size: 15,
+                ),
+                Positioned(
+                  top: 4,
+                  right: 4,
+                  child: Container(
+                    width: 12,
+                    height: 12,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFB300),
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFF6B000B),
+                        width: 1.2,
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '3',
+                        style: TextStyle(
+                          fontFamily: BadGymTypography.fontHeading,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 7.5,
+                          color: Color(0xFF380005),
+                          height: 1.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -34,8 +34,8 @@ class VerticalNavigationRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 66,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+      width: 64,
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 3),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
@@ -45,25 +45,25 @@ class VerticalNavigationRail extends StatelessWidget {
             Color(0xFF220004),
           ],
         ),
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFFF334B).withValues(alpha: 0.25),
+          color: const Color(0xFFFF334B).withValues(alpha: 0.3),
           width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.35),
-            blurRadius: 12,
+            blurRadius: 10,
             offset: const Offset(0, 4),
           ),
           BoxShadow(
             color: const Color(0xFFBA0018).withValues(alpha: 0.2),
-            blurRadius: 8,
+            blurRadius: 6,
           ),
         ],
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // 1. Intelligence (Active)
           _buildRailItem(
@@ -71,7 +71,6 @@ class VerticalNavigationRail extends StatelessWidget {
             icon: Icons.bar_chart_rounded,
             label: 'Intelligence',
           ),
-          const SizedBox(height: 6),
 
           // 2. Calendar
           _buildRailItem(
@@ -79,7 +78,6 @@ class VerticalNavigationRail extends StatelessWidget {
             icon: Icons.calendar_month_outlined,
             label: 'Calendar',
           ),
-          const SizedBox(height: 6),
 
           // 3. History
           _buildRailItem(
@@ -87,7 +85,6 @@ class VerticalNavigationRail extends StatelessWidget {
             icon: Icons.history_rounded,
             label: 'History',
           ),
-          const SizedBox(height: 6),
 
           // 4. Trend
           _buildRailItem(
@@ -95,7 +92,6 @@ class VerticalNavigationRail extends StatelessWidget {
             icon: Icons.trending_up_rounded,
             label: 'Trend',
           ),
-          const SizedBox(height: 6),
 
           // 5. More
           _buildRailItem(
@@ -122,8 +118,8 @@ class VerticalNavigationRail extends StatelessWidget {
     if (isSelected) {
       // Active State: Glowing Strawberry Red Squircle Pill
       return Container(
-        width: 58,
-        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
+        width: 56,
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             begin: Alignment.topCenter,
@@ -133,15 +129,15 @@ class VerticalNavigationRail extends StatelessWidget {
               Color(0xFF9E0010),
             ],
           ),
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(13),
           border: Border.all(
             color: const Color(0xFFFF5268),
-            width: 1.5,
+            width: 1.3,
           ),
           boxShadow: [
             BoxShadow(
               color: const Color(0xFFE50914).withValues(alpha: 0.6),
-              blurRadius: 8,
+              blurRadius: 6,
               offset: const Offset(0, 2),
             ),
           ],
@@ -151,7 +147,7 @@ class VerticalNavigationRail extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 20,
+              size: 19,
               color: Colors.white,
             ),
             const SizedBox(height: 2),
@@ -165,7 +161,6 @@ class VerticalNavigationRail extends StatelessWidget {
                   fontSize: 8.5,
                   color: Colors.white,
                   letterSpacing: -0.2,
-                  height: 1.0,
                 ),
               ),
             ),
@@ -174,40 +169,42 @@ class VerticalNavigationRail extends StatelessWidget {
       );
     }
 
-    // Inactive Rail Item
-    return InkWell(
-      onTap: () {
-        HapticFeedback.selectionClick();
-        onTabSelected?.call(tab);
-      },
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        width: 58,
-        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 19,
-              color: Colors.white.withValues(alpha: 0.85),
-            ),
-            const SizedBox(height: 2),
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                label,
-                style: TextStyle(
-                  fontFamily: BadGymTypography.fontBody,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 8.5,
-                  color: Colors.white.withValues(alpha: 0.85),
-                  letterSpacing: -0.2,
-                  height: 1.0,
+    // Inactive State: Translucent Capsule
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          HapticFeedback.selectionClick();
+          onTabSelected?.call(tab);
+        },
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          width: 56,
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 19,
+                color: Colors.white.withValues(alpha: 0.65),
+              ),
+              const SizedBox(height: 2),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontFamily: BadGymTypography.fontBody,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 8.5,
+                    color: Colors.white.withValues(alpha: 0.65),
+                    letterSpacing: -0.2,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
