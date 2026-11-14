@@ -26,6 +26,8 @@ flutter:
     - assets/graphics/
     - assets/decorations/
     - assets/icons/
+    - assets/hero/
+    - assets/promo/
 
   fonts:
     - family: Poppins
