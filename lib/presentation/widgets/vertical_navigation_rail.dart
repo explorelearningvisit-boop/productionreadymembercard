@@ -24,17 +24,20 @@ enum RailTab {
 class VerticalNavigationRail extends StatelessWidget {
   final RailTab selectedTab;
   final ValueChanged<RailTab>? onTabSelected;
+  final double? height;
 
   const VerticalNavigationRail({
     super.key,
     required this.selectedTab,
     this.onTabSelected,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 64,
+      height: height,
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 3),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
