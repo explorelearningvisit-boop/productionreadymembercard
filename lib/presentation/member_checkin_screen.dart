@@ -4,12 +4,15 @@ import 'package:bad_gym/core/models/member_intelligence_data.dart';
 import 'package:bad_gym/core/theme/bad_gym_theme.dart';
 import 'package:bad_gym/presentation/widgets/attendance_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/body_intelligence_card.dart';
+import 'package:bad_gym/presentation/widgets/bottom_promo_banner.dart';
+import 'package:bad_gym/presentation/widgets/checkin_hero_banner.dart';
 import 'package:bad_gym/presentation/widgets/member_profile_card.dart';
 import 'package:bad_gym/presentation/widgets/member_qr_sheet.dart';
 import 'package:bad_gym/presentation/widgets/notification_sheet.dart';
 import 'package:bad_gym/presentation/widgets/payment_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/quick_stats_row.dart';
 import 'package:bad_gym/presentation/widgets/renewal_sheet.dart';
+import 'package:bad_gym/presentation/widgets/top_brand_bar.dart';
 import 'package:bad_gym/presentation/widgets/vertical_navigation_rail.dart';
 import 'package:bad_gym/presentation/widgets/workout_intelligence_card.dart';
 
@@ -25,12 +28,9 @@ class MemberCheckInScreen extends StatefulWidget {
   State<MemberCheckInScreen> createState() => _MemberCheckInScreenState();
 }
 
-class _MemberCheckInScreenState extends State<MemberCheckInScreen>
-    with SingleTickerProviderStateMixin {
+class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
   late final MemberIntelligenceData _data;
   final ScrollController _scrollController = ScrollController();
-  late final AnimationController _berryAnimController;
-  late final Animation<double> _berrySway;
 
   RailTab _selectedRailTab = RailTab.intelligence;
   QuickStatTab _selectedStatTab = QuickStatTab.attendance;
@@ -39,28 +39,10 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen>
   void initState() {
     super.initState();
     _data = widget.initialData ?? MemberIntelligenceData.ashwaniKumarSingh;
-
-    _berryAnimController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 2800),
-    );
-    if (!WidgetsBinding.instance.runtimeType.toString().contains('Test')) {
-      _berryAnimController.repeat(reverse: true);
-    } else {
-      _berryAnimController.value = 0.5;
-    }
-
-    _berrySway = Tween<double>(begin: -3.0, end: 3.0).animate(
-      CurvedAnimation(
-        parent: _berryAnimController,
-        curve: Curves.easeInOutSine,
-      ),
-    );
   }
 
   @override
   void dispose() {
-    _berryAnimController.dispose();
     _scrollController.dispose();
     super.dispose();
   }
@@ -165,199 +147,144 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen>
 
   @override
   Widget build(BuildContext context) {
+    const double kIntelligenceSectionHeight = 358.0;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF9FAFB),
+      backgroundColor: const Color(0xFF8B000B),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFFFF1F3),
-              Color(0xFFFFFFFF),
+              Color(0xFF8B000B),
+              Color(0xFF6B0008),
+              Color(0xFFF3F4F6),
+              Color(0xFFF3F4F6),
             ],
-            stops: [0.0, 0.45],
+            stops: [0.0, 0.12, 0.18, 1.0],
           ),
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // 🌟 THE UNIFIED MEMBER INTELLIGENCE CARD CONTAINER 🌟
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(26),
-                    border: Border.all(
-                      color: const Color(0xFFFFCAD4),
-                      width: 1.5,
+          child: Column(
+            children: [
+              // 1. Top Header: Hamburger | BAD GYM Laurel Crest | 07:12 AM / 16 Oct 2026 | Bell 3
+              TopBrandBar(
+                data: _data,
+                onMenuPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('BAD GYM Menu Active'),
+                      backgroundColor: BadGymColors.primary,
+                      duration: Duration(seconds: 1),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFFBA0018).withValues(alpha: 0.14),
-                        blurRadius: 20,
-                        spreadRadius: 1,
-                        offset: const Offset(0, 8),
-                      ),
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.04),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
-                  ),
-                  child: Stack(
-                    clipBehavior: Clip.none,
+                  );
+                },
+                onNotificationPressed: () => NotificationSheet.show(context),
+                onCalendarPressed: () => _onStatTabSelected(QuickStatTab.attendance),
+              ),
+
+              // Scrollable Dashboard Body
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: _scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.only(bottom: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Inner Card Content
+                      // 2. Check-In Success Hero Banner with Athlete & Weights
+                      CheckInHeroBanner(
+                        data: _data,
+                        onCheckInPressed: () {
+                          MemberQrSheet.show(context, _data);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Checked In successfully at BAD GYM! 🔥'),
+                              backgroundColor: BadGymColors.primary,
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        },
+                      ),
+
+                      // 3. Ashwani Kumar Singh Member Profile Card (White Card)
+                      MemberProfileCard(
+                        data: _data,
+                        onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
+                        onRenewPressed: () => RenewalSheet.show(context, _data),
+                        onQrPassPressed: () => MemberQrSheet.show(context, _data),
+                      ),
+
+                      // 4. 4 Quick Stats Buttons (Attendance 81% Red Card, Workout 58 min, Payment Due, Body 69.5 kg)
+                      QuickStatsRow(
+                        data: _data,
+                        selectedTab: _selectedStatTab,
+                        onTabSelected: _onStatTabSelected,
+                      ),
+
+                      const SizedBox(height: 4),
+
+                      // 5. Two-Column Intelligence Section (Fixed 358px Height - Zero Jitter)
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // 1. Member Profile Card (With Integrated Top Header: Back, CHECK-IN, Time/Date, Bell)
-                            MemberProfileCard(
-                              data: _data,
-                              onBackPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('BAD GYM Dashboard Active'),
-                                    backgroundColor: BadGymColors.primary,
-                                    duration: Duration(seconds: 1),
-                                  ),
-                                );
-                              },
-                              onCheckInPressed: () {
-                                MemberQrSheet.show(context, _data);
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Checked In successfully at BAD GYM! 🔥'),
-                                    backgroundColor: BadGymColors.primary,
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              },
-                              onNotificationPressed: () =>
-                                  NotificationSheet.show(context),
-                              onRenewPressed: () =>
-                                  RenewalSheet.show(context, _data),
-                              onPaymentDetailsPressed: () =>
-                                  _onStatTabSelected(QuickStatTab.payment),
-                              onQrPassPressed: () =>
-                                  MemberQrSheet.show(context, _data),
-                            ),
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: SizedBox(
+                          height: kIntelligenceSectionHeight,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              // Left Column: Vertical Navigation Rail (Fixed Height 358)
+                              VerticalNavigationRail(
+                                height: kIntelligenceSectionHeight,
+                                selectedTab: _selectedRailTab,
+                                onTabSelected: _onRailTabSelected,
+                              ),
 
-                            const SizedBox(height: 6),
+                              const SizedBox(width: 6),
 
-                            // 2. Compact 4 Quick Stats Row
-                            QuickStatsRow(
-                              data: _data,
-                              selectedTab: _selectedStatTab,
-                              onTabSelected: _onStatTabSelected,
-                            ),
-
-                            const SizedBox(height: 6),
-
-                            // 3. Two-Column Section with Stable Fixed-Height Viewport (Zero Jitter)
-                            SizedBox(
-                              height: 358,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  // Left Vertical Navigation Rail (Fixed Height 358)
-                                  VerticalNavigationRail(
-                                    height: 358,
-                                    selectedTab: _selectedRailTab,
-                                    onTabSelected: _onRailTabSelected,
-                                  ),
-
-                                  const SizedBox(width: 6),
-
-                                  // Right Dynamic Intelligence Card Viewport (Fixed Height 358, Internally Scrollable)
-                                  Expanded(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(24),
-                                      child: AnimatedSwitcher(
-                                        duration: const Duration(milliseconds: 200),
-                                        switchInCurve: Curves.easeOut,
-                                        switchOutCurve: Curves.easeIn,
-                                        child: SizedBox(
-                                          key: ValueKey(_selectedStatTab),
-                                          height: 358,
-                                          child: SingleChildScrollView(
-                                            physics: const BouncingScrollPhysics(),
-                                            child: _buildIntelligenceCard(),
-                                          ),
-                                        ),
+                              // Right Column: Dynamic Intelligence Card Viewport
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(24),
+                                  child: AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 200),
+                                    switchInCurve: Curves.easeOut,
+                                    switchOutCurve: Curves.easeIn,
+                                    child: SizedBox(
+                                      key: ValueKey(_selectedStatTab),
+                                      height: kIntelligenceSectionHeight,
+                                      child: SingleChildScrollView(
+                                        physics: const BouncingScrollPhysics(),
+                                        child: _buildIntelligenceCard(),
                                       ),
                                     ),
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-
-                            const SizedBox(height: 10),
-                          ],
-                        ),
-                      ),
-
-                      // Animated Floating Strawberries & Blackberries at Bottom-Left of Card
-                      Positioned(
-                        bottom: -10,
-                        left: -6,
-                        child: IgnorePointer(
-                          child: AnimatedBuilder(
-                            animation: _berrySway,
-                            builder: (context, child) {
-                              return Transform.translate(
-                                offset: Offset(0, _berrySway.value),
-                                child: child,
-                              );
-                            },
-                            child: Image.asset(
-                              'assets/decorations/bottom_strawberries.png',
-                              height: 52,
-                              fit: BoxFit.contain,
-                              errorBuilder: (_, __, ___) => const SizedBox(),
-                            ),
+                            ],
                           ),
                         ),
                       ),
 
-                      // Animated Floating Blueberries & Mint at Bottom-Right of Card
-                      Positioned(
-                        bottom: -8,
-                        right: -4,
-                        child: IgnorePointer(
-                          child: AnimatedBuilder(
-                            animation: _berrySway,
-                            builder: (context, child) {
-                              return Transform.translate(
-                                offset: Offset(0, -_berrySway.value),
-                                child: child,
-                              );
-                            },
-                            child: Image.asset(
-                              'assets/decorations/bottom_blueberries.png',
-                              height: 44,
-                              fit: BoxFit.contain,
-                              errorBuilder: (_, __, ___) => const SizedBox(),
+                      const SizedBox(height: 6),
+
+                      // 6. Bottom Promotional Banner: FITNESS NUTRITION - PROTEIN BURGER
+                      BottomPromoBanner(
+                        onOrderPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Order placed for Protein Burger! 50% OFF applied! 🍔'),
+                              backgroundColor: Color(0xFFD6001C),
+                              duration: Duration(seconds: 2),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ],
                   ),
                 ),
-
-                const SizedBox(height: 16),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
