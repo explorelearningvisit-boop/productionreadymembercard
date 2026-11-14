@@ -8,7 +8,6 @@ import 'package:bad_gym/presentation/widgets/member_profile_card.dart';
 import 'package:bad_gym/presentation/widgets/member_qr_sheet.dart';
 import 'package:bad_gym/presentation/widgets/notification_sheet.dart';
 import 'package:bad_gym/presentation/widgets/payment_intelligence_card.dart';
-import 'package:bad_gym/presentation/widgets/promo_banner_widget.dart';
 import 'package:bad_gym/presentation/widgets/quick_stats_row.dart';
 import 'package:bad_gym/presentation/widgets/renewal_sheet.dart';
 import 'package:bad_gym/presentation/widgets/top_header_bar.dart';
@@ -32,37 +31,21 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
   final ScrollController _scrollController = ScrollController();
   RailTab _selectedRailTab = RailTab.intelligence;
   QuickStatTab _selectedStatTab = QuickStatTab.attendance;
-  bool _isHeaderCollapsed = false;
 
   @override
   void initState() {
     super.initState();
     _data = widget.initialData ?? MemberIntelligenceData.ashwaniKumarSingh;
-    _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
 
-  void _onScroll() {
-    final collapsed = _scrollController.hasClients && _scrollController.offset > 45;
-    if (collapsed != _isHeaderCollapsed) {
-      setState(() {
-        _isHeaderCollapsed = collapsed;
-      });
-    }
-  }
-
   void _onRailTabSelected(RailTab tab) {
     HapticFeedback.selectionClick();
-    if (tab == RailTab.offers) {
-      RenewalSheet.show(context, _data);
-      return;
-    }
     if (tab == RailTab.more) {
       NotificationSheet.show(context);
       return;
@@ -72,12 +55,9 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
       _selectedRailTab = tab;
       switch (tab) {
         case RailTab.intelligence:
-        case RailTab.attendance:
         case RailTab.calendar:
         case RailTab.history:
         case RailTab.trend:
-        case RailTab.streak:
-        case RailTab.analysis:
           _selectedStatTab = QuickStatTab.attendance;
           break;
         case RailTab.workout:
@@ -118,16 +98,6 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
     });
   }
 
-  void _scrollDown() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        _scrollController.offset + 260,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
   Widget _buildIntelligenceCard() {
     switch (_selectedStatTab) {
       case QuickStatTab.attendance:
@@ -138,7 +108,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('October 2026 selected'),
-                backgroundColor: BadGymColors.purpleCardStart,
+                backgroundColor: BadGymColors.primary,
                 duration: Duration(seconds: 2),
               ),
             );
@@ -146,13 +116,12 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
           onInfoPressed: () {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Attendance Intelligence Calculation: 25 / 31 Days (81%)'),
-                backgroundColor: BadGymColors.purpleCardStart,
+                content: Text('Attendance Intelligence: 25 / 31 Days (81%)'),
+                backgroundColor: BadGymColors.primary,
                 duration: Duration(seconds: 2),
               ),
             );
           },
-          onScrollDownPressed: _scrollDown,
         );
       case QuickStatTab.workout:
         return WorkoutIntelligenceCard(
@@ -176,95 +145,161 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: BadGymColors.background,
-      body: SafeArea(
-        child: Column(
+      backgroundColor: Colors.white,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFFFF3F5),
+              Color(0xFFFFFFFF),
+            ],
+            stops: [0.0, 0.40],
+          ),
+        ),
+        child: Stack(
           children: [
-            // 1. Sleek Royal Purple Top Header Bar (Dual-state: Brand Header when top, Checked-In pill when scrolled)
-            TopHeaderBar(
-              data: _data,
-              isCollapsed: _isHeaderCollapsed,
-              onNotificationPressed: () => NotificationSheet.show(context),
-              onAvatarPressed: () => MemberQrSheet.show(context, _data),
-              onMorePressed: () => RenewalSheet.show(context, _data),
+            // 1. Background Liquid Waves Graphic (Top subtle cover)
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: 220,
+              child: Opacity(
+                opacity: 0.15,
+                child: Image.asset(
+                  'assets/backgrounds/bg_waves.png',
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const SizedBox(),
+                ),
+              ),
             ),
 
-            // 2. Scrollable Body
-            Expanded(
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(4, 2, 4, 16),
-                child: Column(
-                  children: [
-                    // Member VIP Check-In Pass Card (Interactive QR pass & Renewal)
-                    MemberProfileCard(
-                      data: _data,
-                      onRenewPressed: () => RenewalSheet.show(context, _data),
-                      onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
-                      onQrPassPressed: () => MemberQrSheet.show(context, _data),
-                    ),
+            // 2. Main Content inside SafeArea
+            SafeArea(
+              child: Column(
+                children: [
+                  // Top Header Bar: Back | CHECK-IN | 07:12 AM / 16 Oct 2026 | Bell 3
+                  TopHeaderBar(
+                    data: _data,
+                    onNotificationPressed: () => NotificationSheet.show(context),
+                    onAvatarPressed: () => MemberQrSheet.show(context, _data),
+                    onMorePressed: () => RenewalSheet.show(context, _data),
+                    onCheckInPressed: () => MemberQrSheet.show(context, _data),
+                    onBackPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('BAD GYM Dashboard Active'),
+                          backgroundColor: BadGymColors.primary,
+                          duration: Duration(seconds: 1),
+                        ),
+                      );
+                    },
+                  ),
 
-                    const SizedBox(height: 8),
-
-                    // 4 Quick Stats Row Spanning Full Width (Dynamic tab switching)
-                    QuickStatsRow(
-                      data: _data,
-                      selectedTab: _selectedStatTab,
-                      onTabSelected: _onStatTabSelected,
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    // Two-Column Section: Left Rail + Dynamic Right Intelligence Card
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  // Scrollable Body
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: _scrollController,
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.only(bottom: 85),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // Left Vertical Navigation Rail
-                          VerticalNavigationRail(
-                            selectedTab: _selectedRailTab,
-                            onTabSelected: _onRailTabSelected,
+                          // Member Profile Card (Red Strawberry Theme Header Card)
+                          MemberProfileCard(
+                            data: _data,
+                            onRenewPressed: () => RenewalSheet.show(context, _data),
+                            onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
+                            onQrPassPressed: () => MemberQrSheet.show(context, _data),
                           ),
 
-                          const SizedBox(width: 8),
+                          const SizedBox(height: 6),
 
-                          // Dynamic Right Intelligence Card with smooth crossfade
-                          Expanded(
-                            child: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 250),
-                              switchInCurve: Curves.easeOut,
-                              switchOutCurve: Curves.easeIn,
-                              child: _buildIntelligenceCard(),
+                          // 4 Quick Stats Row (Attendance 81% | Workout 58 min | Payment Due | Body 69.5 kg)
+                          QuickStatsRow(
+                            data: _data,
+                            selectedTab: _selectedStatTab,
+                            onTabSelected: _onStatTabSelected,
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          // Two-Column Section: Left Vertical Rail + Right Intelligence Content
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Left 5-Item Vertical Navigation Rail
+                                VerticalNavigationRail(
+                                  selectedTab: _selectedRailTab,
+                                  onTabSelected: _onRailTabSelected,
+                                ),
+
+                                const SizedBox(width: 8),
+
+                                // Right Dynamic Intelligence Card (Default: Attendance Intelligence + Calendar)
+                                Expanded(
+                                  child: AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 250),
+                                    switchInCurve: Curves.easeOut,
+                                    switchOutCurve: Curves.easeIn,
+                                    child: _buildIntelligenceCard(),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+
+                          const SizedBox(height: 12),
                         ],
                       ),
                     ),
+                  ),
+                ],
+              ),
+            ),
 
-                    const SizedBox(height: 12),
+            // 3. Bottom Screen Berries & Wave Decoration
+            // A. Sweeping Red Liquid Wave Crest across bottom
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 48,
+              child: IgnorePointer(
+                child: CustomPaint(
+                  painter: _BottomLiquidWavePainter(),
+                ),
+              ),
+            ),
 
-                    // Bottom Promotional Banner (Muscle Building Program)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: PromoBannerWidget(
-                        onTap: () {
-                          HapticFeedback.lightImpact();
-                          _onStatTabSelected(QuickStatTab.workout);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Switched to Workout Intelligence: Muscle Building Program Active 🔥'),
-                              backgroundColor: BadGymColors.purpleCardStart,
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+            // B. Bottom-Left Fresh Strawberry & Blackberry Cluster
+            Positioned(
+              bottom: 0,
+              left: -4,
+              child: IgnorePointer(
+                child: Image.asset(
+                  'assets/decorations/bottom_strawberries.png',
+                  height: 68,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const SizedBox(),
+                ),
+              ),
+            ),
 
-                    const SizedBox(height: 10),
-                  ],
+            // C. Bottom-Right Fresh Blueberries & Mint Leaves Cluster
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: IgnorePointer(
+                child: Image.asset(
+                  'assets/decorations/bottom_blueberries.png',
+                  height: 56,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const SizedBox(),
                 ),
               ),
             ),
@@ -273,4 +308,53 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
       ),
     );
   }
+}
+
+class _BottomLiquidWavePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+
+    final path = Path()
+      ..moveTo(0, h * 0.42)
+      ..cubicTo(w * 0.25, h * 0.72, w * 0.65, h * 0.22, w, h * 0.48)
+      ..lineTo(w, h)
+      ..lineTo(0, h)
+      ..close();
+
+    final paint = Paint()
+      ..shader = const LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Color(0xFFE50914),
+          Color(0xFFB30710),
+          Color(0xFF7A0208),
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+
+    canvas.drawPath(path, paint);
+
+    // Specular highlight on wave crest
+    final crestPath = Path()
+      ..moveTo(0, h * 0.42)
+      ..cubicTo(w * 0.25, h * 0.72, w * 0.65, h * 0.22, w, h * 0.48);
+
+    final crestPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0
+      ..shader = const LinearGradient(
+        colors: [
+          Color(0x88FF4D6D),
+          Color(0xEEFFFFFF),
+          Color(0x88FF4D6D),
+        ],
+      ).createShader(Rect.fromLTWH(0, 0, w, h));
+
+    canvas.drawPath(crestPath, crestPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

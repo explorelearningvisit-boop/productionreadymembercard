@@ -29,19 +29,30 @@ class DonutChartPainter extends CustomPainter {
 
     canvas.drawCircle(center, radius, trackPaint);
 
-    // Progress arc
+    // Progress arc with gradient shader
+    final rect = Rect.fromCircle(center: center, radius: radius);
+    const gradient = SweepGradient(
+      startAngle: -math.pi / 2,
+      endAngle: 3 * math.pi / 2,
+      colors: [
+        Color(0xFFFF1744),
+        Color(0xFFD50000),
+        Color(0xFFFF5252),
+        Color(0xFFFF1744),
+      ],
+    );
+
     final progressPaint = Paint()
-      ..color = strokeColor
+      ..shader = gradient.createShader(rect)
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round;
 
-    // Start at top (-pi / 2)
     const startAngle = -math.pi / 2;
     final sweepAngle = 2 * math.pi * progress;
 
     canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
+      rect,
       startAngle,
       sweepAngle,
       false,
@@ -71,15 +82,15 @@ class AttendanceMetricsRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // 1. Donut Chart with Neon Lime Arc
+        // 1. Donut Ring Gauge (81% | 25 / 31 Days)
         SizedBox(
           width: 68,
           height: 68,
           child: CustomPaint(
             painter: const DonutChartPainter(
               progress: 0.81,
-              strokeColor: BadGymColors.neonLime,
-              trackColor: Color(0xFFF1EBFB),
+              strokeColor: Color(0xFFD6001C),
+              trackColor: Color(0xFFFFE8EE),
               strokeWidth: 5.5,
             ),
             child: Column(
@@ -91,7 +102,7 @@ class AttendanceMetricsRow extends StatelessWidget {
                     fontFamily: BadGymTypography.fontHeading,
                     fontWeight: FontWeight.w900,
                     fontSize: 15,
-                    color: Color(0xFF111827),
+                    color: Color(0xFF1E293B),
                     height: 1.0,
                   ),
                 ),
@@ -101,7 +112,7 @@ class AttendanceMetricsRow extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: BadGymTypography.fontBody,
                     fontWeight: FontWeight.w600,
-                    fontSize: 9.5,
+                    fontSize: 8.5,
                     color: Color(0xFF6B7280),
                     height: 1.0,
                   ),
@@ -111,7 +122,7 @@ class AttendanceMetricsRow extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: BadGymTypography.fontBody,
                     fontWeight: FontWeight.w500,
-                    fontSize: 9,
+                    fontSize: 8,
                     color: Color(0xFF6B7280),
                     height: 1.0,
                   ),
@@ -121,155 +132,140 @@ class AttendanceMetricsRow extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(width: 6),
+        const SizedBox(width: 8),
 
-        // 2. Legend Pill Container (Present 23, Late 2, Absent 2, Holiday 4)
+        // 2. Attendance Breakdown (Present, Late, Absent, Holiday)
         Expanded(
-          flex: 10,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF7F3FC),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color(0xFFEBE2F8),
-                width: 1,
-              ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _buildLegendRow(
-                  color: BadGymColors.neonLime,
-                  label: 'Present',
-                  count: data.presentCount,
-                ),
-                const SizedBox(height: 2.5),
-                _buildLegendRow(
-                  color: BadGymColors.yellowLate,
-                  label: 'Late',
-                  count: data.lateCount,
-                ),
-                const SizedBox(height: 2.5),
-                _buildLegendRow(
-                  color: BadGymColors.redAbsent,
-                  label: 'Absent',
-                  count: data.absentCount,
-                ),
-                const SizedBox(height: 2.5),
-                _buildLegendRow(
-                  color: BadGymColors.purpleHoliday,
-                  label: 'Holiday',
-                  count: data.holidayCount,
-                ),
-              ],
-            ),
-          ),
-        ),
-
-        const SizedBox(width: 6),
-
-        // 3. Streak Cards: Current Streak 5 Days, Best Streak 14 Days
-        Expanded(
-          flex: 9,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Current Streak
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.local_fire_department_rounded,
-                    color: Color(0xFFEA580C),
-                    size: 18,
-                  ),
-                  const SizedBox(width: 3),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Current Streak',
-                          style: TextStyle(
-                            fontFamily: BadGymTypography.fontBody,
-                            fontSize: 8,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF6B7280),
-                            height: 1.0,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 1),
-                        Text(
-                          data.currentStreak,
-                          style: const TextStyle(
-                            fontFamily: BadGymTypography.fontHeading,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFF111827),
-                            height: 1.1,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              _buildLegendRow(
+                color: const Color(0xFF22C55E),
+                label: 'Present',
+                count: data.presentCount,
               ),
-              const SizedBox(height: 5),
-
-              // Best Streak
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.emoji_events_rounded,
-                    color: Color(0xFFF59E0B),
-                    size: 18,
-                  ),
-                  const SizedBox(width: 3),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Best Streak',
-                          style: TextStyle(
-                            fontFamily: BadGymTypography.fontBody,
-                            fontSize: 8,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF6B7280),
-                            height: 1.0,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 1),
-                        Text(
-                          data.bestStreak,
-                          style: const TextStyle(
-                            fontFamily: BadGymTypography.fontHeading,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w900,
-                            color: Color(0xFF111827),
-                            height: 1.1,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 2.5),
+              _buildLegendRow(
+                color: const Color(0xFFEAB308),
+                label: 'Late',
+                count: data.lateCount,
+              ),
+              const SizedBox(height: 2.5),
+              _buildLegendRow(
+                color: const Color(0xFFEF4444),
+                label: 'Absent',
+                count: data.absentCount,
+              ),
+              const SizedBox(height: 2.5),
+              _buildLegendRow(
+                color: const Color(0xFFA855F7),
+                label: 'Holiday',
+                count: data.holidayCount,
               ),
             ],
           ),
+        ),
+
+        const SizedBox(width: 4),
+
+        // 3. Streak & Best Highlights (3D Flame & Trophy)
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Streak
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/badges/streak_flame.png',
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const Icon(
+                    Icons.local_fire_department_rounded,
+                    color: Color(0xFFFF6D00),
+                    size: 18,
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Streak',
+                      style: TextStyle(
+                        fontFamily: BadGymTypography.fontBody,
+                        fontSize: 8.5,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF6B7280),
+                        height: 1.0,
+                      ),
+                    ),
+                    Text(
+                      data.currentStreak,
+                      style: const TextStyle(
+                        fontFamily: BadGymTypography.fontHeading,
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFF1E293B),
+                        height: 1.1,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+
+            const SizedBox(height: 6),
+
+            // Best
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/badges/best_trophy.png',
+                  width: 20,
+                  height: 20,
+                  fit: BoxFit.contain,
+                  errorBuilder: (_, __, ___) => const Icon(
+                    Icons.emoji_events_rounded,
+                    color: Color(0xFFFFB300),
+                    size: 18,
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Text(
+                      'Best',
+                      style: TextStyle(
+                        fontFamily: BadGymTypography.fontBody,
+                        fontSize: 8.5,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF6B7280),
+                        height: 1.0,
+                      ),
+                    ),
+                    Text(
+                      data.bestStreak,
+                      style: const TextStyle(
+                        fontFamily: BadGymTypography.fontHeading,
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFF1E293B),
+                        height: 1.1,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ],
     );
@@ -280,42 +276,42 @@ class AttendanceMetricsRow extends StatelessWidget {
     required String label,
     required int count,
   }) {
-    return Row(
-      children: [
-        Container(
-          width: 7,
-          height: 7,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.centerLeft,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 7.5,
+            height: 7.5,
+            decoration: BoxDecoration(
+              color: color,
+              shape: BoxShape.circle,
+            ),
           ),
-        ),
-        const SizedBox(width: 4),
-        Expanded(
-          child: Text(
+          const SizedBox(width: 4),
+          Text(
             label,
             style: const TextStyle(
               fontFamily: BadGymTypography.fontBody,
-              fontSize: 9,
-              fontWeight: FontWeight.w500,
+              fontSize: 9.5,
+              fontWeight: FontWeight.w600,
               color: Color(0xFF4B5563),
-              height: 1.0,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
-        ),
-        Text(
-          '$count',
-          style: const TextStyle(
-            fontFamily: BadGymTypography.fontHeading,
-            fontSize: 9.5,
-            fontWeight: FontWeight.w800,
-            color: Color(0xFF111827),
-            height: 1.0,
+          const SizedBox(width: 6),
+          Text(
+            '$count',
+            style: const TextStyle(
+              fontFamily: BadGymTypography.fontHeading,
+              fontSize: 10,
+              fontWeight: FontWeight.w800,
+              color: Color(0xFF1E293B),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
