@@ -311,7 +311,7 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Streak with Animated Stitch Flame Vector
+            // Streak with Animated BAD GYM 3D Flame
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -321,15 +321,26 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
                     return SizedBox(
                       width: 22,
                       height: 22,
-                      child: CustomPaint(
-                        painter: StitchFlamePainter(
-                          pulse: _flamePulse.value,
+                      child: Center(
+                        child: Transform.scale(
+                          scale: _flamePulse.value,
+                          child: Image.asset(
+                            'assets/badges/streak_flame.png',
+                            width: 22,
+                            height: 22,
+                            fit: BoxFit.contain,
+                            errorBuilder: (_, __, ___) => const Icon(
+                              Icons.local_fire_department_rounded,
+                              color: Color(0xFFFF5722),
+                              size: 20,
+                            ),
+                          ),
                         ),
                       ),
                     );
                   },
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
