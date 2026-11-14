@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:bad_gym/core/models/member_intelligence_data.dart';
 import 'package:bad_gym/core/theme/bad_gym_theme.dart';
 import 'package:bad_gym/presentation/widgets/attendance_calendar_grid.dart';
@@ -24,16 +25,16 @@ class AttendanceIntelligenceCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: BadGymColors.borderSubtle,
+          color: const Color(0xFFF1F5F9),
           width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
-            color: BadGymColors.purpleRail.withValues(alpha: 0.08),
-            blurRadius: 14,
-            offset: const Offset(0, 4),
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
@@ -41,37 +42,43 @@ class AttendanceIntelligenceCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // 1. Header: Icon Badge | Title | Info | Dropdown
+          // 1. Header: Red Icon Chip | Title | Info | Month Dropdown
           Row(
             children: [
-              // Purple rounded square icon badge
+              // Red rounded squircle icon badge
               Container(
-                width: 25,
-                height: 25,
+                width: 26,
+                height: 26,
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [
-                      BadGymColors.purpleCardStart,
-                      BadGymColors.purpleCardEnd,
+                      Color(0xFFE50914),
+                      Color(0xFF9E0010),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFFE50914).withValues(alpha: 0.35),
+                      blurRadius: 4,
+                    ),
+                  ],
                 ),
                 alignment: Alignment.center,
                 child: const Icon(
                   Icons.bar_chart_rounded,
                   color: Colors.white,
-                  size: 15,
+                  size: 16,
                 ),
               ),
-              const SizedBox(width: 5),
+              const SizedBox(width: 6),
 
               // Title with Info Icon
-              const Expanded(
+              Expanded(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Flexible(
+                    const Flexible(
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
@@ -81,37 +88,49 @@ class AttendanceIntelligenceCard extends StatelessWidget {
                             fontFamily: BadGymTypography.fontHeading,
                             fontWeight: FontWeight.w800,
                             fontSize: 12.5,
-                            color: Color(0xFF1E0E38),
+                            color: Color(0xFF1E293B),
                             letterSpacing: -0.2,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(width: 3),
-                    Icon(
-                      Icons.info_outline_rounded,
-                      size: 13,
-                      color: Color(0xFF9CA3AF),
+                    const SizedBox(width: 4),
+                    InkWell(
+                      onTap: onInfoPressed,
+                      child: const Icon(
+                        Icons.info_outline_rounded,
+                        size: 13,
+                        color: Color(0xFF9CA3AF),
+                      ),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(width: 3),
+              const SizedBox(width: 4),
 
               // Month selector pill: Oct 2026 ▼
               InkWell(
-                onTap: onMonthDropdownPressed,
+                onTap: () {
+                  HapticFeedback.lightImpact();
+                  onMonthDropdownPressed?.call();
+                },
                 borderRadius: BorderRadius.circular(14),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFAF7FE),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(
-                      color: const Color(0xFFE5DEEE),
+                      color: const Color(0xFFE2E8F0),
                       width: 1,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 3,
+                      ),
+                    ],
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
@@ -122,14 +141,14 @@ class AttendanceIntelligenceCard extends StatelessWidget {
                           fontFamily: BadGymTypography.fontHeading,
                           fontSize: 9.5,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF1E0E38),
+                          color: Color(0xFF1E293B),
                         ),
                       ),
                       SizedBox(width: 2),
                       Icon(
-                        Icons.arrow_drop_down,
-                        size: 13,
-                        color: Color(0xFF1E0E38),
+                        Icons.arrow_drop_down_rounded,
+                        size: 14,
+                        color: Color(0xFF1E293B),
                       ),
                     ],
                   ),
@@ -145,33 +164,8 @@ class AttendanceIntelligenceCard extends StatelessWidget {
 
           const SizedBox(height: 10),
 
-          // 3. Calendar Grid
+          // 3. Calendar Grid & Legend
           AttendanceCalendarGrid(days: data.calendarDays),
-
-          const SizedBox(height: 4),
-
-          // 4. Bottom Row with Floating Action Indicator
-          Align(
-            alignment: Alignment.centerRight,
-            child: InkWell(
-              onTap: onScrollDownPressed,
-              borderRadius: BorderRadius.circular(16),
-              child: Container(
-                width: 28,
-                height: 28,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF0F021F),
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.arrow_downward_rounded,
-                  color: Colors.white,
-                  size: 16,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

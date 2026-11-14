@@ -58,7 +58,7 @@ class MemberIntelligenceData {
   final List<CalendarDayItem> calendarDays;
   final List<TrendDataPoint> trendPoints;
 
-  // New VIP Check-In & Luxury Dashboard Fields
+  // Header & Dashboard Fields
   final String checkInTime;
   final String checkInDate;
   final String checkInLocation;
@@ -91,10 +91,10 @@ class MemberIntelligenceData {
     required this.bestStreak,
     required this.calendarDays,
     required this.trendPoints,
-    this.checkInTime = '06:42 PM',
-    this.checkInDate = 'Fri, 16 Oct 2026',
+    this.checkInTime = '07:12 AM',
+    this.checkInDate = '16 Oct 2026',
     this.checkInLocation = 'Main Gym Floor',
-    this.paymentAmount = '₹1,200',
+    this.paymentAmount = '₹500 Due',
     this.paymentNextDue = '24 Oct 2026',
     this.notificationCount = 3,
   });
@@ -121,13 +121,13 @@ class MemberIntelligenceData {
       const CalendarDayItem(day: 15, status: DayAttendanceStatus.present),
       const CalendarDayItem(day: 16, status: DayAttendanceStatus.present, isToday: true),
       const CalendarDayItem(day: 17, status: DayAttendanceStatus.absent),
-      const CalendarDayItem(day: 18, status: DayAttendanceStatus.present),
+      const CalendarDayItem(day: 18, status: DayAttendanceStatus.holiday),
       // Week 4
       const CalendarDayItem(day: 19, status: DayAttendanceStatus.present),
       const CalendarDayItem(day: 20, status: DayAttendanceStatus.present),
-      const CalendarDayItem(day: 21, status: DayAttendanceStatus.present),
-      const CalendarDayItem(day: 22, status: DayAttendanceStatus.late),
-      const CalendarDayItem(day: 23, status: DayAttendanceStatus.present),
+      const CalendarDayItem(day: 21, status: DayAttendanceStatus.late),
+      const CalendarDayItem(day: 22, status: DayAttendanceStatus.present),
+      const CalendarDayItem(day: 23, status: DayAttendanceStatus.absent),
       const CalendarDayItem(day: 24, status: DayAttendanceStatus.absent),
       const CalendarDayItem(day: 25, status: DayAttendanceStatus.holiday),
       // Week 5
@@ -165,13 +165,13 @@ class MemberIntelligenceData {
       isActive: true,
       daysUsed: 22,
       totalDays: 30,
-      usedPercentage: 73.3,
+      usedPercentage: 73.0,
       daysLeft: 8,
       renewDate: '24 Oct 2026',
       attendanceRate: 81,
       attendanceFraction: '25 / 31 Days',
       workoutTime: '58 min',
-      paymentStatus: 'Paid',
+      paymentStatus: 'Due',
       bodyWeight: '69.5 kg',
       presentCount: 23,
       lateCount: 2,
@@ -181,10 +181,10 @@ class MemberIntelligenceData {
       bestStreak: '14 Days',
       calendarDays: days,
       trendPoints: trend,
-      checkInTime: '06:42 PM',
-      checkInDate: 'Fri, 16 Oct 2026',
+      checkInTime: '07:12 AM',
+      checkInDate: '16 Oct 2026',
       checkInLocation: 'Main Gym Floor',
-      paymentAmount: '₹1,200',
+      paymentAmount: '₹500 Due',
       paymentNextDue: '24 Oct 2026',
       notificationCount: 3,
     );

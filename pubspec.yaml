@@ -20,6 +20,11 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/backgrounds/
+    - assets/cards/
+    - assets/badges/
+    - assets/graphics/
+    - assets/decorations/
 
   fonts:
     - family: Poppins

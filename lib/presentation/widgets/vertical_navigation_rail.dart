@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:bad_gym/core/theme/bad_gym_theme.dart';
 
 enum RailTab {
@@ -6,13 +7,13 @@ enum RailTab {
   calendar,
   history,
   trend,
+  more,
+  // backwards compatible aliases
   streak,
   analysis,
   goals,
   reports,
   offers,
-  more,
-  // backwards compatible aliases
   overview,
   attendance,
   workout,
@@ -34,30 +35,30 @@ class VerticalNavigationRail extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 66,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 3),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            BadGymColors.purpleRail,
-            Color(0xFF16012C),
+            Color(0xFF380008),
+            Color(0xFF220004),
           ],
         ),
         borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: BadGymColors.neonVioletBorder.withValues(alpha: 0.35),
-          width: 1,
+          color: const Color(0xFFFF334B).withValues(alpha: 0.25),
+          width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
-            blurRadius: 10,
+            color: Colors.black.withValues(alpha: 0.35),
+            blurRadius: 12,
             offset: const Offset(0, 4),
           ),
           BoxShadow(
-            color: BadGymColors.neonViolet.withValues(alpha: 0.15),
-            blurRadius: 6,
+            color: const Color(0xFFBA0018).withValues(alpha: 0.2),
+            blurRadius: 8,
           ),
         ],
       ),
@@ -70,7 +71,7 @@ class VerticalNavigationRail extends StatelessWidget {
             icon: Icons.bar_chart_rounded,
             label: 'Intelligence',
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 6),
 
           // 2. Calendar
           _buildRailItem(
@@ -78,7 +79,7 @@ class VerticalNavigationRail extends StatelessWidget {
             icon: Icons.calendar_month_outlined,
             label: 'Calendar',
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 6),
 
           // 3. History
           _buildRailItem(
@@ -86,7 +87,7 @@ class VerticalNavigationRail extends StatelessWidget {
             icon: Icons.history_rounded,
             label: 'History',
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 6),
 
           // 4. Trend
           _buildRailItem(
@@ -94,58 +95,9 @@ class VerticalNavigationRail extends StatelessWidget {
             icon: Icons.trending_up_rounded,
             label: 'Trend',
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 6),
 
-          // 5. Streak
-          _buildRailItem(
-            tab: RailTab.streak,
-            icon: Icons.local_fire_department_rounded,
-            label: 'Streak',
-          ),
-          const SizedBox(height: 5),
-
-          // 6. Analysis
-          _buildRailItem(
-            tab: RailTab.analysis,
-            icon: Icons.pie_chart_outline_rounded,
-            label: 'Analysis',
-          ),
-          const SizedBox(height: 5),
-
-          // Thin Divider
-          Container(
-            height: 1,
-            width: 40,
-            color: BadGymColors.purpleRailDivider,
-            margin: const EdgeInsets.symmetric(vertical: 4),
-          ),
-          const SizedBox(height: 4),
-
-          // 7. Goals
-          _buildRailItem(
-            tab: RailTab.goals,
-            icon: Icons.track_changes_rounded,
-            label: 'Goals',
-          ),
-          const SizedBox(height: 5),
-
-          // 8. Reports
-          _buildRailItem(
-            tab: RailTab.reports,
-            icon: Icons.poll_outlined,
-            label: 'Reports',
-          ),
-          const SizedBox(height: 5),
-
-          // 9. Offers
-          _buildRailItem(
-            tab: RailTab.offers,
-            icon: Icons.local_offer_outlined,
-            label: 'Offers',
-          ),
-          const SizedBox(height: 5),
-
-          // 10. More
+          // 5. More
           _buildRailItem(
             tab: RailTab.more,
             icon: Icons.more_horiz_rounded,
@@ -168,27 +120,27 @@ class VerticalNavigationRail extends StatelessWidget {
                 selectedTab == RailTab.overview));
 
     if (isSelected) {
-      // Active glowing violet capsule
+      // Active State: Glowing Strawberry Red Squircle Pill
       return Container(
-        width: 60,
-        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 1),
+        width: 58,
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF9333EA),
-              Color(0xFF7C3AED),
+              Color(0xFFE50914),
+              Color(0xFF9E0010),
             ],
           ),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: BadGymColors.neonVioletBorder,
+            color: const Color(0xFFFF5268),
             width: 1.5,
           ),
           boxShadow: [
             BoxShadow(
-              color: BadGymColors.neonViolet.withValues(alpha: 0.6),
+              color: const Color(0xFFE50914).withValues(alpha: 0.6),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -199,7 +151,7 @@ class VerticalNavigationRail extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 19,
+              size: 20,
               color: Colors.white,
             ),
             const SizedBox(height: 2),
@@ -212,7 +164,7 @@ class VerticalNavigationRail extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                   fontSize: 8.5,
                   color: Colors.white,
-                  letterSpacing: -0.3,
+                  letterSpacing: -0.2,
                   height: 1.0,
                 ),
               ),
@@ -222,20 +174,23 @@ class VerticalNavigationRail extends StatelessWidget {
       );
     }
 
-    // Unselected Rail Item
+    // Inactive Rail Item
     return InkWell(
-      onTap: () => onTabSelected?.call(tab),
+      onTap: () {
+        HapticFeedback.selectionClick();
+        onTabSelected?.call(tab);
+      },
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        width: 60,
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 1),
+        width: 58,
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              size: 18,
-              color: BadGymColors.inkLight.withValues(alpha: 0.85),
+              size: 19,
+              color: Colors.white.withValues(alpha: 0.85),
             ),
             const SizedBox(height: 2),
             FittedBox(
@@ -246,8 +201,8 @@ class VerticalNavigationRail extends StatelessWidget {
                   fontFamily: BadGymTypography.fontBody,
                   fontWeight: FontWeight.w600,
                   fontSize: 8.5,
-                  color: BadGymColors.inkLight.withValues(alpha: 0.85),
-                  letterSpacing: -0.3,
+                  color: Colors.white.withValues(alpha: 0.85),
+                  letterSpacing: -0.2,
                   height: 1.0,
                 ),
               ),
