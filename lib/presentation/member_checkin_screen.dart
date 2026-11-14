@@ -263,26 +263,38 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen>
 
                             const SizedBox(height: 6),
 
-                            // 3. Two-Column Section with Full-Height Matching Navigation Rail
-                            IntrinsicHeight(
+                            // 3. Two-Column Section with Stable Fixed-Height Viewport (Zero Jitter)
+                            SizedBox(
+                              height: 358,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
-                                  // Left Vertical Navigation Rail (Matches Height of Intelligence Card)
+                                  // Left Vertical Navigation Rail (Fixed Height 358)
                                   VerticalNavigationRail(
+                                    height: 358,
                                     selectedTab: _selectedRailTab,
                                     onTabSelected: _onRailTabSelected,
                                   ),
 
                                   const SizedBox(width: 6),
 
-                                  // Right Dynamic Intelligence Card (Attendance + Calendar)
+                                  // Right Dynamic Intelligence Card Viewport (Fixed Height 358, Internally Scrollable)
                                   Expanded(
-                                    child: AnimatedSwitcher(
-                                      duration: const Duration(milliseconds: 250),
-                                      switchInCurve: Curves.easeOut,
-                                      switchOutCurve: Curves.easeIn,
-                                      child: _buildIntelligenceCard(),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(24),
+                                      child: AnimatedSwitcher(
+                                        duration: const Duration(milliseconds: 200),
+                                        switchInCurve: Curves.easeOut,
+                                        switchOutCurve: Curves.easeIn,
+                                        child: SizedBox(
+                                          key: ValueKey(_selectedStatTab),
+                                          height: 358,
+                                          child: SingleChildScrollView(
+                                            physics: const BouncingScrollPhysics(),
+                                            child: _buildIntelligenceCard(),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
