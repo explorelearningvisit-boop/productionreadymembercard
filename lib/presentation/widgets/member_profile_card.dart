@@ -32,10 +32,10 @@ class MemberProfileCard extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFFE50914), Color(0xFFB80016), Color(0xFF76000D)],
+          colors: [Color(0xFFFFFDF6), Color(0xFFFFF2D2), Color(0xFFFFE6A0)],
         ),
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFFF8794), width: 1.2),
+        border: Border.all(color: const Color(0xFFE7B84C), width: 1.2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -110,7 +110,7 @@ class MemberProfileCard extends StatelessWidget {
                         fontFamily: BadGymTypography.fontHeading,
                         fontWeight: FontWeight.w900,
                         fontSize: 16,
-                        color: Colors.white,
+                        color: const Color(0xFF28160A),
                         letterSpacing: -0.2,
                         height: 1.1,
                       ),
@@ -307,7 +307,7 @@ class MemberProfileCard extends StatelessWidget {
                           width: 32,
                           height: 32,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFFE1E5),
+                            color: const Color(0xFF8B5E22),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: const Color(0xFFFF9AA6),
