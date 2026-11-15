@@ -268,15 +268,19 @@ jobs:
               install_log="device-artifacts/${hostname}-install.txt"
               if adb -s "$serial" install -r dist/app-release.apk > "$install_log" 2>&1; then
                 result="INSTALLED"
-              elif grep -q "INSTALL_FAILED_UPDATE_INCOMPATIBLE" "$install_log"; then
+              else
+                # MIUI/Android sometimes rejects streamed install; retry once without streaming.
+                adb -s "$serial" install --no-streaming -r dist/app-release.apk >> "$install_log" 2>&1 && result="INSTALLED" || true
+              fi
+              if [ "$result" != "INSTALLED" ] && grep -q "INSTALL_FAILED_UPDATE_INCOMPATIBLE" "$install_log"; then
                 # Never uninstall an app/data silently. A signature mismatch means the CI
                 # signing key is not stable; require a stable signing key or explicit user action.
                 result="SIGNATURE_MISMATCH_NEEDS_STABLE_SIGNING"
                 echo "::warning::Installed app is signed with a different key. Refusing automatic uninstall to protect app data."
-              elif grep -q "INSTALL_FAILED_USER_RESTRICTED" "$install_log"; then
+              elif [ "$result" != "INSTALLED" ] && grep -q "INSTALL_FAILED_USER_RESTRICTED" "$install_log"; then
                 result="MIUI_INSTALL_PERMISSION_REQUIRED"
                 echo "::warning::MIUI blocked ADB install. Enable Developer options > Install via USB and approve the device prompt."
-              else
+              elif [ "$result" != "INSTALLED" ]; then
                 result="INSTALL_FAILED"
               fi
 
