@@ -130,8 +130,9 @@ jobs:
         env:
           ADB_KEY: ${{ secrets.DEVICE_ADB_PRIVATE_KEY_B64 }}
           TS_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          TS_KEY: ${{ secrets.TAILSCALE_AUTHKEY }}
         run: |
-          if [ -z "$ADB_KEY" ] || [ -z "$TS_ID" ]; then
+          if [ -z "$ADB_KEY" ] || ([ -z "$TS_ID" ] && [ -z "$TS_KEY" ]); then
             echo "configured=false" >> "$GITHUB_OUTPUT"
             echo "::notice::Tailscale or ADB keys not set in repository secrets. Skipping live device testing."
           else
@@ -140,12 +141,23 @@ jobs:
             printf '%s' "$ADB_KEY" | base64 --decode > "$HOME/.android/adbkey"
             chmod 600 "$HOME/.android/adbkey"
           fi
-      - name: Join Tailscale
-        if: steps.check_keys.outputs.configured == 'true'
+      - name: Join Tailscale (OAuth)
+        if: steps.check_keys.outputs.configured == 'true' && env.TS_ID != ''
+        env:
+          TS_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
         uses: tailscale/github-action@v4
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           audience: ${{ secrets.TS_AUDIENCE }}
+          tags: tag:ci
+      - name: Join Tailscale (Auth Key)
+        if: steps.check_keys.outputs.configured == 'true' && env.TS_KEY != '' && env.TS_ID == ''
+        env:
+          TS_KEY: ${{ secrets.TAILSCALE_AUTHKEY }}
+          TS_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+        uses: tailscale/github-action@v4
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
           tags: tag:ci
       - name: Discover Tailnet and test all online configured Android devices
         if: steps.check_keys.outputs.configured == 'true'
