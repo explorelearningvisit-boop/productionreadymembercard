@@ -97,8 +97,7 @@ class WeeklyAttendanceStrip extends StatelessWidget {
                   height: 1.0,
                 ),
               ),
-              if (icon != null)
-                Icon(icon, size: 11, color: iconColor),
+              Icon(icon, size: 11, color: iconColor),
             ],
           ),
         ),

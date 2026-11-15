@@ -217,7 +217,7 @@ class ThemeAdaptiveBottomSection extends StatelessWidget {
                 ),
               ],
             ),
-            child: AttendanceTrendChart(data: data),
+            child: AttendanceTrendChart(points: data.trendPoints),
           ),
           const SizedBox(height: 10),
           ClipRRect(
