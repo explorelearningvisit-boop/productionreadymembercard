@@ -4,8 +4,7 @@ import 'package:bad_gym/core/models/member_intelligence_data.dart';
 import 'package:bad_gym/core/theme/bad_gym_theme.dart';
 import 'package:bad_gym/presentation/widgets/attendance_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/body_intelligence_card.dart';
-import 'package:bad_gym/presentation/widgets/checkin_hero_banner.dart';
-import 'package:bad_gym/presentation/widgets/member_profile_card.dart';
+import 'package:bad_gym/presentation/widgets/merged_member_card.dart';
 import 'package:bad_gym/presentation/widgets/member_qr_sheet.dart';
 import 'package:bad_gym/presentation/widgets/notification_sheet.dart';
 import 'package:bad_gym/presentation/widgets/payment_intelligence_card.dart';
@@ -18,6 +17,8 @@ import 'package:bad_gym/core/theme/dashboard_theme_variant.dart';
 import 'package:bad_gym/presentation/widgets/theme_switcher_sheet.dart';
 import 'package:bad_gym/presentation/widgets/theme_adaptive_bottom_section.dart';
 import 'package:bad_gym/presentation/widgets/weekly_attendance_strip.dart';
+import 'package:bad_gym/presentation/widgets/attendance_trend_container_card.dart';
+import 'package:bad_gym/presentation/widgets/attendance_history_card.dart';
 
 class MemberCheckInScreen extends StatefulWidget {
   final MemberIntelligenceData? initialData;
@@ -106,6 +107,19 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
   }
 
   Widget _buildIntelligenceCard() {
+    if (_selectedRailTab == RailTab.trend) {
+      return AttendanceTrendContainerCard(
+        key: const ValueKey('attendance_trend_card'),
+        data: _data,
+      );
+    }
+    if (_selectedRailTab == RailTab.history) {
+      return AttendanceHistoryCard(
+        key: const ValueKey('attendance_history_card'),
+        data: _data,
+      );
+    }
+
     switch (_selectedStatTab) {
       case QuickStatTab.attendance:
         return AttendanceIntelligenceCard(
@@ -162,33 +176,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              // 1. Top Decorative Theme Banner (Festive Diyas / Crimson Waves / Emerald Leaves)
-              if (_currentTheme == DashboardThemeVariant.festiveGold)
-                Image.asset(
-                  'assets/themes/festive_gold/top_lanterns.png',
-                  height: 44,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const SizedBox(),
-                )
-              else if (_currentTheme == DashboardThemeVariant.crimsonWave)
-                Image.asset(
-                  'assets/themes/crimson_wave/top_red_wave.png',
-                  height: 38,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const SizedBox(),
-                )
-              else if (_currentTheme == DashboardThemeVariant.emeraldNeon)
-                Image.asset(
-                  'assets/themes/emerald_neon/emerald_top_leaves.png',
-                  height: 34,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => const SizedBox(),
-                ),
-
-              // 2. Top Header with Theme Switcher Palette Button
+              // 1. Unified Top Brand Bar with Theme Switcher Palette Button
               TopBrandBar(
                 data: _data,
                 themeVariant: _currentTheme,
@@ -241,43 +229,23 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // 2. Check-In Success Hero Banner (Adapts to theme)
-                      if (_currentTheme == DashboardThemeVariant.crimsonWave)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.asset(
-                              'assets/themes/crimson_wave/checkin_success_banner.png',
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => CheckInHeroBanner(
-                                data: _data,
-                                onCheckInPressed: () => MemberQrSheet.show(context, _data),
-                              ),
-                            ),
-                          ),
-                        )
-                      else
-                        CheckInHeroBanner(
-                          data: _data,
-                          onCheckInPressed: () {
-                            MemberQrSheet.show(context, _data);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Checked In successfully at BAD GYM! 🔥'),
-                                backgroundColor: BadGymColors.primary,
-                                duration: Duration(seconds: 2),
-                              ),
-                            );
-                          },
-                        ),
-
-                      // 3. Member Profile Card
-                      MemberProfileCard(
+                      // 2. Merged Member Profile & Check-In Hero Card
+                      MergedMemberCard(
                         data: _data,
+                        themeVariant: _currentTheme,
                         onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
                         onRenewPressed: () => RenewalSheet.show(context, _data),
                         onQrPassPressed: () => MemberQrSheet.show(context, _data),
+                        onCheckInPressed: () {
+                          MemberQrSheet.show(context, _data);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Checked In successfully at BAD GYM! 🔥'),
+                              backgroundColor: BadGymColors.primary,
+                              duration: Duration(seconds: 2),
+                            ),
+                          );
+                        },
                       ),
 
                       // 4. Quick Stats Row
@@ -317,7 +285,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                                     switchInCurve: Curves.easeOut,
                                     switchOutCurve: Curves.easeIn,
                                     child: SizedBox(
-                                      key: ValueKey('$_selectedStatTab$_currentTheme'),
+                                      key: ValueKey('$_selectedStatTab$_selectedRailTab$_currentTheme'),
                                       height: kIntelligenceSectionHeight,
                                       child: SingleChildScrollView(
                                         physics: const BouncingScrollPhysics(),

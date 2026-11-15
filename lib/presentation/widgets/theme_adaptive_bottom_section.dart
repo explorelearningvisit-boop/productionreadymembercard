@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bad_gym/core/models/member_intelligence_data.dart';
 import 'package:bad_gym/core/theme/dashboard_theme_variant.dart';
-import 'package:bad_gym/presentation/widgets/attendance_trend_chart.dart';
 import 'package:bad_gym/presentation/widgets/bottom_promo_banner.dart';
 
 class ThemeAdaptiveBottomSection extends StatelessWidget {
@@ -196,36 +195,19 @@ class ThemeAdaptiveBottomSection extends StatelessWidget {
     );
   }
 
-  // 4. Royal Purple: Attendance Trend Spline Chart + AI Insight Card
+  // 4. Royal Purple: AI Insight Coaching Card
   Widget _buildRoyalPurpleBottom() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(22),
-              border: Border.all(color: const Color(0xFFE9D5FF), width: 1.2),
-              boxShadow: [
-                BoxShadow(
-                  color: const Color(0xFF8B5CF6).withValues(alpha: 0.08),
-                  blurRadius: 14,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: AttendanceTrendChart(points: data.trendPoints),
-          ),
-          const SizedBox(height: 10),
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Image.asset(
               'assets/themes/royal_purple/ai_insight_card.png',
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => const SizedBox(),
+              errorBuilder: (_, __, ___) => const BottomPromoBanner(),
             ),
           ),
         ],
