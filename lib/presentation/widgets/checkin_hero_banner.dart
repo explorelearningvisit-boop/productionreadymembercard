@@ -73,16 +73,33 @@ class CheckInHeroBanner extends StatelessWidget {
               ),
             ),
 
-            // Right Weights & Shaker Image
+            // Right-side product cutouts: dumbbell + BAD GYM shaker.
+            // Keep them compact so they never collide with the success headline.
             Positioned(
-              right: 0,
-              bottom: 0,
-              top: 6,
+              right: 5,
+              bottom: 8,
+              top: 8,
               child: IgnorePointer(
-                child: Image.asset(
-                  'assets/hero/hero_weights.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (_, __, ___) => const SizedBox(),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Image.asset(
+                      'assets/hero/dumbbell_3d.png',
+                      width: 66,
+                      height: 72,
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => const SizedBox(),
+                    ),
+                    const SizedBox(width: 2),
+                    Image.asset(
+                      'assets/hero/shaker_bottle.png',
+                      width: 39,
+                      height: 96,
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => const SizedBox(),
+                    ),
+                  ],
                 ),
               ),
             ),
