@@ -28,6 +28,11 @@ flutter:
     - assets/icons/
     - assets/hero/
     - assets/promo/
+    - assets/themes/festive_gold/
+    - assets/themes/crimson_wave/
+    - assets/themes/dark_obsidian/
+    - assets/themes/emerald_neon/
+    - assets/themes/royal_purple/
 
   fonts:
     - family: Poppins
