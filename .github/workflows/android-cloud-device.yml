@@ -318,6 +318,19 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+      - name: Fail clearly when no Android device passed QA
+        if: always() && steps.check_keys.outputs.configured == 'true'
+        shell: bash
+        run: |
+          if [ ! -f device-artifacts/device-results.tsv ]; then
+            echo "::error::Device QA did not produce a result inventory."
+            exit 1
+          fi
+          if ! awk -F '\t' 'NR > 1 && $6 == "PASS" { passed = 1 } END { exit !passed }' device-artifacts/device-results.tsv; then
+            echo "::error::No configured Android device completed install, launch, and screenshot QA. Review the uploaded device artifacts."
+            exit 1
+          fi
+          echo "At least one Android device passed install, launch, and screenshot QA."
       - name: Commit Live Screenshot to Repo (for AI Agent & User)
         if: always() && github.ref == 'refs/heads/main'
         continue-on-error: true
