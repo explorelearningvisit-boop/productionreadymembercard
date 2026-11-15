@@ -15,6 +15,10 @@ import 'package:bad_gym/presentation/widgets/renewal_sheet.dart';
 import 'package:bad_gym/presentation/widgets/top_brand_bar.dart';
 import 'package:bad_gym/presentation/widgets/vertical_navigation_rail.dart';
 import 'package:bad_gym/presentation/widgets/workout_intelligence_card.dart';
+import 'package:bad_gym/core/theme/dashboard_theme_variant.dart';
+import 'package:bad_gym/presentation/widgets/theme_switcher_sheet.dart';
+import 'package:bad_gym/presentation/widgets/theme_adaptive_bottom_section.dart';
+import 'package:bad_gym/presentation/widgets/weekly_attendance_strip.dart';
 
 class MemberCheckInScreen extends StatefulWidget {
   final MemberIntelligenceData? initialData;
@@ -34,6 +38,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
 
   RailTab _selectedRailTab = RailTab.intelligence;
   QuickStatTab _selectedStatTab = QuickStatTab.attendance;
+  DashboardThemeVariant _currentTheme = DashboardThemeVariant.festiveGold;
 
   @override
   void initState() {
@@ -150,34 +155,78 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
     const double kIntelligenceSectionHeight = 358.0;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFE7A0),
+      backgroundColor: _currentTheme.canvasGradient.colors.first,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFFFD34E),
-              Color(0xFFFFE8A0),
-              Color(0xFFFFF6D9),
-              Color(0xFFFFF9EC),
-            ],
-            stops: [0.0, 0.12, 0.28, 1.0],
-          ),
+        decoration: BoxDecoration(
+          gradient: _currentTheme.canvasGradient,
         ),
         child: SafeArea(
           child: Column(
             children: [
-              // 1. Top Header: Hamburger | BAD GYM Laurel Crest | 07:12 AM / 16 Oct 2026 | Bell 3
+              // 1. Top Decorative Theme Banner (Festive Diyas / Crimson Waves / Emerald Leaves)
+              if (_currentTheme == DashboardThemeVariant.festiveGold)
+                Image.asset(
+                  'assets/themes/festive_gold/top_lanterns.png',
+                  height: 44,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const SizedBox(),
+                )
+              else if (_currentTheme == DashboardThemeVariant.crimsonWave)
+                Image.asset(
+                  'assets/themes/crimson_wave/top_red_wave.png',
+                  height: 38,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const SizedBox(),
+                )
+              else if (_currentTheme == DashboardThemeVariant.emeraldNeon)
+                Image.asset(
+                  'assets/themes/emerald_neon/emerald_top_leaves.png',
+                  height: 34,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const SizedBox(),
+                ),
+
+              // 2. Top Header with Theme Switcher Palette Button
               TopBrandBar(
                 data: _data,
+                themeVariant: _currentTheme,
+                onThemeSwitcherPressed: () {
+                  ThemeSwitcherSheet.show(
+                    context,
+                    currentTheme: _currentTheme,
+                    onThemeSelected: (variant) {
+                      setState(() {
+                        _currentTheme = variant;
+                        if (variant == DashboardThemeVariant.darkObsidianGold) {
+                          _selectedStatTab = QuickStatTab.payment;
+                          _selectedRailTab = RailTab.payment;
+                        } else {
+                          _selectedStatTab = QuickStatTab.attendance;
+                          _selectedRailTab = RailTab.intelligence;
+                        }
+                      });
+                    },
+                  );
+                },
                 onMenuPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('BAD GYM Menu Active'),
-                      backgroundColor: BadGymColors.primary,
-                      duration: Duration(seconds: 1),
-                    ),
+                  ThemeSwitcherSheet.show(
+                    context,
+                    currentTheme: _currentTheme,
+                    onThemeSelected: (variant) {
+                      setState(() {
+                        _currentTheme = variant;
+                        if (variant == DashboardThemeVariant.darkObsidianGold) {
+                          _selectedStatTab = QuickStatTab.payment;
+                          _selectedRailTab = RailTab.payment;
+                        } else {
+                          _selectedStatTab = QuickStatTab.attendance;
+                          _selectedRailTab = RailTab.intelligence;
+                        }
+                      });
+                    },
                   );
                 },
                 onNotificationPressed: () => NotificationSheet.show(context),
@@ -193,22 +242,38 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // 2. Check-In Success Hero Banner with Athlete & Weights
-                      CheckInHeroBanner(
-                        data: _data,
-                        onCheckInPressed: () {
-                          MemberQrSheet.show(context, _data);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Checked In successfully at BAD GYM! 🔥'),
-                              backgroundColor: BadGymColors.primary,
-                              duration: Duration(seconds: 2),
+                      // 2. Check-In Success Hero Banner (Adapts to theme)
+                      if (_currentTheme == DashboardThemeVariant.crimsonWave)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              'assets/themes/crimson_wave/checkin_success_banner.png',
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => CheckInHeroBanner(
+                                data: _data,
+                                onCheckInPressed: () => MemberQrSheet.show(context, _data),
+                              ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        )
+                      else
+                        CheckInHeroBanner(
+                          data: _data,
+                          onCheckInPressed: () {
+                            MemberQrSheet.show(context, _data);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Checked In successfully at BAD GYM! 🔥'),
+                                backgroundColor: BadGymColors.primary,
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          },
+                        ),
 
-                      // 3. Ashwani Kumar Singh Member Profile Card (White Card)
+                      // 3. Member Profile Card
                       MemberProfileCard(
                         data: _data,
                         onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
@@ -216,16 +281,20 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                         onQrPassPressed: () => MemberQrSheet.show(context, _data),
                       ),
 
-                      // 4. 4 Quick Stats Buttons (Attendance 81% Red Card, Workout 58 min, Payment Due, Body 69.5 kg)
+                      // 4. Quick Stats Row
                       QuickStatsRow(
                         data: _data,
                         selectedTab: _selectedStatTab,
                         onTabSelected: _onStatTabSelected,
                       ),
 
+                      // Weekly Attendance Strip for Crimson Wave
+                      if (_currentTheme == DashboardThemeVariant.crimsonWave && _selectedStatTab == QuickStatTab.attendance)
+                        const WeeklyAttendanceStrip(),
+
                       const SizedBox(height: 4),
 
-                      // 5. Two-Column Intelligence Section (Fixed 358px Height - Zero Jitter)
+                      // 5. Two-Column Intelligence Section (Fixed 358px Height)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: SizedBox(
@@ -233,7 +302,6 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              // Left Column: Vertical Navigation Rail (Fixed Height 358)
                               VerticalNavigationRail(
                                 height: kIntelligenceSectionHeight,
                                 selectedTab: _selectedRailTab,
@@ -242,7 +310,6 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
 
                               const SizedBox(width: 6),
 
-                              // Right Column: Dynamic Intelligence Card Viewport
                               Expanded(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(24),
@@ -251,7 +318,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                                     switchInCurve: Curves.easeOut,
                                     switchOutCurve: Curves.easeIn,
                                     child: SizedBox(
-                                      key: ValueKey(_selectedStatTab),
+                                      key: ValueKey('${_selectedStatTab}_${_currentTheme}'),
                                       height: kIntelligenceSectionHeight,
                                       child: SingleChildScrollView(
                                         physics: const BouncingScrollPhysics(),
@@ -268,17 +335,10 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
 
                       const SizedBox(height: 6),
 
-                      // 6. Bottom Promotional Banner: FITNESS NUTRITION - PROTEIN BURGER
-                      BottomPromoBanner(
-                        onOrderPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Order placed for Protein Burger! 50% OFF applied! 🍔'),
-                              backgroundColor: Color(0xFFD6001C),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        },
+                      // 6. Theme-Adaptive Bottom Section
+                      ThemeAdaptiveBottomSection(
+                        variant: _currentTheme,
+                        data: _data,
                       ),
                     ],
                   ),
