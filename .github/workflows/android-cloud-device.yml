@@ -60,7 +60,6 @@ jobs:
         run: |
           flutter --version
           java -version
-          cd android && ./gradlew --version
       - run: flutter pub get
         name: Resolve dependencies
       - name: Dart formatting check
