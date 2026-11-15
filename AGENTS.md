@@ -48,3 +48,23 @@ Whenever installing, testing, debugging, or taking screenshots:
 - Static Analysis: `flutter analyze` (Strict 0 errors/warnings)
 - Test Suite: `flutter test`
 - Build APK: `flutter build apk --debug`
+
+---
+
+## ☁️ ZERO-LAPTOP CLOUD CI/CD & AI AUTOMATION PIPELINE
+
+### 1. Fully Autonomous Workflow
+1. **AI / ChatGPT Development**: AI agent writes/modifies Flutter code and pushes commits directly to `main` branch on GitHub.
+2. **Cloud Runner Build (GitHub Actions)**:
+   - Ubuntu Linux Cloud Runner sets up Java JDK 17 & Flutter SDK.
+   - Runs `flutter analyze`, `flutter test`, and Gradle build (`flutter build apk --release` and `--debug`).
+   - Generates release & debug APK artifacts in the cloud.
+3. **Over-The-Air Install & Live Screenshot (Tailscale)**:
+   - Cloud Runner connects to user's phone via Tailscale: `adb connect 100.123.18.54:5555`.
+   - Installs the latest APK (`adb install -r`).
+   - Launches app: `am start -n com.badgym.bad_gym/.MainActivity`.
+   - Captures live screenshot and automatically commits it to `docs/screenshots/bad_gym_live.png`.
+4. **AI Visual Verification**:
+   - ChatGPT / AI agent directly inspects `docs/screenshots/bad_gym_live.png` from the repository.
+   - Zero manual screenshots from user; zero laptop dependencies.
+
