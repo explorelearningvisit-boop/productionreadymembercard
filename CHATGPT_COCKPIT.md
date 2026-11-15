@@ -1,3 +1,5 @@
+> **CURRENT DESIGN AUTHORITY (2026-11-15):** Read [CURRENT_DESIGN_SPEC.md](CURRENT_DESIGN_SPEC.md) first. The latest approved UI is the user's red/crimson/gold/white BAD GYM reference. Royal Purple / Neon-Glow is historical and superseded. Member profile card must use a coordinated red treatment including payment, expiry and membership progress; vertical rail is burgundy/red. Do not hardcode the old purple design. Device verification must be based on current CI artifacts only; Wireless Debugging ports are dynamic, never assume 5555.
+
 # 🤖 CHATGPT AI AGENT COCKPIT — ZERO-LAPTOP PROTOCOL
 
 This file provides direct, actionable instructions for ChatGPT and any AI coding agent operating on this repository.
@@ -35,7 +37,7 @@ flowchart LR
 * Output APK is uploaded as a workflow artifact.
 
 ### 3. Over-The-Air Device Install & Live Screenshot:
-* The cloud runner connects to the user's phone via Tailscale (`100.123.18.54:5555`, hostname `xiaomi-11i`).
+* The cloud runner connects to the user's phone via Tailscale (`100.123.18.54:<current-wireless-debugging-port>`, hostname `xiaomi-11i`).
 * It streams `adb install -r app-release.apk` directly to the phone.
 * It launches `com.badgym.bad_gym/.MainActivity`, takes a live screencap, and saves it to:
   `docs/screenshots/bad_gym_live.png`
@@ -51,11 +53,11 @@ flowchart LR
 * **Device:** Xiaomi 11i 5G (`21091116I`)
 * **Display:** 1080×2400 @ 2.75x density, Android 13 (MIUI)
 * **Tailscale Hostname:** `xiaomi-11i`
-* **Tailscale IP:** `100.123.18.54:5555`
+* **Tailscale IP:** `100.123.18.54:<current-wireless-debugging-port>`
 
 ---
 
 ## 🔐 4. GitHub Secrets Configured
-* `DEVICE_ADB_PRIVATE_KEY_B64`: ✅ Configured (Paired ADB host key)
-* `ANDROID_DEVICE_PORTS_JSON`: ✅ Configured (`{"xiaomi-11i": 5555}`)
+* `DEVICE_ADB_PRIVATE_KEY_B64`: Required: DEVICE_ADB_PRIVATE_KEY_B64 (verify presence in workflow; never commit key)
+* `ANDROID_DEVICE_PORTS_JSON`: ✅ Configured (`{"xiaomi-11i": <current-port>}`)
 * `TAILSCALE_AUTHKEY` / `TS_OAUTH_CLIENT_ID`: Add in GitHub Settings → Secrets to enable auto-joining Tailscale from cloud runner.
