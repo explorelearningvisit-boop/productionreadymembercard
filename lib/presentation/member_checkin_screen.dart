@@ -214,7 +214,10 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
 
                       const SizedBox(height: 4),
 
-                      MemberSectionTabs(selectedTab: _selectedStatTab, onTabSelected: _onStatTabSelected),\n                      const SizedBox(height: 8),\n\n                      // 5. Two-Column Intelligence Section (Fixed 358px Height)
+                      MemberSectionTabs(selectedTab: _selectedStatTab, onTabSelected: _onStatTabSelected),
+                      const SizedBox(height: 8),
+
+                      // 5. Two-Column Intelligence Section (Fixed 358px Height)
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: SizedBox(
