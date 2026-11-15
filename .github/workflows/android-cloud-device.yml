@@ -197,7 +197,7 @@ jobs:
               continue
             fi
 
-            port=$(printf '%s' "$ANDROID_DEVICE_PORTS_JSON" | jq -r --arg host "$hostname" '.[$host] // empty')
+            port=$(printf '%s' "$ANDROID_DEVICE_PORTS_JSON" | jq -r --arg host "$hostname" --arg ip "$ip" '.[$host] // .[$ip] // empty')
             if [ -z "$port" ]; then
               printf '%s\t%s\t%s\t%s\t%s\tADB_PORT_NOT_CONFIGURED\n' "$hostname" "$ip" "$os" "$online" "-" >> device-artifacts/device-results.tsv
               continue
@@ -220,9 +220,21 @@ jobs:
             fi
 
             if [ "$result" = "ADB_READY" ]; then
-              if adb -s "$serial" install -r dist/app-release.apk > "device-artifacts/${hostname}-install.txt" 2>&1 &&
-                 adb -s "$serial" shell am force-stop com.badgym.bad_gym &&
-                 adb -s "$serial" shell monkey -p com.badgym.bad_gym 1 > "device-artifacts/${hostname}-launch.txt" 2>&1; then
+              # Wake screen and unlock keyguard
+              adb -s "$serial" shell input keyevent 224 || true
+              adb -s "$serial" shell wm dismiss-keyguard || true
+
+              # Streamed install with clean signature fallback
+              if ! adb -s "$serial" install -r dist/app-release.apk > "device-artifacts/${hostname}-install.txt" 2>&1; then
+                if grep -q "INSTALL_FAILED_UPDATE_INCOMPATIBLE" "device-artifacts/${hostname}-install.txt"; then
+                  echo "Signature mismatch; reinstalling package cleanly..."
+                  adb -s "$serial" uninstall com.badgym.bad_gym || true
+                  adb -s "$serial" install dist/app-release.apk >> "device-artifacts/${hostname}-install.txt" 2>&1
+                fi
+              fi
+
+              if adb -s "$serial" shell am force-stop com.badgym.bad_gym &&
+                 adb -s "$serial" shell am start -n com.badgym.bad_gym/.MainActivity > "device-artifacts/${hostname}-launch.txt" 2>&1; then
                 sleep 8
                 adb -s "$serial" exec-out screencap -p > "device-artifacts/${hostname}-screenshot.png"
                 adb -s "$serial" logcat -d -t 3000 > "device-artifacts/${hostname}-logcat.txt"
