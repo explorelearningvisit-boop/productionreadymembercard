@@ -168,29 +168,29 @@ class TopBrandBar extends StatelessWidget {
 
           const SizedBox(width: 8),
 
-          // 3. Date & Time Capsule (07:12 AM / 16 Oct 2026)
+          // 3. Date & Time Capsule (07:12 AM / 16 Oct 2026) - High Contrast & Crisp
           InkWell(
             onTap: onCalendarPressed,
             borderRadius: BorderRadius.circular(12),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF6B000B),
-                    Color(0xFF380005),
+                    Color(0xFF78080D),
+                    Color(0xFF4A0005),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: const Color(0xFFFF334B).withValues(alpha: 0.35),
+                  color: const Color(0xFFFFD66B).withValues(alpha: 0.6),
                   width: 1.0,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
+                    color: Colors.black.withValues(alpha: 0.25),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -201,8 +201,8 @@ class TopBrandBar extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.calendar_month_outlined,
-                    color: Colors.white,
-                    size: 16,
+                    color: Color(0xFFFFDF7A),
+                    size: 15,
                   ),
                   SizedBox(width: 6),
                   Column(
@@ -213,20 +213,20 @@ class TopBrandBar extends StatelessWidget {
                         '07:12 AM',
                         style: TextStyle(
                           fontFamily: BadGymTypography.fontHeading,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 10.5,
-                          color: Color(0xFF8B1114),
+                          fontWeight: FontWeight.w900,
+                          fontSize: 11,
+                          color: Colors.white,
                           height: 1.0,
                         ),
                       ),
-                      SizedBox(height: 1.5),
+                      SizedBox(height: 2),
                       Text(
                         '16 Oct 2026',
                         style: TextStyle(
                           fontFamily: BadGymTypography.fontBody,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 8,
-                          color: Color(0xFFFFD2D9),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 8.5,
+                          color: Color(0xFFFFDF7A),
                           height: 1.0,
                         ),
                       ),
@@ -239,89 +239,7 @@ class TopBrandBar extends StatelessWidget {
 
           const SizedBox(width: 6),
 
-          // 4. Notification Bell Button with Red Badge '3'
-          InkWell(
-            key: const ValueKey('header_notification_button'),
-            onTap: () {
-              HapticFeedback.lightImpact();
-              onNotificationPressed?.call();
-            },
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              width: 38,
-              height: 38,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Color(0xFF6B000B),
-                    Color(0xFF380005),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: const Color(0xFFFF334B).withValues(alpha: 0.35),
-                  width: 1.0,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  const Icon(
-                    Icons.notifications_rounded,
-                    color: Colors.white,
-                    size: 19,
-                  ),
-                  Positioned(
-                    top: 4,
-                    right: 4,
-                    child: Container(
-                      width: 14,
-                      height: 14,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFDC2626),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: Colors.white,
-                          width: 1.2,
-                        ),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Color(0xFFDC2626),
-                            blurRadius: 4,
-                          ),
-                        ],
-                      ),
-                      child: const Center(
-                        child: Text(
-                          '3',
-                          style: TextStyle(
-                            fontFamily: BadGymTypography.fontHeading,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 8,
-                            color: Colors.white,
-                            height: 1.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(width: 6),
-
-          // 5. Theme Palette Switcher Button
+          // 4. Theme Palette Switcher Button
           InkWell(
             key: const ValueKey('header_theme_switcher_button'),
             onTap: () {

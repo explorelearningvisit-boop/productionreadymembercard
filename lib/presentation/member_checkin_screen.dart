@@ -233,6 +233,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                       MergedMemberCard(
                         data: _data,
                         themeVariant: _currentTheme,
+                        onNotificationPressed: () => NotificationSheet.show(context),
                         onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
                         onRenewPressed: () => RenewalSheet.show(context, _data),
                         onQrPassPressed: () => MemberQrSheet.show(context, _data),
