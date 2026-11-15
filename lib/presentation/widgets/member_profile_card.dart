@@ -29,12 +29,13 @@ class MemberProfileCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 4.0),
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(
-          color: const Color(0xFFF1F5F9),
-          width: 1.2,
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFE50914), Color(0xFFB80016), Color(0xFF76000D)],
         ),
+        borderRadius: BorderRadius.circular(22),
+        border: Border.all(color: const Color(0xFFFF8794), width: 1.2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -65,7 +66,7 @@ class MemberProfileCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: const Color(0xFFE2E8F0),
+                      color: const Color(0xFFFF9AA6),
                       width: 1.8,
                     ),
                     boxShadow: [
@@ -283,10 +284,10 @@ class MemberProfileCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
             decoration: BoxDecoration(
-              color: const Color(0xFFF8FAFC),
+              color: const Color(0xFF8F0010),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
-                color: const Color(0xFFEDF2F7),
+                color: const Color(0xFFFF697B),
                 width: 1,
               ),
             ),
@@ -306,10 +307,10 @@ class MemberProfileCard extends StatelessWidget {
                           width: 32,
                           height: 32,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFFECEF),
+                            color: const Color(0xFFB90018),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: const Color(0xFFFFCCD3),
+                              color: const Color(0xFFFF9AA6),
                               width: 0.8,
                             ),
                           ),
@@ -494,7 +495,7 @@ class MemberProfileCard extends StatelessWidget {
           Container(
             height: 9,
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F5F9),
+              color: const Color(0xFF68000A),
               borderRadius: BorderRadius.circular(6),
               border: Border.all(
                 color: const Color(0xFFE2E8F0),
