@@ -102,7 +102,7 @@ abstract final class BadGymColors {
 
 abstract final class BadGymTypography {
   static const String fontHeading = 'Poppins';
-  static const String fontBody = 'Poppins';
+  static const String fontBody = 'Inter';
 
   static TextStyle titleLarge = const TextStyle(
     fontFamily: fontHeading,
