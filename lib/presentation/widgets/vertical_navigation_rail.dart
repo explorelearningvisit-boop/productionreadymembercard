@@ -44,13 +44,13 @@ class VerticalNavigationRail extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xFF380008),
-            Color(0xFF220004),
+            Color(0xFFB50D12),
+            Color(0xFF78080D),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFFF334B).withValues(alpha: 0.3),
+          color: const Color(0xFFFFD66B).withValues(alpha: 0.55),
           width: 1.2,
         ),
         boxShadow: [
@@ -128,13 +128,13 @@ class VerticalNavigationRail extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFE50914),
-              Color(0xFF9E0010),
+              Color(0xFFFF3B24),
+              Color(0xFFB50D12),
             ],
           ),
           borderRadius: BorderRadius.circular(13),
           border: Border.all(
-            color: const Color(0xFFFF5268),
+            color: const Color(0xFFFFD66B),
             width: 1.3,
           ),
           boxShadow: [
