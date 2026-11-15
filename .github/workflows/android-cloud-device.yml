@@ -1,0 +1,152 @@
+name: Android Cloud Build & Device QA
+
+on:
+  push:
+    branches: [main, setup/flutter-member-intelligence]
+    paths:
+      - "lib/**"
+      - "test/**"
+      - "assets/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      - "analysis_options.yaml"
+      - "android/**"
+      - ".github/workflows/android-cloud-device.yml"
+  pull_request:
+    branches: [main, setup/flutter-member-intelligence]
+  workflow_dispatch:
+    inputs:
+      run_device_test:
+        description: "Install this build on the Tailscale-connected Android phone"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-cloud-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Flutter checks + Android APK
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('android/**/*.gradle*', 'android/**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle-
+      - uses: actions/cache@v4
+        with:
+          path: ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
+          restore-keys: ${{ runner.os }}-pub-
+      - name: Toolchain versions
+        run: |
+          flutter --version
+          java -version
+          cd android && ./gradlew --version
+      - run: flutter pub get
+        name: Resolve dependencies
+      - name: Dart formatting check
+        run: dart format --output=none --set-exit-if-changed lib test
+      - name: Static analysis
+        run: flutter analyze --no-fatal-infos
+      - name: Flutter tests
+        run: flutter test --reporter expanded
+      - name: Build release APK
+        run: flutter build apk --release
+      - name: Upload release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: bad-gym-android-release-${{ github.sha }}
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 14
+
+  remote-device-qa:
+    name: Tailscale Xiaomi wireless QA
+    needs: build-and-test
+    if: github.event_name == 'workflow_dispatch' && inputs.run_device_test == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        name: Download release APK
+        with:
+          name: bad-gym-android-release-${{ github.sha }}
+          path: dist
+      - name: Install Android platform tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y android-sdk-platform-tools
+      - name: Restore paired ADB host identity
+        env:
+          ADB_PRIVATE_KEY_B64: ${{ secrets.DEVICE_ADB_PRIVATE_KEY_B64 }}
+        run: |
+          if [ -z "$ADB_PRIVATE_KEY_B64" ]; then
+            echo "::error::Missing DEVICE_ADB_PRIVATE_KEY_B64 repository secret."
+            exit 1
+          fi
+          mkdir -p "$HOME/.android"
+          printf '%s' "$ADB_PRIVATE_KEY_B64" | base64 --decode > "$HOME/.android/adbkey"
+          chmod 600 "$HOME/.android/adbkey"
+      - name: Join Tailscale
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          audience: ${{ secrets.TS_AUDIENCE }}
+          tags: tag:ci
+          ping: ${{ secrets.DEVICE_TAILSCALE_IP }}
+      - name: Connect, install, launch and capture diagnostics
+        env:
+          DEVICE_IP: ${{ secrets.DEVICE_TAILSCALE_IP }}
+          DEVICE_PORT: ${{ secrets.DEVICE_ADB_PORT }}
+        run: |
+          set -euo pipefail
+          if [ -z "$DEVICE_IP" ] || [ -z "$DEVICE_PORT" ]; then
+            echo "::error::Set DEVICE_TAILSCALE_IP and DEVICE_ADB_PORT repository secrets."
+            exit 1
+          fi
+          adb start-server
+          adb connect "$DEVICE_IP:$DEVICE_PORT"
+          for attempt in $(seq 1 12); do
+            if adb -s "$DEVICE_IP:$DEVICE_PORT" get-state 2>/dev/null | grep -q device; then
+              break
+            fi
+            sleep 5
+          done
+          adb -s "$DEVICE_IP:$DEVICE_PORT" get-state
+          adb -s "$DEVICE_IP:$DEVICE_PORT" install -r dist/app-release.apk
+          adb -s "$DEVICE_IP:$DEVICE_PORT" shell am force-stop com.badgym.bad_gym
+          adb -s "$DEVICE_IP:$DEVICE_PORT" shell monkey -p com.badgym.bad_gym 1
+          sleep 8
+          mkdir -p device-artifacts
+          adb -s "$DEVICE_IP:$DEVICE_PORT" exec-out screencap -p > device-artifacts/xiaomi-11i-home.png
+          adb -s "$DEVICE_IP:$DEVICE_PORT" logcat -d -t 5000 > device-artifacts/logcat.txt
+      - name: Upload device QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xiaomi-11i-device-qa-${{ github.sha }}
+          path: device-artifacts/
+          if-no-files-found: warn
+          retention-days: 7
