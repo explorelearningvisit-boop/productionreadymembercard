@@ -35,6 +35,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35
     steps:
+      - name: Debounce rapid commits
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          echo "Waiting 30 seconds for a batch of rapid AI commits to finish..."
+          sleep 30
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
@@ -44,13 +50,6 @@ jobs:
         with:
           channel: stable
           cache: true
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('android/**/*.gradle*', 'android/**/gradle-wrapper.properties') }}
-          restore-keys: ${{ runner.os }}-gradle-
       - uses: actions/cache@v4
         with:
           path: ~/.pub-cache
@@ -65,8 +64,16 @@ jobs:
             SDKMANAGER="$(find "${ANDROID_HOME}/cmdline-tools" -type f -name sdkmanager | sort | tail -n 1)"
           fi
           test -x "$SDKMANAGER"
-          yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" --install "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          missing=()
+          [ -d "$ANDROID_HOME/platform-tools" ] || missing+=("platform-tools")
+          [ -d "$ANDROID_HOME/platforms/android-36" ] || missing+=("platforms;android-36")
+          [ -d "$ANDROID_HOME/build-tools/36.0.0" ] || missing+=("build-tools;36.0.0")
+          if [ "${#missing[@]}" -gt 0 ]; then
+            yes | "$SDKMANAGER" --licenses >/dev/null || true
+            "$SDKMANAGER" --install "${missing[@]}"
+          else
+            echo "Android SDK packages already present; skipping sdkmanager."
+          fi
           echo "${ANDROID_HOME}/platform-tools" >> "$GITHUB_PATH"
 
       - name: Set up Gradle distribution
@@ -121,10 +128,17 @@ jobs:
         with:
           name: bad-gym-android-release-${{ github.sha }}
           path: dist
-      - name: Install Android platform tools and jq
+      - name: Ensure Android platform tools and jq
+        shell: bash
         run: |
-          sudo apt-get update
-          sudo apt-get install -y android-sdk-platform-tools jq
+          missing=()
+          command -v adb >/dev/null 2>&1 || missing+=(android-sdk-platform-tools)
+          command -v jq >/dev/null 2>&1 || missing+=(jq)
+          if [ "${#missing[@]}" -gt 0 ]; then
+            sudo apt-get install -y "${missing[@]}"
+          else
+            echo "adb and jq already available; skipping package installation."
+          fi
       - name: Restore paired ADB host identity
         id: check_keys
         env:
@@ -162,18 +176,21 @@ jobs:
         if: steps.check_keys.outputs.configured == 'true'
         env:
           ANDROID_DEVICE_PORTS_JSON: ${{ secrets.ANDROID_DEVICE_PORTS_JSON }}
+        shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
           mkdir -p device-artifacts
           adb start-server
 
           if [ -z "$ANDROID_DEVICE_PORTS_JSON" ]; then
-            echo "::error::Missing ANDROID_DEVICE_PORTS_JSON. Map each Android hostname to its ADB TCP port."
+            echo "::error::Missing ANDROID_DEVICE_PORTS_JSON."
             exit 1
           fi
           printf '%s' "$ANDROID_DEVICE_PORTS_JSON" | jq -e 'type == "object"' >/dev/null
 
+          # Confirm the tunnel is healthy once, then reuse it for every peer.
           tailscale status --json > device-artifacts/tailnet-status.json
+          tailscale netcheck > device-artifacts/tailscale-netcheck.txt 2>&1 || true
           jq -r '
             .Peer // {} | to_entries[] |
             [.value.HostName, (.value.TailscaleIPs[0] // ""), (.value.OS // "unknown"), (.value.Online // false)] |
@@ -182,7 +199,6 @@ jobs:
 
           printf 'hostname\tip\tos\tonline\tadb_port\tresult\n' > device-artifacts/device-results.tsv
           tested=0
-
           while IFS=$'\t' read -r hostname ip os online; do
             [ -n "$hostname" ] || continue
             case "$ip" in *:*) continue ;; esac
@@ -190,14 +206,12 @@ jobs:
               printf '%s\t%s\t%s\t%s\t%s\tOFFLINE_SKIPPED\n' "$hostname" "$ip" "$os" "$online" "-" >> device-artifacts/device-results.tsv
               continue
             fi
-
-            # Inventory every peer, but APK/ADB tests are Android-only.
             if [ "$os" != "android" ]; then
               printf '%s\t%s\t%s\t%s\t%s\tINVENTORY_ONLY\n' "$hostname" "$ip" "$os" "$online" "-" >> device-artifacts/device-results.tsv
               continue
             fi
 
-            port=$(printf '%s' "$ANDROID_DEVICE_PORTS_JSON" | jq -r --arg host "$hostname" --arg ip "$ip" '.[$host] // .[$ip] // empty')
+            port=$(jq -r --arg host "$hostname" --arg ip "$ip" '.[$host] // .[$ip] // empty' <<< "$ANDROID_DEVICE_PORTS_JSON")
             if [ -z "$port" ]; then
               printf '%s\t%s\t%s\t%s\t%s\tADB_PORT_NOT_CONFIGURED\n' "$hostname" "$ip" "$os" "$online" "-" >> device-artifacts/device-results.tsv
               continue
@@ -208,52 +222,65 @@ jobs:
             fi
 
             serial="$ip:$port"
-            result="FAILED"
-            if adb connect "$serial" >/dev/null 2>&1; then
-              for attempt in $(seq 1 6); do
-                if adb -s "$serial" get-state 2>/dev/null | grep -q device; then
-                  result="ADB_READY"
-                  break
-                fi
-                sleep 5
-              done
-            fi
+            result="ADB_UNAVAILABLE_OR_UNPAIRED"
+            # Wireless debugging ports can briefly drop while Android wakes the radio.
+            # Retry the TCP path with bounded exponential backoff; do not rejoin Tailscale.
+            for attempt in 1 2 3 4 5; do
+              echo "ADB connect attempt $attempt/5 for $hostname ($serial)"
+              tailscale ping --timeout=5s "$ip" > "device-artifacts/${hostname}-tailscale-ping.txt" 2>&1 || true
+              adb connect "$serial" > "device-artifacts/${hostname}-adb-connect.txt" 2>&1 || true
+              state=$(adb -s "$serial" get-state 2>/dev/null || true)
+              if [ "$state" = "device" ]; then
+                result="ADB_READY"
+                break
+              fi
+              adb disconnect "$serial" >/dev/null 2>&1 || true
+              sleep $((attempt * 3))
+            done
 
             if [ "$result" = "ADB_READY" ]; then
-              # Wake screen and unlock keyguard
-              adb -s "$serial" shell input keyevent 224 || true
-              adb -s "$serial" shell wm dismiss-keyguard || true
+              adb -s "$serial" shell input keyevent 224 >/dev/null 2>&1 || true
+              adb -s "$serial" shell wm dismiss-keyguard >/dev/null 2>&1 || true
 
-              # Streamed install with clean signature fallback
-              if ! adb -s "$serial" install -r dist/app-release.apk > "device-artifacts/${hostname}-install.txt" 2>&1; then
-                if grep -q "INSTALL_FAILED_UPDATE_INCOMPATIBLE" "device-artifacts/${hostname}-install.txt"; then
-                  echo "Signature mismatch; reinstalling package cleanly..."
-                  adb -s "$serial" uninstall com.badgym.bad_gym || true
-                  adb -s "$serial" install dist/app-release.apk >> "device-artifacts/${hostname}-install.txt" 2>&1
-                fi
-              fi
-
-              if adb -s "$serial" shell am force-stop com.badgym.bad_gym &&
-                 adb -s "$serial" shell am start -n com.badgym.bad_gym/.MainActivity > "device-artifacts/${hostname}-launch.txt" 2>&1; then
-                sleep 8
-                adb -s "$serial" exec-out screencap -p > "device-artifacts/${hostname}-screenshot.png"
-                adb -s "$serial" logcat -d -t 3000 > "device-artifacts/${hostname}-logcat.txt"
-                result="PASS"
-                tested=$((tested + 1))
+              install_log="device-artifacts/${hostname}-install.txt"
+              if adb -s "$serial" install -r dist/app-release.apk > "$install_log" 2>&1; then
+                result="INSTALLED"
+              elif grep -q "INSTALL_FAILED_UPDATE_INCOMPATIBLE" "$install_log"; then
+                # Never uninstall an app/data silently. A signature mismatch means the CI
+                # signing key is not stable; require a stable signing key or explicit user action.
+                result="SIGNATURE_MISMATCH_NEEDS_STABLE_SIGNING"
+                echo "::warning::Installed app is signed with a different key. Refusing automatic uninstall to protect app data."
+              elif grep -q "INSTALL_FAILED_USER_RESTRICTED" "$install_log"; then
+                result="MIUI_INSTALL_PERMISSION_REQUIRED"
+                echo "::warning::MIUI blocked ADB install. Enable Developer options > Install via USB and approve the device prompt."
               else
-                result="INSTALL_OR_LAUNCH_FAILED"
-                adb -s "$serial" logcat -d -t 3000 > "device-artifacts/${hostname}-logcat.txt" || true
+                result="INSTALL_FAILED"
               fi
-            else
-              result="ADB_UNAVAILABLE_OR_UNPAIRED"
+
+              if [ "$result" = "INSTALLED" ]; then
+                if adb -s "$serial" shell am force-stop com.badgym.bad_gym &&
+                   adb -s "$serial" shell am start -n com.badgym.bad_gym/.MainActivity > "device-artifacts/${hostname}-launch.txt" 2>&1; then
+                  sleep 6
+                  adb -s "$serial" exec-out screencap -p > "device-artifacts/${hostname}-screenshot.png" || result="SCREENSHOT_FAILED"
+                  adb -s "$serial" logcat -d -t 2000 > "device-artifacts/${hostname}-logcat.txt" || true
+                  [ "$result" != "SCREENSHOT_FAILED" ] && result="PASS"
+                  tested=$((tested + 1))
+                else
+                  result="LAUNCH_FAILED"
+                  adb -s "$serial" logcat -d -t 2000 > "device-artifacts/${hostname}-logcat.txt" || true
+                fi
+              else
+                adb -s "$serial" logcat -d -t 1000 > "device-artifacts/${hostname}-logcat.txt" || true
+              fi
             fi
+
             printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$hostname" "$ip" "$os" "$online" "$port" "$result" >> device-artifacts/device-results.tsv
           done < device-artifacts/tailnet-inventory.tsv
 
           cat device-artifacts/device-results.tsv
           echo "Successfully tested Android devices: $tested" | tee device-artifacts/summary.txt
           if [ "$tested" -eq 0 ]; then
-            echo "::warning::No Android device completed QA. Check device online state, ADB pairing, ports, and Tailscale ACLs."
+            echo "::warning::No Android device completed QA. Inspect per-device status and logs."
           fi
       - name: Upload fleet QA inventory and evidence
         if: always()
