@@ -1,44 +1,57 @@
 # Antigravity Handoff — BAD GYM (2026-11-15)
 
 ## Read first
-1. `CURRENT_DESIGN_SPEC.md` is the active UI/UX authority.
-2. The latest user-approved reference is the red/crimson + gold + white BAD GYM dashboard image supplied on 2026-11-15.
-3. Royal Purple / Neon Violet is obsolete. Do not reintroduce it.
-4. Member card must be crimson/red as a whole, including payment/expiry and membership progress; gold progress fill; green Active and gold Plan badges. Vertical rail stays burgundy/red.
+1. Read `CURRENT_DESIGN_SPEC.md`; it is the active visual authority and supersedes older purple/red-only notes.
+2. Read this file before changing CI, build, device QA, assets, or app code.
+3. Keep ChatGPT and Antigravity changes batched; avoid one commit per tiny edit when a single logical commit is possible.
 
-## Current Git state
-- Member profile red treatment commit: `25268481b78f46c704bc4473e175ab61d897731c`.
-- Design authority created: `CURRENT_DESIGN_SPEC.md`.
-- AI handoff docs and `AI_SYNC_STATE.json` updated to remove stale purple/5555 assumptions.
-- CI run for profile card commit: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43708801687
-- Earlier cloud build run #9 succeeded: Flutter formatting step, analyze, tests, release APK build and artifact upload. APK was 55.5 MB.
-- Earlier Tailnet QA did NOT run. Logs explicitly report: "Tailscale or ADB keys not set in repository secrets. Skipping live device testing." No device screenshot was captured in that run.
+## Latest verified device failure diagnosis
+Workflow run #24: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43720865187
+- Tailscale action connected successfully on attempt 1. Do not misdiagnose this run as a Tailscale join failure.
+- Tailnet inventory showed Xiaomi 11i online at 100.123.18.54.
+- ADB reached the phone.
+- APK install failed first with `INSTALL_FAILED_UPDATE_INCOMPATIBLE`: installed app and new APK had different signing certificates.
+- Workflow uninstalled the old app, then MIUI returned `INSTALL_FAILED_USER_RESTRICTED: Install canceled by user`.
+- The actual blocker was unstable CI debug signing + MIUI install authorization, not Tailscale connectivity.
 
-## Required next actions
-1. Pull latest `main`.
-2. Inspect `member_profile_card.dart` visually and improve red card treatment without changing the reference's content hierarchy.
-3. Run `dart format`, `flutter analyze`, `flutter test`, `flutter build apk --release`.
-4. Review `CURRENT_DESIGN_SPEC.md`, and update `assets/README.md` only after checking asset alpha/dimensions/usage. Do not blindly regenerate all PNGs.
-5. Fix CI device setup and validate with actual phone only after secrets are safely configured.
-6. Do not claim a physical device install or screenshot until a current workflow run contains fresh screenshot/logcat artifacts.
+## CI optimizations committed
+- Commit `61d17c5581e52f291ea0d827c7290ba728ed84f5`: bounded ADB connect retries with backoff, one Tailscale join reused for peer discovery, conditional Android tooling installation, removed duplicate Gradle cache (setup-gradle owns Gradle User Home caching), SDK packages installed only when missing, 30-second push debounce to avoid multiple rapid AI commits each launching a full build.
+- Commit `a5086c6c233280805085967da5a1bd46461a607e`: Tailscale retry/timeout raised and auth mode selected from explicit step outputs; stable debug keystore cache step is present.
+- Commit `fdb1b64f0605f906bfa294e6095bc2b28997eec2`: add non-streaming ADB install fallback; do not silently uninstall user app/data; record signature and MIUI permission failures distinctly.
+- Latest validation run: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43722419265 (check live result before claiming pass).
 
-## Critical credential security
-A base64-encoded ADB private key was pasted into the ChatGPT conversation. Treat that key as compromised. Do NOT reuse it, commit it, print it in logs, or paste it into another chat. Generate a fresh dedicated ADB host key on the trusted laptop, authorize its public key on the connected phone (accept the Android "Allow USB debugging" prompt), and store the private key only as the encrypted GitHub Actions secret `DEVICE_ADB_PRIVATE_KEY_B64`. Rotate/revoke the old debugging authorization on the phone after the new key is confirmed.
+## Remaining one-time device action
+Because previous builds were signed with ephemeral runner debug keys, the installed Xiaomi app may still have a different signature. The workflow now caches the CI debug keystore for future builds, but first transition may require a one-time clean reinstall:
+1. On Xiaomi 11i, enable Developer options > Install via USB (and USB debugging security settings if MIUI exposes it).
+2. Keep phone unlocked and approve any install confirmation.
+3. If result is `SIGNATURE_MISMATCH_NEEDS_STABLE_SIGNING`, ask user before uninstalling; do not erase app data automatically.
+4. Once the first APK signed with the cached CI key is installed, later CI builds should retain that signing identity as long as the cache survives. For production distribution, replace this QA-only cached debug key with a protected release keystore stored as GitHub Actions secrets.
 
-The current workflow log proves the ADB/Tailscale secret check returned false. Configure the required GitHub Actions secrets in repository Settings > Secrets and variables > Actions:
-- `DEVICE_ADB_PRIVATE_KEY_B64` (fresh dedicated key, base64 encoded)
-- Either `TS_OAUTH_CLIENT_ID` plus `TS_AUDIENCE` and the corresponding OAuth secret as required by the Tailscale GitHub Action, OR `TAILSCALE_AUTHKEY`.
-- `ANDROID_DEVICE_PORTS_JSON` mapping each Android tailnet hostname to its CURRENT Wireless Debugging TCP connect port.
+## Device QA implementation rules
+- Tailscale is joined once per QA job. Do not re-run `tailscale up` per Android peer.
+- Retry `tailscale ping` and `adb connect` with bounded backoff; distinguish tunnel failure, stale wireless-debug port, ADB authorization, install signature mismatch, and MIUI user restriction.
+- Wireless ADB port is dynamic. Use `ANDROID_DEVICE_PORTS_JSON`; never hardcode 5555.
+- Never auto-uninstall a member app or wipe its data on signature mismatch.
+- Upload tailnet inventory, per-device ADB connection logs, install logs, screenshot and logcat even on failure.
+- Do not claim a fresh screenshot/install unless current run artifacts prove it.
 
-Never expose any private key, OAuth secret, auth key or token in source files or chat. Confirm actual secret names against the workflow before setup. Tailscale IP alone is not enough: Android Wireless Debugging port is dynamic, and ADB authorization is separate from Tailscale connectivity. Do not assume port 5555. Inventory all peers, but only attempt APK install on online Android devices with a valid port and authorized ADB host key.
+## Efficiency policy
+- Use one logical commit for a batch of related edits.
+- Let the 30-second debounce cancel superseded push runs before toolchain setup.
+- Gradle cache is managed by `gradle/actions/setup-gradle@v4`; do not add a second cache for the same Gradle User Home.
+- Flutter SDK cache is managed by flutter-action; pub cache uses its own lockfile-keyed cache.
+- Android SDK components are installed only when missing.
+- Device QA tools are installed only if absent.
+- Skip unnecessary build/test/device steps for docs-only changes (docs are already excluded from push path filters).
 
-## Expected device QA evidence
-For every successful Android device:
-- install latest release APK
-- launch `com.badgym.bad_gym/.MainActivity`
-- capture fresh screenshot and last 3000 logcat lines
-- upload artifacts with hostname, Android version, model, and result
-- report offline/unconfigured/unauthorized devices separately
+## Credential security
+- A base64 ADB private key was exposed in ChatGPT chat and is compromised; never reuse it.
+- Never commit or print ADB private keys, Tailscale auth keys, OAuth secrets, keystores or passwords.
+- Use GitHub encrypted Actions secrets only.
+- For long-term stable production signing, use a dedicated protected keystore. The cached CI debug key is QA-only.
 
-## AI-to-AI handoff
-After Antigravity completes a task, append timestamp, changed files, commit SHA, analyze/test/build result, and actual device result to `AI_SHARED_COMMUNICATION_HUB.md`. Keep `AI_SYNC_STATE.json` current. The latest user instruction and `CURRENT_DESIGN_SPEC.md` override stale historical notes.
+## Current project/device
+- Repository: `explorelearningvisit-boop/productionreadymembercard`, branch `main`.
+- Application ID: `com.badgym.bad_gym`.
+- Xiaomi 11i 5G (21091116I), Android 13, Tailnet IP `100.123.18.54`.
+- Device wireless ADB port must be discovered/refreshed; it is not permanently fixed.
