@@ -150,19 +150,19 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
     const double kIntelligenceSectionHeight = 358.0;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF8B000B),
+      backgroundColor: const Color(0xFFFFE7A0),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF8B000B),
-              Color(0xFF6B0008),
-              Color(0xFFF3F4F6),
-              Color(0xFFF3F4F6),
+              Color(0xFFFFD34E),
+              Color(0xFFFFE8A0),
+              Color(0xFFFFF6D9),
+              Color(0xFFFFF9EC),
             ],
-            stops: [0.0, 0.12, 0.18, 1.0],
+            stops: [0.0, 0.12, 0.28, 1.0],
           ),
         ),
         child: SafeArea(
