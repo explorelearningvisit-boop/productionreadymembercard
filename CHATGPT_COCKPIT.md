@@ -32,6 +32,7 @@ flowchart TD
 * **Main Launcher Activity:** `com.badgym.bad_gym/.MainActivity`
 * **Flutter SDK:** Stable channel (3.x)
 * **Gradle Wrapper:** Checked into git (`android/gradlew` + `gradle-wrapper.jar`), AGP `9.1.1`, Gradle `9.3.1`
+* **Canonical Signing Keystore:** `android/app/debug.keystore` (Guarantees every cloud runner build has the exact same signature so apps overwrite in-place without asking for permissions or uninstalling)
 * **Workflow File:** `.github/workflows/android-cloud-device.yml`
 
 ---
