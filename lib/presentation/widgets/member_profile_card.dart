@@ -110,7 +110,7 @@ class MemberProfileCard extends StatelessWidget {
                         fontFamily: BadGymTypography.fontHeading,
                         fontWeight: FontWeight.w900,
                         fontSize: 16,
-                        color: Color(0xFF0F172A),
+                        color: Colors.white,
                         letterSpacing: -0.2,
                         height: 1.1,
                       ),
@@ -124,7 +124,7 @@ class MemberProfileCard extends StatelessWidget {
                           const Icon(
                             Icons.badge_outlined,
                             size: 13,
-                            color: Color(0xFF64748B),
+                            color: Color(0xFFFFE1E5),
                           ),
                           const SizedBox(width: 3),
                           Text(
@@ -133,14 +133,14 @@ class MemberProfileCard extends StatelessWidget {
                               fontFamily: BadGymTypography.fontHeading,
                               fontWeight: FontWeight.w700,
                               fontSize: 11,
-                              color: Color(0xFF475569),
+                              color: Color(0xFFFFF5F5),
                             ),
                           ),
                           const SizedBox(width: 5),
                           const Text(
                             '|',
                             style: TextStyle(
-                              color: Color(0xFFCBD5E1),
+                              color: Color(0xFFFFAAB5),
                               fontSize: 11,
                             ),
                           ),
@@ -148,7 +148,7 @@ class MemberProfileCard extends StatelessWidget {
                           const Icon(
                             Icons.person_outline_rounded,
                             size: 13,
-                            color: Color(0xFF64748B),
+                            color: Color(0xFFFFE1E5),
                           ),
                           const SizedBox(width: 2),
                           Text(
@@ -157,14 +157,14 @@ class MemberProfileCard extends StatelessWidget {
                               fontFamily: BadGymTypography.fontBody,
                               fontWeight: FontWeight.w600,
                               fontSize: 11,
-                              color: Color(0xFF475569),
+                              color: Color(0xFFFFF5F5),
                             ),
                           ),
                           const SizedBox(width: 5),
                           const Text(
                             '|',
                             style: TextStyle(
-                              color: Color(0xFFCBD5E1),
+                              color: Color(0xFFFFAAB5),
                               fontSize: 11,
                             ),
                           ),
@@ -175,7 +175,7 @@ class MemberProfileCard extends StatelessWidget {
                               fontFamily: BadGymTypography.fontBody,
                               fontWeight: FontWeight.w600,
                               fontSize: 11,
-                              color: Color(0xFF475569),
+                              color: Color(0xFFFFF5F5),
                             ),
                           ),
                         ],
@@ -284,7 +284,7 @@ class MemberProfileCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
             decoration: BoxDecoration(
-              color: const Color(0xFF8F0010),
+              color: const Color(0xFFFFF1F0),
               borderRadius: BorderRadius.circular(14),
               border: Border.all(
                 color: const Color(0xFFFF697B),
@@ -307,7 +307,7 @@ class MemberProfileCard extends StatelessWidget {
                           width: 32,
                           height: 32,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFB90018),
+                            color: const Color(0xFFFFE1E5),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
                               color: const Color(0xFFFF9AA6),
@@ -334,7 +334,7 @@ class MemberProfileCard extends StatelessWidget {
                                   fontFamily: BadGymTypography.fontBody,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 10,
-                                  color: Color(0xFF64748B),
+                                  color: Color(0xFFFFE1E5),
                                   height: 1.0,
                                 ),
                               ),
@@ -411,7 +411,7 @@ class MemberProfileCard extends StatelessWidget {
                                   fontFamily: BadGymTypography.fontHeading,
                                   fontWeight: FontWeight.w900,
                                   fontSize: 13,
-                                  color: Color(0xFF0F172A),
+                                  color: Colors.white,
                                   height: 1.1,
                                 ),
                               ),
@@ -422,7 +422,7 @@ class MemberProfileCard extends StatelessWidget {
                                   fontFamily: BadGymTypography.fontBody,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 9,
-                                  color: Color(0xFF64748B),
+                                  color: Color(0xFFFFE1E5),
                                   height: 1.0,
                                 ),
                               ),
@@ -495,7 +495,7 @@ class MemberProfileCard extends StatelessWidget {
           Container(
             height: 9,
             decoration: BoxDecoration(
-              color: const Color(0xFF68000A),
+              color: const Color(0xFFFFE1E5),
               borderRadius: BorderRadius.circular(6),
               border: Border.all(
                 color: const Color(0xFFE2E8F0),
