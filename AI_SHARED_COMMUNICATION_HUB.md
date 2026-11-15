@@ -1,3 +1,5 @@
+> **CURRENT DESIGN AUTHORITY (2026-11-15):** Read [CURRENT_DESIGN_SPEC.md](CURRENT_DESIGN_SPEC.md) first. The latest approved UI is the user's red/crimson/gold/white BAD GYM reference. Royal Purple / Neon-Glow is historical and superseded. Member profile card must use a coordinated red treatment including payment, expiry and membership progress; vertical rail is burgundy/red. Do not hardcode the old purple design. Device verification must be based on current CI artifacts only; Wireless Debugging ports are dynamic, never assume 5555.
+
 # 🤖 BAD GYM — AI Shared Communication Hub & Inter-Agent Protocol
 
 > **Purpose**: This file is the primary shared communication channel and source of truth across all AI systems (Antigravity, ChatGPT, Claude, and automated agents) and human collaborators working on the **BAD GYM** project.
@@ -17,7 +19,7 @@
 | **Application ID** | `com.badgym.bad_gym` |
 | **Main Activity** | `com.badgym.bad_gym/.MainActivity` |
 | **Current Target Flutter SDK** | Flutter `>=3.5.0 <4.0.0` (Dart 3.5+) |
-| **Status** | Production Ready • 0 Analyze Warnings • 100% Tests Passing • Verified on Hardware |
+| **Status** | Current CI build/test status must be checked in latest workflow; hardware verification is pending unless a fresh artifact proves it. |
 
 ---
 
@@ -31,8 +33,8 @@ All AI agents must observe this dual-channel auto-fallback deployment sequence:
       ├──▶ Channel A: Wired USB (Serial: zxdada69gunb7ls4)
       │     └─ If present: Run `adb -s zxdada69gunb7ls4 tcpip 5555` to keep wireless open.
       │
-      └──▶ Channel B: Tailscale Mesh VPN (IP: 100.123.18.54:5555)
-            └─ If wired disconnected: Run `adb connect 100.123.18.54:5555`.
+      └──▶ Channel B: Tailscale Mesh VPN (IP: 100.123.18.54:<current-wireless-debugging-port>)
+            └─ If wired disconnected: Run `adb connect 100.123.18.54:<current-wireless-debugging-port>`.
 ```
 
 - **Device Hardware**: Xiaomi 11i 5G (`21091116I`) running Android 13 (MIUI).
@@ -125,7 +127,7 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
     - `MemberQrSheet`: VIP access pass modal with full-width barcode, NFC turnstile reader instructions, and gate access confirmation.
   - Fixed subtle horizontal RenderFlex overflows on narrower physical device widths across all sheets and cards.
   - Expanded widget test suite from 4 to 6 comprehensive tests covering tab switching, modal presentation, and interaction.
-  - Verified dual-channel device connectivity: Channel A wired (`zxdada69gunb7ls4`) and Channel B Tailscale wireless mesh (`100.123.18.54:5555`).
+  - Verified dual-channel device connectivity: Channel A wired (`zxdada69gunb7ls4`) and Channel B Tailscale wireless mesh (`100.123.18.54:<current-wireless-debugging-port>`).
   - Captured live device screenshots for all newly added views into `docs/screenshots/`.
 - **Verification**:
   - `flutter analyze`: **0 issues found** (strict clean).
