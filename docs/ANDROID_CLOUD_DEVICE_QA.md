@@ -1,8 +1,8 @@
-# Android Cloud Build & Xiaomi Wireless QA
+# Android Cloud Build & Multi-Device Tailnet QA
 
-This repository uses GitHub Actions for Flutter validation and Android APK builds. Optional physical-device QA connects a GitHub-hosted runner to the phone over Tailscale and Android Wireless Debugging.
+GitHub Actions builds and tests the Flutter app in the cloud. On a manual run, a temporary GitHub runner joins the Tailnet, discovers visible peers, inventories all devices, and attempts APK QA on every online Android device that has an ADB port configured and an authorized ADB host key.
 
-## Automatic checks
+## Automatic cloud build
 
 Pushes to `main` and `setup/flutter-member-intelligence` (for configured source paths), and pull requests targeting those branches:
 
@@ -13,42 +13,73 @@ Pushes to `main` and `setup/flutter-member-intelligence` (for configured source 
 5. Build a release APK using the checked-in Android Gradle project.
 6. Upload the APK as a 14-day workflow artifact.
 
-The workflow deliberately does **not** run `flutter create`; it must not regenerate checked-in Android/iOS project configuration.
+The workflow does not run `flutter create`; it preserves checked-in platform project configuration.
+
+## Multi-device behavior
+
+The manual workflow input `run_device_test` defaults to true. It:
+
+- joins Tailscale as an ephemeral `tag:ci` runner;
+- saves `tailscale status --json` and a peer inventory;
+- lists online/offline Tailnet peers of all operating systems;
+- runs APK installation and launch checks only on Android peers;
+- skips offline devices;
+- reports Android peers without a configured ADB port as `ADB_PORT_NOT_CONFIGURED`;
+- reports unreachable or unpaired ADB endpoints without stopping tests on other devices;
+- uploads per-device install output, launch output, screenshots, Logcat, inventory, and a result table.
+
+A Tailnet peer being visible/online does not itself mean it is ADB-paired or ready to install an APK. iOS, Windows, Linux, and macOS peers are inventory-only in this Android workflow; they cannot receive this Android APK through ADB.
 
 ## One-time Tailscale setup
 
 Use Tailscale workload identity federation (OIDC), not a long-lived reusable auth key.
 
-1. In Tailscale admin, create the `tag:ci` tag and allow it to access only the phone's ADB wireless-debugging endpoint.
-2. Create a GitHub Actions federated identity for this repository. Grant the `auth_keys` scope and bind it to `tag:ci`.
-3. Add these repository Actions secrets:
+1. In Tailscale admin, create a `tag:ci` tag for the ephemeral GitHub runner.
+2. Create a GitHub Actions federated identity for this repository, with the `auth_keys` scope, restricted to `tag:ci`.
+3. Configure Tailscale access controls so `tag:ci` can reach only the approved Android QA devices on the required ADB TCP ports. Do not grant unrestricted Tailnet access.
+4. Add these GitHub repository Actions secrets:
 
 | Secret | Value |
 | --- | --- |
 | `TS_OAUTH_CLIENT_ID` | Tailscale federated identity client ID |
 | `TS_AUDIENCE` | Matching audience |
-| `DEVICE_TAILSCALE_IP` | Phone's current Tailscale IPv4 address |
-| `DEVICE_ADB_PORT` | Current **Wireless debugging IP address & port** shown on the phone |
-| `DEVICE_ADB_PRIVATE_KEY_B64` | Base64-encoded private key for the ADB host identity paired with the phone |
+| `DEVICE_ADB_PRIVATE_KEY_B64` | Base64-encoded private key for the CI ADB host identity, paired on each Android device |
+| `ANDROID_DEVICE_PORTS_JSON` | JSON object mapping exact Tailnet hostnames to each device's current ADB connect port |
+
+Example `ANDROID_DEVICE_PORTS_JSON` (replace ports with values from each phone; this is a configuration example, not live device data):
+
+```json
+{
+  "xiaomi-11i": 5555,
+  "oppo-a53": 5555,
+  "as-tab-a9": 5555
+}
+```
+
+Do not add device IPs in this map; the workflow discovers peer IPs from Tailscale. Hostname keys must exactly match Tailscale machine names. Add only Android devices that you authorize for app installation.
 
 Never paste credentials, pairing codes, private keys, or auth keys into chat or commit them to this repository.
 
-## Pair the ADB host identity
+## Pair each Android device
 
-Android 11+ Wireless Debugging uses a pairing port and a separate connect/debug port. The connect port can change; do not assume TCP 5555.
+Each target Android device must be configured once:
 
-For a persistent CI host identity, generate an ADB RSA keypair on a trusted workstation, pair that host with the phone from **Developer options → Wireless debugging → Pair device with pairing code**, then store the private key as the GitHub secret above. Encode the private key file as a single-line Base64 value before adding it to GitHub Actions secrets. Keep the matching public key and workstation private key protected.
+1. Keep the device signed in to the same Tailnet and enable Developer options → Wireless debugging.
+2. On a trusted workstation, use the CI ADB host keypair. Pair it with each phone using **Pair device with pairing code**. The same CI public key must be authorized on every target device.
+3. Keep the matching private key protected and store its Base64 encoding in `DEVICE_ADB_PRIVATE_KEY_B64`.
+4. Record the device's current Wireless debugging connect port (not the pairing port) in `ANDROID_DEVICE_PORTS_JSON`.
+5. Ensure the device remains online and Wireless debugging stays enabled.
 
-If the phone's Wireless debugging connect port changes, update `DEVICE_ADB_PORT`. Keep Wireless debugging enabled and the phone online in Tailscale.
+Android Wireless Debugging ports may change, especially after reboot or reconnect. Update the matching hostname's port in the secret when that happens. Do not assume port 5555 unless the device actually reports it. If using a stable ADB-over-TCP port, enable it only after pairing and restrict that port to the CI tag in Tailscale access controls; Android may reset this mode after reboot.
 
-## Run physical-device QA
+## Run fleet QA
 
-1. Open **Actions → Android Cloud Build & Device QA**.
+1. Open **Actions → Android Cloud Build & Multi-Device QA**.
 2. Select **Run workflow**.
-3. Enable `run_device_test`.
+3. Leave `run_device_test` enabled.
 4. Start the workflow.
 
-The device job downloads the APK, joins Tailscale as an ephemeral `tag:ci` node, connects to the configured ADB endpoint, installs and launches `com.badgym.bad_gym`, then uploads a screenshot and recent Logcat output.
+No laptop or local runner is needed during a workflow run. The phone must be powered on, connected to Tailscale, reachable under Tailnet policy, and ADB-authorized.
 
 ## Release-signing note
 
@@ -56,8 +87,9 @@ The current `android/app/build.gradle.kts` signs release builds with the debug s
 
 ## Troubleshooting
 
-- **Tailscale ping/connect fails:** verify the phone is online in the same tailnet, the `tag:ci` ACL permits the phone's ADB endpoint, and the Tailscale IP is current.
-- **ADB connection refused:** update `DEVICE_ADB_PORT` from the phone's Wireless debugging screen. Do not use the pairing port.
-- **unauthorized / offline:** re-pair the restored ADB host public key with the phone and confirm the private-key secret corresponds to that paired identity.
+- **Peer missing from inventory:** confirm the device is connected to the same Tailnet and visible to the CI node under Tailscale policy.
+- **ADB port not configured:** add the exact Tailscale hostname and current connect port to `ANDROID_DEVICE_PORTS_JSON`.
+- **ADB connection refused:** verify the phone's current Wireless debugging connect port and Tailscale ACL.
+- **unauthorized / offline:** pair the CI ADB host public key on that device; ensure the stored private key matches.
 - **APK install fails:** check storage and whether an existing install uses an incompatible signing identity.
-- **App launch fails:** inspect the Logcat artifact and verify the application ID remains `com.badgym.bad_gym`.
+- **App launch fails:** inspect that device's Logcat artifact and verify the application ID remains `com.badgym.bad_gym`.
