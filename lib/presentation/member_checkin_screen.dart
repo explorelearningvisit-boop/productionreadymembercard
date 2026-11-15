@@ -10,13 +10,13 @@ import 'package:bad_gym/presentation/widgets/notification_sheet.dart';
 import 'package:bad_gym/presentation/widgets/payment_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/quick_stats_row.dart';
 import 'package:bad_gym/presentation/widgets/renewal_sheet.dart';
-import 'package:bad_gym/presentation/widgets/top_brand_bar.dart';
+import 'package:bad_gym/presentation/widgets/member_section_tabs.dart';
 import 'package:bad_gym/presentation/widgets/vertical_navigation_rail.dart';
 import 'package:bad_gym/presentation/widgets/workout_intelligence_card.dart';
 import 'package:bad_gym/core/theme/dashboard_theme_variant.dart';
-import 'package:bad_gym/presentation/widgets/theme_switcher_sheet.dart';
+
 import 'package:bad_gym/presentation/widgets/theme_adaptive_bottom_section.dart';
-import 'package:bad_gym/presentation/widgets/weekly_attendance_strip.dart';
+
 import 'package:bad_gym/presentation/widgets/attendance_trend_container_card.dart';
 import 'package:bad_gym/presentation/widgets/attendance_history_card.dart';
 
@@ -38,7 +38,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
 
   RailTab _selectedRailTab = RailTab.intelligence;
   QuickStatTab _selectedStatTab = QuickStatTab.attendance;
-  DashboardThemeVariant _currentTheme = DashboardThemeVariant.festiveGold;
+  DashboardThemeVariant _currentTheme = DashboardThemeVariant.royalPurple;
 
   @override
   void initState() {
@@ -176,51 +176,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              // 1. Unified Top Brand Bar with Theme Switcher Palette Button
-              TopBrandBar(
-                data: _data,
-                themeVariant: _currentTheme,
-                onThemeSwitcherPressed: () {
-                  ThemeSwitcherSheet.show(
-                    context,
-                    currentTheme: _currentTheme,
-                    onThemeSelected: (variant) {
-                      setState(() {
-                        _currentTheme = variant;
-                        if (variant == DashboardThemeVariant.darkObsidianGold) {
-                          _selectedStatTab = QuickStatTab.payment;
-                          _selectedRailTab = RailTab.payment;
-                        } else {
-                          _selectedStatTab = QuickStatTab.attendance;
-                          _selectedRailTab = RailTab.intelligence;
-                        }
-                      });
-                    },
-                  );
-                },
-                onMenuPressed: () {
-                  ThemeSwitcherSheet.show(
-                    context,
-                    currentTheme: _currentTheme,
-                    onThemeSelected: (variant) {
-                      setState(() {
-                        _currentTheme = variant;
-                        if (variant == DashboardThemeVariant.darkObsidianGold) {
-                          _selectedStatTab = QuickStatTab.payment;
-                          _selectedRailTab = RailTab.payment;
-                        } else {
-                          _selectedStatTab = QuickStatTab.attendance;
-                          _selectedRailTab = RailTab.intelligence;
-                        }
-                      });
-                    },
-                  );
-                },
-                onNotificationPressed: () => NotificationSheet.show(context),
-                onCalendarPressed: () => _onStatTabSelected(QuickStatTab.attendance),
-              ),
-
-              // Scrollable Dashboard Body
+              // Reference layout: member hero begins with the check-in ribbon
               Expanded(
                 child: SingleChildScrollView(
                   controller: _scrollController,
@@ -256,11 +212,10 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                         onTabSelected: _onStatTabSelected,
                       ),
 
-                      // Weekly Attendance Strip for Crimson Wave
-                      if (_currentTheme == DashboardThemeVariant.crimsonWave && _selectedStatTab == QuickStatTab.attendance)
-                        const WeeklyAttendanceStrip(),
-
                       const SizedBox(height: 4),
+
+                      MemberSectionTabs(selectedTab: _selectedStatTab, onTabSelected: _onStatTabSelected),
+                      const SizedBox(height: 8),
 
                       // 5. Two-Column Intelligence Section (Fixed 358px Height)
                       Padding(

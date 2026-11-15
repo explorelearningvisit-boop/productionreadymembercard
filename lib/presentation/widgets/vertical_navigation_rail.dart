@@ -44,13 +44,13 @@ class VerticalNavigationRail extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xFFB50D12),
-            Color(0xFF78080D),
+            Color(0xFF7B24D8),
+            Color(0xFF4D138F),
           ],
         ),
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFFFD66B).withValues(alpha: 0.55),
+          color: const Color(0xFFD9B5FF).withValues(alpha: 0.55),
           width: 1.2,
         ),
         boxShadow: [
@@ -60,7 +60,7 @@ class VerticalNavigationRail extends StatelessWidget {
             offset: const Offset(0, 4),
           ),
           BoxShadow(
-            color: const Color(0xFFBA0018).withValues(alpha: 0.2),
+            color: const Color(0xFF8B35EA).withValues(alpha: 0.2),
             blurRadius: 6,
           ),
         ],
@@ -128,18 +128,18 @@ class VerticalNavigationRail extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFFFF3B24),
-              Color(0xFFB50D12),
+              Color(0xFFB13BFF),
+              Color(0xFF7B24D8),
             ],
           ),
           borderRadius: BorderRadius.circular(13),
           border: Border.all(
-            color: const Color(0xFFFFD66B),
+            color: const Color(0xFFD9B5FF),
             width: 1.3,
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(0xFFE50914).withValues(alpha: 0.6),
+              color: const Color(0xFF8B35EA).withValues(alpha: 0.6),
               blurRadius: 6,
               offset: const Offset(0, 2),
             ),

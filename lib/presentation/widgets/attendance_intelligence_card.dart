@@ -27,7 +27,7 @@ class AttendanceIntelligenceCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
         border: Border.all(
-          color: const Color(0xFFF1F5F9),
+          color: const Color(0xFFDCC8F6),
           width: 1.2,
         ),
         boxShadow: [
@@ -52,14 +52,14 @@ class AttendanceIntelligenceCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [
-                      Color(0xFFE50914),
-                      Color(0xFF9E0010),
+                      Color(0xFF7621D6),
+                      Color(0xFF4D138F),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFE50914).withValues(alpha: 0.35),
+                      color: const Color(0xFF7621D6).withValues(alpha: 0.35),
                       blurRadius: 4,
                     ),
                   ],
