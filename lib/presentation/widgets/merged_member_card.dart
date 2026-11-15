@@ -140,14 +140,14 @@ class _MergedMemberCardState extends State<MergedMemberCard>
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
-                    Color(0xFF10B981),
-                    Color(0xFF059669),
+                    Color(0xFF9B35F2),
+                    Color(0xFF5E13B7),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(13),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF10B981).withValues(alpha: 0.35),
+                    color: const Color(0xFF9B35F2).withValues(alpha: 0.35),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -166,7 +166,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                       ),
                       child: const Icon(
                         Icons.check_rounded,
-                        color: Color(0xFF059669),
+                        color: Color(0xFF5E13B7),
                         size: 16,
                       ),
                     ),
@@ -194,7 +194,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                             fontFamily: BadGymTypography.fontBody,
                             fontWeight: FontWeight.w500,
                             fontSize: 9.5,
-                            color: Color(0xFFD1FAE5),
+                            color: Color(0xFFF0DFFF),
                             height: 1.0,
                           ),
                         ),
