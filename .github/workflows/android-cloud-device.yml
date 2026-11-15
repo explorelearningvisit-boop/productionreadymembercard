@@ -74,19 +74,11 @@ jobs:
         with:
           gradle-version: "9.3.1"
 
-      - name: Bootstrap missing Gradle Wrapper files
+      - name: Ensure Gradle Wrapper permissions
         shell: bash
         run: |
           set -euo pipefail
-          if [ ! -x android/gradlew ] || [ ! -f android/gradle/wrapper/gradle-wrapper.jar ]; then
-            mkdir -p "$RUNNER_TEMP/gradle-wrapper-bootstrap"
-            cd "$RUNNER_TEMP/gradle-wrapper-bootstrap"
-            gradle wrapper --gradle-version 9.3.1
-            mkdir -p "$GITHUB_WORKSPACE/android/gradle/wrapper"
-            cp gradlew gradlew.bat "$GITHUB_WORKSPACE/android/"
-            cp gradle/wrapper/gradle-wrapper.jar "$GITHUB_WORKSPACE/android/gradle/wrapper/"
-            chmod +x "$GITHUB_WORKSPACE/android/gradlew"
-          fi
+          chmod +x "$GITHUB_WORKSPACE/android/gradlew"
           test -x "$GITHUB_WORKSPACE/android/gradlew"
           test -f "$GITHUB_WORKSPACE/android/gradle/wrapper/gradle-wrapper.jar"
 
@@ -134,25 +126,29 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y android-sdk-platform-tools jq
       - name: Restore paired ADB host identity
+        id: check_keys
         env:
-          ADB_PRIVATE_KEY_B64: ${{ secrets.DEVICE_ADB_PRIVATE_KEY_B64 }}
+          ADB_KEY: ${{ secrets.DEVICE_ADB_PRIVATE_KEY_B64 }}
+          TS_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
         run: |
-          set -euo pipefail
-          if [ -z "$ADB_PRIVATE_KEY_B64" ]; then
-            echo "::warning::Missing DEVICE_ADB_PRIVATE_KEY_B64 repository secret. Skipping Tailnet device test."
-            exit 0
+          if [ -z "$ADB_KEY" ] || [ -z "$TS_ID" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Tailscale or ADB keys not set in repository secrets. Skipping live device testing."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+            mkdir -p "$HOME/.android"
+            printf '%s' "$ADB_KEY" | base64 --decode > "$HOME/.android/adbkey"
+            chmod 600 "$HOME/.android/adbkey"
           fi
-          mkdir -p "$HOME/.android"
-          printf '%s' "$ADB_PRIVATE_KEY_B64" | base64 --decode > "$HOME/.android/adbkey"
-          chmod 600 "$HOME/.android/adbkey"
       - name: Join Tailscale
-        if: ${{ secrets.TS_OAUTH_CLIENT_ID != '' }}
+        if: steps.check_keys.outputs.configured == 'true'
         uses: tailscale/github-action@v4
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           audience: ${{ secrets.TS_AUDIENCE }}
           tags: tag:ci
       - name: Discover Tailnet and test all online configured Android devices
+        if: steps.check_keys.outputs.configured == 'true'
         env:
           ANDROID_DEVICE_PORTS_JSON: ${{ secrets.ANDROID_DEVICE_PORTS_JSON }}
         run: |
