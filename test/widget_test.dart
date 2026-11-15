@@ -4,16 +4,20 @@ import 'package:bad_gym/main.dart';
 import 'package:bad_gym/presentation/widgets/vertical_navigation_rail.dart';
 
 void main() {
-  testWidgets('renders BAD GYM Red Strawberry Member Intelligence screen with all core components', (tester) async {
+  testWidgets('renders BAD GYM Luxury Gold & Ivory Member Intelligence screen with all core components', (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 2.75;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    // Verify Top Header Bar (Red Strawberry Theme)
+    // Verify Check-In Success Ribbon
+    expect(find.text('Check-In Success!'), findsOneWidget);
     expect(find.text('CHECK-IN'), findsOneWidget);
-    expect(find.text('07:12 AM'), findsOneWidget);
-    expect(find.text('16 Oct 2026'), findsOneWidget);
 
-    // Verify Member Profile Card (Red Strawberry Theme)
+    // Verify Member Profile Card (Luxury Gold & Ivory Theme)
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.textContaining('BG215'), findsOneWidget);
     expect(find.text('Active'), findsOneWidget);
@@ -24,37 +28,47 @@ void main() {
     expect(find.textContaining('Membership 22 / 30 Days'), findsOneWidget);
     expect(find.text('73%'), findsOneWidget);
 
-    // Verify Quick Stats Row
+    // Verify Quick Stats Row (3 Cards: Attendance, Workout, Body)
+    expect(find.text('Attendance'), findsOneWidget);
     expect(find.text('81%'), findsWidgets);
+    expect(find.text('Workout'), findsWidgets);
     expect(find.text('58 min'), findsOneWidget);
-    expect(find.text('Due'), findsWidgets);
+    expect(find.text('Body'), findsOneWidget);
     expect(find.text('69.5 kg'), findsOneWidget);
 
-    // Verify Attendance Intelligence Card
-    expect(find.text('Attendance Intelligence'), findsOneWidget);
-    expect(find.text('Oct 2026'), findsOneWidget);
-    expect(find.text('October 2026'), findsOneWidget);
-    expect(find.text('Present'), findsWidgets);
-    expect(find.text('Late'), findsWidgets);
-    expect(find.text('Absent'), findsWidgets);
-    expect(find.text('Holiday'), findsWidgets);
-    expect(find.text('5 Days'), findsOneWidget);
-    expect(find.text('14 Days'), findsOneWidget);
+    // Verify Attendance Trend Card
+    expect(find.text('Attendance Trend'), findsOneWidget);
+    expect(find.text('Maximum'), findsOneWidget);
+    expect(find.text('Average'), findsOneWidget);
+    expect(find.text('Minimum'), findsOneWidget);
+
+    // Verify Smart Insight Banner
+    expect(find.text('Smart Insight'), findsOneWidget);
+
+    // Verify Bottom Metric Strip
+    expect(find.text('Streak'), findsOneWidget);
+    expect(find.text('Best'), findsOneWidget);
+    expect(find.text('Plan Days'), findsOneWidget);
+    expect(find.text('Next Goal'), findsOneWidget);
 
     // Verify Vertical Navigation Rail
-    expect(find.text('Intelligence'), findsOneWidget);
-    expect(find.text('Calendar'), findsOneWidget);
-    expect(find.text('History'), findsOneWidget);
-    expect(find.text('Trend'), findsOneWidget);
+    expect(find.text('Home'), findsOneWidget);
+    expect(find.text('Members'), findsOneWidget);
+    expect(find.text('Reports'), findsOneWidget);
     expect(find.text('More'), findsOneWidget);
   });
 
   testWidgets('taps rail navigation tab', (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 2.75;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    // Tap Calendar rail item
-    await tester.tap(find.text('Calendar').first);
+    // Tap Members rail item
+    await tester.tap(find.text('Members').first);
     await tester.pumpAndSettle();
 
     // Verify state updated
@@ -62,21 +76,21 @@ void main() {
   });
 
   testWidgets('switches between intelligence cards via QuickStatsRow', (tester) async {
+    tester.view.physicalSize = const Size(1080, 2400);
+    tester.view.devicePixelRatio = 2.75;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    // Initial state: Attendance Intelligence
-    expect(find.text('Attendance Intelligence'), findsOneWidget);
+    // Initial state: Attendance Trend
+    expect(find.text('Attendance Trend'), findsOneWidget);
 
     // Tap Workout quick stat tab
     await tester.tap(find.text('58 min'));
     await tester.pumpAndSettle();
     expect(find.text('Workout Intelligence'), findsOneWidget);
-
-    // Tap Payment quick stat tab
-    await tester.tap(find.text('Due').first);
-    await tester.pumpAndSettle();
-    expect(find.text('Payment Intelligence'), findsOneWidget);
 
     // Tap Body quick stat tab
     await tester.tap(find.text('69.5 kg'));
@@ -86,7 +100,7 @@ void main() {
     // Switch back to Attendance
     await tester.tap(find.text('81%').first);
     await tester.pumpAndSettle();
-    expect(find.text('Attendance Intelligence'), findsOneWidget);
+    expect(find.text('Attendance Trend'), findsOneWidget);
   });
 
   testWidgets('opens RenewalSheet, NotificationSheet, and MemberQrSheet modals', (tester) async {

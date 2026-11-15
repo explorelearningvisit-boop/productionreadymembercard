@@ -154,15 +154,20 @@ class BodyIntelligenceCard extends StatelessWidget {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Circumferences',
-                      style: TextStyle(
-                        fontFamily: BadGymTypography.fontHeading,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 10.5,
-                        color: Color(0xFF1E0E38),
+                    Expanded(
+                      child: Text(
+                        'Circumferences',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: BadGymTypography.fontHeading,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 10.5,
+                          color: Color(0xFF1E0E38),
+                        ),
                       ),
                     ),
+                    SizedBox(width: 6),
                     Text(
                       'BMI: 22.4 (Healthy)',
                       style: TextStyle(
@@ -368,16 +373,22 @@ class BodyIntelligenceCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          part,
-          style: const TextStyle(
-            fontFamily: BadGymTypography.fontHeading,
-            fontWeight: FontWeight.w600,
-            fontSize: 9,
-            color: Color(0xFF1E0E38),
+        Expanded(
+          child: Text(
+            part,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontFamily: BadGymTypography.fontHeading,
+              fontWeight: FontWeight.w600,
+              fontSize: 9,
+              color: Color(0xFF1E0E38),
+            ),
           ),
         ),
+        const SizedBox(width: 4),
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               value,
