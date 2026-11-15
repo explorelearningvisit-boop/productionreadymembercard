@@ -22,6 +22,34 @@ class TopBrandBar extends StatelessWidget {
     this.themeVariant = DashboardThemeVariant.festiveGold,
   });
 
+  Color get _brandTitleColor {
+    switch (themeVariant) {
+      case DashboardThemeVariant.darkObsidianGold:
+        return const Color(0xFFFFD700);
+      case DashboardThemeVariant.emeraldNeon:
+        return const Color(0xFF00E676);
+      case DashboardThemeVariant.royalPurple:
+        return const Color(0xFF9333EA);
+      case DashboardThemeVariant.festiveGold:
+      case DashboardThemeVariant.crimsonWave:
+        return const Color(0xFF8B0000);
+    }
+  }
+
+  Color get _laurelLeafColor {
+    switch (themeVariant) {
+      case DashboardThemeVariant.darkObsidianGold:
+        return const Color(0xFFFFD700);
+      case DashboardThemeVariant.emeraldNeon:
+        return const Color(0xFF00E676);
+      case DashboardThemeVariant.royalPurple:
+        return const Color(0xFF9333EA);
+      case DashboardThemeVariant.festiveGold:
+      case DashboardThemeVariant.crimsonWave:
+        return const Color(0xFFD97706);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,45 +110,42 @@ class TopBrandBar extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Left Laurel Leaf
-                  const Icon(
+                  Icon(
                     Icons.eco_rounded,
-                    color: Color(0xFFFFDF7A),
+                    color: _laurelLeafColor,
                     size: 16,
                   ),
                   const SizedBox(width: 4),
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // BAD GYM in bold gold metallic styling
-                      ShaderMask(
-                        shaderCallback: (bounds) => const LinearGradient(
-                          colors: [
-                            Color(0xFFFFF6D6),
-                            Color(0xFFFFDF7A),
-                            Color(0xFFFFB300),
+                      Text(
+                        'BAD GYM',
+                        style: TextStyle(
+                          fontFamily: BadGymTypography.fontHeading,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 18,
+                          letterSpacing: 1.2,
+                          color: _brandTitleColor,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withValues(alpha: 0.15),
+                              offset: const Offset(0, 1),
+                              blurRadius: 2,
+                            ),
                           ],
-                        ).createShader(bounds),
-                        child: const Text(
-                          'BAD GYM',
-                          style: TextStyle(
-                            fontFamily: BadGymTypography.fontHeading,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 18,
-                            letterSpacing: 1.2,
-                            color: Colors.white,
-                            height: 1.0,
-                          ),
+                          height: 1.0,
                         ),
                       ),
                       const SizedBox(height: 1.5),
-                      const Text(
+                      Text(
                         'FITNESS MANAGEMENT',
                         style: TextStyle(
                           fontFamily: BadGymTypography.fontHeading,
                           fontWeight: FontWeight.w700,
                           fontSize: 7.5,
                           letterSpacing: 1.4,
-                          color: Color(0xFF8B1114),
+                          color: _brandTitleColor.withValues(alpha: 0.8),
                           height: 1.0,
                         ),
                       ),
@@ -130,9 +155,9 @@ class TopBrandBar extends StatelessWidget {
                   // Right Laurel Leaf
                   Transform.flip(
                     flipX: true,
-                    child: const Icon(
+                    child: Icon(
                       Icons.eco_rounded,
-                      color: Color(0xFFFFDF7A),
+                      color: _laurelLeafColor,
                       size: 16,
                     ),
                   ),
