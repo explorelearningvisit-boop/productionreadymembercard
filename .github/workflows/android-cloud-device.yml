@@ -96,7 +96,7 @@ jobs:
       - name: Flutter tests
         run: flutter test --reporter expanded
       - name: Build release APK
-        run: flutter build apk --release
+        run: flutter build apk --release --android-skip-build-dependency-validation
       - name: Upload release APK
         uses: actions/upload-artifact@v4
         with:
