@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bad_gym/core/models/member_intelligence_data.dart';
-import 'package:bad_gym/core/theme/bad_gym_theme.dart';
-import 'package:bad_gym/presentation/widgets/attendance_intelligence_card.dart';
-import 'package:bad_gym/presentation/widgets/body_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/merged_member_card.dart';
 import 'package:bad_gym/presentation/widgets/member_qr_sheet.dart';
 import 'package:bad_gym/presentation/widgets/notification_sheet.dart';
 import 'package:bad_gym/presentation/widgets/payment_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/quick_stats_row.dart';
 import 'package:bad_gym/presentation/widgets/renewal_sheet.dart';
-import 'package:bad_gym/presentation/widgets/member_section_tabs.dart';
 import 'package:bad_gym/presentation/widgets/vertical_navigation_rail.dart';
 import 'package:bad_gym/presentation/widgets/workout_intelligence_card.dart';
-import 'package:bad_gym/core/theme/dashboard_theme_variant.dart';
-
-import 'package:bad_gym/presentation/widgets/theme_adaptive_bottom_section.dart';
-
+import 'package:bad_gym/presentation/widgets/body_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/attendance_trend_container_card.dart';
-import 'package:bad_gym/presentation/widgets/attendance_history_card.dart';
+import 'package:bad_gym/presentation/widgets/smart_insight_banner.dart';
+import 'package:bad_gym/presentation/widgets/bottom_stats_strip.dart';
 
 class MemberCheckInScreen extends StatefulWidget {
   final MemberIntelligenceData? initialData;
@@ -36,9 +30,8 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
   late final MemberIntelligenceData _data;
   final ScrollController _scrollController = ScrollController();
 
-  RailTab _selectedRailTab = RailTab.intelligence;
+  RailTab _selectedRailTab = RailTab.home;
   QuickStatTab _selectedStatTab = QuickStatTab.attendance;
-  DashboardThemeVariant _currentTheme = DashboardThemeVariant.royalPurple;
 
   @override
   void initState() {
@@ -62,10 +55,14 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
     setState(() {
       _selectedRailTab = tab;
       switch (tab) {
+        case RailTab.home:
         case RailTab.intelligence:
+        case RailTab.overview:
+        case RailTab.attendance:
         case RailTab.calendar:
         case RailTab.history:
         case RailTab.trend:
+        case RailTab.progress:
           _selectedStatTab = QuickStatTab.attendance;
           break;
         case RailTab.workout:
@@ -77,6 +74,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
           break;
         case RailTab.body:
         case RailTab.goals:
+        case RailTab.members:
           _selectedStatTab = QuickStatTab.body;
           break;
         default:
@@ -91,7 +89,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
       _selectedStatTab = tab;
       switch (tab) {
         case QuickStatTab.attendance:
-          _selectedRailTab = RailTab.intelligence;
+          _selectedRailTab = RailTab.home;
           break;
         case QuickStatTab.workout:
           _selectedRailTab = RailTab.workout;
@@ -106,89 +104,98 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
     });
   }
 
-  Widget _buildIntelligenceCard() {
-    if (_selectedRailTab == RailTab.trend) {
-      return AttendanceTrendContainerCard(
-        key: const ValueKey('attendance_trend_card'),
+  Widget _buildSelectedTabContent() {
+    // If Workout or Body or Payment is actively selected, show its specialized view
+    if (_selectedStatTab == QuickStatTab.workout || _selectedRailTab == RailTab.workout) {
+      return WorkoutIntelligenceCard(
+        key: const ValueKey('workout_card'),
         data: _data,
       );
     }
-    if (_selectedRailTab == RailTab.history) {
-      return AttendanceHistoryCard(
-        key: const ValueKey('attendance_history_card'),
+    if (_selectedStatTab == QuickStatTab.payment || _selectedRailTab == RailTab.payment) {
+      return PaymentIntelligenceCard(
+        key: const ValueKey('payment_card'),
+        data: _data,
+        onRenewPressed: () => RenewalSheet.show(context, _data),
+      );
+    }
+    if (_selectedStatTab == QuickStatTab.body || _selectedRailTab == RailTab.body) {
+      return BodyIntelligenceCard(
+        key: const ValueKey('body_card'),
         data: _data,
       );
     }
 
-    switch (_selectedStatTab) {
-      case QuickStatTab.attendance:
-        return AttendanceIntelligenceCard(
-          key: const ValueKey('attendance_card'),
+    // Default Home / Attendance Dashboard Layout (Pixel-Perfect from reference)
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // 3. Attendance Trend Spline Chart Card
+        AttendanceTrendContainerCard(
+          key: const ValueKey('attendance_trend_card'),
           data: _data,
-          onMonthDropdownPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('October 2026 selected'),
-                backgroundColor: BadGymColors.primary,
-                duration: Duration(seconds: 2),
-              ),
-            );
+        ),
+
+        const SizedBox(height: 3),
+
+        // 4. Smart Insight Banner (AI Powered with 3D gym gear)
+        SmartInsightBanner(
+          onTap: () {
+            NotificationSheet.show(context);
           },
-          onInfoPressed: () {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Attendance Intelligence: 25 / 31 Days (81%)'),
-                backgroundColor: BadGymColors.primary,
-                duration: Duration(seconds: 2),
-              ),
-            );
-          },
-        );
-      case QuickStatTab.workout:
-        return WorkoutIntelligenceCard(
-          key: const ValueKey('workout_card'),
-          data: _data,
-        );
-      case QuickStatTab.payment:
-        return PaymentIntelligenceCard(
-          key: const ValueKey('payment_card'),
-          data: _data,
-          onRenewPressed: () => RenewalSheet.show(context, _data),
-        );
-      case QuickStatTab.body:
-        return BodyIntelligenceCard(
-          key: const ValueKey('body_card'),
-          data: _data,
-        );
-    }
+        ),
+
+        const SizedBox(height: 3),
+
+        // 5. Bottom 4-Item Quick Metric Strip
+        const BottomStatsStrip(),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    const double kIntelligenceSectionHeight = 358.0;
-
     return Scaffold(
-      backgroundColor: _currentTheme.canvasGradient.colors.first,
+      backgroundColor: const Color(0xFFFFF9EF),
       body: Container(
-        decoration: BoxDecoration(
-          gradient: _currentTheme.canvasGradient,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFFFF9EF),
+              Color(0xFFFDF6E8),
+              Color(0xFFFBF1DF),
+            ],
+            stops: [0.0, 0.45, 1.0],
+          ),
         ),
         child: SafeArea(
-          child: Column(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Reference layout: member hero begins with the check-in ribbon
+              // 1. Full-Height Left Navigation Rail
+              Padding(
+                padding: const EdgeInsets.fromLTRB(4, 4, 3, 4),
+                child: VerticalNavigationRail(
+                  selectedTab: _selectedRailTab,
+                  onTabSelected: _onRailTabSelected,
+                ),
+              ),
+
+              // 2. Right Main Scrollable Content Area
               Expanded(
                 child: SingleChildScrollView(
                   controller: _scrollController,
                   physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.only(bottom: 24),
+                  padding: const EdgeInsets.fromLTRB(2, 4, 6, 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // 2. Merged Member Profile & Check-In Hero Card
+                      // A. Merged Member Profile & Check-In Hero Ribbon
                       MergedMemberCard(
                         data: _data,
-                        themeVariant: _currentTheme,
                         onNotificationPressed: () => NotificationSheet.show(context),
                         onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
                         onRenewPressed: () => RenewalSheet.show(context, _data),
@@ -198,70 +205,29 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Checked In successfully at BAD GYM! 🔥'),
-                              backgroundColor: BadGymColors.primary,
+                              backgroundColor: Color(0xFF8B0000),
                               duration: Duration(seconds: 2),
                             ),
                           );
                         },
                       ),
 
-                      // 4. Quick Stats Row
+                      // B. Quick Stats 3-Card Row (Attendance, Workout, Body)
                       QuickStatsRow(
                         data: _data,
                         selectedTab: _selectedStatTab,
                         onTabSelected: _onStatTabSelected,
                       ),
 
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 3),
 
-                      MemberSectionTabs(selectedTab: _selectedStatTab, onTabSelected: _onStatTabSelected),
-                      const SizedBox(height: 8),
-
-                      // 5. Two-Column Intelligence Section (Fixed 358px Height)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                        child: SizedBox(
-                          height: kIntelligenceSectionHeight,
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              VerticalNavigationRail(
-                                height: kIntelligenceSectionHeight,
-                                selectedTab: _selectedRailTab,
-                                onTabSelected: _onRailTabSelected,
-                              ),
-
-                              const SizedBox(width: 6),
-
-                              Expanded(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(24),
-                                  child: AnimatedSwitcher(
-                                    duration: const Duration(milliseconds: 200),
-                                    switchInCurve: Curves.easeOut,
-                                    switchOutCurve: Curves.easeIn,
-                                    child: SizedBox(
-                                      key: ValueKey('$_selectedStatTab$_selectedRailTab$_currentTheme'),
-                                      height: kIntelligenceSectionHeight,
-                                      child: SingleChildScrollView(
-                                        physics: const BouncingScrollPhysics(),
-                                        child: _buildIntelligenceCard(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                      // C. Tab / Section Content (Attendance Trend, Smart Insight, Bottom Strip)
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        child: KeyedSubtree(
+                          key: ValueKey('$_selectedStatTab$_selectedRailTab'),
+                          child: _buildSelectedTabContent(),
                         ),
-                      ),
-
-                      const SizedBox(height: 6),
-
-                      // 6. Theme-Adaptive Bottom Section
-                      ThemeAdaptiveBottomSection(
-                        variant: _currentTheme,
-                        data: _data,
                       ),
                     ],
                   ),

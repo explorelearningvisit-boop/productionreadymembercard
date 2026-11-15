@@ -160,15 +160,20 @@ class PaymentIntelligenceCard extends StatelessWidget {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Billing History',
-                      style: TextStyle(
-                        fontFamily: BadGymTypography.fontHeading,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 10.5,
-                        color: Color(0xFF1E0E38),
+                    Expanded(
+                      child: Text(
+                        'Billing History',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: BadGymTypography.fontHeading,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 10.5,
+                          color: Color(0xFF1E0E38),
+                        ),
                       ),
                     ),
+                    SizedBox(width: 4),
                     Text(
                       'AutoPay: Active',
                       style: TextStyle(
