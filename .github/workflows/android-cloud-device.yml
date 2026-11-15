@@ -1,4 +1,4 @@
-name: Android Cloud Build & Device QA
+name: Android Cloud Build & Multi-Device QA
 
 on:
   push:
@@ -17,10 +17,10 @@ on:
   workflow_dispatch:
     inputs:
       run_device_test:
-        description: "Install this build on the Tailscale-connected Android phone"
+        description: "Discover Tailnet devices and test every online, configured Android device"
         required: false
         type: boolean
-        default: false
+        default: true
 
 permissions:
   contents: read
@@ -60,8 +60,8 @@ jobs:
         run: |
           flutter --version
           java -version
-      - run: flutter pub get
-        name: Resolve dependencies
+      - name: Resolve dependencies
+        run: flutter pub get
       - name: Dart formatting check
         run: dart format --output=none --set-exit-if-changed lib test
       - name: Static analysis
@@ -78,12 +78,12 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-  remote-device-qa:
-    name: Tailscale Xiaomi wireless QA
+  multi-device-qa:
+    name: Tailnet discovery + Android fleet QA
     needs: build-and-test
     if: github.event_name == 'workflow_dispatch' && inputs.run_device_test == true
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     permissions:
       contents: read
       id-token: write
@@ -93,14 +93,15 @@ jobs:
         with:
           name: bad-gym-android-release-${{ github.sha }}
           path: dist
-      - name: Install Android platform tools
+      - name: Install Android platform tools and jq
         run: |
           sudo apt-get update
-          sudo apt-get install -y android-sdk-platform-tools
+          sudo apt-get install -y android-sdk-platform-tools jq
       - name: Restore paired ADB host identity
         env:
           ADB_PRIVATE_KEY_B64: ${{ secrets.DEVICE_ADB_PRIVATE_KEY_B64 }}
         run: |
+          set -euo pipefail
           if [ -z "$ADB_PRIVATE_KEY_B64" ]; then
             echo "::error::Missing DEVICE_ADB_PRIVATE_KEY_B64 repository secret."
             exit 1
@@ -114,38 +115,95 @@ jobs:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           audience: ${{ secrets.TS_AUDIENCE }}
           tags: tag:ci
-          ping: ${{ secrets.DEVICE_TAILSCALE_IP }}
-      - name: Connect, install, launch and capture diagnostics
+      - name: Discover Tailnet and test all online configured Android devices
         env:
-          DEVICE_IP: ${{ secrets.DEVICE_TAILSCALE_IP }}
-          DEVICE_PORT: ${{ secrets.DEVICE_ADB_PORT }}
+          ANDROID_DEVICE_PORTS_JSON: ${{ secrets.ANDROID_DEVICE_PORTS_JSON }}
         run: |
           set -euo pipefail
-          if [ -z "$DEVICE_IP" ] || [ -z "$DEVICE_PORT" ]; then
-            echo "::error::Set DEVICE_TAILSCALE_IP and DEVICE_ADB_PORT repository secrets."
+          mkdir -p device-artifacts
+          adb start-server
+
+          if [ -z "$ANDROID_DEVICE_PORTS_JSON" ]; then
+            echo "::error::Missing ANDROID_DEVICE_PORTS_JSON. Map each Android hostname to its ADB TCP port."
             exit 1
           fi
-          adb start-server
-          adb connect "$DEVICE_IP:$DEVICE_PORT"
-          for attempt in $(seq 1 12); do
-            if adb -s "$DEVICE_IP:$DEVICE_PORT" get-state 2>/dev/null | grep -q device; then
-              break
+          printf '%s' "$ANDROID_DEVICE_PORTS_JSON" | jq -e 'type == "object"' >/dev/null
+
+          tailscale status --json > device-artifacts/tailnet-status.json
+          jq -r '
+            .Peer // {} | to_entries[] |
+            [.value.HostName, (.value.TailscaleIPs[0] // ""), (.value.OS // "unknown"), (.value.Online // false)] |
+            @tsv
+          ' device-artifacts/tailnet-status.json > device-artifacts/tailnet-inventory.tsv
+
+          printf 'hostname\tip\tos\tonline\tadb_port\tresult\n' > device-artifacts/device-results.tsv
+          tested=0
+
+          while IFS=$'\t' read -r hostname ip os online; do
+            [ -n "$hostname" ] || continue
+            case "$ip" in *:*) continue ;; esac
+            if [ "$online" != "true" ]; then
+              printf '%s\t%s\t%s\t%s\t%s\tOFFLINE_SKIPPED\n' "$hostname" "$ip" "$os" "$online" "-" >> device-artifacts/device-results.tsv
+              continue
             fi
-            sleep 5
-          done
-          adb -s "$DEVICE_IP:$DEVICE_PORT" get-state
-          adb -s "$DEVICE_IP:$DEVICE_PORT" install -r dist/app-release.apk
-          adb -s "$DEVICE_IP:$DEVICE_PORT" shell am force-stop com.badgym.bad_gym
-          adb -s "$DEVICE_IP:$DEVICE_PORT" shell monkey -p com.badgym.bad_gym 1
-          sleep 8
-          mkdir -p device-artifacts
-          adb -s "$DEVICE_IP:$DEVICE_PORT" exec-out screencap -p > device-artifacts/xiaomi-11i-home.png
-          adb -s "$DEVICE_IP:$DEVICE_PORT" logcat -d -t 5000 > device-artifacts/logcat.txt
-      - name: Upload device QA evidence
+
+            # Inventory every peer, but APK/ADB tests are Android-only.
+            if [ "$os" != "android" ]; then
+              printf '%s\t%s\t%s\t%s\t%s\tINVENTORY_ONLY\n' "$hostname" "$ip" "$os" "$online" "-" >> device-artifacts/device-results.tsv
+              continue
+            fi
+
+            port=$(printf '%s' "$ANDROID_DEVICE_PORTS_JSON" | jq -r --arg host "$hostname" '.[$host] // empty')
+            if [ -z "$port" ]; then
+              printf '%s\t%s\t%s\t%s\t%s\tADB_PORT_NOT_CONFIGURED\n' "$hostname" "$ip" "$os" "$online" "-" >> device-artifacts/device-results.tsv
+              continue
+            fi
+            if ! [[ "$port" =~ ^[0-9]+$ ]] || [ "$port" -lt 1 ] || [ "$port" -gt 65535 ]; then
+              printf '%s\t%s\t%s\t%s\t%s\tINVALID_PORT_CONFIG\n' "$hostname" "$ip" "$os" "$online" "$port" >> device-artifacts/device-results.tsv
+              continue
+            fi
+
+            serial="$ip:$port"
+            result="FAILED"
+            if adb connect "$serial" >/dev/null 2>&1; then
+              for attempt in $(seq 1 6); do
+                if adb -s "$serial" get-state 2>/dev/null | grep -q device; then
+                  result="ADB_READY"
+                  break
+                fi
+                sleep 5
+              done
+            fi
+
+            if [ "$result" = "ADB_READY" ]; then
+              if adb -s "$serial" install -r dist/app-release.apk > "device-artifacts/${hostname}-install.txt" 2>&1 &&
+                 adb -s "$serial" shell am force-stop com.badgym.bad_gym &&
+                 adb -s "$serial" shell monkey -p com.badgym.bad_gym 1 > "device-artifacts/${hostname}-launch.txt" 2>&1; then
+                sleep 8
+                adb -s "$serial" exec-out screencap -p > "device-artifacts/${hostname}-screenshot.png"
+                adb -s "$serial" logcat -d -t 3000 > "device-artifacts/${hostname}-logcat.txt"
+                result="PASS"
+                tested=$((tested + 1))
+              else
+                result="INSTALL_OR_LAUNCH_FAILED"
+                adb -s "$serial" logcat -d -t 3000 > "device-artifacts/${hostname}-logcat.txt" || true
+              fi
+            else
+              result="ADB_UNAVAILABLE_OR_UNPAIRED"
+            fi
+            printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$hostname" "$ip" "$os" "$online" "$port" "$result" >> device-artifacts/device-results.tsv
+          done < device-artifacts/tailnet-inventory.tsv
+
+          cat device-artifacts/device-results.tsv
+          echo "Successfully tested Android devices: $tested" | tee device-artifacts/summary.txt
+          if [ "$tested" -eq 0 ]; then
+            echo "::warning::No Android device completed QA. Check device online state, ADB pairing, ports, and Tailscale ACLs."
+          fi
+      - name: Upload fleet QA inventory and evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: xiaomi-11i-device-qa-${{ github.sha }}
+          name: tailnet-multi-device-qa-${{ github.sha }}
           path: device-artifacts/
           if-no-files-found: warn
-          retention-days: 7
+          retention-days: 14
