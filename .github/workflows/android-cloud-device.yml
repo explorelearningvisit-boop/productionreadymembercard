@@ -158,7 +158,6 @@ jobs:
         uses: tailscale/github-action@v4
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
-          tags: tag:ci
       - name: Discover Tailnet and test all online configured Android devices
         if: steps.check_keys.outputs.configured == 'true'
         env:
