@@ -50,6 +50,13 @@ jobs:
         with:
           channel: stable
           cache: true
+      # Keep the CI debug signing identity stable between ephemeral runners.
+      # This is a QA/debug key only; production release signing must use a protected keystore.
+      - name: Restore stable CI debug keystore
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: badgym-ci-debug-keystore-v1
       - uses: actions/cache@v4
         with:
           path: ~/.pub-cache
@@ -148,30 +155,46 @@ jobs:
         run: |
           if [ -z "$ADB_KEY" ] || ([ -z "$TS_ID" ] && [ -z "$TS_KEY" ]); then
             echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "use_oauth=false" >> "$GITHUB_OUTPUT"
+            echo "use_authkey=false" >> "$GITHUB_OUTPUT"
             echo "::notice::Tailscale or ADB keys not set in repository secrets. Skipping live device testing."
           else
             echo "configured=true" >> "$GITHUB_OUTPUT"
+            if [ -n "$TS_ID" ] && [ -n "${{ secrets.TS_AUDIENCE }}" ]; then
+              echo "use_oauth=true" >> "$GITHUB_OUTPUT"
+              echo "use_authkey=false" >> "$GITHUB_OUTPUT"
+            elif [ -n "$TS_KEY" ]; then
+              echo "use_oauth=false" >> "$GITHUB_OUTPUT"
+              echo "use_authkey=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "configured=false" >> "$GITHUB_OUTPUT"
+              echo "use_oauth=false" >> "$GITHUB_OUTPUT"
+              echo "use_authkey=false" >> "$GITHUB_OUTPUT"
+              echo "::error::OAuth client ID requires TS_AUDIENCE, or configure TAILSCALE_AUTHKEY."
+              exit 1
+            fi
             mkdir -p "$HOME/.android"
             printf '%s' "$ADB_KEY" | base64 --decode > "$HOME/.android/adbkey"
             chmod 600 "$HOME/.android/adbkey"
           fi
       - name: Join Tailscale (OAuth)
-        if: steps.check_keys.outputs.configured == 'true' && env.TS_ID != ''
-        env:
-          TS_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+        if: steps.check_keys.outputs.configured == 'true' && steps.check_keys.outputs.use_oauth == 'true'
         uses: tailscale/github-action@v4
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           audience: ${{ secrets.TS_AUDIENCE }}
           tags: tag:ci
+          timeout: 3m
+          retry: 8
+          use-cache: true
       - name: Join Tailscale (Auth Key)
-        if: steps.check_keys.outputs.configured == 'true' && env.TS_KEY != '' && env.TS_ID == ''
-        env:
-          TS_KEY: ${{ secrets.TAILSCALE_AUTHKEY }}
-          TS_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+        if: steps.check_keys.outputs.configured == 'true' && steps.check_keys.outputs.use_authkey == 'true'
         uses: tailscale/github-action@v4
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          timeout: 3m
+          retry: 8
+          use-cache: true
       - name: Discover Tailnet and test all online configured Android devices
         if: steps.check_keys.outputs.configured == 'true'
         env:
