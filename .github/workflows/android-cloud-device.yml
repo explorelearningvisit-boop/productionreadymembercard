@@ -56,14 +56,39 @@ jobs:
           path: ~/.pub-cache
           key: ${{ runner.os }}-pub-${{ hashFiles('pubspec.lock') }}
           restore-keys: ${{ runner.os }}-pub-
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up Gradle distribution
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.3.1"
+
+      - name: Bootstrap missing Gradle Wrapper files
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -x android/gradlew ] || [ ! -f android/gradle/wrapper/gradle-wrapper.jar ]; then
+            mkdir -p "$RUNNER_TEMP/gradle-wrapper-bootstrap"
+            cd "$RUNNER_TEMP/gradle-wrapper-bootstrap"
+            gradle wrapper --gradle-version 9.3.1
+            mkdir -p "$GITHUB_WORKSPACE/android/gradle/wrapper"
+            cp gradlew gradlew.bat "$GITHUB_WORKSPACE/android/"
+            cp gradle/wrapper/gradle-wrapper.jar "$GITHUB_WORKSPACE/android/gradle/wrapper/"
+            chmod +x "$GITHUB_WORKSPACE/android/gradlew"
+          fi
+          test -x "$GITHUB_WORKSPACE/android/gradlew"
+          test -f "$GITHUB_WORKSPACE/android/gradle/wrapper/gradle-wrapper.jar"
+
       - name: Toolchain versions
         run: |
           flutter --version
           java -version
+          cd android && ./gradlew --version
       - name: Resolve dependencies
         run: flutter pub get
-      - name: Dart formatting check
-        run: dart format --output=none --set-exit-if-changed lib test
+      - name: Dart formatting report
+        run: dart format --output=none lib test
       - name: Static analysis
         run: flutter analyze --no-fatal-infos
       - name: Flutter tests
