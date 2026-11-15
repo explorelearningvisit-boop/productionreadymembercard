@@ -4,7 +4,6 @@ import 'package:bad_gym/core/models/member_intelligence_data.dart';
 import 'package:bad_gym/core/theme/bad_gym_theme.dart';
 import 'package:bad_gym/presentation/widgets/attendance_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/body_intelligence_card.dart';
-import 'package:bad_gym/presentation/widgets/bottom_promo_banner.dart';
 import 'package:bad_gym/presentation/widgets/checkin_hero_banner.dart';
 import 'package:bad_gym/presentation/widgets/member_profile_card.dart';
 import 'package:bad_gym/presentation/widgets/member_qr_sheet.dart';
@@ -318,7 +317,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                                     switchInCurve: Curves.easeOut,
                                     switchOutCurve: Curves.easeIn,
                                     child: SizedBox(
-                                      key: ValueKey('${_selectedStatTab}_${_currentTheme}'),
+                                      key: ValueKey('$_selectedStatTab$_currentTheme'),
                                       height: kIntelligenceSectionHeight,
                                       child: SingleChildScrollView(
                                         physics: const BouncingScrollPhysics(),
