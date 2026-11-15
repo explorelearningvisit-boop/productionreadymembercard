@@ -11,6 +11,7 @@ class MergedMemberCard extends StatefulWidget {
   final VoidCallback? onPaymentDetailsPressed;
   final VoidCallback? onQrPassPressed;
   final VoidCallback? onCheckInPressed;
+  final VoidCallback? onNotificationPressed;
 
   const MergedMemberCard({
     super.key,
@@ -20,6 +21,7 @@ class MergedMemberCard extends StatefulWidget {
     this.onPaymentDetailsPressed,
     this.onQrPassPressed,
     this.onCheckInPressed,
+    this.onNotificationPressed,
   });
 
   @override
@@ -108,8 +110,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
     final secondaryTextColor = isDark ? const Color(0xFF94A3B8) : const Color(0xFF475569);
 
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 3.0),
-      padding: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.5),
+      padding: const EdgeInsets.all(9.0),
       decoration: BoxDecoration(
         gradient: _cardGradient,
         borderRadius: BorderRadius.circular(20),
@@ -126,15 +128,15 @@ class _MergedMemberCardState extends State<MergedMemberCard>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // 1. Integrated Check-In Success Ribbon
+          // 1. Integrated Check-In Success Ribbon + Notification Bell
           InkWell(
             onTap: () {
               HapticFeedback.lightImpact();
               widget.onCheckInPressed?.call();
             },
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(13),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 9.0, vertical: 5.5),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.5),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [
@@ -142,10 +144,10 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                     Color(0xFF059669),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(13),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF10B981).withValues(alpha: 0.3),
+                    color: const Color(0xFF10B981).withValues(alpha: 0.35),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -156,8 +158,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                   ScaleTransition(
                     scale: _pulseAnimation,
                     child: Container(
-                      width: 20,
-                      height: 20,
+                      width: 22,
+                      height: 22,
                       decoration: const BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
@@ -165,11 +167,11 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                       child: const Icon(
                         Icons.check_rounded,
                         color: Color(0xFF059669),
-                        size: 15,
+                        size: 16,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 7),
+                  const SizedBox(width: 8),
                   const Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,18 +182,18 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                           style: TextStyle(
                             fontFamily: BadGymTypography.fontHeading,
                             fontWeight: FontWeight.w900,
-                            fontSize: 12,
+                            fontSize: 13.5,
                             color: Colors.white,
-                            height: 1.05,
+                            height: 1.1,
                           ),
                         ),
-                        SizedBox(height: 1.5),
+                        SizedBox(height: 2),
                         Text(
                           'Fri, 16 Oct 2026 • 06:42 PM • Main Gym Floor',
                           style: TextStyle(
                             fontFamily: BadGymTypography.fontBody,
                             fontWeight: FontWeight.w500,
-                            fontSize: 8.5,
+                            fontSize: 9.5,
                             color: Color(0xFFD1FAE5),
                             height: 1.0,
                           ),
@@ -199,11 +201,11 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                       ],
                     ),
                   ),
-                  // Accessory Badge
+                  // Accessory Badge: CHECK-IN
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: Colors.white.withValues(alpha: 0.22),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Row(
@@ -224,38 +226,97 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                       ],
                     ),
                   ),
+                  const SizedBox(width: 7),
+                  // Embedded Notification Bell Button
+                  InkWell(
+                    key: const ValueKey('header_notification_button'),
+                    onTap: () {
+                      HapticFeedback.lightImpact();
+                      widget.onNotificationPressed?.call();
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.22),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.45),
+                          width: 1.0,
+                        ),
+                      ),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        clipBehavior: Clip.none,
+                        children: [
+                          const Icon(
+                            Icons.notifications_rounded,
+                            color: Colors.white,
+                            size: 17,
+                          ),
+                          Positioned(
+                            top: 3,
+                            right: 3,
+                            child: Container(
+                              padding: const EdgeInsets.all(2),
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFE50914),
+                                shape: BoxShape.circle,
+                              ),
+                              constraints: const BoxConstraints(
+                                minWidth: 12,
+                                minHeight: 12,
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  '3',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 7.5,
+                                    fontWeight: FontWeight.w900,
+                                    height: 1.0,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 7),
 
-          // 2. Member Profile Row (Avatar + Demographics + Badges)
+          // 2. Member Profile Row (Enlarged Avatar + Demographics + Badges)
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Avatar with click feedback
+              // Enlarged Avatar (58x58) with gold border & click feedback
               InkWell(
                 key: const ValueKey('member_avatar_button'),
                 onTap: () {
                   HapticFeedback.lightImpact();
                   widget.onQrPassPressed?.call();
                 },
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(30),
                 child: Container(
-                  width: 44,
-                  height: 44,
+                  width: 58,
+                  height: 58,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: const Color(0xFFEAB308),
-                      width: 1.8,
+                      color: const Color(0xFFFFD66B),
+                      width: 2.2,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.12),
-                        blurRadius: 6,
+                        color: const Color(0xFFB50D12).withValues(alpha: 0.25),
+                        blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
                     ],
@@ -460,11 +521,11 @@ class _MergedMemberCardState extends State<MergedMemberCard>
             ],
           ),
 
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
 
           // 3. Compact Two-Subcard Row (Payment & Days Left)
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4.0),
             decoration: BoxDecoration(
               color: isDark ? const Color(0xFF1A1C26) : const Color(0xFFFFF1F2),
               borderRadius: BorderRadius.circular(12),
@@ -485,8 +546,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                     child: Row(
                       children: [
                         Container(
-                          width: 28,
-                          height: 28,
+                          width: 26,
+                          height: 26,
                           decoration: BoxDecoration(
                             color: isDark ? const Color(0xFF2A1C24) : const Color(0xFFFFE4E6),
                             borderRadius: BorderRadius.circular(7),
@@ -495,11 +556,11 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                             child: Icon(
                               Icons.account_balance_wallet_rounded,
                               color: Color(0xFFE11D48),
-                              size: 16,
+                              size: 15,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 5),
                         const Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -510,7 +571,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                 style: TextStyle(
                                   fontFamily: BadGymTypography.fontBody,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 9,
+                                  fontSize: 8.5,
                                   color: Color(0xFF64748B),
                                   height: 1.0,
                                 ),
@@ -521,7 +582,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                 style: TextStyle(
                                   fontFamily: BadGymTypography.fontHeading,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 12,
+                                  fontSize: 11.5,
                                   color: Color(0xFFE11D48),
                                   height: 1.1,
                                 ),
@@ -532,7 +593,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                         const Icon(
                           Icons.chevron_right_rounded,
                           color: Color(0xFF94A3B8),
-                          size: 16,
+                          size: 15,
                         ),
                       ],
                     ),
@@ -542,8 +603,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                 // Vertical Divider
                 Container(
                   width: 1,
-                  height: 26,
-                  margin: const EdgeInsets.symmetric(horizontal: 6),
+                  height: 24,
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
                   color: isDark ? const Color(0xFF2E3346) : const Color(0xFFCBD5E1),
                 ),
 
@@ -557,8 +618,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                     child: Row(
                       children: [
                         Container(
-                          width: 28,
-                          height: 28,
+                          width: 26,
+                          height: 26,
                           decoration: BoxDecoration(
                             color: isDark ? const Color(0xFF2A1C24) : const Color(0xFFFFE4E6),
                             borderRadius: BorderRadius.circular(7),
@@ -567,11 +628,11 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                             child: Icon(
                               Icons.calendar_month_rounded,
                               color: Color(0xFFE11D48),
-                              size: 16,
+                              size: 15,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: 5),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -582,7 +643,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                 style: const TextStyle(
                                   fontFamily: BadGymTypography.fontHeading,
                                   fontWeight: FontWeight.w900,
-                                  fontSize: 12,
+                                  fontSize: 11.5,
                                   color: Color(0xFFE11D48),
                                   height: 1.1,
                                 ),
@@ -604,7 +665,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                         const Icon(
                           Icons.chevron_right_rounded,
                           color: Color(0xFF94A3B8),
-                          size: 16,
+                          size: 15,
                         ),
                       ],
                     ),
@@ -614,7 +675,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
             ),
           ),
 
-          const SizedBox(height: 7),
+          const SizedBox(height: 5),
 
           // 4. Membership Progress Row & Animated Bar
           Row(
@@ -625,7 +686,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                 style: TextStyle(
                   fontFamily: BadGymTypography.fontHeading,
                   fontWeight: FontWeight.w800,
-                  fontSize: 10.5,
+                  fontSize: 10,
                   color: primaryTextColor,
                 ),
               ),
@@ -640,7 +701,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                   style: TextStyle(
                     fontFamily: BadGymTypography.fontHeading,
                     fontWeight: FontWeight.w900,
-                    fontSize: 9.5,
+                    fontSize: 9,
                     color: Color(0xFFB45309),
                   ),
                 ),
@@ -648,13 +709,13 @@ class _MergedMemberCardState extends State<MergedMemberCard>
             ],
           ),
 
-          const SizedBox(height: 4),
+          const SizedBox(height: 3),
 
           // Progress Bar Track
           ClipRRect(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(3),
             child: SizedBox(
-              height: 5.5,
+              height: 4.5,
               child: LinearProgressIndicator(
                 value: data.usedPercentage,
                 backgroundColor: isDark

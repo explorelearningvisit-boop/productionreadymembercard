@@ -81,11 +81,15 @@ class ThemeSwitcherSheet extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           const Text(
-            'Switch instantly between all 5 production theme designs:',
+            'Switch instantly between approved theme designs:',
             style: TextStyle(color: Colors.white60, fontSize: 13),
           ),
           const SizedBox(height: 18),
-          ...DashboardThemeVariant.values.map((variant) {
+          ...[
+            DashboardThemeVariant.festiveGold,
+            DashboardThemeVariant.crimsonWave,
+            DashboardThemeVariant.royalPurple,
+          ].map((variant) {
             final bool isSelected = variant == currentTheme;
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
