@@ -19,35 +19,30 @@
     },
     "channelB_Tailscale": {
       "ip": "100.123.18.54",
-      "port": 5555,
-      "target": "100.123.18.54:5555",
+      "port": null,
+      "target": "dynamic Android Wireless Debugging TCP endpoint",
       "priority": 2
     }
   },
   "currentMilestone": {
-    "status": "VERIFIED_LIVE_ON_DEVICE",
-    "designSystem": "Royal Purple / Neon-Glow / Luxury Glass",
-    "featuresAdded": [
-      "Dynamic Intelligence Cards (Attendance, Workout, Payment, Body)",
-      "VIP Access Pass modal with gate barcode scanner",
-      "Gym Alerts & Updates notification sheet",
-      "Membership Renewal multi-tier modal with UPI checkout"
-    ],
-    "testResults": {
-      "analyzeIssues": 0,
-      "testsPassing": 6,
-      "testsTotal": 6
+    "status": "CLOUD_BUILD_VERIFIED_DEVICE_QA_PENDING",
+    "designSystem": "Current BAD GYM Red / Crimson / Gold / White — see CURRENT_DESIGN_SPEC.md",
+    "designReference": "User-provided 2026-11-15 dashboard image",
+    "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
+    "buildVerification": {
+      "runId": 43708165828,
+      "releaseApk": "success",
+      "flutterAnalyze": "success",
+      "flutterTests": "success",
+      "apkSizeMB": 55.5
     },
-    "verifiedScreenshots": [
-      "docs/screenshots/bad_gym_dashboard.png",
-      "docs/screenshots/bad_gym_workout.png",
-      "docs/screenshots/bad_gym_payment.png",
-      "docs/screenshots/bad_gym_body.png",
-      "docs/screenshots/bad_gym_notifications.png",
-      "docs/screenshots/bad_gym_qr_pass.png",
-      "docs/screenshots/bad_gym_live.png"
-    ],
-    "timestamp": "2026-11-12T16:00:00Z"
+    "deviceVerification": {
+      "status": "PENDING",
+      "reason": "Current workflow has not yet completed Tailnet/ADB install and fresh screenshot capture",
+      "tailscaleIp": "100.123.18.54",
+      "wirelessAdbPort": "dynamic — discover from Android Wireless Debugging; do not assume 5555"
+    },
+    "lastUpdated": "2026-11-15"
   },
   "collaboratingAIs": [
     "Antigravity (Google DeepMind)",
