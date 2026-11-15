@@ -147,14 +147,22 @@ class QuickStatsRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Attendance',
-                    style: TextStyle(
-                      fontFamily: BadGymTypography.fontBody,
-                      fontSize: 8.5,
-                      fontWeight: FontWeight.w600,
-                      color: isSelected ? Colors.white.withValues(alpha: 0.9) : const Color(0xFF64748B),
-                      height: 1.0,
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Attendance',
+                      maxLines: 1,
+                      softWrap: false,
+                      style: TextStyle(
+                        fontFamily: BadGymTypography.fontBody,
+                        fontSize: 8.5,
+                        fontWeight: FontWeight.w700,
+                        color: isSelected
+                            ? Colors.white.withValues(alpha: 0.95)
+                            : const Color(0xFF64748B),
+                        height: 1.0,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 2),
