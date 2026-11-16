@@ -57,3 +57,12 @@ Do not ask me to explain previous context. First read docs/AI_CONTEXT_BOOTSTRAP.
 Fetch latest main and recent commits before editing. Preserve ChatGPT/Antigravity/other-agent work. Laptop and Xiaomi may use different changing Wi-Fi, cellular, hotspot, USB tethering or Ethernet networks. Do not assume same LAN or fixed ADB port. Tailscale identity is preferred; ADB pairing and current connect endpoint must be discovered and verified separately. Latest reported port 37337 is transient. User is an experienced developer; do not give generic debugging-toggle instructions without evidence. Android may disable Wireless Debugging after power-off; user will re-enable it.
 
 Make only the requested change, inspect actual code, run relevant tests/build, report evidence precisely, and update AI_SYNC_STATE.json plus AI_SHARED_COMMUNICATION_HUB.md. Never expose secrets or wipe app data. Current task: [DESCRIBE TASK].
+
+
+## Windows local agent
+- Local MCP agent source: tools/badgym_local_agent/.
+- Setup/runbook: docs/LOCAL_AGENT_SETUP.md.
+- It supports USB-first ADB and explicitly supplied current Wireless Debugging endpoint over Tailscale; no fixed IP/port assumption.
+- MCP screenshots are returned as image content directly to the MCP client, not uploaded to GitHub as an intermediate.
+- Agent file writes are disabled by default and require local enablement, explicit per-call approval and expected file hash.
+- OpenAI Secure MCP Tunnel is the private transport option for compatible OpenAI surfaces. ChatGPT custom MCP is web-only; do not promise direct custom MCP access from the Android ChatGPT app.

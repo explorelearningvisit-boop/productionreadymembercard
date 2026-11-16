@@ -274,11 +274,11 @@ jobs:
                 adb -s "$serial" install --no-streaming -r -d -g dist/app-release.apk >> "$install_log" 2>&1 && result="INSTALLED" || true
               fi
 
-              # One-time signature sync: if device has a legacy mismatched key build, migrate cleanly once
+              # Preserve the user's installed app and data on signature mismatch.
+              # A clean migration is a user decision; CI must never uninstall automatically.
               if [ "$result" != "INSTALLED" ] && grep -q "INSTALL_FAILED_UPDATE_INCOMPATIBLE" "$install_log"; then
-                echo "One-time signature sync: migrating to canonical stable keystore..."
-                adb -s "$serial" uninstall com.badgym.bad_gym || true
-                adb -s "$serial" install -g dist/app-release.apk >> "$install_log" 2>&1 && result="INSTALLED" || true
+                result="SIGNATURE_MISMATCH_PRESERVED_DATA"
+                echo "::warning::APK signature differs from installed app. Existing app/data were preserved; perform an explicitly approved migration outside CI."
               fi
 
               if [ "$result" = "INSTALLED" ]; then
