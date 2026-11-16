@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym/main.dart';
-import 'package:bad_gym/presentation/member_checkin_screen.dart';
 
 void configurePhoneViewport(WidgetTester tester, {double height = 700}) {
   tester.view.physicalSize = Size(360, height);
