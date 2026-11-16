@@ -78,8 +78,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Color(0xFF8B0000),
-                    Color(0xFF5B0007),
+                    Color(0xFFE56A73),
+                    Color(0xFFC94755),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(15),
@@ -89,7 +89,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF8B0000).withValues(alpha: 0.35),
+                    color: const Color(0xFFC94755).withValues(alpha: 0.18),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
