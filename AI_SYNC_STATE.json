@@ -25,7 +25,7 @@
     }
   },
   "currentMilestone": {
-    "status": "CI_OPTIMIZATION_AND_DEVICE_INSTALL_REPAIR_IN_PROGRESS",
+    "status": "COMPACT_FOUR_TAB_LAYOUT_IMPLEMENTED_CI_VERIFICATION_PENDING",
     "designSystem": "Latest approved dashboard reference is warm golden/yellow canvas with ivory cards, crimson/gold accents; see CURRENT_DESIGN_SPEC.md",
     "designReference": "User-provided 2026-11-15 dashboard image",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
@@ -75,7 +75,19 @@
       "adbInstallFallback": "fdb1b64f0605f906bfa294e6095bc2b28997eec2",
       "handoff": "dfcc8f0d7ac8297f1612e391f7cdbe88eb06a07a"
     },
-    "latestValidationRun": 43722419265
+    "latestValidationRun": 43722419265,
+    "latestChanges": {
+      "date": "2026-11-16",
+      "branch": "main",
+      "repository": "explorelearningvisit-boop/productionreadymembercard",
+      "summary": [
+        "Four compact horizontal tabs: Attendance, Workout, Payment, Body",
+        "Removed Smart Insight and bottom summary strips",
+        "Moved narrow crimson vertical rail below full-width header/profile and quick tabs",
+        "Removed duplicate CHECK-IN/QR label and gym floor from event ribbon; date/time retained"
+      ],
+      "deviceVerification": "PENDING_CURRENT_CI_AND_FRESH_DEVICE_SCREENSHOT"
+    }
   },
   "collaboratingAIs": [
     "Antigravity (Google DeepMind)",
