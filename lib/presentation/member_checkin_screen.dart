@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bad_gym/core/models/member_intelligence_data.dart';
-import 'package:bad_gym/presentation/widgets/merged_member_card.dart';
+import 'package:bad_gym/presentation/widgets/attendance_calendar_grid.dart';
+import 'package:bad_gym/presentation/widgets/attendance_trend_chart.dart';
 import 'package:bad_gym/presentation/widgets/member_qr_sheet.dart';
 import 'package:bad_gym/presentation/widgets/notification_sheet.dart';
-import 'package:bad_gym/presentation/widgets/payment_intelligence_card.dart';
-import 'package:bad_gym/presentation/widgets/quick_stats_row.dart';
 import 'package:bad_gym/presentation/widgets/renewal_sheet.dart';
-import 'package:bad_gym/presentation/widgets/vertical_navigation_rail.dart';
-import 'package:bad_gym/presentation/widgets/workout_intelligence_card.dart';
-import 'package:bad_gym/presentation/widgets/body_intelligence_card.dart';
-import 'package:bad_gym/presentation/widgets/attendance_trend_container_card.dart';
+import 'package:bad_gym/presentation/widgets/quick_stats_row.dart';
+
+enum _WorkspaceView { calendar, trend, history, insights, sessions, program, payments, plan, measurements, goals }
 
 class MemberCheckInScreen extends StatefulWidget {
   final MemberIntelligenceData? initialData;
-
-  const MemberCheckInScreen({
-    super.key,
-    this.initialData,
-  });
+  const MemberCheckInScreen({super.key, this.initialData});
 
   @override
   State<MemberCheckInScreen> createState() => _MemberCheckInScreenState();
@@ -26,10 +20,8 @@ class MemberCheckInScreen extends StatefulWidget {
 
 class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
   late final MemberIntelligenceData _data;
-  final ScrollController _scrollController = ScrollController();
-
-  RailTab _selectedRailTab = RailTab.home;
-  QuickStatTab _selectedStatTab = QuickStatTab.attendance;
+  QuickStatTab _selectedTab = QuickStatTab.attendance;
+  _WorkspaceView _selectedView = _WorkspaceView.calendar;
 
   @override
   void initState() {
@@ -37,210 +29,268 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
     _data = widget.initialData ?? MemberIntelligenceData.ashwaniKumarSingh;
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onRailTabSelected(RailTab tab) {
+  void _selectTab(QuickStatTab tab) {
     HapticFeedback.selectionClick();
-    if (tab == RailTab.more) {
-      NotificationSheet.show(context);
-      return;
-    }
-
     setState(() {
-      _selectedRailTab = tab;
-      switch (tab) {
-        case RailTab.home:
-        case RailTab.intelligence:
-        case RailTab.overview:
-        case RailTab.attendance:
-        case RailTab.calendar:
-        case RailTab.history:
-        case RailTab.trend:
-        case RailTab.progress:
-          _selectedStatTab = QuickStatTab.attendance;
-          break;
-        case RailTab.workout:
-          _selectedStatTab = QuickStatTab.workout;
-          break;
-        case RailTab.payment:
-          _selectedStatTab = QuickStatTab.payment;
-          break;
-        case RailTab.reports:
-          _selectedStatTab = QuickStatTab.attendance;
-          break;
-        case RailTab.body:
-        case RailTab.goals:
-          _selectedStatTab = QuickStatTab.body;
-          break;
-        case RailTab.members:
-          _selectedStatTab = QuickStatTab.attendance;
-          break;
-        default:
-          break;
-      }
+      _selectedTab = tab;
+      _selectedView = switch (tab) {
+        QuickStatTab.attendance => _WorkspaceView.calendar,
+        QuickStatTab.workout => _WorkspaceView.sessions,
+        QuickStatTab.payment => _WorkspaceView.payments,
+        QuickStatTab.body => _WorkspaceView.measurements,
+      };
     });
   }
 
-  void _onStatTabSelected(QuickStatTab tab) {
-    HapticFeedback.selectionClick();
-    setState(() {
-      _selectedStatTab = tab;
-      switch (tab) {
-        case QuickStatTab.attendance:
-          _selectedRailTab = RailTab.home;
-          break;
-        case QuickStatTab.workout:
-          _selectedRailTab = RailTab.workout;
-          break;
-        case QuickStatTab.payment:
-          _selectedRailTab = RailTab.payment;
-          break;
-        case QuickStatTab.body:
-          _selectedRailTab = RailTab.body;
-          break;
-      }
-    });
-  }
-
-  Widget _buildSelectedTabContent() {
-    // If Workout or Body or Payment is actively selected, show its specialized view
-    if (_selectedStatTab == QuickStatTab.workout || _selectedRailTab == RailTab.workout) {
-      return WorkoutIntelligenceCard(
-        key: const ValueKey('workout_card'),
-        data: _data,
-      );
-    }
-    if (_selectedStatTab == QuickStatTab.payment || _selectedRailTab == RailTab.payment) {
-      return PaymentIntelligenceCard(
-        key: const ValueKey('payment_card'),
-        data: _data,
-        onRenewPressed: () => RenewalSheet.show(context, _data),
-      );
-    }
-    if (_selectedStatTab == QuickStatTab.body || _selectedRailTab == RailTab.body) {
-      return BodyIntelligenceCard(
-        key: const ValueKey('body_card'),
-        data: _data,
-      );
-    }
-
-    // Attendance is the default compact intelligence canvas.
-    return Column(key: const ValueKey('attendance_canvas'), mainAxisSize: MainAxisSize.min, children: [AttendanceTrendContainerCard(key: const ValueKey('attendance_trend_card'), data: _data), const SizedBox(height: 8), _buildSmartInsight(), const SizedBox(height: 8), _buildMemberSummary()]);
-  }
-
-  Widget _buildSmartInsight() => Container(
-    key: const ValueKey('member_smart_insight'),
-    padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 9),
-    decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFFFFF0E5), Color(0xFFFFE5D9)]), borderRadius: BorderRadius.circular(15), border: Border.all(color: const Color(0xFFF3C7B5))),
-    child: Row(children: [
-      const Icon(Icons.lightbulb_rounded, color: Color(0xFFD97706), size: 21),
-      const SizedBox(width: 8),
-      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Smart Insight', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13, color: Color(0xFF7C2D12))),
-        Text('Great progress! Attendance is ${_data.attendanceRate}%. Keep a ${_data.currentStreak} streak to reach 90%.', style: const TextStyle(fontSize: 10.5, color: Color(0xFF7C4A3A), height: 1.25)),
-      ])),
-      const Icon(Icons.chevron_right_rounded, color: Color(0xFFB45309)),
-    ]),
-  );
-
-  Widget _summaryItem(IconData icon, String value, String label, Color color) => Expanded(child: Column(mainAxisSize: MainAxisSize.min, children: [
-    Icon(icon, size: 15, color: color),
-    const SizedBox(height: 2),
-    FittedBox(fit: BoxFit.scaleDown, child: Text(value, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Color(0xFF252525)))),
-    Text(label, style: const TextStyle(fontSize: 8.5, color: Color(0xFF77716B))),
-  ]));
-
-  Widget _buildMemberSummary() => Container(
-    key: const ValueKey('member_streak_summary'),
-    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-    decoration: BoxDecoration(color: const Color(0xFFFFFEFC), borderRadius: BorderRadius.circular(15), border: Border.all(color: const Color(0xFFEAD9C3))),
-    child: Row(children: [
-      _summaryItem(Icons.local_fire_department_rounded, _data.currentStreak, 'Streak', const Color(0xFFEA580C)),
-      Container(width: 1, height: 30, color: const Color(0xFFE8E1D8)),
-      _summaryItem(Icons.emoji_events_rounded, _data.bestStreak, 'Best', const Color(0xFFD4A72C)),
-      Container(width: 1, height: 30, color: const Color(0xFFE8E1D8)),
-      _summaryItem(Icons.calendar_month_rounded, '${_data.daysUsed}/${_data.totalDays}', 'Plan Days', const Color(0xFFDC5260)),
-      Container(width: 1, height: 30, color: const Color(0xFFE8E1D8)),
-      _summaryItem(Icons.track_changes_rounded, '90%', 'Next Goal', const Color(0xFF16A34A)),
-    ]),
-  );
+  List<({String label, IconData icon, _WorkspaceView view})> get _railItems => switch (_selectedTab) {
+    QuickStatTab.attendance => [
+      (label: 'Calendar', icon: Icons.calendar_month_rounded, view: _WorkspaceView.calendar),
+      (label: 'Trend', icon: Icons.show_chart_rounded, view: _WorkspaceView.trend),
+      (label: 'History', icon: Icons.history_rounded, view: _WorkspaceView.history),
+      (label: 'Insights', icon: Icons.insights_rounded, view: _WorkspaceView.insights),
+    ],
+    QuickStatTab.workout => [
+      (label: 'Sessions', icon: Icons.fitness_center_rounded, view: _WorkspaceView.sessions),
+      (label: 'Program', icon: Icons.view_list_rounded, view: _WorkspaceView.program),
+    ],
+    QuickStatTab.payment => [
+      (label: 'Payments', icon: Icons.receipt_long_rounded, view: _WorkspaceView.payments),
+      (label: 'Plan', icon: Icons.card_membership_rounded, view: _WorkspaceView.plan),
+    ],
+    QuickStatTab.body => [
+      (label: 'Measure', icon: Icons.monitor_weight_rounded, view: _WorkspaceView.measurements),
+      (label: 'Goals', icon: Icons.flag_rounded, view: _WorkspaceView.goals),
+    ],
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF9EF),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFFFFF9EF),
-              Color(0xFFFDF6E8),
-              Color(0xFFFBF1DF),
-            ],
-            stops: [0.0, 0.45, 1.0],
-          ),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.fromLTRB(4, 2, 4, 12),
-            child: Container(key: const ValueKey('member_dashboard_outer_card'), padding: const EdgeInsets.fromLTRB(5, 5, 5, 8), decoration: BoxDecoration(color: const Color(0xFFFFFBF5), borderRadius: BorderRadius.circular(23), border: Border.all(color: const Color(0xFFD9BFA6), width: 1.5), boxShadow: [BoxShadow(color: const Color(0xFF9A6B4B).withValues(alpha: 0.10), blurRadius: 16, offset: const Offset(0, 4))]), child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Header and member identity use the full mobile width.
-                MergedMemberCard(
-                  data: _data,
-                  onNotificationPressed: () => NotificationSheet.show(context),
-                  onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
-                  onRenewPressed: () => RenewalSheet.show(context, _data),
-                  onQrPassPressed: () => MemberQrSheet.show(context, _data),
-                  onCheckInPressed: null,
+      backgroundColor: const Color(0xFFF5F1E9),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final compact = constraints.maxHeight < 650;
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+              child: Container(
+                key: const ValueKey('member_dashboard_outer_card'),
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFFEFB),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: const Color(0xFFDCCDB8)),
                 ),
-
-                // Four compact, equal-width intelligence shortcuts.
-                QuickStatsRow(
-                  data: _data,
-                  selectedTab: _selectedStatTab,
-                  onTabSelected: _onStatTabSelected,
-                ),
-
-                const SizedBox(height: 4),
-
-                // The rail starts below the four horizontal tabs and only
-                // spans the active intelligence canvas height.
-                IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      VerticalNavigationRail(
-                        selectedTab: _selectedRailTab,
-                        onTabSelected: _onRailTabSelected,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildMemberHeader(compact),
+                    SizedBox(height: compact ? 6 : 9),
+                    QuickStatsRow(data: _data, selectedTab: _selectedTab, onTabSelected: _selectTab),
+                    SizedBox(height: compact ? 5 : 8),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildContextRail(compact),
+                          const SizedBox(width: 7),
+                          Expanded(child: _buildWorkspace(compact)),
+                        ],
                       ),
-                      const SizedBox(width: 5),
-                      Expanded(
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 200),
-                          child: KeyedSubtree(
-                            key: ValueKey('$_selectedStatTab$_selectedRailTab'),
-                            child: _buildSelectedTabContent(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 5),
+                    _buildFooter(compact),
+                  ],
                 ),
-              ],
-            )),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
   }
+
+  Widget _buildMemberHeader(bool compact) {
+    final nameStyle = TextStyle(fontSize: compact ? 14 : 16, fontWeight: FontWeight.w900, color: const Color(0xFF241D1B), height: 1.1);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(color: const Color(0xFF9F1D2D), borderRadius: BorderRadius.circular(12)),
+          child: Row(children: [
+            const Icon(Icons.check_circle, color: Colors.white, size: 17),
+            const SizedBox(width: 7),
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text('Last Check-In', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 11)),
+              Text('${_data.checkInDate} · ${_data.checkInTime}', style: const TextStyle(color: Color(0xFFFFE8E5), fontSize: 9)),
+            ])),
+            IconButton(
+              key: const ValueKey('header_notification_button'),
+              onPressed: () => NotificationSheet.show(context),
+              visualDensity: VisualDensity.compact,
+              constraints: const BoxConstraints.tightFor(width: 30, height: 30),
+              padding: EdgeInsets.zero,
+              icon: Badge(label: Text('${_data.notificationCount}'), child: const Icon(Icons.notifications_none_rounded, color: Colors.white, size: 19)),
+            ),
+          ]),
+        ),
+        SizedBox(height: compact ? 6 : 8),
+        Row(children: [
+          Container(
+            width: compact ? 42 : 48, height: compact ? 42 : 48,
+            decoration: BoxDecoration(color: const Color(0xFFF5E8D2), shape: BoxShape.circle, border: Border.all(color: const Color(0xFFD2AD55), width: 2)),
+            child: const Icon(Icons.person_rounded, color: Color(0xFF8E2633), size: 27),
+          ),
+          const SizedBox(width: 9),
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(_data.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: nameStyle),
+            const SizedBox(height: 2),
+            Text('${_data.memberId}  ·  ${_data.age} yrs  ·  ${_data.gender}', style: const TextStyle(fontSize: 9, color: Color(0xFF746B64), fontWeight: FontWeight.w600)),
+            const SizedBox(height: 3),
+            Row(children: [
+              _pill(_data.isActive ? 'Active' : 'Inactive', const Color(0xFFE3F5E9), const Color(0xFF168447)),
+              const SizedBox(width: 5),
+              _pill(_data.planName, const Color(0xFFFFF0C8), const Color(0xFF8B6418)),
+            ]),
+          ])),
+          IconButton(
+            key: const ValueKey('member_avatar_button'),
+            onPressed: () => MemberQrSheet.show(context, _data),
+            visualDensity: VisualDensity.compact,
+            icon: const Icon(Icons.qr_code_2_rounded, color: Color(0xFF9F1D2D)),
+          ),
+        ]),
+        SizedBox(height: compact ? 5 : 7),
+        Row(children: [
+          Expanded(child: _infoTile('Payment Due', _data.paymentAmount, Icons.account_balance_wallet_rounded, () {})),
+          const SizedBox(width: 6),
+          Expanded(child: _infoTile('${_data.daysLeft} Days Left', 'Expires ${_data.renewDate}', Icons.calendar_month_rounded, () => RenewalSheet.show(context, _data))),
+        ]),
+        const SizedBox(height: 5),
+        Row(children: [
+          Expanded(child: Text(_data.membershipDaysLabel, style: const TextStyle(fontSize: 9.5, fontWeight: FontWeight.w800, color: Color(0xFF342A26)))),
+          Text('${_data.membershipPercent}%', style: const TextStyle(fontSize: 9.5, fontWeight: FontWeight.w900, color: Color(0xFF8B6418))),
+        ]),
+        const SizedBox(height: 3),
+        ClipRRect(borderRadius: BorderRadius.circular(5), child: LinearProgressIndicator(value: _data.membershipProgress, minHeight: 5, backgroundColor: const Color(0xFFEFE7DC), color: const Color(0xFFB51F31))),
+      ],
+    );
+  }
+
+  Widget _pill(String text, Color bg, Color fg) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+    decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(20)),
+    child: Text(text, style: TextStyle(fontSize: 8, color: fg, fontWeight: FontWeight.w800)),
+  );
+
+  Widget _infoTile(String title, String value, IconData icon, VoidCallback onTap) => InkWell(
+    onTap: onTap,
+    borderRadius: BorderRadius.circular(10),
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+      decoration: BoxDecoration(color: const Color(0xFFFFF4F3), border: Border.all(color: const Color(0xFFF1D6D6)), borderRadius: BorderRadius.circular(10)),
+      child: Row(children: [
+        Icon(icon, size: 15, color: const Color(0xFFB51F31)),
+        const SizedBox(width: 5),
+        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 8, color: Color(0xFF766B66))),
+          Text(value, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: Color(0xFF9F1D2D))),
+        ])),
+      ]),
+    ),
+  );
+
+  Widget _buildContextRail(bool compact) => Container(
+    key: const ValueKey('contextual_navigation_rail'),
+    width: compact ? 55 : 61,
+    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+    decoration: BoxDecoration(color: const Color(0xFFF7F0E6), border: Border.all(color: const Color(0xFFE4D6C3)), borderRadius: BorderRadius.circular(13)),
+    child: Column(children: [
+      for (final item in _railItems)
+        Expanded(child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2),
+          child: InkWell(
+            key: ValueKey('rail_${item.view.name}'),
+            borderRadius: BorderRadius.circular(9),
+            onTap: () => setState(() => _selectedView = item.view),
+            child: Container(
+              decoration: BoxDecoration(color: _selectedView == item.view ? const Color(0xFF9F1D2D) : Colors.transparent, borderRadius: BorderRadius.circular(9)),
+              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(item.icon, size: compact ? 15 : 17, color: _selectedView == item.view ? Colors.white : const Color(0xFF8B5960)),
+                const SizedBox(height: 2),
+                FittedBox(fit: BoxFit.scaleDown, child: Text(item.label, style: TextStyle(fontSize: 7.5, fontWeight: FontWeight.w700, color: _selectedView == item.view ? Colors.white : const Color(0xFF756A63)))),
+              ]),
+            ),
+          ),
+        )),
+    ]),
+  );
+
+  Widget _buildWorkspace(bool compact) {
+    final content = switch (_selectedView) {
+      _WorkspaceView.calendar => _buildCalendar(),
+      _WorkspaceView.trend => AttendanceTrendChart(points: _data.trendPoints, monthLabel: _data.attendanceMonthLabel),
+      _WorkspaceView.history => _buildHistory(),
+      _WorkspaceView.insights => _buildInsights(),
+      _WorkspaceView.sessions || _WorkspaceView.program => _metricPanel('Workout', _data.workoutTime, 'Today\'s recorded workout time', Icons.fitness_center_rounded, const Color(0xFF9F1D2D)),
+      _WorkspaceView.payments || _WorkspaceView.plan => _metricPanel('Payment', _data.paymentAmount, 'Next due: ${_data.paymentNextDue}', Icons.receipt_long_rounded, const Color(0xFF9F1D2D)),
+      _WorkspaceView.measurements || _WorkspaceView.goals => _metricPanel('Body', _data.bodyWeight, 'Current recorded body weight', Icons.monitor_weight_rounded, const Color(0xFF9F1D2D)),
+    };
+    return Container(
+      key: const ValueKey('fixed_intelligence_viewport'),
+      padding: EdgeInsets.all(compact ? 7 : 9),
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), border: Border.all(color: const Color(0xFFE5D9C9))),
+      child: ClipRect(child: content),
+    );
+  }
+
+  Widget _buildCalendar() => Column(
+    key: const ValueKey('attendance_calendar_view'),
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      const Text('Attendance Calendar', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Color(0xFF2A2420))),
+      Text(_data.attendanceMonthLabel, style: const TextStyle(fontSize: 9, color: Color(0xFF81766D))),
+      const SizedBox(height: 5),
+      Expanded(child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.topCenter, child: AttendanceCalendarGrid(days: _data.calendarDays, year: _data.attendanceYear, month: _data.attendanceMonth))),
+    ],
+  );
+
+  Widget _buildHistory() => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    const Text('Attendance History', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
+    const SizedBox(height: 10),
+    _historyLine('Present', '${_data.presentCount} days', const Color(0xFF168447)),
+    _historyLine('Late', '${_data.lateCount} days', const Color(0xFFD39B19)),
+    _historyLine('Absent', '${_data.absentCount} days', const Color(0xFFD33A45)),
+    _historyLine('Holiday', '${_data.holidayCount} days', const Color(0xFF8A8179)),
+  ]);
+
+  Widget _historyLine(String label, String value, Color color) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 7),
+    child: Row(children: [Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)), const SizedBox(width: 8), Expanded(child: Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700))), Text(value, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900))]),
+  );
+
+  Widget _buildInsights() => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    const Text('Attendance Insights', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
+    const SizedBox(height: 14),
+    _metricPanel('Attendance rate', '${_data.attendanceRate}%', 'Current period', Icons.trending_up_rounded, const Color(0xFF168447)),
+    const SizedBox(height: 10),
+    _metricPanel('Current streak', _data.currentStreak, 'Best: ${_data.bestStreak}', Icons.local_fire_department_rounded, const Color(0xFFD39B19)),
+  ]);
+
+  Widget _metricPanel(String title, String value, String detail, IconData icon, Color color) => Expanded(
+    child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+      Icon(icon, size: 28, color: color),
+      const SizedBox(height: 8),
+      Text(title, style: const TextStyle(fontSize: 11, color: Color(0xFF756A63), fontWeight: FontWeight.w700)),
+      const SizedBox(height: 3),
+      FittedBox(fit: BoxFit.scaleDown, child: Text(value, style: const TextStyle(fontSize: 24, color: Color(0xFF28211E), fontWeight: FontWeight.w900))),
+      Text(detail, textAlign: TextAlign.center, style: const TextStyle(fontSize: 9, color: Color(0xFF81766D))),
+    ])),
+  );
+
+  Widget _buildFooter(bool compact) => Row(children: [
+    Expanded(child: Text('${_data.attendanceRate}% attendance  ·  ${_data.currentStreak} streak', style: TextStyle(fontSize: compact ? 8 : 9, color: const Color(0xFF746B64), fontWeight: FontWeight.w700))),
+    const Text('BAD GYM', style: TextStyle(fontSize: 8, letterSpacing: 1.1, color: Color(0xFF9F1D2D), fontWeight: FontWeight.w900)),
+  ]);
 }
