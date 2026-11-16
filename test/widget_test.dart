@@ -116,7 +116,15 @@ void main() {
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    // 1. Open Notification Sheet from top bell
+    // 1. Open the renewal sheet and verify checkout does not claim a payment.
+    await tester.tap(find.text('8 Days Left'));
+    await tester.pumpAndSettle();
+    expect(find.text('Renew Gold Membership'), findsOneWidget);
+    await tester.tap(find.text('Proceed to Pay ₹1,200'));
+    await tester.pumpAndSettle();
+    expect(find.text('Payment gateway is not connected yet. No payment was initiated.'), findsOneWidget);
+
+    // 2. Open Notification Sheet from top bell
     await tester.tap(find.byKey(const ValueKey('header_notification_button')));
     await tester.pumpAndSettle();
     expect(find.text('Gym Alerts & Updates'), findsOneWidget);
