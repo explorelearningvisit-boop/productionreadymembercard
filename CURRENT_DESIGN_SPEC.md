@@ -67,3 +67,12 @@ The user-provided image in the 2026-11-15 conversation is the latest approved vi
 - Other top tabs similarly expose contextual compact widgets. Width and height must be bounded; use tab/rail switching to reveal more information instead of extending the page.
 - Visual palette: premium warm ivory/light surfaces + controlled crimson/red; restrained gold for premium emphasis; semantic green/red/amber/grey. Remove lavender/purple and inconsistent peach/pink gradients. Use compact spacing and readable contrast.
 - This latest user direction supersedes the previous 2026-11-16 unified outer card composition where that composition causes oversized vertical layout or scrolling.
+
+
+## 2026-11-16 — Implemented compact workspace source authority
+- Actual implementation now resides in `lib/presentation/member_checkin_screen.dart`; this supersedes older descriptions of the tall bordered scrollable page and old rail placement.
+- Primary root is a bounded `LayoutBuilder` workspace with no vertical scroll view. Member identity/check-in/payment/expiry/progress are compact; four tabs stay visible; a contextual rail switches one fixed-viewport widget at a time.
+- Attendance opens Calendar; Trend, History and Insights are separate destinations. Workout, Payment and Body expose their own focused destinations. No stacked chart + calendar + Smart Insight + streak strip in the default canvas.
+- Calendar month controls use ivory/crimson and neutral holiday semantics; no lavender.
+- CI run 43877970432 confirmed format/analyze and exposed an unbounded FittedBox calendar-width constraint. Replaced it with a directly width-constrained calendar in commit 9739c832f4c1b117d7541a47a1fd5015864e95de. New CI run 43879102167 has format/analyze/tests passing; Android APK build is still in progress at this note.
+- Physical Xiaomi visual QA is still pending. Do not call the design pixel-perfect until a fresh screenshot from the Xiaomi is compared.
