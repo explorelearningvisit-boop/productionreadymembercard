@@ -387,7 +387,7 @@
     "policy": "Never publish stable update from default debug signing. Existing app data must be preserved on signature mismatch."
   },
   "chatgptDesignLab": {
-    "status": "IMPLEMENTED_CI_BUILD_IN_PROGRESS",
+    "status": "APK_BUILD_SUCCESS_DEVICE_QA_PENDING",
     "branch": "chatgpt/design-lab-yellow-festive",
     "packageId": "com.badgym.designlab",
     "designDirection": "Festive Gold Premium",
@@ -415,7 +415,8 @@
       "format": "PASS",
       "analyze": "PASS",
       "flutterTests": "PASS",
-      "androidApkBuild": "IN_PROGRESS",
+      "androidApkBuild": "PASS",
+      "artifactUpload": "PASS",
       "physicalDeviceInstall": "NOT_VERIFIED",
       "xiaomiScreenshotComparison": "NOT_VERIFIED",
       "pixelPerfect": "NOT_CLAIMED"
@@ -425,6 +426,16 @@
       "Payment transaction history is not connected",
       "Body measurement history is not connected"
     ],
-    "nextAction": "Wait for CI Android APK build and artifact upload; inspect APK; then perform fresh Xiaomi 11i screenshot comparison."
+    "nextAction": "Install the evaluation APK only after user approval; compare a fresh Xiaomi 11i screenshot with the supplied references and iterate. Production main remains untouched.",
+    "buildCommit": "0a1e88d7860a68050874865c308acf6ade7c4594",
+    "artifact": {
+      "id": 14255597205,
+      "name": "bad-gym-chatgpt-design-lab-0a1e88d7860a68050874865c308acf6ade7c4594",
+      "sizeBytes": 36628804,
+      "expiresAt": "2026-11-30T18:09:16Z",
+      "apkFile": "app-release.apk",
+      "apkSizeBytes": 59579893,
+      "apkSha256": "f159b4925f78480d65e6979100c48b7a6d26575877aa2071f81cbd7330d8ede0"
+    }
   }
 }
