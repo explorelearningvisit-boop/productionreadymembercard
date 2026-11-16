@@ -54,7 +54,7 @@
     },
     "lastUpdated": "2026-11-16",
     "ciDiagnosis": {
-      "latestFailureRun": 43720865187,
+      "latestFailureRun": 43833182700,
       "tailscaleJoin": "SUCCESS_ON_ATTEMPT_1",
       "xiaomiTailnet": "ONLINE",
       "adbTransport": "REACHED_DEVICE",
@@ -62,7 +62,12 @@
         "INSTALL_FAILED_UPDATE_INCOMPATIBLE",
         "INSTALL_FAILED_USER_RESTRICTED"
       ],
-      "rootCause": "Ephemeral per-run debug signing identity plus MIUI install restriction; not a Tailscale join failure"
+      "rootCause": "Ephemeral per-run debug signing identity plus MIUI install restriction; not a Tailscale join failure",
+      "failedJob": 133183327622,
+      "failure": "Flutter widget test at 360dp: RenderFlex overflowed by 9.4px in AttendanceCalendarGrid month-header Row (IconButton default minimum width).",
+      "fixCommit": "b73b23cafd8931d352a73879e7185bbaf8ac91f5",
+      "fix": "Set both month navigation IconButtons to tight 28x28 constraints.",
+      "validation": "Awaiting new push-triggered CI run; APK build was skipped in failed run."
     },
     "ciOptimization": {
       "debounceSeconds": 30,
