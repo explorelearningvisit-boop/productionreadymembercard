@@ -28,44 +28,62 @@ class QuickStatsRow extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4.0),
       child: Row(
         children: [
-          // 1. Attendance (81%, +6%)
-          Expanded(
-            child: _buildCard(
-              tab: QuickStatTab.attendance,
-              icon: Icons.event_available_rounded,
-              label: 'Attendance',
-              value: '${data.attendanceRate}%',
-              delta: '↑ +6%',
-              isPositive: true,
-            ),
+          _cardSlot(
+            tab: QuickStatTab.attendance,
+            icon: Icons.event_available_rounded,
+            label: 'Attendance',
+            value: '${data.attendanceRate}%',
+            delta: '+6%',
+            isPositive: true,
           ),
-          const SizedBox(width: 6),
-
-          // 2. Workout (58 min, +12%)
-          Expanded(
-            child: _buildCard(
-              tab: QuickStatTab.workout,
-              icon: Icons.fitness_center_rounded,
-              label: 'Workout',
-              value: data.workoutTime,
-              delta: '↑ +12%',
-              isPositive: true,
-            ),
+          const SizedBox(width: 4),
+          _cardSlot(
+            tab: QuickStatTab.workout,
+            icon: Icons.fitness_center_rounded,
+            label: 'Workout',
+            value: data.workoutTime,
+            delta: '+12%',
+            isPositive: true,
           ),
-          const SizedBox(width: 6),
-
-          // 3. Body (69.5 kg, -0.8 kg)
-          Expanded(
-            child: _buildCard(
-              tab: QuickStatTab.body,
-              icon: Icons.monitor_weight_outlined,
-              label: 'Body',
-              value: data.bodyWeight,
-              delta: '↓ -0.8 kg',
-              isPositive: true,
-            ),
+          const SizedBox(width: 4),
+          _cardSlot(
+            tab: QuickStatTab.payment,
+            icon: Icons.account_balance_wallet_rounded,
+            label: 'Payment',
+            value: data.paymentAmount.replaceAll(' Due', '').replaceAll(' Paid', ''),
+            delta: data.paymentStatus,
+            isPositive: data.paymentStatus.toLowerCase().contains('paid'),
+          ),
+          const SizedBox(width: 4),
+          _cardSlot(
+            tab: QuickStatTab.body,
+            icon: Icons.monitor_weight_outlined,
+            label: 'Body',
+            value: data.bodyWeight,
+            delta: '-0.8 kg',
+            isPositive: true,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _cardSlot({
+    required QuickStatTab tab,
+    required IconData icon,
+    required String label,
+    required String value,
+    required String delta,
+    required bool isPositive,
+  }) {
+    return Expanded(
+      child: _buildCard(
+        tab: tab,
+        icon: icon,
+        label: label,
+        value: value,
+        delta: delta,
+        isPositive: isPositive,
       ),
     );
   }
@@ -89,20 +107,21 @@ class QuickStatsRow extends StatelessWidget {
         },
         borderRadius: BorderRadius.circular(16),
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 7),
+          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            gradient: isSelected ? const LinearGradient(colors: [Color(0xFFFFF1F2), Color(0xFFFFFFFF)]) : null,
+            borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: isSelected ? const Color(0xFFD4AF37) : const Color(0xFFEAD9C3),
+              color: isSelected ? const Color(0xFFB91C2C) : const Color(0xFFEAD9C3),
               width: isSelected ? 1.5 : 1.0,
             ),
             boxShadow: [
               BoxShadow(
                 color: isSelected
-                    ? const Color(0xFFD4AF37).withValues(alpha: 0.22)
+                    ? const Color(0xFFDC2626).withValues(alpha: 0.18)
                     : Colors.black.withValues(alpha: 0.04),
-                blurRadius: isSelected ? 8 : 4,
+                blurRadius: isSelected ? 7 : 3,
                 offset: const Offset(0, 2),
               ),
             ],
@@ -113,8 +132,8 @@ class QuickStatsRow extends StatelessWidget {
             children: [
               // Red icon in soft rounded box
               Container(
-                width: 26,
-                height: 26,
+                width: 23,
+                height: 23,
                 decoration: BoxDecoration(
                   color: const Color(0xFFFFECEF),
                   borderRadius: BorderRadius.circular(8),
@@ -126,7 +145,7 @@ class QuickStatsRow extends StatelessWidget {
                 child: Icon(
                   icon,
                   color: const Color(0xFFDC2626),
-                  size: 15,
+                  size: 14,
                 ),
               ),
               const SizedBox(height: 3),
@@ -135,7 +154,7 @@ class QuickStatsRow extends StatelessWidget {
                 maxLines: 1,
                 style: const TextStyle(
                   fontFamily: BadGymTypography.fontBody,
-                  fontSize: 9.5,
+                  fontSize: 8.5,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF6B6B6B),
                   height: 1.0,
@@ -148,7 +167,7 @@ class QuickStatsRow extends StatelessWidget {
                   value,
                   style: const TextStyle(
                     fontFamily: BadGymTypography.fontHeading,
-                    fontSize: 15.5,
+                    fontSize: 13.5,
                     fontWeight: FontWeight.w900,
                     color: Color(0xFF1A1A1A),
                     height: 1.05,
@@ -160,7 +179,7 @@ class QuickStatsRow extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFDCFCE7),
+                  color: isPositive ? const Color(0xFFDCFCE7) : const Color(0xFFFFE4E6),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
