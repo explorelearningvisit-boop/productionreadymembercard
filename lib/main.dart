@@ -405,7 +405,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       Expanded(child: _highlightMetric('+12%', 'Change', C.green)),
     ]),
     const SizedBox(height: 7),
-    _artTile('assets/images/illustration_3d_workout_dumbbells.png', 'Training session', 'Workout duration recorded today', compact),
+    _visualTile(Icons.fitness_center_rounded, 'Training session', '58 minutes recorded today', C.goldDark),
     const SizedBox(height: 6),
     _recordRow('Session status', 'Recorded', 'Today', C.green),
   ]);
@@ -415,7 +415,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     const SizedBox(height: 8),
     _highlightMetric('58 min', 'Recorded workout time', C.goldDark),
     const SizedBox(height: 8),
-    _artTile('assets/images/illustration_3d_workout_bench.png', 'Workout overview', 'Detailed set and load records are not connected in this build', compact),
+    _visualTile(Icons.bar_chart_rounded, 'Workout overview', 'Set and load history is not connected yet', C.goldDark),
   ]);
 
   Widget _workoutHistory(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -423,7 +423,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     const SizedBox(height: 8),
     _recordRow('Today', '58 min', 'Recorded', C.green),
     const Spacer(),
-    _artTile('assets/images/illustration_3d_workout_dumbbells.png', 'Workout history', 'Only the current duration metric is available', compact),
+    _visualTile(Icons.history_rounded, 'Workout history', 'Only today’s duration is currently available', C.goldDark),
   ]);
 
   Widget _workoutGoals(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -431,7 +431,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     const SizedBox(height: 8),
     _highlightMetric('58 min', 'Today’s duration', C.goldDark),
     const Spacer(),
-    _artTile('assets/images/illustration_3d_workout_bench.png', 'Training progress', 'Set a goal when workout target data is connected', compact),
+    _visualTile(Icons.flag_rounded, 'Training progress', 'Connect a workout target to track goal progress', C.goldDark),
   ]);
 
   Widget _paymentDue(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -450,13 +450,32 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
           Text('₹500 Due', style: TextStyle(fontSize: 21, fontWeight: FontWeight.w900, color: C.red)),
           Text('Next due · 24 Oct 2026', style: TextStyle(fontSize: 8, color: C.ink)),
         ])),
-        Image.asset('assets/images/illustration_3d_payment_wallet.png', width: compact ? 54 : 66, height: compact ? 54 : 66, fit: BoxFit.contain, errorBuilder: (_, __, ___) => const Icon(Icons.account_balance_wallet, size: 42, color: C.goldDark)),
+        Container(width: compact ? 54 : 66, height: compact ? 54 : 66, decoration: BoxDecoration(color: const Color(0xFFFFE58A), borderRadius: BorderRadius.circular(18), border: Border.all(color: C.gold)), child: Icon(Icons.account_balance_wallet_rounded, size: compact ? 30 : 36, color: C.goldDark)),
       ]),
     ),
     const SizedBox(height: 8),
     _recordRow('Membership plan', 'Gold Plan', 'Active', C.goldDark),
     _recordRow('Payment status', 'Due', 'Action required', C.red),
-    const Spacer(),
+    const SizedBox(height: 8),
+    Expanded(child: Container(
+      padding: const EdgeInsets.all(12),
+      decoration: _innerDecoration(),
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [
+          const Icon(Icons.event_available_rounded, color: C.red, size: 18),
+          const SizedBox(width: 6),
+          const Expanded(child: Text('Renewal countdown', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: C.ink))),
+          Text('8 DAYS LEFT', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: C.red)),
+        ]),
+        const SizedBox(height: 10),
+        ClipRRect(borderRadius: BorderRadius.circular(12), child: const LinearProgressIndicator(value: .73, minHeight: 8, backgroundColor: Color(0xFFEAE4D6), valueColor: AlwaysStoppedAnimation(C.gold))),
+        const SizedBox(height: 6),
+        const Text('Membership period · 22 of 30 days', style: TextStyle(fontSize: 8, color: C.muted, fontWeight: FontWeight.w700)),
+        const SizedBox(height: 8),
+        const Text('Renew before 24 Oct 2026 to avoid an interruption.', style: TextStyle(fontSize: 9, color: C.ink, fontWeight: FontWeight.w700)),
+      ]),
+    )),
+    const SizedBox(height: 8),
     _actionStrip('Review payment', Icons.arrow_forward_rounded, C.red),
   ]);
 
@@ -466,7 +485,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     _recordRow('Current balance', '₹500 Due', 'Outstanding', C.red),
     _recordRow('Next due date', '24 Oct 2026', 'Upcoming', C.goldDark),
     const Spacer(),
-    _artTile('assets/images/illustration_3d_payment_wallet.png', 'Billing history', 'Transaction history is not connected in this build', compact),
+    _visualTile(Icons.receipt_long_rounded, 'Billing history', 'Transaction history is not connected yet', C.goldDark),
   ]);
 
   Widget _paymentOffers(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -474,7 +493,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     const SizedBox(height: 8),
     _highlightMetric('SBI offer', 'Offer shown on member dashboard', C.blue),
     const Spacer(),
-    _artTile('assets/images/illustration_3d_payment_wallet.png', 'Payment offers', 'Offer details depend on the active campaign', compact),
+    _visualTile(Icons.local_offer_rounded, 'Payment offers', 'Offer details depend on the active campaign', C.goldDark),
   ]);
 
   Widget _bodyWeight(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -486,7 +505,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       Expanded(child: _highlightMetric('−0.8 kg', 'Change shown', C.green)),
     ]),
     const SizedBox(height: 5),
-    _artTile('assets/images/illustration_3d_body_scale.png', 'Body composition', 'Current recorded weight', compact),
+    _visualTile(Icons.monitor_weight_rounded, 'Body weight', '69.5 kg currently recorded', C.goldDark),
   ]);
 
   Widget _bodyMeasures(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -494,7 +513,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     const SizedBox(height: 8),
     _highlightMetric('69.5 kg', 'Current recorded weight', C.blue),
     const Spacer(),
-    _artTile('assets/images/illustration_3d_mannequin.png', 'Measurements', 'Other body measurements are not connected in this build', compact),
+    _visualTile(Icons.straighten_rounded, 'Measurements', 'Other body measurements are not connected yet', C.goldDark),
   ]);
 
   Widget _bodyProgress(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -502,7 +521,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     const SizedBox(height: 8),
     _highlightMetric('−0.8 kg', 'Change shown on member card', C.green),
     const Spacer(),
-    _artTile('assets/images/illustration_3d_body_scale.png', 'Progress tracking', 'Historical measurement series is not connected in this build', compact),
+    _visualTile(Icons.trending_down_rounded, 'Progress tracking', 'Historical measurement series is not connected yet', C.goldDark),
   ]);
 
   Widget _bodyGoals(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -510,7 +529,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     const SizedBox(height: 8),
     _highlightMetric('69.5 kg', 'Current weight', C.blue),
     const Spacer(),
-    _artTile('assets/images/illustration_3d_mannequin.png', 'Personal goals', 'Connect a member goal to show target progress', compact),
+    _visualTile(Icons.flag_rounded, 'Personal goals', 'Connect a member target to show goal progress', C.goldDark),
   ]);
 
   Widget _morePanel(String title, IconData icon) => Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -569,6 +588,27 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       Text(detail, style: TextStyle(fontSize: 7, color: color, fontWeight: FontWeight.w800)),
     ]),
   );
+
+  Widget _visualTile(IconData icon, String title, String subtitle, Color accent) => Expanded(child: Container(
+    width: double.infinity,
+    padding: const EdgeInsets.all(10),
+    decoration: _innerDecoration(),
+    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Expanded(child: Center(child: Container(
+        width: 88, height: 88,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFFFFF0B5), Color(0xFFFFD84A)]),
+          borderRadius: BorderRadius.circular(28),
+          border: Border.all(color: const Color(0xFFE7B51A), width: 1.2),
+          boxShadow: const [BoxShadow(color: Color(0x22A77D00), blurRadius: 10, offset: Offset(0, 4))],
+        ),
+        child: Icon(icon, size: 42, color: accent),
+      ))),
+      const SizedBox(height: 4),
+      Text(title, style: const TextStyle(fontSize: 10, color: C.ink, fontWeight: FontWeight.w900)),
+      Text(subtitle, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 7, color: C.muted)),
+    ]),
+  ));
 
   Widget _artTile(String asset, String title, String subtitle, bool compact) => Expanded(child: Container(
     width: double.infinity,
@@ -630,10 +670,13 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
           ],
         ),
         const SizedBox(height: 4),
-        Expanded(child: GridView.builder(
+        Expanded(child: LayoutBuilder(builder: (context, constraints) {
+          final rowCount = ((firstWeekday + days) / 7).ceil();
+          final cellHeight = ((constraints.maxHeight - (rowCount - 1) * 3) / rowCount).clamp(25.0, 44.0);
+          return GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 3, crossAxisSpacing: 3, childAspectRatio: 1.55),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 3, crossAxisSpacing: 3, mainAxisExtent: cellHeight),
           itemCount: firstWeekday + days,
           itemBuilder: (context, index) {
             if (index < firstWeekday) return const SizedBox.shrink();
@@ -649,7 +692,8 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
               child: Text(isSunday ? 'OFF' : '$day', style: TextStyle(fontSize: isSunday ? 6.5 : 8, fontWeight: FontWeight.w900, color: textColor)),
             );
           },
-        )),
+        );
+        })),
       ]),
     );
   }
