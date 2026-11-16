@@ -86,3 +86,12 @@ Read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` before any work. Inspect actual co
 - In-app Update Center is accepted architecture, but not yet implemented. Compiled Flutter UI/logic changes require a new APK; no arbitrary Dart hot patch. Publish stable GitHub Releases (not expiring Actions artifacts), manifest, SHA-256 and changelog only after tests and protected signing. Installer is Android-approved and may require user confirmation.
 - Signing continuity is a hard gate: current CI APK is QA/debug signed and existing installed app fingerprint is unverified. Never uninstall or clear data to force update.
 - Append-only history: keep all prior records; update state/handoff after each task. Do not delete history.
+
+
+## Current implementation update — 2026-11-16
+- The active UI direction is docs/UI_COMPACT_WORKSPACE_SPEC.md: no root vertical scroll; bounded LayoutBuilder viewport; compact member context; four quick tabs; contextual rail swaps one widget in place; Attendance opens current-month Calendar by default. This supersedes earlier bootstrap text that described a tall outer card with trend/calendar/insight stacked.
+- The Flutter implementation is in `lib/presentation/member_checkin_screen.dart` and has not yet passed a fresh full CI run. Inspect latest run before claiming build success.
+- In-app updater implementation is in `lib/core/services/update_center_service.dart`, `android/app/src/main/kotlin/com/badgym/bad_gym/MainActivity.kt` and `UpdateInstallReceiver.kt`. It checks GitHub Releases, validates HTTPS and SHA-256, and hands verified APK to Android PackageInstaller. The user must approve Android/MIUI install confirmation.
+- Stable release publishing is gated by four encrypted secrets: BADGYM_RELEASE_KEYSTORE_B64, BADGYM_RELEASE_STORE_PASSWORD, BADGYM_RELEASE_KEY_ALIAS, BADGYM_RELEASE_KEY_PASSWORD. Never use the default debug key for public stable releases. No release should be published until signing continuity is verified.
+- Current pubspec version is 0.2.0+2. Latest known CI run 43876682039 was cancelled before Flutter checks due rapid commits; check the newest Actions run.
+- Preserve full history. Append every agent handoff and release record; do not delete prior context.
