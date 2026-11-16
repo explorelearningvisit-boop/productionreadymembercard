@@ -61,7 +61,8 @@ class ThemeSwitcherSheet extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              const Icon(Icons.palette_rounded, color: Color(0xFFFFD700), size: 24),
+              const Icon(Icons.palette_rounded,
+                  color: Color(0xFFFFD700), size: 24),
               const SizedBox(width: 10),
               const Text(
                 'BAD GYM Dashboard Variations',
@@ -125,7 +126,9 @@ class ThemeSwitcherSheet extends StatelessWidget {
                         child: Center(
                           child: Icon(
                             _getIconForVariant(variant),
-                            color: variant.isDarkMode ? Colors.white : Colors.black87,
+                            color: variant.isDarkMode
+                                ? Colors.white
+                                : Colors.black87,
                             size: 20,
                           ),
                         ),
@@ -138,7 +141,9 @@ class ThemeSwitcherSheet extends StatelessWidget {
                             Text(
                               variant.displayName,
                               style: TextStyle(
-                                color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.9),
+                                color: isSelected
+                                    ? Colors.white
+                                    : Colors.white.withValues(alpha: 0.9),
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Poppins',
@@ -148,7 +153,9 @@ class ThemeSwitcherSheet extends StatelessWidget {
                             Text(
                               variant.subtitle,
                               style: TextStyle(
-                                color: isSelected ? variant.primaryColor : Colors.white54,
+                                color: isSelected
+                                    ? variant.primaryColor
+                                    : Colors.white54,
                                 fontSize: 12,
                               ),
                             ),
@@ -162,7 +169,8 @@ class ThemeSwitcherSheet extends StatelessWidget {
                             color: variant.primaryColor,
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(Icons.check, color: Colors.white, size: 16),
+                          child: const Icon(Icons.check,
+                              color: Colors.white, size: 16),
                         ),
                     ],
                   ),

@@ -298,3 +298,25 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Last verified cloud build**: run 43879102167 attempt 2, commit 70f943f, version 0.2.0+2, artifact 14231087792, SHA-256 c9fe784ce1db28dc2d4fe85bdbedc218303b3a3a1af5dd522e3c3de595006f08. Cloud Xiaomi QA had peer Online=false at that run's timestamp. Must recheck live.
 - **Install safety**: never uninstall or clear data. Verify package/version/certificate before install. `flutter run` may attempt to replace with a local debug-signed APK; do not run it until signature continuity is confirmed. On signature mismatch stop and preserve existing app.
 - **Expected write-back**: Antigravity commits `qa/local-runs/<timestamp>/RUN_REPORT.md` and redacted screenshots/logs, updates AI_SYNC_STATE, appends this hub, updates ANTIGRAVITY_TASK, and returns commit/run/evidence URLs. No local run has been performed by ChatGPT; status remains RUNBOOK_READY_NOT_YET_EXECUTED.
+
+### [2026-11-16 15:45 UTC] Antigravity — 3D Flame & Trophy Asset Generation + Physical Xiaomi 11i In-Place Verification
+- **Context & User Request**: User reported that the displayed streak flame icon remained the old low-resolution placeholder, and visual assets in `BAD_GYM_Individual_Visual_Assets_v3` suffered from white background halos, resolution degradation, and crop cutoffs (e.g., clipped trophy handle).
+- **Asset Engineering**:
+  - Leveraged `image-generator` specialist to produce 1024x1024 ultra-HD 3D assets:
+    1. `streak_flame_3d.png`: Glossy 3D flame badge with deep crimson outer borders, glowing warm amber/yellow core, and specular reflections on transparent alpha.
+    2. `best_trophy_3d.png`: Sleek 3D golden championship cup with symmetrical intact handles, embossed star emblem, and polished pedestal base on transparent alpha.
+  - Replaced `assets/badges/streak_flame.png` and `assets/badges/best_trophy.png` (and `*_hq.png`).
+  - Synced to `C:\Users\User\Downloads\BAD_GYM_Individual_Visual_Assets_v3\BAD_GYM_Individual_Assets\F01_streak_flame_3d.png` and `F02_best_trophy_3d.png`.
+- **UI & Presentation Integration**:
+  - `attendance_donut_chart.dart`: Integrated 3D Flame with gentle pulse animation, 3D Gold Trophy, vertical crimson accent divider, and bold crimson italic typography for streak values (`#990000`).
+  - `member_checkin_screen.dart`:
+    1. Replaced generic person icon with athlete model portrait (`assets/hero/hero_athlete.png`) inside a gold circular border.
+    2. In `_buildInsights`: Implemented `_metricImagePanel` showcasing the high-definition 3D Flame and 3D Trophy.
+    3. In `_buildFooter`: Integrated inline 3D Flame icon next to live streak metrics with overflow-safe `FittedBox`.
+- **Verification & Physical Device Run**:
+  - `flutter analyze --no-fatal-infos`: **0 issues found** (0 errors, 0 warnings).
+  - `flutter test`: **11/11 tests passed** (including 360dp bounded viewport constraints).
+  - `flutter build apk --release`: Successfully generated `build/app/outputs/flutter-apk/app-release.apk` (59.6 MB).
+  - Keystore & Signature: Verified signer certificate continuity (`SHA-256: dcff9efa8cb91c9169b62b87d16e63a881ba78f78b4e4a53625a28de616a3c55`).
+  - Device Connection & Install: Installed in-place on Xiaomi 11i 5G (`zxdada69gunb7ls4` USB Channel A & `100.123.18.54:5555` Channel B) with `Performing Streamed Install -> Success`.
+  - Live Verification: Verified cold launch (`com.badgym.bad_gym/.MainActivity`), captured live on-device screenshot to `docs/screenshots/bad_gym_live.png`. App data and user state 100% preserved.

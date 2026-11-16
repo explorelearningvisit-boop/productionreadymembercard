@@ -45,7 +45,8 @@ class MemberQrSheet extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [BadGymColors.gold, BadGymColors.goldDark],
@@ -54,7 +55,8 @@ class MemberQrSheet extends StatelessWidget {
                 ),
                 child: const Row(
                   children: [
-                    Icon(Icons.workspace_premium, size: 14, color: Color(0xFF1E0E00)),
+                    Icon(Icons.workspace_premium,
+                        size: 14, color: Color(0xFF1E0E00)),
                     SizedBox(width: 4),
                     Text(
                       'VIP ACCESS PASS',
@@ -138,7 +140,8 @@ class MemberQrSheet extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.nfc_rounded, size: 16, color: BadGymColors.emerald),
+                      Icon(Icons.nfc_rounded,
+                          size: 16, color: BadGymColors.emerald),
                       SizedBox(width: 6),
                       Text(
                         'Hold near turnstile reader or scan barcode',
@@ -163,7 +166,8 @@ class MemberQrSheet extends StatelessWidget {
             decoration: BoxDecoration(
               color: BadGymColors.purpleInnerGlass,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: BadGymColors.neonLime.withValues(alpha: 0.4)),
+              border: Border.all(
+                  color: BadGymColors.neonLime.withValues(alpha: 0.4)),
             ),
             child: const FittedBox(
               fit: BoxFit.scaleDown,
@@ -207,7 +211,9 @@ class MemberQrSheet extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
-                  side: BorderSide(color: BadGymColors.neonVioletBorder.withValues(alpha: 0.5)),
+                  side: BorderSide(
+                      color:
+                          BadGymColors.neonVioletBorder.withValues(alpha: 0.5)),
                 ),
               ),
               child: const Text(

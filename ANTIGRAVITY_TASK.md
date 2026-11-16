@@ -95,3 +95,22 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - Full-run evidence must be committed under `qa/local-runs/<timestamp>/`, and `AI_SYNC_STATE.json`, `AI_SHARED_COMMUNICATION_HUB.md`, and this handoff updated with commit/run/screenshot/report links.
 - Current cloud APK 0.2.0+2 build is green, but cloud Xiaomi QA was blocked because the tailnet peer showed Offline=false? Correction: peer's Online field was false. Antigravity must query live state before any connection attempt.
 - Next action: on the powered-on Windows laptop, open the existing repository in Antigravity, paste the master task from `docs/ANTIGRAVITY_FULL_RUN_HANDOFF.md`, and let it perform the documented full run. It must push its evidence report to GitHub for ChatGPT to read.
+
+## 2026-11-16 — COMPLETED: Antigravity Windows Full Run, 3D Flame/Trophy Badges & Physical Xiaomi 11i Verification
+- **Status**: COMPLETE & VERIFIED.
+- **3D Assets**:
+  - Replaced legacy low-res flame clip art with 1024x1024 ultra-HD glossy 3D flame badge (`assets/badges/streak_flame.png`) and golden trophy cup (`assets/badges/best_trophy.png`) on clean transparent alpha backgrounds.
+  - Sourced and synchronized to user's raw assets folder `C:\Users\User\Downloads\BAD_GYM_Individual_Visual_Assets_v3\BAD_GYM_Individual_Assets\`.
+- **UI Updates**:
+  - Embedded 3D flame and trophy into `AttendanceMetricsRow` and `MemberCheckInScreen` Insights panel and footer.
+  - Linked athlete portrait avatar (`assets/hero/hero_athlete.png`) with golden circular trim into member profile card.
+  - Formatted streak numbers with bold crimson italic styling (`#990000`).
+- **Validation**:
+  - Static analysis: strict 0 issues (`flutter analyze --no-fatal-infos`).
+  - Unit/widget test suite: **11/11 tests pass** (`flutter test`).
+  - Release APK: built cleanly (`flutter build apk --release`, 59.6 MB).
+  - Keystore signing continuity: validated SHA-256 `dcff9efa8cb91c9169b62b87d16e63a881ba78f78b4e4a53625a28de616a3c55`.
+- **Physical Device Deployment**:
+  - Target: Xiaomi 11i 5G (`zxdada69gunb7ls4` via USB & `100.123.18.54:5555` via TCP/IP).
+  - In-place streamed install succeeded without data loss or app uninstallation.
+  - Live on-device screenshot captured to `docs/screenshots/bad_gym_live.png`.

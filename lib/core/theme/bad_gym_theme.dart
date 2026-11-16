@@ -2,25 +2,31 @@ import 'package:flutter/material.dart';
 
 abstract final class BadGymColors {
   // --- PRIMARY RED STRAWBERRY THEME ---
-  static const Color primary = Color(0xFFE50914);         // #E50914 Primary Strawberry Red
+  static const Color primary =
+      Color(0xFFE50914); // #E50914 Primary Strawberry Red
   static const Color primaryDark = Color(0xFF99000C);
   static const Color primaryDeep = Color(0xFF6B000B);
-  static const Color secondary = Color(0xFFFF4D6D);       // #FF4D6D Strawberry Pink / Coral
+  static const Color secondary =
+      Color(0xFFFF4D6D); // #FF4D6D Strawberry Pink / Coral
   static const Color secondaryLight = Color(0xFFFF758F);
 
   // Status & Accents
-  static const Color accentSuccess = Color(0xFF00C853);   // Emerald Green (Active, Present, Check-in)
+  static const Color accentSuccess =
+      Color(0xFF00C853); // Emerald Green (Active, Present, Check-in)
   static const Color successGlow = Color(0x6600C853);
-  static const Color warning = Color(0xFFFFB300);         // Amber Gold (Late, Gold Plan)
-  static const Color danger = Color(0xFFE50914);          // Bright Coral Red (Absent, Due)
-  static const Color infoHoliday = Color(0xFFAA00FF);     // Electric Purple (Holiday)
-  static const Color cyanBody = Color(0xFF00B4D8);        // Cyan (Body stat)
-  static const Color purpleWorkout = Color(0xFF8E24AA);   // Purple (Workout stat)
+  static const Color warning =
+      Color(0xFFFFB300); // Amber Gold (Late, Gold Plan)
+  static const Color danger =
+      Color(0xFFE50914); // Bright Coral Red (Absent, Due)
+  static const Color infoHoliday =
+      Color(0xFFAA00FF); // Electric Purple (Holiday)
+  static const Color cyanBody = Color(0xFF00B4D8); // Cyan (Body stat)
+  static const Color purpleWorkout = Color(0xFF8E24AA); // Purple (Workout stat)
 
   // Background Gradient & Card Glass
   static const Color bgGradientStart = Color(0xFFFFE8ED); // Soft Rosy Red Cream
-  static const Color bgGradientEnd = Color(0xFFFFFFFF);   // Pure White
-  static const Color cardGlass = Color(0xB3FFFFFF);       // rgba(255, 255, 255, 0.70)
+  static const Color bgGradientEnd = Color(0xFFFFFFFF); // Pure White
+  static const Color cardGlass = Color(0xB3FFFFFF); // rgba(255, 255, 255, 0.70)
   static const Color cardGlassSolid = Color(0xFFFFFFFF);
   static const Color cardBorder = Color(0x33FF4D6D);
   static const Color cardShadow = Color(0x22E50914);

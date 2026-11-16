@@ -79,7 +79,8 @@ class BodyIntelligenceCard extends StatelessWidget {
               ),
               const SizedBox(width: 3),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.5),
                 decoration: BoxDecoration(
                   color: const Color(0xFFE0F2FE),
                   borderRadius: BorderRadius.circular(12),
@@ -218,7 +219,8 @@ class BodyIntelligenceCard extends StatelessWidget {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Measurement storage is not connected yet. No weight was saved.'),
+                          content: Text(
+                              'Measurement storage is not connected yet. No weight was saved.'),
                           backgroundColor: Color(0xFF0891B2),
                           duration: Duration(seconds: 2),
                         ),
@@ -270,7 +272,8 @@ class BodyIntelligenceCard extends StatelessWidget {
                   HapticFeedback.selectionClick();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('InBody sync is not connected yet. No scan was imported.'),
+                      content: Text(
+                          'InBody sync is not connected yet. No scan was imported.'),
                       backgroundColor: BadGymColors.purpleCardStart,
                       duration: Duration(seconds: 2),
                     ),
@@ -278,7 +281,8 @@ class BodyIntelligenceCard extends StatelessWidget {
                 },
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6.5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6.5),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFAF7FE),
                     borderRadius: BorderRadius.circular(12),
@@ -289,7 +293,8 @@ class BodyIntelligenceCard extends StatelessWidget {
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.qr_code_scanner_rounded, size: 12, color: Color(0xFF0891B2)),
+                      Icon(Icons.qr_code_scanner_rounded,
+                          size: 12, color: Color(0xFF0891B2)),
                       SizedBox(width: 3),
                       Text(
                         'InBody',
@@ -403,7 +408,8 @@ class BodyIntelligenceCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
               decoration: BoxDecoration(
-                color: (isGain ? BadGymColors.emerald : const Color(0xFF0284C7)).withValues(alpha: 0.12),
+                color: (isGain ? BadGymColors.emerald : const Color(0xFF0284C7))
+                    .withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(6),
               ),
               child: Text(
@@ -412,7 +418,8 @@ class BodyIntelligenceCard extends StatelessWidget {
                   fontFamily: BadGymTypography.fontBody,
                   fontSize: 7.5,
                   fontWeight: FontWeight.w700,
-                  color: isGain ? BadGymColors.emerald : const Color(0xFF0284C7),
+                  color:
+                      isGain ? BadGymColors.emerald : const Color(0xFF0284C7),
                 ),
               ),
             ),

@@ -39,28 +39,28 @@ class AttendanceTrendChart extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                Text(
-                  'Attendance Trend',
-                  style: TextStyle(
-                    fontFamily: BadGymTypography.fontHeading,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 12.5,
-                    color: BadGymColors.inkPrimary,
-                    height: 1.1,
+                  const Text(
+                    'Attendance Trend',
+                    style: TextStyle(
+                      fontFamily: BadGymTypography.fontHeading,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 12.5,
+                      color: BadGymColors.inkPrimary,
+                      height: 1.1,
+                    ),
                   ),
-                ),
-                Text(
-                  'Daily Attendance – $monthLabel',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: BadGymTypography.fontBody,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 9,
-                    color: BadGymColors.inkMuted,
-                    height: 1.1,
+                  Text(
+                    'Daily Attendance – $monthLabel',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontFamily: BadGymTypography.fontBody,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 9,
+                      color: BadGymColors.inkMuted,
+                      height: 1.1,
+                    ),
                   ),
-                ),
                 ],
               ),
             ),

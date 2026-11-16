@@ -19,8 +19,18 @@ class AttendanceCalendarGrid extends StatelessWidget {
   }) : assert(month >= 1 && month <= 12);
 
   static const _monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   static const _dayHeaderStyle = TextStyle(
@@ -48,10 +58,12 @@ class AttendanceCalendarGrid extends StatelessWidget {
                 IconButton(
                   key: const ValueKey('attendance_previous_month'),
                   visualDensity: VisualDensity.compact,
-                  constraints: const BoxConstraints.tightFor(width: 28, height: 28),
+                  constraints:
+                      const BoxConstraints.tightFor(width: 28, height: 28),
                   padding: EdgeInsets.zero,
                   onPressed: onPreviousMonth,
-                  icon: const Icon(Icons.chevron_left_rounded, size: 20, color: Color(0xFF8F1F2D)),
+                  icon: const Icon(Icons.chevron_left_rounded,
+                      size: 20, color: Color(0xFF8F1F2D)),
                 ),
                 Expanded(
                   child: Center(
@@ -72,10 +84,12 @@ class AttendanceCalendarGrid extends StatelessWidget {
                 IconButton(
                   key: const ValueKey('attendance_next_month'),
                   visualDensity: VisualDensity.compact,
-                  constraints: const BoxConstraints.tightFor(width: 28, height: 28),
+                  constraints:
+                      const BoxConstraints.tightFor(width: 28, height: 28),
                   padding: EdgeInsets.zero,
                   onPressed: onNextMonth,
-                  icon: const Icon(Icons.chevron_right_rounded, size: 20, color: Color(0xFF1E293B)),
+                  icon: const Icon(Icons.chevron_right_rounded,
+                      size: 20, color: Color(0xFF1E293B)),
                 ),
               ],
             ),
@@ -83,13 +97,20 @@ class AttendanceCalendarGrid extends StatelessWidget {
           const SizedBox(height: 6),
           const Row(
             children: [
-              Expanded(child: Center(child: Text('Mon', style: _dayHeaderStyle))),
-              Expanded(child: Center(child: Text('Tue', style: _dayHeaderStyle))),
-              Expanded(child: Center(child: Text('Wed', style: _dayHeaderStyle))),
-              Expanded(child: Center(child: Text('Thu', style: _dayHeaderStyle))),
-              Expanded(child: Center(child: Text('Fri', style: _dayHeaderStyle))),
-              Expanded(child: Center(child: Text('Sat', style: _dayHeaderStyle))),
-              Expanded(child: Center(child: Text('Sun', style: _dayHeaderStyle))),
+              Expanded(
+                  child: Center(child: Text('Mon', style: _dayHeaderStyle))),
+              Expanded(
+                  child: Center(child: Text('Tue', style: _dayHeaderStyle))),
+              Expanded(
+                  child: Center(child: Text('Wed', style: _dayHeaderStyle))),
+              Expanded(
+                  child: Center(child: Text('Thu', style: _dayHeaderStyle))),
+              Expanded(
+                  child: Center(child: Text('Fri', style: _dayHeaderStyle))),
+              Expanded(
+                  child: Center(child: Text('Sat', style: _dayHeaderStyle))),
+              Expanded(
+                  child: Center(child: Text('Sun', style: _dayHeaderStyle))),
             ],
           ),
           const SizedBox(height: 5),
@@ -158,11 +179,16 @@ class AttendanceCalendarGrid extends StatelessWidget {
             DayAttendanceStatus.empty => const Color(0xFF9CA3AF),
           };
 
-    final label = isOff ? 'OFF' : isHoliday ? 'HOL' : '';
+    final label = isOff
+        ? 'OFF'
+        : isHoliday
+            ? 'HOL'
+            : '';
     final isToday = item?.isToday == true;
 
     return Semantics(
-      label: '${date.day} ${isOff ? 'Sunday off' : isHoliday ? 'Holiday' : status.name}',
+      label:
+          '${date.day} ${isOff ? 'Sunday off' : isHoliday ? 'Holiday' : status.name}',
       child: Container(
         key: ValueKey('attendance_day_${date.day}'),
         width: 31,
@@ -170,7 +196,9 @@ class AttendanceCalendarGrid extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(7),
-          border: isToday ? Border.all(color: const Color(0xFF079B43), width: 1.4) : null,
+          border: isToday
+              ? Border.all(color: const Color(0xFF079B43), width: 1.4)
+              : null,
         ),
         alignment: Alignment.center,
         child: Column(
@@ -216,7 +244,10 @@ class _LegendItem extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
         const SizedBox(width: 3),
         Text(
           label,

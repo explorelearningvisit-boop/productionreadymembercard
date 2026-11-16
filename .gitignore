@@ -32,3 +32,9 @@ build/
 !.env.example
 *.jks
 *.keystore
+
+# Python
+.venv/
+**/__pycache__/
+*.pyc
+

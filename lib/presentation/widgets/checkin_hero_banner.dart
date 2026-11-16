@@ -139,7 +139,8 @@ class CheckInHeroBanner extends StatelessWidget {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFFF59E0B).withValues(alpha: 0.6),
+                                color: const Color(0xFFF59E0B)
+                                    .withValues(alpha: 0.6),
                                 blurRadius: 8,
                                 offset: const Offset(0, 2),
                               ),
