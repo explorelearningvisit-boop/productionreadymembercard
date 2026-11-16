@@ -39,7 +39,7 @@ class VerticalNavigationRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 44,
+      width: 50,
       height: height,
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 1),
       decoration: BoxDecoration(
@@ -47,10 +47,10 @@ class VerticalNavigationRail extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Color(0xFFB91C2C),
-            Color(0xFF8B0012),
-            Color(0xFF69000D),
-            Color(0xFFB91C2C),
+            Color(0xFFFFE5E8),
+            Color(0xFFFFD5DA),
+            Color(0xFFFFE9E6),
+            Color(0xFFFFF0E6),
           ],
           stops: [0.0, 0.35, 0.75, 1.0],
         ),
@@ -61,7 +61,7 @@ class VerticalNavigationRail extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF8B0012).withValues(alpha: 0.20),
+            color: const Color(0xFFC94B5B).withValues(alpha: 0.10),
             blurRadius: 7,
             offset: const Offset(0, 2),
           ),
@@ -97,7 +97,7 @@ class VerticalNavigationRail extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                   fontSize: 10.5,
                   letterSpacing: 0.8,
-                  color: Colors.white,
+                  color: const Color(0xFF7C2632),
                   height: 1.0,
                 ),
               ),
@@ -245,8 +245,8 @@ class VerticalNavigationRail extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                Color(0xFF8B0000),
-                Color(0xFF6B000B),
+                Color(0xFFE9858E),
+                Color(0xFFD65D6A),
               ],
             ),
             borderRadius: BorderRadius.circular(14),
@@ -267,7 +267,7 @@ class VerticalNavigationRail extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                color: Colors.white,
+                color: const Color(0xFF7C2632),
                 size: 17,
               ),
               const SizedBox(height: 2),
@@ -302,7 +302,7 @@ class VerticalNavigationRail extends StatelessWidget {
           children: [
             Icon(
               icon,
-              color: const Color(0xFFD1D5DB),
+              color: const Color(0xFF9B6269),
               size: 16,
             ),
             const SizedBox(height: 2),
