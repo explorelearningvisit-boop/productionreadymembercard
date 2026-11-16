@@ -75,3 +75,15 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 3. Establish protected release signing continuity before any user-facing update installer.
 4. Implement stable GitHub Release manifest + verified download + Android PackageInstaller flow and tests.
 5. Update version/changelog and publish immutable releases only after CI passes.
+
+
+## 2026-11-16 — ACTIVE: compact fixed-viewport dashboard + in-app updater
+- ChatGPT has begun real Flutter/native implementation; do not treat the specs as docs-only anymore.
+- Read docs/UI_COMPACT_WORKSPACE_SPEC.md and docs/IN_APP_UPDATE_ARCHITECTURE.md before edits.
+- `lib/presentation/member_checkin_screen.dart` now uses LayoutBuilder and a bounded workspace instead of root vertical scrolling. It compresses the member context, keeps four quick tabs, and swaps one contextual widget in place. Attendance defaults to Calendar; rail views include Trend, History and Insights. Workout, Payment and Body have focused destinations.
+- `lib/core/services/update_center_service.dart` checks GitHub latest stable release, requires HTTPS GitHub APK asset + SHA-256 digest + explicit versionCode in release notes, and calls the native installer.
+- Android Kotlin MainActivity downloads APK into app-private cache, verifies SHA-256, stages via PackageInstaller, and lets Android show confirmation. Never bypass MIUI/Android confirmation.
+- Stable release workflow `.github/workflows/publish-android-release.yml` requires protected release keystore secrets. Do not publish default debug-signed builds as stable. No release is ready until protected signing key custody is provisioned and signing continuity is verified.
+- pubspec version: 0.2.0+2.
+- CI run 43876682039 was cancelled by rapid follow-on commits before tests. Inspect newest main run; repair all formatter/analyzer/test/Gradle failures. No build or physical device verification is claimed yet.
+- Do not restore root scrolling, mixed lavender palette, oversized hero, stacked chart+calendar+insight. Do not delete history or uninstall/clear user data.
