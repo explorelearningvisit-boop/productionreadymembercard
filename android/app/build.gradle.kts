@@ -1,3 +1,5 @@
+val releaseStorePath = System.getenv("BADGYM_RELEASE_STORE_FILE")
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
@@ -36,6 +38,14 @@ android {
             storePassword = "android"
             keyAlias = "androiddebugkey"
             keyPassword = "android"
+        }
+        if (!releaseStorePath.isNullOrBlank()) {
+            create("protectedRelease") {
+                storeFile = file(releaseStorePath)
+                storePassword = System.getenv("BADGYM_RELEASE_STORE_PASSWORD") ?: ""
+                keyAlias = System.getenv("BADGYM_RELEASE_KEY_ALIAS") ?: ""
+                keyPassword = System.getenv("BADGYM_RELEASE_KEY_PASSWORD") ?: ""
+            }
         }
     }
 
