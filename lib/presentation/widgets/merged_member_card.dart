@@ -131,7 +131,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                         ),
                         SizedBox(height: 2),
                         Text(
-                          'Fri, 16 Oct 2026 • 06:42 PM • Main Gym Floor',
+                          '${data.checkInDate} • ${data.checkInTime}',
                           style: TextStyle(
                             fontFamily: BadGymTypography.fontBody,
                             fontWeight: FontWeight.w500,
@@ -143,36 +143,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                       ],
                     ),
                   ),
-                  // Accessory Badge: CHECK-IN
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: const Color(0xFFD4AF37).withValues(alpha: 0.6),
-                        width: 0.8,
-                      ),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'CHECK-IN',
-                          style: TextStyle(
-                            fontFamily: BadGymTypography.fontHeading,
-                            fontWeight: FontWeight.w900,
-                            fontSize: 8.5,
-                            letterSpacing: 0.5,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(width: 3),
-                        Icon(Icons.qr_code_scanner_rounded, size: 10, color: Color(0xFFFFDF7A)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 7),
+                  const SizedBox(width: 6),
                   // Embedded Notification Bell Button
                   InkWell(
                     key: const ValueKey('header_notification_button'),
