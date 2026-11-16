@@ -1,7 +1,3 @@
-> **LATEST CI / DEVICE QA OVERRIDE (2026-11-15):** Read `ANTIGRAVITY_TASK.md` and `AI_SYNC_STATE.json` for current CI status. Run #24 showed Tailscale connected successfully on attempt 1 and Xiaomi 11i online; ADB reached the phone. Install failed due `INSTALL_FAILED_UPDATE_INCOMPATIBLE` followed by MIUI `INSTALL_FAILED_USER_RESTRICTED`. This is not a Tailscale join failure. New workflow includes 30s rapid-commit debounce, one Tailscale join per QA job with retries, ADB retries/backoff, conditional tool installs, no duplicate Gradle cache, stable CI debug keystore cache, non-streaming install fallback, and safe no-auto-uninstall behavior. Never erase app data automatically.
-
-> **CURRENT DESIGN AUTHORITY (2026-11-15):** Read [CURRENT_DESIGN_SPEC.md](CURRENT_DESIGN_SPEC.md) first. The latest approved UI is the user's red/crimson/gold/white BAD GYM reference. Royal Purple / Neon-Glow is historical and superseded. Member profile card must use a coordinated red treatment including payment, expiry and membership progress; vertical rail is burgundy/red. Do not hardcode the old purple design. Device verification must be based on current CI artifacts only; Wireless Debugging ports are dynamic, never assume 5555.
-
 # 🤖 BAD GYM — AI Shared Communication Hub & Inter-Agent Protocol
 
 > **Purpose**: This file is the primary shared communication channel and source of truth across all AI systems (Antigravity, ChatGPT, Claude, and automated agents) and human collaborators working on the **BAD GYM** project.
