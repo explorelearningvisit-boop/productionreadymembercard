@@ -57,3 +57,7 @@ ADB actions such as install, launch, tap, swipe, scroll and screenshot are possi
 
 ## Agent startup
 Every AI agent must read docs/AI_CONTEXT_BOOTSTRAP.md, AGENTS.md, this file, AI_SYNC_STATE.json, CURRENT_DESIGN_SPEC.md, ANTIGRAVITY_TASK.md, docs/NETWORK_ARCHITECTURE.md, docs/DECISION_LOG.md, docs/CONTINUOUS_AGENT_OBSERVABILITY.md, AI_SHARED_COMMUNICATION_HUB.md and the current workflow before acting. GitHub main is the durable shared project memory.
+
+
+## Standing user authorization (2026-11-16)
+The user authorizes ChatGPT to make routine engineering/architecture decisions and proceed with repository edits, commits, tests, workflow changes, diagnostics and safe retries without repeatedly asking. This does not authorize bypassing Android OS permission prompts, account access controls, secret provisioning, or irreversible/destructive actions. Preserve the installed app/data. Ask only when a specific on-device OS permission or genuinely irreversible user decision is required; otherwise proceed autonomously. Never claim device actions without fresh evidence.
