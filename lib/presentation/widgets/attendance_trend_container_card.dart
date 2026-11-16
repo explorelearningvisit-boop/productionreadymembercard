@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bad_gym/core/models/member_intelligence_data.dart';
+import 'package:bad_gym/presentation/widgets/attendance_calendar_grid.dart';
 import 'package:bad_gym/presentation/widgets/attendance_trend_chart.dart';
 
 class AttendanceTrendContainerCard extends StatelessWidget {
@@ -13,8 +14,8 @@ class AttendanceTrendContainerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 4.0),
-      padding: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -27,7 +28,18 @@ class AttendanceTrendContainerCard extends StatelessWidget {
           ),
         ],
       ),
-      child: AttendanceTrendChart(points: data.trendPoints),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AttendanceTrendChart(points: data.trendPoints, monthLabel: data.attendanceMonthLabel),
+          const Divider(height: 18, thickness: 0.7),
+          AttendanceCalendarGrid(
+            days: data.calendarDays,
+            year: data.attendanceYear,
+            month: data.attendanceMonth,
+          ),
+        ],
+      ),
     );
   }
 }

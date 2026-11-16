@@ -67,13 +67,17 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
           _selectedStatTab = QuickStatTab.workout;
           break;
         case RailTab.payment:
-        case RailTab.reports:
           _selectedStatTab = QuickStatTab.payment;
+          break;
+        case RailTab.reports:
+          _selectedStatTab = QuickStatTab.attendance;
           break;
         case RailTab.body:
         case RailTab.goals:
-        case RailTab.members:
           _selectedStatTab = QuickStatTab.body;
+          break;
+        case RailTab.members:
+          _selectedStatTab = QuickStatTab.attendance;
           break;
         default:
           break;
@@ -167,7 +171,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                     MemberQrSheet.show(context, _data);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Checked In successfully at BAD GYM! 🔥'),
+                        content: Text('Attendance sync is not connected yet. No check-in was recorded.'),
                         backgroundColor: Color(0xFF8B0000),
                         duration: Duration(seconds: 2),
                       ),

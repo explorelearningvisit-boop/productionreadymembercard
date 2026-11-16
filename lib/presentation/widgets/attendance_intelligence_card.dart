@@ -132,11 +132,11 @@ class AttendanceIntelligenceCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: const Row(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Oct 2026',
+                        data.attendanceMonthLabel,
                         style: TextStyle(
                           fontFamily: BadGymTypography.fontHeading,
                           fontSize: 9.5,
@@ -165,7 +165,7 @@ class AttendanceIntelligenceCard extends StatelessWidget {
           const SizedBox(height: 10),
 
           // 3. Calendar Grid & Legend
-          AttendanceCalendarGrid(days: data.calendarDays),
+          AttendanceCalendarGrid(days: data.calendarDays, year: data.attendanceYear, month: data.attendanceMonth),
         ],
       ),
     );

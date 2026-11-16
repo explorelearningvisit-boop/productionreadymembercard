@@ -221,7 +221,7 @@ class WorkoutIntelligenceCard extends StatelessWidget {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Logged Set 4 for Triceps Rope Pushdown (22.5 kg)'),
+                          content: Text('Workout logging is not connected yet. No set was saved.'),
                           backgroundColor: Color(0xFF6D28D9),
                           duration: Duration(seconds: 2),
                         ),
@@ -273,7 +273,7 @@ class WorkoutIntelligenceCard extends StatelessWidget {
                   HapticFeedback.selectionClick();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Rest timer set: 90 seconds remaining'),
+                      content: Text('Rest timer preview only. No countdown has started.'),
                       backgroundColor: BadGymColors.purpleCardStart,
                       duration: Duration(seconds: 2),
                     ),
