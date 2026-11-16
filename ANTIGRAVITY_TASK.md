@@ -37,3 +37,10 @@
 - USB ADB first; Wireless ADB requires live Tailscale peer + current Android Wireless Debugging connect port + successful adb get-state. No static port assumption.
 - Local writes disabled by default and restricted to lib/, test/, pubspec.yaml and analysis_options.yaml with expected-hash checks and external backups.
 - This repository commit does not install software on the user's Windows laptop, provision an OpenAI tunnel, connect the phone, or prove physical QA. These require the Windows host and live phone to be online.
+
+
+## Local Agent merge status — 2026-11-16
+- PR #3 merged to main: 2835954f4315b6348b6f800cb721b1113569f719.
+- Python Local Agent validation passed on PR head (compileall, 6 unit tests, Ruff); main-branch rerun and Flutter build rerun were queued at the time of this handoff.
+- CI install safety fixed: signature mismatch now preserves installed app/data; no unattended uninstall.
+- Windows laptop installation, OpenAI Secure MCP Tunnel provisioning, live USB/Wireless ADB, and fresh Xiaomi screenshot remain unverified and require the Windows host/phone to be online.

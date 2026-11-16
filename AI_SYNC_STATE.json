@@ -171,7 +171,7 @@
     "rule": "All agents read before edits and write back decisions, changes, verification and next action."
   },
   "localAgent": {
-    "status": "IMPLEMENTED_IN_FEATURE_BRANCH_PENDING_CI_AND_WINDOWS_INSTALL",
+    "status": "MERGED_MAIN_AGENT_CI_PASS_WINDOWS_INSTALL_AND_TUNNEL_PENDING",
     "repositoryPath": "tools/badgym_local_agent/",
     "setupGuide": "docs/LOCAL_AGENT_SETUP.md",
     "transport": "MCP stdio; OpenAI Secure MCP Tunnel documented as optional private bridge",
@@ -210,10 +210,14 @@
       "noSecretReadTool": true,
       "noAutomaticUninstallOrDataWipe": true
     },
-    "validation": "Python unit tests + compileall + Ruff in dedicated GitHub Actions workflow; pending first run",
-    "windowsInstallation": "NOT_INSTALLED_OR_VERIFIED_FROM_CHATGPT",
-    "openAiTunnel": "NOT_PROVISIONED; requires Platform tunnel ID/runtime key/permissions and supported ChatGPT web workspace or Responses API",
+    "validation": "PASS on PR head b353978e97b148f1f1078253dc8179ceff173b6b: Python compileall, 6 unit tests, Ruff. Main-branch rerun 43805608981 queued at state update.",
+    "windowsInstallation": "NOT_INSTALLED_OR_VERIFIED_FROM_CHATGPT; run documented Windows installer on the laptop.",
+    "openAiTunnel": "NOT_PROVISIONED; requires Platform tunnel ID/runtime key/permissions and supported ChatGPT web workspace or Responses API.",
     "mobileChatGPT": "Custom MCP connections are not currently supported in ChatGPT mobile app",
-    "updatedAt": "2026-11-16"
+    "updatedAt": "2026-11-16",
+    "mergedCommit": "2835954f4315b6348b6f800cb721b1113569f719",
+    "pullRequest": "https://github.com/explorelearningvisit-boop/productionreadymembercard/pull/3",
+    "flutterBuild": "Latest main-branch build workflow 43805608987 queued; prior run 43801332361 Flutter analyze, tests and release APK build passed.",
+    "deviceQA": "NOT_VERIFIED: latest recorded Tailnet fleet run found configured peers offline; Xiaomi installation/launch/fresh screenshot not confirmed. User's earlier deferred-install request remains pending device power-on."
   }
 }
