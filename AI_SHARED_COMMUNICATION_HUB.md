@@ -167,3 +167,10 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - [x] Gym alerts & updates notification sheet
 - [x] Membership renewal multi-tier modal with UPI checkout
 - [ ] Offline local caching via SQLite / SharedPreferences
+
+
+### [2026-11-16 UTC] ChatGPT — compact mobile layout revision
+- **Action**: Confirmed `productionreadymembercard` is the sole production Flutter repository on `main`. Updated the member screen so the event/profile header and four quick-stat tabs use full width; placed the narrow crimson vertical rail beside only the selected intelligence canvas; added Payment as the fourth horizontal quick tab; removed Smart Insight and the bottom metric strip; removed the duplicate CHECK-IN/QR badge and gym-floor text while retaining the event date/time.
+- **Verification**: GitHub Actions build/device workflow triggered by the latest code changes. Build, tests, APK installation and fresh screenshot remain pending until the current run completes. No claim of physical-device verification is made yet.
+- **Git Commit**: See latest `main` commit after the grouped UI changes.
+- **Next Recommendations**: Inspect the current workflow result and device screenshot; correct any layout/test issue before calling this release verified.
