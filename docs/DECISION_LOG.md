@@ -47,3 +47,10 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 - Remove redundant CHECK-IN action beside the event ribbon; it is informational and must not open QR or claim a new check-in.
 - Keep Attendance, Workout, Payment and Body visible/selectable at 360dp.
 - Use light coral/rose/ivory instead of heavy dark brown/deep burgundy blocks.
+
+
+## 2026-11-16 — Continuous AI-agent observability and safe recovery
+- **User decision:** All collaborating AI tools (ChatGPT, Antigravity, Claude, IDE/local agents and GitHub automation) must follow a shared operating model: inspect active work, changed files, logs and failures; diagnose and safely repair; validate; and persist a handoff so the next tool continues without manual context reconstruction.
+- **Contract:** `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` defines live-vs-snapshot honesty, event telemetry, filesystem observation, GitHub Actions ingestion, redaction, bounded retries, concurrency locks, device recovery and acceptance criteria.
+- **Important implementation distinction:** This is an operating requirement, not a claim that second-by-second monitoring is already active. A persistent local observer/event consumer plus GitHub event ingestion must be built, secured and end-to-end tested. Chat sessions and finite GitHub Actions jobs do not run forever.
+- **Safety:** Read-only/redacted telemetry by default; mutations require least privilege, expected hashes, backups and explicit approval. Never expose secrets, public ADB, uninstall automatically or wipe app data.
