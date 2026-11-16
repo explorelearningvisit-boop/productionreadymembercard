@@ -47,3 +47,14 @@ The user-provided image in the 2026-11-15 conversation is the latest approved vi
 - Remove the Smart Insight promotional strip and the bottom Streak/Best/Plan Days/Next Goal summary strip from the default attendance viewport.
 - Preserve the member profile's identity, payment due, expiry and membership progress. Keep the attendance trend visualization and its maximum/average/minimum summary.
 - Keep all four quick-stat cards compact and equal-width; the Payment card displays the due/paid state with semantic status colour.
+
+
+## 2026-11-16 — Unified Member Dashboard Card revision (latest user instruction)
+- Supersedes the earlier instruction to remove Smart Insight and the bottom Streak/Best/Plan Days/Next Goal strip. Restore both inside the member intelligence canvas.
+- Pack the check-in event ribbon, member profile/payment/expiry/progress, four horizontal tabs, vertical rail, selected intelligence content, Smart Insight and bottom summary inside one visibly bordered outer Member Dashboard Card. Border must be visible on top, left, right and bottom.
+- Keep four horizontal tabs: Attendance, Workout, Payment, Body. Payment must remain visible and selectable at 360dp.
+- Place the vertical rail only beside the intelligence canvas, beginning level with Attendance Trend and ending level with the bottom summary. It must not consume width beside the check-in ribbon or member profile.
+- Remove the redundant CHECK-IN action/button beside the check-in event. The ribbon is informational; it must not open QR or claim a new check-in.
+- Replace heavy dark brown/deep burgundy surfaces with light warm coral/rose/ivory. Smart Insight's light treatment is the colour direction. Maintain readable contrast.
+- Preserve live member identity, payment due, expiry, membership progress and all four tabs.
+- Verify at 360dp and on Xiaomi 11i when available; build/test and physical-device QA remain separate evidence states.
