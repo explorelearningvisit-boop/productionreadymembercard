@@ -592,7 +592,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
   );
 
   Widget _legendRow(Color color, String label, String count, double progress) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 2),
+    padding: const EdgeInsets.symmetric(vertical: 1),
     child: Row(children: [
       Container(width: 7, height: 7, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
       const SizedBox(width: 4),
