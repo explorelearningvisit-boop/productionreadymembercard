@@ -270,7 +270,7 @@ class PaymentIntelligenceCard extends StatelessWidget {
                   HapticFeedback.selectionClick();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('GST Invoice #BG-9921 downloaded to Downloads/BadGym/'),
+                      content: Text('Invoice export is not connected yet. No file was created.'),
                       backgroundColor: BadGymColors.purpleCardStart,
                       duration: Duration(seconds: 2),
                     ),
