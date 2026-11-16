@@ -1,57 +1,31 @@
-# Antigravity Handoff — BAD GYM (2026-11-15)
+# Antigravity Handoff — BAD GYM (living handoff)
 
-## Read first
-1. Read `CURRENT_DESIGN_SPEC.md`; it is the active visual authority and supersedes older purple/red-only notes.
-2. Read this file before changing CI, build, device QA, assets, or app code.
-3. Keep ChatGPT and Antigravity changes batched; avoid one commit per tiny edit when a single logical commit is possible.
+**Mandatory:** Read docs/AI_CONTEXT_BOOTSTRAP.md and AGENTS.md before any action. Then read AI_SYNC_STATE.json, CURRENT_DESIGN_SPEC.md, docs/NETWORK_ARCHITECTURE.md, docs/DECISION_LOG.md, this handoff and latest AI_SHARED_COMMUNICATION_HUB.md entries. Inspect latest main commits and current Actions run/artifacts.
 
-## Latest verified device failure diagnosis
-Workflow run #24: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43720865187
-- Tailscale action connected successfully on attempt 1. Do not misdiagnose this run as a Tailscale join failure.
-- Tailnet inventory showed Xiaomi 11i online at 100.123.18.54.
-- ADB reached the phone.
-- APK install failed first with `INSTALL_FAILED_UPDATE_INCOMPATIBLE`: installed app and new APK had different signing certificates.
-- Workflow uninstalled the old app, then MIUI returned `INSTALL_FAILED_USER_RESTRICTED: Install canceled by user`.
-- The actual blocker was unstable CI debug signing + MIUI install authorization, not Tailscale connectivity.
+## Current handoff — 2026-11-16
+- Repository: explorelearningvisit-boop/productionreadymembercard, branch main.
+- AI continuity documents have been added: docs/AI_CONTEXT_BOOTSTRAP.md, docs/NETWORK_ARCHITECTURE.md, docs/DECISION_LOG.md. AGENTS.md and CHATGPT_COCKPIT.md were rewritten as mandatory agent protocols; README links to context docs; AI_SYNC_STATE.json and AI_SHARED_COMMUNICATION_HUB.md updated.
+- Network topologies required: home Wi-Fi, own hotspot, third-party hotspot, hotspot shared onward through another phone, USB tethering, Ethernet, cellular, and transitions. Never assume same LAN/mDNS/fixed DHCP IP/fixed ADB port.
+- Xiaomi 11i 5G (21091116I), Android 13/MIUI. Last observed Tailscale IP 100.123.18.54, USB serial zxdada69gunb7ls4. User last reported Wireless Debugging connect port 37337; transient only. Android may disable Wireless Debugging after power-off; user re-enables it. User is an experienced developer; do not repeat generic debug-toggle instructions without evidence.
+- Dynamic ADB endpoint discovery is documented but NOT implemented. Current workflow still consumes ANDROID_DEVICE_PORTS_JSON and DEVICE_ADB_PRIVATE_KEY_B64. Do not claim port auto-discovery yet.
+- Security: previous Tailscale auth key and ADB private key material were exposed; rotate/revoke them. Never put secret values in docs/chat/commits.
+- Required next implementation: design/build authenticated Android endpoint discovery or device agent, validate ADB over Tailscale across supported topologies, remove static port secret only after end-to-end tests. Maintain manual endpoint fallback until then.
 
-## CI optimizations committed
-- Commit `61d17c5581e52f291ea0d827c7290ba728ed84f5`: bounded ADB connect retries with backoff, one Tailscale join reused for peer discovery, conditional Android tooling installation, removed duplicate Gradle cache (setup-gradle owns Gradle User Home caching), SDK packages installed only when missing, 30-second push debounce to avoid multiple rapid AI commits each launching a full build.
-- Commit `a5086c6c233280805085967da5a1bd46461a607e`: Tailscale retry/timeout raised and auth mode selected from explicit step outputs; stable debug keystore cache step is present.
-- Commit `fdb1b64f0605f906bfa294e6095bc2b28997eec2`: add non-streaming ADB install fallback; do not silently uninstall user app/data; record signature and MIUI permission failures distinctly.
-- Latest validation run: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43722419265 (check live result before claiming pass).
+## Existing CI/device QA lessons (historical; verify current run)
+- Tailscale join, peer-online, ADB transport, ADB authorization, APK signature, MIUI install authorization, launch, and screenshot are separate failure stages.
+- Earlier runs showed Tailscale join succeeded; other runs showed offline peers or ADB endpoint failures. Inspect latest run artifacts rather than repeating old diagnoses.
+- Never auto-uninstall or wipe user data. Do not claim fresh screenshot/install without artifacts.
 
-## Remaining one-time device action
-Because previous builds were signed with ephemeral runner debug keys, the installed Xiaomi app may still have a different signature. The workflow now caches the CI debug keystore for future builds, but first transition may require a one-time clean reinstall:
-1. On Xiaomi 11i, enable Developer options > Install via USB (and USB debugging security settings if MIUI exposes it).
-2. Keep phone unlocked and approve any install confirmation.
-3. If result is `SIGNATURE_MISMATCH_NEEDS_STABLE_SIGNING`, ask user before uninstalling; do not erase app data automatically.
-4. Once the first APK signed with the cached CI key is installed, later CI builds should retain that signing identity as long as the cache survives. For production distribution, replace this QA-only cached debug key with a protected release keystore stored as GitHub Actions secrets.
+## Before editing
+1. Fetch latest main and inspect recent commits and all touched files.
+2. Read current workflow .github/workflows/android-cloud-device.yml and docs/ANDROID_CLOUD_DEVICE_QA.md.
+3. Preserve ChatGPT or other agent changes; batch coherent commits.
+4. Update AI_SYNC_STATE.json and append AI_SHARED_COMMUNICATION_HUB.md after work.
+5. Run relevant tests/build and report exact results.
 
-## Device QA implementation rules
-- Tailscale is joined once per QA job. Do not re-run `tailscale up` per Android peer.
-- Retry `tailscale ping` and `adb connect` with bounded backoff; distinguish tunnel failure, stale wireless-debug port, ADB authorization, install signature mismatch, and MIUI user restriction.
-- Wireless ADB port is dynamic. Use `ANDROID_DEVICE_PORTS_JSON`; never hardcode 5555.
-- Never auto-uninstall a member app or wipe its data on signature mismatch.
-- Upload tailnet inventory, per-device ADB connection logs, install logs, screenshot and logcat even on failure.
-- Do not claim a fresh screenshot/install unless current run artifacts prove it.
-
-## Efficiency policy
-- Use one logical commit for a batch of related edits.
-- Let the 30-second debounce cancel superseded push runs before toolchain setup.
-- Gradle cache is managed by `gradle/actions/setup-gradle@v4`; do not add a second cache for the same Gradle User Home.
-- Flutter SDK cache is managed by flutter-action; pub cache uses its own lockfile-keyed cache.
-- Android SDK components are installed only when missing.
-- Device QA tools are installed only if absent.
-- Skip unnecessary build/test/device steps for docs-only changes (docs are already excluded from push path filters).
-
-## Credential security
-- A base64 ADB private key was exposed in ChatGPT chat and is compromised; never reuse it.
-- Never commit or print ADB private keys, Tailscale auth keys, OAuth secrets, keystores or passwords.
-- Use GitHub encrypted Actions secrets only.
-- For long-term stable production signing, use a dedicated protected keystore. The cached CI debug key is QA-only.
-
-## Current project/device
-- Repository: `explorelearningvisit-boop/productionreadymembercard`, branch `main`.
-- Application ID: `com.badgym.bad_gym`.
-- Xiaomi 11i 5G (21091116I), Android 13, Tailnet IP `100.123.18.54`.
-- Device wireless ADB port must be discovered/refreshed; it is not permanently fixed.
+## Active next steps
+- [ ] Verify current secret names/configuration without printing values; rotate exposed credentials via admin UI.
+- [ ] Implement authenticated current-endpoint discovery for Xiaomi Wireless Debugging.
+- [ ] Handle network changes and stale ADB socket reconnect.
+- [ ] Validate home Wi-Fi, independent hotspot/cellular, third-party hotspot, USB tethering and Ethernet scenarios.
+- [ ] Keep APK build available when device is offline; report device QA separately.
