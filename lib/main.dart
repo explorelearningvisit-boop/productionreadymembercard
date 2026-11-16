@@ -188,7 +188,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
         Text('GREAT INDIAN FESTIVAL', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: C.red)),
         Text('Up to 40% OFF · Fitness', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: C.ink)),
       ])),
-      Image.asset('assets/images/shaker_badgym.png', width: 27, height: 39, fit: BoxFit.contain, errorBuilder: (_, __, ___) => const Icon(Icons.fitness_center, size: 22, color: C.ink)),
+      Image.asset('assets/images/shaker_badgym.png', width: 24, height: 30, fit: BoxFit.contain, errorBuilder: (_, __, ___) => const Icon(Icons.fitness_center, size: 22, color: C.ink)),
       const SizedBox(width: 3),
       _pill('SPONSORED', C.green, Colors.white),
     ]),
