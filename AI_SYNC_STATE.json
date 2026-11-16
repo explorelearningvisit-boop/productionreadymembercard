@@ -296,5 +296,39 @@
     "currentStatus": "ARCHITECTURE_REQUIREMENT_TRACKED_PHONE_SIDE_COMMAND_CHANNEL_NOT_IMPLEMENTED",
     "note": "Authoritative requirement and status, not a claim that phone-side agent, endpoint discovery, or unattended installation is already implemented.",
     "implementationIssue": "https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/6"
-  }
+  },
+  "productDirection": {
+    "compactWorkspace": {
+      "status": "ACCEPTED_SPEC_IMPLEMENTATION_PENDING",
+      "spec": "docs/UI_COMPACT_WORKSPACE_SPEC.md",
+      "defaultTab": "Attendance",
+      "defaultRailItem": "Calendar",
+      "rootScroll": "PROHIBITED",
+      "widgetSwitching": "REPLACE_IN_PLACE",
+      "viewportTarget": "360dp and Xiaomi 11i usable height",
+      "palette": "warm ivory + crimson/red + restrained gold + semantic green/red/amber/grey",
+      "supersedes": "2026-11-16 tall unified scrollable dashboard"
+    }
+  },
+  "releaseUpdateCenter": {
+    "status": "ACCEPTED_ARCHITECTURE_IMPLEMENTATION_PENDING",
+    "spec": "docs/IN_APP_UPDATE_ARCHITECTURE.md",
+    "delivery": "GitHub stable Releases + JSON manifest + SHA-256 + Android PackageInstaller",
+    "requiresProtectedSigning": true,
+    "currentCISigning": "QA/debug signed; not approved for production in-place updates",
+    "installedCertificateVerified": false,
+    "arbitraryFlutterHotPatch": false,
+    "requiresUserInstallerConsent": true,
+    "actionsArtifactsAreNotProductionUpdateUrls": true
+  },
+  "agentContinuity": {
+    "appendOnly": true,
+    "mandatoryDocs": [
+      "docs/UI_COMPACT_WORKSPACE_SPEC.md",
+      "docs/IN_APP_UPDATE_ARCHITECTURE.md"
+    ],
+    "history": "AI_SHARED_COMMUNICATION_HUB.md + docs/DECISION_LOG.md + AI_SYNC_STATE.json + ANTIGRAVITY_TASK.md",
+    "preserveAllPriorHistory": true
+  },
+  "lastUpdated": "2026-11-16T18:37:00+05:30"
 }
