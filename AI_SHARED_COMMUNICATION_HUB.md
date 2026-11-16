@@ -186,3 +186,11 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Verification status**: Documentation and context protocol added. Dynamic ADB discovery/Android agent is a documented target only, not implemented. Current workflow still uses encrypted ANDROID_DEVICE_PORTS_JSON. No fresh device install/screenshot is claimed by this documentation change.
 - **Security**: Removed literal credential from cockpit guide. Previously exposed Tailscale auth key and ADB private key material require rotation/revocation; only secret names may appear in docs.
 - **Next**: Implement and test authenticated endpoint discovery, network-change reconnect, and removal of static port secret dependency. Do not expose ADB publicly.
+
+
+### [2026-11-16 UTC] ChatGPT — Deferred Xiaomi installation request
+- **User request**: User is powering off Xiaomi 11i and wants BAD GYM installed when the device is powered on again; preserve the requirement in GitHub and keep observing/retrying failures until the install/test succeeds.
+- **Action**: Created issue #2 (https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/2), recorded the deferred install lifecycle in AI_SYNC_STATE.json and docs/DECISION_LOG.md.
+- **Current truth**: Device status is `WAITING_FOR_DEVICE_POWER_ON` based on the user's report. No APK was installed in this attempt. A fully powered-off phone cannot be reached for installation. Current GitHub Actions skips offline peers and still requires ANDROID_DEVICE_PORTS_JSON; automatic queueing, dynamic endpoint discovery and bounded retry/resume are not implemented.
+- **Safety**: Do not uninstall or wipe app data automatically. Validate Tailscale, current Wireless Debugging endpoint, ADB transport/authorization, install, launch and screenshot as separate stages. Persist failure artifacts and use bounded retries without overlapping runs.
+- **Next**: Implement issue #2. Once the user powers the Xiaomi back on and enables its normal network/debug availability, trigger a fresh device QA run and verify install/launch/screenshot with current artifacts.
