@@ -56,7 +56,7 @@ flowchart LR
 | **Model** | **Xiaomi 11i 5G** (`21091116I`) | Android 13, MIUI |
 | **Physical Display** | **1080 × 2400** px | Device pixel ratio: **2.75x** |
 | **Tailscale Hostname** | `Xiaomi 11i` | Auto-discovered by cloud runner |
-| **Tailscale IP & Port** | `100.123.18.54:5555` | Wireless ADB |
+| **Tailscale device IP** | Previously observed `100.123.18.54` | Verify live; may change |\n| **Wireless ADB port** | Dynamic | Discover current connect port; never assume 5555 |
 | **Package ID** | `com.badgym.bad_gym` | Clean reinstall on signature update |
 | **Launcher Activity** | `com.badgym.bad_gym/.MainActivity` | Auto-launched after build |
 
@@ -96,7 +96,7 @@ flutter run
 
 ---
 
-## 📄 Key Documentation
+## 🤖 AI continuity and network architecture\n\n- [AI Context Bootstrap](docs/AI_CONTEXT_BOOTSTRAP.md) — mandatory start-here guide and copy-ready new-chat prompt.\n- [Network Architecture](docs/NETWORK_ARCHITECTURE.md) — supported Wi-Fi/hotspot/cellular/USB/Ethernet topologies and dynamic ADB discovery design.\n- [Decision Log](docs/DECISION_LOG.md) — dated decisions and superseded choices.\n- [AI Shared Communication Hub](AI_SHARED_COMMUNICATION_HUB.md) — chronological cross-agent handoff.\n- [AI Sync State](AI_SYNC_STATE.json) — machine-readable current project/device/CI state.\n\n## 📄 Key Documentation
 
 - [CHATGPT_COCKPIT.md](CHATGPT_COCKPIT.md) — Autonomous guide, workflow rules, and prompt template for AI agents.
 - [AGENTS.md](AGENTS.md) — Execution rules, device profile, and ADB fallback protocol.
