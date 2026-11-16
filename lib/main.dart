@@ -120,7 +120,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     ),
     child: Column(children: [
       Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        Container(width: compact ? 61 : 70, height: compact ? 61 : 70,
+        Container(width: compact ? 56 : 70, height: compact ? 56 : 70,
           decoration: BoxDecoration(
             gradient: const LinearGradient(colors: [Color(0xFFFFE7A1), Color(0xFFEAC044)]),
             borderRadius: BorderRadius.circular(16), border: Border.all(color: C.gold, width: 1.5)),
@@ -173,7 +173,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
   );
 
   Widget _sponsor(bool compact) => Container(
-    height: compact ? 47 : 56,
+    height: compact ? 44 : 56,
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     decoration: BoxDecoration(
       gradient: const LinearGradient(colors: [Color(0xFFFFE875), Color(0xFFFFC400), Color(0xFFFFF1A9)]),
@@ -201,7 +201,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       (Icons.account_balance_wallet, 'Payment', '₹500 Due', 'SBI offer', C.red),
       (Icons.monitor_weight, 'Body', '69.5 kg', '-0.8 kg', C.blue),
     ];
-    return SizedBox(height: compact ? 70 : 78, child: Row(children: List.generate(data.length, (i) {
+    return SizedBox(height: compact ? 66 : 78, child: Row(children: List.generate(data.length, (i) {
       final d = data[i];
       final selected = tab == i;
       return Expanded(child: Padding(padding: EdgeInsets.only(right: i == 3 ? 0 : 5), child: InkWell(
