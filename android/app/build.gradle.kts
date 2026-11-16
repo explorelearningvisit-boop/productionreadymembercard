@@ -1,10 +1,10 @@
-val releaseStorePath = System.getenv("BADGYM_RELEASE_STORE_FILE")
-
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+val releaseStorePath = System.getenv("BADGYM_RELEASE_STORE_FILE")
 
 android {
     namespace = "com.badgym.bad_gym"
