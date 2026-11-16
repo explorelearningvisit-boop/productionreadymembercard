@@ -218,3 +218,6 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Code commits**: `80dcdaf4b67b45ec843eb8981017f67d4f27b6d0` (screen), `79f04b2971ab6d6e884fcd983f70a74fbf6673c7` (rail), `f37e595fdf0c2668986900c6182b027f828dfd96` (ribbon). Docs/state commits follow.
 - **Verification**: GitHub file updates succeeded. Flutter format/analyze/tests/release APK build have not yet been run by this session. No fresh phone install or screenshot is verified.
 - **Next**: Run CI on the latest main commit, inspect widget tests and APK artifact, then install in place on Xiaomi and capture a new screenshot. Do not claim physical verification before artifact evidence.
+
+- **Follow-up**: Updated `test/widget_test.dart` to assert the outer dashboard card, Smart Insight, Streak, Best, Plan Days and Next Goal are present; retained the no-duplicate CHECK-IN assertion. Test commit: `a736029c552469e219e8711c86c2a5ec7c9750b2`.
+- **CI status**: No status checks were visible through the connected GitHub status endpoint at handoff time. The workflow is configured to run on main source/test pushes; await its Actions result before distributing a new APK.
