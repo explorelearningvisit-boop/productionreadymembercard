@@ -37,18 +37,23 @@
       "releaseApk": "success"
     },
     "deviceVerification": {
-      "status": "BLOCKED_ALL_CONFIGURED_TAILNET_PEERS_OFFLINE",
+      "status": "WAITING_FOR_DEVICE_POWER_ON",
       "tailscaleRunner": "connected successfully",
       "adb": "not attempted because all listed devices were offline",
-      "installation": "not attempted",
-      "screenshot": "no fresh screenshot captured",
+      "installation": "PENDING_DEVICE_ONLINE",
+      "screenshot": "NOT_CAPTURED",
       "observedPeers": [
         "Xiaomi 11i",
         "badgym-21091116i",
         "OPPO A53",
         "A's Tab A9"
       ],
-      "userAction": "Connect the Xiaomi 11i Tailscale Android app to the same tailnet, keep the phone online, and ensure Android Wireless Debugging is enabled with its current port reflected in ANDROID_DEVICE_PORTS_JSON."
+      "userAction": "Connect the Xiaomi 11i Tailscale Android app to the same tailnet, keep the phone online, and ensure Android Wireless Debugging is enabled with its current port reflected in ANDROID_DEVICE_PORTS_JSON.",
+      "userReported": "User is powering off the Xiaomi 11i; installation cannot occur while Android is fully powered off.",
+      "launch": "NOT_ATTEMPTED",
+      "nextAction": "When the phone is powered on, re-check Tailscale peer, current Wireless Debugging connect endpoint, ADB get-state and authorization; then install latest approved APK in place, launch, smoke-test and capture artifacts.",
+      "retryPolicy": "Requested deferred bounded retry/recovery loop; implementation pending.",
+      "trackingIssue": "https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/2"
     },
     "lastUpdated": "2026-11-16",
     "ciDiagnosis": {
@@ -97,6 +102,14 @@
     "deviceProfile": {
       "lastUserReportedWirelessAdbPort": 37337,
       "portNote": "Transient endpoint from user screenshot; not fixed and not yet updated in GitHub Actions secret."
+    },
+    "deviceInstallLifecycle": {
+      "desiredBehavior": "Defer install while phone is powered off/unreachable; resume when powered on and ADB-ready.",
+      "currentWorkflowBehavior": "Offline peers are skipped; workflow still requires ANDROID_DEVICE_PORTS_JSON. No durable deferred queue or automatic dynamic endpoint discovery yet.",
+      "implementationStatus": "REQUIREMENT_RECORDED_IMPLEMENTATION_PENDING",
+      "safety": "Never automatically uninstall app or wipe user data; no public ADB; preserve logs and classify failures.",
+      "retry": "Bounded backoff, no overlapping runs, resume on later scheduled/manual runs; persistent background execution is not available from this chat.",
+      "issue": 2
     }
   },
   "collaboratingAIs": [
