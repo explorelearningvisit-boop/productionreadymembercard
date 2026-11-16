@@ -66,3 +66,6 @@ Make only the requested change, inspect actual code, run relevant tests/build, r
 - MCP screenshots are returned as image content directly to the MCP client, not uploaded to GitHub as an intermediate.
 - Agent file writes are disabled by default and require local enablement, explicit per-call approval and expected file hash.
 - OpenAI Secure MCP Tunnel is the private transport option for compatible OpenAI surfaces. ChatGPT custom MCP is web-only; do not promise direct custom MCP access from the Android ChatGPT app.
+
+## Continuous agent observation (mandatory)
+Read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` before any work. Inspect actual connected tool capabilities and fresh timestamped telemetry; distinguish live events from snapshots. Observe active task/run IDs, changed files and logs where tools expose them; diagnose failures from full logs, repair minimally, validate, and record evidence in `AI_SYNC_STATE.json` and `AI_SHARED_COMMUNICATION_HUB.md`. Do not claim persistent/second-by-second monitoring unless a deployed watcher is running. The watcher and deferred recovery requirements remain implementation work until end-to-end verified.
