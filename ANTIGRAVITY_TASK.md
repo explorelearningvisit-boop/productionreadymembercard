@@ -59,3 +59,19 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - Current GitHub Actions already installs adb and joins tailnet but requires static ANDROID_DEVICE_PORTS_JSON; latest device QA failed at ADB connectivity. User screenshot shows Wireless Debugging OFF.
 - Implementation specification and acceptance tests: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/6
 - Acceptance: with laptop absent and Xiaomi on Jio cellular, ChatGPT-originated harmless test command reaches phone and returns fresh timestamped evidence; then consented update-in-place and screenshot/log verification.
+
+
+## Latest user direction — compact workspace + in-app updates (2026-11-16)
+- Mandatory read before UI/release work: docs/UI_COMPACT_WORKSPACE_SPEC.md and docs/IN_APP_UPDATE_ARCHITECTURE.md.
+- Current tall scrollable dashboard and stacked attendance chart+calendar are rejected. Attendance > Calendar is the default; contextual rail switches one bounded widget at a time. Four quick tabs remain. Primary dashboard must not vertically scroll.
+- Use compact warm-ivory + crimson/red + restrained gold; semantic green/red/amber/grey. Remove competing lavender/purple and peach gradients.
+- In-app Update Center is accepted architecture, but not yet implemented. Compiled Flutter UI/logic changes require a new APK; no arbitrary Dart hot patch. Publish stable GitHub Releases (not expiring Actions artifacts), manifest, SHA-256 and changelog only after tests and protected signing. Installer is Android-approved and may require user confirmation.
+- Signing continuity is a hard gate: current CI APK is QA/debug signed and existing installed app fingerprint is unverified. Never uninstall or clear data to force update.
+- Append-only history: keep all prior records; update state/handoff after each task. Do not delete history.
+
+## Next implementation sequence
+1. Refactor MemberCheckInScreen into bounded no-scroll workspace with Attendance Calendar default and contextual rail widget replacement.
+2. Add widget tests for viewport height, rail switching and default calendar.
+3. Establish protected release signing continuity before any user-facing update installer.
+4. Implement stable GitHub Release manifest + verified download + Android PackageInstaller flow and tests.
+5. Update version/changelog and publish immutable releases only after CI passes.
