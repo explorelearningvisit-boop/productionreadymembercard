@@ -50,5 +50,5 @@ Initial implementation committed; CI/device validation pending. Do not claim pix
 - Attendance includes calendar, trend, record, insights and goal views. Sundays render neutral OFF; present/late/absent remain green/amber/red.
 - Workout, Payment and Body surfaces display only currently available member metrics. Missing workout set/load history, payment transaction history and body measurement history are explicitly identified as not connected; do not fabricate records.
 - CI run: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43925111976
-- Format: PASS; analyze: PASS; Flutter tests: PASS. Android APK build: IN_PROGRESS at handoff. Physical Xiaomi screenshot comparison/install: NOT VERIFIED.
+- Format: PASS; analyze: PASS; Flutter tests: PASS. Android APK build: PASS; artifact 14255597205 uploaded and extracted. SHA-256: `f159b4925f78480d65e6979100c48b7a6d26575877aa2071f81cbd7330d8ede0`. Physical Xiaomi screenshot comparison/install: NOT VERIFIED.
 - Do not claim pixel-perfect. Next: finish APK build, inspect generated artifact, then compare fresh Xiaomi 11i screenshot against supplied references and iterate remaining visual differences.
