@@ -99,3 +99,10 @@ Never call it production-ready or pixel-perfect without current device evidence.
 - Default MCP mode is read/diagnostic. Writes are opt-in, limited to lib/, test/, pubspec.yaml and analysis_options.yaml, require explicit approval and expected SHA-256, and create a backup outside the repository.
 - Never add arbitrary shell execution, generic deletion, secret-reading, public ADB ingress, automatic uninstall or app-data wipe tools.
 - ChatGPT mobile does not currently support custom MCP connections. Do not claim the Windows agent is directly callable from the Android ChatGPT app; use supported ChatGPT web/workspace or a separate Responses API client via Secure MCP Tunnel.
+
+## Continuous agent observation and recovery (mandatory)
+- Every agent MUST read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` at session start.
+- Use authorized connectors to inspect live runner/task state, changed files, logs, CI jobs and artifacts before claiming current activity. Record timestamps and run IDs.
+- Diagnose from full logs, make minimal safe fixes, validate, and write back state + handoff. Never fabricate telemetry or claim second-by-second monitoring from snapshot-only tools.
+- Persistent observation requires a separately running local observer/event consumer; GitHub Actions jobs and chat sessions are not perpetual processes. Implement and verify the watcher per the contract; until then label this capability NOT IMPLEMENTED.
+- Keep telemetry read-only/redacted by default; writes require least privilege, expected hashes, backups and explicit approval. Bounded retries only; no overlapping device installs, no public ADB, no automatic uninstall/data wipe.
