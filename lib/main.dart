@@ -292,12 +292,17 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
           _legendRow(C.purple, 'Holiday', '4', .13),
         ])),
         Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
-          Icon(Icons.local_fire_department, color: C.red, size: 21),
-          Text('5 Days', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: C.red)),
-          Text('Current streak', style: TextStyle(fontSize: 7, color: C.muted)),
-          SizedBox(height: 3),
-          Icon(Icons.emoji_events, color: C.gold, size: 18),
-          Text('14 Days Best', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: C.ink)),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(Icons.local_fire_department, color: C.red, size: 14),
+            SizedBox(width: 2),
+            Text('5d streak', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: C.red)),
+          ]),
+          SizedBox(height: 5),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(Icons.emoji_events, color: C.gold, size: 13),
+            SizedBox(width: 2),
+            Text('14d best', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w800, color: C.ink)),
+          ]),
         ])),
       ])),
       const SizedBox(height: 4),
