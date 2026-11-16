@@ -33,3 +33,8 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 - Preserve app data. Never automatically uninstall or wipe to resolve signature/install errors. Classify failures and retain artifacts; use bounded backoff and avoid overlapping installs. Resume on later scheduled/manual attempts until success or a user-action blocker.
 - Current workflow only skips offline devices and still relies on `ANDROID_DEVICE_PORTS_JSON`; durable deferred queue, dynamic port discovery and retry/reconnect loop are not implemented yet.
 - Tracking: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/2
+
+
+## 2026-11-16 — Preserve installed app data during CI install failures
+- Remove the workflow's automatic uninstall/reinstall fallback on INSTALL_FAILED_UPDATE_INCOMPATIBLE.
+- A signature mismatch must report SIGNATURE_MISMATCH_PRESERVED_DATA and retain the installed application and all user data. Any migration/uninstall is an explicit user-approved operation outside unattended CI.
