@@ -76,3 +76,11 @@ The user-provided image in the 2026-11-15 conversation is the latest approved vi
 - Calendar month controls use ivory/crimson and neutral holiday semantics; no lavender.
 - CI run 43877970432 confirmed format/analyze and exposed an unbounded FittedBox calendar-width constraint. Replaced it with a directly width-constrained calendar in commit 9739c832f4c1b117d7541a47a1fd5015864e95de. New CI run 43879102167 has format/analyze/tests passing; Android APK build is still in progress at this note.
 - Physical Xiaomi visual QA is still pending. Do not call the design pixel-perfect until a fresh screenshot from the Xiaomi is compared.
+
+## 2026-11-17 — Ten supplied references unified under Gold Luxury (latest user direction)
+- The ten newly supplied dashboard references are a single source set for one unified BAD GYM design system, not ten independent selectable palettes.
+- Gold Luxury is the master identity: warm ivory/pearl surfaces, premium gold highlights, controlled crimson BAD GYM brand accents, charcoal typography, restrained glass depth, and semantic green/amber/crimson/neutral status colours. No purple or cyan as independent theme colours; no black default page canvas.
+- Use Poppins + Inter already bundled in the repository. Reuse existing member portrait, gym artwork, promotional graphics and badges; do not replace with unrelated artwork or bake UI text/charts into images.
+- All four workspaces (Attendance, Workout, Payment, Body) must share the same tokens, type scale, card treatment, spacing and asset family while retaining their specific information hierarchy.
+- Full detailed source mapping, component rules and acceptance criteria: docs/10_REFERENCE_GOLD_DESIGN_SPEC.md. This section supersedes conflicting palette/theme variants in earlier historical notes.
+- Pixel-perfect acceptance requires 360dp layout validation plus fresh Xiaomi 11i screenshots; successful compilation alone is not visual verification.
