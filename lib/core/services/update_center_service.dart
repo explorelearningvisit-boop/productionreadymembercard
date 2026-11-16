@@ -38,14 +38,14 @@ class UpdateCenterService {
       if (!RegExp(r'^[a-f0-9]{64}$').hasMatch(digest)) throw const FormatException('Release APK is missing a valid SHA-256 digest.');
       final parsedUrl = Uri.tryParse(url);
       if (parsedUrl == null || parsedUrl.scheme != 'https' || parsedUrl.host != 'github.com') throw const FormatException('Release APK URL is not an approved HTTPS GitHub URL.');
-      final versionCode = int.tryParse('${release['tag_name']}'.replaceAll(RegExp(r'[^0-9]'), '')) ?? 0;
+      final notes = release['body'] as String? ?? '';\n      final codeMatch = RegExp(r'versionCode:\\s*(\\d+)', caseSensitive: false).firstMatch(notes);\n      final versionCode = int.tryParse(codeMatch?.group(1) ?? '') ?? 0;
       final installed = await _channel.invokeMapMethod<String, dynamic>('getAppVersion') ?? const {};
       final installedCode = (installed['versionCode'] as num?)?.toInt() ?? 0;
       if (versionCode <= installedCode) return null;
       return AppUpdate(
         versionName: '${release['tag_name'] ?? 'Latest'}',
         versionCode: versionCode,
-        notes: (release['body'] as String? ?? 'BAD GYM improvements and fixes').trim(),
+        notes: notes.trim(),
         apkUrl: url,
         sha256: digest,
       );
