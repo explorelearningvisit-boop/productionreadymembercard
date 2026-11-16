@@ -44,3 +44,7 @@
 - Python Local Agent validation passed on PR head (compileall, 6 unit tests, Ruff); main-branch rerun and Flutter build rerun were queued at the time of this handoff.
 - CI install safety fixed: signature mismatch now preserves installed app/data; no unattended uninstall.
 - Windows laptop installation, OpenAI Secure MCP Tunnel provisioning, live USB/Wireless ADB, and fresh Xiaomi screenshot remain unverified and require the Windows host/phone to be online.
+
+
+## Mandatory continuous-observation requirement (2026-11-16)
+Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENTS.md` + `docs/AI_CONTEXT_BOOTSTRAP.md`. User requires all collaborating agents to inspect timestamped active task/run telemetry, changed files and logs through supported authenticated tools, diagnose failures, apply minimal safe fixes, validate and write durable handoffs. Do not claim live/per-second observation unless an actual persistent watcher is running and returning fresh events. The persistent observer + GitHub event ingestion + bounded recovery implementation is tracked in issue #5: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/5. Coordinate deferred Xiaomi install work with issue #2. Current implementation status: contract documented; watcher NOT YET IMPLEMENTED.
