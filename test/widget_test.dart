@@ -15,7 +15,7 @@ void main() {
 
     // Verify Check-In Success Ribbon
     expect(find.text('Check-In Success!'), findsOneWidget);
-    expect(find.text('CHECK-IN'), findsOneWidget);
+    expect(find.text('CHECK-IN'), findsNothing);
 
     // Verify Member Profile Card (Luxury Gold & Ivory Theme)
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
@@ -28,11 +28,13 @@ void main() {
     expect(find.textContaining('Membership 22 / 30 Days'), findsOneWidget);
     expect(find.text('73%'), findsOneWidget);
 
-    // Verify Quick Stats Row (3 Cards: Attendance, Workout, Body)
+    // Verify Quick Stats Row (4 Cards: Attendance, Workout, Payment, Body)
     expect(find.text('Attendance'), findsOneWidget);
     expect(find.text('81%'), findsWidgets);
     expect(find.text('Workout'), findsWidgets);
     expect(find.text('58 min'), findsOneWidget);
+    expect(find.text('Payment'), findsOneWidget);
+    expect(find.text('₹500'), findsOneWidget);
     expect(find.text('Body'), findsOneWidget);
     expect(find.text('69.5 kg'), findsOneWidget);
 
@@ -42,14 +44,10 @@ void main() {
     expect(find.text('Average'), findsOneWidget);
     expect(find.text('Minimum'), findsOneWidget);
 
-    // Verify Smart Insight Banner
-    expect(find.text('Smart Insight'), findsOneWidget);
-
-    // Verify Bottom Metric Strip
-    expect(find.text('Streak'), findsOneWidget);
-    expect(find.text('Best'), findsOneWidget);
-    expect(find.text('Plan Days'), findsOneWidget);
-    expect(find.text('Next Goal'), findsOneWidget);
+    // Removed secondary insight and bottom summary strips to reclaim space.
+    expect(find.text('Smart Insight'), findsNothing);
+    expect(find.text('Streak'), findsNothing);
+    expect(find.text('Plan Days'), findsNothing);
 
     // Verify Vertical Navigation Rail
     expect(find.text('Home'), findsOneWidget);
