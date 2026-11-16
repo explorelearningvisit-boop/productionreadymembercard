@@ -227,5 +227,30 @@
     "pullRequest": "https://github.com/explorelearningvisit-boop/productionreadymembercard/pull/3",
     "flutterBuild": "Latest main-branch build workflow 43805608987 queued; prior run 43801332361 Flutter analyze, tests and release APK build passed.",
     "deviceQA": "NOT_VERIFIED: latest recorded Tailnet fleet run found configured peers offline; Xiaomi installation/launch/fresh screenshot not confirmed. User's earlier deferred-install request remains pending device power-on."
+  },
+  "continuousAgentObservability": {
+    "status": "CONTRACT_DOCUMENTED_IMPLEMENTATION_PENDING",
+    "contract": "docs/CONTINUOUS_AGENT_OBSERVABILITY.md",
+    "requirement": "All AI/local agents inspect authorized live task/run telemetry, changed files and logs; diagnose/fix/validate; persist handoff.",
+    "verifiedChatGPTConnectorCapabilities": [
+      "GitHub repository file read/write",
+      "GitHub Actions workflow job/log/artifact inspection",
+      "GitHub issue creation"
+    ],
+    "notVerifiedOrUnavailableInThisSession": [
+      "Antigravity live task/session telemetry",
+      "second-by-second local filesystem watcher",
+      "persistent process execution after chat ends",
+      "direct local Tailscale control-plane access"
+    ],
+    "implementationIssue": "https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/5",
+    "relatedDeferredInstallIssue": "https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/2",
+    "docsCommits": [
+      "68b831f320d3df40190e6ebe8fbdecc690e6c61a",
+      "0b4d207bdcba3ddb039d58be91db8bf15dda5487",
+      "9f5ba5fb0cb50a32e493351d4a178ddeac9b1dc7",
+      "023b7cee4c36500a648bd898caf45312c672b7da"
+    ],
+    "acceptance": "Persistent authenticated observer, event journal, filesystem/GitHub telemetry ingestion, redaction, bounded recovery, concurrency locks and real end-to-end proof."
   }
 }
