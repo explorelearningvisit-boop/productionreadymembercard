@@ -67,7 +67,7 @@ class AttendanceCalendarGrid extends StatelessWidget {
                 IconButton(
                   key: const ValueKey('attendance_next_month'),
                   visualDensity: VisualDensity.compact,
-                  constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+                  constraints: const BoxConstraints.tightFor(width: 28, height: 28),
                   padding: EdgeInsets.zero,
                   onPressed: onNextMonth,
                   icon: const Icon(Icons.chevron_right_rounded, size: 20, color: Color(0xFF1E293B)),
