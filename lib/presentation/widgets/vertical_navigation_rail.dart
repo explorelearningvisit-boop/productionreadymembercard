@@ -77,7 +77,7 @@ class VerticalNavigationRail extends StatelessWidget {
                 width: 32,
                 height: 32,
                 decoration: const BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.16),
+                  color: Color(0x29FFFFFF),
                   shape: BoxShape.circle,
                 ),
                 child: const Center(
