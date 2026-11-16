@@ -11,8 +11,6 @@ import 'package:bad_gym/presentation/widgets/vertical_navigation_rail.dart';
 import 'package:bad_gym/presentation/widgets/workout_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/body_intelligence_card.dart';
 import 'package:bad_gym/presentation/widgets/attendance_trend_container_card.dart';
-import 'package:bad_gym/presentation/widgets/smart_insight_banner.dart';
-import 'package:bad_gym/presentation/widgets/bottom_stats_strip.dart';
 
 class MemberCheckInScreen extends StatefulWidget {
   final MemberIntelligenceData? initialData;
@@ -126,31 +124,10 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
       );
     }
 
-    // Default Home / Attendance Dashboard Layout (Pixel-Perfect from reference)
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        // 3. Attendance Trend Spline Chart Card
-        AttendanceTrendContainerCard(
-          key: const ValueKey('attendance_trend_card'),
-          data: _data,
-        ),
-
-        const SizedBox(height: 3),
-
-        // 4. Smart Insight Banner (AI Powered with 3D gym gear)
-        SmartInsightBanner(
-          onTap: () {
-            NotificationSheet.show(context);
-          },
-        ),
-
-        const SizedBox(height: 3),
-
-        // 5. Bottom 4-Item Quick Metric Strip
-        const BottomStatsStrip(),
-      ],
+    // Attendance is the default compact intelligence canvas.
+    return AttendanceTrendContainerCard(
+      key: const ValueKey('attendance_trend_card'),
+      data: _data,
     );
   }
 
@@ -172,68 +149,66 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
           ),
         ),
         child: SafeArea(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // 1. Full-Height Left Navigation Rail
-              Padding(
-                padding: const EdgeInsets.fromLTRB(4, 4, 3, 4),
-                child: VerticalNavigationRail(
-                  selectedTab: _selectedRailTab,
-                  onTabSelected: _onRailTabSelected,
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(4, 2, 4, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Header and member identity use the full mobile width.
+                MergedMemberCard(
+                  data: _data,
+                  onNotificationPressed: () => NotificationSheet.show(context),
+                  onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
+                  onRenewPressed: () => RenewalSheet.show(context, _data),
+                  onQrPassPressed: () => MemberQrSheet.show(context, _data),
+                  onCheckInPressed: () {
+                    MemberQrSheet.show(context, _data);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Checked In successfully at BAD GYM! 🔥'),
+                        backgroundColor: Color(0xFF8B0000),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  },
                 ),
-              ),
 
-              // 2. Right Main Scrollable Content Area
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.fromLTRB(2, 4, 6, 20),
-                  child: Column(
+                // Four compact, equal-width intelligence shortcuts.
+                QuickStatsRow(
+                  data: _data,
+                  selectedTab: _selectedStatTab,
+                  onTabSelected: _onStatTabSelected,
+                ),
+
+                const SizedBox(height: 4),
+
+                // The rail starts below the four horizontal tabs and only
+                // spans the active intelligence canvas height.
+                IntrinsicHeight(
+                  child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // A. Merged Member Profile & Check-In Hero Ribbon
-                      MergedMemberCard(
-                        data: _data,
-                        onNotificationPressed: () => NotificationSheet.show(context),
-                        onPaymentDetailsPressed: () => _onStatTabSelected(QuickStatTab.payment),
-                        onRenewPressed: () => RenewalSheet.show(context, _data),
-                        onQrPassPressed: () => MemberQrSheet.show(context, _data),
-                        onCheckInPressed: () {
-                          MemberQrSheet.show(context, _data);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Checked In successfully at BAD GYM! 🔥'),
-                              backgroundColor: Color(0xFF8B0000),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        },
+                      VerticalNavigationRail(
+                        selectedTab: _selectedRailTab,
+                        onTabSelected: _onRailTabSelected,
                       ),
-
-                      // B. Quick Stats 3-Card Row (Attendance, Workout, Body)
-                      QuickStatsRow(
-                        data: _data,
-                        selectedTab: _selectedStatTab,
-                        onTabSelected: _onStatTabSelected,
-                      ),
-
-                      const SizedBox(height: 3),
-
-                      // C. Tab / Section Content (Attendance Trend, Smart Insight, Bottom Strip)
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        child: KeyedSubtree(
-                          key: ValueKey('$_selectedStatTab$_selectedRailTab'),
-                          child: _buildSelectedTabContent(),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: KeyedSubtree(
+                            key: ValueKey('$_selectedStatTab$_selectedRailTab'),
+                            child: _buildSelectedTabContent(),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
