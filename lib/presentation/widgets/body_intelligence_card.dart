@@ -218,7 +218,7 @@ class BodyIntelligenceCard extends StatelessWidget {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Weight logged: 69.5 kg (+0.2 kg since Tuesday)'),
+                          content: Text('Measurement storage is not connected yet. No weight was saved.'),
                           backgroundColor: Color(0xFF0891B2),
                           duration: Duration(seconds: 2),
                         ),
@@ -270,7 +270,7 @@ class BodyIntelligenceCard extends StatelessWidget {
                   HapticFeedback.selectionClick();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('InBody 570 3D body scan synced successfully'),
+                      content: Text('InBody sync is not connected yet. No scan was imported.'),
                       backgroundColor: BadGymColors.purpleCardStart,
                       duration: Duration(seconds: 2),
                     ),

@@ -14,7 +14,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify Check-In Success Ribbon
-    expect(find.text('Check-In Success!'), findsOneWidget);
+    expect(find.text('Last Check-In'), findsOneWidget);
     expect(find.text('CHECK-IN'), findsNothing);
 
     // Verify Member Profile Card (Luxury Gold & Ivory Theme)
@@ -40,6 +40,7 @@ void main() {
 
     // Verify Attendance Trend Card
     expect(find.text('Attendance Trend'), findsOneWidget);
+    expect(find.text('OFF'), findsNWidgets(4));
     expect(find.text('Maximum'), findsOneWidget);
     expect(find.text('Average'), findsOneWidget);
     expect(find.text('Minimum'), findsOneWidget);
@@ -115,7 +116,15 @@ void main() {
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    // 1. Open Notification Sheet from top bell
+    // 1. Open the renewal sheet and verify checkout does not claim a payment.
+    await tester.tap(find.text('8 Days Left'));
+    await tester.pumpAndSettle();
+    expect(find.text('Renew Gold Membership'), findsOneWidget);
+    await tester.tap(find.text('Proceed to Pay ₹1,200'));
+    await tester.pumpAndSettle();
+    expect(find.text('Payment gateway is not connected yet. No payment was initiated.'), findsOneWidget);
+
+    // 2. Open Notification Sheet from top bell
     await tester.tap(find.byKey(const ValueKey('header_notification_button')));
     await tester.pumpAndSettle();
     expect(find.text('Gym Alerts & Updates'), findsOneWidget);
@@ -136,4 +145,51 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('VIP ACCESS PASS'), findsNothing);
   });
+  testWidgets('keeps Member Intelligence usable at compact 360dp mobile width', (tester) async {
+    tester.view.physicalSize = const Size(360, 700);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
+    expect(find.text('Attendance Trend'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await tester.tap(find.text('58 min'));
+    await tester.pumpAndSettle();
+    expect(find.text('Workout Intelligence'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await tester.tap(find.text('₹500').first);
+    await tester.pumpAndSettle();
+    expect(find.text('Payment Intelligence'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await tester.tap(find.text('69.5 kg'));
+    await tester.pumpAndSettle();
+    expect(find.text('Body Intelligence'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('Members rail returns to the member intelligence overview', (tester) async {
+    tester.view.physicalSize = const Size(360, 700);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('69.5 kg'));
+    await tester.pumpAndSettle();
+    expect(find.text('Body Intelligence'), findsOneWidget);
+
+    await tester.tap(find.text('Members').first);
+    await tester.pumpAndSettle();
+    expect(find.text('Attendance Trend'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
 }
