@@ -286,14 +286,14 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
             Text('25 / 31', style: TextStyle(fontSize: 7, height: 1.0, fontWeight: FontWeight.w700, color: C.muted)),
           ]))),
         ))),
-        Expanded(flex: 4, child: Center(child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Expanded(flex: 4, child: Center(child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
             _legendRow(C.green, 'Present', '23', .81),
             _legendRow(C.gold, 'Late', '2', .07),
             _legendRow(C.red, 'Absent', '2', .07),
             _legendRow(C.purple, 'Holiday', '4', .13),
-          ]),
+          ],
         ))),
         Expanded(flex: 3, child: Center(child: FittedBox(
           fit: BoxFit.scaleDown,
