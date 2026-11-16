@@ -187,6 +187,8 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
         Text('GREAT INDIAN FESTIVAL', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: C.red)),
         Text('Up to 40% OFF · Fitness', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700, color: C.ink)),
       ])),
+      Image.asset('assets/images/shaker_badgym.png', width: 27, height: 39, fit: BoxFit.contain, errorBuilder: (_, __, ___) => const Icon(Icons.fitness_center, size: 22, color: C.ink)),
+      const SizedBox(width: 3),
       _pill('SPONSORED', C.green, Colors.white),
     ]),
   );
@@ -402,7 +404,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       Expanded(child: _highlightMetric('+12%', 'Change', C.green)),
     ]),
     const SizedBox(height: 7),
-    Expanded(child: _artTile('assets/images/illustration_3d_workout_dumbbells.png', 'Training session', 'Workout duration recorded today', compact)),
+    _artTile('assets/images/illustration_3d_workout_dumbbells.png', 'Training session', 'Workout duration recorded today', compact),
     const SizedBox(height: 6),
     _recordRow('Session status', 'Recorded', 'Today', C.green),
   ]);
@@ -412,7 +414,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
     const SizedBox(height: 8),
     _highlightMetric('58 min', 'Recorded workout time', C.goldDark),
     const SizedBox(height: 8),
-    Expanded(child: _artTile('assets/images/illustration_3d_workout_bench.png', 'Workout overview', 'Detailed set and load records are not connected in this build', compact)),
+    _artTile('assets/images/illustration_3d_workout_bench.png', 'Workout overview', 'Detailed set and load records are not connected in this build', compact),
   ]);
 
   Widget _workoutHistory(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -483,7 +485,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       Expanded(child: _highlightMetric('−0.8 kg', 'Change shown', C.green)),
     ]),
     const SizedBox(height: 5),
-    Expanded(child: _artTile('assets/images/illustration_3d_body_scale.png', 'Body composition', 'Current recorded weight', compact)),
+    _artTile('assets/images/illustration_3d_body_scale.png', 'Body composition', 'Current recorded weight', compact),
   ]);
 
   Widget _bodyMeasures(bool compact) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -650,6 +652,69 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       ]),
     );
   }
+}
+
+class _MiniTrendPainter extends CustomPainter {
+  const _MiniTrendPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (size.isEmpty) return;
+    final values = <double>[.70, .97, .88, .76, .60, .72, .82, .58, .85, .72, .86, .74, .78, .81];
+    final chart = Rect.fromLTWH(4, 8, size.width - 8, size.height - 16);
+    final gridPaint = Paint()
+      ..color = const Color(0xFFE9DFC7)
+      ..strokeWidth = 1;
+    for (var i = 0; i < 4; i++) {
+      final y = chart.top + chart.height * i / 3;
+      canvas.drawLine(Offset(chart.left, y), Offset(chart.right, y), gridPaint);
+    }
+    final points = <Offset>[
+      for (var i = 0; i < values.length; i++)
+        Offset(chart.left + chart.width * i / (values.length - 1),
+            chart.bottom - chart.height * values[i]),
+    ];
+    final path = Path()..moveTo(points.first.dx, points.first.dy);
+    for (var i = 1; i < points.length; i++) {
+      final previous = points[i - 1];
+      final current = points[i];
+      final mid = (previous.dx + current.dx) / 2;
+      path.cubicTo(mid, previous.dy, mid, current.dy, current.dx, current.dy);
+    }
+    final fill = Path.from(path)
+      ..lineTo(chart.right, chart.bottom)
+      ..lineTo(chart.left, chart.bottom)
+      ..close();
+    canvas.drawPath(
+      fill,
+      Paint()
+        ..shader = const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0x66E7A900), Color(0x00E7A900)],
+        ).createShader(chart),
+    );
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = const Color(0xFF168B35)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.5
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round,
+    );
+    for (final point in points) {
+      canvas.drawCircle(point, 2.6, Paint()..color = const Color(0xFF168B35));
+      canvas.drawCircle(
+        point,
+        1.2,
+        Paint()..color = Colors.white,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _MiniTrendPainter oldDelegate) => false;
 }
 
 class _RingPainter extends CustomPainter {
