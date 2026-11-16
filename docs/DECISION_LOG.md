@@ -38,3 +38,12 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 ## 2026-11-16 — Preserve installed app data during CI install failures
 - Remove the workflow's automatic uninstall/reinstall fallback on INSTALL_FAILED_UPDATE_INCOMPATIBLE.
 - A signature mismatch must report SIGNATURE_MISMATCH_PRESERVED_DATA and retain the installed application and all user data. Any migration/uninstall is an explicit user-approved operation outside unattended CI.
+
+
+## 2026-11-16 — Unified bordered member dashboard card and restored insight summary
+- Latest user instruction supersedes earlier removal of Smart Insight and the bottom summary strip; both are required again.
+- Entire dashboard must sit inside one visibly bordered outer card: check-in ribbon, member profile/payment/expiry/progress, four tabs, intelligence rail/canvas, Smart Insight and Streak/Best/Plan Days/Next Goal.
+- Keep rail only beside the intelligence canvas from Attendance Trend through the bottom summary, never beside the header/profile.
+- Remove redundant CHECK-IN action beside the event ribbon; it is informational and must not open QR or claim a new check-in.
+- Keep Attendance, Workout, Payment and Body visible/selectable at 360dp.
+- Use light coral/rose/ivory instead of heavy dark brown/deep burgundy blocks.
