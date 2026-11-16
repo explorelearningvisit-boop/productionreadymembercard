@@ -33,3 +33,12 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 - Preserve app data. Never automatically uninstall or wipe to resolve signature/install errors. Classify failures and retain artifacts; use bounded backoff and avoid overlapping installs. Resume on later scheduled/manual attempts until success or a user-action blocker.
 - Current workflow only skips offline devices and still relies on `ANDROID_DEVICE_PORTS_JSON`; durable deferred queue, dynamic port discovery and retry/reconnect loop are not implemented yet.
 - Tracking: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/2
+
+
+## 2026-11-16 — Windows Local Agent and MCP integration
+- Implement local MCP agent in this productionreadymembercard repository under tools/badgym_local_agent/; do not create a separate repository or edit obsolete badnewgym.
+- Use USB ADB first; wireless mode uses Tailscale peer discovery plus explicit current Android Wireless Debugging connect port and ADB get-state verification. No fixed port, public ADB or same-LAN assumption.
+- MCP tools return screenshots directly as image content and expose bounded device controls, logs, Flutter analyze/test/release build, guarded source reads/writes and approved in-place APK installation.
+- No arbitrary shell, generic deletion, secret-reading, automatic uninstall or data wipe. Writes disabled by default, constrained to source/test/config allowlist, expected-hash protected, backed up outside repo, and require explicit approval.
+- Secure MCP Tunnel is the private OpenAI transport path, but provisioning requires Platform tunnel permissions/ID/runtime key and supported product surface. ChatGPT custom MCP is web-only; personal Go plan write-capable custom MCP access is not available/assumed. Record this limitation honestly.
+- GitHub Actions remains the cloud CI/build/device QA path; local agent supplements it and does not replace verified CI or physical-device evidence.

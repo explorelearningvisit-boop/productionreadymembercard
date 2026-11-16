@@ -29,3 +29,11 @@
 - [ ] Handle network changes and stale ADB socket reconnect.
 - [ ] Validate home Wi-Fi, independent hotspot/cellular, third-party hotspot, USB tethering and Ethernet scenarios.
 - [ ] Keep APK build available when device is offline; report device QA separately.
+
+
+## 2026-11-16 — ChatGPT Windows Local Agent integration
+- Added optional Windows stdio MCP server under tools/badgym_local_agent/ with bounded ADB/Tailscale/Flutter operations, direct screenshot image results, guarded source writes and approved in-place APK installation.
+- Read docs/LOCAL_AGENT_SETUP.md before local installation or tunnel onboarding.
+- USB ADB first; Wireless ADB requires live Tailscale peer + current Android Wireless Debugging connect port + successful adb get-state. No static port assumption.
+- Local writes disabled by default and restricted to lib/, test/, pubspec.yaml and analysis_options.yaml with expected-hash checks and external backups.
+- This repository commit does not install software on the user's Windows laptop, provision an OpenAI tunnel, connect the phone, or prove physical QA. These require the Windows host and live phone to be online.
