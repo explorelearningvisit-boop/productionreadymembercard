@@ -236,3 +236,14 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - Created implementation issue #5: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/5. Deferred Xiaomi install remains tracked separately in issue #2.
 - Commits: contract `68b831f`; AGENTS `0b4d207`; bootstrap `9f5ba5f`; decision log `023b7ce`; state update recorded in the following commit.
 - No persistent watcher was deployed and no live Antigravity process was observed in this chat. Next: implement secure local observer + GitHub event ingestion, then prove with real task telemetry and restart/recovery tests.
+
+
+## 2026-11-16 — Laptop-independent ChatGPT → GitHub → Tailscale deployment (latest user decision)
+- User says laptop has been stolen and is not part of future BAD GYM workflow. Do not require laptop, local USB bridge, Windows Local Agent, local terminal or laptop-issued commands. User issues voice/text instructions in this ChatGPT conversation; ChatGPT uses authorized GitHub and GitHub Actions capabilities.
+- Target: ChatGPT → GitHub main → cloud Flutter/Gradle build → Tailscale-connected GitHub runner → authenticated ADB transport to Xiaomi 11i → in-place update → launch/smoke test → screenshot/log artifacts.
+- BAD GYM is currently installed. User explicitly forbids uninstall/deletion/data wipe. Signature mismatch is a stop-and-report condition, never an uninstall fallback.
+- Tailscale peer/API status is not ADB access. Runner must be on the same authorized tailnet and the phone must expose a reachable, authenticated ADB endpoint. Tailscale API is control-plane metadata, not an ADB command executor.
+- Latest verified build: run 43838086739, commit 668f7a5d895f402113aa2d0763b1ad6c19cd8f08; Flutter checks/tests and release APK build PASS. Artifact 14212365972; SHA-256 2f16985b5bc8e3418e3e02aa35def866872a67c28ebf276f92535cc9f4551a1c.
+- Device QA failed at ADB connectivity. Supplied Wireless Debugging screen shows toggle OFF and Android requesting Wi-Fi. Do not reuse stale port 37337 or assume 5555. No fresh install, launch or screenshot verified.
+- Laptop-dependent local agent is not an acceptable deployment dependency. Investigate an authenticated phone-side deployment/heartbeat/bootstrap mechanism compatible with Android 13/MIUI and cellular/Tailscale. Determine Android's user-approved provisioning/install permission requirements; preserve existing BAD GYM data and package identity. Static endpoint mapping remains until dynamic discovery passes end-to-end tests.
+- GitHub Actions jobs are finite. Do not claim continuous observation or phone control until a connected endpoint and fresh timestamped evidence prove it.
