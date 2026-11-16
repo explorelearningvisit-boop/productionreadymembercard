@@ -37,3 +37,13 @@ The user-provided image in the 2026-11-15 conversation is the latest approved vi
 6. Never put private ADB keys, Tailscale auth keys, OAuth secrets or tokens in Git files or chat. Use encrypted GitHub Actions secrets.
 7. Tailscale IP is private; Android Wireless Debugging TCP port is dynamic. Never assume port 5555 or reuse a stale port. Discover/update the port after checking the phone. Tailscale reachability does not imply ADB pairing/authorization.
 8. Report build, test, device-connectivity and screenshot status separately; distinguish verified facts from pending setup.
+
+
+## 2026-11-16 compact mobile revision
+- Keep the four horizontal quick-stat tabs in this order: Attendance, Workout, Payment, Body.
+- The check-in event ribbon and member profile card occupy the full available mobile width; the vertical navigation rail begins below the four quick-stat tabs.
+- The vertical rail is a narrow crimson gradient control, aligned only beside the selected intelligence canvas rather than running alongside the header and member profile.
+- Remove the duplicate CHECK-IN/QR action badge from the success ribbon; show only the event title and its date/time. Do not show a gym-floor label.
+- Remove the Smart Insight promotional strip and the bottom Streak/Best/Plan Days/Next Goal summary strip from the default attendance viewport.
+- Preserve the member profile's identity, payment due, expiry and membership progress. Keep the attendance trend visualization and its maximum/average/minimum summary.
+- Keep all four quick-stat cards compact and equal-width; the Payment card displays the due/paid state with semantic status colour.
