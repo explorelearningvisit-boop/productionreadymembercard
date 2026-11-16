@@ -277,7 +277,7 @@ class RenewalSheet extends StatelessWidget {
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Payment gateway initialized • Secure UPI checkout'),
+                    content: Text('Payment gateway is not connected yet. No payment was initiated.'),
                     backgroundColor: BadGymColors.purpleCardStart,
                   ),
                 );
