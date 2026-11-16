@@ -88,3 +88,12 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 - Version advanced to 0.2.0+2. CI run 43876682039 was cancelled by rapid subsequent commits before reaching tests; next agent must inspect the newest run and fix all format/analyze/test/Gradle failures before publishing an APK.
 - Physical Xiaomi layout and update install are not verified. No release signing key is present in repository context; no production release can be safely published until its protected secrets are provisioned.
 - Related files: lib/presentation/member_checkin_screen.dart, lib/core/services/update_center_service.dart, android/app/src/main/kotlin/com/badgym/bad_gym/MainActivity.kt, UpdateInstallReceiver.kt, AndroidManifest.xml, android/app/build.gradle.kts, .github/workflows/publish-android-release.yml, test/widget_test.dart.
+
+
+## 2026-11-16 — Gold Premium full Member Intelligence dashboard (Design Lab branch)
+- User explicitly approved Gold Premium as the final visual direction and selected full-dashboard implementation scope.
+- Apply this direction to `chatgpt/design-lab-yellow-festive` as an isolated evaluation app. Keep `main` and the production package `com.badgym.bad_gym` untouched; this branch builds `com.badgym.designlab`.
+- Preserve the four top-level tabs and bounded mobile workspace. Replace generic blank workspaces with dedicated Attendance, Workout, Payment and Body views and rail destinations.
+- Use existing repository portrait/logo/3D assets, not new generated full-screen art. Keep charts, labels, calendars and controls native Flutter widgets.
+- Data integrity: use only fields already present in the demo fixture. Clearly disclose missing workout volume/set history, payment transactions and body measurement history instead of presenting invented values as real member records.
+- Validation acceptance: formatter, analyzer, widget tests and release APK build; then fresh Xiaomi 11i visual comparison is a separate required QA stage.
