@@ -278,42 +278,31 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       ]));
     }
     return Column(children: [
-      SizedBox(height: compact ? 57 : 66, child: Row(children: [
-        Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          SizedBox(width: compact ? 54 : 62, height: compact ? 54 : 62, child: CustomPaint(painter: _RingPainter(.81), child: Center(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
-            Text('81%', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: C.ink)),
-            Text('25 / 31', style: TextStyle(fontSize: 7, fontWeight: FontWeight.w700, color: C.muted)),
-          ])))),
-        ])),
-        Expanded(flex: 4, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          _legendRow(C.green, 'Present', '23', .81),
-          _legendRow(C.gold, 'Late', '2', .07),
-          _legendRow(C.red, 'Absent', '2', .07),
-          _legendRow(C.purple, 'Holiday', '4', .13),
-        ])),
-        Expanded(
-          flex: 3,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  '🔥 5 DAYS',
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: C.red),
-                ),
-              ),
-              SizedBox(height: 5),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  '🏆 14 BEST',
-                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: C.ink),
-                ),
-              ),
-            ],
-          ),
-        ),
+      SizedBox(height: compact ? 76 : 78, child: Row(children: [
+        Expanded(flex: 3, child: Center(child: SizedBox(
+          width: compact ? 46 : 54, height: compact ? 46 : 54,
+          child: CustomPaint(painter: _RingPainter(.81), child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: const [
+            Text('81%', style: TextStyle(fontSize: 13, height: 1.0, fontWeight: FontWeight.w900, color: C.ink)),
+            Text('25 / 31', style: TextStyle(fontSize: 7, height: 1.0, fontWeight: FontWeight.w700, color: C.muted)),
+          ]))),
+        ))),
+        Expanded(flex: 4, child: Center(child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            _legendRow(C.green, 'Present', '23', .81),
+            _legendRow(C.gold, 'Late', '2', .07),
+            _legendRow(C.red, 'Absent', '2', .07),
+            _legendRow(C.purple, 'Holiday', '4', .13),
+          ]),
+        ))),
+        Expanded(flex: 3, child: Center(child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(mainAxisSize: MainAxisSize.min, children: const [
+            Text('🔥 5 DAYS', style: TextStyle(fontSize: 10, height: 1.0, fontWeight: FontWeight.w900, color: C.red)),
+            SizedBox(height: 4),
+            Text('🏆 14 BEST', style: TextStyle(fontSize: 9, height: 1.0, fontWeight: FontWeight.w800, color: C.ink)),
+          ]),
+        ))),
       ])),
       const SizedBox(height: 4),
       Expanded(child: _calendar()),
