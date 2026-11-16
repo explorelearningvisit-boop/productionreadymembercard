@@ -26,6 +26,7 @@ The manual workflow input `run_device_test` defaults to true. It:
 - skips offline devices;
 - reports Android peers without a configured ADB port as `ADB_PORT_NOT_CONFIGURED`;
 - reports unreachable or unpaired ADB endpoints without stopping tests on other devices;
+- for Xiaomi 11i only, tries the configured current port first and then the previously user-reported port `37337` as a bounded fallback; the fallback is not treated as a guaranteed current endpoint;
 - uploads per-device install output, launch output, screenshots, Logcat, inventory, and a result table.
 
 A Tailnet peer being visible/online does not itself mean it is ADB-paired or ready to install an APK. iOS, Windows, Linux, and macOS peers are inventory-only in this Android workflow; they cannot receive this Android APK through ADB.
@@ -70,7 +71,7 @@ Each target Android device must be configured once:
 4. Record the device's current Wireless debugging connect port (not the pairing port) in `ANDROID_DEVICE_PORTS_JSON`.
 5. Ensure the device remains online and Wireless debugging stays enabled.
 
-Android Wireless Debugging ports may change, especially after reboot or reconnect. Update the matching hostname's port in the secret when that happens. Do not assume port 5555 unless the device actually reports it. If using a stable ADB-over-TCP port, enable it only after pairing and restrict that port to the CI tag in Tailscale access controls; Android may reset this mode after reboot.
+Android Wireless Debugging ports may change, especially after reboot or reconnect. The Xiaomi workflow currently tries the configured port and one previously user-reported fallback (`37337`); if neither is active, the live connect port still needs to be re-registered. Do not assume port 5555 unless the device actually reports it. If using a stable ADB-over-TCP port, enable it only after pairing and restrict that port to the CI tag in Tailscale access controls; Android may reset this mode after reboot.
 
 ## Run fleet QA
 
