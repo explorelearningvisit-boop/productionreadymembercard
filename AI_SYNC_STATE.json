@@ -96,7 +96,7 @@
     },
     "deviceProfile": {
       "lastUserReportedWirelessAdbPort": 37337,
-      "portNote": "Transient endpoint from latest user screenshot; not fixed and not yet updated in GitHub Actions secret."
+      "portNote": "Transient endpoint from user screenshot; not fixed and not yet updated in GitHub Actions secret."
     }
   },
   "collaboratingAIs": [
@@ -117,7 +117,7 @@
       "AI_SHARED_COMMUNICATION_HUB.md",
       ".github/workflows/android-cloud-device.yml"
     ],
-    "policy": "Every AI agent must read latest main and recent commits before edits; update state and append handoff after changes."
+    "policy": "Every AI agent must read latest main and recent commits before edits; update state and handoff after changes."
   },
   "networkArchitecture": {
     "status": "DOCUMENTED_DYNAMIC_ADB_DISCOVERY_NOT_IMPLEMENTED",
