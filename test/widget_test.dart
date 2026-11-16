@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym/main.dart';
 import 'package:bad_gym/presentation/widgets/vertical_navigation_rail.dart';
+import 'package:bad_gym/presentation/widgets/merged_member_card.dart';
+import 'package:bad_gym/presentation/widgets/quick_stats_row.dart';
 
 void main() {
   testWidgets('renders BAD GYM Luxury Gold & Ivory Member Intelligence screen with all core components', (tester) async {
@@ -160,6 +162,26 @@ void main() {
 
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.text('Attendance Trend'), findsOneWidget);
+
+    // Regression guard for the exact compact dashboard structure requested:
+    // all four horizontal tabs must remain visible, the informational ribbon
+    // must not expose a duplicate CHECK-IN action, and the rail must start
+    // below the full-width member header and quick-stat row.
+    expect(find.text('Attendance'), findsOneWidget);
+    expect(find.text('Workout'), findsWidgets);
+    expect(find.text('Payment'), findsWidgets);
+    expect(find.text('Body'), findsOneWidget);
+    expect(find.text('Last Check-In'), findsOneWidget);
+    expect(find.text('CHECK-IN'), findsNothing);
+    expect(find.byKey(const ValueKey('member_dashboard_outer_card')), findsOneWidget);
+
+    final headerRect = tester.getRect(find.byType(MergedMemberCard));
+    final statsRect = tester.getRect(find.byType(QuickStatsRow));
+    final railRect = tester.getRect(find.byType(VerticalNavigationRail));
+    expect(railRect.top, greaterThanOrEqualTo(statsRect.bottom - 1));
+    expect(railRect.top, greaterThan(headerRect.top));
+    expect(railRect.left, lessThan(tester.view.physicalSize.width));
+
     expect(tester.takeException(), isNull);
 
     await tester.tap(find.text('58 min'));
