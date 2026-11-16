@@ -19,7 +19,7 @@ class MainActivity : FlutterActivity() {
     private val channelName = "com.badgym/update_center"
     private val executor = Executors.newSingleThreadExecutor()
 
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+    @Suppress("DEPRECATION")\n    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName).setMethodCallHandler { call, result ->
             when (call.method) {
@@ -27,7 +27,7 @@ class MainActivity : FlutterActivity() {
                     val info = packageManager.getPackageInfo(packageName, 0)
                     result.success(mapOf(
                         "versionName" to (info.versionName ?: "0.0.0"),
-                        "versionCode" to if (Build.VERSION.SDK_INT >= 28) info.longVersionCode else @Suppress("DEPRECATION") info.versionCode.toLong()
+                        "versionCode" to if (Build.VERSION.SDK_INT >= 28) info.longVersionCode else info.versionCode.toLong()
                     ))
                 }
                 "installVerifiedApk" -> {
