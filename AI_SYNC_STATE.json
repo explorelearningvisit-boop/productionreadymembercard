@@ -252,5 +252,47 @@
       "023b7cee4c36500a648bd898caf45312c672b7da"
     ],
     "acceptance": "Persistent authenticated observer, event journal, filesystem/GitHub telemetry ingestion, redaction, bounded recovery, concurrency locks and real end-to-end proof."
+  },
+  "deploymentArchitecture": {
+    "updatedAt": "2026-11-16",
+    "userDecision": "Laptop is stolen/unavailable. Do not depend on laptop, local USB bridge, local Windows agent, or user terminal commands. User issues instructions in the same ChatGPT conversation; ChatGPT performs supported repository work through GitHub and GitHub Actions.",
+    "phone": "Xiaomi 11i 5G (21091116I), Android 13/MIUI. Existing BAD GYM installation must be preserved; user explicitly refuses uninstall or data deletion.",
+    "intendedFlow": "ChatGPT conversation -> GitHub main -> GitHub Actions cloud build -> Tailscale-connected GitHub runner -> authenticated ADB endpoint on Xiaomi -> in-place install -> launch -> smoke test -> screenshot/log artifacts.",
+    "currentVerifiedFacts": {
+      "latestBuildRun": 43838086739,
+      "latestCommit": "668f7a5d895f402113aa2d0763b1ad6c19cd8f08",
+      "buildAndFlutterTests": "PASS",
+      "apkArtifactId": 14212365972,
+      "apkSha256": "2f16985b5bc8e3418e3e02aa35def866872a67c28ebf276f92535cc9f4551a1c",
+      "deviceQa": "FAIL",
+      "deviceFailure": "ADB endpoint connection failed; current screenshot shows Wireless debugging OFF and Android requests Wi-Fi for enabling it.",
+      "existingApp": "Installed; preserve in place."
+    },
+    "criticalNetworkClarification": "Tailscale membership/API/peer-online status does not itself grant ADB control. Runner must be joined to the same tailnet with ACL permission AND the phone must independently expose a reachable authenticated ADB transport. Tailscale API is control-plane metadata, not a remote shell or ADB command executor.",
+    "forbiddenAssumptions": [
+      "Laptop exists or can act as a bridge",
+      "USB ADB is available",
+      "Wireless debugging is currently enabled",
+      "Old 100.123.18.54:37337 endpoint remains current",
+      "Port 5555 is valid",
+      "Tailscale Online proves ADB-ready"
+    ],
+    "safety": [
+      "Never uninstall BAD GYM automatically",
+      "Never clear app data",
+      "Never overwrite user data",
+      "Never expose ADB publicly or port-forward it",
+      "Never claim install/launch/screenshot without fresh runner evidence"
+    ],
+    "nextEngineeringWork": [
+      "Inspect Android platform constraints for an approved phone-side deployment/bootstrap mechanism that works without Wi-Fi and without a laptop.",
+      "Determine whether the existing installed BAD GYM package can safely host an authenticated update-check/deployment component; do not assume an ordinary app can silently self-install APKs.",
+      "Provide a first-time, user-approved provisioning path if required; preserve existing BAD GYM data and package identity.",
+      "Implement a private authenticated device heartbeat/current-endpoint registration path and validate actual ADB transport from the Tailscale runner.",
+      "Replace static ANDROID_DEVICE_PORTS_JSON only after end-to-end endpoint discovery tests.",
+      "Implement queued/deferred deployment, bounded retries, per-device locks, install/launch/screenshot/log evidence and durable handoff."
+    ],
+    "currentStatus": "CLOUD_BUILD_PASS_DEVICE_INSTALL_BLOCKED_NO_VERIFIED_ADB_TRANSPORT",
+    "note": "Authoritative requirement and status, not a claim that phone-side agent, endpoint discovery, or unattended installation is already implemented."
   }
 }
