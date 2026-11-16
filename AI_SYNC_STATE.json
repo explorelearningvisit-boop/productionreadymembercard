@@ -25,7 +25,7 @@
     }
   },
   "currentMilestone": {
-    "status": "COMPACT_WORKSPACE_BUILD_PASSED_DEVICE_QA_BLOCKED",
+    "status": "CLOUD_BUILD_GREEN_AWAITING_ANTIGRAVITY_LOCAL_FULL_RUN",
     "designSystem": "Light coral/rose/ivory unified bordered Member Dashboard Card; latest user instruction supersedes prior removal of Smart Insight and summary strips.",
     "designReference": "User-provided 2026-11-15 dashboard image",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
@@ -122,7 +122,7 @@
         "0d64ba3b1ae131da6308562239b0b33dcab07438",
         "70f943f09e0e528241fd8df64a9cb05a00d0af3b"
       ],
-      "verification": "Run 43879102167: dart format PASS, flutter analyze PASS, flutter tests PASS; Android APK build still in progress as of 2026-11-16 13:50 UTC. Prior build run 43878393503 failed due Gradle Kotlin DSL releaseStorePath scope; corrected at commits 0d64ba3 and 70f943f.",
+      "verification": "Cloud run 43879102167 attempt 2: Dart format, Flutter analyze, Flutter tests and Android APK build all PASS. Tailnet QA separately failed because Xiaomi peer was offline at that timestamp. Antigravity Windows full-run handoff created in docs/ANTIGRAVITY_FULL_RUN_HANDOFF.md; local laptop/ADB/screenshot/install remain unverified until Antigravity runs it.",
       "deviceVerification": "NOT_VERIFIED",
       "updater": "Implemented client and Android PackageInstaller bridge; no stable GitHub Release exists yet. Publishing workflow requires BADGYM_RELEASE_KEYSTORE_B64, BADGYM_RELEASE_STORE_PASSWORD, BADGYM_RELEASE_KEY_ALIAS, BADGYM_RELEASE_KEY_PASSWORD. Do not publish QA/debug-signed APK as stable."
     },
@@ -144,6 +144,29 @@
       "releaseWorkflow": ".github/workflows/publish-android-release.yml",
       "publicationGate": "Four protected BADGYM_RELEASE_* signing secrets are required; no stable Release is published yet. Do not ship default debug key as stable.",
       "userAction": "Android system install confirmation required when installing an APK update."
+    },
+    "antigravityFullRun": {
+      "status": "RUNBOOK_READY_NOT_YET_EXECUTED",
+      "runbook": "docs/ANTIGRAVITY_FULL_RUN_HANDOFF.md",
+      "commit": "6ba7f483df0774c6d990d165663ac680a6c8d09a",
+      "requiredActions": [
+        "Sync latest origin/main and inspect concurrent changes",
+        "Run Windows toolchain preflight",
+        "Run flutter pub get, dart format, flutter analyze, flutter test, flutter build apk --release",
+        "Discover Xiaomi over USB first, then Tailscale and current Wireless Debugging endpoint",
+        "Launch installed BAD GYM without uninstall or data clear",
+        "Capture/inspect physical screenshot and redacted logcat",
+        "Verify package/version/signing compatibility before adb install -r",
+        "Commit qa/local-runs timestamped report and update all handoff files"
+      ],
+      "laptopExecution": "Antigravity integrated terminal",
+      "localAgentMcp": "Optional bounded ADB/Tailscale/screenshot/launch/install tools; does not expose arbitrary shell or flutter run",
+      "evidenceDestination": "qa/local-runs/<timestamp>/RUN_REPORT.md",
+      "writeback": [
+        "AI_SYNC_STATE.json",
+        "AI_SHARED_COMMUNICATION_HUB.md",
+        "ANTIGRAVITY_TASK.md"
+      ]
     }
   },
   "collaboratingAIs": [
