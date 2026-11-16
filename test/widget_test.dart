@@ -16,7 +16,6 @@ void main() {
     expect(find.text('Ashwani Kumar Sharma Vishwakarma'), findsOneWidget);
     expect(find.textContaining('CHECKED-IN'), findsOneWidget);
     expect(find.text('Calendar'), findsOneWidget);
-    debugDumpRenderTree();
     expect(tester.takeException(), isNull);
   });
 
