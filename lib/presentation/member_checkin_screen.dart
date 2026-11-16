@@ -273,21 +273,19 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
   Widget _buildInsights() => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
     const Text('Attendance Insights', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900)),
     const SizedBox(height: 14),
-    _metricPanel('Attendance rate', '${_data.attendanceRate}%', 'Current period', Icons.trending_up_rounded, const Color(0xFF168447)),
+    SizedBox(height: 105, child: _metricPanel('Attendance rate', '${_data.attendanceRate}%', 'Current period', Icons.trending_up_rounded, const Color(0xFF168447))),
     const SizedBox(height: 10),
-    _metricPanel('Current streak', _data.currentStreak, 'Best: ${_data.bestStreak}', Icons.local_fire_department_rounded, const Color(0xFFD39B19)),
+    SizedBox(height: 105, child: _metricPanel('Current streak', _data.currentStreak, 'Best: ${_data.bestStreak}', Icons.local_fire_department_rounded, const Color(0xFFD39B19))),
   ]);
 
-  Widget _metricPanel(String title, String value, String detail, IconData icon, Color color) => Expanded(
-    child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+  Widget _metricPanel(String title, String value, String detail, IconData icon, Color color) => Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
       Icon(icon, size: 28, color: color),
       const SizedBox(height: 8),
       Text(title, style: const TextStyle(fontSize: 11, color: Color(0xFF756A63), fontWeight: FontWeight.w700)),
       const SizedBox(height: 3),
       FittedBox(fit: BoxFit.scaleDown, child: Text(value, style: const TextStyle(fontSize: 24, color: Color(0xFF28211E), fontWeight: FontWeight.w900))),
       Text(detail, textAlign: TextAlign.center, style: const TextStyle(fontSize: 9, color: Color(0xFF81766D))),
-    ])),
-  );
+    ]));
 
   Widget _buildFooter(bool compact) => Row(children: [
     Expanded(child: Text('${_data.attendanceRate}% attendance  ·  ${_data.currentStreak} streak', style: TextStyle(fontSize: compact ? 8 : 9, color: const Color(0xFF746B64), fontWeight: FontWeight.w700))),
