@@ -244,21 +244,30 @@ jobs:
               continue
             fi
 
-            serial="$ip:$port"
+            # The configured port is the current preferred endpoint. 37337 is a
+            # previously user-reported Xiaomi Wireless Debugging connect port;
+            # try it only as a bounded fallback, never as proof that the port is current.
+            ports=("$port")
+            if [ "$hostname" = "Xiaomi 11i" ] && [ "$port" != "37337" ]; then
+              ports+=("37337")
+            fi
             result="ADB_UNAVAILABLE_OR_UNPAIRED"
-            # Wireless debugging ports can briefly drop while Android wakes the radio.
-            # Retry the TCP path with bounded exponential backoff; do not rejoin Tailscale.
-            for attempt in 1 2 3 4 5; do
-              echo "ADB connect attempt $attempt/5 for $hostname ($serial)"
-              tailscale ping --timeout=5s "$ip" > "device-artifacts/${hostname}-tailscale-ping.txt" 2>&1 || true
-              adb connect "$serial" > "device-artifacts/${hostname}-adb-connect.txt" 2>&1 || true
-              state=$(adb -s "$serial" get-state 2>/dev/null || true)
-              if [ "$state" = "device" ]; then
-                result="ADB_READY"
-                break
-              fi
-              adb disconnect "$serial" >/dev/null 2>&1 || true
-              sleep $((attempt * 3))
+            for candidate_port in "${ports[@]}"; do
+              serial="$ip:$candidate_port"
+              # Wireless debugging ports can change; retry only known endpoints.
+              for attempt in 1 2 3; do
+                echo "ADB connect attempt $attempt/3 for $hostname ($serial)"
+                tailscale ping --timeout=5s "$ip" > "device-artifacts/${hostname}-tailscale-ping.txt" 2>&1 || true
+                adb connect "$serial" > "device-artifacts/${hostname}-adb-connect.txt" 2>&1 || true
+                state=$(adb -s "$serial" get-state 2>/dev/null || true)
+                if [ "$state" = "device" ]; then
+                  result="ADB_READY"
+                  port="$candidate_port"
+                  break 2
+                fi
+                adb disconnect "$serial" >/dev/null 2>&1 || true
+                sleep $((attempt * 2))
+              done
             done
 
             if [ "$result" = "ADB_READY" ]; then
