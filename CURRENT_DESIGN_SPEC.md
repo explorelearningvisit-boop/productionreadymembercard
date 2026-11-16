@@ -58,3 +58,12 @@ The user-provided image in the 2026-11-15 conversation is the latest approved vi
 - Replace heavy dark brown/deep burgundy surfaces with light warm coral/rose/ivory. Smart Insight's light treatment is the colour direction. Maintain readable contrast.
 - Preserve live member identity, payment due, expiry, membership progress and all four tabs.
 - Verify at 360dp and on Xiaomi 11i when available; build/test and physical-device QA remain separate evidence states.
+
+
+## 2026-11-16 — Compact fixed-viewport workspace (latest user direction)
+- The current tall scrollable Dashboard screenshot is rejected. Replace the stacked full-page presentation with a compact fixed-viewport intelligence workspace.
+- Keep compact member identity, plan, due/expiry context. Reduce horizontal tab height and internal padding. Four tabs remain Attendance, Workout, Payment, Body.
+- Attendance opens a month calendar by default. The contextual vertical rail switches between Attendance Calendar, Trend, History and Streak/Insights; each selection replaces the widget inside one bounded viewport. No stacked widget growth and no primary dashboard vertical scrolling.
+- Other top tabs similarly expose contextual compact widgets. Width and height must be bounded; use tab/rail switching to reveal more information instead of extending the page.
+- Visual palette: premium warm ivory/light surfaces + controlled crimson/red; restrained gold for premium emphasis; semantic green/red/amber/grey. Remove lavender/purple and inconsistent peach/pink gradients. Use compact spacing and readable contrast.
+- This latest user direction supersedes the previous 2026-11-16 unified outer card composition where that composition causes oversized vertical layout or scrolling.
