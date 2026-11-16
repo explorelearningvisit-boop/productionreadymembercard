@@ -37,10 +37,13 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Payment due'), findsOneWidget);
     expect(find.text('₹500 Due'), findsWidgets);
+    expect(find.text('Renewal countdown'), findsOneWidget);
+    expect(find.text('8 DAYS LEFT'), findsOneWidget);
 
     await tester.tap(find.text('Body').first);
     await tester.pumpAndSettle();
     expect(find.text('Body weight'), findsOneWidget);
+    expect(find.text('Body weight'), findsWidgets);
     expect(find.text('69.5 kg'), findsWidgets);
     expect(tester.takeException(), isNull);
   });
