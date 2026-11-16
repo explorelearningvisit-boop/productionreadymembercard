@@ -25,26 +25,35 @@
     }
   },
   "currentMilestone": {
-    "status": "COMPACT_WORKSPACE_AND_UPDATE_CENTER_IMPLEMENTED_AWAITING_CI",
+    "status": "COMPACT_WORKSPACE_BUILD_PASSED_DEVICE_QA_BLOCKED",
     "designSystem": "Light coral/rose/ivory unified bordered Member Dashboard Card; latest user instruction supersedes prior removal of Smart Insight and summary strips.",
     "designReference": "User-provided 2026-11-15 dashboard image",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
     "buildVerification": {
-      "status": "IN_PROGRESS",
+      "status": "SUCCESS",
       "runId": 43879102167,
+      "runUrl": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43879102167",
+      "runAttempt": 2,
       "commit": "70f943f09e0e528241fd8df64a9cb05a00d0af3b",
       "format": "PASS",
       "analyze": "PASS",
       "flutterTests": "PASS",
-      "apkBuild": "IN_PROGRESS"
+      "apkBuild": "PASS",
+      "artifactId": 14231087792,
+      "artifactName": "bad-gym-android-release-70f943f09e0e528241fd8df64a9cb05a00d0af3b",
+      "apkSha256": "c9fe784ce1db28dc2d4fe85bdbedc218303b3a3a1af5dd522e3c3de595006f08",
+      "appVersion": "0.2.0+2"
     },
     "deviceVerification": {
-      "status": "NOT_VERIFIED",
-      "tailscaleRunner": "not run for this latest build yet",
-      "adb": "not verified",
+      "status": "BLOCKED_DEVICE_OFFLINE",
+      "runId": 43879102167,
+      "runAttempt": 2,
+      "tailnet": "GitHub runner connected successfully; Xiaomi 11i peer reported Online=false",
+      "adb": "not attempted because peer was offline",
       "installation": "not verified",
       "screenshot": "not captured",
-      "nextAction": "After APK build succeeds, inspect device QA separately. Never uninstall or clear data; signature mismatch preserves installation."
+      "evidence": "Tailnet QA artifact 14230709676",
+      "nextAction": "Re-establish Xiaomi Tailscale online state, then rerun device QA. Do not assume ADB port or uninstall/clear data."
     },
     "lastUpdated": "2026-11-16",
     "ciDiagnosis": {
@@ -128,6 +137,13 @@
       "safety": "Never automatically uninstall app or wipe user data; no public ADB; preserve logs and classify failures.",
       "retry": "Bounded backoff, no overlapping runs, resume on later scheduled/manual runs; persistent background execution is not available from this chat.",
       "issue": 2
+    },
+    "updater": {
+      "status": "IMPLEMENTED_NOT_PUBLISHED",
+      "appSide": "GitHub latest stable release lookup, changelog prompt, HTTPS URL and SHA-256 checks, native PackageInstaller handoff",
+      "releaseWorkflow": ".github/workflows/publish-android-release.yml",
+      "publicationGate": "Four protected BADGYM_RELEASE_* signing secrets are required; no stable Release is published yet. Do not ship default debug key as stable.",
+      "userAction": "Android system install confirmation required when installing an APK update."
     }
   },
   "collaboratingAIs": [
