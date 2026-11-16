@@ -114,3 +114,12 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
   - Target: Xiaomi 11i 5G (`zxdada69gunb7ls4` via USB & `100.123.18.54:5555` via TCP/IP).
   - In-place streamed install succeeded without data loss or app uninstallation.
   - Live on-device screenshot captured to `docs/screenshots/bad_gym_live.png`.
+
+
+## 2026-11-16 — ChatGPT Gold Premium Design Lab handoff
+- Current branch: `chatgpt/design-lab-yellow-festive` (isolated evaluation package `com.badgym.designlab`; production `main` is untouched).
+- User-approved direction/scope: Festive Gold Premium; full Member Intelligence dashboard.
+- Implemented in `lib/main.dart`: distinct Attendance, Workout, Payment and Body workspace views; rail destinations; existing portrait/logo/shaker/3D asset references; neutral Sunday OFF calendar semantics.
+- Tests in `test/widget_test.dart`: default dashboard, four tabs, Attendance Trend and Record rail. CI run 43925111976: format PASS, analyze PASS, Flutter tests PASS; Android APK build still in progress at handoff.
+- Missing source data must not be fabricated: workout set/load history, payment transactions and body measurements are not connected.
+- Next: inspect final run and artifact; then install only as a separate user-approved device QA step and compare a fresh Xiaomi 11i screenshot to the provided references. Do not call it pixel-perfect before screenshot comparison.
