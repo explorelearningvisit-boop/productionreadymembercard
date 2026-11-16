@@ -672,7 +672,7 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
         const SizedBox(height: 4),
         Expanded(child: LayoutBuilder(builder: (context, constraints) {
           final rowCount = ((firstWeekday + days) / 7).ceil();
-          final cellHeight = ((constraints.maxHeight - (rowCount - 1) * 3) / rowCount).clamp(25.0, 44.0);
+          final cellHeight = ((constraints.maxHeight - (rowCount - 1) * 3) / rowCount).clamp(25.0, 44.0).toDouble();
           return GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
