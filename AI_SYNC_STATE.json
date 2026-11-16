@@ -26,15 +26,12 @@
   },
   "currentMilestone": {
     "status": "AI_CONTEXT_AND_NETWORK_ARCHITECTURE_DOCUMENTED_DYNAMIC_ADB_DISCOVERY_PENDING",
-    "designSystem": "Latest approved dashboard reference is warm golden/yellow canvas with ivory cards, crimson/gold accents; see CURRENT_DESIGN_SPEC.md",
+    "designSystem": "Light coral/rose/ivory unified bordered Member Dashboard Card; latest user instruction supersedes prior removal of Smart Insight and summary strips.",
     "designReference": "User-provided 2026-11-15 dashboard image",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
     "buildVerification": {
-      "runId": 43801332361,
-      "runUrl": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43801332361",
-      "flutterAnalyze": "success",
-      "flutterTests": "success",
-      "releaseApk": "success"
+      "status": "PENDING_NEW_BUILD_AFTER_UI_CHANGES",
+      "previousRunId": 43801332361
     },
     "deviceVerification": {
       "status": "WAITING_FOR_DEVICE_POWER_ON",
@@ -90,14 +87,20 @@
     "latestChanges": {
       "date": "2026-11-16",
       "branch": "main",
-      "repository": "explorelearningvisit-boop/productionreadymembercard",
       "summary": [
-        "Four compact horizontal tabs: Attendance, Workout, Payment, Body",
-        "Removed Smart Insight and bottom summary strips",
-        "Moved narrow crimson vertical rail below full-width header/profile and quick tabs",
-        "Removed duplicate CHECK-IN/QR label and gym floor from event ribbon; date/time retained"
+        "Unified bordered outer Member Dashboard Card around member header, tabs and intelligence content",
+        "Restored Smart Insight and Streak/Best/Plan Days/Next Goal beneath Attendance Trend",
+        "Softened vertical rail and check-in ribbon palette to light rose/coral",
+        "Kept four horizontal tabs Attendance, Workout, Payment, Body",
+        "Check-in ribbon no longer invokes QR/check-in action"
       ],
-      "deviceVerification": "PENDING_CURRENT_CI_AND_FRESH_DEVICE_SCREENSHOT"
+      "codeCommits": [
+        "80dcdaf4b67b45ec843eb8981017f67d4f27b6d0",
+        "79f04b2971ab6d6e884fcd983f70a74fbf6673c7",
+        "f37e595fdf0c2668986900c6182b027f828dfd96"
+      ],
+      "verification": "PENDING_CI; Flutter format/analyze/tests/build not run from ChatGPT connector; device install and fresh screenshot not verified",
+      "deviceVerification": "PENDING_DEVICE_INSTALL_AND_SCREENSHOT"
     },
     "deviceProfile": {
       "lastUserReportedWirelessAdbPort": 37337,
