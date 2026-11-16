@@ -588,27 +588,46 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
 
   Widget _metricPanel(String title, String value, String detail, IconData icon,
           Color color) =>
-      Center(
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Icon(icon, size: 28, color: color),
-        const SizedBox(height: 8),
-        Text(title,
-            style: const TextStyle(
-                fontSize: 11,
-                color: Color(0xFF756A63),
-                fontWeight: FontWeight.w700)),
-        const SizedBox(height: 3),
-        FittedBox(
+      LayoutBuilder(
+        builder: (context, constraints) => Center(
+          child: FittedBox(
             fit: BoxFit.scaleDown,
-            child: Text(value,
-                style: const TextStyle(
-                    fontSize: 24,
-                    color: Color(0xFF28211E),
-                    fontWeight: FontWeight.w900))),
-        Text(detail,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 9, color: Color(0xFF81766D))),
-      ]));
+            alignment: Alignment.center,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: constraints.maxWidth,
+                maxHeight: constraints.maxHeight,
+              ),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Icon(icon, size: 28, color: color),
+                const SizedBox(height: 6),
+                Text(title,
+                    style: const TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF756A63),
+                        fontWeight: FontWeight.w700)),
+                const SizedBox(height: 3),
+                FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(value,
+                        style: const TextStyle(
+                            fontSize: 24,
+                            color: Color(0xFF28211E),
+                            fontWeight: FontWeight.w900))),
+                SizedBox(
+                  width: constraints.maxWidth,
+                  child: Text(detail,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontSize: 9, color: Color(0xFF81766D))),
+                ),
+              ]),
+            ),
+          ),
+        ),
+      );
 
   Widget _buildFooter(bool compact) => Row(children: [
         Expanded(
