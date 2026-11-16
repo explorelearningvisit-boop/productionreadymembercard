@@ -7,6 +7,7 @@ import 'package:bad_gym/presentation/widgets/member_qr_sheet.dart';
 import 'package:bad_gym/presentation/widgets/notification_sheet.dart';
 import 'package:bad_gym/presentation/widgets/renewal_sheet.dart';
 import 'package:bad_gym/presentation/widgets/quick_stats_row.dart';
+import 'package:bad_gym/core/services/update_center_service.dart';
 
 enum _WorkspaceView { calendar, trend, history, insights, sessions, program, payments, plan, measurements, goals }
 
@@ -22,11 +23,53 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
   late final MemberIntelligenceData _data;
   QuickStatTab _selectedTab = QuickStatTab.attendance;
   _WorkspaceView _selectedView = _WorkspaceView.calendar;
+  bool _checkingUpdates = false;
+  final UpdateCenterService _updates = UpdateCenterService();
 
   @override
   void initState() {
     super.initState();
     _data = widget.initialData ?? MemberIntelligenceData.ashwaniKumarSingh;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkForUpdates());
+  }
+
+  Future<void> _checkForUpdates({bool showNoUpdate = false}) async {
+    if (_checkingUpdates || !mounted) return;
+    setState(() => _checkingUpdates = true);
+    try {
+      final update = await _updates.checkForUpdate();
+      if (!mounted) return;
+      if (update == null) {
+        if (showNoUpdate) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('BAD GYM is up to date.')));
+        return;
+      }
+      await showDialog<void>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: Text('BAD GYM update ${update.versionName}'),
+          content: SingleChildScrollView(child: Text(update.notes.isEmpty ? 'A new version is ready.' : update.notes)),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Later')),
+            FilledButton(
+              onPressed: () async {
+                Navigator.pop(dialogContext);
+                try {
+                  await _updates.install(update);
+                  if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Verified update sent to Android Installer. Complete the system confirmation to update BAD GYM.')));
+                } catch (error) {
+                  if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Update could not start: $error')));
+                }
+              },
+              child: const Text('Update'),
+            ),
+          ],
+        ),
+      );
+    } catch (error) {
+      if (showNoUpdate && mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Update check failed: $error')));
+    } finally {
+      if (mounted) setState(() => _checkingUpdates = false);
+    }
   }
 
   void _selectTab(QuickStatTab tab) {
@@ -289,6 +332,12 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
 
   Widget _buildFooter(bool compact) => Row(children: [
     Expanded(child: Text('${_data.attendanceRate}% attendance  ·  ${_data.currentStreak} streak', style: TextStyle(fontSize: compact ? 8 : 9, color: const Color(0xFF746B64), fontWeight: FontWeight.w700))),
+    TextButton.icon(
+      onPressed: _checkingUpdates ? null : () => _checkForUpdates(showNoUpdate: true),
+      icon: const Icon(Icons.system_update_alt_rounded, size: 13),
+      label: Text(_checkingUpdates ? 'Checking' : 'Updates', style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800)),
+      style: TextButton.styleFrom(foregroundColor: const Color(0xFF9F1D2D), visualDensity: VisualDensity.compact, padding: const EdgeInsets.symmetric(horizontal: 5)),
+    ),
     const Text('BAD GYM', style: TextStyle(fontSize: 8, letterSpacing: 1.1, color: Color(0xFF9F1D2D), fontWeight: FontWeight.w900)),
   ]);
 }
