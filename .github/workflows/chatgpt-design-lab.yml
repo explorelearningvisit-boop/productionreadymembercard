@@ -1,0 +1,57 @@
+name: ChatGPT Design Lab — Android Build
+
+on:
+  push:
+    branches:
+      - chatgpt/design-lab-yellow-festive
+    paths:
+      - "lib/**"
+      - "test/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      - "android/**"
+      - ".github/workflows/chatgpt-design-lab.yml"
+  pull_request:
+    branches:
+      - chatgpt/design-lab-yellow-festive
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: chatgpt-design-lab-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Flutter version
+        run: flutter --version
+      - name: Dependencies
+        run: flutter pub get
+      - name: Format
+        run: dart format --output=none lib test
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+      - name: Tests
+        run: flutter test --reporter expanded
+      - name: Build independent evaluation APK
+        run: flutter build apk --release --android-skip-build-dependency-validation
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bad-gym-chatgpt-design-lab-${{ github.sha }}
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 14
