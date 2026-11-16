@@ -42,7 +42,6 @@ void main() {
 
     await tester.tap(find.text('Body').first);
     await tester.pumpAndSettle();
-    expect(find.text('Body weight'), findsOneWidget);
     expect(find.text('Body weight'), findsWidgets);
     expect(find.text('69.5 kg'), findsWidgets);
     expect(tester.takeException(), isNull);
