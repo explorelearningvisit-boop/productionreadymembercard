@@ -326,7 +326,23 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(color: const Color(0xFFFFFCF3), borderRadius: BorderRadius.circular(11), border: Border.all(color: C.line)),
       child: Column(children: [
-        Row(children: List.generate(7, (i) => Expanded(child: Center(child: Text(weekdays[i], style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: i > 4 ? C.red : C.muted))))),
+        Row(
+          children: [
+            for (var i = 0; i < 7; i++)
+              Expanded(
+                child: Center(
+                  child: Text(
+                    weekdays[i],
+                    style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w900,
+                      color: i > 4 ? C.red : C.muted,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
         const SizedBox(height: 4),
         Expanded(child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
