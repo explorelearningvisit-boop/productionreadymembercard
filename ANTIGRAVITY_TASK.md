@@ -87,3 +87,11 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - pubspec version: 0.2.0+2.
 - CI run 43876682039 was cancelled by rapid follow-on commits before tests. Inspect newest main run; repair all formatter/analyzer/test/Gradle failures. No build or physical device verification is claimed yet.
 - Do not restore root scrolling, mixed lavender palette, oversized hero, stacked chart+calendar+insight. Do not delete history or uninstall/clear user data.
+
+## 2026-11-16 — ACTIVE: Antigravity Windows full-run + Xiaomi physical QA
+- New mandatory runbook: `docs/ANTIGRAVITY_FULL_RUN_HANDOFF.md` (commit 6ba7f483). This is the canonical copy/paste plan for Windows PowerShell preflight, latest-main sync, full Flutter format/analyze/test/release build, USB-first ADB, Tailscale/Wireless Debugging fallback, existing-app launch, screenshot/logcat, safe signature gate, and GitHub evidence write-back.
+- Antigravity must use its own integrated terminal for PowerShell/Flutter commands. Existing Local Agent MCP does not expose arbitrary shell or `flutter run`; its bounded tools cover health, ADB/Tailscale inventory, connect, screenshot, logcat, launch, allowlisted analyze/test/build and guarded install.
+- Do not run `flutter run` or install a locally built APK until the local signing certificate is confirmed to match the installed app. Preserve app/data. No uninstall or clear-data workaround.
+- Full-run evidence must be committed under `qa/local-runs/<timestamp>/`, and `AI_SYNC_STATE.json`, `AI_SHARED_COMMUNICATION_HUB.md`, and this handoff updated with commit/run/screenshot/report links.
+- Current cloud APK 0.2.0+2 build is green, but cloud Xiaomi QA was blocked because the tailnet peer showed Offline=false? Correction: peer's Online field was false. Antigravity must query live state before any connection attempt.
+- Next action: on the powered-on Windows laptop, open the existing repository in Antigravity, paste the master task from `docs/ANTIGRAVITY_FULL_RUN_HANDOFF.md`, and let it perform the documented full run. It must push its evidence report to GitHub for ChatGPT to read.
