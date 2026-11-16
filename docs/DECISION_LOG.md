@@ -54,3 +54,13 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 - **Contract:** `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` defines live-vs-snapshot honesty, event telemetry, filesystem observation, GitHub Actions ingestion, redaction, bounded retries, concurrency locks, device recovery and acceptance criteria.
 - **Important implementation distinction:** This is an operating requirement, not a claim that second-by-second monitoring is already active. A persistent local observer/event consumer plus GitHub event ingestion must be built, secured and end-to-end tested. Chat sessions and finite GitHub Actions jobs do not run forever.
 - **Safety:** Read-only/redacted telemetry by default; mutations require least privilege, expected hashes, backups and explicit approval. Never expose secrets, public ADB, uninstall automatically or wipe app data.
+
+
+## 2026-11-16 — Laptop-independent deployment; preserve installed BAD GYM
+- User reports laptop stolen and explicitly removes it from future BAD GYM workflows. ChatGPT conversation is the command interface; GitHub and GitHub Actions are the cloud coding/build/QA environment. Do not require local USB, laptop runner, Windows Local Agent or laptop terminal.
+- Desired deployment: GitHub cloud runner joins the private Tailscale network, verifies Xiaomi peer and authenticated ADB endpoint, then updates BAD GYM in place and returns launch/smoke-test/screenshot/log evidence.
+- User confirms BAD GYM is currently installed and forbids deleting/uninstalling it or wiping its data. Never run uninstall, pm clear or destructive migration automatically. Any migration requires explicit approval.
+- Tailscale API/peer-online status does not itself provide remote shell/ADB. ADB requires reachable device-side daemon/endpoint and valid paired host authorization. Tailscale is transport/overlay, not the ADB control protocol.
+- Run 43838086739 built APK successfully (commit 668f7a5d895f402113aa2d0763b1ad6c19cd8f08; artifact 14212365972), but device QA failed at ADB connection. User screenshot shows Wireless Debugging OFF and UI requesting Wi-Fi. Installation is NOT verified.
+- Investigate a phone-side authenticated deployment/heartbeat mechanism and Android-approved update path that works on cellular/Tailscale without a laptop. Do not promise silent install by a normal app. Static endpoint secret remains a limitation until dynamic discovery passes end-to-end tests.
+- Future agents must treat docs/CHATGPT_ONLY_DEPLOYMENT.md and deploymentArchitecture in AI_SYNC_STATE.json as authoritative.
