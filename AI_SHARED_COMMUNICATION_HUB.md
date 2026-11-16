@@ -282,3 +282,10 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Build fix**: Run 43878393503 exposed releaseStorePath unresolved in android/app/build.gradle.kts because it was scoped inside the Android DSL. Moved it to script scope after the plugins block and added conditional protectedRelease signing config (commits 0d64ba3 and 70f943f). Latest run will validate Gradle/Kotlin compilation.
 - **Device**: No physical Xiaomi install/screenshot verified in this run. Keep app/data safe.
 - **Next**: Wait for APK build; inspect logs on any failure; if successful inspect artifact metadata and run separate tailnet QA. Protected signing secrets still required before stable Release publication.
+
+### [2026-11-16 13:55 UTC] ChatGPT — compact workspace APK build verified; Xiaomi offline
+- **Build**: GitHub Actions run 43879102167, attempt 2, Flutter checks + Android APK job SUCCESS for commit 70f943f09e0e528241fd8df64a9cb05a00d0af3b. Dart format PASS, static analysis PASS, Flutter tests PASS, release APK build PASS.
+- **Artifact**: 14231087792, bad-gym-android-release-70f943f09e0e528241fd8df64a9cb05a00d0af3b. APK version 0.2.0+2. SHA-256 c9fe784ce1db28dc2d4fe85bdbedc218303b3a3a1af5dd522e3c3de595006f08.
+- **Device QA**: Tailnet job rerun still failed its final gate. Tailnet inventory reports Xiaomi 11i 100.123.18.54 Online=false, so ADB ports were not attempted. Peer LastSeen in QA artifact is stale. This is a device-online issue, not evidence of ADB port failure. No install/launch/screenshot verified.
+- **Updater**: App-side release lookup and SHA-256-verified PackageInstaller bridge are in code. Stable release publication remains intentionally blocked until four protected release-signing secrets are provisioned. Do not publish a debug-signed APK as stable.
+- **Next**: user can install this verified QA APK manually from the chat link; never uninstall existing app or clear data. When Xiaomi peer is online again, rerun device QA. Keep all old history.
