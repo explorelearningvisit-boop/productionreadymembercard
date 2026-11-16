@@ -4,10 +4,12 @@ import 'package:bad_gym/core/theme/bad_gym_theme.dart';
 
 class AttendanceTrendChart extends StatelessWidget {
   final List<TrendDataPoint> points;
+  final String monthLabel;
 
   const AttendanceTrendChart({
     super.key,
     required this.points,
+    this.monthLabel = 'Oct 2026',
   });
 
   @override
@@ -32,10 +34,11 @@ class AttendanceTrendChart extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 6),
-            const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
                 Text(
                   'Attendance Trend',
                   style: TextStyle(
@@ -47,7 +50,9 @@ class AttendanceTrendChart extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Daily Attendance – Oct 2026',
+                  'Daily Attendance – $monthLabel',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: BadGymTypography.fontBody,
                     fontWeight: FontWeight.w500,
@@ -56,7 +61,8 @@ class AttendanceTrendChart extends StatelessWidget {
                     height: 1.1,
                   ),
                 ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

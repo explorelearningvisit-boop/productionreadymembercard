@@ -31,7 +31,7 @@ class AttendanceTrendContainerCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AttendanceTrendChart(points: data.trendPoints),
+          AttendanceTrendChart(points: data.trendPoints, monthLabel: data.attendanceMonthLabel),
           const Divider(height: 18, thickness: 0.7),
           AttendanceCalendarGrid(
             days: data.calendarDays,
