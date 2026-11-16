@@ -192,7 +192,8 @@ class MemberProfileCard extends StatelessWidget {
                 children: [
                   // Active Pill
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [
@@ -203,7 +204,8 @@ class MemberProfileCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF22C55E).withValues(alpha: 0.35),
+                          color:
+                              const Color(0xFF22C55E).withValues(alpha: 0.35),
                           blurRadius: 4,
                           offset: const Offset(0, 1),
                         ),
@@ -235,7 +237,8 @@ class MemberProfileCard extends StatelessWidget {
 
                   // Gold Plan Pill
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [
@@ -459,7 +462,8 @@ class MemberProfileCard extends StatelessWidget {
               ),
               // Yellow Slanted Badge with 73%
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [
@@ -518,7 +522,8 @@ class MemberProfileCard extends StatelessWidget {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFFFB800).withValues(alpha: 0.8),
+                            color:
+                                const Color(0xFFFFB800).withValues(alpha: 0.8),
                             blurRadius: 6,
                           ),
                         ],

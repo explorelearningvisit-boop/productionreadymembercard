@@ -67,7 +67,8 @@ class BottomPromoBanner extends StatelessWidget {
                     children: [
                       // Ribbon Pill: FITNESS NUTRITION
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 3),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 3),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [
@@ -78,7 +79,8 @@ class BottomPromoBanner extends StatelessWidget {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: const Color(0xFFFFB300).withValues(alpha: 0.4),
+                              color: const Color(0xFFFFB300)
+                                  .withValues(alpha: 0.4),
                               blurRadius: 6,
                             ),
                           ],
@@ -97,7 +99,8 @@ class BottomPromoBanner extends StatelessWidget {
 
                       // Starburst Badge: THIS WEEK 50% OFF
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3.5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 3.5),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
                             colors: [
@@ -231,7 +234,8 @@ class BottomPromoBanner extends StatelessWidget {
                         },
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
                               colors: [
@@ -246,7 +250,8 @@ class BottomPromoBanner extends StatelessWidget {
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(0xFFFFB300).withValues(alpha: 0.6),
+                                color: const Color(0xFFFFB300)
+                                    .withValues(alpha: 0.6),
                                 blurRadius: 10,
                                 offset: const Offset(0, 3),
                               ),

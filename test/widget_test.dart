@@ -8,7 +8,9 @@ void configurePhoneViewport(WidgetTester tester, {double height = 700}) {
 }
 
 void main() {
-  testWidgets('compact dashboard fits 360dp viewport without vertical scrolling', (tester) async {
+  testWidgets(
+      'compact dashboard fits 360dp viewport without vertical scrolling',
+      (tester) async {
     configurePhoneViewport(tester);
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
@@ -23,24 +25,30 @@ void main() {
     expect(find.text('Workout'), findsOneWidget);
     expect(find.text('Payment'), findsOneWidget);
     expect(find.text('Body'), findsOneWidget);
-    expect(find.byKey(const ValueKey('fixed_intelligence_viewport')), findsOneWidget);
-    expect(find.byKey(const ValueKey('contextual_navigation_rail')), findsOneWidget);
+    expect(find.byKey(const ValueKey('fixed_intelligence_viewport')),
+        findsOneWidget);
+    expect(find.byKey(const ValueKey('contextual_navigation_rail')),
+        findsOneWidget);
     expect(find.byType(SingleChildScrollView), findsNothing);
     expect(tester.takeException(), isNull);
 
-    final viewport = tester.getRect(find.byKey(const ValueKey('fixed_intelligence_viewport')));
+    final viewport = tester
+        .getRect(find.byKey(const ValueKey('fixed_intelligence_viewport')));
     expect(viewport.height, greaterThan(300));
     expect(viewport.bottom, lessThanOrEqualTo(700));
   });
 
-  testWidgets('attendance contextual rail swaps calendar, trend, history and insights in place', (tester) async {
+  testWidgets(
+      'attendance contextual rail swaps calendar, trend, history and insights in place',
+      (tester) async {
     configurePhoneViewport(tester);
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
-    final before = tester.getRect(find.byKey(const ValueKey('fixed_intelligence_viewport')));
+    final before = tester
+        .getRect(find.byKey(const ValueKey('fixed_intelligence_viewport')));
 
     await tester.tap(find.byKey(const ValueKey('rail_trend')));
     await tester.pumpAndSettle();
@@ -54,12 +62,14 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Attendance Insights'), findsOneWidget);
 
-    final after = tester.getRect(find.byKey(const ValueKey('fixed_intelligence_viewport')));
+    final after = tester
+        .getRect(find.byKey(const ValueKey('fixed_intelligence_viewport')));
     expect(after.height, closeTo(before.height, 1));
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('four intelligence tabs open their own contextual workspaces', (tester) async {
+  testWidgets('four intelligence tabs open their own contextual workspaces',
+      (tester) async {
     configurePhoneViewport(tester);
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
@@ -85,7 +95,8 @@ void main() {
     expect(find.text('Attendance Calendar'), findsOneWidget);
   });
 
-  testWidgets('header notification and QR actions remain available', (tester) async {
+  testWidgets('header notification and QR actions remain available',
+      (tester) async {
     configurePhoneViewport(tester, height: 800);
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);

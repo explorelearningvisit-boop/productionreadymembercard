@@ -78,7 +78,8 @@ class PaymentIntelligenceCard extends StatelessWidget {
               ),
               const SizedBox(width: 3),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.5),
                 decoration: BoxDecoration(
                   color: BadGymColors.emerald.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(12),
@@ -90,7 +91,8 @@ class PaymentIntelligenceCard extends StatelessWidget {
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.check_circle_rounded, size: 9, color: BadGymColors.emerald),
+                    Icon(Icons.check_circle_rounded,
+                        size: 9, color: BadGymColors.emerald),
                     SizedBox(width: 2.5),
                     Text(
                       'Paid',
@@ -248,7 +250,8 @@ class PaymentIntelligenceCard extends StatelessWidget {
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.autorenew_rounded, size: 12, color: Colors.white),
+                        Icon(Icons.autorenew_rounded,
+                            size: 12, color: Colors.white),
                         SizedBox(width: 4),
                         Text(
                           'Renew Plan Now',
@@ -270,7 +273,8 @@ class PaymentIntelligenceCard extends StatelessWidget {
                   HapticFeedback.selectionClick();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Invoice export is not connected yet. No file was created.'),
+                      content: Text(
+                          'Invoice export is not connected yet. No file was created.'),
                       backgroundColor: BadGymColors.purpleCardStart,
                       duration: Duration(seconds: 2),
                     ),
@@ -278,7 +282,8 @@ class PaymentIntelligenceCard extends StatelessWidget {
                 },
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6.5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6.5),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFAF7FE),
                     borderRadius: BorderRadius.circular(12),
@@ -289,7 +294,8 @@ class PaymentIntelligenceCard extends StatelessWidget {
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.download_rounded, size: 12, color: Color(0xFF6D28D9)),
+                      Icon(Icons.download_rounded,
+                          size: 12, color: Color(0xFF6D28D9)),
                       SizedBox(width: 3),
                       Text(
                         'PDF',
@@ -381,7 +387,8 @@ class PaymentIntelligenceCard extends StatelessWidget {
                 color: BadGymColors.emerald.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.check, size: 9, color: BadGymColors.emerald),
+              child:
+                  const Icon(Icons.check, size: 9, color: BadGymColors.emerald),
             ),
             const SizedBox(width: 6),
             Column(

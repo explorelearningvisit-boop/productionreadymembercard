@@ -72,7 +72,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
             },
             borderRadius: BorderRadius.circular(15),
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7.5),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7.5),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   begin: Alignment.topLeft,
@@ -119,7 +120,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
+                        const Text(
                           'Last Check-In',
                           style: TextStyle(
                             fontFamily: BadGymTypography.fontHeading,
@@ -129,10 +130,10 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                             height: 1.1,
                           ),
                         ),
-                        SizedBox(height: 2),
+                        const SizedBox(height: 2),
                         Text(
                           '${data.checkInDate} • ${data.checkInTime}',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: BadGymTypography.fontBody,
                             fontWeight: FontWeight.w500,
                             fontSize: 9.0,
@@ -159,7 +160,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                         color: Colors.white.withValues(alpha: 0.18),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: const Color(0xFFD4AF37).withValues(alpha: 0.45),
+                          color:
+                              const Color(0xFFD4AF37).withValues(alpha: 0.45),
                           width: 1.0,
                         ),
                       ),
@@ -281,7 +283,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: const Color(0xFF8B0000).withValues(alpha: 0.20),
+                                    color: const Color(0xFF8B0000)
+                                        .withValues(alpha: 0.20),
                                     blurRadius: 8,
                                     offset: const Offset(0, 2),
                                   ),
@@ -339,14 +342,18 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                       Text(
                                         data.memberId,
                                         style: const TextStyle(
-                                          fontFamily: BadGymTypography.fontHeading,
+                                          fontFamily:
+                                              BadGymTypography.fontHeading,
                                           fontWeight: FontWeight.w700,
                                           fontSize: 10,
                                           color: secondaryTextColor,
                                         ),
                                       ),
                                       const SizedBox(width: 4),
-                                      const Text('|', style: TextStyle(color: Color(0xFFCBD5E1), fontSize: 10)),
+                                      const Text('|',
+                                          style: TextStyle(
+                                              color: Color(0xFFCBD5E1),
+                                              fontSize: 10)),
                                       const SizedBox(width: 4),
                                       const Icon(
                                         Icons.person_outline_rounded,
@@ -364,7 +371,10 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                         ),
                                       ),
                                       const SizedBox(width: 4),
-                                      const Text('|', style: TextStyle(color: Color(0xFFCBD5E1), fontSize: 10)),
+                                      const Text('|',
+                                          style: TextStyle(
+                                              color: Color(0xFFCBD5E1),
+                                              fontSize: 10)),
                                       const SizedBox(width: 4),
                                       Text(
                                         '♂ ${data.gender}',
@@ -384,15 +394,20 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                   children: [
                                     // Active Pill
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 7, vertical: 2),
                                       decoration: BoxDecoration(
                                         gradient: const LinearGradient(
-                                          colors: [Color(0xFF16A34A), Color(0xFF15803D)],
+                                          colors: [
+                                            Color(0xFF16A34A),
+                                            Color(0xFF15803D)
+                                          ],
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: const Color(0xFF16A34A).withValues(alpha: 0.3),
+                                            color: const Color(0xFF16A34A)
+                                                .withValues(alpha: 0.3),
                                             blurRadius: 4,
                                             offset: const Offset(0, 1),
                                           ),
@@ -401,12 +416,14 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                       child: const Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(Icons.check_rounded, size: 10, color: Colors.white),
+                                          Icon(Icons.check_rounded,
+                                              size: 10, color: Colors.white),
                                           SizedBox(width: 2.5),
                                           Text(
                                             'Active',
                                             style: TextStyle(
-                                              fontFamily: BadGymTypography.fontHeading,
+                                              fontFamily:
+                                                  BadGymTypography.fontHeading,
                                               fontWeight: FontWeight.w800,
                                               fontSize: 9,
                                               color: Colors.white,
@@ -418,15 +435,20 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                     const SizedBox(width: 5),
                                     // Gold Plan Pill
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 7, vertical: 2),
                                       decoration: BoxDecoration(
                                         gradient: const LinearGradient(
-                                          colors: [Color(0xFFFFDF7A), Color(0xFFD4AF37)],
+                                          colors: [
+                                            Color(0xFFFFDF7A),
+                                            Color(0xFFD4AF37)
+                                          ],
                                         ),
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: const Color(0xFFD4AF37).withValues(alpha: 0.3),
+                                            color: const Color(0xFFD4AF37)
+                                                .withValues(alpha: 0.3),
                                             blurRadius: 4,
                                             offset: const Offset(0, 1),
                                           ),
@@ -435,12 +457,15 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                       child: const Row(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
-                                          Icon(Icons.emoji_events_rounded, size: 10, color: Color(0xFF5D3800)),
+                                          Icon(Icons.emoji_events_rounded,
+                                              size: 10,
+                                              color: Color(0xFF5D3800)),
                                           SizedBox(width: 2.5),
                                           Text(
                                             'Gold Plan',
                                             style: TextStyle(
-                                              fontFamily: BadGymTypography.fontHeading,
+                                              fontFamily:
+                                                  BadGymTypography.fontHeading,
                                               fontWeight: FontWeight.w800,
                                               fontSize: 9,
                                               color: Color(0xFF5D3800),
@@ -461,7 +486,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
 
                       // Two-Subcard Row (Payment Due & 8 Days Left)
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4.5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 7, vertical: 4.5),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFF1F2),
                           borderRadius: BorderRadius.circular(12),
@@ -499,13 +525,15 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                     const SizedBox(width: 5),
                                     const Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(
                                             'Payment Due',
                                             style: TextStyle(
-                                              fontFamily: BadGymTypography.fontBody,
+                                              fontFamily:
+                                                  BadGymTypography.fontBody,
                                               fontWeight: FontWeight.w600,
                                               fontSize: 8.5,
                                               color: Color(0xFF6B6B6B),
@@ -516,7 +544,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                           Text(
                                             '₹500 Due',
                                             style: TextStyle(
-                                              fontFamily: BadGymTypography.fontHeading,
+                                              fontFamily:
+                                                  BadGymTypography.fontHeading,
                                               fontWeight: FontWeight.w900,
                                               fontSize: 12.0,
                                               color: Color(0xFFDC2626),
@@ -571,13 +600,15 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                     const SizedBox(width: 5),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Text(
                                             '${data.daysLeft} Days Left',
                                             style: const TextStyle(
-                                              fontFamily: BadGymTypography.fontHeading,
+                                              fontFamily:
+                                                  BadGymTypography.fontHeading,
                                               fontWeight: FontWeight.w900,
                                               fontSize: 12.0,
                                               color: Color(0xFFDC2626),
@@ -588,7 +619,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                                           Text(
                                             'Expires: ${data.renewDate}',
                                             style: const TextStyle(
-                                              fontFamily: BadGymTypography.fontBody,
+                                              fontFamily:
+                                                  BadGymTypography.fontBody,
                                               fontWeight: FontWeight.w500,
                                               fontSize: 8.5,
                                               color: Color(0xFF6B6B6B),
@@ -627,7 +659,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 1.5),
                             decoration: BoxDecoration(
                               color: const Color(0xFFFBF1DF),
                               borderRadius: BorderRadius.circular(5),
@@ -663,7 +696,8 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                             return Align(
                               alignment: Alignment.centerLeft,
                               child: Container(
-                                width: constraints.maxWidth * data.usedPercentage.clamp(0.0, 1.0),
+                                width: constraints.maxWidth *
+                                    data.usedPercentage.clamp(0.0, 1.0),
                                 height: 5.0,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(3),

@@ -117,7 +117,8 @@ class AttendanceIntelligenceCard extends StatelessWidget {
                 },
                 borderRadius: BorderRadius.circular(14),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(14),
@@ -137,15 +138,15 @@ class AttendanceIntelligenceCard extends StatelessWidget {
                     children: [
                       Text(
                         data.attendanceMonthLabel,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: BadGymTypography.fontHeading,
                           fontSize: 9.5,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF1E293B),
                         ),
                       ),
-                      SizedBox(width: 2),
-                      Icon(
+                      const SizedBox(width: 2),
+                      const Icon(
                         Icons.arrow_drop_down_rounded,
                         size: 14,
                         color: Color(0xFF1E293B),
@@ -165,7 +166,10 @@ class AttendanceIntelligenceCard extends StatelessWidget {
           const SizedBox(height: 10),
 
           // 3. Calendar Grid & Legend
-          AttendanceCalendarGrid(days: data.calendarDays, year: data.attendanceYear, month: data.attendanceMonth),
+          AttendanceCalendarGrid(
+              days: data.calendarDays,
+              year: data.attendanceYear,
+              month: data.attendanceMonth),
         ],
       ),
     );

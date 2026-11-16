@@ -304,9 +304,21 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
           ),
         ),
 
-        const SizedBox(width: 4),
+        const SizedBox(width: 6),
 
-        // 3. Streak & Best Highlights (Animated Stitch Flame & 3D Trophy)
+        // Thin vertical divider before streak column (matching reference design)
+        Container(
+          width: 1.5,
+          height: 48,
+          decoration: BoxDecoration(
+            color: const Color(0xFF8B0000).withValues(alpha: 0.35),
+            borderRadius: BorderRadius.circular(1),
+          ),
+        ),
+
+        const SizedBox(width: 6),
+
+        // 3. Streak & Best Highlights (Animated 3D Flame & 3D Gold Trophy)
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -319,20 +331,20 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
                   animation: _flamePulse,
                   builder: (context, child) {
                     return SizedBox(
-                      width: 22,
-                      height: 22,
+                      width: 24,
+                      height: 24,
                       child: Center(
                         child: Transform.scale(
                           scale: _flamePulse.value,
                           child: Image.asset(
                             'assets/badges/streak_flame.png',
-                            width: 22,
-                            height: 22,
+                            width: 24,
+                            height: 24,
                             fit: BoxFit.contain,
                             errorBuilder: (_, __, ___) => const Icon(
                               Icons.local_fire_department_rounded,
                               color: Color(0xFFFF5722),
-                              size: 20,
+                              size: 22,
                             ),
                           ),
                         ),
@@ -349,19 +361,22 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
                       'Streak',
                       style: TextStyle(
                         fontFamily: BadGymTypography.fontBody,
-                        fontSize: 8.5,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF6B7280),
+                        fontSize: 9.0,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF1E293B),
                         height: 1.0,
                       ),
                     ),
+                    const SizedBox(height: 2),
                     Text(
                       data.currentStreak,
                       style: const TextStyle(
                         fontFamily: BadGymTypography.fontHeading,
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF1E293B),
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.italic,
+                        color: Color(0xFF990000),
+                        letterSpacing: -0.2,
                         height: 1.1,
                       ),
                     ),
@@ -372,19 +387,19 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
 
             const SizedBox(height: 6),
 
-            // Best with Trophy
+            // Best with 3D Gold Trophy
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
                   'assets/badges/best_trophy.png',
-                  width: 20,
-                  height: 20,
+                  width: 24,
+                  height: 24,
                   fit: BoxFit.contain,
                   errorBuilder: (_, __, ___) => const Icon(
                     Icons.emoji_events_rounded,
                     color: Color(0xFFFFB300),
-                    size: 18,
+                    size: 20,
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -396,19 +411,22 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
                       'Best',
                       style: TextStyle(
                         fontFamily: BadGymTypography.fontBody,
-                        fontSize: 8.5,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF6B7280),
+                        fontSize: 9.0,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xFF1E293B),
                         height: 1.0,
                       ),
                     ),
+                    const SizedBox(height: 2),
                     Text(
                       data.bestStreak,
                       style: const TextStyle(
                         fontFamily: BadGymTypography.fontHeading,
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF1E293B),
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.italic,
+                        color: Color(0xFF990000),
+                        letterSpacing: -0.2,
                         height: 1.1,
                       ),
                     ),

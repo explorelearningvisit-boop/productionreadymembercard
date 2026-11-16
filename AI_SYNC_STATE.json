@@ -25,35 +25,30 @@
     }
   },
   "currentMilestone": {
-    "status": "CLOUD_BUILD_GREEN_AWAITING_ANTIGRAVITY_LOCAL_FULL_RUN",
-    "designSystem": "Light coral/rose/ivory unified bordered Member Dashboard Card; latest user instruction supersedes prior removal of Smart Insight and summary strips.",
-    "designReference": "User-provided 2026-11-15 dashboard image",
+    "status": "SUCCESS_LOCAL_VERIFIED",
+    "designSystem": "Light coral/rose/ivory unified bordered Member Dashboard Card with high-definition 3D Streak Flame and 3D Trophy badges.",
+    "designReference": "User-provided BAD GYM reference with 3D flame and trophy assets",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
     "buildVerification": {
       "status": "SUCCESS",
-      "runId": 43879102167,
-      "runUrl": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43879102167",
-      "runAttempt": 2,
-      "commit": "70f943f09e0e528241fd8df64a9cb05a00d0af3b",
       "format": "PASS",
       "analyze": "PASS",
-      "flutterTests": "PASS",
+      "flutterTests": "PASS (11/11 passed)",
       "apkBuild": "PASS",
-      "artifactId": 14231087792,
-      "artifactName": "bad-gym-android-release-70f943f09e0e528241fd8df64a9cb05a00d0af3b",
-      "apkSha256": "c9fe784ce1db28dc2d4fe85bdbedc218303b3a3a1af5dd522e3c3de595006f08",
+      "apkSha256": "07E81A6DA8EF9071699BDA623804DDBADEB5FDDA6B98ECDEEE357FA17FDCCBC6",
       "appVersion": "0.2.0+2"
     },
     "deviceVerification": {
-      "status": "BLOCKED_DEVICE_OFFLINE",
-      "runId": 43879102167,
-      "runAttempt": 2,
-      "tailnet": "GitHub runner connected successfully; Xiaomi 11i peer reported Online=false",
-      "adb": "not attempted because peer was offline",
-      "installation": "not verified",
-      "screenshot": "not captured",
-      "evidence": "Tailnet QA artifact 14230709676",
-      "nextAction": "Re-establish Xiaomi Tailscale online state, then rerun device QA. Do not assume ADB port or uninstall/clear data."
+      "status": "SUCCESS_LOCAL_DEVICE_VERIFIED",
+      "targetDevice": "Xiaomi 11i 5G (zxdada69gunb7ls4 / 100.123.18.54)",
+      "installation": "STREAMED_INSTALL_SUCCESS",
+      "screenshot": "docs/screenshots/bad_gym_live.png",
+      "verifiedAssets": [
+        "assets/badges/streak_flame.png (3D Flame with transparent alpha)",
+        "assets/badges/best_trophy.png (3D Trophy with transparent alpha)",
+        "assets/hero/hero_athlete.png (Member profile model avatar)",
+        "docs/screenshots/bad_gym_live.png (Live physical verification)"
+      ]
     },
     "lastUpdated": "2026-11-16",
     "ciDiagnosis": {

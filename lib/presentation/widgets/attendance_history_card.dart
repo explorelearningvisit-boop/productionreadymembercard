@@ -13,10 +13,30 @@ class AttendanceHistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final historyItems = [
-      _HistoryEntry(date: '16 Oct 2026', time: '07:12 AM', duration: '58 min', location: 'Main Gym Floor', isToday: true),
-      _HistoryEntry(date: '15 Oct 2026', time: '06:45 PM', duration: '62 min', location: 'Free Weights Area', isToday: false),
-      _HistoryEntry(date: '14 Oct 2026', time: '07:05 AM', duration: '55 min', location: 'Cardio Zone', isToday: false),
-      _HistoryEntry(date: '13 Oct 2026', time: '07:30 AM', duration: '50 min', location: 'Functional Arena', isToday: false),
+      _HistoryEntry(
+          date: '16 Oct 2026',
+          time: '07:12 AM',
+          duration: '58 min',
+          location: 'Main Gym Floor',
+          isToday: true),
+      _HistoryEntry(
+          date: '15 Oct 2026',
+          time: '06:45 PM',
+          duration: '62 min',
+          location: 'Free Weights Area',
+          isToday: false),
+      _HistoryEntry(
+          date: '14 Oct 2026',
+          time: '07:05 AM',
+          duration: '55 min',
+          location: 'Cardio Zone',
+          isToday: false),
+      _HistoryEntry(
+          date: '13 Oct 2026',
+          time: '07:30 AM',
+          duration: '50 min',
+          location: 'Functional Arena',
+          isToday: false),
     ];
 
     return Container(
@@ -95,7 +115,8 @@ class AttendanceHistoryCard extends StatelessWidget {
         color: item.isToday ? const Color(0xFFF0FDF4) : const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: item.isToday ? const Color(0xFF86EFAC) : const Color(0xFFE2E8F0),
+          color:
+              item.isToday ? const Color(0xFF86EFAC) : const Color(0xFFE2E8F0),
           width: 1,
         ),
       ),
@@ -105,7 +126,9 @@ class AttendanceHistoryCard extends StatelessWidget {
             width: 28,
             height: 28,
             decoration: BoxDecoration(
-              color: item.isToday ? const Color(0xFF22C55E) : const Color(0xFFE2E8F0),
+              color: item.isToday
+                  ? const Color(0xFF22C55E)
+                  : const Color(0xFFE2E8F0),
               shape: BoxShape.circle,
             ),
             child: Icon(

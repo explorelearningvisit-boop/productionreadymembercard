@@ -49,7 +49,8 @@ class RenewalSheet extends StatelessWidget {
               const Expanded(
                 child: Row(
                   children: [
-                    Icon(Icons.autorenew_rounded, color: BadGymColors.neonLime, size: 22),
+                    Icon(Icons.autorenew_rounded,
+                        color: BadGymColors.neonLime, size: 22),
                     SizedBox(width: 8),
                     Flexible(
                       child: Text(
@@ -73,7 +74,8 @@ class RenewalSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: BadGymColors.redAbsent.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: BadGymColors.redAbsent.withValues(alpha: 0.4)),
+                  border: Border.all(
+                      color: BadGymColors.redAbsent.withValues(alpha: 0.4)),
                 ),
                 child: Text(
                   '${data.daysLeft} Days Left',
@@ -95,11 +97,13 @@ class RenewalSheet extends StatelessWidget {
             decoration: BoxDecoration(
               color: BadGymColors.purpleInnerGlass,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: BadGymColors.neonViolet.withValues(alpha: 0.2)),
+              border: Border.all(
+                  color: BadGymColors.neonViolet.withValues(alpha: 0.2)),
             ),
             child: Row(
               children: [
-                const Icon(Icons.info_outline_rounded, color: BadGymColors.inkLight, size: 18),
+                const Icon(Icons.info_outline_rounded,
+                    color: BadGymColors.inkLight, size: 18),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -122,7 +126,10 @@ class RenewalSheet extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [BadGymColors.purpleCardStart, BadGymColors.purpleCardMid],
+                colors: [
+                  BadGymColors.purpleCardStart,
+                  BadGymColors.purpleCardMid
+                ],
               ),
               borderRadius: BorderRadius.circular(16),
               border: Border.all(color: BadGymColors.neonViolet, width: 1.5),
@@ -141,7 +148,8 @@ class RenewalSheet extends StatelessWidget {
                     color: BadGymColors.gold.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.workspace_premium, color: BadGymColors.gold, size: 20),
+                  child: const Icon(Icons.workspace_premium,
+                      color: BadGymColors.gold, size: 20),
                 ),
                 const SizedBox(width: 10),
                 const Expanded(
@@ -164,7 +172,8 @@ class RenewalSheet extends StatelessWidget {
                             ),
                           ),
                           SizedBox(width: 6),
-                          Icon(Icons.check_circle, color: BadGymColors.neonLime, size: 14),
+                          Icon(Icons.check_circle,
+                              color: BadGymColors.neonLime, size: 14),
                         ],
                       ),
                       SizedBox(height: 2),
@@ -199,7 +208,8 @@ class RenewalSheet extends StatelessWidget {
             decoration: BoxDecoration(
               color: BadGymColors.purpleInnerGlass,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: BadGymColors.neonViolet.withValues(alpha: 0.2)),
+              border: Border.all(
+                  color: BadGymColors.neonViolet.withValues(alpha: 0.2)),
             ),
             child: Row(
               children: [
@@ -209,7 +219,8 @@ class RenewalSheet extends StatelessWidget {
                     color: BadGymColors.cyanBody.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.diamond_rounded, color: BadGymColors.cyanBody, size: 20),
+                  child: const Icon(Icons.diamond_rounded,
+                      color: BadGymColors.cyanBody, size: 20),
                 ),
                 const SizedBox(width: 10),
                 const Expanded(
@@ -277,7 +288,8 @@ class RenewalSheet extends StatelessWidget {
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Payment gateway is not connected yet. No payment was initiated.'),
+                    content: Text(
+                        'Payment gateway is not connected yet. No payment was initiated.'),
                     backgroundColor: BadGymColors.purpleCardStart,
                   ),
                 );

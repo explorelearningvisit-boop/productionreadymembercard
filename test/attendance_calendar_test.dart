@@ -4,7 +4,9 @@ import 'package:bad_gym/core/models/member_intelligence_data.dart';
 import 'package:bad_gym/presentation/widgets/attendance_calendar_grid.dart';
 
 void main() {
-  testWidgets('calendar derives weekdays and renders Sundays as disabled OFF days', (tester) async {
+  testWidgets(
+      'calendar derives weekdays and renders Sundays as disabled OFF days',
+      (tester) async {
     tester.view.physicalSize = const Size(360, 700);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -33,7 +35,9 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('calendar supports months with different lengths and weekday offsets', (tester) async {
+  testWidgets(
+      'calendar supports months with different lengths and weekday offsets',
+      (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
         home: Scaffold(

@@ -127,8 +127,18 @@ class MemberIntelligenceData {
 
   String get attendanceMonthLabel {
     const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
     ];
     return '${months[attendanceMonth - 1]} $attendanceYear';
   }
@@ -170,19 +180,25 @@ class MemberIntelligenceData {
 
     final trend = <TrendDataPoint>[
       const TrendDataPoint(day: 1, percentage: 70),
-      const TrendDataPoint(day: 3, percentage: 97, calloutText: '97% (3 Oct)', isCalloutGreen: true),
+      const TrendDataPoint(
+          day: 3,
+          percentage: 97,
+          calloutText: '97% (3 Oct)',
+          isCalloutGreen: true),
       const TrendDataPoint(day: 5, percentage: 88),
       const TrendDataPoint(day: 8, percentage: 76),
       const TrendDataPoint(day: 11, percentage: 60),
       const TrendDataPoint(day: 13, percentage: 72),
       const TrendDataPoint(day: 15, percentage: 82),
-      const TrendDataPoint(day: 17, percentage: 58, calloutText: '58% (17 Oct)'),
+      const TrendDataPoint(
+          day: 17, percentage: 58, calloutText: '58% (17 Oct)'),
       const TrendDataPoint(day: 20, percentage: 85),
       const TrendDataPoint(day: 23, percentage: 72),
       const TrendDataPoint(day: 26, percentage: 86),
       const TrendDataPoint(day: 28, percentage: 74),
       const TrendDataPoint(day: 30, percentage: 78),
-      const TrendDataPoint(day: 31, percentage: 81, calloutText: '81% (31 Oct)'),
+      const TrendDataPoint(
+          day: 31, percentage: 81, calloutText: '81% (31 Oct)'),
     ];
 
     return MemberIntelligenceData(

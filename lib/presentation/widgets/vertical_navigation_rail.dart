@@ -97,7 +97,7 @@ class VerticalNavigationRail extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                   fontSize: 10.5,
                   letterSpacing: 0.8,
-                  color: const Color(0xFF7C2632),
+                  color: Color(0xFF7C2632),
                   height: 1.0,
                 ),
               ),
@@ -133,7 +133,11 @@ class VerticalNavigationRail extends StatelessWidget {
                   // Home (Active)
                   _buildRailItem(
                     tab: RailTab.home,
-                    aliases: [RailTab.home, RailTab.intelligence, RailTab.overview],
+                    aliases: [
+                      RailTab.home,
+                      RailTab.intelligence,
+                      RailTab.overview
+                    ],
                     icon: Icons.home_rounded,
                     label: 'Home',
                   ),

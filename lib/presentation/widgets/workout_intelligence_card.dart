@@ -79,7 +79,8 @@ class WorkoutIntelligenceCard extends StatelessWidget {
               ),
               const SizedBox(width: 3),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 6.5, vertical: 2.5),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFAF7FE),
                   borderRadius: BorderRadius.circular(12),
@@ -221,7 +222,8 @@ class WorkoutIntelligenceCard extends StatelessWidget {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Workout logging is not connected yet. No set was saved.'),
+                          content: Text(
+                              'Workout logging is not connected yet. No set was saved.'),
                           backgroundColor: Color(0xFF6D28D9),
                           duration: Duration(seconds: 2),
                         ),
@@ -241,7 +243,8 @@ class WorkoutIntelligenceCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: BadGymColors.neonViolet.withValues(alpha: 0.25),
+                          color:
+                              BadGymColors.neonViolet.withValues(alpha: 0.25),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
@@ -251,7 +254,8 @@ class WorkoutIntelligenceCard extends StatelessWidget {
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.add_task_rounded, size: 12, color: Colors.white),
+                        Icon(Icons.add_task_rounded,
+                            size: 12, color: Colors.white),
                         SizedBox(width: 4),
                         Text(
                           'Log Next Set',
@@ -273,7 +277,8 @@ class WorkoutIntelligenceCard extends StatelessWidget {
                   HapticFeedback.selectionClick();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('Rest timer preview only. No countdown has started.'),
+                      content: Text(
+                          'Rest timer preview only. No countdown has started.'),
                       backgroundColor: BadGymColors.purpleCardStart,
                       duration: Duration(seconds: 2),
                     ),
@@ -281,7 +286,8 @@ class WorkoutIntelligenceCard extends StatelessWidget {
                 },
                 borderRadius: BorderRadius.circular(12),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6.5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6.5),
                   decoration: BoxDecoration(
                     color: const Color(0xFFFAF7FE),
                     borderRadius: BorderRadius.circular(12),
@@ -292,7 +298,8 @@ class WorkoutIntelligenceCard extends StatelessWidget {
                   ),
                   child: const Row(
                     children: [
-                      Icon(Icons.timer_outlined, size: 12, color: Color(0xFF6D28D9)),
+                      Icon(Icons.timer_outlined,
+                          size: 12, color: Color(0xFF6D28D9)),
                       SizedBox(width: 3),
                       Text(
                         '01:30',
@@ -381,7 +388,8 @@ class WorkoutIntelligenceCard extends StatelessWidget {
             shape: BoxShape.circle,
             color: isCompleted ? BadGymColors.emerald : Colors.transparent,
             border: Border.all(
-              color: isCompleted ? BadGymColors.emerald : const Color(0xFF9CA3AF),
+              color:
+                  isCompleted ? BadGymColors.emerald : const Color(0xFF9CA3AF),
               width: 1.2,
             ),
           ),
@@ -401,7 +409,9 @@ class WorkoutIntelligenceCard extends StatelessWidget {
                   fontFamily: BadGymTypography.fontHeading,
                   fontWeight: FontWeight.w700,
                   fontSize: 9.5,
-                  color: isCompleted ? const Color(0xFF1E0E38) : const Color(0xFF6B7280),
+                  color: isCompleted
+                      ? const Color(0xFF1E0E38)
+                      : const Color(0xFF6B7280),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

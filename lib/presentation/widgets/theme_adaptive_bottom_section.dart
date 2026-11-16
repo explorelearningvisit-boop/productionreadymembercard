@@ -110,7 +110,8 @@ class ThemeAdaptiveBottomSection extends StatelessWidget {
                 onTap: () {
                   HapticFeedback.lightImpact();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Contacting BAD GYM Support...')),
+                    const SnackBar(
+                        content: Text('Contacting BAD GYM Support...')),
                   );
                 },
               ),
@@ -135,7 +136,8 @@ class ThemeAdaptiveBottomSection extends StatelessWidget {
           height: 60,
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
           decoration: BoxDecoration(
-            color: highlight ? const Color(0xFFFFD700) : const Color(0xFF1E212D),
+            color:
+                highlight ? const Color(0xFFFFD700) : const Color(0xFF1E212D),
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: highlight ? const Color(0xFFFFB300) : Colors.white12,

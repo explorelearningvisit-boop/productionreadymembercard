@@ -75,7 +75,8 @@ class NotificationSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: BadGymColors.redAbsent.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: BadGymColors.redAbsent.withValues(alpha: 0.4)),
+                  border: Border.all(
+                      color: BadGymColors.redAbsent.withValues(alpha: 0.4)),
                 ),
                 child: const Text(
                   '3 New',
@@ -96,7 +97,8 @@ class NotificationSheet extends StatelessWidget {
             icon: Icons.access_time_filled_rounded,
             iconColor: BadGymColors.gold,
             title: 'Membership Renewal Notice',
-            description: '8 days left on your Gold Plan. Early bird 15% renewal discount active until 24 Oct.',
+            description:
+                '8 days left on your Gold Plan. Early bird 15% renewal discount active until 24 Oct.',
             time: '10 min ago',
           ),
           const SizedBox(height: 10),
@@ -104,7 +106,8 @@ class NotificationSheet extends StatelessWidget {
             icon: Icons.local_fire_department_rounded,
             iconColor: const Color(0xFFEA580C),
             title: '5-Day Streak Achieved! 🔥',
-            description: 'Awesome discipline! Complete your Friday session to unlock the Consistent Beast badge.',
+            description:
+                'Awesome discipline! Complete your Friday session to unlock the Consistent Beast badge.',
             time: '2 hours ago',
           ),
           const SizedBox(height: 10),
@@ -112,7 +115,8 @@ class NotificationSheet extends StatelessWidget {
             icon: Icons.local_cafe_rounded,
             iconColor: BadGymColors.neonViolet,
             title: 'Complimentary Protein Shake',
-            description: 'Your monthly Gold Member benefit: Claim 1 free Whey Isolate shake at the Nutrition Bar.',
+            description:
+                'Your monthly Gold Member benefit: Claim 1 free Whey Isolate shake at the Nutrition Bar.',
             time: 'Yesterday',
           ),
           const SizedBox(height: 18),
@@ -128,7 +132,9 @@ class NotificationSheet extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
-                  side: BorderSide(color: BadGymColors.neonVioletBorder.withValues(alpha: 0.5)),
+                  side: BorderSide(
+                      color:
+                          BadGymColors.neonVioletBorder.withValues(alpha: 0.5)),
                 ),
               ),
               child: const Text(

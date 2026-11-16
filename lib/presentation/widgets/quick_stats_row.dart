@@ -50,7 +50,9 @@ class QuickStatsRow extends StatelessWidget {
             tab: QuickStatTab.payment,
             icon: Icons.account_balance_wallet_rounded,
             label: 'Payment',
-            value: data.paymentAmount.replaceAll(' Due', '').replaceAll(' Paid', ''),
+            value: data.paymentAmount
+                .replaceAll(' Due', '')
+                .replaceAll(' Paid', ''),
             delta: data.paymentStatus,
             isPositive: data.paymentStatus.toLowerCase().contains('paid'),
           ),
@@ -110,10 +112,15 @@ class QuickStatsRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
           decoration: BoxDecoration(
             color: isSelected ? null : Colors.white,
-            gradient: isSelected ? const LinearGradient(colors: [Color(0xFFFFF1F2), Color(0xFFFFFFFF)]) : null,
+            gradient: isSelected
+                ? const LinearGradient(
+                    colors: [Color(0xFFFFF1F2), Color(0xFFFFFFFF)])
+                : null,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: isSelected ? const Color(0xFFB91C2C) : const Color(0xFFEAD9C3),
+              color: isSelected
+                  ? const Color(0xFFB91C2C)
+                  : const Color(0xFFEAD9C3),
               width: isSelected ? 1.5 : 1.0,
             ),
             boxShadow: [
@@ -177,9 +184,12 @@ class QuickStatsRow extends StatelessWidget {
               const SizedBox(height: 3),
               // Delta badge
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                 decoration: BoxDecoration(
-                  color: isPositive ? const Color(0xFFDCFCE7) : const Color(0xFFFFE4E6),
+                  color: isPositive
+                      ? const Color(0xFFDCFCE7)
+                      : const Color(0xFFFFE4E6),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
@@ -188,7 +198,9 @@ class QuickStatsRow extends StatelessWidget {
                     fontFamily: BadGymTypography.fontHeading,
                     fontWeight: FontWeight.w800,
                     fontSize: 7.5,
-                    color: isPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626),
+                    color: isPositive
+                        ? const Color(0xFF16A34A)
+                        : const Color(0xFFDC2626),
                     height: 1.0,
                   ),
                 ),
