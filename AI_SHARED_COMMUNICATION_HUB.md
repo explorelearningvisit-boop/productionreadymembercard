@@ -221,3 +221,9 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 
 - **Follow-up**: Updated `test/widget_test.dart` to assert the outer dashboard card, Smart Insight, Streak, Best, Plan Days and Next Goal are present; retained the no-duplicate CHECK-IN assertion. Test commit: `a736029c552469e219e8711c86c2a5ec7c9750b2`.
 - **CI status**: No status checks were visible through the connected GitHub status endpoint at handoff time. The workflow is configured to run on main source/test pushes; await its Actions result before distributing a new APK.
+
+
+### [2026-11-16 UTC] ChatGPT — CI failure 43833182700 diagnosed and fixed
+- **Evidence**: Run `43833182700`, job `133183327622`. Formatting and static analysis passed; Flutter tests failed before APK build. Exact failure: `RenderFlex overflowed by 9.4 pixels on the right` at 360dp; log identified `lib/presentation/widgets/attendance_calendar_grid.dart:46` month header Row. Root cause was IconButton's default minimum width despite 28dp minimum constraints.
+- **Fix**: Both previous/next month IconButtons now use `BoxConstraints.tightFor(width: 28, height: 28)`; commit `b73b23cafd8931d352a73879e7185bbaf8ac91f5`.
+- **State**: `AI_SYNC_STATE.json` records the exact failure and fix. New push-triggered CI should run on main. Await its test/build result; no new APK exists from failed run.
