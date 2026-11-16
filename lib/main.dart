@@ -203,16 +203,16 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
       final selected = tab == i;
       return Expanded(child: Padding(padding: EdgeInsets.only(right: i == 3 ? 0 : 5), child: InkWell(
         borderRadius: BorderRadius.circular(13), onTap: () => setState(() { tab = i; rail = 0; }),
-        child: AnimatedContainer(duration: const Duration(milliseconds: 180), padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+        child: AnimatedContainer(duration: const Duration(milliseconds: 180), padding: EdgeInsets.symmetric(horizontal: 4, vertical: compact ? 3 : 6),
           decoration: BoxDecoration(
             gradient: selected ? const LinearGradient(colors: [Color(0xFFFFF1B0), Color(0xFFFFD84A)]) : const LinearGradient(colors: [Colors.white, Color(0xFFFFFCF2)]),
             borderRadius: BorderRadius.circular(13), border: Border.all(color: selected ? C.gold : C.line, width: selected ? 1.4 : .8),
             boxShadow: const [BoxShadow(color: Color(0x18866A00), blurRadius: 4, offset: Offset(0, 2))]),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(d.$1, color: d.$5, size: 17),
-            const SizedBox(height: 2),
+            Icon(d.$1, color: d.$5, size: compact ? 15 : 17),
+            SizedBox(height: compact ? 1 : 2),
             Text(d.$2, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w800, color: C.ink)),
-            FittedBox(fit: BoxFit.scaleDown, child: Text(d.$3, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: d.$5))),
+            FittedBox(fit: BoxFit.scaleDown, child: Text(d.$3, style: TextStyle(fontSize: compact ? 12 : 13, fontWeight: FontWeight.w900, color: d.$5))),
             Text(d.$4, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 7, fontWeight: FontWeight.w800, color: d.$5)),
           ]),
         ),
