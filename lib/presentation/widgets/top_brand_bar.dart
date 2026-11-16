@@ -239,43 +239,73 @@ class TopBrandBar extends StatelessWidget {
 
           const SizedBox(width: 6),
 
-          // 4. Theme Palette Switcher Button
+          // 4. Notification Bell Button (Red Squircle with 3 Alert Badge)
           InkWell(
-            key: const ValueKey('header_theme_switcher_button'),
+            key: const ValueKey('header_notification_button'),
             onTap: () {
               HapticFeedback.lightImpact();
-              onThemeSwitcherPressed?.call();
+              onNotificationPressed?.call();
             },
             borderRadius: BorderRadius.circular(12),
             child: Container(
               width: 38,
               height: 38,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    themeVariant.primaryColor,
-                    themeVariant.primaryColor.withValues(alpha: 0.7),
+                    Color(0xFFE51C20),
+                    Color(0xFF9B0B12),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
-                  color: themeVariant.accentColor.withValues(alpha: 0.6),
-                  width: 1.2,
+                  color: const Color(0xFFFF334B).withValues(alpha: 0.35),
+                  width: 1.0,
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: themeVariant.primaryColor.withValues(alpha: 0.35),
+                    color: Colors.black.withValues(alpha: 0.3),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
                 ],
               ),
-              child: const Icon(
-                Icons.palette_rounded,
-                color: Colors.white,
-                size: 20,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Icon(
+                    Icons.notifications_outlined,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                  Positioned(
+                    top: 5,
+                    right: 6,
+                    child: Container(
+                      padding: const EdgeInsets.all(2.5),
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFFFE600),
+                        shape: BoxShape.circle,
+                      ),
+                      constraints: const BoxConstraints(
+                        minWidth: 12,
+                        minHeight: 12,
+                      ),
+                      child: const Text(
+                        '3',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 8,
+                          fontWeight: FontWeight.w900,
+                          height: 1.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

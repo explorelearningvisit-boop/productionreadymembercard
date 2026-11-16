@@ -331,20 +331,21 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
                   animation: _flamePulse,
                   builder: (context, child) {
                     return SizedBox(
-                      width: 24,
-                      height: 24,
+                      width: 30,
+                      height: 30,
                       child: Center(
                         child: Transform.scale(
                           scale: _flamePulse.value,
                           child: Image.asset(
-                            'assets/badges/streak_flame.png',
-                            width: 24,
-                            height: 24,
+                            'assets/badges/streak_flame_3d.png',
+                            width: 30,
+                            height: 30,
                             fit: BoxFit.contain,
-                            errorBuilder: (_, __, ___) => const Icon(
-                              Icons.local_fire_department_rounded,
-                              color: Color(0xFFFF5722),
-                              size: 22,
+                            errorBuilder: (_, __, ___) => Image.asset(
+                              'assets/badges/streak_flame.png',
+                              width: 30,
+                              height: 30,
+                              fit: BoxFit.contain,
                             ),
                           ),
                         ),
@@ -352,7 +353,7 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
                     );
                   },
                 ),
-                const SizedBox(width: 5),
+                const SizedBox(width: 6),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -361,7 +362,7 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
                       'Streak',
                       style: TextStyle(
                         fontFamily: BadGymTypography.fontBody,
-                        fontSize: 9.0,
+                        fontSize: 9.5,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF1E293B),
                         height: 1.0,
@@ -372,7 +373,7 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
                       data.currentStreak,
                       style: const TextStyle(
                         fontFamily: BadGymTypography.fontHeading,
-                        fontSize: 12.0,
+                        fontSize: 13.5,
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
                         color: Color(0xFF990000),
@@ -392,17 +393,18 @@ class _AttendanceMetricsRowState extends State<AttendanceMetricsRow>
               mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
-                  'assets/badges/best_trophy.png',
-                  width: 24,
-                  height: 24,
+                  'assets/badges/best_trophy_3d.png',
+                  width: 30,
+                  height: 30,
                   fit: BoxFit.contain,
-                  errorBuilder: (_, __, ___) => const Icon(
-                    Icons.emoji_events_rounded,
-                    color: Color(0xFFFFB300),
-                    size: 20,
+                  errorBuilder: (_, __, ___) => Image.asset(
+                    'assets/badges/best_trophy.png',
+                    width: 30,
+                    height: 30,
+                    fit: BoxFit.contain,
                   ),
                 ),
-                const SizedBox(width: 5),
+                const SizedBox(width: 6),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,

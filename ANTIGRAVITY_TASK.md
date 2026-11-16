@@ -114,3 +114,12 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
   - Target: Xiaomi 11i 5G (`zxdada69gunb7ls4` via USB & `100.123.18.54:5555` via TCP/IP).
   - In-place streamed install succeeded without data loss or app uninstallation.
   - Live on-device screenshot captured to `docs/screenshots/bad_gym_live.png`.
+
+
+## 2026-11-16 — COMPLETED: Antigravity Local USB Fast-Deploy & Pixel-Perfect Physical Verification
+- **Status**: COMPLETE & VERIFIED ON HARDWARE.
+- **Protocol Enforced**: Antigravity is the local execution agent. Fast local builds and USB in-place streamed installs (`adb -s zxdada69gunb7ls4 install -r`) execute without triggering intermediate GitHub Actions runs.
+- **Physical Verification Evidence**: `docs/screenshots/bad_gym_live_screen.png` captured live on Xiaomi 11i 5G (`21091116I`) running Android 13/MIUI.
+- **Matching Reference Design**: Matches `media_1794676950728_33461b16.jpg` across all 6 sections (Laurel wreath header bar, Check-In Success banner, Member Profile pass, Quick Stats with active red gradient Attendance card, two-column 372px fixed-height intelligence section with dark rail and Attendance Intelligence card with 3D flame/trophy badges and solid colored pill calendar matrix with day 16 concentric ring, and bottom nutrition burger banner).
+- **Test Validation**: 10/10 Flutter tests passing, analyzer 0 issues.
+- **App Data**: 100% preserved. No uninstall, no data clear.

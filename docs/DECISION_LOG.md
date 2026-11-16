@@ -88,3 +88,11 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 - Version advanced to 0.2.0+2. CI run 43876682039 was cancelled by rapid subsequent commits before reaching tests; next agent must inspect the newest run and fix all format/analyze/test/Gradle failures before publishing an APK.
 - Physical Xiaomi layout and update install are not verified. No release signing key is present in repository context; no production release can be safely published until its protected secrets are provisioned.
 - Related files: lib/presentation/member_checkin_screen.dart, lib/core/services/update_center_service.dart, android/app/src/main/kotlin/com/badgym/bad_gym/MainActivity.kt, UpdateInstallReceiver.kt, AndroidManifest.xml, android/app/build.gradle.kts, .github/workflows/publish-android-release.yml, test/widget_test.dart.
+
+
+## 2026-11-16 — Laptop USB Fast-Deploy vs. Cloud CI Protocol
+- **Context & Directive**: The user explicitly clarified the operating roles of the two agents:
+  1. **Antigravity (Local Execution Agent)**: Runs on the Windows laptop where the phone is directly attached via USB (`zxdada69gunb7ls4`) or local network. Antigravity must execute code edits, local builds, tests, and direct streamed in-place ADB installs without routing through GitHub Actions during active iteration.
+  2. **ChatGPT (Cloud Automation Agent)**: Operates remotely via GitHub Actions and Tailscale automation when the laptop is off or unavailable.
+  3. **GitHub Push Gate**: Code and verification artifacts are committed and pushed to GitHub `main` only after full local completion and physical device verification, providing ChatGPT with synchronized truth.
+- **Outcome**: The full 6-section BAD GYM composite dashboard with 3D badges, 372px fixed intelligence viewport, and zero-jump navigation was compiled and verified live on Xiaomi 11i 5G (`docs/screenshots/bad_gym_live_screen.png`).

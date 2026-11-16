@@ -106,89 +106,92 @@ class CheckInHeroBanner extends StatelessWidget {
 
             // Center: Checkmark Circle + "Check-In Success!" + "Welcome Back to BAD GYM"
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 70),
+              padding: const EdgeInsets.symmetric(horizontal: 50),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Yellow Checkmark Circle
-                      InkWell(
-                        key: const ValueKey('header_checkin_button'),
-                        onTap: () {
-                          HapticFeedback.mediumImpact();
-                          onCheckInPressed?.call();
-                        },
-                        borderRadius: BorderRadius.circular(22),
-                        child: Container(
-                          width: 36,
-                          height: 36,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFFFFEB3B),
-                                Color(0xFFF59E0B),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Yellow Checkmark Circle
+                        InkWell(
+                          key: const ValueKey('header_checkin_button'),
+                          onTap: () {
+                            HapticFeedback.mediumImpact();
+                            onCheckInPressed?.call();
+                          },
+                          borderRadius: BorderRadius.circular(22),
+                          child: Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFFFFEB3B),
+                                  Color(0xFFF59E0B),
+                                ],
+                              ),
+                              border: Border.all(
+                                color: Colors.white,
+                                width: 2.2,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFFF59E0B)
+                                      .withValues(alpha: 0.6),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
                               ],
                             ),
-                            border: Border.all(
-                              color: Colors.white,
-                              width: 2.2,
+                            child: const Icon(
+                              Icons.check_rounded,
+                              color: Colors.black,
+                              size: 24,
+                              weight: 800,
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFFF59E0B)
-                                    .withValues(alpha: 0.6),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: const Icon(
-                            Icons.check_rounded,
-                            color: Colors.black,
-                            size: 24,
-                            weight: 800,
                           ),
                         ),
-                      ),
 
-                      const SizedBox(width: 8),
+                        const SizedBox(width: 8),
 
-                      // Text: Check-In Success!
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            'Check-In',
-                            style: TextStyle(
-                              fontFamily: BadGymTypography.fontHeading,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 20,
-                              color: Colors.white,
-                              height: 1.0,
-                              letterSpacing: 0.2,
+                        // Text: Check-In Success!
+                        const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Check-In',
+                              style: TextStyle(
+                                fontFamily: BadGymTypography.fontHeading,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 20,
+                                color: Colors.white,
+                                height: 1.0,
+                                letterSpacing: 0.2,
+                              ),
                             ),
-                          ),
-                          Text(
-                            'Success!',
-                            style: TextStyle(
-                              fontFamily: BadGymTypography.fontHeading,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.w900,
-                              fontSize: 22,
-                              color: Color(0xFFFFE600),
-                              height: 1.0,
-                              letterSpacing: 0.2,
+                            Text(
+                              'Success!',
+                              style: TextStyle(
+                                fontFamily: BadGymTypography.fontHeading,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 22,
+                                color: Color(0xFFFFE600),
+                                height: 1.0,
+                                letterSpacing: 0.2,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
 
                   const SizedBox(height: 6),

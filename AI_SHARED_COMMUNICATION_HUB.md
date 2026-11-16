@@ -320,3 +320,28 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
   - Keystore & Signature: Verified signer certificate continuity (`SHA-256: dcff9efa8cb91c9169b62b87d16e63a881ba78f78b4e4a53625a28de616a3c55`).
   - Device Connection & Install: Installed in-place on Xiaomi 11i 5G (`zxdada69gunb7ls4` USB Channel A & `100.123.18.54:5555` Channel B) with `Performing Streamed Install -> Success`.
   - Live Verification: Verified cold launch (`com.badgym.bad_gym/.MainActivity`), captured live on-device screenshot to `docs/screenshots/bad_gym_live.png`. App data and user state 100% preserved.
+
+
+### [2026-11-16 18:05 UTC] Antigravity — Local Laptop USB Fast Deploy & Pixel-Perfect Physical Verification
+- **Architecture & Workflow Alignment**:
+  - Confirmed and established strict agent division of responsibility as authorized by user:
+    * **Antigravity (Local Execution Agent)**: Operates directly on the laptop with direct physical USB/local ADB access (`zxdada69gunb7ls4`). Builds, compiles, tests, and deploys directly to Xiaomi 11i 5G without involving GitHub or GitHub Actions during development iterations.
+    * **ChatGPT (Cloud Agent)**: Operates when the laptop is off, executing through GitHub Actions and Tailscale remote automation.
+    * **Synchronization Gate**: Code, assets, and artifacts are pushed to GitHub `main` only after full physical on-device QA verification.
+- **Visual Design & Code Implementation**:
+  - Implemented the complete 6-section composite BAD GYM Performance Dashboard matching the reference (`media_1794676950728_33461b16.jpg`):
+    1. `TopBrandBar`: Laurel wreath crest, BAD GYM FITNESS MANAGEMENT, capsule date/time (`07:12 AM / 16 Oct 2026`), and notification bell with red badge (3).
+    2. `CheckInHeroBanner`: Athlete on left, yellow checkmark badge with "Check-In Success! Welcome Back to BAD GYM", and dumbbells + BAD GYM shaker bottle on right. Wrapped headline in `FittedBox` to prevent 360dp overflow.
+    3. `MemberProfileCard`: Member Ashwani Kumar Singh avatar with gold ring border, `Active` and `Gold Plan` badges, `₹500 Due >` and `8 Days Left >` tiles, and `Membership 22/30 Days` (73% yellow tag).
+    4. `QuickStatsRow`: Re-engineered active state so `Attendance 81%` displays as a bold red gradient card with yellow 81% headline, white text, and yellow squircle icon. Workout (58 min), Payment (₹500 Due), and Body (69.5 kg) retain clean white card styling.
+    5. Two-Column Fixed-Height Intelligence Section (`372px`):
+       - Left: `VerticalNavigationRail` (dark `#141416` container) with 5 destinations: `Intelligence` (active red squircle), `Calendar`, `History`, `Trend`, `More`. Fixed matching height eliminates layout jumping.
+       - Right: `AttendanceIntelligenceCard`: Donut gauge 81% (25/31 Days), legend breakdown, animated 3D Streak Flame badge (5 Days), 3D Gold Trophy (14 Days), compact calendar matrix with solid colored rounded pills (green, yellow, red, grey OFF), and Day 16 concentric green ring.
+       - Bottom Calendar Legend: `● Present  ● Late  ● Absent  ● Holiday  ● Off  ○ Today` scaled with `FittedBox` for zero truncation.
+    6. `BottomPromoBanner`: Fitness model, gourmet burger, "FITNESS NUTRITION PROTEIN BURGER", feature pills, 50% OFF, and "Order Now ➔" button with responsive scaling.
+- **Local Verification & Physical Deploy**:
+  - `flutter analyze --no-fatal-infos`: **0 issues found**.
+  - `flutter test`: **10/10 tests passed**.
+  - `flutter build apk --release`: Successfully generated `build/app/outputs/flutter-apk/app-release.apk` (59.7 MB).
+  - USB Direct In-Place Install: `adb -s zxdada69gunb7ls4 install -r build/app/outputs/flutter-apk/app-release.apk` -> `Success`. User data completely preserved.
+  - Device Execution: Launched `com.badgym.bad_gym/.MainActivity` and captured physical screenshot to `docs/screenshots/bad_gym_live_screen.png`. Pixel-perfect visual match confirmed.
