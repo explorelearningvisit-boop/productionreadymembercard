@@ -25,7 +25,7 @@
     }
   },
   "currentMilestone": {
-    "status": "AI_CONTEXT_AND_NETWORK_ARCHITECTURE_DOCUMENTED_DYNAMIC_ADB_DISCOVERY_PENDING",
+    "status": "COMPACT_WORKSPACE_AND_UPDATE_CENTER_IMPLEMENTED_AWAITING_CI",
     "designSystem": "Light coral/rose/ivory unified bordered Member Dashboard Card; latest user instruction supersedes prior removal of Smart Insight and summary strips.",
     "designReference": "User-provided 2026-11-15 dashboard image",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
@@ -93,19 +93,31 @@
       "date": "2026-11-16",
       "branch": "main",
       "summary": [
-        "Unified bordered outer Member Dashboard Card around member header, tabs and intelligence content",
-        "Restored Smart Insight and Streak/Best/Plan Days/Next Goal beneath Attendance Trend",
-        "Softened vertical rail and check-in ribbon palette to light rose/coral",
-        "Kept four horizontal tabs Attendance, Workout, Payment, Body",
-        "Check-in ribbon no longer invokes QR/check-in action"
+        "Replaced vertically scrolling dashboard with bounded LayoutBuilder fixed-viewport workspace",
+        "Compact member context header and four low-height quick tabs",
+        "Attendance defaults to current member calendar; contextual rail swaps Calendar, Trend, History and Insights in place",
+        "Workout, Payment and Body tabs expose focused compact rail destinations without stacking content",
+        "Added GitHub stable-release checker, changelog prompt, HTTPS APK download, SHA-256 verification and Android PackageInstaller handoff",
+        "Added protected release signing support and a release workflow gated on four encrypted keystore secrets"
       ],
       "codeCommits": [
-        "80dcdaf4b67b45ec843eb8981017f67d4f27b6d0",
-        "79f04b2971ab6d6e884fcd983f70a74fbf6673c7",
-        "f37e595fdf0c2668986900c6182b027f828dfd96"
+        "52b115cb65cc7eb8c48bbc1a1baaa5b56222f991",
+        "8b9d14323ae57d735438afa7373052c00b78bf4e",
+        "c768f3b5af47b829fe080b79efd594e4d50e11d9",
+        "2bf2310f001ae4d98433cea2a1721eab8cebb8b2",
+        "bdf9405526bb1969a518c59ea125527f52d8c3c5",
+        "8205ad07877f7557f32a7d276c6f7a30bb6a7a0c",
+        "5491f4ef908dc13fceb7ad7d014a543bf1f5b7a6",
+        "60adc3e1b32df6b0adf38489360586cc1ca8a91e",
+        "eddeb7441310f81223d56bd179c557966811041f",
+        "97b1c8af8ebf74f882720fef916f732fad392da5",
+        "dd956928ccf77e2a869c6024ac97cd139a3b9453",
+        "75ee571c13b8ba896d01a3e5955e48b6d330af5b",
+        "1223a1d5debf24c5647125ff6b9f3d1627b064d1"
       ],
-      "verification": "PENDING_CI; Flutter format/analyze/tests/build not run from ChatGPT connector; device install and fresh screenshot not verified",
-      "deviceVerification": "PENDING_DEVICE_INSTALL_AND_SCREENSHOT"
+      "verification": "CI run 43876682039 was cancelled by subsequent rapid commits before Flutter validation. Latest main commit must be validated by a fresh run. Device screenshot/install not verified.",
+      "deviceVerification": "NOT_VERIFIED",
+      "updater": "Implemented client and Android PackageInstaller bridge; no stable GitHub Release exists yet. Publishing workflow requires BADGYM_RELEASE_KEYSTORE_B64, BADGYM_RELEASE_STORE_PASSWORD, BADGYM_RELEASE_KEY_ALIAS, BADGYM_RELEASE_KEY_PASSWORD. Do not publish QA/debug-signed APK as stable."
     },
     "deviceProfile": {
       "lastUserReportedWirelessAdbPort": 37337,
@@ -330,5 +342,16 @@
     "history": "AI_SHARED_COMMUNICATION_HUB.md + docs/DECISION_LOG.md + AI_SYNC_STATE.json + ANTIGRAVITY_TASK.md",
     "preserveAllPriorHistory": true
   },
-  "lastUpdated": "2026-11-16T18:37:00+05:30"
+  "lastUpdated": "2026-11-16T18:37:00+05:30",
+  "releaseSigning": {
+    "status": "PROTECTED_KEY_REQUIRED",
+    "requiredSecrets": [
+      "BADGYM_RELEASE_KEYSTORE_B64",
+      "BADGYM_RELEASE_STORE_PASSWORD",
+      "BADGYM_RELEASE_KEY_ALIAS",
+      "BADGYM_RELEASE_KEY_PASSWORD"
+    ],
+    "workflow": ".github/workflows/publish-android-release.yml",
+    "policy": "Never publish stable update from default debug signing. Existing app data must be preserved on signature mismatch."
+  }
 }
