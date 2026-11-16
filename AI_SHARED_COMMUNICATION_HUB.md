@@ -174,3 +174,10 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Verification**: GitHub Actions build/device workflow triggered by the latest code changes. Build, tests, APK installation and fresh screenshot remain pending until the current run completes. No claim of physical-device verification is made yet.
 - **Git Commit**: See latest `main` commit after the grouped UI changes.
 - **Next Recommendations**: Inspect the current workflow result and device screenshot; correct any layout/test issue before calling this release verified.
+
+
+### [2026-11-16 UTC] ChatGPT — CI and device QA result
+- **Action**: Fixed the duplicate Payment label test assertion and added a Payment-tab navigation assertion. Latest GitHub Actions run #45: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43801332361
+- **Verification**: `dart format`, Flutter static analysis, Flutter widget tests and release APK build/upload all passed. Tailnet QA authenticated successfully, but the tailnet inventory marked every configured peer offline, including Xiaomi 11i (100.123.18.54). ADB was therefore not attempted; installation and fresh screenshot capture are unverified. The QA job uploaded its inventory artifact and failed its explicit "at least one Android device passed" gate.
+- **Git Commit**: UI code and test changes are on `main`; latest test commit `3b3c65afe0799776d333d1e66df539a51201556a`.
+- **Next Recommendations**: Connect Tailscale on Xiaomi 11i, keep the device online, enable Wireless Debugging, and ensure the current ADB TCP port is reflected in the encrypted `ANDROID_DEVICE_PORTS_JSON` secret. Rerun workflow to install and capture a fresh screenshot.
