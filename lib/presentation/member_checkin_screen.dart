@@ -167,7 +167,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
                     MemberQrSheet.show(context, _data);
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Checked In successfully at BAD GYM! 🔥'),
+                        content: Text('Attendance sync is not connected yet. No check-in was recorded.'),
                         backgroundColor: Color(0xFF8B0000),
                         duration: Duration(seconds: 2),
                       ),

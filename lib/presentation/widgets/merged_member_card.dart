@@ -120,7 +120,7 @@ class _MergedMemberCardState extends State<MergedMemberCard>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Check-In Success!',
+                          'Last Check-In',
                           style: TextStyle(
                             fontFamily: BadGymTypography.fontHeading,
                             fontWeight: FontWeight.w900,

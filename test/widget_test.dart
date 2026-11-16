@@ -14,7 +14,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify Check-In Success Ribbon
-    expect(find.text('Check-In Success!'), findsOneWidget);
+    expect(find.text('Last Check-In'), findsOneWidget);
     expect(find.text('CHECK-IN'), findsNothing);
 
     // Verify Member Profile Card (Luxury Gold & Ivory Theme)

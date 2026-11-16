@@ -4,15 +4,31 @@ import 'package:bad_gym/core/theme/bad_gym_theme.dart';
 
 class AttendanceCalendarGrid extends StatelessWidget {
   final List<CalendarDayItem> days;
+  final int year;
+  final int month;
   final VoidCallback? onPreviousMonth;
   final VoidCallback? onNextMonth;
 
   const AttendanceCalendarGrid({
     super.key,
     required this.days,
+    this.year = 2026,
+    this.month = 10,
     this.onPreviousMonth,
     this.onNextMonth,
-  });
+  }) : assert(month >= 1 && month <= 12);
+
+  static const _monthNames = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December',
+  ];
+
+  static const _dayHeaderStyle = TextStyle(
+    fontFamily: BadGymTypography.fontBody,
+    fontSize: 9.5,
+    fontWeight: FontWeight.w600,
+    color: Color(0xFF6B7280),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +37,6 @@ class AttendanceCalendarGrid extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Month navigation header: < October 2026 > in soft rounded container
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
@@ -31,46 +46,36 @@ class AttendanceCalendarGrid extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                InkWell(
-                  onTap: onPreviousMonth,
-                  borderRadius: BorderRadius.circular(12),
-                  child: const Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: Icon(
-                      Icons.chevron_left_rounded,
-                      size: 20,
-                      color: Color(0xFF1E293B),
-                    ),
-                  ),
+                IconButton(
+                  key: const ValueKey('attendance_previous_month'),
+                  visualDensity: VisualDensity.compact,
+                  constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+                  padding: EdgeInsets.zero,
+                  onPressed: onPreviousMonth,
+                  icon: const Icon(Icons.chevron_left_rounded, size: 20, color: Color(0xFF1E293B)),
                 ),
-                const Text(
-                  'October 2026',
-                  style: TextStyle(
+                Text(
+                  '${_monthNames[month - 1]} $year',
+                  key: const ValueKey('attendance_month_label'),
+                  style: const TextStyle(
                     fontFamily: BadGymTypography.fontHeading,
                     fontWeight: FontWeight.w900,
                     fontSize: 13,
                     color: Color(0xFF1E293B),
                   ),
                 ),
-                InkWell(
-                  onTap: onNextMonth,
-                  borderRadius: BorderRadius.circular(12),
-                  child: const Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: Icon(
-                      Icons.chevron_right_rounded,
-                      size: 20,
-                      color: Color(0xFF1E293B),
-                    ),
-                  ),
+                IconButton(
+                  key: const ValueKey('attendance_next_month'),
+                  visualDensity: VisualDensity.compact,
+                  constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
+                  padding: EdgeInsets.zero,
+                  onPressed: onNextMonth,
+                  icon: const Icon(Icons.chevron_right_rounded, size: 20, color: Color(0xFF1E293B)),
                 ),
               ],
             ),
           ),
-
           const SizedBox(height: 6),
-
-          // Day of week labels: Mon Tue Wed Thu Fri Sat Sun
           const Row(
             children: [
               Expanded(child: Center(child: Text('Mon', style: _dayHeaderStyle))),
@@ -82,244 +87,142 @@ class AttendanceCalendarGrid extends StatelessWidget {
               Expanded(child: Center(child: Text('Sun', style: _dayHeaderStyle))),
             ],
           ),
-
           const SizedBox(height: 5),
-
-          // Calendar Grid Rows
           _buildCalendarRows(),
-
           const SizedBox(height: 8),
-
-          // Calendar Bottom Legend: Present | Late | Absent | Holiday | Today
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Present (Green Capsule Pill)
-                _buildLegendCapsule(
-                  icon: Icons.check_circle_rounded,
-                  iconColor: const Color(0xFF079B43),
-                  label: 'Present',
-                ),
-                const SizedBox(width: 8),
-
-                // Late (Yellow Capsule Pill)
-                _buildLegendCapsule(
-                  icon: Icons.access_time_filled_rounded,
-                  iconColor: const Color(0xFFEAB308),
-                  label: 'Late',
-                ),
-                const SizedBox(width: 8),
-
-                // Absent (Red Capsule Pill)
-                _buildLegendCapsule(
-                  icon: Icons.cancel_rounded,
-                  iconColor: const Color(0xFFEF4444),
-                  label: 'Absent',
-                ),
-                const SizedBox(width: 8),
-
-                // Holiday (Purple Capsule Pill)
-                _buildLegendCapsule(
-                  icon: Icons.calendar_month_rounded,
-                  iconColor: const Color(0xFF8B35EA),
-                  label: 'Holiday',
-                ),
-                const SizedBox(width: 8),
-
-                // Today (Green Halo Ring)
-                _buildLegendCapsule(
-                  customIcon: Container(
-                    width: 12,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xFF079B43),
-                        width: 2.0,
-                      ),
-                    ),
-                  ),
-                  label: 'Today',
-                ),
-              ],
-            ),
+          const Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 10,
+            runSpacing: 4,
+            children: [
+              _LegendItem(label: 'Present', color: Color(0xFF079B43)),
+              _LegendItem(label: 'Absent', color: Color(0xFFEF4444)),
+              _LegendItem(label: 'Late', color: Color(0xFFEAB308)),
+              _LegendItem(label: 'Holiday', color: Color(0xFF8B35EA)),
+              _LegendItem(label: 'Sunday Off', color: Color(0xFF9CA3AF)),
+            ],
           ),
         ],
       ),
     );
   }
 
-  static const TextStyle _dayHeaderStyle = TextStyle(
-    fontFamily: BadGymTypography.fontBody,
-    fontSize: 9.5,
-    fontWeight: FontWeight.w600,
-    color: Color(0xFF6B7280),
-  );
+  Widget _buildCalendarRows() {
+    final firstWeekday = DateTime(year, month, 1).weekday;
+    final dayCount = DateTime(year, month + 1, 0).day;
+    final byDay = {for (final item in days) item.day: item};
+    final slots = <Widget>[
+      for (var i = 1; i < firstWeekday; i++) const SizedBox.shrink(),
+      for (var day = 1; day <= dayCount; day++)
+        _buildDayCell(DateTime(year, month, day), byDay[day]),
+    ];
 
-  Widget _buildLegendCapsule({
-    IconData? icon,
-    Color? iconColor,
-    Widget? customIcon,
-    required String label,
-  }) {
+    while (slots.length % 7 != 0) {
+      slots.add(const SizedBox.shrink());
+    }
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var row = 0; row < slots.length ~/ 7; row++)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2),
+            child: Row(
+              children: [
+                for (var column = 0; column < 7; column++)
+                  Expanded(child: Center(child: slots[row * 7 + column])),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildDayCell(DateTime date, CalendarDayItem? item) {
+    final isSunday = date.weekday == DateTime.sunday;
+    final status = item?.status ?? DayAttendanceStatus.empty;
+    final isOff = isSunday;
+    final isHoliday = !isSunday && status == DayAttendanceStatus.holiday;
+    final color = isOff || status == DayAttendanceStatus.empty
+        ? const Color(0xFF9CA3AF)
+        : switch (status) {
+            DayAttendanceStatus.present => const Color(0xFF079B43),
+            DayAttendanceStatus.late => const Color(0xFFEAB308),
+            DayAttendanceStatus.absent => const Color(0xFFEF4444),
+            DayAttendanceStatus.holiday => const Color(0xFF8B35EA),
+            DayAttendanceStatus.empty => const Color(0xFF9CA3AF),
+          };
+
+    final label = isOff ? 'OFF' : isHoliday ? 'HOL' : '';
+    final isToday = item?.isToday == true;
+
+    return Semantics(
+      label: '${date.day} ${isOff ? 'Sunday off' : isHoliday ? 'Holiday' : status.name}',
+      child: Container(
+        key: ValueKey('attendance_day_${date.day}'),
+        width: 31,
+        height: 29,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(7),
+          border: isToday ? Border.all(color: const Color(0xFF079B43), width: 1.4) : null,
+        ),
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '${date.day}',
+              style: TextStyle(
+                fontFamily: BadGymTypography.fontHeading,
+                fontSize: 9.5,
+                height: 1,
+                fontWeight: isToday ? FontWeight.w900 : FontWeight.w700,
+                color: color,
+              ),
+            ),
+            if (label.isNotEmpty)
+              Text(
+                label,
+                style: TextStyle(
+                  fontFamily: BadGymTypography.fontBody,
+                  fontSize: 6.2,
+                  height: 1,
+                  fontWeight: FontWeight.w800,
+                  color: color,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _LegendItem extends StatelessWidget {
+  final String label;
+  final Color color;
+
+  const _LegendItem({required this.label, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        customIcon ??
-            Icon(
-              icon,
-              size: 13,
-              color: iconColor,
-            ),
-        const SizedBox(width: 3.5),
+        Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        const SizedBox(width: 3),
         Text(
           label,
           style: const TextStyle(
             fontFamily: BadGymTypography.fontBody,
-            fontSize: 9.5,
+            fontSize: 8,
             fontWeight: FontWeight.w600,
             color: Color(0xFF374151),
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildCalendarRows() {
-    final items = <Widget>[];
-
-    // October 2026 starts on Thursday (index 3). Mon, Tue, Wed are empty slots
-    items.add(const SizedBox());
-    items.add(const SizedBox());
-    items.add(const SizedBox());
-
-    for (final dayItem in days) {
-      items.add(_buildDayChip(dayItem));
-    }
-
-    // Pad remaining slots to complete last row
-    while (items.length % 7 != 0) {
-      items.add(const SizedBox());
-    }
-
-    final rows = <Widget>[];
-    for (int i = 0; i < items.length; i += 7) {
-      rows.add(
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0),
-          child: Row(
-            children: [
-              for (int j = 0; j < 7; j++)
-                Expanded(
-                  child: Center(child: items[i + j]),
-                ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: rows,
-    );
-  }
-
-  Widget _buildDayChip(CalendarDayItem item) {
-    if (item.status == DayAttendanceStatus.empty) {
-      // Off / inactive day chip (grey)
-      return Container(
-        width: 26,
-        height: 21,
-        decoration: BoxDecoration(
-          color: const Color(0xFFE5E7EB),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          '${item.day}',
-          style: const TextStyle(
-            fontFamily: BadGymTypography.fontHeading,
-            fontSize: 9.5,
-            fontWeight: FontWeight.w700,
-            color: Color(0xFF4B5563),
-          ),
-        ),
-      );
-    }
-
-    final Color chipColor = switch (item.status) {
-      DayAttendanceStatus.present => const Color(0xFF079B43),
-      DayAttendanceStatus.late => const Color(0xFFEAB308),
-      DayAttendanceStatus.absent => const Color(0xFFEF4444),
-      DayAttendanceStatus.holiday => const Color(0xFF8B35EA),
-      DayAttendanceStatus.empty => const Color(0xFFE5E7EB),
-    };
-
-    if (item.isToday) {
-      // Today (Oct 16): Green pill with outer concentric halo ring
-      return Container(
-        width: 29,
-        height: 24,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: const Color(0xFF079B43),
-            width: 1.6,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF079B43).withValues(alpha: 0.45),
-              blurRadius: 4,
-            ),
-          ],
-        ),
-        padding: const EdgeInsets.all(1.5),
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color(0xFF079B43),
-            borderRadius: BorderRadius.circular(9),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            '${item.day}',
-            style: const TextStyle(
-              fontFamily: BadGymTypography.fontHeading,
-              fontSize: 9.5,
-              fontWeight: FontWeight.w900,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      );
-    }
-
-    return Container(
-      width: 26,
-      height: 21,
-      decoration: BoxDecoration(
-        color: chipColor,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: chipColor.withValues(alpha: 0.35),
-            blurRadius: 3,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        '${item.day}',
-        style: const TextStyle(
-          fontFamily: BadGymTypography.fontHeading,
-          fontSize: 9.5,
-          fontWeight: FontWeight.w800,
-          color: Colors.white,
-        ),
-      ),
     );
   }
 }
