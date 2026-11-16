@@ -67,13 +67,17 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
           _selectedStatTab = QuickStatTab.workout;
           break;
         case RailTab.payment:
-        case RailTab.reports:
           _selectedStatTab = QuickStatTab.payment;
+          break;
+        case RailTab.reports:
+          _selectedStatTab = QuickStatTab.attendance;
           break;
         case RailTab.body:
         case RailTab.goals:
-        case RailTab.members:
           _selectedStatTab = QuickStatTab.body;
+          break;
+        case RailTab.members:
+          _selectedStatTab = QuickStatTab.attendance;
           break;
         default:
           break;
