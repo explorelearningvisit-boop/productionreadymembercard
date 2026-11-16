@@ -41,7 +41,7 @@ android {
 
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (!releaseStorePath.isNullOrBlank()) signingConfigs.getByName("protectedRelease") else signingConfigs.getByName("debug")
         }
     }
 }
