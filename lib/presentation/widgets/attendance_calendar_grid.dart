@@ -44,7 +44,6 @@ class AttendanceCalendarGrid extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
                   key: const ValueKey('attendance_previous_month'),
@@ -54,14 +53,20 @@ class AttendanceCalendarGrid extends StatelessWidget {
                   onPressed: onPreviousMonth,
                   icon: const Icon(Icons.chevron_left_rounded, size: 20, color: Color(0xFF1E293B)),
                 ),
-                Text(
-                  '${_monthNames[month - 1]} $year',
-                  key: const ValueKey('attendance_month_label'),
-                  style: const TextStyle(
-                    fontFamily: BadGymTypography.fontHeading,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 13,
-                    color: Color(0xFF1E293B),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      '${_monthNames[month - 1]} $year',
+                      key: const ValueKey('attendance_month_label'),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontFamily: BadGymTypography.fontHeading,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 13,
+                        color: Color(0xFF1E293B),
+                      ),
+                    ),
                   ),
                 ),
                 IconButton(
