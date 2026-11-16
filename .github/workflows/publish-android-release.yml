@@ -69,11 +69,16 @@ jobs:
           "$APKSIGNER" verify --verbose "$APK"
           sha256sum "$APK" | tee SHA256SUMS.txt
           cp "$APK" bad-gym-android.apk
+      - name: Prepare release metadata
+        run: |
+          APP_VERSION=$(grep '^version:' pubspec.yaml | cut -d' ' -f2 | cut -d'+' -f1)
+          APP_CODE=$(grep '^version:' pubspec.yaml | cut -d'+' -f2)
+          printf 'BAD GYM %s\n\nversionCode: %s\n\nCompact fixed-viewport member workspace and verified in-app updates.\n' "$APP_VERSION" "$APP_CODE" > release-body.md
       - name: Publish immutable GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: BAD GYM ${{ github.ref_name }}
-          generate_release_notes: true
+          body_path: release-body.md
           files: |
             bad-gym-android.apk
             SHA256SUMS.txt
