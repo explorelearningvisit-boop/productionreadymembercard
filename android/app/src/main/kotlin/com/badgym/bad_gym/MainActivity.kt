@@ -2,7 +2,6 @@ package com.badgym.bad_gym
 
 import android.app.PendingIntent
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.content.pm.PackageInstaller
 import android.os.Build
 import io.flutter.embedding.android.FlutterActivity
@@ -19,7 +18,8 @@ class MainActivity : FlutterActivity() {
     private val channelName = "com.badgym/update_center"
     private val executor = Executors.newSingleThreadExecutor()
 
-    @Suppress("DEPRECATION")\n    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+    @Suppress("DEPRECATION")
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName).setMethodCallHandler { call, result ->
             when (call.method) {
