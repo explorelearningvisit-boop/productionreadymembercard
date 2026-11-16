@@ -30,27 +30,21 @@
     "designReference": "User-provided 2026-11-15 dashboard image",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
     "buildVerification": {
-      "status": "PENDING_NEW_BUILD_AFTER_UI_CHANGES",
-      "previousRunId": 43801332361
+      "status": "IN_PROGRESS",
+      "runId": 43879102167,
+      "commit": "70f943f09e0e528241fd8df64a9cb05a00d0af3b",
+      "format": "PASS",
+      "analyze": "PASS",
+      "flutterTests": "PASS",
+      "apkBuild": "IN_PROGRESS"
     },
     "deviceVerification": {
-      "status": "WAITING_FOR_DEVICE_POWER_ON",
-      "tailscaleRunner": "connected successfully",
-      "adb": "not attempted because all listed devices were offline",
-      "installation": "PENDING_DEVICE_ONLINE",
-      "screenshot": "NOT_CAPTURED",
-      "observedPeers": [
-        "Xiaomi 11i",
-        "badgym-21091116i",
-        "OPPO A53",
-        "A's Tab A9"
-      ],
-      "userAction": "Connect the Xiaomi 11i Tailscale Android app to the same tailnet, keep the phone online, and ensure Android Wireless Debugging is enabled with its current port reflected in ANDROID_DEVICE_PORTS_JSON.",
-      "userReported": "User is powering off the Xiaomi 11i; installation cannot occur while Android is fully powered off.",
-      "launch": "NOT_ATTEMPTED",
-      "nextAction": "When the phone is powered on, re-check Tailscale peer, current Wireless Debugging connect endpoint, ADB get-state and authorization; then install latest approved APK in place, launch, smoke-test and capture artifacts.",
-      "retryPolicy": "Requested deferred bounded retry/recovery loop; implementation pending.",
-      "trackingIssue": "https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/2"
+      "status": "NOT_VERIFIED",
+      "tailscaleRunner": "not run for this latest build yet",
+      "adb": "not verified",
+      "installation": "not verified",
+      "screenshot": "not captured",
+      "nextAction": "After APK build succeeds, inspect device QA separately. Never uninstall or clear data; signature mismatch preserves installation."
     },
     "lastUpdated": "2026-11-16",
     "ciDiagnosis": {
@@ -98,7 +92,8 @@
         "Attendance defaults to current member calendar; contextual rail swaps Calendar, Trend, History and Insights in place",
         "Workout, Payment and Body tabs expose focused compact rail destinations without stacking content",
         "Added GitHub stable-release checker, changelog prompt, HTTPS APK download, SHA-256 verification and Android PackageInstaller handoff",
-        "Added protected release signing support and a release workflow gated on four encrypted keystore secrets"
+        "Added protected release signing support and a release workflow gated on four encrypted keystore secrets",
+        "Fixed FittedBox unbounded-width error in attendance calendar after CI regression test"
       ],
       "codeCommits": [
         "52b115cb65cc7eb8c48bbc1a1baaa5b56222f991",
@@ -113,9 +108,12 @@
         "97b1c8af8ebf74f882720fef916f732fad392da5",
         "dd956928ccf77e2a869c6024ac97cd139a3b9453",
         "75ee571c13b8ba896d01a3e5955e48b6d330af5b",
-        "1223a1d5debf24c5647125ff6b9f3d1627b064d1"
+        "1223a1d5debf24c5647125ff6b9f3d1627b064d1",
+        "9739c832f4c1b117d7541a47a1fd5015864e95de",
+        "0d64ba3b1ae131da6308562239b0b33dcab07438",
+        "70f943f09e0e528241fd8df64a9cb05a00d0af3b"
       ],
-      "verification": "CI run 43876682039 was cancelled by subsequent rapid commits before Flutter validation. Latest main commit must be validated by a fresh run. Device screenshot/install not verified.",
+      "verification": "Run 43879102167: dart format PASS, flutter analyze PASS, flutter tests PASS; Android APK build still in progress as of 2026-11-16 13:50 UTC. Prior build run 43878393503 failed due Gradle Kotlin DSL releaseStorePath scope; corrected at commits 0d64ba3 and 70f943f.",
       "deviceVerification": "NOT_VERIFIED",
       "updater": "Implemented client and Android PackageInstaller bridge; no stable GitHub Release exists yet. Publishing workflow requires BADGYM_RELEASE_KEYSTORE_B64, BADGYM_RELEASE_STORE_PASSWORD, BADGYM_RELEASE_KEY_ALIAS, BADGYM_RELEASE_KEY_PASSWORD. Do not publish QA/debug-signed APK as stable."
     },
