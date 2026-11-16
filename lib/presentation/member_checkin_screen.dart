@@ -141,7 +141,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
       const SizedBox(width: 8),
       Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text('Smart Insight', style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13, color: Color(0xFF7C2D12))),
-        Text('Great progress! Attendance is \${_data.attendanceRate}%. Keep a \${_data.currentStreak} streak to reach 90%.', style: const TextStyle(fontSize: 10.5, color: Color(0xFF7C4A3A), height: 1.25)),
+        Text('Great progress! Attendance is ${_data.attendanceRate}%. Keep a ${_data.currentStreak} streak to reach 90%.', style: const TextStyle(fontSize: 10.5, color: Color(0xFF7C4A3A), height: 1.25)),
       ])),
       const Icon(Icons.chevron_right_rounded, color: Color(0xFFB45309)),
     ]),
@@ -163,7 +163,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
       Container(width: 1, height: 30, color: const Color(0xFFE8E1D8)),
       _summaryItem(Icons.emoji_events_rounded, _data.bestStreak, 'Best', const Color(0xFFD4A72C)),
       Container(width: 1, height: 30, color: const Color(0xFFE8E1D8)),
-      _summaryItem(Icons.calendar_month_rounded, '\${_data.daysUsed}/\${_data.totalDays}', 'Plan Days', const Color(0xFFDC5260)),
+      _summaryItem(Icons.calendar_month_rounded, '${_data.daysUsed}/${_data.totalDays}', 'Plan Days', const Color(0xFFDC5260)),
       Container(width: 1, height: 30, color: const Color(0xFFE8E1D8)),
       _summaryItem(Icons.track_changes_rounded, '90%', 'Next Goal', const Color(0xFF16A34A)),
     ]),
