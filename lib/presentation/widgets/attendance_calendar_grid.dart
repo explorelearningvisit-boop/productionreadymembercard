@@ -40,7 +40,7 @@ class AttendanceCalendarGrid extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFFEDE7FA),
+              color: const Color(0xFFFFF1E5),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Row(
@@ -51,7 +51,7 @@ class AttendanceCalendarGrid extends StatelessWidget {
                   constraints: const BoxConstraints.tightFor(width: 28, height: 28),
                   padding: EdgeInsets.zero,
                   onPressed: onPreviousMonth,
-                  icon: const Icon(Icons.chevron_left_rounded, size: 20, color: Color(0xFF1E293B)),
+                  icon: const Icon(Icons.chevron_left_rounded, size: 20, color: Color(0xFF8F1F2D)),
                 ),
                 Expanded(
                   child: Center(
@@ -103,7 +103,7 @@ class AttendanceCalendarGrid extends StatelessWidget {
               _LegendItem(label: 'Present', color: Color(0xFF079B43)),
               _LegendItem(label: 'Absent', color: Color(0xFFEF4444)),
               _LegendItem(label: 'Late', color: Color(0xFFEAB308)),
-              _LegendItem(label: 'Holiday', color: Color(0xFF8B35EA)),
+              _LegendItem(label: 'Holiday', color: Color(0xFF8A8179)),
               _LegendItem(label: 'Sunday Off', color: Color(0xFF9CA3AF)),
             ],
           ),
@@ -154,7 +154,7 @@ class AttendanceCalendarGrid extends StatelessWidget {
             DayAttendanceStatus.present => const Color(0xFF079B43),
             DayAttendanceStatus.late => const Color(0xFFEAB308),
             DayAttendanceStatus.absent => const Color(0xFFEF4444),
-            DayAttendanceStatus.holiday => const Color(0xFF8B35EA),
+            DayAttendanceStatus.holiday => const Color(0xFF8A8179),
             DayAttendanceStatus.empty => const Color(0xFF9CA3AF),
           };
 
