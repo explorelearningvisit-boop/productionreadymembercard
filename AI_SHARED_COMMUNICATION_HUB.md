@@ -320,3 +320,12 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
   - Keystore & Signature: Verified signer certificate continuity (`SHA-256: dcff9efa8cb91c9169b62b87d16e63a881ba78f78b4e4a53625a28de616a3c55`).
   - Device Connection & Install: Installed in-place on Xiaomi 11i 5G (`zxdada69gunb7ls4` USB Channel A & `100.123.18.54:5555` Channel B) with `Performing Streamed Install -> Success`.
   - Live Verification: Verified cold launch (`com.badgym.bad_gym/.MainActivity`), captured live on-device screenshot to `docs/screenshots/bad_gym_live.png`. App data and user state 100% preserved.
+
+
+### [2026-11-16 18:10 UTC] ChatGPT — Gold Premium Design Lab implementation
+- **Action**: Audited the isolated `chatgpt/design-lab-yellow-festive` evaluation app; confirmed it uses package `com.badgym.designlab` and does not replace production `main`. Implemented distinct Attendance, Workout, Payment and Body workspaces plus rail destinations in `lib/main.dart`; reused existing member portrait, logo, shaker and 3D illustrations. Added compact-layout regression coverage in `test/widget_test.dart`.
+- **Design**: User-approved Gold Premium; warm ivory/gold, semantic green/amber/red/grey, Sundays as neutral OFF. Existing production branch design authority remains unchanged.
+- **Data integrity**: Do not invent workout sets/volume, payment transactions or body measurements that are not present in the demo model; unavailable history is labelled as not connected.
+- **Verification**: Dart format PASS; Flutter analyze PASS; Flutter tests PASS in run [43925111976](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43925111976). Android APK build was still in progress when this note was written. No physical Xiaomi install or screenshot comparison is claimed.
+- **Git Commit**: 9003821a9c755bbdd3621f1598c3aafd476712fe (state update); code/test commits are in the same feature branch history.
+- **Next Recommendations**: Confirm APK build/artifact upload; download and inspect the artifact; then run a fresh Xiaomi 11i screenshot comparison and correct remaining visual gaps. Keep all changes isolated until the user explicitly asks to port the approved design to production `main`.
