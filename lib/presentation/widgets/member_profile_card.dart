@@ -451,15 +451,20 @@ class MemberProfileCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Membership ${data.daysUsed} / ${data.totalDays} Days',
-                style: const TextStyle(
-                  fontFamily: BadGymTypography.fontHeading,
-                  fontWeight: FontWeight.w800,
-                  fontSize: 11.5,
-                  color: Color(0xFF1E293B),
+              Expanded(
+                child: Text(
+                  'Membership ${data.daysUsed} / ${data.totalDays} Days',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontFamily: BadGymTypography.fontHeading,
+                    fontWeight: FontWeight.w800,
+                    fontSize: 11.5,
+                    color: Color(0xFF1E293B),
+                  ),
                 ),
               ),
+              const SizedBox(width: 8),
               // Yellow Slanted Badge with 73%
               Container(
                 padding:

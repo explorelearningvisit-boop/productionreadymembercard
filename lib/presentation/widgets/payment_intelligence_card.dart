@@ -247,22 +247,25 @@ class PaymentIntelligenceCard extends StatelessWidget {
                       ],
                     ),
                     alignment: Alignment.center,
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.autorenew_rounded,
-                            size: 12, color: Colors.white),
-                        SizedBox(width: 4),
-                        Text(
-                          'Renew Plan Now',
-                          style: TextStyle(
-                            fontFamily: BadGymTypography.fontHeading,
-                            fontWeight: FontWeight.w800,
-                            fontSize: 10,
-                            color: Colors.white,
+                    child: const FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.autorenew_rounded,
+                              size: 12, color: Colors.white),
+                          SizedBox(width: 4),
+                          Text(
+                            'Renew Plan Now',
+                            style: TextStyle(
+                              fontFamily: BadGymTypography.fontHeading,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 10,
+                              color: Colors.white,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

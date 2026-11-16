@@ -103,6 +103,7 @@ class QuickStatsRow extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        key: ValueKey('stat_tab_${tab.name}'),
         onTap: () {
           HapticFeedback.selectionClick();
           onTabSelected?.call(tab);
@@ -114,21 +115,27 @@ class QuickStatsRow extends StatelessWidget {
             color: isSelected ? null : Colors.white,
             gradient: isSelected
                 ? const LinearGradient(
-                    colors: [Color(0xFFFFF1F2), Color(0xFFFFFFFF)])
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFFE50914),
+                      Color(0xFF9E0010),
+                    ],
+                  )
                 : null,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: isSelected
-                  ? const Color(0xFFB91C2C)
+                  ? const Color(0xFFFF4D6D)
                   : const Color(0xFFEAD9C3),
-              width: isSelected ? 1.5 : 1.0,
+              width: isSelected ? 1.4 : 1.0,
             ),
             boxShadow: [
               BoxShadow(
                 color: isSelected
-                    ? const Color(0xFFDC2626).withValues(alpha: 0.18)
+                    ? const Color(0xFFE50914).withValues(alpha: 0.35)
                     : Colors.black.withValues(alpha: 0.04),
-                blurRadius: isSelected ? 7 : 3,
+                blurRadius: isSelected ? 8 : 3,
                 offset: const Offset(0, 2),
               ),
             ],
@@ -137,21 +144,27 @@ class QuickStatsRow extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Red icon in soft rounded box
+              // Icon in rounded squircle
               Container(
                 width: 23,
                 height: 23,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFFECEF),
+                  color: isSelected
+                      ? Colors.white.withValues(alpha: 0.2)
+                      : const Color(0xFFFFECEF),
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: const Color(0xFFFFCCD3),
+                    color: isSelected
+                        ? Colors.white.withValues(alpha: 0.3)
+                        : const Color(0xFFFFCCD3),
                     width: 0.8,
                   ),
                 ),
                 child: Icon(
                   icon,
-                  color: const Color(0xFFDC2626),
+                  color: isSelected
+                      ? const Color(0xFFFFE600)
+                      : const Color(0xFFDC2626),
                   size: 14,
                 ),
               ),
@@ -159,11 +172,11 @@ class QuickStatsRow extends StatelessWidget {
               Text(
                 label,
                 maxLines: 1,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: BadGymTypography.fontBody,
                   fontSize: 8.5,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF6B6B6B),
+                  fontWeight: FontWeight.w700,
+                  color: isSelected ? Colors.white : const Color(0xFF6B6B6B),
                   height: 1.0,
                 ),
               ),
@@ -172,11 +185,13 @@ class QuickStatsRow extends StatelessWidget {
                 fit: BoxFit.scaleDown,
                 child: Text(
                   value,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: BadGymTypography.fontHeading,
                     fontSize: 13.5,
                     fontWeight: FontWeight.w900,
-                    color: Color(0xFF1A1A1A),
+                    color: isSelected
+                        ? const Color(0xFFFFE600)
+                        : const Color(0xFF1A1A1A),
                     height: 1.05,
                   ),
                 ),
@@ -187,9 +202,11 @@ class QuickStatsRow extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 5, vertical: 1.5),
                 decoration: BoxDecoration(
-                  color: isPositive
-                      ? const Color(0xFFDCFCE7)
-                      : const Color(0xFFFFE4E6),
+                  color: isSelected
+                      ? Colors.black.withValues(alpha: 0.25)
+                      : (isPositive
+                          ? const Color(0xFFDCFCE7)
+                          : const Color(0xFFFFE4E6)),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
@@ -198,9 +215,11 @@ class QuickStatsRow extends StatelessWidget {
                     fontFamily: BadGymTypography.fontHeading,
                     fontWeight: FontWeight.w800,
                     fontSize: 7.5,
-                    color: isPositive
-                        ? const Color(0xFF16A34A)
-                        : const Color(0xFFDC2626),
+                    color: isSelected
+                        ? Colors.white
+                        : (isPositive
+                            ? const Color(0xFF16A34A)
+                            : const Color(0xFFDC2626)),
                     height: 1.0,
                   ),
                 ),

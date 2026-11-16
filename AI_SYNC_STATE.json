@@ -26,31 +26,36 @@
   },
   "currentMilestone": {
     "status": "SUCCESS_LOCAL_VERIFIED",
-    "designSystem": "Light coral/rose/ivory unified bordered Member Dashboard Card with high-definition 3D Streak Flame and 3D Trophy badges.",
-    "designReference": "User-provided BAD GYM reference with 3D flame and trophy assets",
-    "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
+    "designSystem": "Pixel-perfect BAD GYM performance dashboard with laurel wreath crest header, check-in success hero with dumbbells & shaker, member profile pass (Ashwani Kumar Singh), 4 quick tabs (Attendance 81% red card), 2-column fixed 372px height intelligence section with dark rail and Attendance Intelligence card (Donut gauge, 3D glossy flame streak, 3D championship trophy best, solid color pill calendar matrix with day 16 concentric ring, complete bottom legend), and bottom nutrition promo banner.",
+    "designReference": "media_1794676950728_33461b16.jpg (User-provided reference)",
+    "workflowProtocol": {
+      "localExecution": "Antigravity develops locally on laptop, compiles locally, and installs directly to Xiaomi 11i 5G via USB/local ADB without triggering GitHub Actions during iteration.",
+      "cloudExecution": "ChatGPT operates remotely via GitHub Actions + Tailscale only when laptop is offline.",
+      "gitSync": "Pushed to GitHub main only upon 100% verified physical completion."
+    },
     "buildVerification": {
       "status": "SUCCESS",
       "format": "PASS",
       "analyze": "PASS",
-      "flutterTests": "PASS (11/11 passed)",
+      "flutterTests": "PASS (10/10 passed)",
       "apkBuild": "PASS",
-      "apkSha256": "07E81A6DA8EF9071699BDA623804DDBADEB5FDDA6B98ECDEEE357FA17FDCCBC6",
       "appVersion": "0.2.0+2"
     },
     "deviceVerification": {
       "status": "SUCCESS_LOCAL_DEVICE_VERIFIED",
       "targetDevice": "Xiaomi 11i 5G (zxdada69gunb7ls4 / 100.123.18.54)",
       "installation": "STREAMED_INSTALL_SUCCESS",
-      "screenshot": "docs/screenshots/bad_gym_live.png",
+      "screenshot": "docs/screenshots/bad_gym_live_screen.png",
       "verifiedAssets": [
-        "assets/badges/streak_flame.png (3D Flame with transparent alpha)",
-        "assets/badges/best_trophy.png (3D Trophy with transparent alpha)",
-        "assets/hero/hero_athlete.png (Member profile model avatar)",
-        "docs/screenshots/bad_gym_live.png (Live physical verification)"
+        "assets/badges/streak_flame_3d.png (3D Flame with transparent alpha)",
+        "assets/badges/best_trophy_3d.png (3D Championship Trophy with transparent alpha)",
+        "assets/hero/hero_athlete.png (Hero athlete model)",
+        "assets/hero/dumbbell_3d.png (Hero dumbbells)",
+        "assets/hero/shaker_bottle.png (BAD GYM Shaker bottle)",
+        "docs/screenshots/bad_gym_live_screen.png (Live physical verification)"
       ]
     },
-    "lastUpdated": "2026-11-16",
+    "lastUpdated": "2026-11-16T23:30:00+05:30",
     "ciDiagnosis": {
       "latestFailureRun": 43833182700,
       "tailscaleJoin": "SUCCESS_ON_ATTEMPT_1",

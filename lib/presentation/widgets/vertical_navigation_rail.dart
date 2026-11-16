@@ -3,18 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:bad_gym/core/theme/bad_gym_theme.dart';
 
 enum RailTab {
+  intelligence,
+  calendar,
+  history,
+  trend,
+  more,
+  // Backwards compatibility aliases
   home,
   members,
   workout,
   payment,
   progress,
   reports,
-  more,
-  // backwards compatible aliases
-  intelligence,
-  calendar,
-  history,
-  trend,
   streak,
   analysis,
   goals,
@@ -39,193 +39,68 @@ class VerticalNavigationRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50,
+      width: 66,
       height: height,
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 1),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 3),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFFFFE5E8),
-            Color(0xFFFFD5DA),
-            Color(0xFFFFE9E6),
-            Color(0xFFFFF0E6),
-          ],
-          stops: [0.0, 0.35, 0.75, 1.0],
-        ),
-        borderRadius: BorderRadius.circular(16),
+        color: const Color(0xFF141416),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: const Color(0xFFD4AF37).withValues(alpha: 0.45),
+          color: const Color(0xFF2A2A2E),
           width: 1.0,
         ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFC94B5B).withValues(alpha: 0.10),
-            blurRadius: 7,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: 0.35),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          // 1. Top Brand Logo & Swoosh
-          Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: const BoxDecoration(
-                  color: Color(0x29FFFFFF),
-                  shape: BoxShape.circle,
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.fitness_center_rounded,
-                    color: Color(0xFFDC2626),
-                    size: 18,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 2),
-              const Text(
-                'BAD\nGYM',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontFamily: BadGymTypography.fontHeading,
-                  fontWeight: FontWeight.w900,
-                  fontSize: 10.5,
-                  letterSpacing: 0.8,
-                  color: Color(0xFF7C2632),
-                  height: 1.0,
-                ),
-              ),
-              const SizedBox(height: 3),
-              // Golden curved swoosh
-              Container(
-                width: 34,
-                height: 2,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [
-                      Colors.transparent,
-                      Color(0xFFFFD66B),
-                      Color(0xFFD4AF37),
-                      Colors.transparent,
-                    ],
-                  ),
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+          _buildItem(
+            tab: RailTab.intelligence,
+            aliases: [
+              RailTab.intelligence,
+              RailTab.home,
+              RailTab.overview,
+              RailTab.attendance
             ],
+            icon: Icons.bar_chart_rounded,
+            label: 'Intelligence',
           ),
-
-          const SizedBox(height: 5),
-
-          // 2. Navigation Items (Scrollable or expanded evenly)
-          Expanded(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Home (Active)
-                  _buildRailItem(
-                    tab: RailTab.home,
-                    aliases: [
-                      RailTab.home,
-                      RailTab.intelligence,
-                      RailTab.overview
-                    ],
-                    icon: Icons.home_rounded,
-                    label: 'Home',
-                  ),
-                  const SizedBox(height: 3),
-
-                  // Members
-                  _buildRailItem(
-                    tab: RailTab.members,
-                    aliases: [RailTab.members],
-                    icon: Icons.people_outline_rounded,
-                    label: 'Members',
-                  ),
-                  const SizedBox(height: 6),
-
-                  // Workout
-                  _buildRailItem(
-                    tab: RailTab.workout,
-                    aliases: [RailTab.workout],
-                    icon: Icons.fitness_center_rounded,
-                    label: 'Workout',
-                  ),
-                  const SizedBox(height: 6),
-
-                  // Payment
-                  _buildRailItem(
-                    tab: RailTab.payment,
-                    aliases: [RailTab.payment],
-                    icon: Icons.account_balance_wallet_outlined,
-                    label: 'Payment',
-                  ),
-                  const SizedBox(height: 6),
-
-                  // Progress
-                  _buildRailItem(
-                    tab: RailTab.progress,
-                    aliases: [RailTab.progress, RailTab.trend],
-                    icon: Icons.trending_up_rounded,
-                    label: 'Progress',
-                  ),
-                  const SizedBox(height: 6),
-
-                  // Reports
-                  _buildRailItem(
-                    tab: RailTab.reports,
-                    aliases: [RailTab.reports],
-                    icon: Icons.bar_chart_rounded,
-                    label: 'Reports',
-                  ),
-                  const SizedBox(height: 6),
-
-                  // More
-                  _buildRailItem(
-                    tab: RailTab.more,
-                    aliases: [RailTab.more],
-                    icon: Icons.more_horiz_rounded,
-                    label: 'More',
-                  ),
-                ],
-              ),
-            ),
+          _buildItem(
+            tab: RailTab.calendar,
+            aliases: [RailTab.calendar],
+            icon: Icons.calendar_month_outlined,
+            label: 'Calendar',
           ),
-
-          // 3. Bottom Golden Wave Accent
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: SizedBox(
-              width: 38,
-              height: 16,
-              child: Image.asset(
-                'assets/images/rail_gold_wave_crop.png',
-                fit: BoxFit.contain,
-                errorBuilder: (_, __, ___) => Container(
-                  height: 2,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFD4AF37), Color(0xFFFFDF7A)],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+          _buildItem(
+            tab: RailTab.history,
+            aliases: [RailTab.history],
+            icon: Icons.history_rounded,
+            label: 'History',
+          ),
+          _buildItem(
+            tab: RailTab.trend,
+            aliases: [RailTab.trend, RailTab.progress],
+            icon: Icons.trending_up_rounded,
+            label: 'Trend',
+          ),
+          _buildItem(
+            tab: RailTab.more,
+            aliases: [RailTab.more, RailTab.reports],
+            icon: Icons.more_horiz_rounded,
+            label: 'More',
           ),
         ],
       ),
     );
   }
 
-  Widget _buildRailItem({
+  Widget _buildItem({
     required RailTab tab,
     required List<RailTab> aliases,
     required IconData icon,
@@ -234,64 +109,49 @@ class VerticalNavigationRail extends StatelessWidget {
     final bool isSelected = aliases.contains(selectedTab);
 
     if (isSelected) {
-      // Active State: Glowing Deep Crimson Squircle with Gold Border
-      return InkWell(
-        onTap: () {
-          HapticFeedback.selectionClick();
-          onTabSelected?.call(tab);
-        },
-        borderRadius: BorderRadius.circular(14),
-        child: Container(
-          width: 40,
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 1),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFFE9858E),
-                Color(0xFFD65D6A),
-              ],
-            ),
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: const Color(0xFFD4AF37),
-              width: 1.2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF8B0000).withValues(alpha: 0.4),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-              ),
+      return Container(
+        width: 58,
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFE50914),
+              Color(0xFF9E0010),
             ],
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                icon,
-                color: const Color(0xFF7C2632),
-                size: 17,
-              ),
-              const SizedBox(height: 2),
-              Text(
+          borderRadius: BorderRadius.circular(14),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFE50914).withValues(alpha: 0.45),
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: Colors.white, size: 20),
+            const SizedBox(height: 2),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
                 label,
                 style: const TextStyle(
                   fontFamily: BadGymTypography.fontHeading,
                   fontWeight: FontWeight.w800,
-                  fontSize: 7.5,
+                  fontSize: 8.0,
                   color: Colors.white,
-                  height: 1.0,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     }
 
-    // Inactive State
     return InkWell(
       onTap: () {
         HapticFeedback.selectionClick();
@@ -299,25 +159,23 @@ class VerticalNavigationRail extends StatelessWidget {
       },
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        width: 40,
-        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 1),
+        width: 58,
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              color: const Color(0xFF9B6269),
-              size: 16,
-            ),
+            Icon(icon, color: const Color(0xFFA1A1AA), size: 19),
             const SizedBox(height: 2),
-            Text(
-              label,
-              style: const TextStyle(
-                fontFamily: BadGymTypography.fontBody,
-                fontWeight: FontWeight.w600,
-                fontSize: 7.2,
-                color: Color(0xFF9CA3AF),
-                height: 1.0,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontFamily: BadGymTypography.fontBody,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 8.0,
+                  color: Color(0xFFA1A1AA),
+                ),
               ),
             ),
           ],

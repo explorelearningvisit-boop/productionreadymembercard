@@ -25,16 +25,16 @@ class AttendanceIntelligenceCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(
-          color: const Color(0xFFDCC8F6),
+          color: const Color(0xFFE2E8F0),
           width: 1.2,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 14,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -52,14 +52,14 @@ class AttendanceIntelligenceCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     colors: [
-                      Color(0xFF7621D6),
-                      Color(0xFF4D138F),
+                      Color(0xFFE50914),
+                      Color(0xFF9E0010),
                     ],
                   ),
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF7621D6).withValues(alpha: 0.35),
+                      color: const Color(0xFFE50914).withValues(alpha: 0.35),
                       blurRadius: 4,
                     ),
                   ],
@@ -109,7 +109,7 @@ class AttendanceIntelligenceCard extends StatelessWidget {
 
               const SizedBox(width: 4),
 
-              // Month selector pill: Oct 2026 ▼
+              // Month selector pill: October 2026 ▼
               InkWell(
                 onTap: () {
                   HapticFeedback.lightImpact();
@@ -167,9 +167,11 @@ class AttendanceIntelligenceCard extends StatelessWidget {
 
           // 3. Calendar Grid & Legend
           AttendanceCalendarGrid(
-              days: data.calendarDays,
-              year: data.attendanceYear,
-              month: data.attendanceMonth),
+            days: data.calendarDays,
+            year: data.attendanceYear,
+            month: data.attendanceMonth,
+            showHeader: false,
+          ),
         ],
       ),
     );

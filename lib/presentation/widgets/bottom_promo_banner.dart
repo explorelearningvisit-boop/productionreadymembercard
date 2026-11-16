@@ -202,84 +202,89 @@ class BottomPromoBanner extends StatelessWidget {
                   const SizedBox(height: 8),
 
                   // 4. Bottom Row: 3 Feature Pills + Order Now ➔ Button
-                  Row(
-                    children: [
-                      // Feature 1: High Protein
-                      _buildFeatureBadge(
-                        icon: Icons.fitness_center_rounded,
-                        label: 'High\nProtein',
-                      ),
-                      const SizedBox(width: 8),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Feature 1: High Protein
+                        _buildFeatureBadge(
+                          icon: Icons.fitness_center_rounded,
+                          label: 'High\nProtein',
+                        ),
+                        const SizedBox(width: 8),
 
-                      // Feature 2: Low Fat
-                      _buildFeatureBadge(
-                        icon: Icons.eco_rounded,
-                        label: 'Low\nFat',
-                      ),
-                      const SizedBox(width: 8),
+                        // Feature 2: Low Fat
+                        _buildFeatureBadge(
+                          icon: Icons.eco_rounded,
+                          label: 'Low\nFat',
+                        ),
+                        const SizedBox(width: 8),
 
-                      // Feature 3: More Energy
-                      _buildFeatureBadge(
-                        icon: Icons.bolt_rounded,
-                        label: 'More\nEnergy',
-                      ),
+                        // Feature 3: More Energy
+                        _buildFeatureBadge(
+                          icon: Icons.bolt_rounded,
+                          label: 'More\nEnergy',
+                        ),
 
-                      const Spacer(),
+                        const SizedBox(width: 14),
 
-                      // Golden Pill Button: Order Now ➔
-                      InkWell(
-                        onTap: () {
-                          HapticFeedback.heavyImpact();
-                          onOrderPressed?.call();
-                        },
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color(0xFFFFDF7A),
-                                Color(0xFFFFB300),
+                        // Golden Pill Button: Order Now ➔
+                        InkWell(
+                          onTap: () {
+                            HapticFeedback.heavyImpact();
+                            onOrderPressed?.call();
+                          },
+                          borderRadius: BorderRadius.circular(20),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFFFFDF7A),
+                                  Color(0xFFFFB300),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.8),
+                                width: 1.2,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color(0xFFFFB300)
+                                      .withValues(alpha: 0.6),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 3),
+                                ),
                               ],
                             ),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.8),
-                              width: 1.2,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFFFFB300)
-                                    .withValues(alpha: 0.6),
-                                blurRadius: 10,
-                                offset: const Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: const Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                'Order Now',
-                                style: TextStyle(
-                                  fontFamily: BadGymTypography.fontHeading,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 12,
-                                  color: Colors.black,
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'Order Now',
+                                  style: TextStyle(
+                                    fontFamily: BadGymTypography.fontHeading,
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 4),
-                              Icon(
-                                Icons.arrow_forward_rounded,
-                                color: Colors.black,
-                                size: 14,
-                              ),
-                            ],
+                                SizedBox(width: 4),
+                                Icon(
+                                  Icons.arrow_forward_rounded,
+                                  color: Colors.black,
+                                  size: 14,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),
