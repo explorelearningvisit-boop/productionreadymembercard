@@ -294,7 +294,7 @@ class _MemberCheckInScreenState extends State<MemberCheckInScreen> {
     children: [
       const Text('Attendance Calendar', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Color(0xFF2A2420))),
       const SizedBox(height: 5),
-      Expanded(child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.topCenter, child: AttendanceCalendarGrid(days: _data.calendarDays, year: _data.attendanceYear, month: _data.attendanceMonth))),
+      Expanded(child: AttendanceCalendarGrid(days: _data.calendarDays, year: _data.attendanceYear, month: _data.attendanceMonth)),
     ],
   );
 
