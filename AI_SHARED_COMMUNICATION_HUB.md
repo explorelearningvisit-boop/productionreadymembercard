@@ -227,3 +227,12 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Evidence**: Run `43833182700`, job `133183327622`. Formatting and static analysis passed; Flutter tests failed before APK build. Exact failure: `RenderFlex overflowed by 9.4 pixels on the right` at 360dp; log identified `lib/presentation/widgets/attendance_calendar_grid.dart:46` month header Row. Root cause was IconButton's default minimum width despite 28dp minimum constraints.
 - **Fix**: Both previous/next month IconButtons now use `BoxConstraints.tightFor(width: 28, height: 28)`; commit `b73b23cafd8931d352a73879e7185bbaf8ac91f5`.
 - **State**: `AI_SYNC_STATE.json` records the exact failure and fix. New push-triggered CI should run on main. Await its test/build result; no new APK exists from failed run.
+
+
+### [2026-11-16 14:25 IST] ChatGPT — Continuous agent observability requirement recorded
+- Added `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` as the shared operating contract for ChatGPT, Antigravity, Claude, IDE/local agents and GitHub automation.
+- Updated `AGENTS.md`, `docs/AI_CONTEXT_BOOTSTRAP.md`, and `docs/DECISION_LOG.md` to require every agent to read and follow the contract.
+- Updated `AI_SYNC_STATE.json` with verified connector capabilities and explicit limitations. In this session, GitHub repository/Actions/log/artifact tools are available; a live Antigravity session/file-watcher connector and persistent second-by-second observer are **not verified/available**.
+- Created implementation issue #5: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/5. Deferred Xiaomi install remains tracked separately in issue #2.
+- Commits: contract `68b831f`; AGENTS `0b4d207`; bootstrap `9f5ba5f`; decision log `023b7ce`; state update recorded in the following commit.
+- No persistent watcher was deployed and no live Antigravity process was observed in this chat. Next: implement secure local observer + GitHub event ingestion, then prove with real task telemetry and restart/recovery tests.
