@@ -291,19 +291,29 @@ class _MemberIntelligenceDashboardState extends State<MemberIntelligenceDashboar
           _legendRow(C.red, 'Absent', '2', .07),
           _legendRow(C.purple, 'Holiday', '4', .13),
         ])),
-        Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(Icons.local_fire_department, color: C.red, size: 14),
-            SizedBox(width: 2),
-            Text('5d streak', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: C.red)),
-          ]),
-          SizedBox(height: 5),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(Icons.emoji_events, color: C.gold, size: 13),
-            SizedBox(width: 2),
-            Text('14d best', style: TextStyle(fontSize: 8, fontWeight: FontWeight.w800, color: C.ink)),
-          ]),
-        ])),
+        Expanded(
+          flex: 3,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  '🔥 5 DAYS',
+                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: C.red),
+                ),
+              ),
+              SizedBox(height: 5),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  '🏆 14 BEST',
+                  style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: C.ink),
+                ),
+              ),
+            ],
+          ),
+        ),
       ])),
       const SizedBox(height: 4),
       Expanded(child: _calendar()),
