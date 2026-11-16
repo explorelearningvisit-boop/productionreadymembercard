@@ -385,5 +385,46 @@
     ],
     "workflow": ".github/workflows/publish-android-release.yml",
     "policy": "Never publish stable update from default debug signing. Existing app data must be preserved on signature mismatch."
+  },
+  "chatgptDesignLab": {
+    "status": "IMPLEMENTED_CI_BUILD_IN_PROGRESS",
+    "branch": "chatgpt/design-lab-yellow-festive",
+    "packageId": "com.badgym.designlab",
+    "designDirection": "Festive Gold Premium",
+    "scope": "Full Member Intelligence dashboard",
+    "lastCommit": "e81a78271d2fc46724604bce5bd6877834c488f6",
+    "currentWorkflowRun": 43925111976,
+    "currentWorkflowUrl": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43925111976",
+    "changedFiles": [
+      "lib/main.dart",
+      "test/widget_test.dart",
+      "docs/CHATGPT_DESIGN_LAB_SPEC.md",
+      "docs/DECISION_LOG.md"
+    ],
+    "implementation": [
+      "Member portrait and dumbbell logo asset references",
+      "Dedicated Attendance, Workout, Payment and Body workspaces",
+      "Attendance calendar, trend, record, insights and goals rail views",
+      "Workout sessions, volume, history and goals rail views",
+      "Payment due, history and offers rail views",
+      "Body weight, measures, progress and goals rail views",
+      "Neutral Sunday OFF and holiday calendar semantics",
+      "360dp widget tests for tab and rail navigation"
+    ],
+    "validation": {
+      "format": "PASS",
+      "analyze": "PASS",
+      "flutterTests": "PASS",
+      "androidApkBuild": "IN_PROGRESS",
+      "physicalDeviceInstall": "NOT_VERIFIED",
+      "xiaomiScreenshotComparison": "NOT_VERIFIED",
+      "pixelPerfect": "NOT_CLAIMED"
+    },
+    "dataLimitations": [
+      "Workout set/load history is not connected",
+      "Payment transaction history is not connected",
+      "Body measurement history is not connected"
+    ],
+    "nextAction": "Wait for CI Android APK build and artifact upload; inspect APK; then perform fresh Xiaomi 11i screenshot comparison."
   }
 }
