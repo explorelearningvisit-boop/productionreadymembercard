@@ -25,7 +25,7 @@
     }
   },
   "currentMilestone": {
-    "status": "BUILD_TESTS_APK_PASS_DEVICE_QA_BLOCKED_TAILNET_PEERS_OFFLINE",
+    "status": "AI_CONTEXT_AND_NETWORK_ARCHITECTURE_DOCUMENTED_DYNAMIC_ADB_DISCOVERY_PENDING",
     "designSystem": "Latest approved dashboard reference is warm golden/yellow canvas with ivory cards, crimson/gold accents; see CURRENT_DESIGN_SPEC.md",
     "designReference": "User-provided 2026-11-15 dashboard image",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
@@ -93,11 +93,68 @@
         "Removed duplicate CHECK-IN/QR label and gym floor from event ribbon; date/time retained"
       ],
       "deviceVerification": "PENDING_CURRENT_CI_AND_FRESH_DEVICE_SCREENSHOT"
+    },
+    "deviceProfile": {
+      "lastUserReportedWirelessAdbPort": 37337,
+      "portNote": "Transient endpoint from latest user screenshot; not fixed and not yet updated in GitHub Actions secret."
     }
   },
   "collaboratingAIs": [
     "Antigravity (Google DeepMind)",
     "ChatGPT (OpenAI)",
     "Claude (Anthropic)"
-  ]
+  ],
+  "contextBootstrap": {
+    "entrypoint": "docs/AI_CONTEXT_BOOTSTRAP.md",
+    "mandatoryReadOrder": [
+      "docs/AI_CONTEXT_BOOTSTRAP.md",
+      "AGENTS.md",
+      "AI_SYNC_STATE.json",
+      "CURRENT_DESIGN_SPEC.md",
+      "ANTIGRAVITY_TASK.md",
+      "docs/NETWORK_ARCHITECTURE.md",
+      "docs/DECISION_LOG.md",
+      "AI_SHARED_COMMUNICATION_HUB.md",
+      ".github/workflows/android-cloud-device.yml"
+    ],
+    "policy": "Every AI agent must read latest main and recent commits before edits; update state and append handoff after changes."
+  },
+  "networkArchitecture": {
+    "status": "DOCUMENTED_DYNAMIC_ADB_DISCOVERY_NOT_IMPLEMENTED",
+    "supportedTopologies": [
+      "same_home_wifi",
+      "laptop_own_hotspot_phone_cellular",
+      "third_party_hotspot",
+      "hotspot_shared_via_second_phone",
+      "usb_tethering",
+      "ethernet_plus_cellular",
+      "network_transitions"
+    ],
+    "overlay": "Tailscale preferred; verify live node identity and ACL",
+    "device": {
+      "model": "Xiaomi 11i 5G (21091116I)",
+      "androidVersion": 13,
+      "ui": "MIUI",
+      "tailscaleIpLastObserved": "100.123.18.54",
+      "usbSerialLastObserved": "zxdada69gunb7ls4",
+      "lastUserReportedWirelessAdbConnectPort": 37337,
+      "portIsDynamic": true,
+      "wirelessDebuggingMayDisableAfterPowerOff": true
+    },
+    "currentWorkflowDependency": "ANDROID_DEVICE_PORTS_JSON",
+    "nextEngineeringMilestone": "Implement authenticated device-side endpoint discovery; validate TCP and ADB get-state; remove static per-port secret dependency only after end-to-end tests.",
+    "security": [
+      "No public ADB exposure",
+      "Least-privilege Tailscale ACL",
+      "Rotate previously exposed Tailscale auth key and ADB private key",
+      "Never commit secret values"
+    ]
+  },
+  "aiContinuity": {
+    "sourceOfTruth": "GitHub repository main branch",
+    "bootstrap": "docs/AI_CONTEXT_BOOTSTRAP.md",
+    "decisionLog": "docs/DECISION_LOG.md",
+    "handoff": "AI_SHARED_COMMUNICATION_HUB.md",
+    "rule": "All agents read before edits and write back decisions, changes, verification and next action."
+  }
 }
