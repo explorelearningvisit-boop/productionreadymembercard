@@ -16,6 +16,7 @@ void main() {
     // Verify Check-In Success Ribbon
     expect(find.text('Last Check-In'), findsOneWidget);
     expect(find.text('CHECK-IN'), findsNothing);
+    expect(find.text('Check-In Success!'), findsNothing);
 
     // Verify Member Profile Card (Luxury Gold & Ivory Theme)
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
@@ -45,10 +46,13 @@ void main() {
     expect(find.text('Average'), findsOneWidget);
     expect(find.text('Minimum'), findsOneWidget);
 
-    // Removed secondary insight and bottom summary strips to reclaim space.
-    expect(find.text('Smart Insight'), findsNothing);
-    expect(find.text('Streak'), findsNothing);
-    expect(find.text('Plan Days'), findsNothing);
+    // The entire member dashboard and its insight/summary are one card.
+    expect(find.byKey(const ValueKey('member_dashboard_outer_card')), findsOneWidget);
+    expect(find.text('Smart Insight'), findsOneWidget);
+    expect(find.text('Streak'), findsOneWidget);
+    expect(find.text('Best'), findsOneWidget);
+    expect(find.text('Plan Days'), findsOneWidget);
+    expect(find.text('Next Goal'), findsOneWidget);
 
     // Verify Vertical Navigation Rail
     expect(find.text('Home'), findsOneWidget);
