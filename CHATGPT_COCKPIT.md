@@ -38,3 +38,11 @@ Never paste secrets or private keys in chat, docs, logs or commits. A previously
 
 ## New-session prompt
 Use the copy-ready prompt in docs/AI_CONTEXT_BOOTSTRAP.md.
+
+
+## Windows execution agent
+- Local MCP server: tools/badgym_local_agent/; operator guide: docs/LOCAL_AGENT_SETUP.md.
+- It exposes bounded ADB screenshot/log/touch, Tailscale peer discovery, allowlisted Flutter analyze/test/build and guarded source read/write/install tools.
+- Start in read-only mode. Never use arbitrary shell, delete, force-push, uninstall or clear-data actions.
+- Screenshots return directly through MCP image content. GitHub Actions remains the cloud build/device QA route.
+- ChatGPT mobile custom MCP is not supported by current product docs; connect from supported ChatGPT web/workspace or a separate Responses API client.

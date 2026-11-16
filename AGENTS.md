@@ -91,3 +91,11 @@ Current authoritative workflow: `.github/workflows/android-cloud-device.yml`. Re
 - Device: Tailscale status, ADB status, install status, launch status, screenshot artifact status separately
 - Known blockers and one next action
 Never call it production-ready or pixel-perfect without current device evidence.
+
+
+## Windows Local Agent
+- The supported local execution agent lives in tools/badgym_local_agent/; setup is documented in docs/LOCAL_AGENT_SETUP.md.
+- It is separate from Flutter app runtime and existing app design. Keep all local-agent code under tools/badgym_local_agent/.
+- Default MCP mode is read/diagnostic. Writes are opt-in, limited to lib/, test/, pubspec.yaml and analysis_options.yaml, require explicit approval and expected SHA-256, and create a backup outside the repository.
+- Never add arbitrary shell execution, generic deletion, secret-reading, public ADB ingress, automatic uninstall or app-data wipe tools.
+- ChatGPT mobile does not currently support custom MCP connections. Do not claim the Windows agent is directly callable from the Android ChatGPT app; use supported ChatGPT web/workspace or a separate Responses API client via Secure MCP Tunnel.

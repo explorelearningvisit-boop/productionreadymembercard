@@ -169,5 +169,51 @@
     "decisionLog": "docs/DECISION_LOG.md",
     "handoff": "AI_SHARED_COMMUNICATION_HUB.md",
     "rule": "All agents read before edits and write back decisions, changes, verification and next action."
+  },
+  "localAgent": {
+    "status": "IMPLEMENTED_IN_FEATURE_BRANCH_PENDING_CI_AND_WINDOWS_INSTALL",
+    "repositoryPath": "tools/badgym_local_agent/",
+    "setupGuide": "docs/LOCAL_AGENT_SETUP.md",
+    "transport": "MCP stdio; OpenAI Secure MCP Tunnel documented as optional private bridge",
+    "android": "USB ADB preferred; wireless via Tailscale peer metadata + explicit current Wireless Debugging connect port + adb get-state",
+    "screenshot": "PNG returned directly as MCP image content; no GitHub relay in local loop",
+    "tools": [
+      "agent_health",
+      "list_android_devices",
+      "list_tailscale_peers",
+      "connect_wireless_adb",
+      "capture_android_screenshot",
+      "get_android_logcat",
+      "get_android_screen_resolution",
+      "tap_android_screen",
+      "swipe_android_screen",
+      "press_android_key",
+      "launch_bad_gym",
+      "run_flutter_task",
+      "read_project_file",
+      "write_project_file",
+      "install_release_apk"
+    ],
+    "safety": {
+      "writesDefault": false,
+      "writesRequireLocalFeatureFlagAndApproval": true,
+      "writesRequireExpectedSha256": true,
+      "writeAllowlist": [
+        "lib/",
+        "test/",
+        "pubspec.yaml",
+        "analysis_options.yaml"
+      ],
+      "backupsOutsideRepository": true,
+      "noArbitraryShell": true,
+      "noDeleteTool": true,
+      "noSecretReadTool": true,
+      "noAutomaticUninstallOrDataWipe": true
+    },
+    "validation": "Python unit tests + compileall + Ruff in dedicated GitHub Actions workflow; pending first run",
+    "windowsInstallation": "NOT_INSTALLED_OR_VERIFIED_FROM_CHATGPT",
+    "openAiTunnel": "NOT_PROVISIONED; requires Platform tunnel ID/runtime key/permissions and supported ChatGPT web workspace or Responses API",
+    "mobileChatGPT": "Custom MCP connections are not currently supported in ChatGPT mobile app",
+    "updatedAt": "2026-11-16"
   }
 }

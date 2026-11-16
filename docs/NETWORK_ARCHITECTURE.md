@@ -74,3 +74,12 @@ To remove manual secret edits, implement an authenticated device-side discovery 
 - Reboot phone: after user re-enables Wireless Debugging, rediscover endpoint without editing GitHub secret.
 - Phone offline: report offline safely; keep build artifact.
 - Pairing revoked: report unauthorized and require one-time re-pair, not a port fix.
+
+
+## Windows local agent integration (implemented in repository)
+- MCP server source: tools/badgym_local_agent/; runbook: docs/LOCAL_AGENT_SETUP.md.
+- USB ADB is preferred. Wireless mode first discovers Tailscale peer metadata, then requires the phone's current Wireless Debugging connect port as explicit input and verifies adb get-state. It does not guess 5555 or infer a port from the pairing port.
+- Local screenshots are returned as MCP image content; GitHub is not an image relay in the local iteration loop.
+- Local agent uses stdio MCP. OpenAI Secure MCP Tunnel is the supported private transport for compatible OpenAI surfaces; it requires Platform tunnel provisioning and a runtime credential kept outside Git.
+- This is a local developer tool, not an Android background agent. Phone must be powered on, Tailscale online for wireless mode, Wireless Debugging active and ADB authorized.
+- Dynamic endpoint discovery without manual current-port input remains a future device-side protocol; this implementation intentionally requires the live endpoint to avoid unsafe port guessing.
