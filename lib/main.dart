@@ -23,6 +23,7 @@ abstract final class C {
   static const muted = Color(0xFF777166);
   static const yellow = Color(0xFFFFD21A);
   static const gold = Color(0xFFE7A900);
+  static const goldDark = Color(0xFF9C6A00);
   static const green = Color(0xFF168B35);
   static const red = Color(0xFFD92D2D);
   static const purple = Color(0xFF913BE0);
