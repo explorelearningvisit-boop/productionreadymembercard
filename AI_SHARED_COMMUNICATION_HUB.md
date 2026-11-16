@@ -275,3 +275,10 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Verification**: CI run 43876682039 was cancelled by rapid subsequent commits before validation. No APK from this implementation is yet verified. Device install/screenshot remains NOT VERIFIED.
 - **Commits**: 52b115c (workspace), 8b9d143 (metric panel constraints), c768f3b (viewport/navigation tests), 2bf2310 (native installer), bdf9405 (installer receiver), 8d47f64/8205ad0/98d31d5 (manifest), 82c0599/60adc3e1/29a0675/eddeb744 (update checker/UI), 97b1c8a (version), dd95692 (protected signing), 75ee571/1223a1d (release workflow), af6a937 (state), dee7e16 (decision log).
 - **Next**: Inspect newest Actions run; repair Dart formatting/analyzer/widget tests/Kotlin Gradle compile; verify manifest and APK; only then provision/use protected signing secrets and publish a stable release. Capture real Xiaomi screenshot before declaring layout complete.
+
+### [2026-11-16 13:50 UTC] ChatGPT — CI diagnosis and compact calendar/build fixes
+- **Action**: Inspected failed run 43877970432. Formatter and analyzer passed; Flutter tests exposed an unbounded-width Expanded inside AttendanceCalendarGrid because FittedBox removed the finite width constraint. Removed FittedBox and constrained the calendar directly to the workspace width (commit 9739c832).
+- **Verification**: Run 43879102167 (commit 70f943f) currently has Dart format PASS, flutter analyze PASS and Flutter tests PASS. Android APK build is still running; no artifact yet.
+- **Build fix**: Run 43878393503 exposed releaseStorePath unresolved in android/app/build.gradle.kts because it was scoped inside the Android DSL. Moved it to script scope after the plugins block and added conditional protectedRelease signing config (commits 0d64ba3 and 70f943f). Latest run will validate Gradle/Kotlin compilation.
+- **Device**: No physical Xiaomi install/screenshot verified in this run. Keep app/data safe.
+- **Next**: Wait for APK build; inspect logs on any failure; if successful inspect artifact metadata and run separate tailnet QA. Protected signing secrets still required before stable Release publication.
