@@ -285,6 +285,7 @@
       "Never claim install/launch/screenshot without fresh runner evidence"
     ],
     "nextEngineeringWork": [
+      "Issue #6 is the active implementation specification: laptop-free phone-side authenticated command channel over cellular/Tailscale, with explicit Android consent and ADB as optional transport.",
       "Inspect Android platform constraints for an approved phone-side deployment/bootstrap mechanism that works without Wi-Fi and without a laptop.",
       "Determine whether the existing installed BAD GYM package can safely host an authenticated update-check/deployment component; do not assume an ordinary app can silently self-install APKs.",
       "Provide a first-time, user-approved provisioning path if required; preserve existing BAD GYM data and package identity.",
@@ -292,7 +293,8 @@
       "Replace static ANDROID_DEVICE_PORTS_JSON only after end-to-end endpoint discovery tests.",
       "Implement queued/deferred deployment, bounded retries, per-device locks, install/launch/screenshot/log evidence and durable handoff."
     ],
-    "currentStatus": "CLOUD_BUILD_PASS_DEVICE_INSTALL_BLOCKED_NO_VERIFIED_ADB_TRANSPORT",
-    "note": "Authoritative requirement and status, not a claim that phone-side agent, endpoint discovery, or unattended installation is already implemented."
+    "currentStatus": "ARCHITECTURE_REQUIREMENT_TRACKED_PHONE_SIDE_COMMAND_CHANNEL_NOT_IMPLEMENTED",
+    "note": "Authoritative requirement and status, not a claim that phone-side agent, endpoint discovery, or unattended installation is already implemented.",
+    "implementationIssue": "https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/6"
   }
 }
