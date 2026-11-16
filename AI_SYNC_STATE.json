@@ -25,26 +25,32 @@
     }
   },
   "currentMilestone": {
-    "status": "COMPACT_FOUR_TAB_LAYOUT_IMPLEMENTED_CI_VERIFICATION_PENDING",
+    "status": "BUILD_TESTS_APK_PASS_DEVICE_QA_BLOCKED_TAILNET_PEERS_OFFLINE",
     "designSystem": "Latest approved dashboard reference is warm golden/yellow canvas with ivory cards, crimson/gold accents; see CURRENT_DESIGN_SPEC.md",
     "designReference": "User-provided 2026-11-15 dashboard image",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
     "buildVerification": {
-      "runId": 43708165828,
-      "releaseApk": "success",
+      "runId": 43801332361,
+      "runUrl": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43801332361",
       "flutterAnalyze": "success",
       "flutterTests": "success",
-      "apkSizeMB": 55.5
+      "releaseApk": "success"
     },
     "deviceVerification": {
-      "status": "BLOCKED_ON_ONE_TIME_MIUI_INSTALL_AUTH_AND_SIGNING_TRANSITION",
-      "tailscale": "verified connected in run 24",
-      "adb": "reached Xiaomi",
-      "installation": "not successful in run 24",
-      "screenshot": "no fresh screenshot in run 24",
-      "userAction": "Enable MIUI Developer options > Install via USB; keep device unlocked and approve install prompt. If signature mismatch persists, perform one-time manual reinstall only after confirming app data backup."
+      "status": "BLOCKED_ALL_CONFIGURED_TAILNET_PEERS_OFFLINE",
+      "tailscaleRunner": "connected successfully",
+      "adb": "not attempted because all listed devices were offline",
+      "installation": "not attempted",
+      "screenshot": "no fresh screenshot captured",
+      "observedPeers": [
+        "Xiaomi 11i",
+        "badgym-21091116i",
+        "OPPO A53",
+        "A's Tab A9"
+      ],
+      "userAction": "Connect the Xiaomi 11i Tailscale Android app to the same tailnet, keep the phone online, and ensure Android Wireless Debugging is enabled with its current port reflected in ANDROID_DEVICE_PORTS_JSON."
     },
-    "lastUpdated": "2026-11-15",
+    "lastUpdated": "2026-11-16",
     "ciDiagnosis": {
       "latestFailureRun": 43720865187,
       "tailscaleJoin": "SUCCESS_ON_ATTEMPT_1",
