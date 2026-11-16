@@ -150,7 +150,7 @@ class MemberIntelligenceData {
       const CalendarDayItem(day: 13, status: DayAttendanceStatus.present),
       const CalendarDayItem(day: 14, status: DayAttendanceStatus.present),
       const CalendarDayItem(day: 15, status: DayAttendanceStatus.present),
-      const CalendarDayItem(day: 16, status: DayAttendanceStatus.present, isToday: true),
+      const CalendarDayItem(day: 16, status: DayAttendanceStatus.present),
       const CalendarDayItem(day: 17, status: DayAttendanceStatus.absent),
       const CalendarDayItem(day: 18, status: DayAttendanceStatus.holiday),
       const CalendarDayItem(day: 19, status: DayAttendanceStatus.present),
