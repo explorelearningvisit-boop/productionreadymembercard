@@ -69,3 +69,11 @@ Make only the requested change, inspect actual code, run relevant tests/build, r
 
 ## Continuous agent observation (mandatory)
 Read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` before any work. Inspect actual connected tool capabilities and fresh timestamped telemetry; distinguish live events from snapshots. Observe active task/run IDs, changed files and logs where tools expose them; diagnose failures from full logs, repair minimally, validate, and record evidence in `AI_SYNC_STATE.json` and `AI_SHARED_COMMUNICATION_HUB.md`. Do not claim persistent/second-by-second monitoring unless a deployed watcher is running. The watcher and deferred recovery requirements remain implementation work until end-to-end verified.
+
+
+## User authorization — implementation autonomy (2026-11-16)
+- User explicitly authorizes ChatGPT to make the engineering and architecture decisions needed to complete the laptop-free ChatGPT → GitHub Actions → Tailscale/cellular → Xiaomi device-control workflow. Do not repeatedly ask the user to approve ordinary engineering choices, code edits, commits, tests, workflow changes, diagnostics or safe retries.
+- Proceed autonomously within available authenticated GitHub/tool permissions; inspect, implement, validate, monitor available run logs, and update durable handoff files.
+- This standing authorization does NOT override Android OS permission prompts, Google Play/Android security boundaries, GitHub/Tailscale account authorization, secret provisioning, or irreversible/destructive operations. If an on-device permission must be granted by the user, explain the exact one-time prompt/action only when the implementation reaches that step. Never bypass OS security.
+- Preserve the existing BAD GYM installation and all app data. No uninstall, data clear, signing bypass, public ADB ingress, or secret disclosure.
+- Be explicit about actual capability: GitHub Actions are finite jobs; do not claim persistent monitoring, live ADB control, installation, or screenshots without fresh evidence.
