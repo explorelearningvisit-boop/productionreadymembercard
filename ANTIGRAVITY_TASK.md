@@ -123,3 +123,13 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - Tests in `test/widget_test.dart`: default dashboard, four tabs, Attendance Trend and Record rail. CI run 43925111976: format PASS, analyze PASS, Flutter tests PASS; Android APK build still in progress at handoff.
 - Missing source data must not be fabricated: workout set/load history, payment transactions and body measurements are not connected.
 - Next: inspect final run and artifact; then install only as a separate user-approved device QA step and compare a fresh Xiaomi 11i screenshot to the provided references. Do not call it pixel-perfect before screenshot comparison.
+
+
+## 2026-11-16 — Gold Design Lab APK built; physical QA pending
+- Successful GitHub Actions run: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/43925111976
+- Build commit: `0a1e88d7860a68050874865c308acf6ade7c4594`
+- Artifact ID: `14255597205`; artifact expires 2026-11-30.
+- APK: `app-release.apk`, 59,579,893 bytes; SHA-256: `f159b4925f78480d65e6979100c48b7a6d26575877aa2071f81cbd7330d8ede0`.
+- Format, analyze, Flutter tests, Android APK build and artifact upload all PASS.
+- This is the isolated `com.badgym.designlab` evaluation app. Production `main` / `com.badgym.bad_gym` has not been modified.
+- Physical Xiaomi install/launch/screenshot and pixel-level comparison remain NOT VERIFIED. Do not label the build production-ready or pixel-perfect until those checks are completed.
