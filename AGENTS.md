@@ -1,72 +1,93 @@
-> **CURRENT DESIGN AUTHORITY (2026-11-15):** Read [CURRENT_DESIGN_SPEC.md](CURRENT_DESIGN_SPEC.md) first. The latest approved UI is the user's red/crimson/gold/white BAD GYM reference. Royal Purple / Neon-Glow is historical and superseded. Member profile card must use a coordinated red treatment including payment, expiry and membership progress; vertical rail is burgundy/red. Do not hardcode the old purple design. Device verification is 100% automated via Tailscale CI artifacts.
+# BAD GYM — Repository Rules for Every AI Agent
 
-# BAD GYM — Production Project Execution Rules & Device Connection Protocol
+> **MANDATORY FIRST READ:** `docs/AI_CONTEXT_BOOTSTRAP.md`. It is the entry point for every fresh ChatGPT, Antigravity, Claude, IDE agent, or human contributor. Then read `AI_SYNC_STATE.json`, `CURRENT_DESIGN_SPEC.md`, `ANTIGRAVITY_TASK.md`, and the latest entries in `AI_SHARED_COMMUNICATION_HUB.md`.
 
-## 🎯 MAIN PROJECT SOURCE OF TRUTH
-- **Sole Primary Project**: `C:\Users\User\AndroidStudioProjects\productionreadymembercard`
-- **Remote Repository**: `https://github.com/explorelearningvisit-boop/productionreadymembercard.git`
-- **Active Branch**: `main`
-- **Application ID**: `com.badgym.bad_gym`
-- **Main Launcher Activity**: `com.badgym.bad_gym/.MainActivity`
-- *Note*: `badnewgym` is deleted and obsolete. All work, commits, builds, tests, and deployments occur strictly in `productionreadymembercard`.
+## Canonical project identity
+- Repository: https://github.com/explorelearningvisit-boop/productionreadymembercard
+- Branch: `main` (check remote state before editing; do not assume local checkout is current).
+- App: Flutter/Dart, Android + iOS target; Android package `com.badgym.bad_gym`; launcher `com.badgym.bad_gym/.MainActivity`.
+- Primary local path historically used: `C:\Users\User\AndroidStudioProjects\productionreadymembercard` (verify on the actual machine).
+- `badnewgym` is obsolete. Never edit it.
+- GitHub is the shared durable source of truth. Do not rely on chat memory.
 
----
+## Required session protocol
+1. Fetch latest `main`; inspect `git status` and recent commits before any edits.
+2. Read the mandatory context documents above and inspect the actual source files relevant to the task.
+3. Read latest CI run and artifacts before assuming build/device state.
+4. Record the user's new requirement in `docs/DECISION_LOG.md` before/with implementation when it changes architecture, product behaviour, design, security, or workflow.
+5. Make the smallest coherent change. Preserve unrelated Antigravity/ChatGPT work; never overwrite uninspected changes.
+6. Run `dart format`, `flutter analyze`, `flutter test`, and the appropriate build. Report exact outcomes.
+7. Update `AI_SYNC_STATE.json` and append a timestamped entry to `AI_SHARED_COMMUNICATION_HUB.md` with files, commit, tests, CI run, device QA, blockers, and next action.
+8. Commit/push to the agreed branch. Do not claim a push, build, install, screenshot, or pixel verification unless the corresponding tool/run artifact proves it.
+9. If another agent has made newer commits, inspect and reconcile them before writing. Never force-push or blindly reset.
 
-## 📱 LIFETIME DEVICE CONNECTION PROFILE
+## Authority and conflict resolution
+1. Latest explicit user instruction in the current task.
+2. Latest dated accepted decision in `docs/DECISION_LOG.md`.
+3. `CURRENT_DESIGN_SPEC.md` for visual authority.
+4. `AI_SYNC_STATE.json` for current machine-readable status.
+5. `ANTIGRAVITY_TASK.md` and `AI_SHARED_COMMUNICATION_HUB.md` for handoff/history.
+6. Older prose, screenshots, historical notes, and stale prompts are not authority if superseded.
+When two docs conflict, do not silently choose: resolve against dated user decision and update the stale document in the same change.
 
-| Parameter | Value | Details |
-| :--- | :--- | :--- |
-| **Model** | **Xiaomi 11i 5G** (`21091116I`) | Android 13, MIUI, 1080×2400 @ 2.75x |
-| **Channel A (Wired USB)** | `zxdada69gunb7ls4` | Fast direct ADB debugging |
-| **Channel B (Tailscale Wireless)** | `100.123.18.54` | Private mesh VPN network |
-| **Wireless Port** | `5555` | Target: `100.123.18.54:5555` |
-| **Tailscale Hostname** | `Xiaomi 11i` | Configured in Tailscale network |
+## Product/UI invariants
+- Mobile-first compact Member Intelligence experience. Preserve the existing approved card structure and real device constraints; do not invent a new layout unless asked.
+- Four horizontal intelligence tabs, in order: Attendance, Workout, Payment, Body.
+- Keep the member identity/payment/expiry context clear. Attendance is the default tab unless the user changes it.
+- The current visual authority is only the latest approved image/spec recorded in `CURRENT_DESIGN_SPEC.md`; historical purple and other superseded concepts must not be revived without explicit approval.
+- Do not add redundant labels, duplicate menus, Smart Insight or bottom summary strips that the user explicitly removed.
+- Do not use static images for live data charts, progress bars, status indicators, or interactive controls. Render data-driven UI in Flutter.
 
----
+## Device profile and debugging assumptions
+- Primary test device: Xiaomi 11i 5G, model `21091116I`, Android 13 / MIUI, 1080×2400 physical pixels, approx. 2.75 device scale.
+- Tailscale node identity/IP previously observed: `Xiaomi 11i` / `100.123.18.54`. Treat IP as an observed current value, not an eternal guarantee.
+- USB ADB serial previously observed: `zxdada69gunb7ls4`; verify with `adb devices -l` at runtime.
+- User has explicitly stated USB debugging, Wireless debugging, and MIUI security-related debugging settings are normally enabled and configured. Do not patronizingly repeat basic "turn debugging on" instructions. Diagnose actual evidence first. Android may disable Wireless Debugging after a phone power cycle; the user has acknowledged this specific reboot behaviour and will re-enable it when needed.
+- Wireless Debugging connect port is dynamic. Latest user-provided endpoint at time of this document: `100.123.18.54:37337`. This is a transient observation only. Never hardcode it as a permanent port or assume 5555.
+- Pairing port/code and ADB connect port are different. Never confuse them. Pairing identity is long-lived; connect port can change.
 
-## ⚡ AUTOMATIC DUAL-CHANNEL FALLBACK WORKFLOW
+## Network operating environments (must all be supported)
+The user's laptop and Xiaomi may use different and changing uplinks:
+- Home: both on same Wi-Fi.
+- Laptop on user's own phone hotspot; Xiaomi on mobile data or another network.
+- Laptop on a third-party phone hotspot; Xiaomi on mobile data/Wi-Fi.
+- User's phone hotspot shared to another phone, then laptop joins that phone's hotspot.
+- Laptop on USB tethering from any phone.
+- Laptop on Ethernet/wired LAN while Xiaomi uses Wi-Fi or cellular.
+- Network transitions between Wi-Fi, mobile data, hotspots, USB tethering and Ethernet.
+Do not assume same LAN, same subnet, same gateway, stable DHCP address, or mDNS visibility. mDNS is LAN-only and is not a cross-internet discovery mechanism.
 
-Whenever installing, testing, debugging, or taking screenshots:
-1. **Check Wired Connection**:
-   - Check `adb devices`.
-   - If `zxdada69gunb7ls4` is connected as `device`:
-     - Keep TCP mode enabled: `adb -s zxdada69gunb7ls4 tcpip 5555`.
-     - Target commands directly with `-s zxdada69gunb7ls4`.
-2. **Fallback to Tailscale Wireless**:
-   - If wired is not connected, immediately connect to Tailscale:
-     `adb connect 100.123.18.54:5555`
-   - Target commands directly with `-s 100.123.18.54:5555`.
-3. **Screen Wake & Screenshot Verification**:
-   - Wake display and dismiss keyguard:
-     `adb -s <target> shell input keyevent 224`
-     `adb -s <target> shell wm dismiss-keyguard`
-     `adb -s <target> shell am start -n com.badgym.bad_gym/.MainActivity`
-   - Capture live screenshot:
-     `adb -s <target> shell screencap -p /sdcard/bad_gym_live.png`
-     `adb -s <target> pull /sdcard/bad_gym_live.png docs/screenshots/`
+## Intended network/device architecture
+- Tailscale provides the stable private device identity/overlay path when both endpoints are online and ACLs permit. Prefer Tailscale DNS/peer identity over changing LAN IPs.
+- ADB transport is a separate layer. Tailscale Online does not prove ADB TCP reachability, pairing, authorization, or an open port.
+- Discover the current Wireless Debugging connect endpoint after reconnect/reboot; validate with an actual TCP/ADB handshake. Do not infer the port from the pairing screen.
+- Prefer USB ADB when physically connected and authorized; otherwise use verified Wireless ADB over LAN or Tailscale.
+- mDNS may be used only as an optional same-LAN discovery hint. It must not be required for remote/mobile-data/hotspot scenarios.
+- Desired future improvement: replace static `ANDROID_DEVICE_PORTS_JSON` mapping with an authenticated device-side discovery/agent or explicit user-approved endpoint registration. This is an architecture target, **not yet implemented**. Until then the current workflow still expects the encrypted GitHub secret mapping.
+- Never expose ADB publicly. Restrict Tailscale ACLs to the CI runner and approved device/port. No open router port-forwarding.
+- Do not promise automatic reconnection while the phone is powered off or Wireless Debugging is disabled by Android after reboot. Recovery begins only after the phone is on, network/Tailscale is online, and Wireless Debugging is available.
 
----
+## Security and secrets
+- Never commit or print tokens, Tailscale auth keys, OAuth secrets, ADB private keys, pairing codes, keystores, passwords, or secret values.
+- Secrets belong only in GitHub Actions encrypted secrets or a dedicated secret manager.
+- A previously exposed Tailscale auth key and ADB private-key material are documented as compromised/exposed. Rotate/revoke them in their respective admin consoles before production use; do not reuse old material.
+- Old documentation contained a literal credential and stale port claims. Those values must not be copied into prompts or used.
+- Never automatically uninstall the user's app or wipe app data to fix signing/install issues. Ask first if destructive migration is required.
 
-## 🏗️ BUILD & TEST COMMANDS
-- Static Analysis: `flutter analyze` (Strict 0 errors/warnings)
-- Test Suite: `flutter test`
-- Build APK: `flutter build apk --debug`
+## Build and QA commands
+```bash
+flutter pub get
+dart format --output=none lib test
+flutter analyze --no-fatal-infos
+flutter test --reporter expanded
+flutter build apk --release
+```
+Current authoritative workflow: `.github/workflows/android-cloud-device.yml`. Read it before changing CI. Build/test success and physical-device QA success are separate statuses.
 
----
-
-## ☁️ ZERO-LAPTOP CLOUD CI/CD & AI AUTOMATION PIPELINE
-
-### 1. Fully Autonomous Workflow
-1. **AI / ChatGPT Development**: AI agent writes/modifies Flutter code and pushes commits directly to `main` branch on GitHub.
-2. **Cloud Runner Build (GitHub Actions)**:
-   - Ubuntu Linux Cloud Runner sets up Java JDK 17 & Flutter SDK.
-   - Runs `flutter analyze`, `flutter test`, and Gradle build (`flutter build apk --release`).
-   - Generates release APK artifact in the cloud.
-3. **Over-The-Air Install & Live Screenshot (Tailscale)**:
-   - Cloud Runner connects to user's phone via Tailscale: `adb connect 100.123.18.54:5555`.
-   - Installs the latest APK (`adb install -r`).
-   - Launches app: `am start -n com.badgym.bad_gym/.MainActivity`.
-   - Captures live screenshot and automatically commits it to `docs/screenshots/bad_gym_live.png` with `[skip ci]`.
-4. **AI Visual Verification**:
-   - ChatGPT / AI agent directly inspects `docs/screenshots/bad_gym_live.png` from the repository.
-   - Zero manual screenshots from user; zero laptop dependencies.
+## Completion report format
+- Changed files + commit SHA
+- Tests/analysis/build with exact result
+- Latest GitHub Actions run URL and status
+- Device: Tailscale status, ADB status, install status, launch status, screenshot artifact status separately
+- Known blockers and one next action
+Never call it production-ready or pixel-perfect without current device evidence.
