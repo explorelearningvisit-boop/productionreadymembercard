@@ -48,3 +48,14 @@
 
 ## Mandatory continuous-observation requirement (2026-11-16)
 Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENTS.md` + `docs/AI_CONTEXT_BOOTSTRAP.md`. User requires all collaborating agents to inspect timestamped active task/run telemetry, changed files and logs through supported authenticated tools, diagnose failures, apply minimal safe fixes, validate and write durable handoffs. Do not claim live/per-second observation unless an actual persistent watcher is running and returning fresh events. The persistent observer + GitHub event ingestion + bounded recovery implementation is tracked in issue #5: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/5. Coordinate deferred Xiaomi install work with issue #2. Current implementation status: contract documented; watcher NOT YET IMPLEMENTED.
+
+
+## 2026-11-16 — ACTIVE: laptop-free ChatGPT ↔ Xiaomi command channel (Issue #6)
+- Laptop is stolen/unavailable: do not require local USB, Windows Local Agent, local terminal or laptop runner.
+- User sends voice/text commands in ChatGPT. Target is ChatGPT/GitHub Actions → private Tailscale/cellular transport → Xiaomi 11i → timestamped command result/evidence.
+- Audit Android 13/MIUI feasibility first. Direct ADB is available only if a device-side ADB daemon is enabled, reachable and paired. Tailscale API is not an ADB executor.
+- If Wireless Debugging is unavailable on cellular, evaluate an authenticated phone-side companion service with outbound connection, command allowlist, foreground heartbeat, explicit user-approved AccessibilityService for gestures, MediaProjection consent for screenshots and PackageInstaller user-confirmed update. Do not promise silent install.
+- Preserve currently installed BAD GYM package/data and signing continuity. No uninstall, pm clear, data wipe or signature bypass.
+- Current GitHub Actions already installs adb and joins tailnet but requires static ANDROID_DEVICE_PORTS_JSON; latest device QA failed at ADB connectivity. User screenshot shows Wireless Debugging OFF.
+- Implementation specification and acceptance tests: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/6
+- Acceptance: with laptop absent and Xiaomi on Jio cellular, ChatGPT-originated harmless test command reaches phone and returns fresh timestamped evidence; then consented update-in-place and screenshot/log verification.
