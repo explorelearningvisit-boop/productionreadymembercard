@@ -33,7 +33,7 @@ void main() {
     expect(find.text('81%'), findsWidgets);
     expect(find.text('Workout'), findsWidgets);
     expect(find.text('58 min'), findsOneWidget);
-    expect(find.text('Payment'), findsOneWidget);
+    expect(find.text('Payment'), findsWidgets);
     expect(find.text('₹500'), findsOneWidget);
     expect(find.text('Body'), findsOneWidget);
     expect(find.text('69.5 kg'), findsOneWidget);
@@ -89,6 +89,11 @@ void main() {
     await tester.tap(find.text('58 min'));
     await tester.pumpAndSettle();
     expect(find.text('Workout Intelligence'), findsOneWidget);
+
+    // Tap Payment quick stat tab
+    await tester.tap(find.text('₹500').first);
+    await tester.pumpAndSettle();
+    expect(find.text('Payment Intelligence'), findsOneWidget);
 
     // Tap Body quick stat tab
     await tester.tap(find.text('69.5 kg'));
