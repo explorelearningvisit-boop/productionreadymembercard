@@ -24,3 +24,12 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 - Remove duplicate check-in/QR label, gym-floor label, Smart Insight and bottom Streak/Best/Plan Days/Next Goal strip.
 - Preserve member identity, payment state, expiry and membership progress.
 - CURRENT_DESIGN_SPEC.md is current palette/layout authority; historical themes are not authority.
+
+
+## 2026-11-16 — Deferred install while Xiaomi is powered off
+- User is powering off the Xiaomi 11i and explicitly requires the pending BAD GYM installation to remain a durable task, then resume when the phone is powered on and reachable.
+- A fully powered-off Android device cannot receive an APK. Treat this as `WAITING_FOR_DEVICE_POWER_ON`, not as an installation failure.
+- On a later run, verify Tailscale peer identity, current Wireless Debugging connect endpoint, TCP reachability, ADB transport and authorization separately; then install the latest approved APK in place, launch, smoke-test and capture fresh logs/screenshots.
+- Preserve app data. Never automatically uninstall or wipe to resolve signature/install errors. Classify failures and retain artifacts; use bounded backoff and avoid overlapping installs. Resume on later scheduled/manual attempts until success or a user-action blocker.
+- Current workflow only skips offline devices and still relies on `ANDROID_DEVICE_PORTS_JSON`; durable deferred queue, dynamic port discovery and retry/reconnect loop are not implemented yet.
+- Tracking: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/2
