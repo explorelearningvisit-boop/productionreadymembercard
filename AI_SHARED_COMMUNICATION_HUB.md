@@ -247,3 +247,11 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - Device QA failed at ADB connectivity. Supplied Wireless Debugging screen shows toggle OFF and Android requesting Wi-Fi. Do not reuse stale port 37337 or assume 5555. No fresh install, launch or screenshot verified.
 - Laptop-dependent local agent is not an acceptable deployment dependency. Investigate an authenticated phone-side deployment/heartbeat/bootstrap mechanism compatible with Android 13/MIUI and cellular/Tailscale. Determine Android's user-approved provisioning/install permission requirements; preserve existing BAD GYM data and package identity. Static endpoint mapping remains until dynamic discovery passes end-to-end tests.
 - GitHub Actions jobs are finite. Do not claim continuous observation or phone control until a connected endpoint and fresh timestamped evidence prove it.
+
+
+## 2026-11-16 — Phone command channel implementation issue opened
+- Created issue #6: https://github.com/explorelearningvisit-boop/productionreadymembercard/issues/6
+- Scope: laptop-free ChatGPT-originated device command path over cellular/Tailscale, Android 13/MIUI feasibility audit, authenticated phone-side agent, consent-gated accessibility/screenshot/package install, optional ADB transport, queue/retry/audit and end-to-end acceptance.
+- Current workflow already has Android platform-tools and ADB on GitHub-hosted runner; it joins Tailscale but uses static ADB port configuration. The phone screenshot shows Wireless Debugging OFF. Cloud ADB cannot reach the phone in this state.
+- The solution may require an Android-side companion/control service rather than pretending Tailscale API is ADB. Accessibility, screen capture and APK installation permissions require on-device user consent. Preserve existing BAD GYM data and signing identity.
+- No phone-side control code has been implemented yet; issue #6 is the active implementation backlog. No fresh device command, install or screenshot is claimed.
