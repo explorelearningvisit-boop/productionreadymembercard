@@ -77,3 +77,12 @@ Read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` before any work. Inspect actual co
 - This standing authorization does NOT override Android OS permission prompts, Google Play/Android security boundaries, GitHub/Tailscale account authorization, secret provisioning, or irreversible/destructive operations. If an on-device permission must be granted by the user, explain the exact one-time prompt/action only when the implementation reaches that step. Never bypass OS security.
 - Preserve the existing BAD GYM installation and all app data. No uninstall, data clear, signing bypass, public ADB ingress, or secret disclosure.
 - Be explicit about actual capability: GitHub Actions are finite jobs; do not claim persistent monitoring, live ADB control, installation, or screenshots without fresh evidence.
+
+
+## Latest user direction — compact workspace + in-app updates (2026-11-16)
+- Mandatory read before UI/release work: docs/UI_COMPACT_WORKSPACE_SPEC.md and docs/IN_APP_UPDATE_ARCHITECTURE.md.
+- Current tall scrollable dashboard and stacked attendance chart+calendar are rejected. Attendance > Calendar is the default; contextual rail switches one bounded widget at a time. Four quick tabs remain. Primary dashboard must not vertically scroll.
+- Use compact warm-ivory + crimson/red + restrained gold; semantic green/red/amber/grey. Remove competing lavender/purple and peach gradients.
+- In-app Update Center is accepted architecture, but not yet implemented. Compiled Flutter UI/logic changes require a new APK; no arbitrary Dart hot patch. Publish stable GitHub Releases (not expiring Actions artifacts), manifest, SHA-256 and changelog only after tests and protected signing. Installer is Android-approved and may require user confirmation.
+- Signing continuity is a hard gate: current CI APK is QA/debug signed and existing installed app fingerprint is unverified. Never uninstall or clear data to force update.
+- Append-only history: keep all prior records; update state/handoff after each task. Do not delete history.
