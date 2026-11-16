@@ -95,3 +95,10 @@ Read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` before any work. Inspect actual co
 - Stable release publishing is gated by four encrypted secrets: BADGYM_RELEASE_KEYSTORE_B64, BADGYM_RELEASE_STORE_PASSWORD, BADGYM_RELEASE_KEY_ALIAS, BADGYM_RELEASE_KEY_PASSWORD. Never use the default debug key for public stable releases. No release should be published until signing continuity is verified.
 - Current pubspec version is 0.2.0+2. Latest known CI run 43876682039 was cancelled before Flutter checks due rapid commits; check the newest Actions run.
 - Preserve full history. Append every agent handoff and release record; do not delete prior context.
+
+## Antigravity Windows full-run handoff — 2026-11-16
+- Before the next physical-device run, read `docs/ANTIGRAVITY_FULL_RUN_HANDOFF.md` in full. It contains the canonical PowerShell commands, exact test/build sequence, USB-first ADB and Tailscale Wireless Debugging fallback, safe launch/install gates, screenshots/logcat and GitHub report contract.
+- Laptop is now available for this specific local full-run. Antigravity's integrated terminal runs PowerShell/Flutter. The optional `tools/badgym_local_agent/` MCP has bounded tools only; it does not provide arbitrary shell or `flutter run`.
+- Latest known cloud APK build: version 0.2.0+2, run 43879102167 attempt 2, commit 70f943f09e0e528241fd8df64a9cb05a00d0af3b, artifact 14231087792, SHA-256 c9fe784ce1db28dc2d4fe85bdbedc218303b3a3a1af5dd522e3c3de595006f08. Cloud Xiaomi QA reported the peer offline at that time; check live.
+- Do not install/replace unless package/version/signing compatibility is verified. `flutter run` may replace the installed app with a locally debug-signed APK. Never uninstall or clear data.
+- Antigravity must write redacted evidence to `qa/local-runs/<timestamp>/RUN_REPORT.md`, update state and append-only hub, update ANTIGRAVITY_TASK, commit/push to GitHub and return exact URLs. ChatGPT will read the report on the next turn.
