@@ -109,7 +109,7 @@ class QuickStatsRow extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isSelected ? null : Colors.white,
             gradient: isSelected ? const LinearGradient(colors: [Color(0xFFFFF1F2), Color(0xFFFFFFFF)]) : null,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
@@ -184,11 +184,11 @@ class QuickStatsRow extends StatelessWidget {
                 ),
                 child: Text(
                   delta,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: BadGymTypography.fontHeading,
                     fontWeight: FontWeight.w800,
-                    fontSize: 8.5,
-                    color: Color(0xFF16A34A),
+                    fontSize: 7.5,
+                    color: isPositive ? const Color(0xFF16A34A) : const Color(0xFFDC2626),
                     height: 1.0,
                   ),
                 ),
