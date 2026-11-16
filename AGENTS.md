@@ -123,3 +123,10 @@ Never call it production-ready or pixel-perfect without current device evidence.
 - In-app Update Center is accepted architecture, but not yet implemented. Compiled Flutter UI/logic changes require a new APK; no arbitrary Dart hot patch. Publish stable GitHub Releases (not expiring Actions artifacts), manifest, SHA-256 and changelog only after tests and protected signing. Installer is Android-approved and may require user confirmation.
 - Signing continuity is a hard gate: current CI APK is QA/debug signed and existing installed app fingerprint is unverified. Never uninstall or clear data to force update.
 - Append-only history: keep all prior records; update state/handoff after each task. Do not delete history.
+
+## Antigravity Windows full-run protocol
+- When the task involves a local Windows build, `flutter run`, Xiaomi physical QA, screenshot, or Tailscale ADB, read `docs/ANTIGRAVITY_FULL_RUN_HANDOFF.md` before acting.
+- Use Antigravity's integrated terminal for PowerShell/Flutter; Local Agent MCP is bounded and does not expose arbitrary shell or `flutter run`.
+- USB ADB first; Tailscale + current Wireless Debugging endpoint second. Pairing and connect ports differ; never guess 5555.
+- Never uninstall/clear app data. Check package/version/signing certificate before in-place APK install; stop on signature mismatch.
+- Always commit a redacted run report under `qa/local-runs/<timestamp>/` and update AI_SYNC_STATE.json, append-only AI_SHARED_COMMUNICATION_HUB.md, and ANTIGRAVITY_TASK.md.
