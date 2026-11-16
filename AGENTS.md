@@ -106,3 +106,11 @@ Never call it production-ready or pixel-perfect without current device evidence.
 - Diagnose from full logs, make minimal safe fixes, validate, and write back state + handoff. Never fabricate telemetry or claim second-by-second monitoring from snapshot-only tools.
 - Persistent observation requires a separately running local observer/event consumer; GitHub Actions jobs and chat sessions are not perpetual processes. Implement and verify the watcher per the contract; until then label this capability NOT IMPLEMENTED.
 - Keep telemetry read-only/redacted by default; writes require least privilege, expected hashes, backups and explicit approval. Bounded retries only; no overlapping device installs, no public ADB, no automatic uninstall/data wipe.
+
+
+## User authorization — implementation autonomy (2026-11-16)
+- User explicitly authorizes ChatGPT to make the engineering and architecture decisions needed to complete the laptop-free ChatGPT → GitHub Actions → Tailscale/cellular → Xiaomi device-control workflow. Do not repeatedly ask the user to approve ordinary engineering choices, code edits, commits, tests, workflow changes, diagnostics or safe retries.
+- Proceed autonomously within available authenticated GitHub/tool permissions; inspect, implement, validate, monitor available run logs, and update durable handoff files.
+- This standing authorization does NOT override Android OS permission prompts, Google Play/Android security boundaries, GitHub/Tailscale account authorization, secret provisioning, or irreversible/destructive operations. If an on-device permission must be granted by the user, explain the exact one-time prompt/action only when the implementation reaches that step. Never bypass OS security.
+- Preserve the existing BAD GYM installation and all app data. No uninstall, data clear, signing bypass, public ADB ingress, or secret disclosure.
+- Be explicit about actual capability: GitHub Actions are finite jobs; do not claim persistent monitoring, live ADB control, installation, or screenshots without fresh evidence.
