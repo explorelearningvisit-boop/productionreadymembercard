@@ -2,6 +2,7 @@ import 'demo_auth_gate.dart';
 import 'operations.dart';
 import 'job_composer.dart';
 import 'role_dashboards.dart';
+import 'local_job_store.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const ArjunApp());
@@ -55,6 +56,21 @@ class Job {
   final String title, category, location, unit;
   final int rate, people;
   final bool urgent;
+
+  Map<String, dynamic> toJson() => {
+    'title': title, 'category': category, 'location': location,
+    'rate': rate, 'unit': unit, 'people': people, 'urgent': urgent,
+  };
+
+  factory Job.fromJson(Map<String, dynamic> json) => Job(
+    json['title'] as String? ?? 'काम',
+    json['category'] as String? ?? 'अन्य',
+    json['location'] as String? ?? '',
+    (json['rate'] as num?)?.toInt() ?? 0,
+    json['unit'] as String? ?? 'काम',
+    (json['people'] as num?)?.toInt() ?? 1,
+    json['urgent'] as bool? ?? false,
+  );
 }
 
 class AppShell extends StatefulWidget {
@@ -62,6 +78,8 @@ class AppShell extends StatefulWidget {
   @override State<AppShell> createState() => _AppShellState();
 }
 class _AppShellState extends State<AppShell> {
+  final LocalJobStore _jobStore = LocalJobStore();
+  bool _restoringJobs = true;
   UserRole role = UserRole.customer;
   int tab = 0;
   bool english = false;
@@ -71,6 +89,30 @@ class _AppShellState extends State<AppShell> {
     Job('ईंट-चिनाई के लिए मिस्त्री', 'Mason', 'शिवपुर, वाराणसी', 900, 'दिन', 2, false),
   ];
   String get greeting => english ? 'Namaste' : 'नमस्ते';
+
+  @override
+  void initState() {
+    super.initState();
+    _restoreLocalJobs();
+  }
+
+  Future<void> _restoreLocalJobs() async {
+    try {
+      final saved = await _jobStore.read();
+      if (!mounted) return;
+      setState(() {
+        jobs.insertAll(0, saved.map(Job.fromJson));
+        _restoringJobs = false;
+      });
+    } catch (_) {
+      if (mounted) setState(() => _restoringJobs = false);
+    }
+  }
+
+  Future<void> _persistLocalJobs() async {
+    await _jobStore.write(jobs.map((job) => job.toJson()).toList());
+  }
+
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
@@ -117,6 +159,7 @@ class _AppShellState extends State<AppShell> {
       jobs.insert(0, Job(draft.title, draft.category, draft.location, draft.rate, draft.unit, draft.people, draft.urgent));
       tab = 0;
     });
+    await _persistLocalJobs();
     _notice(draft.photoUrls.isEmpty
       ? 'काम का draft इस session में जोड़ा गया। Server पर job save अभी configure होना बाकी है।'
       : 'फोटो Cloud Storage पर upload हुईं; job record save integration अभी बाकी है।');
