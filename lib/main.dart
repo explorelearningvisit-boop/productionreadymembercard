@@ -33,7 +33,6 @@ class MemberDashboardPage extends StatefulWidget {
 }
 
 class _MemberDashboardPageState extends State<MemberDashboardPage> {
-  static const _gold = Color(0xFFFFC928);
   int _activeSection = 1;
   int _activeSubSection = 0;
   static const int _paymentDueInDays = 4;
