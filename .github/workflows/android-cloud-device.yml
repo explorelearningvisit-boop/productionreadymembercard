@@ -297,8 +297,61 @@ jobs:
                 adb -s "$serial" shell am force-stop com.badgym.designlab >/dev/null 2>&1 || true
                 if adb -s "$serial" shell monkey -p com.badgym.designlab 1 > "device-artifacts/${hostname}-launch.txt" 2>&1; then
                   sleep 6
+                  capture_dir="device-artifacts/ui-${hostname// /-}"
+                  mkdir -p "$capture_dir"
                   adb -s "$serial" exec-out screencap -p > "device-artifacts/${hostname}-screenshot.png" || result="SCREENSHOT_FAILED"
-                  adb -s "$serial" logcat -d -t 2000 > "device-artifacts/${hostname}-logcat.txt" || true
+
+                  # Capture the actual device UI through the already-paired ADB-over-Tailscale link.
+                  # Screenshots are uploaded as a timestamped GitHub Actions artifact.
+                  screen_size=$(adb -s "$serial" shell wm size | awk -F': ' '/Physical size/ {print $2}' | tail -n 1 | tr -d '\r')
+                  screen_w=${screen_size%x*}
+                  screen_h=${screen_size#*x}
+                  if [[ "$screen_w" =~ ^[0-9]+$ && "$screen_h" =~ ^[0-9]+$ ]]; then
+                    tap_ratio() {
+                      local xr="$1" yr="$2" name="$3"
+                      local x=$((screen_w * xr / 100))
+                      local y=$((screen_h * yr / 100))
+                      adb -s "$serial" shell input tap "$x" "$y"
+                      sleep 1
+                      adb -s "$serial" exec-out screencap -p > "$capture_dir/$name.png"
+                      printf '%s\t%s\t%s\n' "$(date -u +%FT%TZ)" "$name" "$x,$y" >> "$capture_dir/capture-index.tsv"
+                    }
+
+                    # Reset the scroll position and capture the member hero/header.
+                    for _ in 1 2 3; do
+                      adb -s "$serial" shell input swipe "$((screen_w / 2))" "$((screen_h * 28 / 100))" "$((screen_w / 2))" "$((screen_h * 78 / 100))" 320
+                    done
+                    sleep 1
+                    adb -s "$serial" exec-out screencap -p > "$capture_dir/00-member-header.png"
+
+                    # Move to the intelligence workspace, then inspect every primary rail destination.
+                    for _ in 1 2 3; do
+                      adb -s "$serial" shell input swipe "$((screen_w / 2))" "$((screen_h * 78 / 100))" "$((screen_w / 2))" "$((screen_h * 32 / 100))" 320
+                    done
+                    sleep 1
+                    adb -s "$serial" exec-out screencap -p > "$capture_dir/01-dashboard-workspace.png"
+                    tap_ratio 13 39 "02-dashboard"
+                    tap_ratio 13 47 "03-attendance"
+                    tap_ratio 13 55 "04-workout"
+                    tap_ratio 13 63 "05-payments"
+                    tap_ratio 13 71 "06-offers"
+                    tap_ratio 13 79 "07-history"
+                    tap_ratio 13 87 "08-body"
+
+                    # Attendance submenu states: Overview, Calendar, Trends, Streak.
+                    tap_ratio 13 47 "09-attendance-overview"
+                    tap_ratio 32 40 "10-attendance-calendar"
+                    tap_ratio 46 40 "11-attendance-trends"
+                    tap_ratio 60 40 "12-attendance-streak"
+                    # Verify vertical scrolling is responsive and capture the lower content.
+                    adb -s "$serial" shell input swipe "$((screen_w / 2))" "$((screen_h * 78 / 100))" "$((screen_w / 2))" "$((screen_h * 38 / 100))" 350
+                    sleep 1
+                    adb -s "$serial" exec-out screencap -p > "$capture_dir/13-attendance-scroll.png"
+                  else
+                    echo "::warning::Unable to parse Android display size; retained the initial device screenshot only."
+                  fi
+
+                  adb -s "$serial" logcat -d -t 3000 > "device-artifacts/${hostname}-logcat.txt" || true
                   [ "$result" != "SCREENSHOT_FAILED" ] && result="PASS"
                   tested=$((tested + 1))
                 else
