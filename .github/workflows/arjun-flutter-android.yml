@@ -82,7 +82,7 @@ jobs:
       - name: Build unsigned iOS app for simulator validation
         run: |
           flutter pub get
-          flutter build ios --simulator --no-codesign --release
+          flutter build ios --simulator --no-codesign
 
   phone-qa:
     if: github.event_name == 'workflow_dispatch' && inputs.deploy_to_phone == true
