@@ -1,3 +1,4 @@
+import 'operations.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const ArjunApp());
@@ -217,6 +218,8 @@ class ActivityPage extends StatelessWidget {
   final UserRole role; final List<Job> jobs;
   @override Widget build(BuildContext context) => ListView(padding: const EdgeInsets.all(20), children: [
     const Text('आपकी गतिविधि', style: TextStyle(fontSize: 23, fontWeight: FontWeight.w900, color: ink)),
+    const SizedBox(height: 14),
+    Card(child: ListTile(leading: const CircleAvatar(child: Icon(Icons.dashboard_customize)), title: const Text('सभी Operations मॉड्यूल'), subtitle: const Text('Job lifecycle, attendance, inspection, suppliers, payments'), trailing: const Icon(Icons.chevron_right), onTap: () => Navigator.push(context, MaterialPageRoute<void>(builder: (_) => const OperationsHub())))),
     const SizedBox(height: 14),
     _MetricRow(label: 'कुल उपलब्ध काम', value: '${jobs.length}', icon: Icons.work_outline, color: teal),
     _MetricRow(label: 'प्रक्रिया में', value: '0', icon: Icons.timelapse, color: saffron),
