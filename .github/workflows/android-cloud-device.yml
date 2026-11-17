@@ -343,8 +343,12 @@ jobs:
                       tap_capture 11 87 "10-attendance-goal" "Monthly consistency goal"
                     fi
                     if grep -q "mResumedActivity.*com.badgym.designlab\|topResumedActivity.*com.badgym.designlab" "$capture_dir/activity-state.txt"; then
-                      result="PASS"
-                      tested=$((tested + 1))
+                      if [ "$interaction_failed" -eq 0 ]; then
+                        result="PASS"
+                        tested=$((tested + 1))
+                      else
+                        result="INTERACTION_QA_FAILED"
+                      fi
                     else
                       result="LAUNCH_STATE_UNCONFIRMED"
                     fi
