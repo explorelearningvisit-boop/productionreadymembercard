@@ -241,11 +241,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   DateTime get _monthDate => DateTime(_year, _month, 1);
   int get _daysInMonth => DateUtils.getDaysInMonth(_year, _month);
   int get _firstWeekdayOffset => (_monthDate.weekday + 6) % 7;
-  String get _monthLabel {
-    const names = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-    return names[_month - 1];
-  }
-
   DayKind _dayKind(int day) {
     if (_month == 10 && _year == 2026) {
       const fixture = <int, DayKind>{
@@ -293,7 +288,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   );
   int get _membershipDaysUsed => 22;
   int get _membershipDaysTotal => 30;
-  int get _membershipDaysLeft => 8;
   double get _membershipProgress => _membershipDaysUsed / _membershipDaysTotal;
 
   void _setTab(WorkspaceTab tab) {
