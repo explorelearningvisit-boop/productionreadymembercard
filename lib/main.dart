@@ -40,7 +40,13 @@ class MemberIntelligenceApp extends StatelessWidget {
                         colors: [t.background, t.backgroundEnd],
                       ),
                     ),
-                    child: Padding(
+                    child: Stack(children: [
+                      Positioned.fill(child: IgnorePointer(child: Opacity(
+                        opacity: t.dark ? .12 : .20,
+                        child: Image.asset('assets/images/bg_waves.png', fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => const SizedBox.shrink()),
+                      ))),
+                      Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -59,6 +65,7 @@ class MemberIntelligenceApp extends StatelessWidget {
                         ],
                       ),
                     ),
+                    ]),
                   ),
                 ),
               );
@@ -79,7 +86,7 @@ class MemberIntelligenceApp extends StatelessWidget {
           child: Container(
             width: height - 2, height: height - 2,
             decoration: t.panel(radius: 15, selected: true),
-            child: Icon(Icons.fitness_center_rounded, color: t.primary, size: 23),
+            child: Image.asset('assets/images/logo_dumbbell.png', fit: BoxFit.contain, errorBuilder: (_, __, ___) => Icon(Icons.fitness_center_rounded, color: t.primary, size: 23)),
           ),
         ),
         const SizedBox(width: 8),
@@ -173,7 +180,7 @@ class MemberIntelligenceApp extends StatelessWidget {
                   gradient: LinearGradient(colors: [t.secondary.withOpacity(.30), t.surfaceEnd]),
                 ),
                 child: Image.asset(
-                  'assets/images/avatar_ashwani_hq.png',
+                  'assets/extracted_new/target_avatar.png',
                   fit: BoxFit.cover,
                   alignment: Alignment.center,
                   errorBuilder: (_, __, ___) => Icon(Icons.person, color: t.primary, size: 56),
