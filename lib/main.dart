@@ -876,7 +876,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             Text(values[i].round().toString() + '%', style: TextStyle(color: t.cardText, fontSize: 6.5, fontWeight: FontWeight.w800)),
             const SizedBox(height: 3),
             Expanded(child: Align(alignment: Alignment.bottomCenter, child: Container(
-              width: 18, height: math.max(8, (values[i] / 100) * 110),
+              width: 18, height: math.max(8.0, (values[i] / 100) * 110).toDouble(),
               decoration: BoxDecoration(
                 gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [t.primary, t.secondary]),
                 borderRadius: BorderRadius.circular(t.style == 'athletic' ? 3 : 9),
