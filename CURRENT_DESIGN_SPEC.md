@@ -76,3 +76,34 @@ The user-provided image in the 2026-11-15 conversation is the latest approved vi
 - Calendar month controls use ivory/crimson and neutral holiday semantics; no lavender.
 - CI run 43877970432 confirmed format/analyze and exposed an unbounded FittedBox calendar-width constraint. Replaced it with a directly width-constrained calendar in commit 9739c832f4c1b117d7541a47a1fd5015864e95de. New CI run 43879102167 has format/analyze/tests passing; Android APK build is still in progress at this note.
 - Physical Xiaomi visual QA is still pending. Do not call the design pixel-perfect until a fresh screenshot from the Xiaomi is compared.
+
+
+## 2026-11-17 — Latest approved screenshot: ice-blue glass Member Intelligence
+
+**This dated user-provided screenshot supersedes all earlier visual palettes and layout descriptions above wherever they conflict.** Source: `/mnt/data/1000320035.jpg`, 1024 × 1536 px portrait. The screenshot includes the Android status and navigation areas; use it as a visual composition reference, not as dp dimensions.
+
+### Visual language
+- Pale ice-blue / cool cyan glass background with flowing water-wave highlights.
+- Translucent pearl-white glass cards, double white/cool-blue edge highlights, soft blue ambient shadows and rounded corners.
+- Navy headline/body typography; vivid blue primary controls; green checked-in/present/active, amber late/gold plan, red absent/payment due, neutral grey holiday/off.
+- Premium glossy 3D highlights and supplied 3D artwork where assets exist. No dark theme, crimson theme, ivory-only theme or purple dominant theme.
+
+### Exact screen hierarchy
+1. Header: dumbbell app mark, BAD GYM wordmark with blue GYM accent, Member Intelligence subtitle, glass search, notification bell with red 3 badge, QR scan action.
+2. Single member pass card: portrait at left; CHECKED-IN badge and date/time; full member name, ID, age, gender; Active and Gold Plan badges; QR at right. Bottom row contains membership days/progress/percentage and expiry/days-left. Keep all identity and membership data in this single card.
+3. Horizontal sponsored festival banner: Amazon brand block, Great Indian Festival badge, up to 40% off fitness/wellness, gym product art, Sponsored label.
+4. Four equal-width KPI cards in one row: Attendance (green donut +6%), Workout (58 min +12% mini-bars), Payment (₹500 Due + cashback), Body (69.5 kg −0.8 kg).
+5. Large intelligence workspace: narrow vertical left rail (Calendar, Trend, History, Insight, Goal); default Attendance Intelligence content has month selector, weekday headers, circular day-status calendar, right-side 81% donut, counts/progress bars for Present/Late/Absent/Holiday, and 5-day streak.
+6. Bottom glass AI Insights strip: AI Insights label, Attendance +6% vs last month, Best Streak 14 Days, forward chevron.
+
+### Responsive implementation rules
+- Preserve this exact hierarchy and relative visual weight on a 360dp-wide phone.
+- Keep the primary dashboard bounded and non-scrollable; compress section heights responsively while preserving readable type and a useful attendance workspace.
+- Calendar default is October 2026 for the supplied fixture; use model-driven dates/statuses. Sunday/off uses a neutral disabled treatment and holiday is neutral grey.
+- Real scannable member QR, not a decorative QR glyph.
+- The sponsored banner is a compact horizontal promo; do not replace it with the older oversized protein-burger banner.
+- Tabs and rail controls replace the workspace content in place. No duplicate member payment/progress cards.
+- Do not invent extra sections or change the visual system without a new explicit user reference.
+
+### Implementation status
+ChatGPT's independent implementation is in `lib/presentation/reference_member_dashboard.dart`, launched by `lib/main.dart`. Visual QA is pending until the latest CI release APK is built and compared against a fresh Xiaomi 11i capture. Never claim pixel-perfect or production-ready without that evidence.
