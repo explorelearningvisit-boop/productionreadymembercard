@@ -596,7 +596,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
 
   Widget _promotionStrip(double height) {
-    final promo = t.id % 2 == 0 ? 'assets/promo/promo_burger.png' : 'assets/promo/promo_protein_bar.png';
+    final promo = t.art;
     return Container(
       height: height,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -607,7 +607,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           Text('Fitness & Wellness  ·  Up to 40% OFF', maxLines: 1, overflow: TextOverflow.ellipsis,
             style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w800)),
         ])),
-        SizedBox(width: 56, height: height - 5, child: Image.asset(promo, fit: BoxFit.contain,
+        SizedBox(width: 66, height: height - 5, child: Image.asset(promo, fit: BoxFit.contain,
           errorBuilder: (_, __, ___) => Icon(Icons.local_offer_rounded, color: t.primary, size: 28))),
         const SizedBox(width: 5),
         Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
