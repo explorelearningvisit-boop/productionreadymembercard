@@ -56,7 +56,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             final h = constraints.maxHeight;
             final compact = h < 690;
             final headerH = compact ? 44.0 : 54.0;
-            final profileH = compact ? 178.0 : 210.0;
+            final profileH = compact ? 198.0 : 230.0;
             final promoH = compact ? 54.0 : 74.0;
             final statsH = compact ? 76.0 : 104.0;
             final insightH = compact ? 40.0 : 54.0;
@@ -227,7 +227,8 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     ),
     child: Row(mainAxisSize: MainAxisSize.min, children: [
       Icon(icon, size: 10, color: fg), const SizedBox(width: 2),
-      Text(text, style: TextStyle(color: fg, fontSize: 8.2, fontWeight: FontWeight.w900)),
+      Flexible(child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: fg, fontSize: 8.2, fontWeight: FontWeight.w900))),
     ]),
   );
 
