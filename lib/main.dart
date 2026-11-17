@@ -805,8 +805,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         border: Border.all(color: t.border, width: .8),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Text(title, style: TextStyle(color: t.cardText, fontSize: 12, fontFamily: 'Poppins', fontWeight: FontWeight.w800)),
-        const SizedBox(height: 4),
+        if (title.isNotEmpty) Text(title, style: TextStyle(color: t.cardText, fontSize: 12, fontFamily: 'Poppins', fontWeight: FontWeight.w800)),
+        if (title.isNotEmpty) const SizedBox(height: 4),
         Expanded(child: child),
       ]),
     );
@@ -851,7 +851,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       ])));
     }
     return _innerPanel(
-      title: 'Attendance Intelligence',
+      title: '',
       child: Column(children: [
         SizedBox(height: 54, child: Row(children: [
           SizedBox(width: 50, height: 50, child: Stack(alignment: Alignment.center, children: [
