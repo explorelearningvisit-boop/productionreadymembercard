@@ -11,7 +11,8 @@ void main() {
     expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
   });
 
-  testWidgets('switches intelligence sections from the vertical rail', (tester) async {
+  testWidgets('switches intelligence sections from the vertical rail',
+      (tester) async {
     await tester.pumpWidget(const MemberIntelligenceApp());
     await tester.tap(find.text('Workout').last);
     await tester.pumpAndSettle();
