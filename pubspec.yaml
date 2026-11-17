@@ -19,7 +19,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/avatar_ashwani_hq.png
+    - assets/
   fonts:
     - family: Poppins
       fonts:
