@@ -1,0 +1,112 @@
+name: ARJUN Flutter Android Build and Tailscale QA
+
+on:
+  push:
+    branches: [feature/arjun-flutter-marketplace]
+    paths:
+      - "apps/arjun_flutter/**"
+      - ".github/workflows/arjun-flutter-android.yml"
+  pull_request:
+    branches: [feature/arjun-flutter-marketplace]
+  workflow_dispatch:
+    inputs:
+      deploy_to_phone:
+        description: "Attempt install on the configured, ADB-authorized Android phone"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: arjun-android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: apps/arjun_flutter
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Generate Android platform project
+        run: flutter create --platforms=android --org in.arjun --project-name arjun_app .
+      - name: Dependencies and quality checks
+        run: |
+          flutter pub get
+          dart format --output=none --set-exit-if-changed lib test
+          flutter analyze
+          flutter test --reporter expanded
+      - name: Build Android release APK
+        run: flutter build apk --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: arjun-android-qa-${{ github.sha }}
+          path: apps/arjun_flutter/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 14
+
+  phone-qa:
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_to_phone == true
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: arjun-android-qa-${{ github.sha }}
+          path: dist
+      - name: Join Tailnet using GitHub OIDC
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          audience: ${{ secrets.TS_AUDIENCE }}
+          tags: tag:ci
+          timeout: 3m
+      - name: Restore paired ADB identity
+        env:
+          ADB_KEY: ${{ secrets.DEVICE_ADB_PRIVATE_KEY_B64 }}
+        run: |
+          test -n "$ADB_KEY" || { echo "Missing paired ADB host key secret"; exit 1; }
+          mkdir -p "$HOME/.android"
+          printf '%s' "$ADB_KEY" | base64 --decode > "$HOME/.android/adbkey"
+          chmod 600 "$HOME/.android/adbkey"
+      - name: Connect and install on configured phone
+        env:
+          DEVICE_IP: ${{ secrets.DEVICE_TAILSCALE_IP }}
+          DEVICE_PORT: ${{ secrets.DEVICE_ADB_PORT }}
+        run: |
+          set -euo pipefail
+          test -n "$DEVICE_IP" && test -n "$DEVICE_PORT"
+          adb start-server
+          tailscale ping --timeout=10s "$DEVICE_IP"
+          adb connect "$DEVICE_IP:$DEVICE_PORT"
+          adb -s "$DEVICE_IP:$DEVICE_PORT" get-state
+          adb -s "$DEVICE_IP:$DEVICE_PORT" install -r dist/app-release.apk
+          adb -s "$DEVICE_IP:$DEVICE_PORT" shell monkey -p in.arjun.arjun_app 1
+          sleep 5
+          mkdir -p evidence
+          adb -s "$DEVICE_IP:$DEVICE_PORT" exec-out screencap -p > evidence/arjun-phone.png
+          adb -s "$DEVICE_IP:$DEVICE_PORT" logcat -d -t 1200 > evidence/arjun-logcat.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: arjun-phone-qa-${{ github.sha }}
+          path: evidence/
+          if-no-files-found: warn
+          retention-days: 14
