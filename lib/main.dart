@@ -35,6 +35,16 @@ class MemberDashboardPage extends StatefulWidget {
 class _MemberDashboardPageState extends State<MemberDashboardPage> {
   static const _gold = Color(0xFFFFC928);
   int _activeSection = 1;
+  int _activeSubSection = 0;
+  static const int _paymentDueInDays = 4;
+  static const double _paymentDueAmount = 500;
+  double get _earlyPaymentRate {
+    if (_paymentDueInDays >= 7) return .02;
+    if (_paymentDueInDays >= 3) return .01;
+    if (_paymentDueInDays >= 1) return .005;
+    return 0;
+  }
+  double get _earlyPaymentSavings => _paymentDueAmount * _earlyPaymentRate;
   int _month = 10;
   int _year = 2026;
 
@@ -79,6 +89,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         'Payment Intelligence',
         'Offers & Rewards',
         'Member History',
+        'Body Intelligence',
       ][_activeSection];
 
   void _changeMonth(int delta) {
@@ -143,7 +154,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                         _memberHero(),
                         const SizedBox(height: 10),
                         _paymentAndExpiry(),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 5),
+                        _earlyPaymentOffer(),
+                        const SizedBox(height: 7),
                         _membershipProgress(),
                         const SizedBox(height: 12),
                         _promotionBanner(),
@@ -300,16 +313,19 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             ),
           ),
           Positioned(
-            left: -2,
-            bottom: 0,
-            width: 154,
-            height: 174,
-            child: Image.asset(
-              'assets/images/avatar_ashwani_hq.png',
-              fit: BoxFit.contain,
-              alignment: Alignment.bottomCenter,
-              errorBuilder: (_, __, ___) => const Center(
-                child: Icon(Icons.person, color: Colors.white70, size: 100),
+            left: 0,
+            bottom: 3,
+            width: 140,
+            height: 140,
+            child: ClipOval(
+              child: Image.asset(
+                'assets/images/avatar_ashwani_hq.png',
+                fit: BoxFit.cover,
+                alignment: Alignment.topCenter,
+                errorBuilder: (_, __, ___) => const ColoredBox(
+                  color: Color(0xFFFFD7EA),
+                  child: Icon(Icons.person, color: Color(0xFF9B004A), size: 82),
+                ),
               ),
             ),
           ),
@@ -458,6 +474,42 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     );
   }
 
+  Widget _earlyPaymentOffer() {
+    final rate = _earlyPaymentRate;
+    final savings = _earlyPaymentSavings;
+    final savingsText = savings == savings.roundToDouble()
+        ? savings.toStringAsFixed(0)
+        : savings.toStringAsFixed(2);
+    final rateText = rate == .005 ? '0.5' : (rate * 100).toStringAsFixed(0);
+    final message = rate > 0
+        ? 'Pay within $_paymentDueInDays days · Save $rateText% (₹$savingsText)'
+        : 'Due today or overdue · No early-payment discount';
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFE3F1),
+        borderRadius: BorderRadius.circular(13),
+        border: Border.all(color: const Color(0xFFFFA6CE)),
+      ),
+      child: Row(children: [
+        Icon(rate > 0 ? Icons.local_offer_rounded : Icons.info_outline_rounded,
+            color: const Color(0xFFB00055), size: 16),
+        const SizedBox(width: 6),
+        Expanded(
+          child: Text(
+            rate > 0 ? 'DUE SOON  ·  $message' : message,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+                color: Color(0xFF7C003B),
+                fontSize: 8.5,
+                fontWeight: FontWeight.w800),
+          ),
+        ),
+      ]),
+    );
+  }
+
   Widget _membershipProgress() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -572,38 +624,10 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _quickMetrics() {
     final items = [
-      (
-        Icons.calendar_month_rounded,
-        'Attendance',
-        '81%',
-        '+6%',
-        const Color(0xFFFFC928),
-        const Color(0xFF087F25)
-      ),
-      (
-        Icons.fitness_center_rounded,
-        'Workout',
-        '58 min',
-        '+12%',
-        const Color(0xFFEA0068),
-        Colors.white
-      ),
-      (
-        Icons.account_balance_wallet_rounded,
-        'Payment',
-        '₹500 Due',
-        'SBI offer',
-        const Color(0xFFEA0068),
-        Colors.white
-      ),
-      (
-        Icons.monitor_weight_rounded,
-        'Body',
-        '69.5 kg',
-        '−0.8 kg',
-        const Color(0xFFEA0068),
-        Colors.white
-      ),
+      (Icons.calendar_month_rounded, 'Attendance', '81%', '+6%', 1),
+      (Icons.fitness_center_rounded, 'Workout', '58 min', '+12%', 2),
+      (Icons.account_balance_wallet_rounded, 'Payment', '₹500 Due', 'Due soon', 3),
+      (Icons.monitor_weight_rounded, 'Body', '69.5 kg', '−0.8 kg', 6),
     ];
     return SizedBox(
       height: 61,
@@ -612,19 +636,16 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           final item = items[i];
           return Expanded(
             child: GestureDetector(
-              onTap: () => setState(() => _activeSection = i == 0
-                  ? 1
-                  : i == 1
-                      ? 2
-                      : i == 2
-                          ? 3
-                          : 0),
+              onTap: () => setState(() {
+                _activeSection = item.$5;
+                _activeSubSection = 0;
+              }),
               child: Container(
                 margin: EdgeInsets.only(right: i == 3 ? 0 : 5),
                 padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      colors: item.$5 == _gold
+                      colors: _activeSection == item.$5
                           ? [const Color(0xFFFFE65B), const Color(0xFFFFBE16)]
                           : [const Color(0xFFE90068), const Color(0xFF9B004A)]),
                   borderRadius: BorderRadius.circular(15),
@@ -640,7 +661,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(item.$1,
-                          color: item.$5 == _gold
+                          color: _activeSection == item.$5
                               ? const Color(0xFF7D1634)
                               : Colors.white,
                           size: 14),
@@ -648,7 +669,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                           fit: BoxFit.scaleDown,
                           child: Text(item.$2,
                               style: TextStyle(
-                                  color: item.$5 == _gold
+                                  color: _activeSection == item.$5
                                       ? const Color(0xFF381321)
                                       : Colors.white,
                                   fontSize: 7,
@@ -657,7 +678,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                           fit: BoxFit.scaleDown,
                           child: Text(item.$3,
                               style: TextStyle(
-                                  color: item.$5 == _gold
+                                  color: _activeSection == item.$5
                                       ? const Color(0xFF087F25)
                                       : Colors.white,
                                   fontSize: 11,
@@ -666,7 +687,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                           fit: BoxFit.scaleDown,
                           child: Text(item.$4,
                               style: TextStyle(
-                                  color: item.$5 == _gold
+                                  color: _activeSection == item.$5
                                       ? const Color(0xFF087F25)
                                       : const Color(0xFFFFC4E2),
                                   fontSize: 8,
@@ -712,10 +733,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               children: [
                 _workspaceHeader(),
                 const SizedBox(height: 8),
-                if (_activeSection == 1 || _activeSection == 0)
-                  _attendanceContent()
-                else
-                  _alternateContent(),
+                _sectionSubnav(),
+                const SizedBox(height: 7),
+                _sectionContent(),
               ],
             ),
           ),
@@ -731,7 +751,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       'Workout',
       'Payments',
       'Offers',
-      'History'
+      'History',
+      'Body'
     ];
     const icons = [
       Icons.dashboard_rounded,
@@ -739,7 +760,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       Icons.fitness_center_rounded,
       Icons.account_balance_wallet_rounded,
       Icons.sell_rounded,
-      Icons.history_rounded
+      Icons.history_rounded,
+      Icons.monitor_weight_rounded
     ];
     return Container(
       width: 61,
@@ -762,7 +784,10 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         children: List.generate(labels.length, (i) {
           final active = _activeSection == i;
           return GestureDetector(
-            onTap: () => setState(() => _activeSection = i),
+            onTap: () => setState(() {
+              _activeSection = i;
+              _activeSubSection = 0;
+            }),
             child: Container(
               height: 61,
               margin: const EdgeInsets.symmetric(vertical: 3),
@@ -1124,54 +1149,325 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             .toList());
   }
 
-  Widget _alternateContent() {
-    final title = _activeSection == 2
-        ? 'Workout minutes · last 7 days'
-        : _activeSection == 3
-            ? 'Payment activity · last 6 months'
-            : _activeSection == 4
-                ? 'Member offers & rewards'
-                : _activeSection == 5
-                    ? 'Recent member activity'
-                    : 'Member overview';
+  Widget _sectionContent() {
+    if (_activeSection == 0) return _attendanceContent();
+    if (_activeSection == 1) return _attendanceSubContent();
+    return _alternateContent();
+  }
+
+  List<String> get _subSections => const [
+        ['Overview', 'Activity'],
+        ['Overview', 'Calendar', 'Trends', 'Streak'],
+        ['Overview', 'Last 7 days', 'Muscle groups', 'Consistency'],
+        ['Overview', 'Transactions', 'Due & Offers'],
+        ['Available', 'Early-pay', 'Rewards'],
+        ['Timeline', 'Check-ins', 'Payments'],
+        ['Overview', 'Composition', 'Measurements', 'Progress'],
+      ][_activeSection];
+
+  Widget _sectionSubnav() {
+    return SizedBox(
+      height: 31,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: _subSections.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 5),
+        itemBuilder: (context, index) {
+          final active = _activeSubSection == index;
+          return GestureDetector(
+            onTap: () => setState(() => _activeSubSection = index),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: active ? const Color(0xFFFFD12D) : Colors.white,
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(
+                    color: active
+                        ? const Color(0xFFFFF1A8)
+                        : const Color(0xFFF0B7D2)),
+                boxShadow: active
+                    ? const [BoxShadow(color: Color(0x66FFC928), blurRadius: 6)]
+                    : null,
+              ),
+              child: Text(_subSections[index],
+                  style: TextStyle(
+                      color: active
+                          ? const Color(0xFF57152B)
+                          : const Color(0xFF7A1646),
+                      fontSize: 8,
+                      fontWeight: FontWeight.w800)),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _attendanceSubContent() {
+    switch (_activeSubSection) {
+      case 1:
+        return Column(children: [_calendarCard(), const SizedBox(height: 6), _legend()]);
+      case 2:
+        return Column(children: [
+          _attendanceContent().children == null
+              ? const SizedBox.shrink()
+              : _attendanceAnalytics(),
+          _monthlyTrend(),
+        ]);
+      case 3:
+        return _sectionCard('Attendance streaks', Column(children: [
+          _metricRow('Current streak', '5 days', const Color(0xFF08B72B)),
+          _metricRow('Best streak', '14 days', const Color(0xFFB000E8)),
+          _metricRow('Present this month', '25 of 31 days', const Color(0xFF08B72B)),
+          _metricRow('Late arrivals', '2 this month', const Color(0xFFFFBD16)),
+        ]));
+      default:
+        return _attendanceContent();
+    }
+  }
+
+  Widget _attendanceAnalytics() {
+    return Row(children: [
+      SizedBox(
+        width: 82,
+        height: 82,
+        child: CustomPaint(
+          painter: _DonutPainter(value: 25 / 31),
+          child: const Center(child: Text('81%',
+              style: TextStyle(color: Color(0xFF280B1B), fontSize: 21,
+                  fontWeight: FontWeight.w900))),
+        ),
+      ),
+      const SizedBox(width: 8),
+      Expanded(child: Column(children: [
+        _progressLine('Present', '25', '81%', const Color(0xFF08B82B), .81),
+        _progressLine('Absent', '2', '6%', const Color(0xFFE91D3D), .06),
+        _progressLine('Holiday', '4', '13%', const Color(0xFFB100E8), .13),
+        _progressLine('Payment', '1 / 1', '100%', const Color(0xFFFFBD16), 1),
+      ])),
+    ]);
+  }
+
+  Widget _sectionCard(String title, Widget child) {
     return Container(
-      constraints: const BoxConstraints(minHeight: 260),
-      padding: const EdgeInsets.all(12),
+      width: double.infinity,
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: Colors.white.withOpacity(.78),
-          borderRadius: BorderRadius.circular(17),
-          border: Border.all(color: const Color(0xFFF0C2D9))),
+        color: Colors.white.withOpacity(.88),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFF0C2D9)),
+      ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title,
-            style: const TextStyle(
-                color: Color(0xFF69002F),
-                fontSize: 12,
-                fontWeight: FontWeight.w800)),
-        const SizedBox(height: 12),
-        SizedBox(
-            height: 105,
-            child: CustomPaint(
-                painter: _BarsPainter(
-                    values: const [.35, .52, .42, .8, .62, .9, .72]))),
-        const SizedBox(height: 12),
+        Text(title, style: const TextStyle(
+            color: Color(0xFF69002F), fontSize: 11, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 9),
+        child,
+      ]),
+    );
+  }
+
+  Widget _metricRow(String label, String value, Color color) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      child: Row(children: [
+        Container(width: 8, height: 8, decoration: BoxDecoration(
+            color: color, shape: BoxShape.circle)),
+        const SizedBox(width: 7),
+        Expanded(child: Text(label, style: const TextStyle(
+            color: Color(0xFF4D2639), fontSize: 9, fontWeight: FontWeight.w600))),
+        Text(value, style: TextStyle(
+            color: color, fontSize: 10, fontWeight: FontWeight.w900)),
+      ]),
+    );
+  }
+
+  Widget _barChart(List<double> values, {double height = 86}) {
+    return SizedBox(
+      height: height,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: values.map((value) => Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: (height - 8) * value.clamp(.05, 1),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    colors: [Color(0xFFE50062), Color(0xFFFF8BC2)],
+                  ),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+          ),
+        )).toList(),
+      ),
+    );
+  }
+
+  Widget _alternateContent() {
+    switch (_activeSection) {
+      case 2:
+        return _workoutContent();
+      case 3:
+        return _paymentContent();
+      case 4:
+        return _offersContent();
+      case 5:
+        return _historyContent();
+      case 6:
+        return _bodyContent();
+      default:
+        return _attendanceContent();
+    }
+  }
+
+  Widget _workoutContent() {
+    final title = _activeSubSection == 2 ? 'Muscle group balance' :
+        _activeSubSection == 3 ? 'Workout consistency · 30 days' :
+        _activeSubSection == 1 ? 'Workout minutes · last 7 days' :
+        'Workout performance';
+    return Column(children: [
+      _sectionCard(title, Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(children: [
-          _miniValue(
-              'This month',
-              _activeSection == 2
-                  ? '58 min'
-                  : _activeSection == 3
-                      ? '₹4,500'
-                      : '22 days',
-              const Color(0xFF08A82B)),
+          _miniValue('This month', '58 min/day', const Color(0xFF08A82B)),
           const SizedBox(width: 7),
           _miniValue('Change', '+12%', const Color(0xFFB000E8)),
         ]),
         const SizedBox(height: 12),
-        const Text(
-            'Detailed member insights are grouped here for quick review.',
-            style: TextStyle(color: Color(0xFF604354), fontSize: 9)),
-      ]),
-    );
+        _barChart(_activeSubSection == 2
+            ? const [.8, .55, .9, .65, .72, .45, .84]
+            : const [.35, .52, .42, .8, .62, .9, .72]),
+        const SizedBox(height: 5),
+        const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text('Mon', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+          Text('Tue', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+          Text('Wed', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+          Text('Thu', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+          Text('Fri', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+          Text('Sat', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+          Text('Sun', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+        ]),
+      ])),
+      const SizedBox(height: 7),
+      _sectionCard('Training summary', Column(children: [
+        _metricRow('Strength training', '4 sessions', const Color(0xFFE50062)),
+        _metricRow('Cardio', '2 sessions', const Color(0xFF08A82B)),
+        _metricRow('Rest / recovery', '1 day', const Color(0xFFB000E8)),
+      ])),
+    ]);
+  }
+
+  Widget _paymentContent() {
+    final dueLabel = _paymentDueInDays > 0
+        ? 'Due in $_paymentDueInDays days'
+        : _paymentDueInDays == 0 ? 'Due today' : 'Overdue';
+    final savings = _earlyPaymentSavings;
+    final savingsText = savings == savings.roundToDouble()
+        ? savings.toStringAsFixed(0) : savings.toStringAsFixed(2);
+    return Column(children: [
+      _sectionCard(_activeSubSection == 1 ? 'Recent transactions' :
+          _activeSubSection == 2 ? 'Due date & early-pay offer' : 'Payment overview',
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            _miniValue('Outstanding', '₹500', const Color(0xFFE50062)),
+            const SizedBox(width: 7),
+            _miniValue('Last payment', '₹4,500', const Color(0xFF08A82B)),
+          ]),
+          const SizedBox(height: 10),
+          _metricRow('Next payment', dueLabel, const Color(0xFFE50062)),
+          _metricRow('Early-pay reward', _earlyPaymentRate > 0
+              ? 'Save ₹$savingsText' : 'No discount', const Color(0xFF08A82B)),
+          const SizedBox(height: 8),
+          _barChart(const [.3, .55, .42, .72, .58, .9], height: 58),
+          const Text('Payment history · May to October 2026',
+              style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+        ]),
+      ),
+      const SizedBox(height: 7),
+      _sectionCard('Early payment discount', Column(children: [
+        _metricRow('7+ days early', '2% off', const Color(0xFF08A82B)),
+        _metricRow('3–6 days early', '1% off', const Color(0xFF08A82B)),
+        _metricRow('1–2 days early', '0.5% off', const Color(0xFFFFA900)),
+        _metricRow('Due date / overdue', 'No discount', const Color(0xFFE91D3D)),
+      ])),
+    ]);
+  }
+
+  Widget _offersContent() {
+    return Column(children: [
+      _sectionCard(_activeSubSection == 2 ? 'Member rewards' :
+          _activeSubSection == 1 ? 'Pay early, save more' : 'Available member offers',
+        Column(children: [
+          _metricRow('7+ days before due date', '2% OFF', const Color(0xFF08A82B)),
+          _metricRow('3–6 days before due date', '1% OFF', const Color(0xFF08A82B)),
+          _metricRow('1–2 days before due date', '0.5% OFF', const Color(0xFFFFA900)),
+          _metricRow('On / after due date', '0% OFF', const Color(0xFFE91D3D)),
+          const SizedBox(height: 7),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(9),
+            decoration: BoxDecoration(color: const Color(0xFFFFE5F2),
+                borderRadius: BorderRadius.circular(12)),
+            child: const Text('Example: ₹500 due · pay 4 days early · save ₹5',
+                style: TextStyle(color: Color(0xFF7C003B), fontSize: 8.5,
+                    fontWeight: FontWeight.w800)),
+          ),
+        ]),
+      ),
+    ]);
+  }
+
+  Widget _bodyContent() {
+    return Column(children: [
+      _sectionCard(_activeSubSection == 1 ? 'Body composition' :
+          _activeSubSection == 2 ? 'Measurements' :
+          _activeSubSection == 3 ? 'Body progress · 90 days' : 'Body intelligence',
+        Column(children: [
+          Row(children: [
+            _miniValue('Weight', '69.5 kg', const Color(0xFF08A82B)),
+            const SizedBox(width: 6),
+            _miniValue('Body fat', '18.4%', const Color(0xFFE50062)),
+          ]),
+          const SizedBox(height: 7),
+          Row(children: [
+            _miniValue('Muscle mass', '54.2 kg', const Color(0xFFB000E8)),
+            const SizedBox(width: 6),
+            _miniValue('BMI', '23.4', const Color(0xFF08A82B)),
+          ]),
+          const SizedBox(height: 9),
+          _barChart(const [.82, .78, .75, .72, .69, .66, .62], height: 65),
+          const Text('Weight trend · last 7 check-ins',
+              style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+        ]),
+      ),
+      const SizedBox(height: 7),
+      _sectionCard('Measurement tracking', Column(children: [
+        _metricRow('Chest', '98 cm  ·  +2 cm', const Color(0xFF08A82B)),
+        _metricRow('Waist', '82 cm  ·  −1 cm', const Color(0xFF08A82B)),
+        _metricRow('Arms', '34 cm  ·  +1 cm', const Color(0xFFB000E8)),
+      ])),
+    ]);
+  }
+
+  Widget _historyContent() {
+    final events = _activeSubSection == 1
+        ? const [('Check-in', 'Today · 07:12 AM', 'Completed'),
+            ('Check-out', 'Yesterday · 08:05 AM', 'Completed')]
+        : _activeSubSection == 2
+            ? const [('Payment', '02 Nov 2026', '₹4,500 received'),
+                ('Payment due', '17 Nov 2026', '₹500 pending')]
+            : const [('Check-in', 'Today · 07:12 AM', 'Completed'),
+                ('Workout', 'Today · 07:50 AM', '58 minutes'),
+                ('Payment', '02 Nov 2026', '₹4,500 received'),
+                ('Membership', '24 Oct 2026', 'Renewed')];
+    return _sectionCard('Member activity timeline', Column(children: events.map((event) =>
+      _metricRow(event.$1 + ' · ' + event.$2, event.$3, const Color(0xFF08A82B))
+    ).toList()));
   }
 
   Widget _miniValue(String label, String value, Color color) => Expanded(
