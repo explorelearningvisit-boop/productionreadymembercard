@@ -831,47 +831,15 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _attendanceCalendar() {
-    final days = <Widget>[];
-    for (var i = 0; i < _firstWeekdayOffset; i++) {
-      days.add(const SizedBox.shrink());
-    }
-    for (var day = 1; day <= _daysInMonth; day++) {
-      final kind = _dayKind(day);
-      final isToday = _year == _today.year && _month == _today.month && day == _today.day;
-      final isSunday = DateTime(_year, _month, day).weekday == DateTime.sunday;
-      final semanticColor = switch (kind) {
-        DayKind.present => t.success,
-        DayKind.late => t.warning,
-        DayKind.absent => t.danger,
-        DayKind.holiday || DayKind.off => t.muted,
-      };
-      days.add(Center(child: Container(
-          width: 31, height: 29,
-          decoration: BoxDecoration(
-            color: isToday ? t.primary.withOpacity(.10) : Colors.transparent,
-            borderRadius: BorderRadius.circular(7),
-            border: Border.all(color: isToday ? t.primary : t.border.withOpacity(.65), width: isToday ? 1.5 : .7),
-          ),
-          alignment: Alignment.center,
-          child: Stack(alignment: Alignment.center, children: [
-            Padding(padding: EdgeInsets.only(bottom: isSunday || kind == DayKind.holiday ? 5 : 0),
-              child: Text(day.toString(), style: TextStyle(
-                color: semanticColor,
-                fontSize: 10, fontWeight: FontWeight.w800,
-              ))),
-            if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: t.muted, fontSize: 7.2, height: 1, fontWeight: FontWeight.w800))),
-            if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(color: t.muted, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800))),
-          ]),
-        )));
-    }
-    while (days.length < 42) { days.add(const SizedBox.shrink()); }
     return _innerPanel(
       title: '',
       child: Column(children: [
         SizedBox(height: 62, child: Row(children: [
           SizedBox(width: 58, height: 58, child: Stack(alignment: Alignment.center, children: [
             SizedBox.expand(child: CircularProgressIndicator(
-              value: _attendanceRate / 100, strokeWidth: 4.5, backgroundColor: t.neutral,
+              value: _attendanceRate / 100,
+              strokeWidth: 4.5,
+              backgroundColor: t.neutral,
               valueColor: AlwaysStoppedAnimation<Color>(t.primary),
             )),
             Column(mainAxisSize: MainAxisSize.min, children: [
@@ -879,45 +847,111 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               Text('25 / 31', style: TextStyle(color: t.softText, fontSize: 10, fontWeight: FontWeight.w700)),
             ]),
           ])),
-          const SizedBox(width: 5),
+          const SizedBox(width: 6),
           Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Row(children: [Expanded(child: _legendDot('Present 23', t.success)), Expanded(child: _legendDot('Late 2', t.warning))]),
-            const SizedBox(height: 5),
-            Row(children: [Expanded(child: _legendDot('Absent 2', t.danger)), Expanded(child: _legendDot('Holiday 4', t.secondary))]),
-          ])),
-          Container(width: 1, height: 44, color: t.border),
-          const SizedBox(width: 5),
-          SizedBox(width: 60, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(Icons.local_fire_department_rounded, color: t.warning, size: 11),
-              const SizedBox(width: 2),
-              Text('5D', style: TextStyle(color: t.cardText, fontSize: 10.5, fontWeight: FontWeight.w900)),
+            Row(children: [
+              Expanded(child: _legendDot('Present 23', t.success)),
+              Expanded(child: _legendDot('Late 2', t.warning)),
             ]),
-            const SizedBox(height: 4),
+            const SizedBox(height: 5),
+            Row(children: [
+              Expanded(child: _legendDot('Absent 2', t.danger)),
+              Expanded(child: _legendDot('Holiday 4', t.secondary)),
+            ]),
+          ])),
+          Container(width: 1, height: 46, color: t.border),
+          const SizedBox(width: 6),
+          SizedBox(width: 62, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(Icons.emoji_events_rounded, color: t.warning, size: 11),
-              const SizedBox(width: 2),
-              Text('14D', style: TextStyle(color: t.cardText, fontSize: 10.5, fontWeight: FontWeight.w900)),
+              Icon(Icons.local_fire_department_rounded, color: t.warning, size: 13),
+              const SizedBox(width: 3),
+              Text('5D', style: TextStyle(color: t.cardText, fontSize: 11.5, fontWeight: FontWeight.w900)),
+            ]),
+            const SizedBox(height: 5),
+            Row(mainAxisSize: MainAxisSize.min, children: [
+              Icon(Icons.emoji_events_rounded, color: t.warning, size: 13),
+              const SizedBox(width: 3),
+              Text('14D', style: TextStyle(color: t.cardText, fontSize: 11.5, fontWeight: FontWeight.w900)),
             ]),
           ])),
         ])),
-        const SizedBox(height: 4),
+        const SizedBox(height: 5),
         Row(children: const ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(
           child: Center(child: Text(d, style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.w900, color: Colors.grey))),
         )).toList()),
-        const SizedBox(height: 2),
+        const SizedBox(height: 3),
         Expanded(child: LayoutBuilder(builder: (context, constraints) {
-          final rowExtent = math.max(29.0, (constraints.maxHeight - 10) / 6).toDouble();
+          final rowExtent = ((constraints.maxHeight - 10) / 6).clamp(22.0, 34.0).toDouble();
+          final cellHeight = math.min(29.0, rowExtent - 2);
+          final cellWidth = math.min(31.0, cellHeight + 2);
+          final days = <Widget>[];
+          for (var i = 0; i < _firstWeekdayOffset; i++) {
+            days.add(const SizedBox.shrink());
+          }
+          for (var day = 1; day <= _daysInMonth; day++) {
+            final kind = _dayKind(day);
+            final isToday = _year == _today.year && _month == _today.month && day == _today.day;
+            final isSunday = DateTime(_year, _month, day).weekday == DateTime.sunday;
+            final semanticColor = switch (kind) {
+              DayKind.present => t.success,
+              DayKind.late => t.warning,
+              DayKind.absent => t.danger,
+              DayKind.holiday || DayKind.off => t.muted,
+            };
+            days.add(Center(child: SizedBox(
+              width: cellWidth,
+              height: cellHeight,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: isToday ? t.primary.withOpacity(.10) : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: isToday ? t.primary : t.border.withOpacity(.75),
+                    width: isToday ? 1.6 : .8,
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Stack(alignment: Alignment.center, children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: isSunday || kind == DayKind.holiday ? 5 : 0),
+                    child: Text(day.toString(), style: TextStyle(
+                      color: semanticColor,
+                      fontSize: cellHeight < 24 ? 8.5 : 10.5,
+                      fontWeight: FontWeight.w800,
+                    )),
+                  ),
+                  if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(
+                    color: t.muted, fontSize: 6.2, height: 1, fontWeight: FontWeight.w800,
+                  ))),
+                  if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(
+                    color: t.muted, fontSize: 6.2, height: 1, fontWeight: FontWeight.w800,
+                  ))),
+                ]),
+              ),
+            )));
+          }
+          while (days.length < 42) {
+            days.add(const SizedBox.shrink());
+          }
           return GridView.count(
-            crossAxisCount: 7, shrinkWrap: false, physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 1, crossAxisSpacing: 1, mainAxisExtent: rowExtent, childAspectRatio: 1.0, children: days,
+            crossAxisCount: 7,
+            shrinkWrap: false,
+            physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: 2,
+            crossAxisSpacing: 2,
+            mainAxisExtent: rowExtent,
+            childAspectRatio: 1.0,
+            children: days,
           );
         })),
-        const SizedBox(height: 2),
+        const SizedBox(height: 3),
         Wrap(alignment: WrapAlignment.spaceBetween, spacing: 3, runSpacing: 1, children: [
-          _legendDot('Present', t.success), _legendDot('Late', t.warning),
-          _legendDot('Absent $_absent', t.danger), _legendDot('Holiday $_holiday', t.secondary),
-          _legendDot('Off $_countOffDays', t.neutral), _legendDot('Today', t.primary),
+          _legendDot('Present', t.success),
+          _legendDot('Late', t.warning),
+          _legendDot('Absent $_absent', t.danger),
+          _legendDot('Holiday $_holiday', t.secondary),
+          _legendDot('Off $_countOffDays', t.neutral),
+          _legendDot('Today', t.primary),
         ]),
       ]),
     );
