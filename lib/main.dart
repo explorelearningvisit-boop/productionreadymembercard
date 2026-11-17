@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 void main() => runApp(const MemberIntelligenceApp());
@@ -277,7 +278,19 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   int get _holiday => List.generate(_daysInMonth, (i) => _dayKind(i + 1))
       .where((v) => v == DayKind.holiday).length;
   int get _tracked => _present + _late + _absent;
+  int get _countOffDays => List.generate(_daysInMonth, (i) => _dayKind(i + 1))
+      .where((v) => v == DayKind.off).length;
   int get _attendanceRate => _tracked == 0 ? 0 : ((_present + _late) * 100 / _tracked).round();
+
+  Widget _compactCount(String label, int value, Color color) => Row(
+    children: [
+      Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+      const SizedBox(width: 3),
+      Expanded(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: t.softText, fontSize: 6.2, fontWeight: FontWeight.w700))),
+      Text(value.toString(), style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w900)),
+    ],
+  );
   int get _membershipDaysUsed => 22;
   int get _membershipDaysTotal => 30;
   int get _membershipDaysLeft => 8;
@@ -369,7 +382,15 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: t.background,
-      body: SafeArea(
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: t.dark ? Brightness.light : Brightness.dark,
+          statusBarBrightness: t.dark ? Brightness.dark : Brightness.light,
+          systemNavigationBarColor: t.background,
+          systemNavigationBarIconBrightness: t.dark ? Brightness.light : Brightness.dark,
+        ),
+        child: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
             final compact = constraints.maxHeight < 650;
@@ -380,26 +401,46 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               child: SizedBox(
                 width: width,
                 height: constraints.maxHeight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _brandHeader(compact ? 38 : 43),
-                      SizedBox(height: gap),
-                      _memberCard(compact ? 91 : 104),
-                      SizedBox(height: gap),
-                      if (!ultraCompact) _promotionStrip(compact ? 36 : 43),
-                      if (!ultraCompact) SizedBox(height: gap),
-                      _quickMetrics(compact ? 58 : 66),
-                      SizedBox(height: gap),
-                      Expanded(child: _workspace()),
-                    ],
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [t.background, t.backgroundEnd],
+                    ),
                   ),
+                  child: Stack(children: [
+                    Positioned(
+                      right: -18, top: 48, width: 150, height: 110,
+                      child: IgnorePointer(child: Opacity(
+                        opacity: t.dark ? .12 : .16,
+                        child: Image.asset(t.art, fit: BoxFit.contain,
+                          errorBuilder: (_, __, ___) => const SizedBox.shrink()),
+                      )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _brandHeader(compact ? 38 : 43),
+                          SizedBox(height: gap),
+                          _memberCard(compact ? 91 : 104),
+                          SizedBox(height: gap),
+                          if (!ultraCompact) _promotionStrip(compact ? 36 : 43),
+                          if (!ultraCompact) SizedBox(height: gap),
+                          _quickMetrics(compact ? 58 : 66),
+                          SizedBox(height: gap),
+                          Expanded(child: _workspace()),
+                        ],
+                      ),
+                    ),
+                  ]),
                 ),
               ),
             );
           },
+        ),
         ),
       ),
     );
@@ -510,21 +551,26 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         ])),
         const SizedBox(height: 5),
         Row(children: [
-          Expanded(flex: 5, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('MEMBERSHIP  22 / 30 DAYS', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w800)),
+          Expanded(flex: 4, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('MEMBERSHIP  22 / 30 DAYS', style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w800)),
             const SizedBox(height: 3),
             ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(
               value: _membershipProgress, minHeight: 6, backgroundColor: t.neutral,
               valueColor: AlwaysStoppedAnimation<Color>(t.primary),
             )),
           ])),
-          const SizedBox(width: 8),
-          Expanded(flex: 4, child: Row(children: [
-            Icon(Icons.event_available_rounded, color: t.primary, size: 17),
-            const SizedBox(width: 3),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('8 DAYS LEFT', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w900)),
-              Text('Expires ' + _expiryLabel, style: TextStyle(color: t.softText, fontSize: 7, fontWeight: FontWeight.w600)),
+          const SizedBox(width: 6),
+          Expanded(flex: 2, child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text('PAYMENT', style: TextStyle(color: t.softText, fontSize: 6.5, fontWeight: FontWeight.w800)),
+            Text('₹500 DUE', style: TextStyle(color: t.danger, fontSize: 8.5, fontWeight: FontWeight.w900)),
+          ])),
+          const SizedBox(width: 5),
+          Expanded(flex: 3, child: Row(children: [
+            Icon(Icons.event_available_rounded, color: t.primary, size: 15),
+            const SizedBox(width: 2),
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text('8 DAYS LEFT', style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w900)),
+              Text('Expires ' + _expiryLabel, style: TextStyle(color: t.softText, fontSize: 6.5, fontWeight: FontWeight.w600)),
             ])),
           ])),
         ]),
@@ -759,6 +805,43 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     return _innerPanel(
       title: 'Monthly attendance  ·  $_attendanceRate%  ·  $_present present',
       child: Column(children: [
+        SizedBox(height: 43, child: Row(children: [
+          SizedBox(width: 42, height: 42, child: Stack(alignment: Alignment.center, children: [
+            SizedBox.expand(child: CircularProgressIndicator(
+              value: _attendanceRate / 100, strokeWidth: 5, backgroundColor: t.neutral,
+              valueColor: AlwaysStoppedAnimation<Color>(t.primary),
+            )),
+            Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
+          ])),
+          const SizedBox(width: 7),
+          Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(children: [
+              Expanded(child: _compactCount('Present', _present, t.success)),
+              Expanded(child: _compactCount('Late', _late, t.warning)),
+            ]),
+            const SizedBox(height: 3),
+            Row(children: [
+              Expanded(child: _compactCount('Absent', _absent, t.danger)),
+              Expanded(child: _compactCount('Off', _holiday + _countOffDays, t.neutral)),
+            ]),
+          ])),
+          const SizedBox(width: 5),
+          Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [
+            Row(mainAxisSize: MainAxisSize.min, children: [
+              Image.asset('assets/badges/streak_flame_hq.png', width: 16, height: 16,
+                errorBuilder: (_, __, ___) => Icon(Icons.local_fire_department_rounded, size: 15, color: t.primary)),
+              const SizedBox(width: 2),
+              Text('5 DAY STREAK', style: TextStyle(color: t.cardText, fontSize: 6.5, fontWeight: FontWeight.w900)),
+            ]),
+            Row(mainAxisSize: MainAxisSize.min, children: [
+              Image.asset('assets/badges/best_trophy_hq.png', width: 16, height: 16,
+                errorBuilder: (_, __, ___) => Icon(Icons.emoji_events_rounded, size: 15, color: t.secondary)),
+              const SizedBox(width: 2),
+              Text('BEST 14 DAYS', style: TextStyle(color: t.cardText, fontSize: 6.5, fontWeight: FontWeight.w900)),
+            ]),
+          ]),
+        ])),
+        const SizedBox(height: 4),
         Row(children: const ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(
           child: Center(child: Text(d, style: TextStyle(fontSize: 6.8, fontWeight: FontWeight.w900, color: Colors.grey))),
         )).toList()),
