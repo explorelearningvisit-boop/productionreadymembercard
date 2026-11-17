@@ -597,7 +597,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             style: TextStyle(color: Color(0xFF97004C), fontSize: 10, fontWeight: FontWeight.w900))),
         const Spacer(),
         const Icon(Icons.fitness_center_rounded, color: Color(0xFFEC62A4), size: 25),
-      ])),,
+      ])),
     ]);
   }
 
