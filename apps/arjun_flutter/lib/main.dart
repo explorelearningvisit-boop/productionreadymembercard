@@ -1,10 +1,11 @@
-import 'demo_auth_gate.dart';
-import 'operations.dart';
-import 'job_composer.dart';
-import 'role_dashboards.dart';
-import 'local_job_store.dart';
-import 'sponsored_placements.dart';
 import 'package:flutter/material.dart';
+
+import 'demo_auth_gate.dart';
+import 'job_composer.dart';
+import 'local_job_store.dart';
+import 'operations.dart';
+import 'role_dashboards.dart';
+import 'sponsored_placements.dart';
 
 void main() => runApp(const ArjunApp());
 
