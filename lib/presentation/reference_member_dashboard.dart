@@ -137,9 +137,9 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   );
 
   Widget _memberPass(bool compact) {
-    final avatar = compact ? 58.0 : 78.0;
+    final avatar = compact ? 52.0 : 78.0;
     return _glass(radius: 22, padding: const EdgeInsets.fromLTRB(9, 7, 9, 6), child: Column(children: [
-      SizedBox(height: compact ? 104 : 122, child: Row(children: [
+      SizedBox(height: compact ? 94 : 122, child: Row(children: [
         Container(
           width: avatar, height: avatar,
           decoration: BoxDecoration(
@@ -182,7 +182,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         ])),
         const SizedBox(width: 5),
         InkWell(onTap: () => MemberQrSheet.show(context, _data), child: Container(
-          width: compact ? 38 : 49, height: compact ? 38 : 49,
+          width: compact ? 34 : 49, height: compact ? 34 : 49,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: _line)),
           child: QrImageView(
@@ -240,16 +240,16 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     )),
     const SizedBox(width: 6),
     Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const Icon(Icons.auto_awesome_rounded, color: Color(0xFFE7A51B), size: 17),
-      const Text('Great Indian\nFestival', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF8A1C65), fontSize: 9.5, height: .95, fontWeight: FontWeight.w900)),
+      const Icon(Icons.auto_awesome_rounded, color: Color(0xFFE7A51B), size: 13),
+      const FittedBox(fit: BoxFit.scaleDown, child: Text('Great Indian\nFestival', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF8A1C65), fontSize: 8.4, height: .9, fontWeight: FontWeight.w900))),
     ])),
     const SizedBox(width: 5),
     Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const Text('Up to 40% OFF', maxLines: 1, style: TextStyle(color: _navy, fontSize: 9.2, fontWeight: FontWeight.w900)),
-      Text('Fitness & Wellness', maxLines: 1, style: TextStyle(color: _blue, fontSize: 8.5, fontWeight: FontWeight.w800)),
+      const FittedBox(fit: BoxFit.scaleDown, child: Text('Up to 40% OFF', maxLines: 1, style: TextStyle(color: _navy, fontSize: 8.4, fontWeight: FontWeight.w900))),
+      const FittedBox(fit: BoxFit.scaleDown, child: Text('Fitness & Wellness', maxLines: 1, style: TextStyle(color: _blue, fontSize: 7.6, fontWeight: FontWeight.w800))),
     ])),
     Expanded(flex: 2, child: Stack(alignment: Alignment.center, children: [
-      const Icon(Icons.fitness_center_rounded, color: _navy, size: 27),
+      const Icon(Icons.fitness_center_rounded, color: _navy, size: 22),
       Positioned(top: 0, right: 0, child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(color: _blue, borderRadius: BorderRadius.circular(9)),
@@ -282,7 +282,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             const SizedBox(height: 4),
             if (i == 0)
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                SizedBox(width: compact ? 38 : 44, height: compact ? 38 : 44, child: Stack(alignment: Alignment.center, children: [
+                SizedBox(width: compact ? 30 : 44, height: compact ? 30 : 44, child: Stack(alignment: Alignment.center, children: [
                   SizedBox.expand(child: CircularProgressIndicator(value: _data.attendanceRate / 100, strokeWidth: 5, backgroundColor: const Color(0xFFD7E9F9), valueColor: const AlwaysStoppedAnimation(_green))),
                   Text('${_data.attendanceRate}%', style: const TextStyle(color: _navy, fontSize: 11, fontWeight: FontWeight.w900)),
                 ])),
@@ -298,8 +298,8 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     }));
   }
 
-  Widget _miniBars() => SizedBox(height: 12, child: Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [5,8,10,12,13].map((h) => Container(
-    width: 5, height: h.toDouble(), margin: const EdgeInsets.symmetric(horizontal: 1),
+  Widget _miniBars() => SizedBox(height: 8, child: Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [5,8,10,12,13].map((h) => Container(
+    width: 4, height: (h * .65).toDouble(), margin: const EdgeInsets.symmetric(horizontal: 1),
     decoration: BoxDecoration(color: const Color(0xFF8B54E8), borderRadius: BorderRadius.circular(3)),
   )).toList()));
 
