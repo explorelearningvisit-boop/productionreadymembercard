@@ -4,7 +4,7 @@ import 'package:bad_gym/main.dart';
 
 void main() {
   testWidgets('renders the member intelligence dashboard without outer scrolling', (tester) async {
-    tester.view.physicalSize = const Size(393, 852);
+    tester.view.physicalSize = const Size(360, 700);
     tester.view.devicePixelRatio = 1;
     await tester.pumpWidget(const MemberIntelligenceApp());
     expect(find.text('CHECK-IN'), findsOneWidget);
