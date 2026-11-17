@@ -513,7 +513,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             child: ClipOval(child: Image.asset('assets/images/avatar_ashwani_hq.png',
               fit: BoxFit.cover, alignment: Alignment.topCenter,
               errorBuilder: (_, __, ___) => Container(color: t.surfaceEnd,
-                child: Icon(Icons.person, color: t.primary, size: 30)))),
+                child: Icon(Icons.person, color: t.primary, size: 28)))),
           ),
           const SizedBox(width: 7),
           Expanded(child: Column(
@@ -521,23 +521,21 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Row(children: [
-                _smallPill('✓ CHECKED-IN', t.success, Colors.white),
-                const SizedBox(width: 3),
+                Text('✓ CHECKED-IN', style: TextStyle(color: t.success, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
+                const SizedBox(width: 4),
                 Expanded(child: Text(_todayLabel, maxLines: 1,
                   overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
                   style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w700))),
               ]),
               Text('Ashwani Kumar Singh', maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontSize: 10.5, height: .95, fontWeight: FontWeight.w900)),
-              Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.softText, fontSize: 6.5, height: .95, fontWeight: FontWeight.w600)),
+                style: TextStyle(color: t.cardText, fontSize: 10, height: .95, fontWeight: FontWeight.w900)),
               Row(children: [
-                _smallPill('✓ Active', t.success, Colors.white),
-                const SizedBox(width: 4),
-                _smallPill('♛ Gold Plan', t.secondary,
-                  t.style == 'gold' || t.style == 'ruby'
-                    ? const Color(0xFF3C1900)
-                    : (t.dark ? t.ink : const Color(0xFF49300A))),
+                Expanded(child: Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: t.softText, fontSize: 6.2, height: 1, fontWeight: FontWeight.w600))),
+                const SizedBox(width: 3),
+                Text('✓ Active', style: TextStyle(color: t.success, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
+                const SizedBox(width: 3),
+                Text('♛ Gold', style: TextStyle(color: t.secondary, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
               ]),
             ],
           )),
@@ -556,44 +554,30 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         ])),
         const SizedBox(height: 3),
         Row(children: [
-          Expanded(flex: 4, child: Column(
+          Expanded(child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('MEMBERSHIP  22 / 30 DAYS',
-                style: TextStyle(color: t.cardText, fontSize: 7, fontWeight: FontWeight.w800)),
+              Text('MEMBERSHIP  22 / 30 DAYS', style: TextStyle(color: t.cardText, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800)),
               const SizedBox(height: 2),
               ClipRRect(borderRadius: BorderRadius.circular(10),
                 child: LinearProgressIndicator(
-                  value: _membershipProgress, minHeight: 5,
+                  value: _membershipProgress, minHeight: 4,
                   backgroundColor: t.neutral,
                   valueColor: AlwaysStoppedAnimation<Color>(t.primary),
                 )),
             ],
           )),
-          const SizedBox(width: 5),
-          Expanded(flex: 2, child: Column(
+          const SizedBox(width: 6),
+          Expanded(child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('PAYMENT', style: TextStyle(color: t.softText, fontSize: 6, fontWeight: FontWeight.w800)),
-              Text('₹500 DUE', style: TextStyle(color: t.danger, fontSize: 8, fontWeight: FontWeight.w900)),
+              Text('₹500 DUE  ·  8 DAYS LEFT', style: TextStyle(color: t.danger, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
+              Text('Expires ' + _expiryLabel, maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w600)),
             ],
           )),
-          const SizedBox(width: 4),
-          Expanded(flex: 3, child: Row(children: [
-            Icon(Icons.event_available_rounded, color: t.primary, size: 13),
-            const SizedBox(width: 2),
-            Expanded(child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('8 DAYS LEFT', style: TextStyle(color: t.cardText, fontSize: 7, fontWeight: FontWeight.w900)),
-                Text('Expires ' + _expiryLabel, maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: t.softText, fontSize: 6, fontWeight: FontWeight.w600)),
-              ],
-            )),
-          ])),
         ]),
       ]),
     );
