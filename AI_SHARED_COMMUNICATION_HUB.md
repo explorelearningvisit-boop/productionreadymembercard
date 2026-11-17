@@ -345,3 +345,14 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
   - `flutter build apk --release`: Successfully generated `build/app/outputs/flutter-apk/app-release.apk` (59.7 MB).
   - USB Direct In-Place Install: `adb -s zxdada69gunb7ls4 install -r build/app/outputs/flutter-apk/app-release.apk` -> `Success`. User data completely preserved.
   - Device Execution: Launched `com.badgym.bad_gym/.MainActivity` and captured physical screenshot to `docs/screenshots/bad_gym_live_screen.png`. Pixel-perfect visual match confirmed.
+
+
+### [2026-11-17 17:10 UTC] ChatGPT — independent screenshot-matched Member Intelligence implementation
+- **User direction**: ChatGPT must complete the full Flutter UI/UX independently; Antigravity's laptop-local work continues separately and is not a dependency. No further screenshot upload needed for the current reference.
+- **Visual authority verified**: reopened `/mnt/data/1000320035.jpg` (1024×1536). Latest screenshot shows ice-blue/cyan water-glass background, pearl glass cards, BAD GYM header with search/notification/QR, integrated member pass with QR/progress/expiry, sponsored Amazon festival banner, four KPI cards, left contextual rail + calendar + right attendance donut/summary, and bottom AI Insights.
+- **Code**: new `lib/presentation/reference_member_dashboard.dart`; `lib/main.dart` now launches it. New screen uses a bounded LayoutBuilder/Column, compact and regular sizing, in-place tab/rail switching, month calendar with status colors, right-side attendance summary, and footer insights. No primary vertical scroll.
+- **Member data**: sample name aligned to reference; QR code rendered using `qr_flutter`.
+- **Tests**: `test/widget_test.dart` rewritten to cover visual sections, 360dp compact viewport/no scrollables, tab and rail changes, and notification action.
+- **Design authority/state**: CURRENT_DESIGN_SPEC.md, docs/DECISION_LOG.md, docs/ANTIGRAVITY_MEMBER_INTELLIGENCE_REBUILD.md and AI_SYNC_STATE.json updated. Historical records retained.
+- **Branch**: `chatgpt/member-intelligence-mobile-rebuild`; latest UI commit `5800e6e47225fde652906783b9fb7b1d994cab58`. Main remains unchanged.
+- **Verification**: inspect latest Actions run and artifact after the last code commit. CI, APK generation, physical Xiaomi install/launch, and fresh screenshot comparison are separate; none is declared successful until verified from current run artifacts.
