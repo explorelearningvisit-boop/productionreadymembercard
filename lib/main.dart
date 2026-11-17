@@ -455,10 +455,18 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           child: const Icon(Icons.fitness_center_rounded, color: Colors.white, size: 24),
         ),
         const SizedBox(width: 8),
-        Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('BAD GYM', style: TextStyle(color: t.canvasText, fontSize: 20, height: 1, fontWeight: FontWeight.w900, letterSpacing: -.7)),
-          Text('Member Intelligence', style: TextStyle(color: t.softText, fontSize: 9, height: 1.2, fontWeight: FontWeight.w600)),
-        ])),
+        Expanded(child: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('BAD GYM', style: TextStyle(color: t.canvasText, fontSize: 20, height: 1, fontWeight: FontWeight.w900, letterSpacing: -.7)),
+              Text('Member Intelligence', style: TextStyle(color: t.softText, fontSize: 9, height: 1.2, fontWeight: FontWeight.w600)),
+            ],
+          ),
+        )),
         _headerAction(Icons.search_rounded, 'Search'),
         const SizedBox(width: 5),
         _headerAction(Icons.notifications_none_rounded, 'Notifications', badge: '3'),
