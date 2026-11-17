@@ -406,7 +406,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         ]),
       )));
     }
-    while (cells.length < 35) { cells.add(const SizedBox.shrink()); }
+    while (cells.length % 7 != 0) { cells.add(const SizedBox.shrink()); }
     return Column(children: [
       const Row(children: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(child: Center(child: Text(d, style: TextStyle(color: _navy, fontSize: 8.5, fontWeight: FontWeight.w900))))).toList()),
       const SizedBox(height: 3),
