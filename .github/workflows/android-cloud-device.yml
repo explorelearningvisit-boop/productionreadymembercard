@@ -313,8 +313,8 @@ jobs:
                     # because an optional tap or follow-up screenshot is flaky.
                     screen_size=$(adb_device shell wm size 2>/dev/null | awk -F': ' '/Physical size/ {print $2}' | tail -n 1 | tr -d '\r')
                     screen_w=${screen_size%x*}; screen_h=${screen_size#*x}
+                    interaction_failed=0
                     if [[ "$screen_w" =~ ^[0-9]+$ && "$screen_h" =~ ^[0-9]+$ ]]; then
-                      interaction_failed=0
                       tap_capture() {
                         local xr="$1" yr="$2" name="$3" expected="$4"
                         local x=$((screen_w * xr / 100)) y=$((screen_h * yr / 100))
