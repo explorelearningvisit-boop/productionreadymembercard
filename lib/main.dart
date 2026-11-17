@@ -213,7 +213,7 @@ class MemberIntelligenceApp extends StatelessWidget {
 
   Widget _earlyPaymentOffer() {
     final rate = _earlyPaymentRate;
-    final savingsText = _earlyPaymentSavings.toStringAsFixed(0);
+    final savingsText = _earlyPaymentSavings == _earlyPaymentSavings.roundToDouble() ? _earlyPaymentSavings.toStringAsFixed(0) : _earlyPaymentSavings.toStringAsFixed(2);
     final message = rate > 0
         ? 'DUE SOON  ·  Pay in $_paymentDueInDays days  ·  Save ' + (rate * 100).toStringAsFixed(rate == .005 ? 1 : 0) + '%  (₹' + savingsText + ')'
         : _paymentDueInDays == 0
@@ -479,7 +479,7 @@ class MemberIntelligenceApp extends StatelessWidget {
       SizedBox(width: 78, child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         _sideInsightCard(icon: Icons.query_stats_rounded, title: 'Monthly Trend',
           child: Column(children: [
-            SizedBox(height: 45, child: CustomPaint(painter: _BarsPainter(values: const [.25, .4, .48, .64, .8, .95]))),
+            SizedBox(height: 35, child: CustomPaint(painter: _BarsPainter(values: const [.25, .4, .48, .64, .8, .95]))),
             const Text('↑ 6% vs last month', style: TextStyle(color: Color(0xFF16843B), fontSize: 6.5, fontWeight: FontWeight.w900)),
           ])),
         const SizedBox(height: 5),
@@ -507,7 +507,7 @@ class MemberIntelligenceApp extends StatelessWidget {
         boxShadow: const [BoxShadow(color: Color(0x33E88DB6), blurRadius: 5)],
       ),
       child: Column(children: [
-        Icon(icon, color: const Color(0xFFB00059), size: 16),
+        Icon(icon, color: const Color(0xFFB00059), size: 14),
         const SizedBox(height: 2),
         Text(title, textAlign: TextAlign.center, maxLines: 1, overflow: TextOverflow.ellipsis,
           style: const TextStyle(color: Color(0xFF6C2949), fontSize: 6.5, fontWeight: FontWeight.w900)),
