@@ -37,3 +37,17 @@ Replace the current vertically scrolling, tall dashboard with a compact, fixed-v
 
 ## Historical design
 Previous full-height scrollable card, full chart+calendar stacked together, and unified tall outer frame are rejected by user's 2026-11-16 feedback. Retain older screenshots/logs as history; do not delete them or treat them as current visual authority.
+
+
+## 2026-11-17 — Latest screenshot supersedes previous palette
+The user supplied a new exact visual reference on 2026-11-17 (`/mnt/data/1000320035.jpg`, 1024×1536). This section supersedes the warm-ivory/crimson palette above wherever it conflicts. Keep the accepted fixed-viewport/no-scroll interaction model, four quick tabs, Attendance > Calendar default, and one bounded contextual widget, but apply the latest screenshot's **ice-blue/cyan water-glass + pearl white + navy + blue primary** visual system.
+
+The current screen composition is:
+- Ice-glass BAD GYM header with logo, search, notification count and QR action.
+- One integrated member/check-in/QR/membership-progress pass.
+- Compact Amazon Great Indian Festival sponsored banner.
+- Four compact KPI tiles (Attendance, Workout, Payment, Body).
+- Contextual vertical rail and Attendance calendar with right-side donut/counts/legend/streak.
+- Bottom AI Insights strip.
+
+Do not bring back the earlier red/ivory theme or older oversized Check-In hero / burger banner. ChatGPT is implementing this screen independently on `chatgpt/member-intelligence-mobile-rebuild`; Antigravity local work is separate. See `CURRENT_DESIGN_SPEC.md` and `docs/ANTIGRAVITY_MEMBER_INTELLIGENCE_REBUILD.md` for full source-of-truth details.
