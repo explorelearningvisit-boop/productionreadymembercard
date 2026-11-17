@@ -998,7 +998,7 @@ class MemberIntelligenceApp extends StatelessWidget {
       return _sectionCard('Recent transactions', Column(children: [
         _metricRow('02 Nov · Membership', '₹4,500 paid', const Color(0xFF16A653)),
         _metricRow('17 Nov · Monthly fee', '₹500 due', const Color(0xFFE34D65)),
-        _metricRow('Next reminder', _formatDate(_paymentDueDate), dueLabel, const Color(0xFF9860C5)),
+        _metricRow('Next reminder · ${_formatDate(_paymentDueDate)}', dueLabel, const Color(0xFF9860C5)),
       ]));
     }
     if (_activeSubSection == 2) {
