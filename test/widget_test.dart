@@ -20,4 +20,22 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Workout Intelligence'), findsOneWidget);
   });
+  testWidgets('uses the device current month and consistent membership expiry',
+      (tester) async {
+    await tester.pumpWidget(const MemberIntelligenceApp());
+    final today = DateTime.now();
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    final expiry = DateTime(today.year, today.month, today.day + 8);
+    final expiryLabel =
+        'Expires: ${expiry.day} ${months[expiry.month - 1].substring(0, 3)} ${expiry.year}';
+
+    expect(find.text('${months[today.month - 1]} ${today.year}'),
+        findsOneWidget);
+    expect(find.text('8 Days Left'), findsOneWidget);
+    expect(find.text(expiryLabel), findsOneWidget);
+  });
+
 }
