@@ -85,8 +85,8 @@ jobs:
           flutter build ios --simulator --no-codesign
 
   phone-qa:
-    if: needs.build.result == 'success' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy_to_phone == true))
     needs: build
+    if: needs.build.result == 'success' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy_to_phone == true))
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -98,43 +98,96 @@ jobs:
         with:
           name: arjun-android-demo-debug-${{ github.sha }}
           path: dist
-      - name: Join Tailnet using GitHub OIDC
+      - name: Install Android platform tools and jq
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y android-sdk-platform-tools jq
+      - name: Validate Tailnet and paired ADB configuration
+        id: check_keys
+        env:
+          ADB_KEY: ${{ secrets.DEVICE_ADB_PRIVATE_KEY_B64 }}
+          TS_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          TS_AUDIENCE: ${{ secrets.TS_AUDIENCE }}
+          TS_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY }}
+          DEVICE_IP: ${{ secrets.DEVICE_TAILSCALE_IP }}
+          DEVICE_PORTS_JSON: ${{ secrets.ANDROID_DEVICE_PORTS_JSON }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          missing=()
+          [ -n "$ADB_KEY" ] || missing+=("DEVICE_ADB_PRIVATE_KEY_B64")
+          [ -n "$DEVICE_IP" ] || missing+=("DEVICE_TAILSCALE_IP")
+          [ -n "$DEVICE_PORTS_JSON" ] || missing+=("ANDROID_DEVICE_PORTS_JSON")
+          if [ -n "$TS_ID" ] && [ -n "$TS_AUDIENCE" ]; then
+            echo "auth_mode=oauth" >> "$GITHUB_OUTPUT"
+          elif [ -n "$TS_AUTHKEY" ]; then
+            echo "auth_mode=authkey" >> "$GITHUB_OUTPUT"
+          else
+            missing+=("TS_OAUTH_CLIENT_ID + TS_AUDIENCE (or TAILSCALE_AUTHKEY)")
+          fi
+          if [ "${#missing[@]}" -gt 0 ]; then
+            printf '::error::Missing required GitHub Actions secrets: %s\n' "$(IFS=', '; echo "${missing[*]}")"
+            exit 1
+          fi
+          printf '%s' "$DEVICE_PORTS_JSON" | jq -e 'type == "object"' >/dev/null
+          mkdir -p "$HOME/.android"
+          printf '%s' "$ADB_KEY" | base64 --decode > "$HOME/.android/adbkey"
+          chmod 600 "$HOME/.android/adbkey"
+          echo "Phone configuration and secret presence validated (values not printed)."
+      - name: Join Tailscale using GitHub OIDC
+        if: steps.check_keys.outputs.auth_mode == 'oauth'
         uses: tailscale/github-action@v4
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           audience: ${{ secrets.TS_AUDIENCE }}
           tags: tag:ci
           timeout: 3m
-      - name: Restore paired ADB identity
-        env:
-          ADB_KEY: ${{ secrets.DEVICE_ADB_PRIVATE_KEY_B64 }}
-        run: |
-          test -n "$ADB_KEY" || { echo "Missing paired ADB host key secret"; exit 1; }
-          mkdir -p "$HOME/.android"
-          printf '%s' "$ADB_KEY" | base64 --decode > "$HOME/.android/adbkey"
-          chmod 600 "$HOME/.android/adbkey"
+          retry: 8
+          use-cache: true
+      - name: Join Tailscale using auth key
+        if: steps.check_keys.outputs.auth_mode == 'authkey'
+        uses: tailscale/github-action@v4
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          tags: tag:ci
+          timeout: 3m
+          retry: 8
+          use-cache: true
       - name: Connect and install on configured phone
         env:
           DEVICE_IP: ${{ secrets.DEVICE_TAILSCALE_IP }}
           DEVICE_PORTS_JSON: ${{ secrets.ANDROID_DEVICE_PORTS_JSON }}
+        shell: bash
         run: |
           set -euo pipefail
-          test -n "$DEVICE_PORTS_JSON" || { echo "Missing ANDROID_DEVICE_PORTS_JSON"; exit 1; }
           adb start-server
-          tailscale ping --timeout=10s "$DEVICE_IP"
           tailscale status --json > tailnet-status.json
+          tailscale ping --timeout=10s "$DEVICE_IP"
           HOST=$(jq -r --arg ip "$DEVICE_IP" '.Peer // {} | to_entries[] | select((.value.TailscaleIPs // []) | index($ip)) | .value.HostName' tailnet-status.json | head -n1)
           PORT=$(jq -r --arg host "$HOST" --arg ip "$DEVICE_IP" '.[$host] // .[$ip] // empty' <<< "$DEVICE_PORTS_JSON")
-          PORT=${PORT:-37337}
-          echo "Target peer: $HOST at $DEVICE_IP:$PORT"
-          adb connect "$DEVICE_IP:$PORT"
-          adb -s "$DEVICE_IP:$PORT" get-state
-          adb -s "$DEVICE_IP:$PORT" install -r dist/app-debug.apk
-          adb -s "$DEVICE_IP:$PORT" shell monkey -p com.arjun.arjun_app 1
-          sleep 5
+          if [ -z "$PORT" ] || ! [[ "$PORT" =~ ^[0-9]+$ ]]; then
+            echo "::error::No valid ADB Wireless Debugging port configured for the Tailnet peer."
+            exit 1
+          fi
+          SERIAL="$DEVICE_IP:$PORT"
+          echo "Connecting to configured Android peer $HOST at $SERIAL"
+          adb connect "$SERIAL"
+          STATE=$(adb -s "$SERIAL" get-state 2>/dev/null || true)
+          if [ "$STATE" != "device" ]; then
+            echo "::error::ADB is not authorized/online. Re-pair this runner's ADB public key on the phone and refresh the current Wireless debugging port."
+            adb devices -l
+            exit 1
+          fi
+          adb -s "$SERIAL" install -r -d -g dist/app-debug.apk
+          adb -s "$SERIAL" shell am force-stop com.arjun.arjun_app || true
+          adb -s "$SERIAL" shell monkey -p com.arjun.arjun_app 1
+          sleep 6
           mkdir -p evidence
-          adb -s "$DEVICE_IP:$PORT" exec-out screencap -p > evidence/arjun-phone.png
-          adb -s "$DEVICE_IP:$PORT" logcat -d -t 1200 > evidence/arjun-logcat.txt
+          adb -s "$SERIAL" exec-out screencap -p > evidence/arjun-phone.png
+          adb -s "$SERIAL" logcat -d -t 1500 > evidence/arjun-logcat.txt
+          test -s evidence/arjun-phone.png
       - uses: actions/upload-artifact@v4
         if: always()
         with:
