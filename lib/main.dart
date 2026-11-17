@@ -16,7 +16,12 @@ class MemberIntelligenceApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        fontFamily: 'Poppins',
+        fontFamily: 'Inter',
+      textTheme: const TextTheme(
+        bodySmall: TextStyle(fontFamily: 'Inter'),
+        bodyMedium: TextStyle(fontFamily: 'Inter'),
+        bodyLarge: TextStyle(fontFamily: 'Inter'),
+      ),
         scaffoldBackgroundColor: const Color(0xFFF3F5F9),
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFB51F31)),
       ),
@@ -51,6 +56,7 @@ class DashboardTheme {
     required this.dark,
     required this.style,
     required this.art,
+    required this.promoArt,
   });
 
   final int id;
@@ -74,6 +80,7 @@ class DashboardTheme {
   final bool dark;
   final String style;
   final String art;
+  final String promoArt;
 
   Color get canvasText => dark ? Colors.white : ink;
   Color get softText => dark ? const Color(0xFFB9BEC8) : muted;
@@ -119,7 +126,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFFB5D8FF), success: Color(0xFF0B9E50),
     warning: Color(0xFFF0B323), danger: Color(0xFFD93648),
     neutral: Color(0xFFD5DFEB), radius: 23, borderWidth: 1.2,
-    dark: false, style: 'glass', art: 'assets/images/illustration_3d_dumbbell_mini.png',
+    dark: false, style: 'glass', art: 'assets/images/illustration_3d_dumbbell_mini.png', promoArt: 'assets/hero/dumbbell_3d.png',
   ),
   DashboardTheme(
     id: 1, name: 'Crimson Gold', description: 'Deep red · gold edge · luxury',
@@ -130,7 +137,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFFFFD36A), success: Color(0xFF14B95B),
     warning: Color(0xFFFFC12B), danger: Color(0xFFE3263B),
     neutral: Color(0xFFB6A8A5), radius: 20, borderWidth: 1.6,
-    dark: true, style: 'gold', art: 'assets/themes/crimson_wave/checkin_success_banner.png',
+    dark: true, style: 'gold', art: 'assets/themes/crimson_wave/checkin_success_banner.png', promoArt: 'assets/hero/hero_athlete.png',
   ),
   DashboardTheme(
     id: 2, name: 'Festival Yellow', description: 'Sunshine yellow · festive red',
@@ -141,7 +148,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFFE7B92B), success: Color(0xFF168B35),
     warning: Color(0xFFE5A900), danger: Color(0xFFD92D2D),
     neutral: Color(0xFFD8D2C2), radius: 19, borderWidth: 1.2,
-    dark: false, style: 'festival', art: 'assets/themes/festive_gold/marquee_header.png',
+    dark: false, style: 'festival', art: 'assets/themes/festive_gold/marquee_header.png', promoArt: 'assets/themes/festive_gold/top_lanterns.png',
   ),
   DashboardTheme(
     id: 3, name: 'Sky Pearl', description: 'Soft blue · pearl white · 3D',
@@ -152,7 +159,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFFB6D4F7), success: Color(0xFF16A34A),
     warning: Color(0xFFEAB308), danger: Color(0xFFDC3545),
     neutral: Color(0xFFD7DFEA), radius: 25, borderWidth: 1.1,
-    dark: false, style: 'pearl', art: 'assets/backgrounds/bg_waves.png',
+    dark: false, style: 'pearl', art: 'assets/backgrounds/bg_waves.png', promoArt: 'assets/hero/dumbbell_3d.png',
   ),
   DashboardTheme(
     id: 4, name: 'Athletic Red', description: 'White concrete · racing red',
@@ -163,7 +170,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFFBFC0C2), success: Color(0xFF168B35),
     warning: Color(0xFFE5A900), danger: Color(0xFFD71927),
     neutral: Color(0xFFD7D7D7), radius: 11, borderWidth: 1.1,
-    dark: false, style: 'athletic', art: 'assets/promo/promo_protein_bar.png',
+    dark: false, style: 'athletic', art: 'assets/promo/promo_protein_bar.png', promoArt: 'assets/hero/hero_weights.png',
   ),
   DashboardTheme(
     id: 5, name: 'Emerald Pulse', description: 'Pearl white · vivid emerald',
@@ -174,7 +181,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFFB7DDB9), success: Color(0xFF149447),
     warning: Color(0xFFE7AD17), danger: Color(0xFFD93643),
     neutral: Color(0xFFD8E0D8), radius: 22, borderWidth: 1.4,
-    dark: false, style: 'emerald', art: 'assets/themes/emerald_neon/neon_green_dumbbell.png',
+    dark: false, style: 'emerald', art: 'assets/themes/emerald_neon/neon_green_dumbbell.png', promoArt: 'assets/themes/emerald_neon/neon_green_dumbbell.png',
   ),
   DashboardTheme(
     id: 6, name: 'Royal Ruby', description: 'Ruby red · champagne gold',
@@ -185,7 +192,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFFFFC65A), success: Color(0xFF13B85A),
     warning: Color(0xFFFFC22D), danger: Color(0xFFFF4659),
     neutral: Color(0xFFB9A5A4), radius: 21, borderWidth: 1.7,
-    dark: true, style: 'ruby', art: 'assets/themes/festive_gold/bottom_gear.png',
+    dark: true, style: 'ruby', art: 'assets/themes/festive_gold/bottom_gear.png', promoArt: 'assets/themes/royal_purple/purple_shaker.png',
   ),
   DashboardTheme(
     id: 7, name: 'Gold Festival', description: 'Warm gold · ivory · crimson',
@@ -196,7 +203,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFFE7BE49), success: Color(0xFF178B3C),
     warning: Color(0xFFE8A900), danger: Color(0xFFD42D36),
     neutral: Color(0xFFD9D2C4), radius: 18, borderWidth: 1.3,
-    dark: false, style: 'goldFestival', art: 'assets/themes/festive_gold/top_lanterns.png',
+    dark: false, style: 'goldFestival', art: 'assets/themes/festive_gold/top_lanterns.png', promoArt: 'assets/themes/festive_gold/top_lanterns.png',
   ),
   DashboardTheme(
     id: 8, name: 'Obsidian Neon', description: 'Carbon black · neon lime',
@@ -207,7 +214,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFF8EBB13), success: Color(0xFFB5F500),
     warning: Color(0xFFFFC928), danger: Color(0xFFFF4B53),
     neutral: Color(0xFF657067), radius: 17, borderWidth: 1.4,
-    dark: true, style: 'neon', art: 'assets/images/black_plates.png',
+    dark: true, style: 'neon', art: 'assets/images/black_plates.png', promoArt: 'assets/images/black_plates.png',
   ),
   DashboardTheme(
     id: 9, name: 'Minimal Red', description: 'Clean white · sharp red detail',
@@ -218,7 +225,7 @@ const dashboardThemes = <DashboardTheme>[
     border: Color(0xFFD8D8D8), success: Color(0xFF178B3C),
     warning: Color(0xFFE6AA16), danger: Color(0xFFD51E2B),
     neutral: Color(0xFFDADADA), radius: 14, borderWidth: 1,
-    dark: false, style: 'minimal', art: 'assets/images/illustration_3d_workout_dumbbells.png',
+    dark: false, style: 'minimal', art: 'assets/images/illustration_3d_workout_dumbbells.png', promoArt: 'assets/hero/dumbbell_3d.png',
   ),
 ];
 
@@ -529,8 +536,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                   Text(_todayLabel, maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
                     style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w700)),
                 ]),
-                Text('Ashwani Kumar Sharma Vishwakarma', maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: t.cardText, fontSize: 10, height: .95, fontWeight: FontWeight.w900)),
+                Text('Ashwani Kumar Singh', maxLines: 1, overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: t.cardText, fontSize: 14, height: 1.05, letterSpacing: -.25, fontFamily: 'Poppins', fontWeight: FontWeight.w800)),
                 Row(children: [
                   Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: t.softText, fontSize: 6.2, height: 1, fontWeight: FontWeight.w600)),
@@ -597,7 +604,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
 
   Widget _promotionStrip(double height) {
-    final promo = t.art;
+    final promo = t.promoArt;
     return Container(
       height: height,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -639,9 +646,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                 errorBuilder: (_, __, ___) => Icon(item.$3, color: active ? t.primary : t.secondary, size: 12)),
               const SizedBox(height: 2),
               Text(item.$4, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontSize: 7.2, height: 1.05, fontWeight: FontWeight.w800)),
+                style: TextStyle(color: t.cardText, fontSize: 9.5, height: 1.1, fontWeight: FontWeight.w700)),
               FittedBox(fit: BoxFit.scaleDown, child: Text(item.$5,
-                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 11, height: 1.05, fontWeight: FontWeight.w900))),
+                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 13, height: 1.05, fontWeight: FontWeight.w800))),
             ]),
           ),
         ),
@@ -688,7 +695,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
             decoration: BoxDecoration(color: t.surfaceEnd, borderRadius: BorderRadius.circular(14), border: Border.all(color: t.border)),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Text(_monthName(_month) + ' ' + _year.toString(), style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w800)),
+              Text(_monthName(_month) + ' ' + _year.toString(), style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w700)),
               const SizedBox(width: 3),
               InkWell(onTap: () => _changeMonth(1), child: Icon(Icons.keyboard_arrow_down_rounded, color: t.primary, size: 15)),
             ]),
@@ -716,7 +723,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                       Icon(icons[index], size: 16, color: active ? (t.dark ? Colors.black : Colors.white) : t.primary),
                       const SizedBox(height: 2),
                       Text(labels[index], maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: active ? (t.dark ? Colors.black : Colors.white) : t.cardText, fontSize: 6.2, fontWeight: FontWeight.w800)),
+                        style: TextStyle(color: active ? (t.dark ? Colors.black : Colors.white) : t.cardText, fontSize: 9, fontWeight: FontWeight.w700)),
                     ]),
                   ),
                 ),
@@ -759,7 +766,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         border: Border.all(color: t.border, width: .8),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        Text(title, style: TextStyle(color: t.cardText, fontSize: 8.5, fontWeight: FontWeight.w900)),
+        Text(title, style: TextStyle(color: t.cardText, fontSize: 12, fontFamily: 'Poppins', fontWeight: FontWeight.w800)),
         const SizedBox(height: 4),
         Expanded(child: child),
       ]),
@@ -781,7 +788,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         DayKind.holiday || DayKind.off => t.neutral,
       };
       days.add(Center(child: Container(
-        width: 27, height: 27,
+        width: 32, height: 32,
         decoration: BoxDecoration(
           color: color,
           shape: t.style == 'athletic' || t.style == 'minimal' ? BoxShape.rectangle : BoxShape.circle,
