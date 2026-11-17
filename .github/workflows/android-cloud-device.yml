@@ -403,20 +403,25 @@ jobs:
           fi
           echo "At least one Android device passed install, launch, and screenshot QA."
       - name: Commit Live Screenshot to Repo (for AI Agent & User)
-        if: always() && github.ref == 'refs/heads/main'
+        if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/chatgpt/design-lab-yellow-festive')
         continue-on-error: true
         run: |
           mkdir -p docs/screenshots
           shopt -s nullglob
-          SCREENSHOTS=(device-artifacts/*-screenshot.png)
+          SCREENSHOTS=(device-artifacts/ui-Xiaomi-11i/00-member-header.png device-artifacts/*-screenshot.png)
           if [ ${#SCREENSHOTS[@]} -gt 0 ]; then
-            cp "${SCREENSHOTS[0]}" docs/screenshots/bad_gym_live.png
+            if [ "$GITHUB_REF_NAME" = "main" ]; then
+              DEST="docs/screenshots/bad_gym_live.png"
+            else
+              DEST="docs/screenshots/member-intelligence-live.png"
+            fi
+            cp "${SCREENSHOTS[0]}" "$DEST"
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            git add docs/screenshots/bad_gym_live.png
+            git add "$DEST"
             if ! git diff --staged --quiet; then
-              git commit -m "chore(qa): auto-capture live screenshot from device [skip ci]"
-              git push origin main
+              git commit -m "chore(qa): refresh live member intelligence screenshot [skip ci]"
+              git push origin "HEAD:$GITHUB_REF_NAME"
             fi
           fi
 
