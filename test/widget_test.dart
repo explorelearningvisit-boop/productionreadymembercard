@@ -14,7 +14,9 @@ void main() {
   testWidgets('switches intelligence sections from the vertical rail',
       (tester) async {
     await tester.pumpWidget(const MemberIntelligenceApp());
-    await tester.tap(find.text('Workout').last);
+    final workout = find.text('Workout').last;
+    await tester.ensureVisible(workout);
+    await tester.tap(workout);
     await tester.pumpAndSettle();
     expect(find.text('Workout Intelligence'), findsOneWidget);
   });
