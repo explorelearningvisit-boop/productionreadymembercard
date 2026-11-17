@@ -780,6 +780,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     switch (_tab) {
       case WorkspaceTab.attendance:
         return switch (_subSection) {
+          0 => _attendanceInsights(),
+          1 => _attendanceCalendar(),
           2 => _attendanceHistory(),
           3 => _attendanceTrend(),
           4 => _attendanceGoal(),
@@ -821,27 +823,25 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       final kind = _dayKind(day);
       final isToday = _year == _today.year && _month == _today.month && day == _today.day;
       final isSunday = DateTime(_year, _month, day).weekday == DateTime.sunday;
-      final color = switch (kind) {
-        DayKind.present => t.primary,
+      final semanticColor = switch (kind) {
+        DayKind.present => t.success,
         DayKind.late => t.warning,
         DayKind.absent => t.danger,
-        DayKind.holiday || DayKind.off => t.neutral,
+        DayKind.holiday || DayKind.off => t.muted,
       };
       days.add(Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
         Container(
-          width: 24, height: 22,
+          width: 30, height: 25,
           decoration: BoxDecoration(
-            color: color,
-            shape: t.style == 'athletic' || t.style == 'minimal' ? BoxShape.rectangle : BoxShape.circle,
-            borderRadius: t.style == 'athletic' || t.style == 'minimal' ? BorderRadius.circular(6) : null,
-            border: isToday ? Border.all(color: t.secondary, width: 2) : Border.all(color: Colors.white.withOpacity(.65), width: .6),
-            boxShadow: kind == DayKind.present ? [BoxShadow(color: color.withOpacity(.20), blurRadius: 2, offset: const Offset(0, 1))] : null,
+            color: isToday ? t.primary.withOpacity(.10) : Colors.transparent,
+            borderRadius: BorderRadius.circular(7),
+            border: Border.all(color: isToday ? t.primary : t.border.withOpacity(.65), width: isToday ? 1.5 : .7),
           ),
           alignment: Alignment.center,
           child: Stack(alignment: Alignment.center, children: [
             Padding(padding: EdgeInsets.only(bottom: isSunday || kind == DayKind.holiday ? 5 : 0),
               child: Text(day.toString(), style: TextStyle(
-                color: kind == DayKind.off || kind == DayKind.holiday ? (t.dark ? Colors.white70 : t.muted) : Colors.white,
+                color: semanticColor,
                 fontSize: 9, fontWeight: FontWeight.w900,
               ))),
             if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: t.muted, fontSize: 9, height: 1, fontWeight: FontWeight.w900))),
