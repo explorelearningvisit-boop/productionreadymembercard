@@ -44,7 +44,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   int get _paymentDueInDays => _paymentDueDate.difference(_today).inDays;
   int get _membershipDaysLeft => _membershipExpiryDate.difference(_today).inDays;
   int get _membershipDaysUsed => (30 - _membershipDaysLeft).clamp(0, 30).toInt();
-  double get _membershipProgress => _membershipDaysUsed / 30;
+  double get _membershipProgressValue => _membershipDaysUsed / 30;
   double get _earlyPaymentRate {
     if (_paymentDueInDays >= 7) return .02;
     if (_paymentDueInDays >= 3) return .01;
@@ -217,7 +217,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                         const SizedBox(height: 5),
                         _earlyPaymentOffer(),
                         const SizedBox(height: 7),
-                        _membershipProgress(),
+                        _membershipProgressBar(),
                         const SizedBox(height: 12),
                         _promotionBanner(),
                         const SizedBox(height: 10),
@@ -570,7 +570,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     );
   }
 
-  Widget _membershipProgress() {
+  Widget _membershipProgressBar() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -586,7 +586,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             decoration: BoxDecoration(
                 color: const Color(0xFFFFD4EC),
                 borderRadius: BorderRadius.circular(22)),
-            child: Text('${(_membershipProgress * 100).round()}%',
+            child: Text('${(_membershipProgressValue * 100).round()}%',
                 style: TextStyle(
                     color: Color(0xFF72003C),
                     fontSize: 16,
@@ -601,7 +601,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             color: const Color(0xFFFFD9EF),
             alignment: Alignment.centerLeft,
             child: FractionallySizedBox(
-                widthFactor: _membershipProgress,
+                widthFactor: _membershipProgressValue,
                 child: Container(
                     decoration: const BoxDecoration(
                   gradient: LinearGradient(
