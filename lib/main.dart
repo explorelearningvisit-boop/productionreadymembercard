@@ -603,11 +603,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: t.panel(radius: t.radius, selected: false),
       child: Row(children: [
-        Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('MEMBER EXCLUSIVE', style: TextStyle(color: t.primary, fontSize: 7, fontWeight: FontWeight.w900, letterSpacing: .6)),
-          Text('Fitness & Wellness  ·  Up to 40% OFF', maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w800)),
-        ])),
+        Expanded(child: Text('MEMBER EXCLUSIVE  ·  Fitness & Wellness  ·  Up to 40% OFF',
+          maxLines: 1, overflow: TextOverflow.ellipsis,
+          style: TextStyle(color: t.cardText, fontSize: 8, height: 1, fontWeight: FontWeight.w900))),
         SizedBox(width: 66, height: height - 5, child: Image.asset(promo, fit: BoxFit.contain,
           errorBuilder: (_, __, ___) => Icon(Icons.local_offer_rounded, color: t.primary, size: 28))),
         const SizedBox(width: 5),
