@@ -367,7 +367,7 @@ jobs:
                       tap_capture 8 72 "08-attendance-history" "Recent attendance records"
                       tap_capture 8 79 "09-attendance-trend" "Attendance trend"
                       tap_capture 8 86 "10-attendance-goals" "Monthly consistency goal"
-                      tap_capture 8 93 "11-attendance-more" "Current streak"
+                      tap_capture 8 98 "11-attendance-more" "Member attendance insights"
                     fi
                     if grep -q "mResumedActivity.*com.badgym.designlab\|topResumedActivity.*com.badgym.designlab" "$capture_dir/activity-state.txt"; then
                       if [ "$interaction_failed" -eq 0 ]; then
