@@ -607,14 +607,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     ]),
   );
 
-  void _showNotice(String title, String message) {
-    showDialog<void>(context: context, builder: (context) => AlertDialog(
-      title: Text(title, style: const TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w800)),
-      content: Text(message),
-      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close'))],
-    ));
-  }
-
   Widget _paymentStrip(double height) => Container(
     height: height,
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
