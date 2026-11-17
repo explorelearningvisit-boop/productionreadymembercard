@@ -677,7 +677,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         Row(children: [
           _miniValue('This month', _activeSection == 2 ? '58 min' : _activeSection == 3 ? '₹4,500' : '22 days', const Color(0xFF08A82B)),
           const SizedBox(width: 7),
-          _miniValue('Change', '+12%', const Color(0xFFB000E8')),
+          _miniValue('Change', '+12%', const Color(0xFFB000E8)),
         ]),
         const SizedBox(height: 12),
         const Text('Detailed member insights are grouped here for quick review.',
