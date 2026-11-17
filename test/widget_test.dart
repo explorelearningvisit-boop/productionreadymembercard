@@ -2,17 +2,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym/main.dart';
 
 void main() {
-  testWidgets('renders the member intelligence dashboard', (tester) async {
+  testWidgets('renders the member intelligence dashboard without outer scrolling', (tester) async {
+    tester.view.physicalSize = const Size(393, 852);
+    tester.view.devicePixelRatio = 1;
     await tester.pumpWidget(const MemberIntelligenceApp());
     expect(find.text('CHECK-IN'), findsOneWidget);
     expect(find.textContaining('FREEZE'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.text('Attendance Intelligence'), findsOneWidget);
-    expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
+    expect(find.text('MEMBERSHIP  22 / 30 DAYS'), findsOneWidget);
+    expect(find.byType(SingleChildScrollView), findsNothing);
   });
 
   testWidgets('switches intelligence sections from the vertical rail',
       (tester) async {
+    tester.view.physicalSize = const Size(393, 852);
+    tester.view.devicePixelRatio = 1;
     await tester.pumpWidget(const MemberIntelligenceApp());
     final workout = find.text('Workout').last;
     await tester.ensureVisible(workout);
@@ -22,6 +27,8 @@ void main() {
   });
   testWidgets('uses the device current month and consistent membership expiry',
       (tester) async {
+    tester.view.physicalSize = const Size(393, 852);
+    tester.view.devicePixelRatio = 1;
     await tester.pumpWidget(const MemberIntelligenceApp());
     final today = DateTime.now();
     const months = [
@@ -30,12 +37,15 @@ void main() {
     ];
     final expiry = DateTime(today.year, today.month, today.day + 8);
     final expiryLabel =
-        'Expires: ${expiry.day} ${months[expiry.month - 1].substring(0, 3)} ${expiry.year}';
+        'Expires ${expiry.day} ${months[expiry.month - 1].substring(0, 3)} ${expiry.year}';
 
-    expect(find.text('${months[today.month - 1]} ${today.year}'),
+    expect(find.text('${months[today.month - 1].substring(0, 3)} ${today.year}'),
         findsOneWidget);
-    expect(find.text('8 Days Left'), findsOneWidget);
+    expect(find.text('8 DAYS LEFT'), findsOneWidget);
     expect(find.text(expiryLabel), findsOneWidget);
   });
 
+  tearDown(() {
+    TestWidgetsFlutterBinding.ensureInitialized().reset();
+  });
 }
