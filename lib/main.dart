@@ -595,16 +595,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   String _monthName(int month) => const ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][month - 1];
 
-  Widget _smallPill(String text, Color color, Color foreground) {
-    return Flexible(child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-      decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(20), boxShadow: [
-        BoxShadow(color: color.withOpacity(.22), blurRadius: 4, offset: const Offset(0, 1)),
-      ]),
-      child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: foreground, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
-    ));
-  }
 
   Widget _promotionStrip(double height) {
     final promo = t.id % 2 == 0 ? 'assets/promo/promo_burger.png' : 'assets/promo/promo_protein_bar.png';
