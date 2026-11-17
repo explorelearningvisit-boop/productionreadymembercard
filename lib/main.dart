@@ -612,13 +612,13 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         ]),
       ])),
       Container(width: 1, height: height * .62, color: t.border),
-      Expanded(child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Icon(Icons.calendar_month_rounded, color: t.primary, size: 20),
-        const SizedBox(width: 6),
-        Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('8 Days Left', style: TextStyle(color: t.primary, fontSize: 12, fontWeight: FontWeight.w900)),
-          Text('Expires: 24 Oct 2026', style: TextStyle(color: t.softText, fontSize: 8.5, fontWeight: FontWeight.w600)),
-        ]),
+      Expanded(child: Row(children: [
+        Icon(Icons.calendar_month_rounded, color: t.primary, size: 18),
+        const SizedBox(width: 4),
+        Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('8 Days Left', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.primary, fontSize: 11, fontWeight: FontWeight.w900)),
+          Text('Expires: 24 Oct 2026', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 8, fontWeight: FontWeight.w600)),
+        ])),
       ])),
       Icon(Icons.chevron_right_rounded, color: t.primary, size: 19),
     ]),
@@ -626,19 +626,19 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _membershipProgressBar(double height) => Container(
     height: height,
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
     decoration: t.panel(radius: t.radius, selected: false),
     child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(children: [
-        Text('Membership 22 / 30 Days', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
+        Expanded(child: Text('Membership 22 / 30 Days', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.cardText, fontSize: 9.5, fontWeight: FontWeight.w900))),
         const Spacer(),
-        Container(padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+        Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
           decoration: BoxDecoration(color: t.primary.withOpacity(.14), borderRadius: BorderRadius.circular(14)),
           child: Text('73%', style: TextStyle(color: t.primary, fontSize: 11, fontWeight: FontWeight.w900))),
       ]),
-      const SizedBox(height: 4),
+      const SizedBox(height: 3),
       ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(
-        value: _membershipProgress, minHeight: 6, backgroundColor: t.neutral,
+        value: _membershipProgress, minHeight: 5, backgroundColor: t.neutral,
         valueColor: AlwaysStoppedAnimation<Color>(t.primary),
       )),
     ]),
@@ -871,23 +871,23 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           ])),
           Container(width: 1, height: 44, color: t.border),
           const SizedBox(width: 5),
-          SizedBox(width: 66, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          SizedBox(width: 60, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
             Row(children: [
-              Icon(Icons.local_fire_department_rounded, color: t.warning, size: 14),
-              const SizedBox(width: 3),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Streak', style: TextStyle(color: t.softText, fontSize: 7.5, height: 1, fontWeight: FontWeight.w700)),
-                Text('5 Days', style: TextStyle(color: t.cardText, fontSize: 9, height: 1.05, fontWeight: FontWeight.w900)),
-              ]),
+              Icon(Icons.local_fire_department_rounded, color: t.warning, size: 12),
+              const SizedBox(width: 2),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Streak', style: TextStyle(color: t.softText, fontSize: 7, height: 1, fontWeight: FontWeight.w700)),
+                Text('5 Days', style: TextStyle(color: t.cardText, fontSize: 8.5, height: 1.05, fontWeight: FontWeight.w900)),
+              ])),
             ]),
             const SizedBox(height: 3),
             Row(children: [
-              Icon(Icons.emoji_events_rounded, color: t.warning, size: 14),
-              const SizedBox(width: 3),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Best', style: TextStyle(color: t.softText, fontSize: 7.5, height: 1, fontWeight: FontWeight.w700)),
-                Text('14 Days', style: TextStyle(color: t.cardText, fontSize: 9, height: 1.05, fontWeight: FontWeight.w900)),
-              ]),
+              Icon(Icons.emoji_events_rounded, color: t.warning, size: 12),
+              const SizedBox(width: 2),
+              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Best', style: TextStyle(color: t.softText, fontSize: 7, height: 1, fontWeight: FontWeight.w700)),
+                Text('14 Days', style: TextStyle(color: t.cardText, fontSize: 8.5, height: 1.05, fontWeight: FontWeight.w900)),
+              ])),
             ]),
           ])),
         ])),
