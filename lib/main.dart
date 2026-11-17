@@ -495,8 +495,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _memberCard(double height) {
     final compact = height < 100;
-    final avatarSize = compact ? 44.0 : 52.0;
-    final qrSize = compact ? 37.0 : 41.0;
+    final avatarSize = compact ? 36.0 : 44.0;
+    final qrSize = compact ? 32.0 : 36.0;
     return Container(
       height: height,
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 6),
@@ -525,12 +525,12 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                 const SizedBox(width: 3),
                 Expanded(child: Text(_todayLabel, maxLines: 1,
                   overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
-                  style: TextStyle(color: t.softText, fontSize: 6.5, fontWeight: FontWeight.w700))),
+                  style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w700))),
               ]),
               Text('Ashwani Kumar Singh', maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontSize: 11.5, height: 1, fontWeight: FontWeight.w900)),
+                style: TextStyle(color: t.cardText, fontSize: 10.5, height: .95, fontWeight: FontWeight.w900)),
               Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.softText, fontSize: 7, height: 1, fontWeight: FontWeight.w600)),
+                style: TextStyle(color: t.softText, fontSize: 6.5, height: .95, fontWeight: FontWeight.w600)),
               Row(children: [
                 _smallPill('✓ Active', t.success, Colors.white),
                 const SizedBox(width: 4),
@@ -613,12 +613,12 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _smallPill(String text, Color color, Color foreground) {
     return Flexible(child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
       decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(20), boxShadow: [
         BoxShadow(color: color.withOpacity(.22), blurRadius: 4, offset: const Offset(0, 1)),
       ]),
       child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: foreground, fontSize: 6.8, fontWeight: FontWeight.w900)),
+        style: TextStyle(color: foreground, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
     ));
   }
 
@@ -663,12 +663,12 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
             decoration: t.panel(radius: t.radius, selected: active),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(item.$2, color: active ? t.primary : t.secondary, size: 18),
-              const SizedBox(height: 1),
+              Icon(item.$2, color: active ? t.primary : t.secondary, size: 14),
+              const SizedBox(height: 0),
               Text(item.$3, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w800)),
+                style: TextStyle(color: t.cardText, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800)),
               FittedBox(fit: BoxFit.scaleDown, child: Text(item.$4,
-                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 12, fontWeight: FontWeight.w900))),
+                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 10, height: 1, fontWeight: FontWeight.w900))),
             ]),
           ),
         ),
