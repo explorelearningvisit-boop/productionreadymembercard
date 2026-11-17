@@ -55,7 +55,7 @@ class _JobLifecycleScreenState extends State<JobLifecycleScreen> {
       subtitle: Text(i == stage ? 'Current demo stage' : i < stage ? 'Marked in demo flow' : 'Pending'),
     )),
     const SizedBox(height: 12),
-    FilledButton(onPressed: () => setState(() => stage = (stage + 1).clamp(0, stages.length - 1)), child: const Text('Advance demo milestone')),
+    FilledButton(onPressed: () => setState(() => stage = (stage + 1).clamp(0, stages.length - 1).toInt()), child: const Text('Advance demo milestone')),
     const Text('Production में हर transition server-side authorization, audit log और idempotency से नियंत्रित होगा.', style: TextStyle(fontSize: 12, color: Colors.black54)),
   ]));
 }
