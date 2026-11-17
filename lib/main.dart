@@ -894,8 +894,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         const SizedBox(height: 2),
         Wrap(alignment: WrapAlignment.spaceBetween, spacing: 3, runSpacing: 1, children: [
           _legendDot('Present', t.success), _legendDot('Late', t.warning),
-          _legendDot('Absent', t.danger), _legendDot('Holiday', t.secondary),
-          _legendDot('Off', t.neutral), _legendDot('Today', t.primary),
+          _legendDot('Absent $_absent', t.danger), _legendDot('Holiday $_holiday', t.secondary),
+          _legendDot('Off $_countOffDays', t.neutral), _legendDot('Today', t.primary),
         ]),
       ]),
     );
