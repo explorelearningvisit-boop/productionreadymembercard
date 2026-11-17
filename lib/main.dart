@@ -558,7 +558,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('MEMBERSHIP  22 / 30 DAYS', style: TextStyle(color: t.cardText, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800)),
+              Text('MEMBERSHIP  22 / 30 DAYS', style: TextStyle(color: t.cardText, fontSize: 6, height: .95, fontWeight: FontWeight.w800)),
               const SizedBox(height: 2),
               ClipRRect(borderRadius: BorderRadius.circular(10),
                 child: LinearProgressIndicator(
@@ -634,15 +634,15 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           onTap: () => _setTab(item.$1),
           borderRadius: BorderRadius.circular(t.radius),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
             decoration: t.panel(radius: t.radius, selected: active),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(item.$2, color: active ? t.primary : t.secondary, size: 14),
+              Icon(item.$2, color: active ? t.primary : t.secondary, size: 12),
               const SizedBox(height: 0),
               Text(item.$3, maxLines: 1, overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: t.cardText, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800)),
               FittedBox(fit: BoxFit.scaleDown, child: Text(item.$4,
-                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 10, height: 1, fontWeight: FontWeight.w900))),
+                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 9, height: .95, fontWeight: FontWeight.w900))),
             ]),
           ),
         ),
@@ -800,41 +800,20 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     return _innerPanel(
       title: 'Monthly attendance  ·  $_attendanceRate%  ·  $_present present',
       child: Column(children: [
-        SizedBox(height: 43, child: Row(children: [
-          SizedBox(width: 42, height: 42, child: Stack(alignment: Alignment.center, children: [
+        SizedBox(height: 32, child: Row(children: [
+          SizedBox(width: 32, height: 32, child: Stack(alignment: Alignment.center, children: [
             SizedBox.expand(child: CircularProgressIndicator(
-              value: _attendanceRate / 100, strokeWidth: 5, backgroundColor: t.neutral,
+              value: _attendanceRate / 100, strokeWidth: 4, backgroundColor: t.neutral,
               valueColor: AlwaysStoppedAnimation<Color>(t.primary),
             )),
-            Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
+            Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w900)),
           ])),
-          const SizedBox(width: 7),
-          Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Row(children: [
-              Expanded(child: _compactCount('Present', _present, t.success)),
-              Expanded(child: _compactCount('Late', _late, t.warning)),
-            ]),
-            const SizedBox(height: 3),
-            Row(children: [
-              Expanded(child: _compactCount('Absent', _absent, t.danger)),
-              Expanded(child: _compactCount('Off', _holiday + _countOffDays, t.neutral)),
-            ]),
-          ])),
-          const SizedBox(width: 5),
-          Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              Image.asset('assets/badges/streak_flame_hq.png', width: 16, height: 16,
-                errorBuilder: (_, __, ___) => Icon(Icons.local_fire_department_rounded, size: 15, color: t.primary)),
-              const SizedBox(width: 2),
-              Text('5 DAY STREAK', style: TextStyle(color: t.cardText, fontSize: 6.5, fontWeight: FontWeight.w900)),
-            ]),
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              Image.asset('assets/badges/best_trophy_hq.png', width: 16, height: 16,
-                errorBuilder: (_, __, ___) => Icon(Icons.emoji_events_rounded, size: 15, color: t.secondary)),
-              const SizedBox(width: 2),
-              Text('BEST 14 DAYS', style: TextStyle(color: t.cardText, fontSize: 6.5, fontWeight: FontWeight.w900)),
-            ]),
-          ]),
+          const SizedBox(width: 6),
+          Expanded(child: Text(
+            'Present $_present  ·  Late $_late  ·  Absent $_absent  ·  Off ' + (_holiday + _countOffDays).toString(),
+            maxLines: 2, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: t.cardText, fontSize: 6.5, height: 1.1, fontWeight: FontWeight.w800),
+          )),
         ])),
         const SizedBox(height: 4),
         Row(children: const ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(
