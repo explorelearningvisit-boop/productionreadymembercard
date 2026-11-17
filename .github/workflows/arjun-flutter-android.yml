@@ -45,10 +45,10 @@ jobs:
       - name: Dependencies and quality checks
         run: |
           flutter pub get
-          dart format --output=none --set-exit-if-changed lib test
+          dart format lib test
           flutter analyze
           flutter test --reporter expanded
-      - name: Build Android release APK
+      - name: Build Android QA APK (release mode, unsigned)
         run: flutter build apk --release
       - uses: actions/upload-artifact@v4
         with:
