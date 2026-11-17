@@ -647,7 +647,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
           itemCount: ((offset + daysInMonth + 6) ~/ 7) * 7,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7, mainAxisSpacing: 2, crossAxisSpacing: 2, childAspectRatio: 2.4),
+            crossAxisCount: 7, mainAxisSpacing: 2, crossAxisSpacing: 2, childAspectRatio: 2.6),
           itemBuilder: (context, index) {
             final day = index - offset + 1;
             if (day < 1 || day > daysInMonth) return const SizedBox.shrink();
@@ -681,13 +681,13 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   Widget _monthButton(IconData icon, VoidCallback onTap) => GestureDetector(
         onTap: onTap,
         child: Container(
-            width: 29,
-            height: 29,
+            width: 22,
+            height: 22,
             decoration: BoxDecoration(
                 color: const Color(0xFFFFE6F3),
                 shape: BoxShape.circle,
                 border: Border.all(color: const Color(0xFFEFB2D0))),
-            child: Icon(icon, color: const Color(0xFF8C0045), size: 20)),
+            child: Icon(icon, color: const Color(0xFF8C0045), size: 15)),
       );
 
   Widget _legend() {
