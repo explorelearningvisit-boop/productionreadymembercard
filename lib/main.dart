@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 void main() => runApp(const MemberIntelligenceApp());
 
@@ -533,24 +534,40 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                   ]),
                 )),
                  SizedBox(width: dense ? 3 : 4),
-                InkWell(
-                  onTap: () => _showNotice('Freeze member', 'Member freeze requests are not connected in this demo.'),
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    width: dense ? 56 : 62,
-                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: dense ? 2 : 4),
-                    decoration: BoxDecoration(color: t.secondary.withOpacity(.18), borderRadius: BorderRadius.circular(12), border: Border.all(color: t.secondary)),
-                    child: Column(children: [
-                      Icon(Icons.ac_unit_rounded, color: t.secondary, size: dense ? 11 : 15),
-                      Text('FREEZE', style: TextStyle(color: t.cardText, fontSize: dense ? 6.5 : 7.5, fontWeight: FontWeight.w900)),
-                      Text('MEMBER', style: TextStyle(color: t.cardText, fontSize: dense ? 6.5 : 7.5, fontWeight: FontWeight.w900)),
-                    ]),
+                Container(
+                  width: dense ? 36 : 42,
+                  height: dense ? 36 : 42,
+                  padding: const EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: t.border, width: 1),
+                    boxShadow: [BoxShadow(color: t.primary.withOpacity(.10), blurRadius: 5)],
+                  ),
+                  child: QrImageView(
+                    data: 'BADGYM:MEMBER:BG215',
+                    version: QrVersions.auto,
+                    padding: EdgeInsets.zero,
+                    eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
+                    dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black),
                   ),
                 ),
               ]),
               SizedBox(height: dense ? 1 : 3),
-              FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text('Ashwani Kumar Sharma Vishwakarma', maxLines: 1,
-                style: TextStyle(color: t.cardText, fontFamily: 'Poppins', fontSize: dense ? 13 : 14, height: 1.0, letterSpacing: -.25, fontWeight: FontWeight.w800))),
+              Text(
+                'Ashwani Kumar Sharma Vishwakarma',
+                maxLines: 2,
+                softWrap: true,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: t.cardText,
+                  fontFamily: 'Poppins',
+                  fontSize: dense ? 13 : 15,
+                  height: 1.02,
+                  letterSpacing: -.2,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
               SizedBox(height: dense ? 2 : 4),
               FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
                 Icon(Icons.badge_outlined, color: t.softText, size: 12),
@@ -683,7 +700,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   List<String> get _railLabels => switch (_tab) {
-    WorkspaceTab.attendance => const ['Intelligence','Calendar','History','Trend','Goals','More'],
+    WorkspaceTab.attendance => const ['Insights','Calendar','History','Trend','Goals','More'],
     WorkspaceTab.workout => const ['Overview','Trend','Programs','History'],
     WorkspaceTab.payment => const ['Overview','Transactions','Due & Offers','Rewards'],
     WorkspaceTab.body => const ['Overview','Composition','Measurements','Progress'],
@@ -829,7 +846,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         DayKind.holiday || DayKind.off => t.muted,
       };
       days.add(Center(child: Container(
-          width: 28, height: 22,
+          width: 31, height: 29,
           decoration: BoxDecoration(
             color: isToday ? t.primary.withOpacity(.10) : Colors.transparent,
             borderRadius: BorderRadius.circular(7),
@@ -840,9 +857,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             Padding(padding: EdgeInsets.only(bottom: isSunday || kind == DayKind.holiday ? 5 : 0),
               child: Text(day.toString(), style: TextStyle(
                 color: semanticColor,
-                fontSize: 8, fontWeight: FontWeight.w800,
+                fontSize: 10, fontWeight: FontWeight.w800,
               ))),
-            if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: t.muted, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800))),
+            if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: t.muted, fontSize: 7.2, height: 1, fontWeight: FontWeight.w800))),
             if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(color: t.muted, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800))),
           ]),
         )));
@@ -851,15 +868,15 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     return _innerPanel(
       title: '',
       child: Column(children: [
-        SizedBox(height: 54, child: Row(children: [
-          SizedBox(width: 50, height: 50, child: Stack(alignment: Alignment.center, children: [
+        SizedBox(height: 62, child: Row(children: [
+          SizedBox(width: 58, height: 58, child: Stack(alignment: Alignment.center, children: [
             SizedBox.expand(child: CircularProgressIndicator(
               value: _attendanceRate / 100, strokeWidth: 4.5, backgroundColor: t.neutral,
               valueColor: AlwaysStoppedAnimation<Color>(t.primary),
             )),
             Column(mainAxisSize: MainAxisSize.min, children: [
-              Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 12, fontWeight: FontWeight.w900)),
-              Text('25 / 31', style: TextStyle(color: t.softText, fontSize: 9.5, fontWeight: FontWeight.w700)),
+              Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 14, fontWeight: FontWeight.w900)),
+              Text('25 / 31', style: TextStyle(color: t.softText, fontSize: 10, fontWeight: FontWeight.w700)),
             ]),
           ])),
           const SizedBox(width: 5),
@@ -890,7 +907,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         )).toList()),
         const SizedBox(height: 2),
         Expanded(child: LayoutBuilder(builder: (context, constraints) {
-          final rowExtent = math.max(22.0, (constraints.maxHeight - 10) / 6).toDouble();
+          final rowExtent = math.max(29.0, (constraints.maxHeight - 10) / 6).toDouble();
           return GridView.count(
             crossAxisCount: 7, shrinkWrap: false, physics: const NeverScrollableScrollPhysics(),
             mainAxisSpacing: 1, crossAxisSpacing: 1, mainAxisExtent: rowExtent, childAspectRatio: 1.0, children: days,
