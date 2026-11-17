@@ -55,11 +55,11 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           child: LayoutBuilder(builder: (context, constraints) {
             final h = constraints.maxHeight;
             final compact = h < 690;
-            final headerH = compact ? 48.0 : 54.0;
-            final profileH = compact ? 150.0 : 166.0;
-            final promoH = compact ? 64.0 : 74.0;
-            final statsH = compact ? 91.0 : 104.0;
-            final insightH = compact ? 48.0 : 54.0;
+            final headerH = compact ? 44.0 : 54.0;
+            final profileH = compact ? 130.0 : 166.0;
+            final promoH = compact ? 54.0 : 74.0;
+            final statsH = compact ? 76.0 : 104.0;
+            final insightH = compact ? 40.0 : 54.0;
             const gap = 5.0;
             return Container(
               decoration: const BoxDecoration(
@@ -137,7 +137,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   );
 
   Widget _memberPass(bool compact) {
-    final avatar = compact ? 68.0 : 78.0;
+    final avatar = compact ? 58.0 : 78.0;
     return _glass(radius: 22, padding: const EdgeInsets.fromLTRB(9, 7, 9, 6), child: Column(children: [
       Expanded(child: Row(children: [
         Container(
@@ -182,7 +182,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         ])),
         const SizedBox(width: 5),
         InkWell(onTap: () => MemberQrSheet.show(context, _data), child: Container(
-          width: compact ? 43 : 49, height: compact ? 43 : 49,
+          width: compact ? 38 : 49, height: compact ? 38 : 49,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: _line)),
           child: QrImageView(
