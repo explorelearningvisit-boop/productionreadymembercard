@@ -33,10 +33,6 @@ class MemberDashboardPage extends StatefulWidget {
 }
 
 class _MemberDashboardPageState extends State<MemberDashboardPage> {
-  static const _pink = Color(0xFFFFE8F4);
-  static const _magenta = Color(0xFFD90058);
-  static const _deep = Color(0xFF71002F);
-  static const _green = Color(0xFF08B92B);
   static const _gold = Color(0xFFFFC928);
   int _activeSection = 1;
   int _month = 10;
@@ -1287,8 +1283,9 @@ class _QrPainter extends CustomPainter {
     finder(0, 14);
     for (var y = 0; y < 21; y++) {
       for (var x = 0; x < 21; x++) {
-        if (matrix[y][x])
+        if (matrix[y][x]) {
           canvas.drawRect(Rect.fromLTWH(x * cell, y * cell, cell, cell), fill);
+        }
       }
     }
   }
