@@ -154,32 +154,36 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           )),
         ),
         const SizedBox(width: 8),
-        Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Wrap(spacing: 5, runSpacing: 3, crossAxisAlignment: WrapCrossAlignment.center, children: [
-            _pill(Icons.check_rounded, 'CHECKED-IN', _green, Colors.white),
-            _pill(Icons.calendar_month_rounded, compact ? '16 Oct · 7:12 AM' : '${_data.checkInDate} · ${_data.checkInTime}', const Color(0xFFE8F4FF), _navy, outlined: true),
+        Expanded(child: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Wrap(spacing: 5, runSpacing: 3, crossAxisAlignment: WrapCrossAlignment.center, children: [
+              _pill(Icons.check_rounded, 'CHECKED-IN', _green, Colors.white),
+              _pill(Icons.calendar_month_rounded, compact ? '16 Oct · 7:12 AM' : '${_data.checkInDate} · ${_data.checkInTime}', const Color(0xFFE8F4FF), _navy, outlined: true),
+            ]),
+            const SizedBox(height: 4),
+            Text(_data.name, maxLines: 2, overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: _navy, fontSize: compact ? 11.4 : 13.2, height: 1.02, fontWeight: FontWeight.w900, letterSpacing: -.25)),
+            const SizedBox(height: 3),
+            FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
+              const Icon(Icons.badge_outlined, size: 12, color: _blue),
+              const SizedBox(width: 2),
+              Text(_data.memberId, style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w700)),
+              const SizedBox(width: 5), const Text('|', style: TextStyle(color: _muted)),
+              const SizedBox(width: 5), const Icon(Icons.person_outline, size: 12, color: _blue),
+              const SizedBox(width: 2), Text('${_data.age} Yrs', style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w700)),
+              const SizedBox(width: 5), const Text('|', style: TextStyle(color: _muted)),
+              const SizedBox(width: 5), const Icon(Icons.male_rounded, size: 13, color: _blue),
+              Text(_data.gender, style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w700)),
+            ])),
+            const SizedBox(height: 3),
+            Wrap(spacing: 5, children: [
+              _pill(Icons.verified_rounded, _data.isActive ? 'Active' : 'Inactive', _green, Colors.white),
+              _pill(Icons.workspace_premium_rounded, _data.planName, _amber, const Color(0xFF513400)),
+            ]),
           ]),
-          const SizedBox(height: 4),
-          Text(_data.name, maxLines: 2, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: _navy, fontSize: compact ? 11.4 : 13.2, height: 1.02, fontWeight: FontWeight.w900, letterSpacing: -.25)),
-          const SizedBox(height: 3),
-          FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
-            const Icon(Icons.badge_outlined, size: 12, color: _blue),
-            const SizedBox(width: 2),
-            Text(_data.memberId, style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w700)),
-            const SizedBox(width: 5), const Text('|', style: TextStyle(color: _muted)),
-            const SizedBox(width: 5), const Icon(Icons.person_outline, size: 12, color: _blue),
-            const SizedBox(width: 2), Text('${_data.age} Yrs', style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w700)),
-            const SizedBox(width: 5), const Text('|', style: TextStyle(color: _muted)),
-            const SizedBox(width: 5), const Icon(Icons.male_rounded, size: 13, color: _blue),
-            Text(_data.gender, style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w700)),
-          ])),
-          const SizedBox(height: 3),
-          Wrap(spacing: 5, children: [
-            _pill(Icons.verified_rounded, _data.isActive ? 'Active' : 'Inactive', _green, Colors.white),
-            _pill(Icons.workspace_premium_rounded, _data.planName, _amber, const Color(0xFF513400)),
-          ]),
-        ])),
+        )),
         const SizedBox(width: 5),
         InkWell(onTap: () => MemberQrSheet.show(context, _data), child: Container(
           width: compact ? 34 : 49, height: compact ? 34 : 49,
@@ -274,7 +278,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           key: ValueKey('stat_tab_${['attendance','workout','payment','body'][i]}'),
           onTap: () => setState(() { _tab = i; _rail = 0; }),
           borderRadius: BorderRadius.circular(16),
-          child: _glass(radius: 16, padding: const EdgeInsets.fromLTRB(3, 5, 3, 4), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          child: _glass(radius: 16, padding: const EdgeInsets.fromLTRB(2, 3, 2, 3), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               SizedBox(width: compact ? 17 : 22, height: compact ? 17 : 22, child: Image.asset(
                 ['assets/images/illustration_3d_attendance_calendar.png','assets/images/illustration_3d_workout_dumbbells.png','assets/images/illustration_3d_payment_wallet.png','assets/images/illustration_3d_body_scale.png'][i],
@@ -284,7 +288,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
               const SizedBox(width: 2),
               Flexible(child: Text(v.$1, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: _navy, fontSize: 8.3, fontWeight: FontWeight.w900))),
             ]),
-            const SizedBox(height: 4),
+            const SizedBox(height: 2),
             if (i == 0)
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SizedBox(width: compact ? 30 : 44, height: compact ? 30 : 44, child: Stack(alignment: Alignment.center, children: [
@@ -294,7 +298,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
               ])
             else
               Text(v.$3, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: i == 2 ? _red : _navy, fontSize: compact ? 11 : 13, fontWeight: FontWeight.w900)),
-            const SizedBox(height: 3),
+            const SizedBox(height: 2),
             if (i == 1) _miniBars()
             else Text(v.$4, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: i == 2 ? _blue : _green, fontSize: i == 2 ? 6.3 : 8, fontWeight: FontWeight.w900)),
           ])),
@@ -303,7 +307,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     }));
   }
 
-  Widget _miniBars() => SizedBox(height: 8, child: Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [5,8,10,12,13].map((h) => Container(
+  Widget _miniBars() => SizedBox(height: 6, child: Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [5,8,10,12,13].map((h) => Container(
     width: 4, height: (h * .65).toDouble(), margin: const EdgeInsets.symmetric(horizontal: 1),
     decoration: BoxDecoration(color: const Color(0xFF8B54E8), borderRadius: BorderRadius.circular(3)),
   )).toList()));
