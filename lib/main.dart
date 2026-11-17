@@ -548,9 +548,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                   ),
                 ),
               ]),
-              SizedBox(height: dense ? 3 : 6),
-              Text('Ashwani Kumar Singh Vishwakarma', maxLines: 2, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontFamily: 'Poppins', fontSize: dense ? 12 : 14, height: 1.0, letterSpacing: -.25, fontWeight: FontWeight.w900)),
+              SizedBox(height: dense ? 1 : 3),
+              FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text('Ashwani Kumar Sharma Vishwakarma', maxLines: 1,
+                style: TextStyle(color: t.cardText, fontFamily: 'Poppins', fontSize: dense ? 13 : 14, height: 1.0, letterSpacing: -.25, fontWeight: FontWeight.w800))),
               SizedBox(height: dense ? 2 : 4),
               FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
                 Icon(Icons.badge_outlined, color: t.softText, size: 12),
@@ -568,8 +568,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                 Icon(Icons.male_rounded, color: t.secondary, size: 13),
                 Text('Male', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
               ])),
-              SizedBox(height: dense ? 3 : 6),
-              Wrap(spacing: 5, runSpacing: 3, children: [
+              SizedBox(height: dense ? 1 : 3),
+              Wrap(spacing: 4, runSpacing: 1, children: [
                 _memberBadge(Icons.workspace_premium_rounded, 'Gold Plan', t.warning, darkText: true),
                 _memberBadge(Icons.check_circle_rounded, 'Active', t.success),
               ]),
@@ -828,9 +828,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         DayKind.absent => t.danger,
         DayKind.holiday || DayKind.off => t.muted,
       };
-      days.add(Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Container(
-          width: 30, height: 25,
+      days.add(Center(child: Container(
+          width: 28, height: 22,
           decoration: BoxDecoration(
             color: isToday ? t.primary.withOpacity(.10) : Colors.transparent,
             borderRadius: BorderRadius.circular(7),
@@ -841,13 +840,12 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             Padding(padding: EdgeInsets.only(bottom: isSunday || kind == DayKind.holiday ? 5 : 0),
               child: Text(day.toString(), style: TextStyle(
                 color: semanticColor,
-                fontSize: 9, fontWeight: FontWeight.w900,
+                fontSize: 8, fontWeight: FontWeight.w800,
               ))),
-            if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: t.muted, fontSize: 9, height: 1, fontWeight: FontWeight.w900))),
-            if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(color: t.muted, fontSize: 9, height: 1, fontWeight: FontWeight.w900))),
+            if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: t.muted, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800))),
+            if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(color: t.muted, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800))),
           ]),
-        ),
-      ])));
+        )));
     }
     while (days.length < 42) { days.add(const SizedBox.shrink()); }
     return _innerPanel(
