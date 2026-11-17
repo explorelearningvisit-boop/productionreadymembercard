@@ -496,6 +496,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _memberCard(double height) {
+    final dense = height < 160;
     return Container(
       height: height,
       clipBehavior: Clip.antiAlias,
@@ -519,43 +520,43 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             )),
           ),
           Expanded(child: Padding(
-            padding: const EdgeInsets.fromLTRB(2, 8, 8, 8),
+            padding: EdgeInsets.fromLTRB(2, dense ? 3 : 8, 8, dense ? 3 : 8),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
               Row(children: [
                 Expanded(child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+                  padding: EdgeInsets.symmetric(horizontal: dense ? 5 : 7, vertical: dense ? 3 : 5),
                   decoration: BoxDecoration(color: t.primary.withOpacity(.16), borderRadius: BorderRadius.circular(18), border: Border.all(color: t.primary.withOpacity(.5))),
                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Icon(Icons.check_circle_rounded, color: t.success, size: 14),
-                    const SizedBox(width: 4),
-                    Text('CHECK-IN', style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w900)),
+                    Icon(Icons.check_circle_rounded, color: t.success, size: dense ? 11 : 14),
+                    const SizedBox(width: 3),
+                    Text('CHECK-IN', style: TextStyle(color: t.cardText, fontSize: dense ? 8 : 9, fontWeight: FontWeight.w900)),
                   ]),
                 )),
-                const SizedBox(width: 4),
+                 SizedBox(width: dense ? 3 : 4),
                 InkWell(
                   onTap: () => _showNotice('Freeze member', 'Member freeze requests are not connected in this demo.'),
                   borderRadius: BorderRadius.circular(12),
                   child: Container(
-                    width: 62,
-                    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                    width: dense ? 56 : 62,
+                    padding: EdgeInsets.symmetric(horizontal: 3, vertical: dense ? 2 : 4),
                     decoration: BoxDecoration(color: t.secondary.withOpacity(.18), borderRadius: BorderRadius.circular(12), border: Border.all(color: t.secondary)),
                     child: Column(children: [
-                      Icon(Icons.ac_unit_rounded, color: t.secondary, size: 15),
-                      Text('FREEZE', style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w900)),
-                      Text('MEMBER', style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w900)),
+                      Icon(Icons.ac_unit_rounded, color: t.secondary, size: dense ? 11 : 15),
+                      Text('FREEZE', style: TextStyle(color: t.cardText, fontSize: dense ? 6.5 : 7.5, fontWeight: FontWeight.w900)),
+                      Text('MEMBER', style: TextStyle(color: t.cardText, fontSize: dense ? 6.5 : 7.5, fontWeight: FontWeight.w900)),
                     ]),
                   ),
                 ),
               ]),
-              const SizedBox(height: 6),
-              Text('Welcome Back 👋', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w600)),
+              SizedBox(height: dense ? 3 : 6),
+              Text('Welcome Back 👋', style: TextStyle(color: t.softText, fontSize: dense ? 7.5 : 9, fontWeight: FontWeight.w600)),
               Text('Ashwani Kumar Singh Vishwakarma', maxLines: 2, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontFamily: 'Poppins', fontSize: 14, height: 1.02, letterSpacing: -.25, fontWeight: FontWeight.w900)),
-              const SizedBox(height: 4),
+                style: TextStyle(color: t.cardText, fontFamily: 'Poppins', fontSize: dense ? 12 : 14, height: 1.0, letterSpacing: -.25, fontWeight: FontWeight.w900)),
+              SizedBox(height: dense ? 2 : 4),
               FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
                 Icon(Icons.badge_outlined, color: t.softText, size: 12),
                 const SizedBox(width: 3),
-                Text('BG215', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
+                Text('BG215', style: TextStyle(color: t.softText, fontSize: dense ? 8 : 9, fontWeight: FontWeight.w700)),
                 const SizedBox(width: 5),
                 Text('|', style: TextStyle(color: t.softText, fontSize: 9)),
                 const SizedBox(width: 5),
@@ -568,7 +569,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                 Icon(Icons.male_rounded, color: t.secondary, size: 13),
                 Text('Male', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
               ])),
-              const SizedBox(height: 6),
+              SizedBox(height: dense ? 3 : 6),
               Wrap(spacing: 5, runSpacing: 3, children: [
                 _memberBadge(Icons.workspace_premium_rounded, 'Gold Plan', t.warning, darkText: true),
                 _memberBadge(Icons.check_circle_rounded, 'Active', t.success),
@@ -604,12 +605,12 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     decoration: t.panel(radius: t.radius, selected: false),
     child: Row(children: [
       Expanded(child: Row(children: [
-        Icon(Icons.account_balance_wallet_rounded, color: t.danger, size: 21),
-        const SizedBox(width: 7),
-        Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('PAYMENT', style: TextStyle(color: t.softText, fontSize: 8, fontWeight: FontWeight.w800)),
-          Text('₹500 Due', style: TextStyle(color: t.danger, fontSize: 13, fontWeight: FontWeight.w900)),
-        ]),
+        Icon(Icons.account_balance_wallet_rounded, color: t.danger, size: 18),
+        const SizedBox(width: 4),
+        Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('PAYMENT', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 8, fontWeight: FontWeight.w800)),
+          Text('₹500 Due', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.danger, fontSize: 12, fontWeight: FontWeight.w900)),
+        ])),
       ])),
       Container(width: 1, height: height * .62, color: t.border),
       Expanded(child: Row(children: [
@@ -626,7 +627,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _membershipProgressBar(double height) => Container(
     height: height,
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
     decoration: t.panel(radius: t.radius, selected: false),
     child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(children: [
@@ -636,9 +637,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           decoration: BoxDecoration(color: t.primary.withOpacity(.14), borderRadius: BorderRadius.circular(14)),
           child: Text('73%', style: TextStyle(color: t.primary, fontSize: 11, fontWeight: FontWeight.w900))),
       ]),
-      const SizedBox(height: 3),
+      const SizedBox(height: 2),
       ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(
-        value: _membershipProgress, minHeight: 5, backgroundColor: t.neutral,
+        value: _membershipProgress, minHeight: 4, backgroundColor: t.neutral,
         valueColor: AlwaysStoppedAnimation<Color>(t.primary),
       )),
     ]),
@@ -872,22 +873,16 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           Container(width: 1, height: 44, color: t.border),
           const SizedBox(width: 5),
           SizedBox(width: 60, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              Icon(Icons.local_fire_department_rounded, color: t.warning, size: 12),
+            Row(mainAxisSize: MainAxisSize.min, children: [
+              Icon(Icons.local_fire_department_rounded, color: t.warning, size: 11),
               const SizedBox(width: 2),
-              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Streak', style: TextStyle(color: t.softText, fontSize: 7, height: 1, fontWeight: FontWeight.w700)),
-                Text('5 Days', style: TextStyle(color: t.cardText, fontSize: 8.5, height: 1.05, fontWeight: FontWeight.w900)),
-              ])),
+              Text('5D', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w900)),
             ]),
-            const SizedBox(height: 3),
-            Row(children: [
-              Icon(Icons.emoji_events_rounded, color: t.warning, size: 12),
+            const SizedBox(height: 4),
+            Row(mainAxisSize: MainAxisSize.min, children: [
+              Icon(Icons.emoji_events_rounded, color: t.warning, size: 11),
               const SizedBox(width: 2),
-              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Best', style: TextStyle(color: t.softText, fontSize: 7, height: 1, fontWeight: FontWeight.w700)),
-                Text('14 Days', style: TextStyle(color: t.cardText, fontSize: 8.5, height: 1.05, fontWeight: FontWeight.w900)),
-              ])),
+              Text('14D', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w900)),
             ]),
           ])),
         ])),
