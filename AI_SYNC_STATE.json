@@ -348,15 +348,19 @@
   },
   "productDirection": {
     "compactWorkspace": {
-      "status": "ACCEPTED_SPEC_IMPLEMENTATION_PENDING",
+      "status": "IMPLEMENTED_IN_CHATGPT_BRANCH_PENDING_CI_AND_DEVICE_VISUAL_QA",
       "spec": "docs/UI_COMPACT_WORKSPACE_SPEC.md",
       "defaultTab": "Attendance",
       "defaultRailItem": "Calendar",
       "rootScroll": "PROHIBITED",
       "widgetSwitching": "REPLACE_IN_PLACE",
       "viewportTarget": "360dp and Xiaomi 11i usable height",
-      "palette": "warm ivory + crimson/red + restrained gold + semantic green/red/amber/grey",
-      "supersedes": "2026-11-16 tall unified scrollable dashboard"
+      "palette": "ice-blue / cyan glass + pearl white surfaces + navy typography + blue primary + semantic green/red/amber/neutral grey",
+      "supersedes": "2026-11-16 tall unified scrollable dashboard",
+      "visualAuthority": "CURRENT_DESIGN_SPEC.md — 2026-11-17 screenshot /mnt/data/1000320035.jpg (1024x1536)",
+      "implementationBranch": "chatgpt/member-intelligence-mobile-rebuild",
+      "screen": "lib/presentation/reference_member_dashboard.dart",
+      "entryPoint": "lib/main.dart"
     }
   },
   "releaseUpdateCenter": {
@@ -379,7 +383,7 @@
     "history": "AI_SHARED_COMMUNICATION_HUB.md + docs/DECISION_LOG.md + AI_SYNC_STATE.json + ANTIGRAVITY_TASK.md",
     "preserveAllPriorHistory": true
   },
-  "lastUpdated": "2026-11-16T18:37:00+05:30",
+  "lastUpdated": "2026-11-17T22:32:00+05:30",
   "releaseSigning": {
     "status": "PROTECTED_KEY_REQUIRED",
     "requiredSecrets": [
@@ -390,5 +394,28 @@
     ],
     "workflow": ".github/workflows/publish-android-release.yml",
     "policy": "Never publish stable update from default debug signing. Existing app data must be preserved on signature mismatch."
+  },
+  "latestChatGPTImplementation": {
+    "date": "2026-11-17",
+    "status": "IMPLEMENTED_PENDING_LATEST_CI_AND_DEVICE_VISUAL_QA",
+    "userDecision": "ChatGPT must implement the UI independently; Antigravity laptop work is separate and is not a dependency.",
+    "branch": "chatgpt/member-intelligence-mobile-rebuild",
+    "latestReference": "/mnt/data/1000320035.jpg",
+    "referenceDimensions": "1024x1536",
+    "screenFile": "lib/presentation/reference_member_dashboard.dart",
+    "entryPoint": "lib/main.dart",
+    "fixtureFile": "lib/core/models/member_intelligence_data.dart",
+    "tests": "test/widget_test.dart",
+    "addedDependency": "qr_flutter ^4.1.0",
+    "implementedSections": [
+      "ice-blue glass header",
+      "integrated member/check-in/QR/membership pass",
+      "festival sponsored banner",
+      "four KPI cards",
+      "contextual left rail",
+      "attendance calendar and summary donut",
+      "AI Insights footer"
+    ],
+    "verification": "Pending latest GitHub Actions run and physical Xiaomi screenshot comparison; do not claim release-ready yet."
   }
 }
