@@ -1,3 +1,4 @@
+import 'demo_auth_gate.dart';
 import 'operations.dart';
 import 'job_composer.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class ArjunApp extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
       ),
     ),
-    home: const AppShell(),
+    home: const DemoAuthGate(child: AppShell()),
   );
 }
 
