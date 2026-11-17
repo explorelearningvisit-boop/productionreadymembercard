@@ -1,59 +1,66 @@
-# KAAMSETU — On-Demand Labour & Skilled Work Marketplace
+# ARJUN — Workforce Marketplace (working product name)
 
-> Working product name only. Brand/trademark/domain availability has not been checked.
+Mobile-first, Hindi-first role-based marketplace prototype for Varanasi. Brand and trademark availability are not checked.
 
-KAAMSETU is a separate product workspace inside this repository. It must remain isolated from the existing BAD GYM application and all existing product code.
+## Current implementation
 
-## Product thesis
+This workspace is isolated under `apps/kaamsetu/`; it does not modify the existing application.
 
-Connect households, contractors and small businesses with verified local workers and skilled tradespeople. Convert well-defined jobs into measurable, safely executable work packages; dispatch suitable workers; verify completion; and release payment transparently.
+- Role switcher: Customer/Owner, Worker, Site Manager.
+- Customer: browse service categories, post a job, set worker count, rate/unit, location and priority.
+- Worker: browse nearby demo jobs, search, accept/join and see joined state.
+- Site manager: view sample site visits and trigger demo inspection feedback.
+- Demo wallet: local-only balance display and simulated add-funds action.
+- Hindi by default, simple English toggle.
+- Responsive mobile-first UI, large controls, semantic icons and status colors.
+- Demo jobs and localStorage persistence for jobs, joined work and demo wallet.
 
-## User surfaces
+## Run locally
 
-1. **Worker app** — onboarding/KYC, skills and experience, service area, availability, nearby jobs, clear scope and rate before acceptance, check-in/out, task evidence, earnings ledger, payout status, ratings, support and disputes.
-2. **Customer app** — post a job, choose skill/category, quantity/unit, location, deadline and budget; see estimate and worker plan; fund escrow/prepayment; track progress; review evidence; approve milestones; request extra work through a priced change order; raise a dispute.
-3. **Operations/Admin web** — live job queue and map, worker verification, dispatch and reassignment, task templates, city/skill rate cards, escrow and payout ledger, disputes, safety incidents, fraud/risk review, service-area controls and analytics.
+Requires Node.js 20+.
 
-## Initial service taxonomy
+```bash
+cd apps/kaamsetu
+npm install
+npm run dev
+```
 
-- Construction helpers and material handling (sand, bricks, cement, debris)
-- Masonry / rajmistri
-- Electricians and wiring
-- Plumbers
-- Digging / excavation
-- Concrete / casting support
-- Grass cutting and farm labour
-- Household and other locally validated services
+Production bundle check:
 
-## Non-negotiable task model
+```bash
+npm run build
+npm run preview
+```
 
-Every assignment must specify: measurable scope and unit, worksite, prerequisites/materials/tools, expected duration, rate, acceptance criteria, evidence required, safety/PPE requirements, and what is explicitly out of scope. A customer cannot silently add work onsite; extra scope requires an in-app change order accepted by the worker and repriced.
+## Important: not production-ready for real customers yet
 
-Do not assume every job can safely be split into 5–15 minute independent tasks. Task templates must be validated for sequencing, access, hazards, travel/setup time, quality dependencies and minimum viable work units. Dispatch must not create unsafe crowding or expose workers to uncontrolled sites.
+This is an interactive front-end prototype with local demo data. It is **not** connected to Firebase, a real identity/KYC service, maps/geocoding, notifications, a payment gateway, bank/UPI transaction verification, payroll, or a production admin backend. No real payment is initiated and no worker is actually dispatched.
 
-## Payment and fairness model
+Before a public launch, complete at minimum:
 
-- Customer funds the job (or an agreed milestone) before dispatch; funds are held in a compliant payment/escrow flow.
-- Workers see the exact rate, milestone amount, completion criteria and deductions before accepting.
-- Release each completed milestone promptly after objective verification; maintain a transparent transaction ledger and payout status.
-- Do not apply automatic 40–60% forfeitures merely because a worker misses a timer. Use proportionate, disclosed rules, documented evidence, worker response/appeal, and human review for disputed or partially completed work.
-- Include travel/setup, waiting, site access failure, customer cancellation, weather/material delays, injury and force-majeure handling in the policy.
-- Validate payment-provider, labour, tax, worker-classification, insurance and local compliance requirements before real-money launch.
+1. Firebase project setup, Auth, Firestore/Cloud Functions, Storage, App Check, Security Rules and role-based authorization.
+2. Server-authoritative job/rate/dispatch state machine; idempotent acceptance and replacement logic.
+3. Real city/skill/unit rate cards validated through field research; no worker bidding above the published base rate. Any urgency bonus must be explicit and customer-funded.
+4. Manager onboarding, qualifications, background checks, contracts, visit evidence, audit trail and quality review. Do not collect a recruitment deposit as a condition of getting work.
+5. Payment provider and legally reviewed marketplace settlement model. Separate customer funds, worker earnings and platform revenue in the ledger. Do not claim P2P transfers avoid tax. UPI screenshots/typed UTRs are not authoritative payment proof.
+6. Labour-law review for worker classification, wage deductions, cancellation/penalty policy, safety, insurance, grievance and social-security obligations.
+7. Hindi/English localization QA, accessibility testing with real workers, low-end Android and poor-network testing.
+8. Automated tests, security review, monitoring, backups, privacy policy, terms, incident response and staged Varanasi pilot.
 
-## MVP boundary
+## Product principles
 
-Launch in one tightly bounded Varanasi service area with a small set of validated job templates and manually supervised dispatch. Start with customer job posting, worker onboarding, rate cards, job acceptance, check-in/out, milestone evidence, escrow/payment ledger, ratings and dispute handling. Expand trades and automated task splitting only after field pilots establish reliable unit rates and completion times.
+- The worker sees the full rate, unit, scope, site, timing and conditions before accepting.
+- Market rate is centrally published by location, skill and unit; no auction/bidding race.
+- Urgency premium is a separately disclosed incentive, not a hidden change to the base rate.
+- Replacement after abandonment is an operations workflow with reason codes and human review, not automatic wage confiscation.
+- Site managers record attendance, progress, material checks and evidence; disputes require both sides' responses.
+- Use color plus icon plus text; never communicate status through color alone.
+- The app must remain usable with large type, voice support and simple Hindi.
 
-## Suggested implementation sequence
+## Suggested next steps
 
-1. Product discovery and field validation; define task templates and local rate cards.
-2. UX flows and design system for Worker, Customer and Admin.
-3. Data model, authentication, role-based access and service-area model.
-4. Job lifecycle, dispatch queue and milestone ledger.
-5. Evidence, customer approval, change orders and disputes.
-6. Payment-provider integration in test mode; compliance review before live payouts.
-7. Pilot instrumentation, safety review and operational dashboards.
-
-## Isolation rule
-
-All KAAMSETU work stays under `apps/kaamsetu/` on branch `feature/kaamsetu-workforce-marketplace`. Do not modify, rename, delete, or merge existing BAD GYM files or branches as part of this project.
+1. Build backend contracts and Firestore schema.
+2. Add authenticated customer/worker/manager accounts and role permissions.
+3. Implement the job lifecycle and operations console.
+4. Integrate a regulated payment provider in sandbox, then complete legal and tax review.
+5. Run a supervised Varanasi pilot before general release.
