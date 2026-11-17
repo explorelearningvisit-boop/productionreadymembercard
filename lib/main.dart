@@ -442,7 +442,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _intelligenceWorkspace() {
     return LayoutBuilder(builder: (context, constraints) {
-      final tileHeight = ((constraints.maxHeight - 10) / 7 - 0.25).clamp(33.0, 57.0);
+      final tileHeight = ((constraints.maxHeight - 12) / 7 - 0.1).clamp(33.0, 100.0);
       return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _verticalRail(tileHeight: tileHeight),
         const SizedBox(width: 4),
