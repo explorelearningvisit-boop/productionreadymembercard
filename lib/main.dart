@@ -681,9 +681,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _intelligenceWorkspace() {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _verticalRail(),
         const SizedBox(width: 5),
@@ -721,8 +720,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             ),
           ),
         ),
-        ],
-      ),
+      ],
     );
   }
 
@@ -745,6 +743,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     ];
     return Container(
       width: 61,
+      height: 500,
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 7),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
