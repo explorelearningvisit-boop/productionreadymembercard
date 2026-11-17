@@ -346,33 +346,61 @@ class MemberIntelligenceApp extends StatelessWidget {
 
 
   Widget _quickMetrics(double height) {
-    final items = <(WorkspaceTab, String, IconData, String, String, String)>[
-      (WorkspaceTab.attendance, 'assets/badges/stat_attendance.png', Icons.event_available_rounded, 'Attendance', '81%', '↑ +6%'),
-      (WorkspaceTab.workout, 'assets/badges/stat_workout.png', Icons.fitness_center_rounded, 'Workout', '58 min', '↑ +12%'),
-      (WorkspaceTab.payment, 'assets/badges/stat_payment.png', Icons.account_balance_wallet_rounded, 'Payment', '₹500', 'Due'),
-      (WorkspaceTab.body, 'assets/badges/stat_body.png', Icons.monitor_weight_rounded, 'Body', '69.5 kg', '↓ -0.8 kg'),
-    ];
-    return SizedBox(height: height, child: Row(children: List.generate(items.length, (index) {
-      final item = items[index];
-      final active = _tab == item.$1;
+    final tabs = [WorkspaceTab.attendance, WorkspaceTab.workout, WorkspaceTab.payment, WorkspaceTab.body];
+    final labels = ['Attendance', 'Workout', 'Payment', 'Body'];
+    final values = ['81%', '58 min', '₹500 Due', '69.5 kg'];
+    final colors = [t.success, const Color(0xFF8053E8), t.danger, const Color(0xFF159B65)];
+    final icons = [Icons.event_available_rounded, Icons.fitness_center_rounded, Icons.account_balance_wallet_rounded, Icons.monitor_weight_rounded];
+    return SizedBox(height: height, child: Row(children: List.generate(4, (index) {
+      final active = _tab == tabs[index];
       return Expanded(child: Padding(
         padding: EdgeInsets.only(right: index == 3 ? 0 : 4),
         child: InkWell(
-          onTap: () => _setTab(item.$1),
+          onTap: () => _setTab(tabs[index]),
           borderRadius: BorderRadius.circular(t.radius),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
             decoration: t.panel(radius: t.radius, selected: active),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Image.asset(item.$2, width: 17, height: 17, fit: BoxFit.contain,
-                errorBuilder: (_, __, ___) => Icon(item.$3, color: active ? t.primary : t.secondary, size: 15)),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(icons[index], color: colors[index], size: 14),
+                const SizedBox(width: 3),
+                Flexible(child: Text(labels[index], maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.cardText, fontSize: 8.5, fontWeight: FontWeight.w800))),
+              ]),
               const SizedBox(height: 2),
-              Text(item.$4, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontSize: 9, height: 1.05, fontWeight: FontWeight.w700)),
-              FittedBox(fit: BoxFit.scaleDown, child: Text(item.$5,
-                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 12, height: 1.05, fontWeight: FontWeight.w900))),
-              Text(item.$6, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.success, fontSize: 10.5, height: 1, fontWeight: FontWeight.w800)),
+              if (index == 0)
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  SizedBox(width: 28, height: 28, child: Stack(alignment: Alignment.center, children: [
+                    SizedBox.expand(child: CircularProgressIndicator(value: .81, strokeWidth: 3, backgroundColor: t.neutral, valueColor: AlwaysStoppedAnimation<Color>(colors[index]))),
+                    Text('81', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w900)),
+                  ])),
+                  const SizedBox(width: 4),
+                  Text('↑ +6%', style: TextStyle(color: t.success, fontSize: 9, fontWeight: FontWeight.w900)),
+                ])
+              else if (index == 1)
+                Column(children: [
+                  Text(values[index], style: TextStyle(color: t.cardText, fontSize: 12, height: 1, fontWeight: FontWeight.w900)),
+                  const SizedBox(height: 3),
+                  SizedBox(height: 13, child: Row(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.end, children: [5,8,10,12,13].map((h) => Container(
+                    width: 5, height: h.toDouble(), margin: const EdgeInsets.symmetric(horizontal: 1),
+                    decoration: BoxDecoration(color: colors[index], borderRadius: BorderRadius.circular(3)),
+                  )).toList())),
+                ])
+              else if (index == 2)
+                Column(children: [
+                  Text('₹500 Due', style: TextStyle(color: t.danger, fontSize: 11, height: 1, fontWeight: FontWeight.w900)),
+                  const SizedBox(height: 3),
+                  Text('SBI Card · 10% Cashback', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 6.8, fontWeight: FontWeight.w700)),
+                ])
+              else
+                Column(children: [
+                  Text(values[index], style: TextStyle(color: t.cardText, fontSize: 12, height: 1, fontWeight: FontWeight.w900)),
+                  const SizedBox(height: 3),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Icon(Icons.trending_down_rounded, color: t.success, size: 12),
+                    Text('-0.8 kg', style: TextStyle(color: t.success, fontSize: 8.5, fontWeight: FontWeight.w900)),
+                  ]),
+                ]),
             ]),
           ),
         ),
