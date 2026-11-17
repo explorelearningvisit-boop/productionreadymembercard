@@ -25,32 +25,23 @@
     }
   },
   "currentMilestone": {
-    "status": "SUCCESS_LOCAL_VERIFIED",
-    "designSystem": "Light coral/rose/ivory unified bordered Member Dashboard Card with high-definition 3D Streak Flame and 3D Trophy badges.",
-    "designReference": "User-provided BAD GYM reference with 3D flame and trophy assets",
+    "status": "TEN_THEME_DASHBOARD_IMPLEMENTED_CI_PENDING",
+    "designSystem": "Ten selectable BAD GYM dashboard systems in one Flutter app: Ice Glass, Crimson Gold, Festival Yellow, Sky Pearl, Athletic Red, Emerald Pulse, Royal Ruby, Gold Festival, Obsidian Neon, Minimal Red.",
+    "designReference": "Ten user-uploaded portrait dashboard references dated 2026-11-17; mapped individually in docs/10_REFERENCE_GOLD_DESIGN_SPEC.md.",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
     "buildVerification": {
-      "status": "SUCCESS",
-      "format": "PASS",
-      "analyze": "PASS",
-      "flutterTests": "PASS (11/11 passed)",
-      "apkBuild": "PASS",
-      "apkSha256": "07E81A6DA8EF9071699BDA623804DDBADEB5FDDA6B98ECDEEE357FA17FDCCBC6",
-      "appVersion": "0.2.0+2"
+      "status": "PENDING_CI",
+      "format": "PENDING",
+      "analyze": "PENDING",
+      "flutterTests": "PENDING",
+      "apkBuild": "PENDING"
     },
     "deviceVerification": {
-      "status": "SUCCESS_LOCAL_DEVICE_VERIFIED",
-      "targetDevice": "Xiaomi 11i 5G (zxdada69gunb7ls4 / 100.123.18.54)",
-      "installation": "STREAMED_INSTALL_SUCCESS",
-      "screenshot": "docs/screenshots/bad_gym_live.png",
-      "verifiedAssets": [
-        "assets/badges/streak_flame.png (3D Flame with transparent alpha)",
-        "assets/badges/best_trophy.png (3D Trophy with transparent alpha)",
-        "assets/hero/hero_athlete.png (Member profile model avatar)",
-        "docs/screenshots/bad_gym_live.png (Live physical verification)"
-      ]
+      "status": "NOT_VERIFIED",
+      "targetDevice": "Xiaomi 11i 5G (21091116I)",
+      "note": "Fresh physical screenshot comparison for all ten theme variants remains required."
     },
-    "lastUpdated": "2026-11-16",
+    "lastUpdated": "2026-11-17",
     "ciDiagnosis": {
       "latestFailureRun": 43833182700,
       "tailscaleJoin": "SUCCESS_ON_ATTEMPT_1",
@@ -88,38 +79,25 @@
     },
     "latestValidationRun": 43722419265,
     "latestChanges": {
-      "date": "2026-11-16",
-      "branch": "main",
+      "date": "2026-11-17",
+      "branch": "chatgpt/design-lab-yellow-festive",
       "summary": [
-        "Replaced vertically scrolling dashboard with bounded LayoutBuilder fixed-viewport workspace",
-        "Compact member context header and four low-height quick tabs",
-        "Attendance defaults to current member calendar; contextual rail swaps Calendar, Trend, History and Insights in place",
-        "Workout, Payment and Body tabs expose focused compact rail destinations without stacking content",
-        "Added GitHub stable-release checker, changelog prompt, HTTPS APK download, SHA-256 verification and Android PackageInstaller handoff",
-        "Added protected release signing support and a release workflow gated on four encrypted keystore secrets",
-        "Fixed FittedBox unbounded-width error in attendance calendar after CI regression test"
+        "Implemented ten independently styled dashboard theme systems in one Flutter app with an in-app theme gallery.",
+        "Shared member identity, QR, membership/payment context, Attendance/Workout/Payment/Body tabs and contextual rail remain common across themes.",
+        "Added theme-specific canvas/surface palettes, gradients, borders, shadows, geometry, decorative PNG artwork and theme-aware Android status/navigation bar styling.",
+        "Added attendance donut summary, present/late/absent/off counts, streak/trophy indicators and native date grid; Sunday and holiday use neutral styling.",
+        "Registered complete assets/ directory and reused existing avatar, 3D badge, promo, dumbbell and theme artwork.",
+        "Added widget coverage for ten theme selections, tab/rail navigation, 360dp and 320dp compact viewport."
       ],
       "codeCommits": [
-        "52b115cb65cc7eb8c48bbc1a1baaa5b56222f991",
-        "8b9d14323ae57d735438afa7373052c00b78bf4e",
-        "c768f3b5af47b829fe080b79efd594e4d50e11d9",
-        "2bf2310f001ae4d98433cea2a1721eab8cebb8b2",
-        "bdf9405526bb1969a518c59ea125527f52d8c3c5",
-        "8205ad07877f7557f32a7d276c6f7a30bb6a7a0c",
-        "5491f4ef908dc13fceb7ad7d014a543bf1f5b7a6",
-        "60adc3e1b32df6b0adf38489360586cc1ca8a91e",
-        "eddeb7441310f81223d56bd179c557966811041f",
-        "97b1c8af8ebf74f882720fef916f732fad392da5",
-        "dd956928ccf77e2a869c6024ac97cd139a3b9453",
-        "75ee571c13b8ba896d01a3e5955e48b6d330af5b",
-        "1223a1d5debf24c5647125ff6b9f3d1627b064d1",
-        "9739c832f4c1b117d7541a47a1fd5015864e95de",
-        "0d64ba3b1ae131da6308562239b0b33dcab07438",
-        "70f943f09e0e528241fd8df64a9cb05a00d0af3b"
+        "3c0274bc4236d41227be7ed0f6d851d5e7c04483",
+        "0076acaba2502969212c651e4d67c64eea5ebf60",
+        "a3c7ef009d0c4df9a766bb6a810609e0a8848575",
+        "b33085afea942c48ba614756c310b21ccc38e51a",
+        "221c1d22dd4a973fe2d178692ddd7f6d2b4b34bd"
       ],
-      "verification": "Cloud run 43879102167 attempt 2: Dart format, Flutter analyze, Flutter tests and Android APK build all PASS. Tailnet QA separately failed because Xiaomi peer was offline at that timestamp. Antigravity Windows full-run handoff created in docs/ANTIGRAVITY_FULL_RUN_HANDOFF.md; local laptop/ADB/screenshot/install remain unverified until Antigravity runs it.",
-      "deviceVerification": "NOT_VERIFIED",
-      "updater": "Implemented client and Android PackageInstaller bridge; no stable GitHub Release exists yet. Publishing workflow requires BADGYM_RELEASE_KEYSTORE_B64, BADGYM_RELEASE_STORE_PASSWORD, BADGYM_RELEASE_KEY_ALIAS, BADGYM_RELEASE_KEY_PASSWORD. Do not publish QA/debug-signed APK as stable."
+      "verification": "Awaiting latest GitHub Actions run. Physical Xiaomi screenshot verification not yet performed.",
+      "deviceVerification": "NOT_VERIFIED"
     },
     "deviceProfile": {
       "lastUserReportedWirelessAdbPort": 37337,
@@ -437,5 +415,34 @@
       "apkSizeBytes": 59579893,
       "apkSha256": "f159b4925f78480d65e6979100c48b7a6d26575877aa2071f81cbd7330d8ede0"
     }
+  },
+  "tenDashboardThemes": {
+    "status": "IMPLEMENTED_CI_PENDING",
+    "themes": [
+      "Ice Glass",
+      "Crimson Gold",
+      "Festival Yellow",
+      "Sky Pearl",
+      "Athletic Red",
+      "Emerald Pulse",
+      "Royal Ruby",
+      "Gold Festival",
+      "Obsidian Neon",
+      "Minimal Red"
+    ],
+    "selector": "Header palette button opens in-app theme gallery",
+    "sharedState": [
+      "member identity",
+      "QR",
+      "membership",
+      "payment summary",
+      "Attendance",
+      "Workout",
+      "Payment",
+      "Body",
+      "contextual rail"
+    ],
+    "layout": "360dp primary; 320dp minimum test; SafeArea bounded viewport; Android system bars theme-aware",
+    "references": "10 user-uploaded 1024x1536 portrait screenshots, 2026-11-17"
   }
 }
