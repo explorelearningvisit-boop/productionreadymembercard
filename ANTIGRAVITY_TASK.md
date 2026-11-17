@@ -133,3 +133,14 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - ChatGPT found the previous experimental branch `chatgpt/ui-ux-remediation` is not buildable: latest run 44106838230 failed static analysis with widespread undefined `t`, `_subSection`, attendance state and test `dashboardThemes`; tests/build/device QA were skipped. Do not copy its broken `lib/main.dart` into this branch. The new branch starts from the actual `main` Flutter architecture.
 - Antigravity must read the new rebuild handoff and all mandatory AGENTS.md docs, repair/implement in this branch, run format/analyze/tests/release build, then device QA with signing continuity checks. Preserve app data; never uninstall or clear storage.
 - Latest screenshot dimensions are image pixels, not dp. Use LayoutBuilder/MediaQuery to adapt to device logical viewport and safe areas.
+
+
+## 2026-11-17 — ChatGPT independently implementing exact ice-blue reference dashboard
+- User clarified that Antigravity's laptop-local work is independent and ChatGPT must complete its own implementation without waiting for Antigravity. Do not block this branch on laptop results.
+- Reference re-opened: `/mnt/data/1000320035.jpg`, 1024×1536 px. No re-upload is required for the current reference.
+- Working branch remains `chatgpt/member-intelligence-mobile-rebuild`; base/main untouched.
+- New screen `lib/presentation/reference_member_dashboard.dart` is now the app's entry screen via `lib/main.dart`. It implements the reference hierarchy: ice-blue water-glass header, integrated profile/check-in/QR/membership progress card, festival banner, four KPI cards, contextual rail, attendance calendar + donut/counts, and AI Insights footer.
+- Added scannable QR rendering with `qr_flutter`; updated sample fixture name to match the reference.
+- Rewrote widget tests for all reference sections, compact 360dp viewport, in-place tab/rail switching and notification action.
+- Latest code commit at this handoff: `5800e6e47225fde652906783b9fb7b1d994cab58`; later docs-only commits update the visual source authority and shared state.
+- Latest Actions run must be checked by current branch head SHA. No release-ready, physical install or screenshot-comparison claim until fresh CI and device evidence are available.
