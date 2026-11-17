@@ -14,6 +14,8 @@ Captured over-the-air via Tailscale ADB from the user's **Xiaomi 11i 5G** displa
 
 ## 🎨 Current Scope & Visual Implementation
 
+The Design Lab branch now contains ten selectable dashboard systems in one Flutter app: Ice Glass, Crimson Gold, Festival Yellow, Sky Pearl, Athletic Red, Emerald Pulse, Royal Ruby, Gold Festival, Obsidian Neon and Minimal Red. Open the palette button in the app header to switch themes; member data and workspace interactions are shared.
+
 This repository is dedicated to the production-quality, pixel-perfect **BAD GYM Member Intelligence** card:
 - **Top Header Bar**: Rounded dark menu button, golden leaf icon, BAD GYM typography, notification bell with unread badge (`3`), and live date pill (`07:12 AM, 16 Oct 2026`).
 - **Check-In Banner**: Check-In Success banner featuring biceps graphic, gold checkmark, and motivational typography.
