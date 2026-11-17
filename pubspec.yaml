@@ -20,6 +20,24 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/backgrounds/
+    - assets/badges/
+    - assets/cards/
+    - assets/decorations/
+    - assets/extracted_new/
+    - assets/fonts/
+    - assets/graphics/
+    - assets/hero/
+    - assets/icons/
+    - assets/images/
+    - assets/images/extracted/
+    - assets/promo/
+    - assets/themes/
+    - assets/themes/crimson_wave/
+    - assets/themes/dark_obsidian/
+    - assets/themes/emerald_neon/
+    - assets/themes/festive_gold/
+    - assets/themes/royal_purple/
   fonts:
     - family: Poppins
       fonts:
