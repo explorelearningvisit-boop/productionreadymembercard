@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 const _navy = Color(0xFF172554);
 const _mint = Color(0xFF0F766E);
-const _amber = Color(0xFFF59E0B);
 
 class OperationsHub extends StatelessWidget {
   const OperationsHub({super.key});
