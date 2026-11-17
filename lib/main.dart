@@ -552,32 +552,29 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           ),
         ])),
         const SizedBox(height: 3),
-        Row(children: [
-          Expanded(child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('MEMBERSHIP  22 / 30 DAYS', style: TextStyle(color: t.cardText, fontSize: 6, height: .95, fontWeight: FontWeight.w800)),
-              const SizedBox(height: 2),
-              ClipRRect(borderRadius: BorderRadius.circular(10),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(children: [
+              Expanded(child: Text('MEMBERSHIP  22 / 30 DAYS',
+                style: TextStyle(color: t.cardText, fontSize: 6, height: 1, fontWeight: FontWeight.w800))),
+              Text('₹500 DUE', style: TextStyle(color: t.danger, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
+            ]),
+            const SizedBox(height: 2),
+            Row(children: [
+              Expanded(child: ClipRRect(borderRadius: BorderRadius.circular(10),
                 child: LinearProgressIndicator(
                   value: _membershipProgress, minHeight: 4,
                   backgroundColor: t.neutral,
                   valueColor: AlwaysStoppedAnimation<Color>(t.primary),
-                )),
-            ],
-          )),
-          const SizedBox(width: 6),
-          Expanded(child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('₹500 DUE  ·  8 DAYS LEFT', style: TextStyle(color: t.danger, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
-              Text('Expires ' + _expiryLabel, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w600)),
-            ],
-          )),
-        ]),
+                ))),
+              const SizedBox(width: 5),
+              Text('8 DAYS LEFT · ' + _expiryLabel,
+                maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: t.softText, fontSize: 5.5, height: 1, fontWeight: FontWeight.w600)),
+            ]),
+          ],
+        ),
       ]),
     );
   }
