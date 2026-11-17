@@ -337,11 +337,11 @@ jobs:
                       # Return to Attendance and verify every contextual rail destination.
                       tap_capture 14 47 "05-attendance-default" "Attendance Intelligence"
                       tap_capture 8 58 "06-attendance-intelligence" "Attendance Intelligence"
-                      tap_capture 8 64 "07-attendance-calendar" "Attendance Intelligence"
-                      tap_capture 8 70 "08-attendance-history" "Recent attendance records"
-                      tap_capture 8 77 "09-attendance-trend" "Attendance trend"
-                      tap_capture 8 84 "10-attendance-goals" "Monthly consistency goal"
-                      tap_capture 8 90 "11-attendance-more" "Member attendance insights"
+                      tap_capture 8 65 "07-attendance-calendar" "Attendance Intelligence"
+                      tap_capture 8 72 "08-attendance-history" "Recent attendance records"
+                      tap_capture 8 79 "09-attendance-trend" "Attendance trend"
+                      tap_capture 8 86 "10-attendance-goals" "Monthly consistency goal"
+                      tap_capture 8 93 "11-attendance-more" "Current streak"
                     fi
                     if grep -q "mResumedActivity.*com.badgym.designlab\|topResumedActivity.*com.badgym.designlab" "$capture_dir/activity-state.txt"; then
                       if [ "$interaction_failed" -eq 0 ]; then
@@ -399,15 +399,22 @@ jobs:
         continue-on-error: true
         run: |
           mkdir -p docs/screenshots
-          shopt -s nullglob
-          SCREENSHOTS=(device-artifacts/ui-Xiaomi-11i/01-attendance-calendar.png device-artifacts/ui-Xiaomi-11i/00-app-launch.png)
-          if [ ${#SCREENSHOTS[@]} -gt 0 ]; then
+          SCREENSHOT_SOURCE=""
+          for candidate in \
+            device-artifacts/ui-Xiaomi-11i/07-attendance-calendar.png \
+            device-artifacts/ui-Xiaomi-11i/00-app-launch.png; do
+            if [ -s "$candidate" ]; then
+              SCREENSHOT_SOURCE="$candidate"
+              break
+            fi
+          done
+          if [ -n "$SCREENSHOT_SOURCE" ]; then
             if [ "$GITHUB_REF_NAME" = "main" ]; then
               DEST="docs/screenshots/bad_gym_live.png"
             else
               DEST="docs/screenshots/member-intelligence-live.png"
             fi
-            cp "${SCREENSHOTS[0]}" "$DEST"
+            cp "$SCREENSHOT_SOURCE" "$DEST"
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git add "$DEST"
@@ -415,5 +422,7 @@ jobs:
               git commit -m "chore(qa): refresh live member intelligence screenshot [skip ci]"
               git push origin "HEAD:$GITHUB_REF_NAME"
             fi
+          else
+            echo "::warning::No screenshot was captured; keeping the previous committed evidence."
           fi
 
