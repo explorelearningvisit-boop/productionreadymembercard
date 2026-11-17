@@ -816,7 +816,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           )),
         ),
         if (DateTime(_year, _month, day).weekday == DateTime.sunday)
-          Text('OFF', style: TextStyle(color: t.muted, fontSize: 7, height: 1, fontWeight: FontWeight.w800)),
+          Text('OFF', style: TextStyle(color: t.muted, fontSize: 9.5, height: 1, fontWeight: FontWeight.w800)),
         if (kind == DayKind.holiday)
           Text('HOL', style: TextStyle(color: t.muted, fontSize: 7, height: 1, fontWeight: FontWeight.w800)),
       ])));
@@ -951,6 +951,18 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   );
 
   Widget _workoutContent() {
+    if (_subSection == 2) {
+      return _innerPanel(title: 'Workout programs', child: Center(child: Text(
+        'Program library is not connected yet', textAlign: TextAlign.center,
+        style: TextStyle(color: t.softText, fontSize: 12, fontWeight: FontWeight.w700),
+      )));
+    }
+    if (_subSection == 3) {
+      return _innerPanel(title: 'Workout history', child: Center(child: Text(
+        'Session history is not connected yet', textAlign: TextAlign.center,
+        style: TextStyle(color: t.softText, fontSize: 12, fontWeight: FontWeight.w700),
+      )));
+    }
     final values = _subSection == 1
         ? [32.0, 56, 44, 78, 66, 91, 72]
         : [38.0, 49, 58, 64, 70, 82, 88];
@@ -1028,7 +1040,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             Icon(Icons.account_balance_wallet_rounded, color: t.danger, size: 22),
             const SizedBox(width: 8),
             Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('Outstanding balance', style: TextStyle(color: t.softText, fontSize: 7)),
+              Text('Outstanding balance', style: TextStyle(color: t.softText, fontSize: 10)),
               Text('₹500 DUE', style: TextStyle(color: t.danger, fontSize: 18, fontWeight: FontWeight.w900)),
             ])),
             Container(padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
@@ -1042,7 +1054,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         _metricLine('Early payment reward', 'Up to 2% savings', t.primary),
         _metricLine('Payment history', 'Not connected', t.softText),
         const Spacer(),
-        Text('Sample payment details · no payment is collected in this demo', style: TextStyle(color: t.softText, fontSize: 6.5)),
+        Text('Sample payment details · no payment is collected in this demo', style: TextStyle(color: t.softText, fontSize: 9)),
       ]),
     );
   }
