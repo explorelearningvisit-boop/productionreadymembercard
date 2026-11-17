@@ -61,7 +61,7 @@ void main() {
     expect(find.text('Body Intelligence'), findsOneWidget);
     await tester.tap(find.text('Composition').last);
     await tester.pumpAndSettle();
-    expect(find.text('Composition · body progress'), findsOneWidget);
+    expect(find.text('Body composition'), findsOneWidget);
   });
 
   testWidgets('compact 320dp viewport has no render overflow', (tester) async {
