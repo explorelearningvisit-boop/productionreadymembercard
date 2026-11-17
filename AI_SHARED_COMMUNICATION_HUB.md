@@ -337,3 +337,16 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Device QA**: NOT VERIFIED. No installation, launch or fresh Xiaomi screenshot has been performed. Pixel-perfect comparison remains pending.
 - **Git Commit**: 2db6b13cf6e7517fdeaf8d830a005b85b0832cb0 (state write-back); build artifact corresponds to code/test commit `0a1e88d7860a68050874865c308acf6ade7c4594`.
 - **Next Recommendations**: User can install the isolated evaluation build; collect a fresh screen capture and compare layout, image crops, font sizes, shadows, chart styling and spacing against the supplied references. Do not overwrite production `main`.
+
+
+### [2026-11-17 UTC] ChatGPT — Ten-theme dashboard implementation
+- **User request:** Build all ten uploaded BAD GYM Member Intelligence references as distinct selectable dashboards inside one app; preserve the Xiaomi usable screen area between system bars and reuse/extract graphics as PNG assets.
+- **Implemented:** Ten named visual systems in `lib/main.dart`: Ice Glass, Crimson Gold, Festival Yellow, Sky Pearl, Athletic Red, Emerald Pulse, Royal Ruby, Gold Festival, Obsidian Neon and Minimal Red. Header palette control opens a 10-theme gallery. Theme changes preserve shared member and workspace state.
+- **Shared UI:** Compact member profile and QR, checked-in timestamp, Active/Gold Plan pills, membership progress, ₹500 due and expiry context, promo strip, four quick workspaces, contextual rail, attendance calendar/trend/history/insights/goal, workout/payment/body content.
+- **Visual details:** Theme-specific backgrounds, gradients, panel fills, border geometry, radii, shadows, accent colors, and decorative artwork; Android status/navigation bar icon contrast and nav-bar canvas follow the selected theme.
+- **Assets:** Reused existing avatar, promo, badge, flame/trophy, 3D dumbbell/body artwork and theme ornaments. Registered `assets/` recursively in pubspec. Native widgets retain all text, QR, charts, metrics, dates and controls; no full-screen reference screenshot is used as a background.
+- **Responsive:** SafeArea bounded dashboard, 360dp target, 320dp compact test, no root SingleChildScrollView. Promotion artwork is suppressed first at very short heights.
+- **Data integrity:** Existing sample/demo values remain presentation fixtures; payment action is not a live payment collection and unavailable records are not represented as verified live history.
+- **Commits:** latest source/test/docs commits are recorded in AI_SYNC_STATE.json. Feature branch remains isolated from production main.
+- **Verification:** Latest Actions run is pending/in progress; no format/analyze/test/APK pass or physical Xiaomi screenshot is claimed yet. Compare fresh physical captures of each theme before claiming pixel-perfect.
+- **Next:** Inspect the latest workflow logs, fix formatter/analyzer/widget/build failures, then run Xiaomi 11i screenshot QA and visually compare all ten variants.
