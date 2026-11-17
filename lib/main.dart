@@ -1290,7 +1290,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: (height - 8) * value.clamp(.05, 1),
+                height: ((height - 8) * value.clamp(.05, 1)).toDouble(),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     begin: Alignment.bottomCenter,
