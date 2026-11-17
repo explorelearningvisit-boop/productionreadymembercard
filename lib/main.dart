@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 void main() => runApp(const MemberIntelligenceApp());
 
@@ -420,7 +419,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                           SizedBox(height: gap),
                           _paymentStrip(ultraCompact ? 40 : compact ? 46 : 50),
                           SizedBox(height: gap),
-                          _membershipProgress(ultraCompact ? 36 : compact ? 40 : 44),
+                          _membershipProgressBar(ultraCompact ? 36 : compact ? 40 : 44),
                           SizedBox(height: gap),
                           _quickMetrics(ultraCompact ? 62 : compact ? 70 : 76),
                           SizedBox(height: gap),
@@ -625,7 +624,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     ]),
   );
 
-  Widget _membershipProgress(double height) => Container(
+  Widget _membershipProgressBar(double height) => Container(
     height: height,
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     decoration: t.panel(radius: t.radius, selected: false),
@@ -644,9 +643,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       )),
     ]),
   );
-
-  String get _todayLabel => 'Completed · 07:12 AM';
-  String get _expiryLabel => '24 Oct 2026';
 
   String _monthName(int month) => const ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][month - 1];
 
@@ -841,10 +837,15 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             boxShadow: kind == DayKind.present ? [BoxShadow(color: color.withOpacity(.20), blurRadius: 2, offset: const Offset(0, 1))] : null,
           ),
           alignment: Alignment.center,
-          child: Text(day.toString(), style: TextStyle(
-            color: kind == DayKind.off || kind == DayKind.holiday ? (t.dark ? Colors.white70 : t.muted) : Colors.white,
-            fontSize: 9.5, fontWeight: FontWeight.w900,
-          )),
+          child: Stack(alignment: Alignment.center, children: [
+            Padding(padding: EdgeInsets.only(bottom: isSunday || kind == DayKind.holiday ? 5 : 0),
+              child: Text(day.toString(), style: TextStyle(
+                color: kind == DayKind.off || kind == DayKind.holiday ? (t.dark ? Colors.white70 : t.muted) : Colors.white,
+                fontSize: 9, fontWeight: FontWeight.w900,
+              ))),
+            if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: t.muted, fontSize: 5.5, height: 1, fontWeight: FontWeight.w900))),
+            if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(color: t.muted, fontSize: 5.5, height: 1, fontWeight: FontWeight.w900))),
+          ]),
         ),
       ])));
     }
