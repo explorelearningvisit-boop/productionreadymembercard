@@ -12,10 +12,11 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('BAD GYM'), findsOneWidget);
-    expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
+    expect(find.text('Ashwani Kumar Singh Vishwakarma'), findsOneWidget);
     expect(find.text('Attendance Intelligence'), findsOneWidget);
     expect(find.textContaining('22 / 30 DAYS'), findsOneWidget);
     expect(find.byType(SingleChildScrollView), findsNothing);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('all ten dashboard themes are selectable in the same app', (tester) async {
@@ -68,5 +69,6 @@ void main() {
     tester.view.devicePixelRatio = 1;
     await tester.pumpWidget(const MemberIntelligenceApp());
     await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
   });
 }
