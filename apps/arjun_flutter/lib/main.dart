@@ -3,6 +3,7 @@ import 'operations.dart';
 import 'job_composer.dart';
 import 'role_dashboards.dart';
 import 'local_job_store.dart';
+import 'sponsored_placements.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const ArjunApp());
@@ -183,6 +184,8 @@ class DashboardPage extends StatelessWidget {
       const Text('आपको क्या चाहिए?', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: ink)),
       const SizedBox(height: 12),
       const CategoryGrid(),
+      const SizedBox(height: 18),
+      const SponsoredSupplierPlacement(),
       const SizedBox(height: 22),
       Row(children: [const Expanded(child: Text('आपके आसपास के काम', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: ink))), TextButton(onPressed: onBrowse, child: const Text('सभी देखें'))]),
     ]))),
@@ -242,6 +245,7 @@ class ExplorePage extends StatelessWidget {
   @override Widget build(BuildContext context) => ListView(padding: const EdgeInsets.fromLTRB(20, 20, 20, 90), children: [
     const Text('काम और सेवाएँ खोजें', style: TextStyle(fontSize: 23, fontWeight: FontWeight.w900, color: ink)),
     const SizedBox(height: 12), const TextField(decoration: InputDecoration(prefixIcon: Icon(Icons.search), hintText: 'काम, हुनर या जगह खोजें')),
+    const SizedBox(height: 14), const SponsoredServicePlacement(),
     const SizedBox(height: 16), ...jobs.map((j) => Column(children: [JobCard(job: j), Align(alignment: Alignment.centerRight, child: TextButton.icon(onPressed: () => onAccept(j), icon: const Icon(Icons.check_circle_outline), label: Text(role == UserRole.worker ? 'काम स्वीकार करें' : 'रुचि देखें'))), const SizedBox(height: 8)])),
   ]);
 }
