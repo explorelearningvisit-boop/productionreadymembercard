@@ -469,7 +469,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     const labels = ['Dashboard', 'Attendance', 'Workout', 'Payments', 'Offers', 'History', 'Body'];
     const icons = [Icons.bar_chart_rounded, Icons.calendar_month_rounded, Icons.fitness_center_rounded,
       Icons.account_balance_wallet_rounded, Icons.sell_rounded, Icons.history_rounded, Icons.monitor_weight_rounded];
-    return Container(width: 48, height: tileHeight * 7 + 10,
+    return Container(width: 48, height: tileHeight * 7 + 10.5,
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
       decoration: BoxDecoration(
         gradient: const LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
