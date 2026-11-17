@@ -79,7 +79,6 @@ class AppShell extends StatefulWidget {
 }
 class _AppShellState extends State<AppShell> {
   final LocalJobStore _jobStore = LocalJobStore();
-  bool _restoringJobs = true;
   UserRole role = UserRole.customer;
   int tab = 0;
   bool english = false;
@@ -100,12 +99,11 @@ class _AppShellState extends State<AppShell> {
     try {
       final saved = await _jobStore.read();
       if (!mounted) return;
-      setState(() {
-        jobs.insertAll(0, saved.map(Job.fromJson));
-        _restoringJobs = false;
-      });
+      if (saved.isNotEmpty) {
+        setState(() => jobs.insertAll(0, saved.map(Job.fromJson)));
+      }
     } catch (_) {
-      if (mounted) setState(() => _restoringJobs = false);
+      // Keep the in-memory demo feed available if local storage is unavailable.
     }
   }
 
