@@ -460,7 +460,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('BAD GYM', style: TextStyle(color: t.canvasText, fontSize: 20, height: 1, fontWeight: FontWeight.w900, letterSpacing: -.7)),
+              Text('BAD GYM', style: TextStyle(color: t.canvasText, fontFamily: 'Poppins', fontSize: 20, height: 1, fontWeight: FontWeight.w900, letterSpacing: -.7)),
               Text('Member Intelligence', style: TextStyle(color: t.softText, fontSize: 9, height: 1.2, fontWeight: FontWeight.w600)),
             ],
           ),
@@ -493,7 +493,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         if (badge != null) Positioned(right: -3, top: -4, child: Container(
           width: 15, height: 15, alignment: Alignment.center,
           decoration: const BoxDecoration(color: Color(0xFFE33143), shape: BoxShape.circle),
-          child: Text(badge, style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w900)),
+          child: Text(badge, style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900)),
         )),
       ]),
     );
@@ -531,20 +531,20 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(children: [
-                  Text('✓ CHECKED-IN', style: TextStyle(color: t.success, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
+                  Text('✓ CHECKED-IN', style: TextStyle(color: t.success, fontSize: 9, height: 1, fontWeight: FontWeight.w900)),
                   const SizedBox(width: 4),
                   Text(_todayLabel, maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
-                    style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w700)),
+                    style: TextStyle(color: t.softText, fontSize: 9, height: 1, fontWeight: FontWeight.w700)),
                 ]),
                 Text('Ashwani Kumar Singh', maxLines: 1, overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: t.cardText, fontSize: 14, height: 1.05, letterSpacing: -.25, fontFamily: 'Poppins', fontWeight: FontWeight.w800)),
                 Row(children: [
                   Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: t.softText, fontSize: 6.2, height: 1, fontWeight: FontWeight.w600)),
+                    style: TextStyle(color: t.softText, fontSize: 9, height: 1, fontWeight: FontWeight.w600)),
                   const SizedBox(width: 3),
-                  Text('✓ Active', style: TextStyle(color: t.success, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
+                  Text('✓ Active', style: TextStyle(color: t.success, fontSize: 9, height: 1, fontWeight: FontWeight.w900)),
                   const SizedBox(width: 3),
-                  Text('♛ Gold', style: TextStyle(color: t.secondary, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
+                  Text('♛ Gold', style: TextStyle(color: t.secondary, fontSize: 9, height: 1, fontWeight: FontWeight.w900)),
                 ]),
               ],
             ),
@@ -568,8 +568,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           children: [
             Row(children: [
               Expanded(child: Text('MEMBERSHIP  22 / 30 DAYS',
-                style: TextStyle(color: t.cardText, fontSize: 6, height: 1, fontWeight: FontWeight.w800))),
-              Text('₹500 DUE', style: TextStyle(color: t.danger, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
+                style: TextStyle(color: t.cardText, fontSize: 9, height: 1, fontWeight: FontWeight.w800))),
+              Text('₹500 DUE', style: TextStyle(color: t.danger, fontSize: 9, height: 1, fontWeight: FontWeight.w900)),
             ]),
             const SizedBox(height: 2),
             Row(children: [
@@ -582,7 +582,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               const SizedBox(width: 5),
               Text('8 DAYS LEFT · ' + _expiryLabel,
                 maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.softText, fontSize: 5.5, height: 1, fontWeight: FontWeight.w600)),
+                style: TextStyle(color: t.softText, fontSize: 9, height: 1, fontWeight: FontWeight.w600)),
             ]),
           ],
         ),
@@ -612,13 +612,13 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       child: Row(children: [
         Expanded(child: Text('MEMBER EXCLUSIVE  ·  Fitness & Wellness  ·  Up to 40% OFF',
           maxLines: 1, overflow: TextOverflow.ellipsis,
-          style: TextStyle(color: t.cardText, fontSize: 8, height: 1, fontWeight: FontWeight.w900))),
+          style: TextStyle(color: t.cardText, fontSize: 12, height: 1.05, fontWeight: FontWeight.w800))),
         SizedBox(width: 66, height: height - 5, child: Image.asset(promo, fit: BoxFit.contain,
           errorBuilder: (_, __, ___) => Icon(Icons.local_offer_rounded, color: t.primary, size: 28))),
         const SizedBox(width: 5),
         Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           decoration: BoxDecoration(color: t.primary, borderRadius: BorderRadius.circular(16)),
-          child: Text('Explore ›', style: TextStyle(color: t.dark ? Colors.black : Colors.white, fontSize: 7.5, fontWeight: FontWeight.w900))),
+          child: Text('Explore ›', style: TextStyle(color: t.dark ? Colors.black : Colors.white, fontSize: 10, fontWeight: FontWeight.w900))),
       ]),
     );
   }
@@ -686,20 +686,32 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       child: Column(children: [
         Row(children: [
           Expanded(child: Row(children: [
-            Icon(_tab == WorkspaceTab.attendance ? Icons.insights_rounded : icons[_subSection], color: t.primary, size: 18),
+            Icon(icons[_subSection], color: t.primary, size: 18),
             const SizedBox(width: 5),
             Expanded(child: Text(_workspaceTitle, maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: t.cardText, fontSize: 11, fontWeight: FontWeight.w900))),
+              style: TextStyle(color: t.cardText, fontSize: 14, fontFamily: 'Poppins', fontWeight: FontWeight.w800))),
           ])),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-            decoration: BoxDecoration(color: t.surfaceEnd, borderRadius: BorderRadius.circular(14), border: Border.all(color: t.border)),
-            child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Text(_monthName(_month) + ' ' + _year.toString(), style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w700)),
-              const SizedBox(width: 3),
-              InkWell(onTap: () => _changeMonth(1), child: Icon(Icons.keyboard_arrow_down_rounded, color: t.primary, size: 15)),
-            ]),
-          ),
+          if (_tab == WorkspaceTab.attendance)
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+              decoration: BoxDecoration(color: t.surfaceEnd, borderRadius: BorderRadius.circular(14), border: Border.all(color: t.border)),
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                Text(_monthName(_month) + ' ' + _year.toString(), style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w700)),
+                const SizedBox(width: 3),
+                InkWell(onTap: () => _changeMonth(1), child: Icon(Icons.keyboard_arrow_down_rounded, color: t.primary, size: 15)),
+              ]),
+            )
+          else
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+              decoration: BoxDecoration(color: t.surfaceEnd, borderRadius: BorderRadius.circular(14), border: Border.all(color: t.border)),
+              child: Text(switch (_tab) {
+                WorkspaceTab.workout => 'THIS WEEK',
+                WorkspaceTab.payment => 'ACCOUNT',
+                WorkspaceTab.body => 'PROGRESS',
+                WorkspaceTab.attendance => 'MONTH',
+              }, style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w800)),
+            ),
         ]),
         const SizedBox(height: 5),
         Expanded(child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -799,7 +811,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         alignment: Alignment.center,
         child: Text(day.toString(), style: TextStyle(
           color: kind == DayKind.off || kind == DayKind.holiday ? (t.dark ? Colors.white70 : t.muted) : Colors.white,
-          fontSize: 8, fontWeight: FontWeight.w900,
+          fontSize: 10, fontWeight: FontWeight.w900,
         )),
       )));
     }
@@ -809,21 +821,21 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         SizedBox(height: 32, child: Row(children: [
           SizedBox(width: 32, height: 32, child: Stack(alignment: Alignment.center, children: [
             SizedBox.expand(child: CircularProgressIndicator(
-              value: _attendanceRate / 100, strokeWidth: 4, backgroundColor: t.neutral,
+              value: _attendanceRate / 100, strokeWidth: 4.5, backgroundColor: t.neutral,
               valueColor: AlwaysStoppedAnimation<Color>(t.primary),
             )),
-            Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w900)),
+            Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
           ])),
           const SizedBox(width: 6),
           Expanded(child: Text(
             'Present $_present  ·  Late $_late  ·  Absent $_absent  ·  Off ' + (_holiday + _countOffDays).toString(),
             maxLines: 2, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: t.cardText, fontSize: 6.5, height: 1.1, fontWeight: FontWeight.w800),
+            style: TextStyle(color: t.cardText, fontSize: 9, height: 1.1, fontWeight: FontWeight.w800),
           )),
         ])),
         const SizedBox(height: 4),
         Row(children: const ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(
-          child: Center(child: Text(d, style: TextStyle(fontSize: 6.8, fontWeight: FontWeight.w900, color: Colors.grey))),
+          child: Center(child: Text(d, style: TextStyle(fontSize: 9.5, fontWeight: FontWeight.w900, color: Colors.grey))),
         )).toList()),
         const SizedBox(height: 4),
         Expanded(child: GridView.count(
@@ -842,7 +854,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   Widget _legendDot(String label, Color color) => Row(mainAxisSize: MainAxisSize.min, children: [
     Container(width: 7, height: 7, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
     const SizedBox(width: 3),
-    Text(label, style: TextStyle(color: t.softText, fontSize: 6.5, fontWeight: FontWeight.w700)),
+    Text(label, style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
   ]);
 
   Widget _attendanceTrend() => _innerPanel(
@@ -853,10 +865,10 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         return Expanded(child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Text(values[i].round().toString() + '%', style: TextStyle(color: t.cardText, fontSize: 6.5, fontWeight: FontWeight.w800)),
+            Text(values[i].round().toString() + '%', style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w800)),
             const SizedBox(height: 3),
             Expanded(child: Align(alignment: Alignment.bottomCenter, child: Container(
-              width: 18, height: math.max(8.0, (values[i] / 100) * 110).toDouble(),
+              width: 18, height: math.max(8.0, (values[i] / 100) * math.max(100.0, constraints.maxHeight - 44)).toDouble(),
               decoration: BoxDecoration(
                 gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [t.primary, t.secondary]),
                 borderRadius: BorderRadius.circular(t.style == 'athletic' ? 3 : 9),
@@ -903,8 +915,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   Widget _attendanceGoal() => _innerPanel(
     title: 'Monthly consistency goal',
     child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text('85%', style: TextStyle(color: t.primary, fontSize: 28, fontWeight: FontWeight.w900)),
-      Text('Target attendance', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w700)),
+      Text('85%', style: TextStyle(color: t.primary, fontSize: 32, fontWeight: FontWeight.w900)),
+      Text('Target attendance', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w700)),
       const SizedBox(height: 10),
       ClipRRect(borderRadius: BorderRadius.circular(12), child: LinearProgressIndicator(
         value: (_attendanceRate / 85).clamp(0, 1), minHeight: 9,
@@ -920,8 +932,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     child: Row(children: [
       Container(width: 7, height: 7, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
       const SizedBox(width: 6),
-      Expanded(child: Text(label, style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w700))),
-      Text(value, style: TextStyle(color: color, fontSize: 8, fontWeight: FontWeight.w900)),
+      Expanded(child: Text(label, style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w700))),
+      Text(value, style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w900)),
     ]),
   );
 
@@ -933,19 +945,19 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       title: _railLabels[_subSection] + ' · workout activity',
       child: Column(children: [
         Row(children: [
-          Text('58 min today', style: TextStyle(color: t.cardText, fontSize: 7, height: 1, fontWeight: FontWeight.w900)),
+          Text('58 min today', style: TextStyle(color: t.cardText, fontSize: 9.5, height: 1, fontWeight: FontWeight.w900)),
           const Spacer(),
-          Text('+12%', style: TextStyle(color: t.success, fontSize: 7, height: 1, fontWeight: FontWeight.w900)),
+          Text('+12%', style: TextStyle(color: t.success, fontSize: 9.5, height: 1, fontWeight: FontWeight.w900)),
         ]),
         const SizedBox(height: 3),
         Expanded(child: LayoutBuilder(builder: (context, constraints) {
-          final maxBarHeight = math.max(6.0, constraints.maxHeight - 12).toDouble();
+          final maxBarHeight = math.max(6.0, constraints.maxHeight - 24).toDouble();
           return Row(crossAxisAlignment: CrossAxisAlignment.end, children: List.generate(values.length, (i) =>
             Expanded(child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 3),
               child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Expanded(child: Align(alignment: Alignment.bottomCenter, child: Container(
-                  height: math.min(values[i] * 1.45, maxBarHeight).toDouble(),
+                  height: math.min((values[i] / 100) * maxBarHeight, maxBarHeight).toDouble(),
                   width: 16,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(colors: [t.secondary, t.primary], begin: Alignment.topCenter, end: Alignment.bottomCenter),
@@ -953,7 +965,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                   ),
                 ))),
                 const SizedBox(height: 2),
-                Text(['M','T','W','T','F','S','S'][i], style: TextStyle(color: t.softText, fontSize: 5.5, height: 1)),
+                Text(['M','T','W','T','F','S','S'][i], style: TextStyle(color: t.softText, fontSize: 9, height: 1)),
               ]),
             )),
           ));
@@ -984,7 +996,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             ])),
             Container(padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
               decoration: BoxDecoration(color: t.primary, borderRadius: BorderRadius.circular(18)),
-              child: const Text('Pay now ›', style: TextStyle(color: Colors.white, fontSize: 7, fontWeight: FontWeight.w900))),
+              child: const Text('Pay now ›', style: TextStyle(color: Colors.white, fontSize: 9.5, fontWeight: FontWeight.w900))),
           ]),
         ),
         const SizedBox(height: 7),
@@ -1033,9 +1045,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(value, maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: t.cardText, fontSize: 10, height: 1, fontWeight: FontWeight.w900)),
+            style: TextStyle(color: t.cardText, fontSize: 12, height: 1.05, fontWeight: FontWeight.w800)),
           Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w700)),
+            style: TextStyle(color: t.softText, fontSize: 9, height: 1, fontWeight: FontWeight.w700)),
         ],
       )),
     ]),
