@@ -323,6 +323,10 @@ jobs:
                     done
                     sleep 1
                     adb -s "$serial" exec-out screencap -p > "$capture_dir/00-member-header.png"
+                    tap_ratio 12 61 "00a-horizontal-attendance"
+                    tap_ratio 37 61 "00b-horizontal-workout"
+                    tap_ratio 62 61 "00c-horizontal-payment"
+                    tap_ratio 87 61 "00d-horizontal-body"
 
                     # Move to the intelligence workspace, then inspect every primary rail destination.
                     for _ in 1 2 3; do
