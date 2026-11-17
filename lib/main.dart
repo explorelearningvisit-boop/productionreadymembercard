@@ -129,11 +129,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       : _presentDays / _trackedAttendanceDays;
   String get _attendancePercent => '${(_attendanceRate * 100).round()}%';
 
-  String _monthYearLabel(DateTime date) {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    return '${months[date.month - 1]} ${date.year}';
-  }
-
   String _formatDate(DateTime date) {
     const months = [
       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -752,44 +747,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         ['Timeline', 'Check-ins', 'Payments'],
         ['Overview', 'Composition', 'Measurements', 'Progress'],
       ][_activeSection];
-
-  Widget _sectionSubnav() {
-    return SizedBox(
-      height: 31,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: _subSections.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 5),
-        itemBuilder: (context, index) {
-          final active = _activeSubSection == index;
-          return GestureDetector(
-            onTap: () => setState(() => _activeSubSection = index),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-              decoration: BoxDecoration(
-                color: active ? const Color(0xFFFFD12D) : Colors.white,
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                    color: active
-                        ? const Color(0xFFFFF1A8)
-                        : const Color(0xFFF0B7D2)),
-                boxShadow: active
-                    ? const [BoxShadow(color: Color(0x66FFC928), blurRadius: 6)]
-                    : null,
-              ),
-              child: Text(_subSections[index],
-                  style: TextStyle(
-                      color: active
-                          ? const Color(0xFF57152B)
-                          : const Color(0xFF7A1646),
-                      fontSize: 8,
-                      fontWeight: FontWeight.w800)),
-            ),
-          );
-        },
-      ),
-    );
-  }
 
   Widget _attendanceSubContent() {
     switch (_activeSubSection) {
