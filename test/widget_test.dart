@@ -42,7 +42,7 @@ void main() {
     final expiryLabel =
         'Expires ${expiry.day} ${months[expiry.month - 1].substring(0, 3)} ${expiry.year}';
 
-    expect(find.text('${months[today.month - 1].substring(0, 3)} ${today.year}'),
+    expect(find.text('${months[today.month - 1]} ${today.year}'),
         findsOneWidget);
     expect(find.text('8 DAYS LEFT'), findsOneWidget);
     expect(find.text(expiryLabel), findsOneWidget);
