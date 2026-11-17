@@ -20,7 +20,8 @@ class _JobComposerScreenState extends State<JobComposerScreen> {
   final title = TextEditingController(), description = TextEditingController(), location = TextEditingController(), rate = TextEditingController(text: '700');
   final picker = ImagePicker();
   final photos = <XFile>[];
-  String category = 'Electrician', unit = 'दिन',?error;
+  String category = 'Electrician', unit = 'दिन';
+  String? error;
   int people = 1;
   bool urgent = false, uploading = false;
   double progress = 0;
