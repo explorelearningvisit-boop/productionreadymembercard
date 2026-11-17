@@ -97,3 +97,15 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 - Use existing repository portrait/logo/3D assets, not new generated full-screen art. Keep charts, labels, calendars and controls native Flutter widgets.
 - Data integrity: use only fields already present in the demo fixture. Clearly disclose missing workout volume/set history, payment transactions and body measurement history instead of presenting invented values as real member records.
 - Validation acceptance: formatter, analyzer, widget tests and release APK build; then fresh Xiaomi 11i visual comparison is a separate required QA stage.
+
+
+## 2026-11-17 — Ten independent dashboard themes in one Flutter app
+- **User decision:** All ten uploaded mobile dashboard references are separate complete dashboard designs. Do not collapse them into one Gold theme or treat them as palette-only variations.
+- **Architecture:** One Flutter application and shared member data/interactions, with ten selectable visual systems in an in-app theme gallery: Ice Glass, Crimson Gold, Festival Yellow, Sky Pearl, Athletic Red, Emerald Pulse, Royal Ruby, Gold Festival, Obsidian Neon and Minimal Red.
+- **Preserved behavior:** Member identity/QR, membership progress and expiry, payment due context, four quick tabs, contextual rail, attendance calendar/trend/history/insights/goal, workout/payment/body workspaces.
+- **Responsive rules:** 360dp primary width, 320dp compact test, SafeArea between Android system bars, no root page scrolling. Theme gallery can scroll within its modal. Theme switching must not reset member data or active workspace.
+- **Visual rules:** Theme-specific background/surface colors, gradients, border geometry, radii, shadows, typography contrast and decorative assets. Attendance semantics remain green present, amber late, red absent, neutral grey Sunday OFF/holiday.
+- **Assets:** Reuse repository PNG artwork and register the complete assets directory. Keep text, QR, dates, metrics, charts and controls native; never use a full reference screenshot as a background. Promotional copy is sample-only and must not imply a real sponsor or payment partner.
+- **Source of truth:** docs/10_REFERENCE_GOLD_DESIGN_SPEC.md updated to this ten-theme requirement; the previous single-Gold unification statement is superseded for this isolated Design Lab branch only.
+- **Branch isolation:** Continue on `chatgpt/design-lab-yellow-festive`; do not port to production `main` or alter production package without separate approval.
+- **Verification:** Widget tests and cloud format/analyze/test/APK build pending at commit time. Xiaomi 11i visual screenshot comparison for each theme remains outstanding.
