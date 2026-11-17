@@ -863,18 +863,22 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   Widget _sectionCard(String title, Widget child) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(.88),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFF0C2D9)),
+        color: const Color(0xFFFFF8FC),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: const Color(0xFFEED1DF)),
       ),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(title, style: const TextStyle(
-            color: Color(0xFF69002F), fontSize: 11, fontWeight: FontWeight.w900)),
-        const SizedBox(height: 9),
-        child,
-      ]),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: const TextStyle(
+              color: Color(0xFF67324E), fontSize: 8, fontWeight: FontWeight.w900)),
+          const SizedBox(height: 4),
+          child,
+        ],
+      ),
     );
   }
 
@@ -986,8 +990,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     final savingsText = savings == savings.roundToDouble() ? savings.toStringAsFixed(0) : savings.toStringAsFixed(2);
     if (_activeSubSection == 1) {
       return _sectionCard('Recent transactions', Column(children: [
-        _metricRow('02 Nov · Membership', '₹4,500 paid', const Color(0xFF16A653)),
-        _metricRow('17 Nov · Monthly fee', '₹500 due', const Color(0xFFE34D65)),
+        _metricRow('${_formatDate(_today.subtract(const Duration(days: 15)))} · Membership', '₹4,500 paid', const Color(0xFF16A653)),
+        _metricRow('${_formatDate(_today)} · Monthly fee', '₹500 due', const Color(0xFFE34D65)),
         _metricRow('Next reminder · ${_formatDate(_paymentDueDate)}', dueLabel, const Color(0xFF9860C5)),
       ]));
     }
@@ -1125,21 +1129,26 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _miniValue(String label, String value, Color color) => Expanded(
-        child: Container(
-            padding: const EdgeInsets.all(9),
-            decoration: BoxDecoration(
-                color: const Color(0xFFFFEAF4),
-                borderRadius: BorderRadius.circular(12)),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(label,
-                  style:
-                      const TextStyle(color: Color(0xFF765467), fontSize: 8)),
-              Text(value,
-                  style: TextStyle(
-                      color: color, fontSize: 16, fontWeight: FontWeight.w900)),
-            ])),
-      );
+    child: Container(
+      padding: const EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFEDF4),
+        borderRadius: BorderRadius.circular(9),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+              style: const TextStyle(color: Color(0xFF765467), fontSize: 7)),
+          Text(value, maxLines: 1, overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w900)),
+        ],
+      ),
+    ),
+  );
+}
+
 }
 
 enum DayKind { present, absent, holiday, payment, off }
