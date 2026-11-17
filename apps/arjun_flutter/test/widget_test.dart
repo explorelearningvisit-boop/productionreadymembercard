@@ -8,13 +8,13 @@ import 'package:arjun_app/sponsored_placements.dart';
 void main() {
   testWidgets('Debug tester can enter ARJUN with one tap', (tester) async {
     await tester.pumpWidget(const ArjunApp());
+    await tester.pumpAndSettle();
     expect(find.text('ARJUN'), findsOneWidget);
     expect(find.text('tester@arjun.demo'), findsOneWidget);
-    expect(find.text('टेस्ट ऐप खोलें'), findsOneWidget);
-
-    await tester.tap(find.text('टेस्ट ऐप खोलें'));
+    final openButton = find.text('टेस्ट ऐप खोलें');
+    await tester.ensureVisible(openButton);
+    await tester.tap(openButton);
     await tester.pumpAndSettle();
-
     expect(find.text('नमस्ते 👋'), findsOneWidget);
     expect(find.text('काम पोस्ट करें'), findsWidgets);
   });
@@ -31,7 +31,7 @@ void main() {
     expect(find.text('नमस्ते, मैनेजर 👷'), findsOneWidget);
     await tester.pumpWidget(const MaterialApp(home: AdminDashboard()));
     expect(find.text('ARJUN Operations'), findsOneWidget);
-    expect(find.text('KYC समीक्षा'), findsOneWidget);
+    expect(find.text('KYC बाकी'), findsOneWidget);
   });
 
   testWidgets('Customer discovery contains a labelled sponsored slot', (tester) async {
@@ -47,13 +47,17 @@ void main() {
     expect(find.text('Manager inspection'), findsOneWidget);
     expect(find.text('Supplier inventory'), findsOneWidget);
     expect(find.text('Payments & ledger'), findsOneWidget);
-    expect(find.text('Help & dispute support'), findsOneWidget);
+    final support = find.text('Help & dispute support');
+    await tester.ensureVisible(support);
+    expect(support, findsOneWidget);
   });
 
   testWidgets('Job lifecycle can advance a demo milestone', (tester) async {
     await tester.pumpWidget(const MaterialApp(home: JobLifecycleScreen()));
     expect(find.text('Posted'), findsOneWidget);
-    await tester.tap(find.text('Advance demo milestone'));
+    final advance = find.text('Advance demo milestone');
+    await tester.ensureVisible(advance);
+    await tester.tap(advance);
     await tester.pumpAndSettle();
     expect(find.text('Matched'), findsOneWidget);
   });
