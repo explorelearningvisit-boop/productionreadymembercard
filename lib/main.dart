@@ -917,36 +917,38 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   );
 
   Widget _workoutContent() {
-    final section = _subSection;
-    final values = section == 1 ? [32.0, 56, 44, 78, 66, 91, 72] : [38.0, 49, 58, 64, 70, 82, 88];
+    final values = _subSection == 1
+        ? [32.0, 56, 44, 78, 66, 91, 72]
+        : [38.0, 49, 58, 64, 70, 82, 88];
     return _innerPanel(
       title: _railLabels[_subSection] + ' · workout activity',
       child: Column(children: [
         Row(children: [
-          Expanded(child: _metricTile('Today', '58 min', Icons.timer_outlined)),
-          const SizedBox(width: 5),
-          Expanded(child: _metricTile('Change', '+12%', Icons.trending_up_rounded)),
+          Text('58 min today', style: TextStyle(color: t.cardText, fontSize: 7, height: 1, fontWeight: FontWeight.w900)),
+          const Spacer(),
+          Text('+12%', style: TextStyle(color: t.success, fontSize: 7, height: 1, fontWeight: FontWeight.w900)),
         ]),
-        const SizedBox(height: 8),
-        Expanded(child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: List.generate(values.length, (i) =>
-          Expanded(child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3),
-            child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Expanded(child: Align(alignment: Alignment.bottomCenter, child: Container(
-                height: values[i] * 1.45, width: 16,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [t.secondary, t.primary], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                  borderRadius: BorderRadius.circular(7),
-                ),
-              ))),
-              const SizedBox(height: 3),
-              Text(['M','T','W','T','F','S','S'][i], style: TextStyle(color: t.softText, fontSize: 6)),
-            ]),
-          )),
-        ))),
-        const SizedBox(height: 6),
-        _metricLine('Weekly training', '406 min', t.primary),
-        _metricLine('Sessions completed', '18', t.success),
+        const SizedBox(height: 3),
+        Expanded(child: LayoutBuilder(builder: (context, constraints) {
+          final maxBarHeight = math.max(6.0, constraints.maxHeight - 12).toDouble();
+          return Row(crossAxisAlignment: CrossAxisAlignment.end, children: List.generate(values.length, (i) =>
+            Expanded(child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3),
+              child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Expanded(child: Align(alignment: Alignment.bottomCenter, child: Container(
+                  height: math.min(values[i] * 1.45, maxBarHeight).toDouble(),
+                  width: 16,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [t.secondary, t.primary], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                ))),
+                const SizedBox(height: 2),
+                Text(['M','T','W','T','F','S','S'][i], style: TextStyle(color: t.softText, fontSize: 5.5, height: 1)),
+              ]),
+            )),
+          ));
+        })),
       ]),
     );
   }
