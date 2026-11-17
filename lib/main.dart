@@ -709,9 +709,35 @@ class MemberIntelligenceApp extends StatelessWidget {
   }
 
   Widget _sectionContent() {
-    if (_activeSection == 0) return _attendanceContent();
+    if (_activeSection == 0) {
+      return _activeSubSection == 1
+          ? _dashboardActivityContent()
+          : _attendanceContent();
+    }
     if (_activeSection == 1) return _attendanceSubContent();
     return _alternateContent();
+  }
+
+  Widget _dashboardActivityContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _sectionCard('Today · member activity', Column(children: [
+          _metricRow('Check-in', '07:12 AM · Completed', const Color(0xFF16A653)),
+          _metricRow('Workout', '58 min · Completed', const Color(0xFF9860C5)),
+          _metricRow('Payment', '₹500 · Due soon', const Color(0xFFE0A52D)),
+          _metricRow('Membership', '$_membershipDaysLeft days left', const Color(0xFFB84E80)),
+        ])),
+        const SizedBox(height: 5),
+        _sectionCard('This month at a glance', Row(children: [
+          _miniValue('Attendance', _attendancePercent, const Color(0xFF16A653)),
+          const SizedBox(width: 5),
+          _miniValue('Sessions', '18', const Color(0xFF9860C5)),
+          const SizedBox(width: 5),
+          _miniValue('Streak', '5 days', const Color(0xFFB84E80)),
+        ])),
+      ],
+    );
   }
 
   List<String> get _subSections => const [
@@ -850,7 +876,7 @@ class MemberIntelligenceApp extends StatelessWidget {
 
   Widget _metricRow(String label, String value, Color color) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(children: [
         Container(width: 8, height: 8, decoration: BoxDecoration(
             color: color, shape: BoxShape.circle)),
@@ -909,39 +935,56 @@ class MemberIntelligenceApp extends StatelessWidget {
   }
 
   Widget _workoutContent() {
-    final title = _activeSubSection == 2 ? 'Muscle group balance' :
-        _activeSubSection == 3 ? 'Workout consistency · 30 days' :
-        _activeSubSection == 1 ? 'Workout minutes · last 7 days' :
-        'Workout performance';
-    return Column(children: [
-      _sectionCard(title, Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(children: [
-          _miniValue('This month', '58 min/day', const Color(0xFF08A82B)),
-          const SizedBox(width: 7),
-          _miniValue('Change', '+12%', const Color(0xFFB000E8)),
-        ]),
-        const SizedBox(height: 12),
-        _barChart(_activeSubSection == 2
-            ? const [.8, .55, .9, .65, .72, .45, .84]
-            : const [.35, .52, .42, .8, .62, .9, .72]),
+    final titles = [
+      'Workout performance',
+      'Workout minutes · last 7 days',
+      'Muscle group balance',
+      'Workout consistency · 30 days',
+    ];
+    final values = switch (_activeSubSection) {
+      1 => const [.35, .52, .42, .8, .62, .9, .72],
+      2 => const [.8, .55, .9, .65, .72, .45, .84],
+      3 => const [.45, .55, .62, .58, .72, .82, .9],
+      _ => const [.35, .52, .42, .8, .62, .9, .72],
+    };
+    final metric = switch (_activeSubSection) {
+      1 => ('Last 7 days', '406 min', 'Daily average', '58 min'),
+      2 => ('Top muscle group', 'Legs', 'Balance score', '82%'),
+      3 => ('Active days', '18 / 30', 'Current streak', '5 days'),
+      _ => ('Today', '58 min', 'Change', '+12%'),
+    };
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _sectionCard(titles[_activeSubSection], Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              _miniValue(metric.$1, metric.$2, const Color(0xFF16A653)),
+              const SizedBox(width: 5),
+              _miniValue(metric.$3, metric.$4, const Color(0xFF9860C5)),
+            ]),
+            const SizedBox(height: 4),
+            _barChart(values, height: 48),
+            const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text('M', style: TextStyle(color: Color(0xFF765467), fontSize: 6)),
+              Text('T', style: TextStyle(color: Color(0xFF765467), fontSize: 6)),
+              Text('W', style: TextStyle(color: Color(0xFF765467), fontSize: 6)),
+              Text('T', style: TextStyle(color: Color(0xFF765467), fontSize: 6)),
+              Text('F', style: TextStyle(color: Color(0xFF765467), fontSize: 6)),
+              Text('S', style: TextStyle(color: Color(0xFF765467), fontSize: 6)),
+              Text('S', style: TextStyle(color: Color(0xFF765467), fontSize: 6)),
+            ]),
+          ],
+        )),
         const SizedBox(height: 5),
-        const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text('Mon', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
-          Text('Tue', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
-          Text('Wed', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
-          Text('Thu', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
-          Text('Fri', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
-          Text('Sat', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
-          Text('Sun', style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
-        ]),
-      ])),
-      const SizedBox(height: 7),
-      _sectionCard('Training summary', Column(children: [
-        _metricRow('Strength training', '4 sessions', const Color(0xFFE50062)),
-        _metricRow('Cardio', '2 sessions', const Color(0xFF08A82B)),
-        _metricRow('Rest / recovery', '1 day', const Color(0xFFB000E8)),
-      ])),
-    ]);
+        _sectionCard('Training summary', Column(children: [
+          _metricRow('Strength training', '4 sessions', const Color(0xFFB84E80)),
+          _metricRow('Cardio', '2 sessions', const Color(0xFF16A653)),
+          _metricRow('Rest / recovery', '1 day', const Color(0xFF9860C5)),
+        ])),
+      ],
+    );
   }
 
   Widget _paymentContent() {
@@ -951,89 +994,127 @@ class MemberIntelligenceApp extends StatelessWidget {
     final savings = _earlyPaymentSavings;
     final savingsText = savings == savings.roundToDouble()
         ? savings.toStringAsFixed(0) : savings.toStringAsFixed(2);
+    if (_activeSubSection == 1) {
+      return _sectionCard('Recent transactions', Column(children: [
+        _metricRow('02 Nov · Membership', '₹4,500 paid', const Color(0xFF16A653)),
+        _metricRow('17 Nov · Monthly fee', '₹500 due', const Color(0xFFE34D65)),
+        _metricRow('Next reminder', _formatDate(_paymentDueDate), dueLabel, const Color(0xFF9860C5)),
+      ]));
+    }
+    if (_activeSubSection == 2) {
+      return Column(children: [
+        _sectionCard('Due date & early-pay offer', Column(children: [
+          _miniValue('Outstanding', '₹500', const Color(0xFFE34D65)),
+          const SizedBox(height: 5),
+          _metricRow('Due date', _formatDate(_paymentDueDate), const Color(0xFFB84E80)),
+          _metricRow('Status', dueLabel, const Color(0xFFE0A52D)),
+          _metricRow('Eligible savings', _earlyPaymentRate > 0 ? '₹$savingsText' : '₹0', const Color(0xFF16A653)),
+        ])),
+        const SizedBox(height: 5),
+        _sectionCard('Discount rules', Column(children: [
+          _metricRow('7+ days early', '2%', const Color(0xFF16A653)),
+          _metricRow('3–6 days early', '1%', const Color(0xFF16A653)),
+          _metricRow('1–2 days early', '0.5%', const Color(0xFFE0A52D)),
+        ])),
+      ]);
+    }
     return Column(children: [
-      _sectionCard(_activeSubSection == 1 ? 'Recent transactions' :
-          _activeSubSection == 2 ? 'Due date & early-pay offer' : 'Payment overview',
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Row(children: [
-            _miniValue('Outstanding', '₹500', const Color(0xFFE50062)),
-            const SizedBox(width: 7),
-            _miniValue('Last payment', '₹4,500', const Color(0xFF08A82B)),
-          ]),
-          const SizedBox(height: 10),
-          _metricRow('Next payment', dueLabel, const Color(0xFFE50062)),
-          _metricRow('Early-pay reward', _earlyPaymentRate > 0
-              ? 'Save ₹$savingsText' : 'No discount', const Color(0xFF08A82B)),
-          const SizedBox(height: 8),
-          _barChart(const [.3, .55, .42, .72, .58, .9], height: 42),
-          Text('Payment history · May to ${_monthYearLabel(_today)}',
-              style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+      _sectionCard('Payment overview', Column(children: [
+        Row(children: [
+          _miniValue('Outstanding', '₹500', const Color(0xFFE34D65)),
+          const SizedBox(width: 5),
+          _miniValue('Last payment', '₹4,500', const Color(0xFF16A653)),
         ]),
-      ),
-      const SizedBox(height: 7),
-      _sectionCard('Early payment discount', Column(children: [
-        _metricRow('7+ days early', '2% off', const Color(0xFF08A82B)),
-        _metricRow('3–6 days early', '1% off', const Color(0xFF08A82B)),
-        _metricRow('1–2 days early', '0.5% off', const Color(0xFFFFA900)),
-        _metricRow('Due date / overdue', 'No discount', const Color(0xFFE91D3D)),
+        const SizedBox(height: 5),
+        _metricRow('Next payment', dueLabel, const Color(0xFFE34D65)),
+        _metricRow('Early-pay reward', _earlyPaymentRate > 0 ? 'Save ₹$savingsText' : 'No discount', const Color(0xFF16A653)),
+        _barChart(const [.3, .55, .42, .72, .58, .9], height: 34),
       ])),
     ]);
   }
 
   Widget _offersContent() {
-    return Column(children: [
-      _sectionCard(_activeSubSection == 2 ? 'Member rewards' :
-          _activeSubSection == 1 ? 'Pay early, save more' : 'Available member offers',
-        Column(children: [
-          _metricRow('7+ days before due date', '2% OFF', const Color(0xFF08A82B)),
-          _metricRow('3–6 days before due date', '1% OFF', const Color(0xFF08A82B)),
-          _metricRow('1–2 days before due date', '0.5% OFF', const Color(0xFFFFA900)),
-          _metricRow('On / after due date', '0% OFF', const Color(0xFFE91D3D)),
-          const SizedBox(height: 7),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(9),
-            decoration: BoxDecoration(color: const Color(0xFFFFE5F2),
-                borderRadius: BorderRadius.circular(12)),
-            child: const Text('Example: ₹500 due · pay 4 days early · save ₹5',
-                style: TextStyle(color: Color(0xFF7C003B), fontSize: 8.5,
-                    fontWeight: FontWeight.w800)),
-          ),
-        ]),
+    final title = _activeSubSection == 1
+        ? 'Pay early, save more'
+        : _activeSubSection == 2 ? 'Member rewards' : 'Available member offers';
+    if (_activeSubSection == 2) {
+      return _sectionCard(title, Column(children: [
+        _metricRow('Current reward tier', 'Gold', const Color(0xFFE0A52D)),
+        _metricRow('Reward points', '420 pts', const Color(0xFF9860C5)),
+        _metricRow('Next reward', '500 pts', const Color(0xFF16A653)),
+        const SizedBox(height: 5),
+        LinearProgressIndicator(
+          value: .84,
+          minHeight: 6,
+          borderRadius: BorderRadius.circular(8),
+          backgroundColor: const Color(0xFFEEDDE6),
+          valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFE0B443)),
+        ),
+      ]));
+    }
+    return _sectionCard(title, Column(children: [
+      _metricRow('7+ days before due date', '2% OFF', const Color(0xFF16A653)),
+      _metricRow('3–6 days before due date', '1% OFF', const Color(0xFF16A653)),
+      _metricRow('1–2 days before due date', '0.5% OFF', const Color(0xFFE0A52D)),
+      _metricRow('On / after due date', '0% OFF', const Color(0xFFE34D65)),
+      const SizedBox(height: 5),
+      Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFEAF3),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Text(
+          _activeSubSection == 1
+              ? 'Current offer: pay in $_paymentDueInDays days and save ₹${_earlyPaymentSavings.toStringAsFixed(0)}'
+              : 'Offers available with your active Gold membership',
+          style: const TextStyle(color: Color(0xFF75405D), fontSize: 7, fontWeight: FontWeight.w800),
+        ),
       ),
-    ]);
+    ]));
   }
 
   Widget _bodyContent() {
-    return Column(children: [
-      _sectionCard(_activeSubSection == 1 ? 'Body composition' :
-          _activeSubSection == 2 ? 'Measurements' :
-          _activeSubSection == 3 ? 'Body progress · 90 days' : 'Body intelligence',
-        Column(children: [
-          Row(children: [
-            _miniValue('Weight', '69.5 kg', const Color(0xFF08A82B)),
-            const SizedBox(width: 6),
-            _miniValue('Body fat', '18.4%', const Color(0xFFE50062)),
-          ]),
-          const SizedBox(height: 7),
-          Row(children: [
-            _miniValue('Muscle mass', '54.2 kg', const Color(0xFFB000E8)),
-            const SizedBox(width: 6),
-            _miniValue('BMI', '23.4', const Color(0xFF08A82B)),
-          ]),
-          const SizedBox(height: 9),
-          _barChart(const [.82, .78, .75, .72, .69, .66, .62], height: 46),
-          const Text('Weight trend · last 7 check-ins',
-              style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
+    if (_activeSubSection == 2) {
+      return _sectionCard('Measurement tracking', Column(children: [
+        _metricRow('Chest', '98 cm  ·  +2 cm', const Color(0xFF16A653)),
+        _metricRow('Waist', '82 cm  ·  −1 cm', const Color(0xFF16A653)),
+        _metricRow('Arms', '34 cm  ·  +1 cm', const Color(0xFF9860C5)),
+        _metricRow('Thigh', '56 cm  ·  +1 cm', const Color(0xFFB84E80)),
+      ]));
+    }
+    if (_activeSubSection == 3) {
+      return _sectionCard('Body progress · 90 days', Column(children: [
+        Row(children: [
+          _miniValue('Weight change', '−1.8 kg', const Color(0xFF16A653)),
+          const SizedBox(width: 5),
+          _miniValue('Body fat', '−1.2%', const Color(0xFF9860C5)),
         ]),
-      ),
-      const SizedBox(height: 7),
-      _sectionCard('Measurement tracking', Column(children: [
-        _metricRow('Chest', '98 cm  ·  +2 cm', const Color(0xFF08A82B)),
-        _metricRow('Waist', '82 cm  ·  −1 cm', const Color(0xFF08A82B)),
-        _metricRow('Arms', '34 cm  ·  +1 cm', const Color(0xFFB000E8)),
-      ])),
-    ]);
+        const SizedBox(height: 5),
+        _barChart(const [.92, .88, .82, .79, .73, .69, .62], height: 58),
+        const Text('Trend across the last 7 check-ins',
+            style: TextStyle(color: Color(0xFF765467), fontSize: 7)),
+      ]));
+    }
+    return _sectionCard(
+      _activeSubSection == 1 ? 'Body composition' : 'Body intelligence',
+      Column(children: [
+        Row(children: [
+          _miniValue('Weight', '69.5 kg', const Color(0xFF16A653)),
+          const SizedBox(width: 5),
+          _miniValue('Body fat', '18.4%', const Color(0xFFB84E80)),
+        ]),
+        const SizedBox(height: 5),
+        Row(children: [
+          _miniValue('Muscle mass', '54.2 kg', const Color(0xFF9860C5)),
+          const SizedBox(width: 5),
+          _miniValue('BMI', '23.4', const Color(0xFF16A653)),
+        ]),
+        const SizedBox(height: 5),
+        _barChart(const [.82, .78, .75, .72, .69, .66, .62], height: 44),
+      ]),
+    );
   }
 
   Widget _historyContent() {
