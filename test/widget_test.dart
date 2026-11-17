@@ -12,7 +12,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('BAD GYM'), findsOneWidget);
-    expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
+    expect(find.text('Ashwani Kumar Sharma Vishwakarma'), findsOneWidget);
     expect(find.text('Attendance Intelligence'), findsOneWidget);
     expect(find.textContaining('22 / 30 DAYS'), findsOneWidget);
     expect(find.byType(SingleChildScrollView), findsNothing);
