@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 void main() => runApp(const MemberIntelligenceApp());
 
@@ -8,281 +9,142 @@ class MemberIntelligenceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Member Intelligence',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        fontFamily: 'Poppins',
-        scaffoldBackgroundColor: const Color(0xFFFFEAF5),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFE50062),
-          brightness: Brightness.light,
-        ),
-      ),
-      home: const MemberDashboardPage(),
-    );
-  }
-}
-
-class MemberDashboardPage extends StatefulWidget {
-  const MemberDashboardPage({super.key});
-
-  @override
-  State<MemberDashboardPage> createState() => _MemberDashboardPageState();
-}
-
-class _MemberDashboardPageState extends State<MemberDashboardPage> {
-  int _activeSection = 1;
-  int _activeSubSection = 0;
-  // Demo fixture dates are derived from the device's local date so the
-  // preview never shows expired dates or a stale calendar month.
-  late final DateTime _today = DateUtils.dateOnly(DateTime.now());
-  late final DateTime _paymentDueDate = _today.add(const Duration(days: 4));
-  late final DateTime _membershipExpiryDate = _today.add(const Duration(days: 8));
-  static const double _paymentDueAmount = 500;
-  int get _paymentDueInDays => _paymentDueDate.difference(_today).inDays;
-  int get _membershipDaysLeft => _membershipExpiryDate.difference(_today).inDays;
-  int get _membershipDaysUsed => (30 - _membershipDaysLeft).clamp(0, 30).toInt();
-  double get _membershipProgressValue => _membershipDaysUsed / 30;
-  double get _earlyPaymentRate {
-    if (_paymentDueInDays >= 7) return .02;
-    if (_paymentDueInDays >= 3) return .01;
-    if (_paymentDueInDays >= 1) return .005;
-    return 0;
-  }
-  double get _earlyPaymentSavings => _paymentDueAmount * _earlyPaymentRate;
-  late int _month = _today.month;
-  late int _year = _today.year;
-
-  // Demo-only attendance fixture for the current month. Live attendance
-  // should replace this map when the member data API is connected.
-  Map<int, DayKind> get _currentMonthDays {
-    final days = <int, DayKind>{};
-    for (var day = 1; day <= _today.day; day++) {
-      if (day == 4 || day == 16) {
-        days[day] = DayKind.holiday;
-      } else if (day == 7 || day == 14) {
-        days[day] = DayKind.absent;
-      } else if (day == 10) {
-        days[day] = DayKind.payment;
-      } else {
-        days[day] = DayKind.present;
-      }
-    }
-    return days;
-  }
-
-  final Map<int, DayKind> _octoberDays = {
-    1: DayKind.present,
-    2: DayKind.present,
-    3: DayKind.holiday,
-    4: DayKind.present,
-    5: DayKind.present,
-    6: DayKind.present,
-    7: DayKind.absent,
-    8: DayKind.present,
-    9: DayKind.present,
-    10: DayKind.payment,
-    11: DayKind.present,
-    12: DayKind.present,
-    13: DayKind.present,
-    14: DayKind.absent,
-    15: DayKind.present,
-    16: DayKind.present,
-    17: DayKind.present,
-    18: DayKind.holiday,
-    19: DayKind.present,
-    20: DayKind.present,
-    21: DayKind.present,
-    22: DayKind.present,
-    23: DayKind.present,
-    24: DayKind.absent,
-    25: DayKind.present,
-    26: DayKind.present,
-    27: DayKind.present,
-    28: DayKind.payment,
-    29: DayKind.present,
-    30: DayKind.present,
-    31: DayKind.present,
-  };
-
-  Map<int, DayKind> get _days {
-    if (_month == _today.month && _year == _today.year) {
-      return _currentMonthDays;
-    }
-    if (_month == 10 && _year == 2026) return _octoberDays;
-    return const {};
-  }
-
-  int get _presentDays => _days.values
-      .where((kind) => kind == DayKind.present || kind == DayKind.payment)
-      .length;
-  int get _absentDays =>
-      _days.values.where((kind) => kind == DayKind.absent).length;
-  int get _holidayDays =>
-      _days.values.where((kind) => kind == DayKind.holiday).length;
-  int get _trackedAttendanceDays => _presentDays + _absentDays;
-  int get _elapsedCalendarDays => _days.length;
-  double get _attendanceRate => _trackedAttendanceDays == 0
-      ? 0
-      : _presentDays / _trackedAttendanceDays;
-  String get _attendancePercent => '${(_attendanceRate * 100).round()}%';
-
-  String _formatDate(DateTime date) {
-    const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-    return '${date.day} ${months[date.month - 1]} ${date.year}';
-  }
-
-  String get _sectionTitle => const [
-        'Dashboard',
-        'Attendance Intelligence',
-        'Workout Intelligence',
-        'Payment Intelligence',
-        'Offers & Rewards',
-        'Member History',
-        'Body Intelligence',
-      ][_activeSection];
-
-  void _changeMonth(int delta) {
-    setState(() {
-      _month += delta;
-      if (_month < 1) {
-        _month = 12;
-        _year--;
-      }
-      if (_month > 12) {
-        _month = 1;
-        _year++;
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final h = constraints.maxHeight;
-            final width = (constraints.maxWidth - 8).clamp(0.0, 540.0);
-            final gap = h < 700 ? 3.0 : 4.0;
-            return Center(
-              child: SizedBox(
-                width: width, height: h,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft, end: Alignment.bottomRight,
-                      colors: [Color(0xFF7C315F), Color(0xFF61234F), Color(0xFF8B3B6A)],
-                    ),
-                    borderRadius: BorderRadius.circular(22),
-                    border: Border.all(color: const Color(0xFFFFC5DE)),
-                    boxShadow: const [BoxShadow(color: Color(0x448B315F), blurRadius: 12, offset: Offset(0, 4))],
-                  ),
-                  padding: const EdgeInsets.all(6),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _eventHeader(),
-                      SizedBox(height: gap),
-                      _memberHero(),
-                      SizedBox(height: gap),
-                      _paymentAndExpiry(),
-                      SizedBox(height: gap),
-                      _earlyPaymentOffer(),
-                      SizedBox(height: gap),
-                      _membershipProgressBar(),
-                      SizedBox(height: gap),
-                      _promotionBanner(),
-                      SizedBox(height: gap),
-                      _quickMetrics(),
-                      SizedBox(height: gap),
-                      Expanded(child: _intelligenceWorkspace()),
-                    ],
-                  ),
+        child: LayoutBuilder(builder: (context, constraints) {
+          final height = constraints.maxHeight;
+          final gap = height < 720 ? 3.0 : 4.0;
+          return Center(child: SizedBox(
+            width: (constraints.maxWidth - 8).clamp(0.0, 540.0),
+            height: height,
+            child: Container(
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft, end: Alignment.bottomRight,
+                  colors: [Color(0xFF68002F), Color(0xFFB00052), Color(0xFF6D0037)],
                 ),
+                borderRadius: BorderRadius.circular(27),
+                border: Border.all(color: const Color(0xFFFFB7DA), width: 1.4),
+                boxShadow: const [
+                  BoxShadow(color: Color(0x66F50078), blurRadius: 22, spreadRadius: 1),
+                  BoxShadow(color: Color(0x663D001F), blurRadius: 12, offset: Offset(0, 5)),
+                ],
               ),
-            );
-          },
-        ),
+              child: Stack(children: [
+                Positioned.fill(child: IgnorePointer(child: DecoratedBox(
+                  decoration: BoxDecoration(gradient: RadialGradient(
+                    center: const Alignment(0, -.82), radius: 1.25,
+                    colors: [Color(0x55FF68B5), Color(0x00FF68B5)],
+                  )),
+                ))),
+                Padding(
+                  padding: const EdgeInsets.all(6),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                    _eventHeader(),
+                    SizedBox(height: gap),
+                    _memberHero(),
+                    SizedBox(height: gap),
+                    _paymentAndExpiry(),
+                    SizedBox(height: gap),
+                    _earlyPaymentOffer(),
+                    SizedBox(height: gap),
+                    _membershipProgressBar(),
+                    SizedBox(height: gap),
+                    _promotionBanner(),
+                    SizedBox(height: gap),
+                    _quickMetrics(),
+                    SizedBox(height: gap),
+                    Expanded(child: _intelligenceWorkspace()),
+                  ]),
+                ),
+              ]),
+            ),
+          ));
+        }),
       ),
     );
   }
 
   Widget _eventHeader() {
-    return SizedBox(height: 36, child: Row(children: [
+    return SizedBox(height: 44, child: Row(children: [
       Expanded(flex: 6, child: Container(
         decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [Color(0xFFB94B83), Color(0xFF77345F)]),
-          borderRadius: BorderRadius.circular(13), border: Border.all(color: const Color(0xFFEFA9CA))),
-        padding: const EdgeInsets.symmetric(horizontal: 7),
+          gradient: const LinearGradient(colors: [Color(0xFFFF1677), Color(0xFFB00050), Color(0xFF780039)]),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: const Color(0xFFFF9CCB), width: 1.2),
+          boxShadow: const [BoxShadow(color: Color(0x88FF1677), blurRadius: 12)],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(children: [
-          Container(width: 25, height: 25,
-            decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF0ABF53)),
-            child: const Icon(Icons.check_rounded, color: Colors.white, size: 19)),
-          const SizedBox(width: 6),
-          const Expanded(child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('CHECK-IN', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w900, height: 1)),
-              SizedBox(height: 2),
+          Container(width: 30, height: 30,
+            decoration: BoxDecoration(shape: BoxShape.circle, color: const Color(0xFF08C83D),
+              border: Border.all(color: const Color(0xFFB8FFC9), width: 1.2),
+              boxShadow: const [BoxShadow(color: Color(0xAA00FF54), blurRadius: 9)]),
+            child: const Icon(Icons.check_rounded, color: Colors.white, size: 22)),
+          const SizedBox(width: 7),
+          const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('CHECK-IN', style: TextStyle(color: Colors.white, fontSize: 14, height: 1, fontWeight: FontWeight.w900, letterSpacing: .3)),
+              SizedBox(height: 3),
               Text('Completed · 07:12 AM', maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.white, fontSize: 7.5, fontWeight: FontWeight.w600)),
-            ],
-          )),
+                style: TextStyle(color: Color(0xFFFFE8F3), fontSize: 8.5, fontWeight: FontWeight.w600)),
+            ])),
         ]),
       )),
-      const SizedBox(width: 4),
+      const SizedBox(width: 5),
       Expanded(flex: 5, child: Container(
-        decoration: BoxDecoration(color: const Color(0xFFFFE8F2), borderRadius: BorderRadius.circular(13),
-          border: Border.all(color: const Color(0xFFFFF5FA))),
-        padding: const EdgeInsets.symmetric(horizontal: 6),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFFFF6FB), Color(0xFFFFDCEB)]),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: const Color(0xFFFFB9D8), width: 1.1),
+          boxShadow: const [BoxShadow(color: Color(0x66FF8DC1), blurRadius: 8)],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 7),
         child: Row(children: [
-          const Icon(Icons.ac_unit_rounded, color: Color(0xFF80355F), size: 20),
+          const Icon(Icons.ac_unit_rounded, color: Color(0xFF9A0060), size: 23),
           const SizedBox(width: 3),
           const Expanded(child: Text('FREEZE MEMBER', maxLines: 1, overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xFF713052), fontSize: 9, fontWeight: FontWeight.w900))),
-          Container(width: 25, height: 25,
-            decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF80355F)),
-            child: const Icon(Icons.notifications_none_rounded, color: Colors.white, size: 16)),
+            style: TextStyle(color: Color(0xFF771044), fontSize: 8.5, fontWeight: FontWeight.w900))),
+          Container(width: 27, height: 27,
+            decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF850044)),
+            child: const Icon(Icons.notifications_none_rounded, color: Colors.white, size: 18)),
         ]),
       )),
     ]));
   }
 
   Widget _memberHero() {
-    return SizedBox(height: 76, child: Stack(children: [
-      Positioned(left: 5, top: 3, width: 70, height: 70,
+    return SizedBox(height: 88, child: Stack(children: [
+      Positioned(left: 2, top: 2, width: 84, height: 84,
         child: DecoratedBox(decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: const Color(0xFFFFA9D0), width: 1.4),
-          boxShadow: const [BoxShadow(color: Color(0x55FF8BBC), blurRadius: 7)],
+          gradient: const LinearGradient(colors: [Color(0xFFFFD6EC), Color(0xFFED4F9B), Color(0xFFFFB4D9)]),
+          boxShadow: const [BoxShadow(color: Color(0xCCFF4DAD), blurRadius: 15, spreadRadius: 1),
+            BoxShadow(color: Color(0x77FFB9DF), blurRadius: 4)],
         ))),
-      Positioned(left: 9, top: 7, width: 62, height: 62,
-        child: ClipOval(child: Image.asset('assets/images/avatar_ashwani_hq.png',
-          fit: BoxFit.cover, alignment: Alignment.topCenter,
-          errorBuilder: (_, __, ___) => const ColoredBox(
-            color: Color(0xFFFFD7EA),
-            child: Icon(Icons.person, color: Color(0xFF80355F), size: 38),
-          )))),
-      Positioned(left: 84, right: 3, top: 3, bottom: 2,
+      Positioned(left: 6, top: 6, width: 76, height: 76,
+        child: Container(padding: const EdgeInsets.all(2),
+          decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFFFFF3FA)),
+          child: ClipOval(child: Image.asset('assets/images/avatar_ashwani_hq.png',
+            fit: BoxFit.cover, alignment: Alignment.topCenter,
+            errorBuilder: (_, __, ___) => const ColoredBox(color: Color(0xFFFFD7EA),
+              child: Icon(Icons.person, color: Color(0xFF80355F), size: 42)))))),
+      Positioned(left: 96, right: 3, top: 4, bottom: 3,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Text('Welcome back', style: TextStyle(color: Color(0xFFFFDDEB), fontSize: 8, fontWeight: FontWeight.w600)),
+          const Text('Welcome Back 👋', style: TextStyle(color: Color(0xFFFFDCEC), fontSize: 9, fontWeight: FontWeight.w600)),
+          const SizedBox(height: 1),
           const Text('Ashwani Kumar Singh', maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.white, fontSize: 14, height: 1.1, fontWeight: FontWeight.w900)),
-          const SizedBox(height: 2),
-          const Text('BG215  ·  28 yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Color(0xFFFFEAF3), fontSize: 8, fontWeight: FontWeight.w600)),
+            style: TextStyle(color: Colors.white, fontSize: 15, height: 1.05, fontWeight: FontWeight.w900)),
+          const SizedBox(height: 3),
+          const Text('BG215   |   28 Yrs   |   Male', maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Color(0xFFFFE8F3), fontSize: 8.5, fontWeight: FontWeight.w600)),
           const Spacer(),
           Row(children: [
-            _pill('♛ Gold Plan', const Color(0xFFFFD45B), const Color(0xFF603B14)),
+            _pill('♛  Gold Plan', const Color(0xFFFFC928), const Color(0xFF59300B)),
             const SizedBox(width: 5),
-            _pill('✓ Active', const Color(0xFF12B85A), Colors.white),
+            _pill('✓  Active', const Color(0xFF08B947), Colors.white),
           ]),
         ])),
     ]));
@@ -313,95 +175,113 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       );
 
   Widget _paymentAndExpiry() {
-    return Container(height: 43, padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-      decoration: BoxDecoration(color: const Color(0xFFFFEAF3), borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFFFC8DE))),
+    return Container(height: 54, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(colors: [Color(0xFFFFF7FB), Color(0xFFFFE6F1)]),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFFFC0DD)),
+        boxShadow: const [BoxShadow(color: Color(0x55FF9BC8), blurRadius: 8, offset: Offset(0, 2))],
+      ),
       child: Row(children: [
-        const Icon(Icons.account_balance_wallet_rounded, color: Color(0xFFB43E78), size: 19),
+        const Icon(Icons.account_balance_wallet_rounded, color: Color(0xFFB9005A), size: 23),
         const SizedBox(width: 5),
-        const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('PAYMENT DUE', style: TextStyle(color: Color(0xFF75415D), fontSize: 7, fontWeight: FontWeight.w700)),
-            Text('₹500', style: TextStyle(color: Color(0xFF9B245F), fontSize: 13, height: 1, fontWeight: FontWeight.w900)),
+        const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('PAYMENT DUE', style: TextStyle(color: Color(0xFF7D3155), fontSize: 7.5, fontWeight: FontWeight.w800)),
+            Text('₹500', style: TextStyle(color: Color(0xFFB00045), fontSize: 17, height: 1, fontWeight: FontWeight.w900)),
           ])),
-        Container(width: 1, height: 28, color: const Color(0xFFDDAAC3)),
+        Container(width: 1, height: 36, color: const Color(0xFFDFA9C4)),
         const SizedBox(width: 6),
-        const Icon(Icons.event_available_rounded, color: Color(0xFFB43E78), size: 18),
+        const Icon(Icons.event_available_rounded, color: Color(0xFFB9005A), size: 22),
         const SizedBox(width: 4),
-        Expanded(flex: 2, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        Expanded(flex: 2, child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('$_membershipDaysLeft DAYS LEFT', maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Color(0xFF9B245F), fontSize: 10, fontWeight: FontWeight.w900)),
-            Text('Expires ${_formatDate(_membershipExpiryDate)}', maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Color(0xFF654354), fontSize: 7)),
+              style: const TextStyle(color: Color(0xFF9C0049), fontSize: 11, fontWeight: FontWeight.w900)),
+            Text('Expires ' + _formatDate(_membershipExpiryDate), maxLines: 1, overflow: TextOverflow.ellipsis,
+              style: const TextStyle(color: Color(0xFF70445A), fontSize: 7.5)),
           ])),
-        const SizedBox(width: 4),
-        Container(width: 1, height: 28, color: const Color(0xFFDDAAC3)),
         const SizedBox(width: 5),
-        const _QrMark(size: 30),
+        Container(width: 1, height: 36, color: const Color(0xFFDFA9C4)),
+        const SizedBox(width: 5),
+        QrImageView(data: 'BADGYM:MEMBER:BG215', version: QrVersions.auto, size: 40,
+          padding: const EdgeInsets.all(2), backgroundColor: Colors.white,
+          eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Color(0xFF17000D)),
+          dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Color(0xFF17000D))),
       ]));
   }
 
   Widget _earlyPaymentOffer() {
     final rate = _earlyPaymentRate;
-    final savings = _earlyPaymentSavings;
-    final savingsText = savings == savings.roundToDouble() ? savings.toStringAsFixed(0) : savings.toStringAsFixed(2);
-    final rateText = rate == .005 ? '0.5' : (rate * 100).toStringAsFixed(0);
+    final savingsText = _earlyPaymentSavings.toStringAsFixed(0);
     final message = rate > 0
-      ? 'DUE SOON · Pay in $_paymentDueInDays days · Save $rateText% (₹$savingsText)'
-      : 'Due today or overdue · No early-payment discount';
-    return Container(height: 23, padding: const EdgeInsets.symmetric(horizontal: 7),
-      decoration: BoxDecoration(color: const Color(0xFFFFEAF3), borderRadius: BorderRadius.circular(9),
-        border: Border.all(color: const Color(0xFFFFC5DB))),
+        ? 'DUE SOON  ·  Pay in $_paymentDueInDays days  ·  Save ' + (rate * 100).toStringAsFixed(rate == .005 ? 1 : 0) + '%  (₹' + savingsText + ')'
+        : _paymentDueInDays == 0
+            ? 'DUE TODAY  ·  Pay now to avoid late fees'
+            : 'OVERDUE  ·  Late fee policy may apply';
+    return Container(height: 28, padding: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(colors: [Color(0xFFFFF7FB), Color(0xFFFFE0EF)]),
+        borderRadius: BorderRadius.circular(12), border: Border.all(color: const Color(0xFFFFB7D6)),
+        boxShadow: const [BoxShadow(color: Color(0x55FF8FC1), blurRadius: 6)],
+      ),
       child: Row(children: [
-        const Icon(Icons.local_offer_rounded, color: Color(0xFFB43E78), size: 12),
+        const Icon(Icons.sell_rounded, color: Color(0xFFB50058), size: 14),
         const SizedBox(width: 5),
         Expanded(child: Text(message, maxLines: 1, overflow: TextOverflow.ellipsis,
-          style: const TextStyle(color: Color(0xFF773451), fontSize: 7, fontWeight: FontWeight.w800))),
+          style: const TextStyle(color: Color(0xFF782347), fontSize: 7.5, fontWeight: FontWeight.w900))),
       ]));
   }
 
   Widget _membershipProgressBar() {
-    return Row(children: [
-      Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return SizedBox(height: 34, child: Row(children: [
+      Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('MEMBERSHIP  $_membershipDaysUsed / 30 DAYS',
-            style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w800)),
-          const SizedBox(height: 3),
-          ClipRRect(borderRadius: BorderRadius.circular(8),
-            child: LinearProgressIndicator(value: _membershipProgressValue, minHeight: 5,
-              backgroundColor: const Color(0xFFFFD6E8),
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFF76B6)))),
+            style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: .25)),
+          const SizedBox(height: 4),
+          ClipRRect(borderRadius: BorderRadius.circular(10),
+            child: LinearProgressIndicator(value: _membershipProgressValue, minHeight: 7,
+              backgroundColor: const Color(0xFFFFD5E9),
+              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFF1B8D)))),
         ])),
-      const SizedBox(width: 7),
-      Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(color: const Color(0xFFFFEAF3), borderRadius: BorderRadius.circular(10)),
-        child: Text('${(_membershipProgressValue * 100).round()}%',
-          style: const TextStyle(color: Color(0xFF78304F), fontSize: 10, fontWeight: FontWeight.w900))),
-    ]);
+      const SizedBox(width: 8),
+      Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFFFF8FC), Color(0xFFFFDDEB)]),
+          borderRadius: BorderRadius.circular(20), border: Border.all(color: const Color(0xFFFFB6D8))),
+        child: Text((_membershipProgressValue * 100).round().toString() + '%',
+          style: const TextStyle(color: Color(0xFF8C0044), fontSize: 12, fontWeight: FontWeight.w900))),
+    ]));
   }
 
   Widget _promotionBanner() {
-    return Container(height: 36, padding: const EdgeInsets.symmetric(horizontal: 7),
-      decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFFFFE58A), Color(0xFFFFCF4C)]),
-        borderRadius: BorderRadius.circular(11), border: Border.all(color: const Color(0xFFFFF2C8))),
+    return Container(height: 46, padding: const EdgeInsets.symmetric(horizontal: 8),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(colors: [Color(0xFFFFF18B), Color(0xFFFFD34B), Color(0xFFFFB91F)]),
+        borderRadius: BorderRadius.circular(15), border: Border.all(color: const Color(0xFFFFF8C9), width: 1.3),
+        boxShadow: const [BoxShadow(color: Color(0x88FFCE3D), blurRadius: 9, offset: Offset(0, 2))],
+      ),
       child: Row(children: [
-        const Text('amazon', style: TextStyle(color: Color(0xFF241A1F), fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: -1)),
+        const Text('amazon', style: TextStyle(color: Color(0xFF20151B), fontSize: 19, fontWeight: FontWeight.w900, letterSpacing: -1.4)),
         const SizedBox(width: 6),
-        Container(width: 1, height: 22, color: const Color(0xFFB88B38)),
-        const SizedBox(width: 6),
-        const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        Container(width: 1, height: 30, color: const Color(0xFFB58B3D)),
+        const SizedBox(width: 7),
+        const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('Big Billion Sale', maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Color(0xFF87324F), fontSize: 11, fontWeight: FontWeight.w900)),
-            Text('Up to 40% OFF · Fitness gear', maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Color(0xFF4C3440), fontSize: 7, fontWeight: FontWeight.w700)),
+              style: TextStyle(color: Color(0xFF8D164B), fontSize: 12, fontWeight: FontWeight.w900)),
+            Text('Up to 40% OFF · Fitness Gear', maxLines: 1, overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Color(0xFF49313A), fontSize: 7.5, fontWeight: FontWeight.w800)),
           ])),
-        const Icon(Icons.fitness_center_rounded, color: Color(0xFF69404D), size: 17),
-        const SizedBox(width: 4),
-        Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
-          decoration: BoxDecoration(color: const Color(0xFF9C315F), borderRadius: BorderRadius.circular(12)),
-          child: const Text('Shop ›', style: TextStyle(color: Colors.white, fontSize: 7, fontWeight: FontWeight.w900))),
+        const Icon(Icons.fitness_center_rounded, color: Color(0xFF5D3545), size: 23),
+        const SizedBox(width: 5),
+        Container(padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(colors: [Color(0xFFB90050), Color(0xFF780035)]),
+            borderRadius: BorderRadius.circular(18),
+            boxShadow: const [BoxShadow(color: Color(0x668D003F), blurRadius: 5)]),
+          child: const Text('Shop Now ›', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w900))),
       ]));
   }
 
@@ -409,27 +289,31 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     final items = [
       (Icons.calendar_month_rounded, 'Attendance', _attendancePercent, 1),
       (Icons.fitness_center_rounded, 'Workout', '58 min', 2),
-      (Icons.account_balance_wallet_rounded, 'Payment', '₹500 due', 3),
+      (Icons.account_balance_wallet_rounded, 'Payment', '₹500 Due', 3),
       (Icons.monitor_weight_rounded, 'Body', '69.5 kg', 6),
     ];
-    return SizedBox(height: 43, child: Row(children: List.generate(items.length, (i) {
+    return SizedBox(height: 48, child: Row(children: List.generate(items.length, (i) {
       final item = items[i];
       final active = _activeSection == item.$4;
       return Expanded(child: GestureDetector(
         onTap: () => setState(() { _activeSection = item.$4; _activeSubSection = 0; }),
         child: Container(
           margin: EdgeInsets.only(right: i == 3 ? 0 : 4),
-          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
           decoration: BoxDecoration(
-            color: active ? const Color(0xFFFFE18A) : const Color(0xFF9A3D6C),
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: active ? const Color(0xFFFFF2C5) : const Color(0xFFBD7195))),
+            gradient: active
+                ? const LinearGradient(colors: [Color(0xFFFFF0A2), Color(0xFFFFC928)])
+                : const LinearGradient(colors: [Color(0xFFE32A83), Color(0xFF970047)]),
+            borderRadius: BorderRadius.circular(13),
+            border: Border.all(color: active ? const Color(0xFFFFF7C9) : const Color(0xFFFF9AC8)),
+            boxShadow: [BoxShadow(color: active ? const Color(0x77FFCC35) : const Color(0x55FF2C91), blurRadius: 7)],
+          ),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Icon(item.$1, color: active ? const Color(0xFF65304D) : Colors.white, size: 12),
+            Icon(item.$1, color: active ? const Color(0xFF762B45) : Colors.white, size: 15),
             Text(item.$2, maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: active ? const Color(0xFF65304D) : Colors.white, fontSize: 6.5, fontWeight: FontWeight.w700)),
+              style: TextStyle(color: active ? const Color(0xFF762B45) : Colors.white, fontSize: 7, fontWeight: FontWeight.w800)),
             Text(item.$3, maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: active ? const Color(0xFF167A3A) : Colors.white, fontSize: 8.5, fontWeight: FontWeight.w900)),
+              style: TextStyle(color: active ? const Color(0xFF138A3C) : Colors.white, fontSize: 9, fontWeight: FontWeight.w900)),
           ]),
         ),
       ));
@@ -437,47 +321,69 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _intelligenceWorkspace() {
-    return Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      _verticalRail(),
-      const SizedBox(width: 4),
-      Expanded(child: Container(
-        padding: const EdgeInsets.all(6),
-        decoration: BoxDecoration(color: const Color(0xFFFFF8FC), borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: const Color(0xFFFFC5DC))),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          SizedBox(height: 27, child: _workspaceHeader()),
-          const SizedBox(height: 4),
-          SizedBox(height: 25, child: _sectionSubnav()),
-          const SizedBox(height: 4),
-          Expanded(child: ClipRect(child: _sectionContent())),
-        ]),
-      )),
-    ]);
+    return LayoutBuilder(builder: (context, constraints) {
+      final tileHeight = ((constraints.maxHeight - 12) / 7).clamp(35.0, 57.0);
+      return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        _verticalRail(tileHeight: tileHeight),
+        const SizedBox(width: 4),
+        Expanded(child: SizedBox(height: constraints.maxHeight, child: Container(
+          padding: const EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
+              colors: [Color(0xFFFFFBFE), Color(0xFFFFEAF4), Color(0xFFFFF8FC)]),
+            borderRadius: BorderRadius.circular(19),
+            border: Border.all(color: const Color(0xFFFFB8D9), width: 1.2),
+            boxShadow: const [BoxShadow(color: Color(0x77FF9BC8), blurRadius: 10, offset: Offset(0, 2))],
+          ),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+            SizedBox(height: 30, child: _workspaceHeader()),
+            const SizedBox(height: 4),
+            SizedBox(height: 27, child: _sectionSubnav()),
+            const SizedBox(height: 4),
+            Expanded(child: ClipRect(child: _sectionContent())),
+          ]),
+        ))),
+      ]);
+    });
   }
 
-  Widget _verticalRail() {
-    const labels = ['Home', 'Attend', 'Workout', 'Pay', 'Offers', 'History', 'Body'];
+  Widget _verticalRail({required double tileHeight}) {
+    const labels = ['Dashboard', 'Attendance', 'Workout', 'Payments', 'Offers', 'History', 'Body'];
     const icons = [
-      Icons.dashboard_rounded, Icons.calendar_month_rounded, Icons.fitness_center_rounded,
+      Icons.bar_chart_rounded, Icons.calendar_month_rounded, Icons.fitness_center_rounded,
       Icons.account_balance_wallet_rounded, Icons.sell_rounded, Icons.history_rounded,
       Icons.monitor_weight_rounded
     ];
-    return Container(width: 43, padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
-      decoration: BoxDecoration(color: const Color(0xFF87345F), borderRadius: BorderRadius.circular(13),
-        border: Border.all(color: const Color(0xFFD98AAE))),
+    return Container(
+      width: 48, height: tileHeight * 7 + 8,
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
+          colors: [Color(0xFFB60055), Color(0xFF79003B), Color(0xFF4E0029)]),
+        borderRadius: BorderRadius.circular(17),
+        border: Border.all(color: const Color(0xFFFFA4D0), width: 1.1),
+        boxShadow: const [BoxShadow(color: Color(0x88FF4CA8), blurRadius: 9, offset: Offset(0, 2))],
+      ),
       child: Column(children: List.generate(labels.length, (i) {
         final active = _activeSection == i;
-        return Expanded(child: GestureDetector(
+        return SizedBox(height: tileHeight, child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
           onTap: () => setState(() { _activeSection = i; _activeSubSection = 0; }),
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 1.5),
-            decoration: BoxDecoration(color: active ? const Color(0xFFFFDE83) : Colors.transparent,
-              borderRadius: BorderRadius.circular(8)),
+            decoration: BoxDecoration(
+              gradient: active ? const LinearGradient(colors: [Color(0xFFFFF0A1), Color(0xFFFFC928)]) : null,
+              color: active ? null : Colors.transparent,
+              borderRadius: BorderRadius.circular(11),
+              border: active ? Border.all(color: const Color(0xFFFFF6C8)) : null,
+              boxShadow: active ? const [BoxShadow(color: Color(0x88FFD34B), blurRadius: 7)] : null,
+            ),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(icons[i], color: active ? const Color(0xFF69304D) : const Color(0xFFFFF4FA), size: 15),
-              const SizedBox(height: 1),
-              FittedBox(fit: BoxFit.scaleDown, child: Text(labels[i],
-                style: TextStyle(color: active ? const Color(0xFF69304D) : Colors.white, fontSize: 6.5, fontWeight: FontWeight.w800))),
+              Icon(icons[i], color: active ? const Color(0xFF762B45) : const Color(0xFFFFF5FA), size: 17),
+              const SizedBox(height: 2),
+              Padding(padding: const EdgeInsets.symmetric(horizontal: 1),
+                child: FittedBox(fit: BoxFit.scaleDown, child: Text(labels[i],
+                  style: TextStyle(color: active ? const Color(0xFF762B45) : Colors.white, fontSize: 7.2, fontWeight: FontWeight.w900)))),
             ]),
           ),
         ));
@@ -487,16 +393,21 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _workspaceHeader() {
     return Row(children: [
-      Container(width: 25, height: 25,
-        decoration: const BoxDecoration(shape: BoxShape.circle,
-          gradient: LinearGradient(colors: [Color(0xFFD65B91), Color(0xFF8D3D69)])),
-        child: const Icon(Icons.insights_rounded, color: Colors.white, size: 16)),
-      const SizedBox(width: 5),
+      Container(width: 27, height: 27,
+        decoration: BoxDecoration(shape: BoxShape.circle,
+          gradient: const LinearGradient(colors: [Color(0xFFFF5AAB), Color(0xFF9A004D)]),
+          boxShadow: const [BoxShadow(color: Color(0x66FF4BA2), blurRadius: 7)]),
+        child: const Icon(Icons.insights_rounded, color: Colors.white, size: 17)),
+      const SizedBox(width: 6),
       Expanded(child: Text(_sectionTitle, maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: const TextStyle(color: Color(0xFF5D2B49), fontSize: 10, fontWeight: FontWeight.w900))),
-      Container(padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
-        decoration: BoxDecoration(color: const Color(0xFFFFE6A1), borderRadius: BorderRadius.circular(8)),
-        child: const Text('MEMBER IQ', style: TextStyle(color: Color(0xFF6B4B20), fontSize: 6, fontWeight: FontWeight.w900))),
+        style: const TextStyle(color: Color(0xFF4D0D30), fontSize: 10.5, fontWeight: FontWeight.w900))),
+      Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFFFEBA1), Color(0xFFFFD24B)]),
+          borderRadius: BorderRadius.circular(12), border: Border.all(color: const Color(0xFFFFF4C7)),
+          boxShadow: const [BoxShadow(color: Color(0x66F0C044), blurRadius: 5)]),
+        child: const Text('Co-powered by\nblinkit', textAlign: TextAlign.center,
+          style: TextStyle(color: Color(0xFF61243E), fontSize: 5.5, height: 1, fontWeight: FontWeight.w900))),
     ]);
   }
 
@@ -530,77 +441,98 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     final tracked = _trackedAttendanceDays;
     final rate = _attendanceRate;
     final holidayRate = _elapsedCalendarDays == 0 ? 0.0 : holiday / _elapsedCalendarDays;
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Row(children: [
-        SizedBox(width: 62, height: 62,
-          child: CustomPaint(painter: _DonutPainter(value: rate),
-            child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Text(_attendancePercent, style: const TextStyle(color: Color(0xFF49243B), fontSize: 16, fontWeight: FontWeight.w900)),
-              Text('$present/$tracked days', style: const TextStyle(color: Color(0xFF704C61), fontSize: 6.5)),
-            ])))),
-        const SizedBox(width: 6),
-        Expanded(child: Column(children: [
-          _progressLine('Present', '$present', _attendancePercent, const Color(0xFF16A653), rate),
-          _progressLine('Absent', '$absent', tracked == 0 ? '0%' : '${(absent / tracked * 100).round()}%',
-            const Color(0xFFE34D65), tracked == 0 ? 0 : absent / tracked),
-          _progressLine('Holiday', '$holiday', _elapsedCalendarDays == 0 ? '0%' : '${(holidayRate * 100).round()}%',
-            const Color(0xFF9860C5), holidayRate),
-        ])),
-      ]),
-      const SizedBox(height: 4),
-      _monthlyTrend(),
-      const SizedBox(height: 4),
-      Expanded(child: _calendarCard()),
-      const SizedBox(height: 2),
-      _legend(),
+    return Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Expanded(flex: 7, child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFF8FC), borderRadius: BorderRadius.circular(13),
+            border: Border.all(color: const Color(0xFFF2C9DC)),
+            boxShadow: const [BoxShadow(color: Color(0x44E99ABC), blurRadius: 6)],
+          ),
+          child: Row(children: [
+            SizedBox(width: 66, height: 66, child: CustomPaint(
+              painter: _DonutPainter(value: rate),
+              child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Text(_attendancePercent, style: const TextStyle(color: Color(0xFF3B0D28), fontSize: 17, fontWeight: FontWeight.w900)),
+                Text('$present / $tracked', style: const TextStyle(color: Color(0xFF77516A), fontSize: 7, fontWeight: FontWeight.w700)),
+                const Text('Days', style: TextStyle(color: Color(0xFF77516A), fontSize: 6)),
+              ])),
+            )),
+            const SizedBox(width: 5),
+            Expanded(child: Column(children: [
+              _progressLine('Present', '$present', _attendancePercent, const Color(0xFF08A82E), rate),
+              _progressLine('Absent', '$absent', tracked == 0 ? '0%' : ((absent / tracked * 100).round().toString() + '%'),
+                const Color(0xFFE91E43), tracked == 0 ? 0 : absent / tracked),
+              _progressLine('Holiday', '$holiday', _elapsedCalendarDays == 0 ? '0%' : ((holidayRate * 100).round().toString() + '%'),
+                const Color(0xFFB000D8), holidayRate),
+              _progressLine('Payment', '1 / 1', '100%', const Color(0xFFFFB900), 1),
+            ])),
+          ]),
+        ),
+        const SizedBox(height: 5),
+        Expanded(child: _calendarCard(fill: true)),
+        const SizedBox(height: 3),
+        _legend(),
+      ])),
+      const SizedBox(width: 5),
+      SizedBox(width: 78, child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        _sideInsightCard(icon: Icons.query_stats_rounded, title: 'Monthly Trend',
+          child: Column(children: [
+            SizedBox(height: 45, child: CustomPaint(painter: _BarsPainter(values: const [.25, .4, .48, .64, .8, .95]))),
+            const Text('↑ 6% vs last month', style: TextStyle(color: Color(0xFF16843B), fontSize: 6.5, fontWeight: FontWeight.w900)),
+          ])),
+        const SizedBox(height: 5),
+        _sideInsightCard(icon: Icons.local_fire_department_rounded, title: 'Streak',
+          child: const Text('5 Days', textAlign: TextAlign.center,
+            style: TextStyle(color: Color(0xFF97004C), fontSize: 13, fontWeight: FontWeight.w900))),
+        const SizedBox(height: 5),
+        _sideInsightCard(icon: Icons.emoji_events_rounded, title: 'Best',
+          child: const Text('14 Days', textAlign: TextAlign.center,
+            style: TextStyle(color: Color(0xFF97004C), fontSize: 12, fontWeight: FontWeight.w900))),
+        const Spacer(),
+        const Icon(Icons.fitness_center_rounded, color: Color(0xFFEC62A4), size: 38),
+        const Text('KEEP GOING', textAlign: TextAlign.center,
+          style: TextStyle(color: Color(0xFF9A4770), fontSize: 5.5, fontWeight: FontWeight.w900)),
+      ])),
     ]);
   }
 
-  Widget _progressLine(
-      String label, String count, String percent, Color color, double value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
-      child: Row(children: [
-        Container(
-            width: 9,
-            height: 9,
-            decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-        const SizedBox(width: 5),
-        SizedBox(
-            width: 48,
-            child: Text(label,
-                style: const TextStyle(
-                    color: Color(0xFF321222),
-                    fontSize: 8.5,
-                    fontWeight: FontWeight.w600))),
-        SizedBox(
-            width: 23,
-            child: Text(count,
-                textAlign: TextAlign.end,
-                style: const TextStyle(
-                    color: Color(0xFF321222),
-                    fontSize: 9,
-                    fontWeight: FontWeight.w800))),
-        const SizedBox(width: 5),
-        Expanded(
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                    value: value,
-                    minHeight: 8,
-                    backgroundColor: const Color(0xFFE9C8D9),
-                    valueColor: AlwaysStoppedAnimation<Color>(color)))),
-        const SizedBox(width: 4),
-        SizedBox(
-            width: 27,
-            child: Text(percent,
-                textAlign: TextAlign.end,
-                style: const TextStyle(
-                    color: Color(0xFF321222),
-                    fontSize: 8.5,
-                    fontWeight: FontWeight.w800))),
+  Widget _sideInsightCard({required IconData icon, required String title, required Widget child}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(colors: [Color(0xFFFFF9FC), Color(0xFFFFEAF4)]),
+        borderRadius: BorderRadius.circular(11), border: Border.all(color: const Color(0xFFF0C5D9)),
+        boxShadow: const [BoxShadow(color: Color(0x33E88DB6), blurRadius: 5)],
+      ),
+      child: Column(children: [
+        Icon(icon, color: const Color(0xFFB00059), size: 16),
+        const SizedBox(height: 2),
+        Text(title, textAlign: TextAlign.center, maxLines: 1, overflow: TextOverflow.ellipsis,
+          style: const TextStyle(color: Color(0xFF6C2949), fontSize: 6.5, fontWeight: FontWeight.w900)),
+        const SizedBox(height: 4),
+        child,
       ]),
     );
+  }
+
+  Widget _progressLine(String label, String count, String percent, Color color, double value) {
+    return Padding(padding: const EdgeInsets.symmetric(vertical: 2.5), child: Row(children: [
+      Container(width: 7, height: 7, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+      const SizedBox(width: 3),
+      SizedBox(width: 31, child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+        style: const TextStyle(color: Color(0xFF321222), fontSize: 7, fontWeight: FontWeight.w700))),
+      SizedBox(width: 15, child: Text(count, textAlign: TextAlign.end,
+        style: const TextStyle(color: Color(0xFF321222), fontSize: 7, fontWeight: FontWeight.w900))),
+      const SizedBox(width: 4),
+      Expanded(child: ClipRRect(borderRadius: BorderRadius.circular(9),
+        child: LinearProgressIndicator(value: value, minHeight: 7,
+          backgroundColor: const Color(0xFFE9C8D9), valueColor: AlwaysStoppedAnimation<Color>(color)))),
+      const SizedBox(width: 3),
+      SizedBox(width: 22, child: Text(percent, textAlign: TextAlign.end,
+        style: const TextStyle(color: Color(0xFF321222), fontSize: 6.5, fontWeight: FontWeight.w900))),
+    ]));
   }
 
   Widget _monthlyTrend() {
@@ -618,59 +550,70 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       ]));
   }
 
-  Widget _calendarCard() {
+  Widget _calendarCard({bool fill = false}) {
     final first = DateTime(_year, _month, 1);
     final daysInMonth = DateTime(_year, _month + 1, 0).day;
     final offset = first.weekday - 1;
-    final monthName = const ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][_month - 1];
-    return Container(padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(color: const Color(0xFFFFF8FC), borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFEED1DF))),
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Row(children: [
+    final monthName = const ['January','February','March','April','May','June','July','August','September','October','November','December'][_month - 1];
+    final grid = GridView.builder(
+      shrinkWrap: !fill,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 42,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 7, mainAxisSpacing: 3, crossAxisSpacing: 3, childAspectRatio: 1.28),
+      itemBuilder: (context, index) {
+        final day = index - offset + 1;
+        if (day < 1 || day > daysInMonth) return const SizedBox.shrink();
+        final isFuture = _year > _today.year || (_year == _today.year && _month == _today.month && day > _today.day);
+        final kind = _days[day] ?? (isFuture ? DayKind.off : DayKind.present);
+        final color = switch (kind) {
+          DayKind.present => const Color(0xFF08A82E),
+          DayKind.absent => const Color(0xFFE91E43),
+          DayKind.holiday => const Color(0xFFB000D8),
+          DayKind.payment => const Color(0xFFFFBB18),
+          DayKind.off => const Color(0xFFEAE3E8),
+        };
+        return Container(
+          decoration: BoxDecoration(
+            gradient: kind == DayKind.present ? const LinearGradient(colors: [Color(0xFF12BC42), Color(0xFF078D2B)]) : null,
+            color: kind == DayKind.present ? null : color,
+            borderRadius: BorderRadius.circular(8),
+            border: day == _today.day && _month == _today.month && _year == _today.year
+              ? Border.all(color: const Color(0xFF1D743A), width: 1.5) : null,
+            boxShadow: kind == DayKind.present ? const [BoxShadow(color: Color(0x3311A93A), blurRadius: 3, offset: Offset(0, 1))] : null,
+          ),
+          alignment: Alignment.center,
+          child: kind == DayKind.holiday
+            ? const Icon(Icons.calendar_month_rounded, color: Colors.white, size: 10)
+            : kind == DayKind.payment
+              ? const Icon(Icons.currency_rupee_rounded, color: Color(0xFF67450B), size: 10)
+              : Text('$day', style: TextStyle(color: kind == DayKind.off ? const Color(0xFF948A91) : Colors.white,
+                  fontSize: 7.5, fontWeight: FontWeight.w900)),
+        );
+      },
+    );
+    return Container(
+      padding: const EdgeInsets.all(5),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(colors: [Color(0xFFFFFCFE), Color(0xFFFFF0F7)]),
+        borderRadius: BorderRadius.circular(13), border: Border.all(color: const Color(0xFFF0C8DA)),
+        boxShadow: const [BoxShadow(color: Color(0x33E88DB6), blurRadius: 5)],
+      ),
+      child: Column(children: [
+        SizedBox(height: 24, child: Row(children: [
           _monthButton(Icons.chevron_left_rounded, () => _changeMonth(-1)),
-          Expanded(child: Center(child: Text('$monthName $_year',
-            style: const TextStyle(color: Color(0xFF67324E), fontSize: 8, fontWeight: FontWeight.w900)))),
+          Expanded(child: Center(child: Text(monthName + ' ' + _year.toString(),
+            style: const TextStyle(color: Color(0xFF5D1239), fontSize: 8.5, fontWeight: FontWeight.w900)))),
           _monthButton(Icons.chevron_right_rounded, () => _changeMonth(1)),
-        ]),
+        ])),
         const SizedBox(height: 2),
-        Row(children: ['M','T','W','T','F','S','S'].map((d) => Expanded(
-          child: Center(child: Text(d, style: const TextStyle(color: Color(0xFF805C71), fontSize: 6, fontWeight: FontWeight.w800))),
+        Row(children: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(
+          child: Center(child: Text(d, style: const TextStyle(color: Color(0xFF805C71), fontSize: 6.5, fontWeight: FontWeight.w900))),
         )).toList()),
-        const SizedBox(height: 2),
-        GridView.builder(
-          shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
-          itemCount: ((offset + daysInMonth + 6) ~/ 7) * 7,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7, mainAxisSpacing: 2, crossAxisSpacing: 2, childAspectRatio: 2.6),
-          itemBuilder: (context, index) {
-            final day = index - offset + 1;
-            if (day < 1 || day > daysInMonth) return const SizedBox.shrink();
-            final isFuture = _year > _today.year || (_year == _today.year && _month == _today.month && day > _today.day);
-            final kind = _days[day] ?? (isFuture ? DayKind.off : DayKind.present);
-            final color = switch (kind) {
-              DayKind.present => const Color(0xFF19A957),
-              DayKind.absent => const Color(0xFFE34D65),
-              DayKind.holiday => const Color(0xFF9860C5),
-              DayKind.payment => const Color(0xFFF2BD42),
-              DayKind.off => const Color(0xFFE9E2E7),
-            };
-            return Container(
-              decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(5),
-                border: day == _today.day && _month == _today.month && _year == _today.year
-                  ? Border.all(color: const Color(0xFF315B43), width: 1.2) : null),
-              alignment: Alignment.center,
-              child: kind == DayKind.holiday
-                ? const Icon(Icons.event_rounded, color: Colors.white, size: 8)
-                : kind == DayKind.payment
-                  ? const Icon(Icons.currency_rupee_rounded, color: Color(0xFF604717), size: 8)
-                  : Text('$day', style: TextStyle(
-                      color: kind == DayKind.off ? const Color(0xFF948A91) : Colors.white,
-                      fontSize: 6.5, fontWeight: FontWeight.w900)),
-            );
-          },
-        ),
-      ]));
+        const SizedBox(height: 3),
+        if (fill) Expanded(child: grid) else SizedBox(height: 142, child: grid),
+      ]),
+    );
   }
 
   Widget _monthButton(IconData icon, VoidCallback onTap) => GestureDetector(
@@ -687,30 +630,19 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _legend() {
     final items = [
-      (const Color(0xFF08B72B), 'Present'),
-      (const Color(0xFFEF233C), 'Absent'),
-      (const Color(0xFFB000E8), 'Holiday'),
-      (const Color(0xFFFFBD16), 'Payment'),
+      (const Color(0xFF08A82E), 'Present'),
+      (const Color(0xFFE91E43), 'Absent'),
+      (const Color(0xFFB000D8), 'Holiday'),
+      (const Color(0xFFFFBB18), 'Payment'),
     ];
-    return Wrap(
-        alignment: WrapAlignment.center,
-        spacing: 8,
-        runSpacing: 4,
-        children: items
-            .map((e) => Row(mainAxisSize: MainAxisSize.min, children: [
-                  Container(
-                      width: 8,
-                      height: 8,
-                      decoration:
-                          BoxDecoration(color: e.$1, shape: BoxShape.circle)),
-                  const SizedBox(width: 3),
-                  Text(e.$2,
-                      style: const TextStyle(
-                          color: Color(0xFF371426),
-                          fontSize: 7.5,
-                          fontWeight: FontWeight.w600)),
-                ]))
-            .toList());
+    return Padding(padding: const EdgeInsets.only(top: 2, bottom: 1), child: Wrap(
+      alignment: WrapAlignment.center, spacing: 7, runSpacing: 2,
+      children: items.map((e) => Row(mainAxisSize: MainAxisSize.min, children: [
+        Container(width: 7, height: 7, decoration: BoxDecoration(color: e.$1, shape: BoxShape.circle)),
+        const SizedBox(width: 3),
+        Text(e.$2, style: const TextStyle(color: Color(0xFF371426), fontSize: 6.5, fontWeight: FontWeight.w800)),
+      ])).toList(),
+    ));
   }
 
   Widget _sectionContent() {
@@ -942,47 +874,66 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _paymentContent() {
-    final dueLabel = _paymentDueInDays > 0 ? 'Due in $_paymentDueInDays days' : _paymentDueInDays == 0 ? 'Due today' : 'Overdue';
-    final savings = _earlyPaymentSavings;
-    final savingsText = savings == savings.roundToDouble() ? savings.toStringAsFixed(0) : savings.toStringAsFixed(2);
+    final dueLabel = _paymentDueInDays > 0 ? 'Due in $_paymentDueInDays days'
+        : _paymentDueInDays == 0 ? 'Due today' : 'Overdue by ' + (-_paymentDueInDays).toString() + ' days';
+    final savingsText = _earlyPaymentSavings.toStringAsFixed(0);
+    final overdueDays = (-_paymentDueInDays).clamp(0, 999);
+    final lateFee = overdueDays <= 3 ? 0 : overdueDays <= 10 ? 10 : overdueDays <= 20 ? 20 : 30;
     if (_activeSubSection == 1) {
       return _sectionCard('Recent transactions', Column(children: [
-        _metricRow('${_formatDate(_today.subtract(const Duration(days: 15)))} · Membership', '₹4,500 paid', const Color(0xFF16A653)),
-        _metricRow('${_formatDate(_today)} · Monthly fee', '₹500 due', const Color(0xFFE34D65)),
-        _metricRow('Next reminder · ${_formatDate(_paymentDueDate)}', dueLabel, const Color(0xFF9860C5)),
+        _metricRow(_formatDate(_today.subtract(const Duration(days: 15))) + ' · Membership', '₹4,500 paid', const Color(0xFF08A82E)),
+        _metricRow(_formatDate(_today) + ' · Monthly fee', '₹500 due', const Color(0xFFE91E43)),
+        _metricRow('Next reminder · ' + _formatDate(_paymentDueDate), dueLabel, const Color(0xFF9B0050)),
       ]));
     }
     if (_activeSubSection == 2) {
       return Column(children: [
         _sectionCard('Due date & early-pay offer', Column(children: [
           Row(children: [
-            _miniValue('Outstanding', '₹500', const Color(0xFFE34D65)),
+            _miniValue('Outstanding', '₹500', const Color(0xFFE91E43)),
             const SizedBox(width: 5),
-            _miniValue('Potential saving', '₹$savingsText', const Color(0xFF16A653)),
+            _miniValue('Potential saving', '₹' + savingsText, const Color(0xFF08A82E)),
           ]),
-          const SizedBox(height: 5),
-          _metricRow('Due date', _formatDate(_paymentDueDate), const Color(0xFFB84E80)),
+          const SizedBox(height: 4),
+          _metricRow('Due date', _formatDate(_paymentDueDate), const Color(0xFF9B0050)),
           _metricRow('Status', dueLabel, const Color(0xFFE0A52D)),
+          _metricRow('Current late fee', '₹' + lateFee.toString(), lateFee == 0 ? const Color(0xFF08A82E) : const Color(0xFFE91E43)),
         ])),
         const SizedBox(height: 5),
-        _sectionCard('Discount rules', Column(children: [
-          _metricRow('7+ days early', '2%', const Color(0xFF16A653)),
-          _metricRow('3–6 days early', '1%', const Color(0xFF16A653)),
-          _metricRow('1–2 days early', '0.5%', const Color(0xFFE0A52D)),
+        _sectionCard('Transparent payment policy', Column(children: [
+          _metricRow('7+ days early', '2% OFF', const Color(0xFF08A82E)),
+          _metricRow('3–6 days early', '1% OFF', const Color(0xFF08A82E)),
+          _metricRow('1–2 days early', '0.5% OFF', const Color(0xFFE0A52D)),
+          _metricRow('Due date', 'No discount', const Color(0xFF9B0050)),
+          _metricRow('1–3 days late', 'Grace period', const Color(0xFF08A82E)),
+          _metricRow('4–10 days late', '₹10 fee', const Color(0xFFE0A52D)),
+          _metricRow('11–20 days late', '₹20 fee', const Color(0xFFE91E43)),
+          _metricRow('21+ days late', '₹30 fee', const Color(0xFFE91E43)),
         ])),
+        const Padding(padding: EdgeInsets.only(top: 3),
+          child: Text('Illustrative policy · Gym owner can configure or disable late fees',
+            textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF805C71), fontSize: 6))),
       ]);
     }
-    return _sectionCard('Payment overview', Column(children: [
-      Row(children: [
-        _miniValue('Outstanding', '₹500', const Color(0xFFE34D65)),
-        const SizedBox(width: 5),
-        _miniValue('Last payment', '₹4,500', const Color(0xFF16A653)),
-      ]),
+    return Column(children: [
+      _sectionCard('Payment overview', Column(children: [
+        Row(children: [
+          _miniValue('Outstanding', '₹500', const Color(0xFFE91E43)),
+          const SizedBox(width: 5),
+          _miniValue('Last payment', '₹4,500', const Color(0xFF08A82E)),
+        ]),
+        const SizedBox(height: 4),
+        _metricRow('Next payment', dueLabel, const Color(0xFFE91E43)),
+        _metricRow('Early-pay reward', _earlyPaymentRate > 0 ? 'Save ₹' + savingsText : 'No discount', const Color(0xFF08A82E)),
+        _metricRow('Late fee', lateFee == 0 ? '₹0 · Grace period' : '₹' + lateFee.toString(), lateFee == 0 ? const Color(0xFF08A82E) : const Color(0xFFE91E43)),
+      ])),
       const SizedBox(height: 5),
-      _metricRow('Next payment', dueLabel, const Color(0xFFE34D65)),
-      _metricRow('Early-pay reward', _earlyPaymentRate > 0 ? 'Save ₹$savingsText' : 'No discount', const Color(0xFF16A653)),
-      _barChart(const [.3, .55, .42, .72, .58, .9], height: 34),
-    ]));
+      _sectionCard('Early payment rewards', Column(children: [
+        _metricRow('7+ days early', '2% · ₹10', const Color(0xFF08A82E)),
+        _metricRow('3–6 days early', '1% · ₹5', const Color(0xFF08A82E)),
+        _metricRow('1–2 days early', '0.5% · ₹2.50', const Color(0xFFE0A52D)),
+      ])),
+    ]);
   }
 
   Widget _offersContent() {
