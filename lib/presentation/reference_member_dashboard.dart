@@ -56,7 +56,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             final h = constraints.maxHeight;
             final compact = h < 690;
             final headerH = compact ? 44.0 : 54.0;
-            final profileH = compact ? 130.0 : 166.0;
+            final profileH = compact ? 150.0 : 166.0;
             final promoH = compact ? 54.0 : 74.0;
             final statsH = compact ? 76.0 : 104.0;
             final insightH = compact ? 40.0 : 54.0;
@@ -157,7 +157,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
           Wrap(spacing: 5, runSpacing: 3, crossAxisAlignment: WrapCrossAlignment.center, children: [
             _pill(Icons.check_rounded, 'CHECKED-IN', _green, Colors.white),
-            _pill(Icons.calendar_month_rounded, '${_data.checkInDate} · ${_data.checkInTime}', const Color(0xFFE8F4FF), _navy, outlined: true),
+            _pill(Icons.calendar_month_rounded, compact ? '16 Oct · 7:12 AM' : '${_data.checkInDate} · ${_data.checkInTime}', const Color(0xFFE8F4FF), _navy, outlined: true),
           ]),
           const SizedBox(height: 4),
           Text(_data.name, maxLines: 1, overflow: TextOverflow.ellipsis,
@@ -476,7 +476,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
       Expanded(child: Text(label, style: const TextStyle(color: _navy, fontSize: 8, fontWeight: FontWeight.w700))),
       Text('$value', style: const TextStyle(color: _navy, fontSize: 8.5, fontWeight: FontWeight.w900)),
       const SizedBox(width: 3),
-      SizedBox(width: 24, child: ClipRRect(borderRadius: BorderRadius.circular(5), child: LinearProgressIndicator(value: fraction, minHeight: 4, backgroundColor: const Color(0xFFDCEAF6), valueColor: AlwaysStoppedAnimation(color)))),
+      SizedBox(width: 15, child: ClipRRect(borderRadius: BorderRadius.circular(5), child: LinearProgressIndicator(value: fraction, minHeight: 4, backgroundColor: const Color(0xFFDCEAF6), valueColor: AlwaysStoppedAnimation(color)))),
     ]),
   );
 
