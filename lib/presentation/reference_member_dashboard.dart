@@ -410,11 +410,20 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     return Column(children: [
       const Row(children: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(child: Center(child: Text(d, style: TextStyle(color: _navy, fontSize: 8.5, fontWeight: FontWeight.w900))))).toList()),
       const SizedBox(height: 3),
-      Expanded(child: GridView.count(
-        physics: const NeverScrollableScrollPhysics(), padding: EdgeInsets.zero,
-        crossAxisCount: 7, mainAxisSpacing: compact ? 1 : 3, crossAxisSpacing: 1,
-        childAspectRatio: 1, children: cells,
-      )),
+      Expanded(child: LayoutBuilder(builder: (context, constraints) {
+        final rows = (cells.length / 7).ceil();
+        return Column(children: List.generate(rows, (row) => Expanded(
+          child: Row(children: List.generate(7, (column) => Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 1,
+                vertical: compact ? 0.5 : 1.5,
+              ),
+              child: cells[row * 7 + column],
+            ),
+          ))),
+        )));
+      })),
       const SizedBox(height: 3),
       FittedBox(fit: BoxFit.scaleDown, child: Row(children: [
         _legend(_green, 'Present'), const SizedBox(width: 5), _legend(_amber, 'Late'),
