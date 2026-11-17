@@ -277,15 +277,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       .where((v) => v == DayKind.off).length;
   int get _attendanceRate => _tracked == 0 ? 0 : ((_present + _late) * 100 / _tracked).round();
 
-  Widget _compactCount(String label, int value, Color color) => Row(
-    children: [
-      Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-      const SizedBox(width: 3),
-      Expanded(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: t.softText, fontSize: 6.2, fontWeight: FontWeight.w700))),
-      Text(value.toString(), style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w900)),
-    ],
-  );
   int get _membershipDaysUsed => 22;
   int get _membershipDaysTotal => 30;
   double get _membershipProgress => _membershipDaysUsed / _membershipDaysTotal;
