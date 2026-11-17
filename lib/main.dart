@@ -742,7 +742,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         const SizedBox(height: 5),
         Expanded(child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           SizedBox(
-            width: 48,
+            width: 56,
             child: Column(children: List.generate(labels.length, (index) {
               final active = _subSection == index;
               return Expanded(child: Padding(
@@ -758,7 +758,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                       border: Border.all(color: active ? t.primary : t.border, width: active ? 1.4 : .7),
                     ),
                     child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Icon(icons[index], size: 16, color: active ? (t.dark ? Colors.black : Colors.white) : t.primary),
+                      Icon(icons[index], size: 12, color: active ? (t.dark ? Colors.black : Colors.white) : t.primary),
                       const SizedBox(height: 2),
                       Text(labels[index], maxLines: 1, overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: active ? (t.dark ? Colors.black : Colors.white) : t.cardText, fontSize: 11, fontWeight: FontWeight.w700)),
