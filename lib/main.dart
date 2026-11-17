@@ -75,7 +75,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
-            final width = math.min(constraints.maxWidth - 16, 540.0);
+            final width = constraints.maxWidth - 16 < 540 ? constraints.maxWidth - 16 : 540.0;
             return SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(8, 8, 8, 18),
               child: Center(
@@ -605,8 +605,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           _monthButton(Icons.chevron_right_rounded, () => _changeMonth(1)),
         ]),
         const SizedBox(height: 7),
-        const Row(children: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) =>
-          Expanded(child: Center(child: Text(d, style: TextStyle(color: Color(0xFF5A1A38), fontSize: 8, fontWeight: FontWeight.w800))))).toList(),
+        Row(children: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) =>
+          Expanded(child: Center(child: Text(d, style: const TextStyle(color: Color(0xFF5A1A38), fontSize: 8, fontWeight: FontWeight.w800))))).toList(),
         ),
         const SizedBox(height: 5),
         GridView.builder(
