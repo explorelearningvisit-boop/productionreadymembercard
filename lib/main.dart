@@ -443,8 +443,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             border: Border.all(color: t.border, width: t.borderWidth),
             boxShadow: [BoxShadow(color: t.primary.withOpacity(.22), blurRadius: 8)],
           ),
-          child: Image.asset('assets/images/logo_dumbbell.png', fit: BoxFit.contain, color: Colors.white,
-            errorBuilder: (_, __, ___) => const Icon(Icons.fitness_center_rounded, color: Colors.white, size: 24)),
+          child: const Icon(Icons.fitness_center_rounded, color: Colors.white, size: 24),
         ),
         const SizedBox(width: 8),
         Expanded(child: FittedBox(
@@ -634,16 +633,16 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           onTap: () => _setTab(item.$1),
           borderRadius: BorderRadius.circular(t.radius),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
             decoration: t.panel(radius: t.radius, selected: active),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Image.asset(item.$2, width: 14, height: 14, fit: BoxFit.contain,
+              Image.asset(item.$2, width: 16, height: 16, fit: BoxFit.contain,
                 errorBuilder: (_, __, ___) => Icon(item.$3, color: active ? t.primary : t.secondary, size: 12)),
-              const SizedBox(height: 0),
+              const SizedBox(height: 2),
               Text(item.$4, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800)),
+                style: TextStyle(color: t.cardText, fontSize: 7.2, height: 1.05, fontWeight: FontWeight.w800)),
               FittedBox(fit: BoxFit.scaleDown, child: Text(item.$5,
-                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 9, height: .95, fontWeight: FontWeight.w900))),
+                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 11, height: 1.05, fontWeight: FontWeight.w900))),
             ]),
           ),
         ),
@@ -783,7 +782,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         DayKind.holiday || DayKind.off => t.neutral,
       };
       days.add(Center(child: Container(
-        width: 25, height: 25,
+        width: 27, height: 27,
         decoration: BoxDecoration(
           color: color,
           shape: t.style == 'athletic' || t.style == 'minimal' ? BoxShape.rectangle : BoxShape.circle,
@@ -823,7 +822,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         const SizedBox(height: 4),
         Expanded(child: GridView.count(
           crossAxisCount: 7, shrinkWrap: false, physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 3, crossAxisSpacing: 2, childAspectRatio: 1.1, children: days,
+          mainAxisSpacing: 3, crossAxisSpacing: 2, mainAxisExtent: 38, childAspectRatio: 1.0, children: days,
         )),
         const SizedBox(height: 4),
         Wrap(alignment: WrapAlignment.spaceBetween, spacing: 4, children: [
@@ -937,7 +936,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             padding: const EdgeInsets.symmetric(horizontal: 3),
             child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
               Expanded(child: Align(alignment: Alignment.bottomCenter, child: Container(
-                height: values[i] * .85, width: 16,
+                height: values[i] * 1.45, width: 16,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [t.secondary, t.primary], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                   borderRadius: BorderRadius.circular(7),
