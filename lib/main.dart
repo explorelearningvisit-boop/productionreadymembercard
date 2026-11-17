@@ -35,8 +35,16 @@ class MemberDashboardPage extends StatefulWidget {
 class _MemberDashboardPageState extends State<MemberDashboardPage> {
   int _activeSection = 1;
   int _activeSubSection = 0;
-  static const int _paymentDueInDays = 4;
+  // Demo fixture dates are derived from the device's local date so the
+  // preview never shows expired dates or a stale calendar month.
+  late final DateTime _today = DateUtils.dateOnly(DateTime.now());
+  late final DateTime _paymentDueDate = _today.add(const Duration(days: 4));
+  late final DateTime _membershipExpiryDate = _today.add(const Duration(days: 8));
   static const double _paymentDueAmount = 500;
+  int get _paymentDueInDays => _paymentDueDate.difference(_today).inDays;
+  int get _membershipDaysLeft => _membershipExpiryDate.difference(_today).inDays;
+  int get _membershipDaysUsed => (30 - _membershipDaysLeft).clamp(0, 30);
+  double get _membershipProgress => _membershipDaysUsed / 30;
   double get _earlyPaymentRate {
     if (_paymentDueInDays >= 7) return .02;
     if (_paymentDueInDays >= 3) return .01;
@@ -44,10 +52,28 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     return 0;
   }
   double get _earlyPaymentSavings => _paymentDueAmount * _earlyPaymentRate;
-  int _month = 10;
-  int _year = 2026;
+  late int _month = _today.month;
+  late int _year = _today.year;
 
-  final Map<int, DayKind> _days = {
+  // Demo-only attendance fixture for the current month. Live attendance
+  // should replace this map when the member data API is connected.
+  Map<int, DayKind> get _currentMonthDays {
+    final days = <int, DayKind>{};
+    for (var day = 1; day <= _today.day; day++) {
+      if (day == 4 || day == 16) {
+        days[day] = DayKind.holiday;
+      } else if (day == 7 || day == 14) {
+        days[day] = DayKind.absent;
+      } else if (day == 10) {
+        days[day] = DayKind.payment;
+      } else {
+        days[day] = DayKind.present;
+      }
+    }
+    return days;
+  }
+
+  final Map<int, DayKind> _octoberDays = {
     1: DayKind.present,
     2: DayKind.present,
     3: DayKind.holiday,
@@ -80,6 +106,36 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     30: DayKind.present,
     31: DayKind.present,
   };
+
+  Map<int, DayKind> get _days {
+    if (_month == _today.month && _year == _today.year) {
+      return _currentMonthDays;
+    }
+    if (_month == 10 && _year == 2026) return _octoberDays;
+    return const {};
+  }
+
+  int get _presentDays => _days.values
+      .where((kind) => kind == DayKind.present || kind == DayKind.payment)
+      .length;
+  int get _absentDays =>
+      _days.values.where((kind) => kind == DayKind.absent).length;
+  int get _holidayDays =>
+      _days.values.where((kind) => kind == DayKind.holiday).length;
+  int get _trackedAttendanceDays => _presentDays + _absentDays;
+  int get _elapsedCalendarDays => _days.length;
+  double get _attendanceRate => _trackedAttendanceDays == 0
+      ? 0
+      : _presentDays / _trackedAttendanceDays;
+  String get _attendancePercent => '${(_attendanceRate * 100).round()}%';
+
+  String _formatDate(DateTime date) {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return '${date.day} ${months[date.month - 1]} ${date.year}';
+  }
 
   String get _sectionTitle => const [
         'Dashboard',
@@ -514,8 +570,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(children: [
-          const Expanded(
-              child: Text('Membership 22 / 30 Days',
+          Expanded(
+              child: Text('Membership $_membershipDaysUsed / 30 Days',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
@@ -525,7 +581,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             decoration: BoxDecoration(
                 color: const Color(0xFFFFD4EC),
                 borderRadius: BorderRadius.circular(22)),
-            child: const Text('73%',
+            child: Text('${(_membershipProgress * 100).round()}%',
                 style: TextStyle(
                     color: Color(0xFF72003C),
                     fontSize: 16,
@@ -540,7 +596,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             color: const Color(0xFFFFD9EF),
             alignment: Alignment.centerLeft,
             child: FractionallySizedBox(
-                widthFactor: .73,
+                widthFactor: _membershipProgress,
                 child: Container(
                     decoration: const BoxDecoration(
                   gradient: LinearGradient(
@@ -872,40 +928,65 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _attendanceContent() {
+    final present = _presentDays;
+    final absent = _absentDays;
+    final holiday = _holidayDays;
+    final tracked = _trackedAttendanceDays;
+    final rate = _attendanceRate;
+    final holidayRate = _elapsedCalendarDays == 0
+        ? 0.0
+        : holiday / _elapsedCalendarDays;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(children: [
           SizedBox(
-              width: 88,
-              height: 88,
-              child: CustomPaint(
-                painter: _DonutPainter(value: 25 / 31),
-                child: const Center(
-                    child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  Text('81%',
-                      style: TextStyle(
+            width: 88,
+            height: 88,
+            child: CustomPaint(
+              painter: _DonutPainter(value: rate),
+              child: Center(
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Text(_attendancePercent,
+                      style: const TextStyle(
                           color: Color(0xFF280B1B),
                           fontSize: 23,
                           fontWeight: FontWeight.w900)),
-                  Text('25 / 31',
-                      style: TextStyle(
+                  Text('$present / $tracked',
+                      style: const TextStyle(
                           color: Color(0xFF280B1B),
                           fontSize: 9,
                           fontWeight: FontWeight.w700)),
-                  Text('Days',
-                      style: TextStyle(color: Color(0xFF280B1B), fontSize: 9)),
-                ])),
-              )),
+                  const Text('Days',
+                      style: TextStyle(
+                          color: Color(0xFF280B1B), fontSize: 9)),
+                ]),
+              ),
+            ),
+          ),
           const SizedBox(width: 8),
           Expanded(
-              child: Column(children: [
-            _progressLine('Present', '25', '81%', const Color(0xFF08B82B), .81),
-            _progressLine('Absent', '2', '6%', const Color(0xFFE91D3D), .06),
-            _progressLine('Holiday', '4', '13%', const Color(0xFFB100E8), .13),
-            _progressLine(
-                'Payment', '1 / 1', '100%', const Color(0xFFFFBD16), 1),
-          ])),
+            child: Column(children: [
+              _progressLine('Present', '$present', _attendancePercent,
+                  const Color(0xFF08B82B), rate),
+              _progressLine(
+                  'Absent',
+                  '$absent',
+                  tracked == 0 ? '0%' : '${(absent / tracked * 100).round()}%',
+                  const Color(0xFFE91D3D),
+                  tracked == 0 ? 0 : absent / tracked),
+              _progressLine(
+                  'Holiday',
+                  '$holiday',
+                  _elapsedCalendarDays == 0
+                      ? '0%'
+                      : '${(holidayRate * 100).round()}%',
+                  const Color(0xFFB100E8),
+                  holidayRate),
+              _progressLine('Payment', '1 / 1', '100%',
+                  const Color(0xFFFFBD16), 1),
+            ]),
+          ),
         ]),
         const SizedBox(height: 8),
         _monthlyTrend(),
@@ -1067,20 +1148,23 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           itemBuilder: (context, index) {
             final day = index - offset + 1;
             if (day < 1 || day > daysInMonth) return const SizedBox.shrink();
-            final kind = _month == 10 && _year == 2026
-                ? (_days[day] ?? DayKind.present)
-                : DayKind.present;
+            final isFuture = _year > _today.year ||
+                (_year == _today.year &&
+                    _month == _today.month &&
+                    day > _today.day);
+            final kind = _days[day] ?? (isFuture ? DayKind.off : DayKind.present);
             final color = switch (kind) {
               DayKind.present => const Color(0xFF08B72B),
               DayKind.absent => const Color(0xFFEF233C),
               DayKind.holiday => const Color(0xFFB000E8),
               DayKind.payment => const Color(0xFFFFBD16),
+              DayKind.off => const Color(0xFFD9D5D8),
             };
             return Container(
               decoration: BoxDecoration(
                   color: color,
                   borderRadius: BorderRadius.circular(18),
-                  border: day == 22 && _month == 10
+                  border: day == _today.day && _month == _today.month && _year == _today.year
                       ? Border.all(color: const Color(0xFF078B25), width: 2)
                       : null,
                   boxShadow: [
@@ -1215,7 +1299,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         return _sectionCard('Attendance streaks', Column(children: [
           _metricRow('Current streak', '5 days', const Color(0xFF08B72B)),
           _metricRow('Best streak', '14 days', const Color(0xFFB000E8)),
-          _metricRow('Present this month', '25 of 31 days', const Color(0xFF08B72B)),
+          _metricRow('Present this month', '$_presentDays of $_trackedAttendanceDays days', const Color(0xFF08B72B)),
           _metricRow('Late arrivals', '2 this month', const Color(0xFFFFBD16)),
         ]));
       default:
@@ -1224,23 +1308,49 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _attendanceAnalytics() {
+    final present = _presentDays;
+    final absent = _absentDays;
+    final holiday = _holidayDays;
+    final tracked = _trackedAttendanceDays;
+    final rate = _attendanceRate;
+    final holidayRate = _elapsedCalendarDays == 0
+        ? 0.0
+        : holiday / _elapsedCalendarDays;
     return Row(children: [
       SizedBox(
         width: 82,
         height: 82,
         child: CustomPaint(
-          painter: _DonutPainter(value: 25 / 31),
-          child: const Center(child: Text('81%',
-              style: TextStyle(color: Color(0xFF280B1B), fontSize: 21,
-                  fontWeight: FontWeight.w900))),
+          painter: _DonutPainter(value: rate),
+          child: Center(
+            child: Text(_attendancePercent,
+                style: const TextStyle(
+                    color: Color(0xFF280B1B),
+                    fontSize: 21,
+                    fontWeight: FontWeight.w900)),
+          ),
         ),
       ),
       const SizedBox(width: 8),
       Expanded(child: Column(children: [
-        _progressLine('Present', '25', '81%', const Color(0xFF08B82B), .81),
-        _progressLine('Absent', '2', '6%', const Color(0xFFE91D3D), .06),
-        _progressLine('Holiday', '4', '13%', const Color(0xFFB100E8), .13),
-        _progressLine('Payment', '1 / 1', '100%', const Color(0xFFFFBD16), 1),
+        _progressLine('Present', '$present', _attendancePercent,
+            const Color(0xFF08B82B), rate),
+        _progressLine(
+            'Absent',
+            '$absent',
+            tracked == 0 ? '0%' : '${(absent / tracked * 100).round()}%',
+            const Color(0xFFE91D3D),
+            tracked == 0 ? 0 : absent / tracked),
+        _progressLine(
+            'Holiday',
+            '$holiday',
+            _elapsedCalendarDays == 0
+                ? '0%'
+                : '${(holidayRate * 100).round()}%',
+            const Color(0xFFB100E8),
+            holidayRate),
+        _progressLine('Payment', '1 / 1', '100%',
+            const Color(0xFFFFBD16), 1),
       ])),
     ]);
   }
@@ -1381,7 +1491,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               ? 'Save ₹$savingsText' : 'No discount', const Color(0xFF08A82B)),
           const SizedBox(height: 8),
           _barChart(const [.3, .55, .42, .72, .58, .9], height: 58),
-          const Text('Payment history · May to October 2026',
+          Text('Payment history · May to ${_formatDate(_today)}',
               style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
         ]),
       ),
@@ -1456,12 +1566,12 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         ? const [('Check-in', 'Today · 07:12 AM', 'Completed'),
             ('Check-out', 'Yesterday · 08:05 AM', 'Completed')]
         : _activeSubSection == 2
-            ? const [('Payment', '02 Nov 2026', '₹4,500 received'),
-                ('Payment due', '17 Nov 2026', '₹500 pending')]
+            ? const [('Payment', '${_formatDate(_today.subtract(const Duration(days: 15)))}', '₹4,500 received'),
+                ('Payment due', '${_formatDate(_paymentDueDate)}', '₹500 pending')]
             : const [('Check-in', 'Today · 07:12 AM', 'Completed'),
                 ('Workout', 'Today · 07:50 AM', '58 minutes'),
-                ('Payment', '02 Nov 2026', '₹4,500 received'),
-                ('Membership', '24 Oct 2026', 'Renewed')];
+                ('Payment', '${_formatDate(_today.subtract(const Duration(days: 15)))}', '₹4,500 received'),
+                ('Membership', '${_formatDate(_membershipExpiryDate)}', 'Expires')];
     return _sectionCard('Member activity timeline', Column(children: events.map((event) =>
       _metricRow(event.$1 + ' · ' + event.$2, event.$3, const Color(0xFF08A82B))
     ).toList()));
@@ -1485,7 +1595,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       );
 }
 
-enum DayKind { present, absent, holiday, payment }
+enum DayKind { present, absent, holiday, payment, off }
 
 class _DonutPainter extends CustomPainter {
   _DonutPainter({required this.value});
