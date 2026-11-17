@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym/main.dart';
 
@@ -45,7 +46,4 @@ void main() {
     expect(find.text(expiryLabel), findsOneWidget);
   });
 
-  tearDown(() {
-    TestWidgetsFlutterBinding.ensureInitialized().reset();
-  });
 }
