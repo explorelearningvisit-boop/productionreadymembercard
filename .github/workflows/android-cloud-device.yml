@@ -280,10 +280,36 @@ jobs:
               sleep 2
 
               install_log="device-artifacts/${hostname}-install.txt"
-              if timeout 120s adb -s "$serial" install -r -d -g dist/app-release.apk > "$install_log" 2>&1; then
-                result="INSTALLED"
-              else
-                timeout 120s adb -s "$serial" install --no-streaming -r -d -g dist/app-release.apk >> "$install_log" 2>&1 && result="INSTALLED" || true
+              apk_remote="/data/local/tmp/badgym-release.apk"
+              # ADB install's smart-streaming path can lose its copy response on
+              # high-latency Tailscale DERP links. Push the APK separately, then
+              # ask Package Manager to install it on-device. Reconnect and retry
+              # once if the transport drops during the 67 MB transfer.
+              install_attempt=1
+              while [ "$install_attempt" -le 3 ] && [ "$result" != "INSTALLED" ]; do
+                {
+                  echo "Install attempt $install_attempt/3"
+                  timeout 15s adb reconnect device || true
+                  timeout 20s adb -s "$serial" wait-for-device || true
+                  timeout 180s adb -s "$serial" push dist/app-release.apk "$apk_remote"
+                  push_rc=$?
+                  if [ "$push_rc" -eq 0 ]; then
+                    timeout 180s adb -s "$serial" shell pm install -r -d -g "$apk_remote"
+                    install_rc=$?
+                    if [ "$install_rc" -eq 0 ]; then result="INSTALLED"; fi
+                    timeout 15s adb -s "$serial" shell rm -f "$apk_remote" >/dev/null 2>&1 || true
+                  fi
+                } >> "$install_log" 2>&1
+                if [ "$result" != "INSTALLED" ]; then
+                  timeout 10s adb disconnect "$serial" >/dev/null 2>&1 || true
+                  sleep 3
+                  install_attempt=$((install_attempt + 1))
+                fi
+              done
+              if [ "$result" != "INSTALLED" ]; then
+                # Preserve the original ADB error as useful evidence and try
+                # the standard installer once as a final fallback.
+                timeout 180s adb -s "$serial" install --no-streaming -r -d -g dist/app-release.apk >> "$install_log" 2>&1 && result="INSTALLED" || true
               fi
 
               if [ "$result" != "INSTALLED" ] && grep -q "INSTALL_FAILED_UPDATE_INCOMPATIBLE" "$install_log" 2>/dev/null; then
