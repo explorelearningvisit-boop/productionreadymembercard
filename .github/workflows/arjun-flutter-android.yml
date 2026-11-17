@@ -85,7 +85,7 @@ jobs:
           flutter build ios --simulator --no-codesign
 
   phone-qa:
-    if: github.event_name == 'workflow_dispatch' && inputs.deploy_to_phone == true
+    if: needs.build.result == 'success' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy_to_phone == true))
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 20
