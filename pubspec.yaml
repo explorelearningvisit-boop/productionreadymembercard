@@ -39,6 +39,10 @@ flutter:
     - assets/themes/festive_gold/
     - assets/themes/royal_purple/
   fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Variable.ttf
+          weight: 100
     - family: Poppins
       fonts:
         - asset: assets/fonts/Poppins-Regular.ttf
