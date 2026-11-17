@@ -249,7 +249,8 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
       const FittedBox(fit: BoxFit.scaleDown, child: Text('Fitness & Wellness', maxLines: 1, style: TextStyle(color: _blue, fontSize: 7.6, fontWeight: FontWeight.w800))),
     ])),
     Expanded(flex: 2, child: Stack(alignment: Alignment.center, children: [
-      const Icon(Icons.fitness_center_rounded, color: _navy, size: 22),
+      Image.asset('assets/images/dumbbell_3d.png', fit: BoxFit.contain,
+        errorBuilder: (_, __, ___) => const Icon(Icons.fitness_center_rounded, color: _navy, size: 22)),
       Positioned(top: 0, right: 0, child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(color: _blue, borderRadius: BorderRadius.circular(9)),
@@ -275,7 +276,11 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           borderRadius: BorderRadius.circular(16),
           child: _glass(radius: 16, padding: const EdgeInsets.fromLTRB(3, 5, 3, 4), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(v.$2, color: v.$5, size: compact ? 13 : 15),
+              SizedBox(width: compact ? 17 : 22, height: compact ? 17 : 22, child: Image.asset(
+                ['assets/images/illustration_3d_attendance_calendar.png','assets/images/illustration_3d_workout_dumbbells.png','assets/images/illustration_3d_payment_wallet.png','assets/images/illustration_3d_body_scale.png'][i],
+                fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => Icon(v.$2, color: v.$5, size: compact ? 13 : 15),
+              )),
               const SizedBox(width: 2),
               Flexible(child: Text(v.$1, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: _navy, fontSize: 8.3, fontWeight: FontWeight.w900))),
             ]),
