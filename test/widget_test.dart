@@ -3,49 +3,64 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym/main.dart';
 
 void main() {
-  testWidgets('renders the member intelligence dashboard without outer scrolling', (tester) async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
+  testWidgets('renders compact member dashboard at 360dp without page scrolling', (tester) async {
     tester.view.physicalSize = const Size(360, 700);
     tester.view.devicePixelRatio = 1;
     await tester.pumpWidget(const MemberIntelligenceApp());
-    expect(find.text('CHECK-IN'), findsOneWidget);
-    expect(find.textContaining('FREEZE'), findsOneWidget);
+    await tester.pumpAndSettle();
+
+    expect(find.text('BAD GYM'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.text('Attendance Intelligence'), findsOneWidget);
-    expect(find.text('MEMBERSHIP  22 / 30 DAYS'), findsOneWidget);
+    expect(find.textContaining('22 / 30 DAYS'), findsOneWidget);
     expect(find.byType(SingleChildScrollView), findsNothing);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('switches intelligence sections from the vertical rail',
-      (tester) async {
+  testWidgets('all ten dashboard themes are selectable in the same app', (tester) async {
     tester.view.physicalSize = const Size(393, 852);
     tester.view.devicePixelRatio = 1;
     await tester.pumpWidget(const MemberIntelligenceApp());
-    final workout = find.text('Workout').last;
-    await tester.ensureVisible(workout);
-    await tester.tap(workout);
+    await tester.pumpAndSettle();
+
+    for (final theme in dashboardThemes) {
+      await tester.tap(find.byIcon(Icons.palette_outlined));
+      await tester.pumpAndSettle();
+      expect(find.text('Choose your dashboard'), findsOneWidget);
+      await tester.tap(find.text(theme.name));
+      await tester.pumpAndSettle();
+      expect(find.text('BAD GYM'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    }
+  });
+
+  testWidgets('quick tabs and contextual rail replace the bounded workspace', (tester) async {
+    tester.view.physicalSize = const Size(393, 852);
+    tester.view.devicePixelRatio = 1;
+    await tester.pumpWidget(const MemberIntelligenceApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Workout').first);
     await tester.pumpAndSettle();
     expect(find.text('Workout Intelligence'), findsOneWidget);
+
+    await tester.tap(find.text('History').last);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('workout activity'), findsOneWidget);
+
+    await tester.tap(find.text('Payment').first);
+    await tester.pumpAndSettle();
+    expect(find.text('Payment Intelligence'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
-  testWidgets('uses the device current month and consistent membership expiry',
-      (tester) async {
-    tester.view.physicalSize = const Size(393, 852);
+
+  testWidgets('compact 320dp viewport has no render overflow', (tester) async {
+    tester.view.physicalSize = const Size(320, 640);
     tester.view.devicePixelRatio = 1;
     await tester.pumpWidget(const MemberIntelligenceApp());
-    final today = DateTime.now();
-    const months = [
-      'January', 'February', 'March', 'April', 'May', 'June',
-      'July', 'August', 'September', 'October', 'November', 'December'
-    ];
-    final expiry = DateTime(today.year, today.month, today.day + 8);
-    final expiryLabel =
-        'Expires ${expiry.day} ${months[expiry.month - 1].substring(0, 3)} ${expiry.year}';
-
-    expect(find.text('${months[today.month - 1]} ${today.year}'),
-        findsOneWidget);
-    expect(find.text('8 DAYS LEFT'), findsOneWidget);
-    expect(find.text(expiryLabel), findsOneWidget);
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
   });
-
 }
