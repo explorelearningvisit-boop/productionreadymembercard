@@ -1,4 +1,5 @@
 import 'operations.dart';
+import 'job_composer.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const ArjunApp());
@@ -102,33 +103,15 @@ class _AppShellState extends State<AppShell> {
     ]),
   )));
   Future<void> _postJob() async {
-    final title = TextEditingController(), location = TextEditingController(text: 'वाराणसी');
-    final rate = TextEditingController(text: '700');
-    String category = 'Electrician'; int people = 1;
-    final result = await showModalBottomSheet<Job>(context: context, isScrollControlled: true, showDragHandle: true, builder: (ctx) => StatefulBuilder(builder: (ctx, refresh) => Padding(
-      padding: EdgeInsets.fromLTRB(20, 8, 20, MediaQuery.of(ctx).viewInsets.bottom + 24),
-      child: SingleChildScrollView(child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
-        const Text('नया काम पोस्ट करें', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: ink)),
-        const SizedBox(height: 16),
-        TextField(controller: title, decoration: const InputDecoration(labelText: 'काम का विवरण', hintText: 'जैसे: घर की वायरिंग ठीक करनी है')),
-        const SizedBox(height: 12),
-        DropdownButtonFormField<String>(value: category, decoration: const InputDecoration(labelText: 'काम की श्रेणी'), items: const ['Electrician','Plumber','Mason','Carpenter','AC Repair','Helper','Driver'].map((v) => DropdownMenuItem(value: v, child: Text(v))).toList(), onChanged: (v) => refresh(() => category = v ?? category)),
-        const SizedBox(height: 12),
-        TextField(controller: location, decoration: const InputDecoration(labelText: 'काम की जगह')),
-        const SizedBox(height: 12),
-        Row(children: [
-          Expanded(child: TextField(controller: rate, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'रेट (₹)'))),
-          const SizedBox(width: 10),
-          Expanded(child: DropdownButtonFormField<int>(value: people, decoration: const InputDecoration(labelText: 'लोग'), items: [1,2,3,4,5,10].map((v) => DropdownMenuItem(value: v, child: Text('$v'))).toList(), onChanged: (v) => refresh(() => people = v ?? 1))),
-        ]),
-        const SizedBox(height: 18),
-        SizedBox(width: double.infinity, child: FilledButton(onPressed: () {
-          if (title.text.trim().isEmpty || location.text.trim().isEmpty || int.tryParse(rate.text) == null) return;
-          Navigator.pop(ctx, Job(title.text.trim(), category, location.text.trim(), int.parse(rate.text), 'दिन', people, false));
-        }, child: const Text('काम पोस्ट करें'))),
-      ])),
-    )));
-    if (result != null && mounted) setState(() { jobs.insert(0, result); tab = 0; });
+    final draft = await Navigator.push<JobDraft>(context, MaterialPageRoute(builder: (_) => const JobComposerScreen()));
+    if (draft == null || !mounted) return;
+    setState(() {
+      jobs.insert(0, Job(draft.title, draft.category, draft.location, draft.rate, draft.unit, draft.people, draft.urgent));
+      tab = 0;
+    });
+    _notice(draft.photoUrls.isEmpty
+      ? 'काम का draft इस session में जोड़ा गया। Server पर job save अभी configure होना बाकी है।'
+      : 'फोटो Cloud Storage पर upload हुईं; job record save integration अभी बाकी है।');
   }
 }
 
