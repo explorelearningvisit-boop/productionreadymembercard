@@ -1209,9 +1209,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         return Column(children: [_calendarCard(), const SizedBox(height: 6), _legend()]);
       case 2:
         return Column(children: [
-          _attendanceContent().children == null
-              ? const SizedBox.shrink()
-              : _attendanceAnalytics(),
+          _attendanceAnalytics(),
           _monthlyTrend(),
         ]);
       case 3:
