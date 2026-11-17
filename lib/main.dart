@@ -43,7 +43,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   static const double _paymentDueAmount = 500;
   int get _paymentDueInDays => _paymentDueDate.difference(_today).inDays;
   int get _membershipDaysLeft => _membershipExpiryDate.difference(_today).inDays;
-  int get _membershipDaysUsed => (30 - _membershipDaysLeft).clamp(0, 30);
+  int get _membershipDaysUsed => (30 - _membershipDaysLeft).clamp(0, 30).toInt();
   double get _membershipProgress => _membershipDaysUsed / 30;
   double get _earlyPaymentRate {
     if (_paymentDueInDays >= 7) return .02;
@@ -128,6 +128,11 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       ? 0
       : _presentDays / _trackedAttendanceDays;
   String get _attendancePercent => '${(_attendanceRate * 100).round()}%';
+
+  String _monthYearLabel(DateTime date) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return '${months[date.month - 1]} ${date.year}';
+  }
 
   String _formatDate(DateTime date) {
     const months = [
@@ -503,17 +508,17 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           const Icon(Icons.event_available_rounded,
               color: Color(0xFFD90058), size: 29),
           const SizedBox(width: 6),
-          const Expanded(
+          Expanded(
               flex: 2,
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('8 Days Left',
+                    Text('$_membershipDaysLeft Days Left',
                         style: TextStyle(
                             color: Color(0xFFB00035),
                             fontSize: 15,
                             fontWeight: FontWeight.w800)),
-                    Text('Expires: 24 Oct 2026',
+                    Text('Expires: ${_formatDate(_membershipExpiryDate)}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -679,7 +684,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _quickMetrics() {
     final items = [
-      (Icons.calendar_month_rounded, 'Attendance', '81%', '+6%', 1),
+      (Icons.calendar_month_rounded, 'Attendance', _attendancePercent, '+6%', 1),
       (Icons.fitness_center_rounded, 'Workout', '58 min', '+12%', 2),
       (Icons.account_balance_wallet_rounded, 'Payment', '₹500 Due', 'Due soon', 3),
       (Icons.monitor_weight_rounded, 'Body', '69.5 kg', '−0.8 kg', 6),
@@ -1491,7 +1496,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               ? 'Save ₹$savingsText' : 'No discount', const Color(0xFF08A82B)),
           const SizedBox(height: 8),
           _barChart(const [.3, .55, .42, .72, .58, .9], height: 58),
-          Text('Payment history · May to ${_formatDate(_today)}',
+          Text('Payment history · May to ${_monthYearLabel(_today)}',
               style: TextStyle(color: Color(0xFF765467), fontSize: 8)),
         ]),
       ),
@@ -1562,19 +1567,36 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _historyContent() {
+    final lastPaymentDate = _formatDate(_today.subtract(const Duration(days: 15)));
+    final paymentDueDate = _formatDate(_paymentDueDate);
+    final membershipExpiry = _formatDate(_membershipExpiryDate);
     final events = _activeSubSection == 1
-        ? const [('Check-in', 'Today · 07:12 AM', 'Completed'),
-            ('Check-out', 'Yesterday · 08:05 AM', 'Completed')]
+        ? [
+            ('Check-in', 'Today · 07:12 AM', 'Completed'),
+            ('Check-out', 'Yesterday · 08:05 AM', 'Completed'),
+          ]
         : _activeSubSection == 2
-            ? const [('Payment', '${_formatDate(_today.subtract(const Duration(days: 15)))}', '₹4,500 received'),
-                ('Payment due', '${_formatDate(_paymentDueDate)}', '₹500 pending')]
-            : const [('Check-in', 'Today · 07:12 AM', 'Completed'),
+            ? [
+                ('Payment', lastPaymentDate, '₹4,500 received'),
+                ('Payment due', paymentDueDate, '₹500 pending'),
+              ]
+            : [
+                ('Check-in', 'Today · 07:12 AM', 'Completed'),
                 ('Workout', 'Today · 07:50 AM', '58 minutes'),
-                ('Payment', '${_formatDate(_today.subtract(const Duration(days: 15)))}', '₹4,500 received'),
-                ('Membership', '${_formatDate(_membershipExpiryDate)}', 'Expires')];
-    return _sectionCard('Member activity timeline', Column(children: events.map((event) =>
-      _metricRow(event.$1 + ' · ' + event.$2, event.$3, const Color(0xFF08A82B))
-    ).toList()));
+                ('Payment', lastPaymentDate, '₹4,500 received'),
+                ('Membership', membershipExpiry, 'Expires'),
+              ];
+    return _sectionCard(
+      'Member activity timeline',
+      Column(
+        children: events
+            .map((event) => _metricRow(
+                '${event.$1} · ${event.$2}',
+                event.$3,
+                const Color(0xFF08A82B)))
+            .toList(),
+      ),
+    );
   }
 
   Widget _miniValue(String label, String value, Color color) => Expanded(
