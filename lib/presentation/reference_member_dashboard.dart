@@ -56,7 +56,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             final h = constraints.maxHeight;
             final compact = h < 690;
             final headerH = compact ? 44.0 : 54.0;
-            final profileH = compact ? 198.0 : 230.0;
+            final profileH = compact ? 180.0 : 220.0;
             final promoH = compact ? 54.0 : 74.0;
             final statsH = compact ? 76.0 : 104.0;
             final insightH = compact ? 40.0 : 54.0;
@@ -322,9 +322,9 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
               boxShadow: selected ? [BoxShadow(color: _blue.withValues(alpha: .25), blurRadius: 8, offset: const Offset(0, 2))] : const [],
             ),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(_railIcons[i], color: selected ? Colors.white : _navy, size: compact ? 17 : 19),
-              const SizedBox(height: 2),
-              Text(_railLabels[i], maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: selected ? Colors.white : _navy, fontSize: 8, fontWeight: FontWeight.w800)),
+              Icon(_railIcons[i], color: selected ? Colors.white : _navy, size: compact ? 14 : 17),
+              const SizedBox(height: 1),
+              Flexible(child: FittedBox(fit: BoxFit.scaleDown, child: Text(_railLabels[i], maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: selected ? Colors.white : _navy, fontSize: 7.5, fontWeight: FontWeight.w800)))),
             ]),
           ),
         ));
@@ -448,12 +448,12 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
 
   Widget _attendanceSummary(bool compact) => Column(mainAxisAlignment: MainAxisAlignment.center, children: [
     Expanded(flex: 5, child: Center(child: SizedBox(
-      width: compact ? 82 : 96, height: compact ? 82 : 96,
+      width: compact ? 64 : 82, height: compact ? 64 : 82,
       child: Stack(alignment: Alignment.center, children: [
         SizedBox.expand(child: CircularProgressIndicator(value: _data.attendanceRate / 100, strokeWidth: 7, backgroundColor: const Color(0xFFD4E8F9), valueColor: const AlwaysStoppedAnimation(_blue))),
         Column(mainAxisSize: MainAxisSize.min, children: [
-          Text('${_data.attendanceRate}%', style: const TextStyle(color: _navy, fontSize: 21, fontWeight: FontWeight.w900)),
-          Text(_data.attendanceFraction, style: const TextStyle(color: _navy, fontSize: 7.5, fontWeight: FontWeight.w800)),
+          FittedBox(fit: BoxFit.scaleDown, child: Text('${_data.attendanceRate}%', style: const TextStyle(color: _navy, fontSize: 19, fontWeight: FontWeight.w900))),
+          FittedBox(fit: BoxFit.scaleDown, child: Text(_data.attendanceFraction, style: const TextStyle(color: _navy, fontSize: 7, fontWeight: FontWeight.w800))),
         ]),
       ]),
     ))),
@@ -461,16 +461,10 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     _statLine(_amber, 'Late', _data.lateCount, _data.lateCount / 31),
     _statLine(_red, 'Absent', _data.absentCount, _data.absentCount / 31),
     _statLine(const Color(0xFF9EB4CA), 'Holiday', _data.holidayCount, _data.holidayCount / 31),
-    const SizedBox(height: 3),
-    FittedBox(fit: BoxFit.scaleDown, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const Text('🔥', style: TextStyle(fontSize: 12)),
-      const SizedBox(width: 3),
-      Text('${_data.currentStreak} Streak', style: const TextStyle(color: _navy, fontSize: 8.5, fontWeight: FontWeight.w900)),
-    ])),
   ]);
 
   Widget _statLine(Color color, String label, int value, double fraction) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 2),
+    padding: const EdgeInsets.symmetric(vertical: 1),
     child: Row(children: [
       Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
       const SizedBox(width: 4),
