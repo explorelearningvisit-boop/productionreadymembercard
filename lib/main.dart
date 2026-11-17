@@ -1010,17 +1010,27 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _metricTile(String label, String value, IconData icon) => Container(
-    padding: const EdgeInsets.all(7),
+    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
     decoration: BoxDecoration(
       color: t.primary.withOpacity(.08),
       borderRadius: BorderRadius.circular(11),
       border: Border.all(color: t.border),
     ),
-    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Icon(icon, color: t.primary, size: 15),
-      const SizedBox(height: 3),
-      Text(value, style: TextStyle(color: t.cardText, fontSize: 12, fontWeight: FontWeight.w900)),
-      Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 6.5)),
+    child: Row(children: [
+      Icon(icon, color: t.primary, size: 13),
+      const SizedBox(width: 5),
+      Expanded(child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(value, maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: t.cardText, fontSize: 10, height: 1, fontWeight: FontWeight.w900)),
+          Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w700)),
+        ],
+      )),
     ]),
   );
+
 }
