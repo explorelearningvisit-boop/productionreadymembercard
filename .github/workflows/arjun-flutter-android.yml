@@ -57,6 +57,25 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  ios-simulator-build:
+    runs-on: macos-latest
+    timeout-minutes: 35
+    defaults:
+      run:
+        working-directory: apps/arjun_flutter
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Generate iOS platform project
+        run: flutter create --platforms=ios --org in.arjun --project-name arjun_app .
+      - name: Build unsigned iOS app for simulator validation
+        run: |
+          flutter pub get
+          flutter build ios --simulator --no-codesign --release
+
   phone-qa:
     if: github.event_name == 'workflow_dispatch' && inputs.deploy_to_phone == true
     needs: build
@@ -88,21 +107,27 @@ jobs:
           chmod 600 "$HOME/.android/adbkey"
       - name: Connect and install on configured phone
         env:
-          DEVICE_IP: ${{ secrets.DEVICE_TAILSCALE_IP }}
-          DEVICE_PORT: ${{ secrets.DEVICE_ADB_PORT }}
+          DEVICE_IP: "100.123.18.54"
+          DEVICE_PORTS_JSON: ${{ secrets.ANDROID_DEVICE_PORTS_JSON }}
         run: |
           set -euo pipefail
-          test -n "$DEVICE_IP" && test -n "$DEVICE_PORT"
+          test -n "$DEVICE_PORTS_JSON" || { echo "Missing ANDROID_DEVICE_PORTS_JSON"; exit 1; }
           adb start-server
           tailscale ping --timeout=10s "$DEVICE_IP"
-          adb connect "$DEVICE_IP:$DEVICE_PORT"
-          adb -s "$DEVICE_IP:$DEVICE_PORT" get-state
-          adb -s "$DEVICE_IP:$DEVICE_PORT" install -r dist/app-release.apk
-          adb -s "$DEVICE_IP:$DEVICE_PORT" shell monkey -p in.arjun.arjun_app 1
+          tailscale status --json > tailnet-status.json
+          HOST=$(jq -r --arg ip "$DEVICE_IP" '.Peer // {} | to_entries[] | select((.value.TailscaleIPs // []) | index($ip)) | .value.HostName' tailnet-status.json | head -n1)
+          PORT=$(jq -r --arg host "$HOST" --arg ip "$DEVICE_IP" '.[$host] // .[$ip] // empty' <<< "$DEVICE_PORTS_JSON")
+          # Last user-reported Xiaomi 11i Wireless Debugging endpoint; verify before use.
+          PORT=${PORT:-37337}
+          echo "Target peer: $HOST at $DEVICE_IP:$PORT"
+          adb connect "$DEVICE_IP:$PORT"
+          adb -s "$DEVICE_IP:$PORT" get-state
+          adb -s "$DEVICE_IP:$PORT" install -r dist/app-release.apk
+          adb -s "$DEVICE_IP:$PORT" shell monkey -p in.arjun.arjun_app 1
           sleep 5
           mkdir -p evidence
-          adb -s "$DEVICE_IP:$DEVICE_PORT" exec-out screencap -p > evidence/arjun-phone.png
-          adb -s "$DEVICE_IP:$DEVICE_PORT" logcat -d -t 1200 > evidence/arjun-logcat.txt
+          adb -s "$DEVICE_IP:$PORT" exec-out screencap -p > evidence/arjun-phone.png
+          adb -s "$DEVICE_IP:$PORT" logcat -d -t 1200 > evidence/arjun-logcat.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
