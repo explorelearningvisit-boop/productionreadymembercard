@@ -13,6 +13,7 @@ void main() {
     expect(find.text('Attendance Intelligence'), findsOneWidget);
     expect(find.text('MEMBERSHIP  22 / 30 DAYS'), findsOneWidget);
     expect(find.byType(SingleChildScrollView), findsNothing);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('switches intelligence sections from the vertical rail',
@@ -25,6 +26,7 @@ void main() {
     await tester.tap(workout);
     await tester.pumpAndSettle();
     expect(find.text('Workout Intelligence'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
   testWidgets('uses the device current month and consistent membership expiry',
       (tester) async {
