@@ -47,7 +47,7 @@ void main() {
 
     await tester.tap(find.text('History').last);
     await tester.pumpAndSettle();
-    expect(find.text('History · workout activity'), findsOneWidget);
+    expect(find.text('Workout history'), findsOneWidget);
 
     await tester.tap(find.text('Payment').first);
     await tester.pumpAndSettle();
