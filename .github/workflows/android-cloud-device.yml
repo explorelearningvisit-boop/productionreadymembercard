@@ -201,18 +201,22 @@ jobs:
           ANDROID_DEVICE_PORTS_JSON: ${{ secrets.ANDROID_DEVICE_PORTS_JSON }}
         shell: bash
         run: |
-          set -uo pipefail
+          # GitHub's bash shell enables errexit by default. Device-side ADB
+          # commands can transiently return non-zero while a phone wakes up;
+          # record those failures per-device instead of aborting the whole job.
+          set +e
+          set -u
+          set -o pipefail
           mkdir -p device-artifacts
-          adb start-server
+          adb start-server || true
 
-          if [ -z "$ANDROID_DEVICE_PORTS_JSON" ]; then
+          if [ -z "${ANDROID_DEVICE_PORTS_JSON:-}" ]; then
             echo "::error::Missing ANDROID_DEVICE_PORTS_JSON."
             exit 1
           fi
-          printf '%s' "$ANDROID_DEVICE_PORTS_JSON" | jq -e 'type == "object"' >/dev/null
+          printf '%s' "$ANDROID_DEVICE_PORTS_JSON" | jq -e 'type == "object"' >/dev/null || exit 1
 
-          # Confirm the tunnel is healthy once, then reuse it for every peer.
-          tailscale status --json > device-artifacts/tailnet-status.json
+          tailscale status --json > device-artifacts/tailnet-status.json || exit 1
           tailscale netcheck > device-artifacts/tailscale-netcheck.txt 2>&1 || true
           jq -r '
             .Peer // {} | to_entries[] |
@@ -244,141 +248,111 @@ jobs:
               continue
             fi
 
-            # The configured port is the current preferred endpoint. 37337 is a
-            # previously user-reported Xiaomi Wireless Debugging connect port;
-            # try it only as a bounded fallback, never as proof that the port is current.
             ports=("$port")
-            if [ "$hostname" = "Xiaomi 11i" ] && [ "$port" != "37337" ]; then
-              ports+=("37337")
-            fi
+            if [ "$hostname" = "Xiaomi 11i" ] && [ "$port" != "37337" ]; then ports+=("37337"); fi
             result="ADB_UNAVAILABLE_OR_UNPAIRED"
+            serial=""
             for candidate_port in "${ports[@]}"; do
-              serial="$ip:$candidate_port"
-              # Wireless debugging ports can change; retry only known endpoints.
+              candidate="$ip:$candidate_port"
               for attempt in 1 2 3; do
-                echo "ADB connect attempt $attempt/3 for $hostname ($serial)"
-                tailscale ping --timeout=5s "$ip" > "device-artifacts/${hostname}-tailscale-ping.txt" 2>&1 || true
-                adb connect "$serial" > "device-artifacts/${hostname}-adb-connect.txt" 2>&1 || true
-                state=$(adb -s "$serial" get-state 2>/dev/null || true)
+                echo "ADB connect attempt $attempt/3 for $hostname ($candidate)"
+                timeout 12s adb connect "$candidate" > "device-artifacts/${hostname}-adb-connect.txt" 2>&1 || true
+                state=$(timeout 12s adb -s "$candidate" get-state 2>/dev/null || true)
                 if [ "$state" = "device" ]; then
-                  result="ADB_READY"
+                  serial="$candidate"
                   port="$candidate_port"
+                  result="ADB_READY"
                   break 2
                 fi
-                adb disconnect "$serial" >/dev/null 2>&1 || true
+                timeout 5s tailscale ping --timeout=4s "$ip" >> "device-artifacts/${hostname}-tailscale-ping.txt" 2>&1 || true
+                timeout 8s adb disconnect "$candidate" >/dev/null 2>&1 || true
                 sleep $((attempt * 2))
               done
             done
 
             if [ "$result" = "ADB_READY" ]; then
-              adb -s "$serial" shell input keyevent 224 >/dev/null 2>&1 || true
-              adb -s "$serial" shell wm dismiss-keyguard >/dev/null 2>&1 || true
+              adb_device() { timeout 20s adb -s "$serial" "$@"; }
+              # Wake the display after connection, not just before installation.
+              adb_device shell input keyevent 224 >/dev/null 2>&1 || true
+              adb_device shell wm dismiss-keyguard >/dev/null 2>&1 || true
+              adb_device shell svc power stayon true >/dev/null 2>&1 || true
+              adb_device shell input keyevent 82 >/dev/null 2>&1 || true
+              sleep 2
 
               install_log="device-artifacts/${hostname}-install.txt"
-              # In-place overwrite preserving user data and auto-granting permissions (-r -d -g)
-              if adb -s "$serial" install -r -d -g dist/app-release.apk > "$install_log" 2>&1; then
+              if timeout 120s adb -s "$serial" install -r -d -g dist/app-release.apk > "$install_log" 2>&1; then
                 result="INSTALLED"
               else
-                # Retry with non-streaming if needed
-                adb -s "$serial" install --no-streaming -r -d -g dist/app-release.apk >> "$install_log" 2>&1 && result="INSTALLED" || true
+                timeout 120s adb -s "$serial" install --no-streaming -r -d -g dist/app-release.apk >> "$install_log" 2>&1 && result="INSTALLED" || true
               fi
 
-              # Preserve the user's installed app and data on signature mismatch.
-              # A clean migration is a user decision; CI must never uninstall automatically.
-              if [ "$result" != "INSTALLED" ] && grep -q "INSTALL_FAILED_UPDATE_INCOMPATIBLE" "$install_log"; then
+              if [ "$result" != "INSTALLED" ] && grep -q "INSTALL_FAILED_UPDATE_INCOMPATIBLE" "$install_log" 2>/dev/null; then
                 result="SIGNATURE_MISMATCH_PRESERVED_DATA"
-                echo "::warning::APK signature differs from installed app. Existing app/data were preserved; perform an explicitly approved migration outside CI."
-              fi
-
-              if [ "$result" = "INSTALLED" ]; then
-                # Bring to home screen to close any open keyboard or foreground apps
-                adb -s "$serial" shell input keyevent 3 >/dev/null 2>&1 || true
-                sleep 1
-                adb -s "$serial" shell am force-stop com.badgym.designlab >/dev/null 2>&1 || true
-                if adb -s "$serial" shell monkey -p com.badgym.designlab 1 > "device-artifacts/${hostname}-launch.txt" 2>&1; then
-                  sleep 6
+              elif [ "$result" = "INSTALLED" ]; then
+                adb_device shell am force-stop com.badgym.designlab >/dev/null 2>&1 || true
+                launch_log="device-artifacts/${hostname}-launch.txt"
+                if timeout 20s adb -s "$serial" shell monkey -p com.badgym.designlab 1 > "$launch_log" 2>&1; then
+                  # Wake again after launching; wait for Flutter's first frame.
+                  adb_device shell input keyevent 224 >/dev/null 2>&1 || true
+                  adb_device shell wm dismiss-keyguard >/dev/null 2>&1 || true
+                  sleep 10
                   capture_dir="device-artifacts/ui-${hostname// /-}"
                   mkdir -p "$capture_dir"
-                  adb -s "$serial" exec-out screencap -p > "device-artifacts/${hostname}-screenshot.png" || result="SCREENSHOT_FAILED"
+                  timeout 25s adb -s "$serial" exec-out screencap -p > "$capture_dir/00-app-launch.png" 2> "$capture_dir/screencap-error.txt"
+                  shot_rc=$?
+                  timeout 20s adb -s "$serial" shell dumpsys activity activities > "$capture_dir/activity-state.txt" 2>&1 || true
+                  timeout 20s adb -s "$serial" shell dumpsys power > "$capture_dir/power-state.txt" 2>&1 || true
+                  timeout 25s adb -s "$serial" shell uiautomator dump /sdcard/badgym-window.xml >/dev/null 2>&1 || true
+                  timeout 20s adb -s "$serial" pull /sdcard/badgym-window.xml "$capture_dir/window.xml" >/dev/null 2>&1 || true
+                  timeout 20s adb -s "$serial" logcat -d -t 3000 > "device-artifacts/${hostname}-logcat.txt" 2>&1 || true
 
-                  # Capture the actual device UI through the already-paired ADB-over-Tailscale link.
-                  # Screenshots are uploaded as a timestamped GitHub Actions artifact.
-                  screen_size=$(adb -s "$serial" shell wm size | awk -F': ' '/Physical size/ {print $2}' | tail -n 1 | tr -d '\r')
-                  screen_w=${screen_size%x*}
-                  screen_h=${screen_size#*x}
-                  if [[ "$screen_w" =~ ^[0-9]+$ && "$screen_h" =~ ^[0-9]+$ ]]; then
-                    tap_ratio() {
-                      local xr="$1" yr="$2" name="$3"
-                      local x=$((screen_w * xr / 100))
-                      local y=$((screen_h * yr / 100))
-                      adb -s "$serial" shell input tap "$x" "$y"
-                      sleep 1
-                      adb -s "$serial" exec-out screencap -p > "$capture_dir/$name.png"
-                      printf '%s\t%s\t%s\n' "$(date -u +%FT%TZ)" "$name" "$x,$y" >> "$capture_dir/capture-index.tsv"
-                    }
-
-                    # Reset the scroll position and capture the member hero/header.
-                    for _ in 1 2 3; do
-                      adb -s "$serial" shell input swipe "$((screen_w / 2))" "$((screen_h * 28 / 100))" "$((screen_w / 2))" "$((screen_h * 78 / 100))" 320
-                    done
-                    sleep 1
-                    adb -s "$serial" exec-out screencap -p > "$capture_dir/00-member-header.png"
-                    tap_ratio 12 66 "00a-horizontal-attendance"
-                    tap_ratio 37 66 "00b-horizontal-workout"
-                    tap_ratio 62 66 "00c-horizontal-payment"
-                    tap_ratio 87 66 "00d-horizontal-body"
-
-                    # Move to the intelligence workspace, then inspect every primary rail destination.
-                    for _ in 1 2 3; do
-                      adb -s "$serial" shell input swipe "$((screen_w / 2))" "$((screen_h * 78 / 100))" "$((screen_w / 2))" "$((screen_h * 32 / 100))" 320
-                    done
-                    sleep 1
-                    adb -s "$serial" exec-out screencap -p > "$capture_dir/01-dashboard-workspace.png"
-                    tap_ratio 13 39 "02-dashboard"
-                    tap_ratio 13 47 "03-attendance"
-                    tap_ratio 13 55 "04-workout"
-                    tap_ratio 13 63 "05-payments"
-                    tap_ratio 13 71 "06-offers"
-                    tap_ratio 13 79 "07-history"
-                    tap_ratio 13 87 "08-body"
-
-                    # Attendance submenu states: Overview, Calendar, Trends, Streak.
-                    tap_ratio 13 47 "09-attendance-overview"
-                    tap_ratio 51 43 "10-attendance-calendar"
-                    tap_ratio 68 43 "11-attendance-trends"
-                    tap_ratio 82 43 "12-attendance-streak"
-                    # Verify vertical scrolling is responsive and capture the lower content.
-                    adb -s "$serial" shell input swipe "$((screen_w / 2))" "$((screen_h * 78 / 100))" "$((screen_w / 2))" "$((screen_h * 38 / 100))" 350
-                    sleep 1
-                    adb -s "$serial" exec-out screencap -p > "$capture_dir/13-attendance-scroll.png"
+                  if [ "$shot_rc" -eq 0 ] && [ -s "$capture_dir/00-app-launch.png" ]; then
+                    result="SCREENSHOT_CAPTURED"
+                    # Capture rail destinations without scrolling the screen.
+                    # These are evidence captures only; never fail the fleet job
+                    # because an optional tap or follow-up screenshot is flaky.
+                    screen_size=$(adb_device shell wm size 2>/dev/null | awk -F': ' '/Physical size/ {print $2}' | tail -n 1 | tr -d '\r')
+                    screen_w=${screen_size%x*}; screen_h=${screen_size#*x}
+                    if [[ "$screen_w" =~ ^[0-9]+$ && "$screen_h" =~ ^[0-9]+$ ]]; then
+                      tap_capture() {
+                        local xr="$1" yr="$2" name="$3"
+                        local x=$((screen_w * xr / 100)) y=$((screen_h * yr / 100))
+                        adb_device shell input tap "$x" "$y" >/dev/null 2>&1 || return 0
+                        sleep 2
+                        adb_device exec-out screencap -p > "$capture_dir/$name.png" 2>/dev/null || true
+                      }
+                      tap_capture 13 39 "01-dashboard"
+                      tap_capture 13 47 "02-attendance"
+                      tap_capture 13 55 "03-workout"
+                      tap_capture 13 63 "04-payments"
+                      tap_capture 13 71 "05-offers"
+                      tap_capture 13 79 "06-history"
+                      tap_capture 13 87 "07-body"
+                    fi
+                    if grep -q "mResumedActivity.*com.badgym.designlab\|topResumedActivity.*com.badgym.designlab" "$capture_dir/activity-state.txt"; then
+                      result="PASS"
+                      tested=$((tested + 1))
+                    else
+                      result="LAUNCH_STATE_UNCONFIRMED"
+                    fi
                   else
-                    echo "::warning::Unable to parse Android display size; retained the initial device screenshot only."
+                    result="SCREENSHOT_FAILED"
                   fi
-
-                  adb -s "$serial" logcat -d -t 3000 > "device-artifacts/${hostname}-logcat.txt" || true
-                  [ "$result" != "SCREENSHOT_FAILED" ] && result="PASS"
-                  tested=$((tested + 1))
                 else
                   result="LAUNCH_FAILED"
-                  adb -s "$serial" logcat -d -t 2000 > "device-artifacts/${hostname}-logcat.txt" || true
+                  timeout 20s adb -s "$serial" logcat -d -t 2000 > "device-artifacts/${hostname}-logcat.txt" 2>&1 || true
                 fi
-              elif grep -q "INSTALL_FAILED_USER_RESTRICTED" "$install_log"; then
-                result="MIUI_INSTALL_PERMISSION_REQUIRED"
-                echo "::warning::MIUI blocked ADB install. Enable Developer options > Install via USB on device."
-                adb -s "$serial" logcat -d -t 1000 > "device-artifacts/${hostname}-logcat.txt" || true
-              else
-                result="INSTALL_FAILED"
-                adb -s "$serial" logcat -d -t 1000 > "device-artifacts/${hostname}-logcat.txt" || true
               fi
             fi
 
             printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$hostname" "$ip" "$os" "$online" "$port" "$result" >> device-artifacts/device-results.tsv
+            timeout 8s adb disconnect "$serial" >/dev/null 2>&1 || true
           done < device-artifacts/tailnet-inventory.tsv
 
           cat device-artifacts/device-results.tsv
           echo "Successfully tested Android devices: $tested" | tee device-artifacts/summary.txt
           if [ "$tested" -eq 0 ]; then
-            echo "::warning::No Android device completed QA. Inspect per-device status and logs."
+            echo "::warning::No Android device completed app-launch and screenshot QA. Inspect per-device evidence."
           fi
       - name: Upload fleet QA inventory and evidence
         if: always()
