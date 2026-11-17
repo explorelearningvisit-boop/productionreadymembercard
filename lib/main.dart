@@ -716,7 +716,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         const SizedBox(height: 5),
         Expanded(child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           SizedBox(
-            width: 49,
+            width: 54,
             child: Column(children: List.generate(labels.length, (index) {
               final active = _subSection == index;
               return Expanded(child: Padding(
@@ -799,27 +799,33 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         DayKind.absent => t.danger,
         DayKind.holiday || DayKind.off => t.neutral,
       };
-      days.add(Center(child: Container(
-        width: 32, height: 32,
-        decoration: BoxDecoration(
-          color: color,
-          shape: t.style == 'athletic' || t.style == 'minimal' ? BoxShape.rectangle : BoxShape.circle,
-          borderRadius: t.style == 'athletic' || t.style == 'minimal' ? BorderRadius.circular(7) : null,
-          border: isToday ? Border.all(color: t.primary, width: 2) : Border.all(color: Colors.white.withOpacity(.7), width: .7),
-          boxShadow: kind == DayKind.present ? [BoxShadow(color: color.withOpacity(.22), blurRadius: 3, offset: const Offset(0, 1))] : null,
+      days.add(Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Container(
+          width: 32, height: 32,
+          decoration: BoxDecoration(
+            color: color,
+            shape: t.style == 'athletic' || t.style == 'minimal' ? BoxShape.rectangle : BoxShape.circle,
+            borderRadius: t.style == 'athletic' || t.style == 'minimal' ? BorderRadius.circular(7) : null,
+            border: isToday ? Border.all(color: t.primary, width: 2) : Border.all(color: Colors.white.withOpacity(.7), width: .7),
+            boxShadow: kind == DayKind.present ? [BoxShadow(color: color.withOpacity(.22), blurRadius: 3, offset: const Offset(0, 1))] : null,
+          ),
+          alignment: Alignment.center,
+          child: Text(day.toString(), style: TextStyle(
+            color: kind == DayKind.off || kind == DayKind.holiday ? (t.dark ? Colors.white70 : t.muted) : Colors.white,
+            fontSize: 11, fontWeight: FontWeight.w800,
+          )),
         ),
-        alignment: Alignment.center,
-        child: Text(day.toString(), style: TextStyle(
-          color: kind == DayKind.off || kind == DayKind.holiday ? (t.dark ? Colors.white70 : t.muted) : Colors.white,
-          fontSize: 10, fontWeight: FontWeight.w900,
-        )),
-      )));
+        if (DateTime(_year, _month, day).weekday == DateTime.sunday)
+          Text('OFF', style: TextStyle(color: t.muted, fontSize: 7, height: 1, fontWeight: FontWeight.w800)),
+        if (kind == DayKind.holiday)
+          Text('HOL', style: TextStyle(color: t.muted, fontSize: 7, height: 1, fontWeight: FontWeight.w800)),
+      ])));
     }
     return _innerPanel(
       title: 'Monthly attendance  ·  $_attendanceRate%  ·  $_present present',
       child: Column(children: [
-        SizedBox(height: 32, child: Row(children: [
-          SizedBox(width: 32, height: 32, child: Stack(alignment: Alignment.center, children: [
+        SizedBox(height: 42, child: Row(children: [
+          SizedBox(width: 40, height: 40, child: Stack(alignment: Alignment.center, children: [
             SizedBox.expand(child: CircularProgressIndicator(
               value: _attendanceRate / 100, strokeWidth: 4.5, backgroundColor: t.neutral,
               valueColor: AlwaysStoppedAnimation<Color>(t.primary),
@@ -838,10 +844,13 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           child: Center(child: Text(d, style: TextStyle(fontSize: 9.5, fontWeight: FontWeight.w900, color: Colors.grey))),
         )).toList()),
         const SizedBox(height: 4),
-        Expanded(child: GridView.count(
-          crossAxisCount: 7, shrinkWrap: false, physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 3, crossAxisSpacing: 2, mainAxisExtent: 38, childAspectRatio: 1.0, children: days,
-        )),
+        Expanded(child: LayoutBuilder(builder: (context, constraints) {
+          final rowExtent = math.max(30.0, (constraints.maxHeight - 15) / 6).toDouble();
+          return GridView.count(
+            crossAxisCount: 7, shrinkWrap: false, physics: const NeverScrollableScrollPhysics(),
+            mainAxisSpacing: 3, crossAxisSpacing: 2, mainAxisExtent: rowExtent, childAspectRatio: 1.0, children: days,
+          );
+        })),
         const SizedBox(height: 4),
         Wrap(alignment: WrapAlignment.spaceBetween, spacing: 4, children: [
           _legendDot('Present', t.success), _legendDot('Late', t.warning),
@@ -860,25 +869,29 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   Widget _attendanceTrend() => _innerPanel(
     title: 'Attendance trend · last 7 weeks',
     child: Column(children: [
-      Expanded(child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: List.generate(7, (i) {
+      Expanded(child: LayoutBuilder(builder: (context, constraints) {
         final values = [62, 74, 68, 86, 78, 92, _attendanceRate].map((v) => v.toDouble()).toList();
-        return Expanded(child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-            Text(values[i].round().toString() + '%', style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w800)),
-            const SizedBox(height: 3),
-            Expanded(child: Align(alignment: Alignment.bottomCenter, child: Container(
-              width: 18, height: math.max(8.0, (values[i] / 100) * math.max(100.0, constraints.maxHeight - 44)).toDouble(),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [t.primary, t.secondary]),
-                borderRadius: BorderRadius.circular(t.style == 'athletic' ? 3 : 9),
-              ),
-            ))),
-            const SizedBox(height: 3),
-            Text('W' + (i + 1).toString(), style: TextStyle(color: t.softText, fontSize: 6)),
-          ]),
-        ));
-      }))),
+        final barAreaHeight = math.max(60.0, constraints.maxHeight - 34).toDouble();
+        return Row(crossAxisAlignment: CrossAxisAlignment.end, children: List.generate(7, (i) {
+          return Expanded(child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            child: Column(children: [
+              Text('${values[i].round()}%', style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w800)),
+              const SizedBox(height: 3),
+              Expanded(child: Align(alignment: Alignment.bottomCenter, child: Container(
+                width: 18,
+                height: barAreaHeight * values[i] / 100,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [t.primary, t.secondary]),
+                  borderRadius: BorderRadius.circular(t.style == 'athletic' ? 3 : 9),
+                ),
+              ))),
+              const SizedBox(height: 3),
+              Text('W${i + 1}', style: TextStyle(color: t.softText, fontSize: 9)),
+            ]),
+          ));
+        }));
+      })),
       const SizedBox(height: 4),
       _metricLine('Monthly attendance', '$_attendanceRate%', t.success),
       _metricLine('Late arrivals', '$_late', t.warning),
@@ -976,6 +989,30 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _paymentContent() {
     final title = _railLabels[_subSection];
+    if (_subSection == 1) {
+      return _innerPanel(title: 'Payment transactions', child: Column(children: [
+        _metricLine('Last payment', '₹4,500 · Paid', t.success),
+        _metricLine('Outstanding balance', '₹500 Due', t.danger),
+        _metricLine('Payment history', 'Not connected', t.softText),
+        const Spacer(),
+        Text('Transaction records are not connected in this demo', style: TextStyle(color: t.softText, fontSize: 9)),
+      ]));
+    }
+    if (_subSection == 2) {
+      return _innerPanel(title: 'Due date & offers', child: Column(children: [
+        _metricLine('Outstanding balance', '₹500 Due', t.danger),
+        _metricLine('Next due date', 'In 4 days', t.warning),
+        _metricLine('Early payment reward', 'Up to 2% savings', t.primary),
+        const Spacer(),
+        Text('Offers shown here are sample content', style: TextStyle(color: t.softText, fontSize: 9)),
+      ]));
+    }
+    if (_subSection == 3) {
+      return _innerPanel(title: 'Member rewards', child: Center(child: Text(
+        'Rewards are not connected yet', textAlign: TextAlign.center,
+        style: TextStyle(color: t.softText, fontSize: 12, fontWeight: FontWeight.w700),
+      )));
+    }
     return _innerPanel(
       title: '$title · member account',
       child: Column(children: [
@@ -1012,6 +1049,21 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _bodyContent() {
     final title = _railLabels[_subSection];
+    if (_subSection == 1 || _subSection == 2) {
+      return _innerPanel(title: _subSection == 1 ? 'Body composition' : 'Body measurements', child: Center(child: Text(
+        _subSection == 1 ? 'Composition data not connected' : 'Measurement history not connected',
+        textAlign: TextAlign.center,
+        style: TextStyle(color: t.softText, fontSize: 12, fontWeight: FontWeight.w700),
+      )));
+    }
+    if (_subSection == 3) {
+      return _innerPanel(title: 'Body progress', child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text('69.5 kg', style: TextStyle(color: t.primary, fontSize: 28, fontWeight: FontWeight.w900)),
+        Text('Current recorded weight', style: TextStyle(color: t.cardText, fontSize: 10)),
+        const SizedBox(height: 8),
+        Text('Progress history not connected', style: TextStyle(color: t.softText, fontSize: 9)),
+      ]));
+    }
     return _innerPanel(
       title: '$title · body progress',
       child: Column(children: [
