@@ -255,7 +255,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         5: DayKind.present, 6: DayKind.present, 7: DayKind.present, 8: DayKind.present,
         9: DayKind.present, 10: DayKind.late, 11: DayKind.off, 12: DayKind.present,
         13: DayKind.present, 14: DayKind.present, 15: DayKind.present, 16: DayKind.present,
-        17: DayKind.absent, 18: DayKind.present, 19: DayKind.present, 20: DayKind.present,
+        17: DayKind.absent, 18: DayKind.off, 19: DayKind.present, 20: DayKind.present,
         21: DayKind.late, 22: DayKind.present, 23: DayKind.absent, 24: DayKind.absent,
         25: DayKind.off, 26: DayKind.present, 27: DayKind.present, 28: DayKind.late,
         29: DayKind.present, 30: DayKind.present, 31: DayKind.present,
