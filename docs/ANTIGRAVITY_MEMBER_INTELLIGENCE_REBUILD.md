@@ -9,7 +9,7 @@
 - Project root: this repository root (Flutter project). Do not mix files or APKs from another app/project.
 
 ## Design source of truth
-Use the user's latest uploaded Xiaomi screenshot as the only layout reference for this task (image size 691 × 1536 px, including Android status and navigation bars). Reproduce its content hierarchy and adapt to the actual device logical viewport using MediaQuery/LayoutBuilder; do not hard-code screenshot pixels as dp.
+Use the user's latest uploaded Xiaomi screenshot as the only layout reference for this task (image size 1024 × 1536 px, including Android status and navigation bars). Reproduce its content hierarchy and adapt to the actual device logical viewport using MediaQuery/LayoutBuilder; do not hard-code screenshot pixels as dp.
 
 Visual language: ice-blue / pale cyan glass surface, cool blue borders and soft shadows, navy typography, rounded translucent panels, subtle water/ice highlights, emerald present/active, amber late/gold, red absent/due, grey holiday/off. Keep legibility and contrast. Use the existing supplied image assets where they match. Do not invent new modules or add multiple themes.
 
@@ -44,3 +44,13 @@ The user's latest screenshot supersedes older screenshots and old red/ivory or o
 
 ## Completion report (mandatory)
 Report exact branch + commit, changed files, analyzer/test/build results, workflow run URL, APK artifact name, and device install/launch/screenshot statuses separately. Do not say "pixel-perfect", "installed", or "production-ready" without fresh corresponding evidence.
+
+
+## ChatGPT implementation status — 2026-11-17
+- The user explicitly directed ChatGPT to implement the complete Flutter UI independently of Antigravity. Antigravity's local laptop work is independent; do not block this cloud branch on local outputs.
+- Original reference image is available in this conversation at `/mnt/data/1000320035.jpg`, 1024 × 1536 px. It has been reopened and inspected; do not ask the user to upload it again unless they supply a newer reference.
+- New screen implementation: `lib/presentation/reference_member_dashboard.dart`; app entry point switched in `lib/main.dart`. It implements ice-blue glass header, integrated member/check-in/QR card, festival promo, four KPI tiles, compact contextual rail, attendance calendar with summary donut/legend, and bottom AI Insights strip. The dashboard uses a bounded non-scroll layout.
+- Sample member fixture name updated to match the source screenshot: Ashwani Kumar Sharma Vishwakarma.
+- Added `qr_flutter` to render a real member QR code in the card.
+- Widget tests rewritten for reference sections, 360dp compact viewport, tab/rail changes, and notification interaction. CI result pending for latest commit; inspect fresh run before claiming tests/build passed.
+- Do not install an APK or claim hardware match until a current successful build artifact and fresh Xiaomi screenshot are available. Preserve existing app data and signing continuity.
