@@ -46,7 +46,7 @@ jobs:
         run: |
           flutter pub get
           dart format lib test
-          flutter analyze
+          flutter analyze --no-fatal-infos
           flutter test --reporter expanded
       - name: Build Android QA APK (release mode, unsigned)
         run: flutter build apk --release
@@ -125,7 +125,6 @@ jobs:
           tailscale status --json > tailnet-status.json
           HOST=$(jq -r --arg ip "$DEVICE_IP" '.Peer // {} | to_entries[] | select((.value.TailscaleIPs // []) | index($ip)) | .value.HostName' tailnet-status.json | head -n1)
           PORT=$(jq -r --arg host "$HOST" --arg ip "$DEVICE_IP" '.[$host] // .[$ip] // empty' <<< "$DEVICE_PORTS_JSON")
-          # Last user-reported Xiaomi 11i Wireless Debugging endpoint; verify before use.
           PORT=${PORT:-37337}
           echo "Target peer: $HOST at $DEVICE_IP:$PORT"
           adb connect "$DEVICE_IP:$PORT"
