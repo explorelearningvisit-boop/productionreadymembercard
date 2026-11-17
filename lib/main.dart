@@ -515,28 +515,32 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                 child: Icon(Icons.person, color: t.primary, size: 28)))),
           ),
           const SizedBox(width: 7),
-          Expanded(child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Row(children: [
-                Text('✓ CHECKED-IN', style: TextStyle(color: t.success, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
-                const SizedBox(width: 4),
-                Expanded(child: Text(_todayLabel, maxLines: 1,
-                  overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
-                  style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w700))),
-              ]),
-              Text('Ashwani Kumar Sharma Vishwakarma', maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontSize: 10, height: .95, fontWeight: FontWeight.w900)),
-              Row(children: [
-                Expanded(child: Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: t.softText, fontSize: 6.2, height: 1, fontWeight: FontWeight.w600))),
-                const SizedBox(width: 3),
-                Text('✓ Active', style: TextStyle(color: t.success, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
-                const SizedBox(width: 3),
-                Text('♛ Gold', style: TextStyle(color: t.secondary, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
-              ]),
-            ],
+          Expanded(child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(children: [
+                  Text('✓ CHECKED-IN', style: TextStyle(color: t.success, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
+                  const SizedBox(width: 4),
+                  Text(_todayLabel, maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
+                    style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w700)),
+                ]),
+                Text('Ashwani Kumar Sharma Vishwakarma', maxLines: 1, overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: t.cardText, fontSize: 10, height: .95, fontWeight: FontWeight.w900)),
+                Row(children: [
+                  Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: t.softText, fontSize: 6.2, height: 1, fontWeight: FontWeight.w600)),
+                  const SizedBox(width: 3),
+                  Text('✓ Active', style: TextStyle(color: t.success, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
+                  const SizedBox(width: 3),
+                  Text('♛ Gold', style: TextStyle(color: t.secondary, fontSize: 6.2, height: 1, fontWeight: FontWeight.w900)),
+                ]),
+              ],
+            ),
           )),
           const SizedBox(width: 4),
           Container(
