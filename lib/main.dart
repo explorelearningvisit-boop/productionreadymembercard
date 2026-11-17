@@ -238,7 +238,7 @@ class MemberDashboardPage extends StatefulWidget {
 class _MemberDashboardPageState extends State<MemberDashboardPage> {
   int _themeIndex = 0;
   WorkspaceTab _tab = WorkspaceTab.attendance;
-  int _subSection = 0;
+  int _subSection = 1;
   late final DateTime _today = DateTime(2026, 10, 16);
   late int _month = 10;
   late int _year = 2026;
@@ -286,7 +286,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   void _setTab(WorkspaceTab tab) {
     setState(() {
       _tab = tab;
-      _subSection = 0;
+      _subSection = tab == WorkspaceTab.attendance ? 1 : 0;
     });
   }
 
@@ -849,6 +849,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         ),
       ])));
     }
+    while (days.length < 42) { days.add(const SizedBox.shrink()); }
     return _innerPanel(
       title: '',
       child: Column(children: [
