@@ -8,13 +8,13 @@
 
 ## Customer
 - Dashboard and service categories: UI implemented.
-- Create job sheet: local in-memory demo only.
+- Multi-step job composer: title, category, description, up to 6 camera/gallery photos, location, rate, unit, worker count and urgency; job record is still session-only.
 - Job lifecycle: demo milestones in Operations.
 - Worker match/quote/booking: not connected to a real dispatch backend.
 - Checkout and payment confirmation: not implemented.
 
 ## Worker
-- Browse local demo jobs and record interest: UI only.
+- Separate worker dashboard added with availability CTA, demo earnings/completed-job metrics, KYC/skills/work-area/payout profile prompts and local job browsing; real profile storage and worker acceptance API are not connected.
 - Availability, verified skills, KYC, attendance, earnings, payout and dispute flows: incomplete.
 - Attendance module: demo check-in toggle only.
 
