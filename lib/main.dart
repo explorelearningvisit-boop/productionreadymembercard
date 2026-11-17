@@ -872,11 +872,23 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           Container(width: 1, height: 44, color: t.border),
           const SizedBox(width: 5),
           SizedBox(width: 66, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [Icon(Icons.local_fire_department_rounded, color: t.warning, size: 14), const SizedBox(width: 2), Text('Streak', style: TextStyle(color: t.softText, fontSize: 7.5, fontWeight: FontWeight.w700))]),
-            Text('5 Days', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
+            Row(children: [
+              Icon(Icons.local_fire_department_rounded, color: t.warning, size: 14),
+              const SizedBox(width: 3),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Streak', style: TextStyle(color: t.softText, fontSize: 7.5, height: 1, fontWeight: FontWeight.w700)),
+                Text('5 Days', style: TextStyle(color: t.cardText, fontSize: 9, height: 1.05, fontWeight: FontWeight.w900)),
+              ]),
+            ]),
             const SizedBox(height: 3),
-            Row(children: [Icon(Icons.emoji_events_rounded, color: t.warning, size: 14), const SizedBox(width: 2), Text('Best', style: TextStyle(color: t.softText, fontSize: 7.5, fontWeight: FontWeight.w700))]),
-            Text('14 Days', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
+            Row(children: [
+              Icon(Icons.emoji_events_rounded, color: t.warning, size: 14),
+              const SizedBox(width: 3),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('Best', style: TextStyle(color: t.softText, fontSize: 7.5, height: 1, fontWeight: FontWeight.w700)),
+                Text('14 Days', style: TextStyle(color: t.cardText, fontSize: 9, height: 1.05, fontWeight: FontWeight.w900)),
+              ]),
+            ]),
           ])),
         ])),
         const SizedBox(height: 4),
@@ -904,7 +916,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   Widget _legendDot(String label, Color color) => Row(mainAxisSize: MainAxisSize.min, children: [
     Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
     const SizedBox(width: 2),
-    Text(label, style: TextStyle(color: t.softText, fontSize: 7.5, fontWeight: FontWeight.w700)),
+    Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+      style: TextStyle(color: t.softText, fontSize: 7.5, fontWeight: FontWeight.w700))),
   ]);
 
   Widget _attendanceTrend() => _innerPanel(
