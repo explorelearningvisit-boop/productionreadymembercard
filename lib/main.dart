@@ -621,7 +621,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                           : 0),
               child: Container(
                 margin: EdgeInsets.only(right: i == 3 ? 0 : 5),
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: item.$5 == _gold
@@ -643,7 +643,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                           color: item.$5 == _gold
                               ? const Color(0xFF7D1634)
                               : Colors.white,
-                          size: 17),
+                          size: 14),
                       FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(item.$2,
@@ -651,7 +651,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                                   color: item.$5 == _gold
                                       ? const Color(0xFF381321)
                                       : Colors.white,
-                                  fontSize: 9,
+                                  fontSize: 7,
                                   fontWeight: FontWeight.w700))),
                       FittedBox(
                           fit: BoxFit.scaleDown,
@@ -660,7 +660,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                                   color: item.$5 == _gold
                                       ? const Color(0xFF087F25)
                                       : Colors.white,
-                                  fontSize: 13,
+                                  fontSize: 11,
                                   fontWeight: FontWeight.w900))),
                       FittedBox(
                           fit: BoxFit.scaleDown,
