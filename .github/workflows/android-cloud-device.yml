@@ -330,17 +330,18 @@ jobs:
                       }
                       # Quick workspace tabs: the previous script tapped the left rail
                       # at these coordinates and mislabeled rail screenshots as tabs.
-                      tap_capture 14 31 "01-attendance-calendar" "Attendance Intelligence"
-                      tap_capture 38 31 "02-workout-overview" "Workout Intelligence"
-                      tap_capture 61 31 "03-payment-overview" "Payment Intelligence"
-                      tap_capture 85 31 "04-body-overview" "Body Intelligence"
+                      tap_capture 14 47 "01-attendance-dashboard" "Attendance Intelligence"
+                      tap_capture 38 47 "02-workout-overview" "Workout Intelligence"
+                      tap_capture 61 47 "03-payment-overview" "Payment Intelligence"
+                      tap_capture 85 47 "04-body-overview" "Body Intelligence"
                       # Return to Attendance and verify every contextual rail destination.
-                      tap_capture 14 31 "05-attendance-default" "Attendance Intelligence"
-                      tap_capture 11 45 "06-attendance-calendar" "Monthly attendance"
-                      tap_capture 11 56 "07-attendance-trend" "Attendance trend"
-                      tap_capture 11 66 "08-attendance-history" "Recent attendance records"
-                      tap_capture 11 77 "09-attendance-insights" "Member attendance insights"
-                      tap_capture 11 87 "10-attendance-goal" "Monthly consistency goal"
+                      tap_capture 14 47 "05-attendance-default" "Attendance Intelligence"
+                      tap_capture 8 58 "06-attendance-intelligence" "Attendance Intelligence"
+                      tap_capture 8 64 "07-attendance-calendar" "Attendance Intelligence"
+                      tap_capture 8 70 "08-attendance-history" "Recent attendance records"
+                      tap_capture 8 77 "09-attendance-trend" "Attendance trend"
+                      tap_capture 8 84 "10-attendance-goals" "Monthly consistency goal"
+                      tap_capture 8 90 "11-attendance-more" "Member attendance insights"
                     fi
                     if grep -q "mResumedActivity.*com.badgym.designlab\|topResumedActivity.*com.badgym.designlab" "$capture_dir/activity-state.txt"; then
                       if [ "$interaction_failed" -eq 0 ]; then
