@@ -1,6 +1,7 @@
 import 'demo_auth_gate.dart';
 import 'operations.dart';
 import 'job_composer.dart';
+import 'role_dashboards.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const ArjunApp());
@@ -33,19 +34,19 @@ class ArjunApp extends StatelessWidget {
   );
 }
 
-enum UserRole { customer, worker, manager, supplier }
+enum UserRole { customer, worker, manager, supplier, admin }
 extension RoleLabel on UserRole {
   String get label => switch (this) {
     UserRole.customer => 'Customer', UserRole.worker => 'Worker',
-    UserRole.manager => 'Field manager', UserRole.supplier => 'Supplier'
+    UserRole.manager => 'Field manager', UserRole.supplier => 'Supplier', UserRole.admin => 'Admin / Operations'
   };
   String get hindi => switch (this) {
     UserRole.customer => 'काम देने वाले', UserRole.worker => 'काम करने वाले',
-    UserRole.manager => 'साइट मैनेजर', UserRole.supplier => 'सप्लायर'
+    UserRole.manager => 'साइट मैनेजर', UserRole.supplier => 'सप्लायर', UserRole.admin => 'एडमिन'
   };
   IconData get icon => switch (this) {
     UserRole.customer => Icons.home_work_outlined, UserRole.worker => Icons.build_outlined,
-    UserRole.manager => Icons.assignment_ind_outlined, UserRole.supplier => Icons.inventory_2_outlined
+    UserRole.manager => Icons.assignment_ind_outlined, UserRole.supplier => Icons.inventory_2_outlined, UserRole.admin => Icons.admin_panel_settings_outlined
   };
 }
 
@@ -73,7 +74,13 @@ class _AppShellState extends State<AppShell> {
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
-      role == UserRole.worker ? WorkerDashboardPage(jobs: jobs, onBrowse: () => setState(() => tab = 1)) : DashboardPage(role: role, jobs: jobs, english: english, onPost: _postJob, onBrowse: () => setState(() => tab = 1)),
+      switch (role) {
+        UserRole.customer => DashboardPage(role: role, jobs: jobs, english: english, onPost: _postJob, onBrowse: () => setState(() => tab = 1)),
+        UserRole.worker => WorkerDashboardPage(jobs: jobs, onBrowse: () => setState(() => tab = 1)),
+        UserRole.manager => const ManagerDashboard(),
+        UserRole.supplier => const SupplierDashboard(),
+        UserRole.admin => const AdminDashboard(),
+      },
       ExplorePage(jobs: jobs, role: role, onAccept: (job) => _notice('काम के लिए आपकी रुचि दर्ज हुई: ${job.title}')),
       ActivityPage(role: role, jobs: jobs),
       ProfilePage(role: role, english: english, onLanguage: () => setState(() => english = !english), onRole: _chooseRole),
