@@ -443,7 +443,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             border: Border.all(color: t.border, width: t.borderWidth),
             boxShadow: [BoxShadow(color: t.primary.withOpacity(.22), blurRadius: 8)],
           ),
-          child: const Icon(Icons.fitness_center_rounded, color: Colors.white, size: 24),
+          child: Image.asset('assets/images/logo_dumbbell.png', fit: BoxFit.contain, color: Colors.white,
+            errorBuilder: (_, __, ___) => const Icon(Icons.fitness_center_rounded, color: Colors.white, size: 24)),
         ),
         const SizedBox(width: 8),
         Expanded(child: FittedBox(
@@ -526,7 +527,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                   overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
                   style: TextStyle(color: t.softText, fontSize: 6, height: 1, fontWeight: FontWeight.w700))),
               ]),
-              Text('Ashwani Kumar Singh', maxLines: 1, overflow: TextOverflow.ellipsis,
+              Text('Ashwani Kumar Sharma Vishwakarma', maxLines: 1, overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: t.cardText, fontSize: 10, height: .95, fontWeight: FontWeight.w900)),
               Row(children: [
                 Expanded(child: Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
@@ -618,11 +619,11 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _quickMetrics(double height) {
-    final items = <(WorkspaceTab, IconData, String, String)>[
-      (WorkspaceTab.attendance, Icons.event_available_rounded, 'Attendance', '$_attendanceRate%'),
-      (WorkspaceTab.workout, Icons.fitness_center_rounded, 'Workout', '58 min'),
-      (WorkspaceTab.payment, Icons.account_balance_wallet_rounded, 'Payment', '₹500 Due'),
-      (WorkspaceTab.body, Icons.monitor_weight_rounded, 'Body', '69.5 kg'),
+    final items = <(WorkspaceTab, String, IconData, String, String)>[
+      (WorkspaceTab.attendance, 'assets/badges/stat_attendance.png', Icons.event_available_rounded, 'Attendance', '$_attendanceRate%'),
+      (WorkspaceTab.workout, 'assets/badges/stat_workout.png', Icons.fitness_center_rounded, 'Workout', '58 min'),
+      (WorkspaceTab.payment, 'assets/badges/stat_payment.png', Icons.account_balance_wallet_rounded, 'Payment', '₹500 Due'),
+      (WorkspaceTab.body, 'assets/badges/stat_body.png', Icons.monitor_weight_rounded, 'Body', '69.5 kg'),
     ];
     return SizedBox(height: height, child: Row(children: List.generate(items.length, (index) {
       final item = items[index];
@@ -636,11 +637,12 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
             decoration: t.panel(radius: t.radius, selected: active),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(item.$2, color: active ? t.primary : t.secondary, size: 12),
+              Image.asset(item.$2, width: 14, height: 14, fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => Icon(item.$3, color: active ? t.primary : t.secondary, size: 12)),
               const SizedBox(height: 0),
-              Text(item.$3, maxLines: 1, overflow: TextOverflow.ellipsis,
+              Text(item.$4, maxLines: 1, overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: t.cardText, fontSize: 6.5, height: 1, fontWeight: FontWeight.w800)),
-              FittedBox(fit: BoxFit.scaleDown, child: Text(item.$4,
+              FittedBox(fit: BoxFit.scaleDown, child: Text(item.$5,
                 style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 9, height: .95, fontWeight: FontWeight.w900))),
             ]),
           ),
@@ -820,8 +822,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         )).toList()),
         const SizedBox(height: 4),
         Expanded(child: GridView.count(
-          crossAxisCount: 7, shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 3, crossAxisSpacing: 2, childAspectRatio: 1.15, children: days,
+          crossAxisCount: 7, shrinkWrap: false, physics: const NeverScrollableScrollPhysics(),
+          mainAxisSpacing: 3, crossAxisSpacing: 2, childAspectRatio: 1.1, children: days,
         )),
         const SizedBox(height: 4),
         Wrap(alignment: WrapAlignment.spaceBetween, spacing: 4, children: [
