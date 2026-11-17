@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:bad_gym/core/models/member_intelligence_data.dart';
 import 'package:bad_gym/presentation/widgets/member_qr_sheet.dart';
 import 'package:bad_gym/presentation/widgets/notification_sheet.dart';
@@ -184,7 +185,13 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           width: compact ? 43 : 49, height: compact ? 43 : 49,
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: _line)),
-          child: const Icon(Icons.qr_code_2_rounded, size: 37, color: _navy),
+          child: QrImageView(
+            data: 'BADGYM:MEMBER:${_data.memberId}',
+            version: QrVersions.auto,
+            padding: EdgeInsets.zero,
+            eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
+            dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black),
+          ),
         )),
       ])),
       Container(height: 1, color: _line.withValues(alpha: .65), margin: const EdgeInsets.symmetric(vertical: 5)),
