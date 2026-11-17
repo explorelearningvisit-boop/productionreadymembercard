@@ -96,7 +96,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: arjun-android-qa-${{ github.sha }}
+          name: arjun-android-demo-debug-${{ github.sha }}
           path: dist
       - name: Join Tailnet using GitHub OIDC
         uses: tailscale/github-action@v4
@@ -130,7 +130,7 @@ jobs:
           echo "Target peer: $HOST at $DEVICE_IP:$PORT"
           adb connect "$DEVICE_IP:$PORT"
           adb -s "$DEVICE_IP:$PORT" get-state
-          adb -s "$DEVICE_IP:$PORT" install -r dist/app-release.apk
+          adb -s "$DEVICE_IP:$PORT" install -r dist/app-debug.apk
           adb -s "$DEVICE_IP:$PORT" shell monkey -p in.arjun.arjun_app 1
           sleep 5
           mkdir -p evidence
