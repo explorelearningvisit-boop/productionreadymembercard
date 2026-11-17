@@ -2,7 +2,7 @@ name: Android Cloud Build & Multi-Device QA
 
 on:
   push:
-    branches: [main, setup/flutter-member-intelligence]
+    branches: [main, setup/flutter-member-intelligence, chatgpt/design-lab-yellow-festive]
     paths:
       - "lib/**"
       - "test/**"
@@ -122,7 +122,7 @@ jobs:
   multi-device-qa:
     name: Tailnet discovery + Android fleet QA
     needs: build-and-test
-    if: (github.event_name == 'workflow_dispatch' && inputs.run_device_test == true) || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    if: (github.event_name == 'workflow_dispatch' && inputs.run_device_test == true) || (github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/chatgpt/design-lab-yellow-festive'))
     runs-on: ubuntu-latest
     timeout-minutes: 30
     permissions:
@@ -294,8 +294,8 @@ jobs:
                 # Bring to home screen to close any open keyboard or foreground apps
                 adb -s "$serial" shell input keyevent 3 >/dev/null 2>&1 || true
                 sleep 1
-                adb -s "$serial" shell am force-stop com.badgym.bad_gym >/dev/null 2>&1 || true
-                if adb -s "$serial" shell am start -W -n com.badgym.bad_gym/.MainActivity > "device-artifacts/${hostname}-launch.txt" 2>&1; then
+                adb -s "$serial" shell am force-stop com.badgym.designlab >/dev/null 2>&1 || true
+                if adb -s "$serial" shell monkey -p com.badgym.designlab 1 > "device-artifacts/${hostname}-launch.txt" 2>&1; then
                   sleep 6
                   adb -s "$serial" exec-out screencap -p > "device-artifacts/${hostname}-screenshot.png" || result="SCREENSHOT_FAILED"
                   adb -s "$serial" logcat -d -t 2000 > "device-artifacts/${hostname}-logcat.txt" || true
