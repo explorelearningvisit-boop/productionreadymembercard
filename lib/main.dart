@@ -1147,7 +1147,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       ),
     ),
   );
-}
 
 }
 
