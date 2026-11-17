@@ -514,126 +514,133 @@ class MemberIntelligenceApp extends StatelessWidget {
   Widget _attendanceCalendar() {
     return _innerPanel(
       title: '',
-      child: Column(children: [
-        SizedBox(height: 62, child: Row(children: [
-          SizedBox(width: 58, height: 58, child: Stack(alignment: Alignment.center, children: [
-            SizedBox.expand(child: CircularProgressIndicator(
-              value: _attendanceRate / 100,
-              strokeWidth: 4.5,
-              backgroundColor: t.neutral,
-              valueColor: AlwaysStoppedAnimation<Color>(t.primary),
-            )),
-            Column(mainAxisSize: MainAxisSize.min, children: [
-              Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 14, fontWeight: FontWeight.w900)),
-              Text('25 / 31', style: TextStyle(color: t.softText, fontSize: 10, fontWeight: FontWeight.w700)),
-            ]),
-          ])),
-          const SizedBox(width: 6),
-          Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Row(children: [
-              Expanded(child: _legendDot('Present 23', t.success)),
-              Expanded(child: _legendDot('Late 2', t.warning)),
-            ]),
-            const SizedBox(height: 5),
-            Row(children: [
-              Expanded(child: _legendDot('Absent 2', t.danger)),
-              Expanded(child: _legendDot('Holiday 4', t.secondary)),
-            ]),
-          ])),
-          Container(width: 1, height: 46, color: t.border),
-          const SizedBox(width: 6),
-          SizedBox(width: 62, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(Icons.local_fire_department_rounded, color: t.warning, size: 13),
-              const SizedBox(width: 3),
-              Text('5D', style: TextStyle(color: t.cardText, fontSize: 11.5, fontWeight: FontWeight.w900)),
-            ]),
-            const SizedBox(height: 5),
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              Icon(Icons.emoji_events_rounded, color: t.warning, size: 13),
-              const SizedBox(width: 3),
-              Text('14D', style: TextStyle(color: t.cardText, fontSize: 11.5, fontWeight: FontWeight.w900)),
-            ]),
-          ])),
-        ])),
-        const SizedBox(height: 5),
-        Row(children: const ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(
-          child: Center(child: Text(d, style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.w900, color: Colors.grey))),
-        )).toList()),
-        const SizedBox(height: 3),
-        Expanded(child: LayoutBuilder(builder: (context, constraints) {
-          final rowExtent = ((constraints.maxHeight - 10) / 6).clamp(22.0, 34.0).toDouble();
-          final cellHeight = math.min(29.0, rowExtent - 2);
-          final cellWidth = math.min(31.0, cellHeight + 2);
-          final days = <Widget>[];
-          for (var i = 0; i < _firstWeekdayOffset; i++) {
-            days.add(const SizedBox.shrink());
-          }
-          for (var day = 1; day <= _daysInMonth; day++) {
-            final kind = _dayKind(day);
-            final isToday = _year == _today.year && _month == _today.month && day == _today.day;
-            final isSunday = DateTime(_year, _month, day).weekday == DateTime.sunday;
-            final semanticColor = switch (kind) {
-              DayKind.present => t.success,
-              DayKind.late => t.warning,
-              DayKind.absent => t.danger,
-              DayKind.holiday || DayKind.off => t.muted,
-            };
-            days.add(Center(child: SizedBox(
-              width: cellWidth,
-              height: cellHeight,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isToday ? t.primary.withOpacity(.10) : Colors.transparent,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: isToday ? t.primary : t.border.withOpacity(.75),
-                    width: isToday ? 1.6 : .8,
+      padding: const EdgeInsets.all(6),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Expanded(flex: 6, child: Column(children: [
+          Row(children: const ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(
+            child: Center(child: Text(d, style: TextStyle(fontSize: 9.5, fontWeight: FontWeight.w900, color: Colors.grey))),
+          )).toList()),
+          const SizedBox(height: 3),
+          Expanded(child: LayoutBuilder(builder: (context, constraints) {
+            final rowExtent = ((constraints.maxHeight - 8) / 5).clamp(22.0, 34.0).toDouble();
+            final diameter = math.min(29.0, rowExtent - 2);
+            final days = <Widget>[];
+            for (var i = 0; i < _firstWeekdayOffset; i++) {
+              days.add(const SizedBox.shrink());
+            }
+            for (var day = 1; day <= _daysInMonth; day++) {
+              final kind = _dayKind(day);
+              final isToday = _year == _today.year && _month == _today.month && day == _today.day;
+              final isSunday = DateTime(_year, _month, day).weekday == DateTime.sunday;
+              final color = switch (kind) {
+                DayKind.present => t.success,
+                DayKind.late => t.warning,
+                DayKind.absent => t.danger,
+                DayKind.holiday || DayKind.off => t.muted,
+              };
+              final filled = kind == DayKind.present || kind == DayKind.late || kind == DayKind.absent;
+              days.add(Center(child: SizedBox(
+                width: diameter,
+                height: diameter,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: filled ? color : t.neutral.withOpacity(.72),
+                    border: Border.all(color: isToday ? t.primary : (filled ? color : t.border), width: isToday ? 2 : 1),
+                    boxShadow: isToday ? [BoxShadow(color: t.primary.withOpacity(.18), blurRadius: 5)] : const [],
                   ),
+                  alignment: Alignment.center,
+                  child: Stack(alignment: Alignment.center, children: [
+                    Padding(
+                      padding: EdgeInsets.only(bottom: isSunday || kind == DayKind.holiday ? 5 : 0),
+                      child: Text('$day', style: TextStyle(
+                        color: filled ? Colors.white : t.cardText,
+                        fontSize: 10,
+                        height: 1,
+                        fontWeight: FontWeight.w900,
+                      )),
+                    ),
+                    if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(
+                      color: filled ? Colors.white : t.muted, fontSize: 5.5, height: 1, fontWeight: FontWeight.w900,
+                    ))),
+                    if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(
+                      color: filled ? Colors.white : t.muted, fontSize: 5.5, height: 1, fontWeight: FontWeight.w900,
+                    ))),
+                  ]),
                 ),
-                alignment: Alignment.center,
-                child: Stack(alignment: Alignment.center, children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: isSunday || kind == DayKind.holiday ? 5 : 0),
-                    child: Text(day.toString(), style: TextStyle(
-                      color: semanticColor,
-                      fontSize: cellHeight < 24 ? 8.5 : 10.5,
-                      fontWeight: FontWeight.w800,
-                    )),
-                  ),
-                  if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(
-                    color: t.muted, fontSize: 6.2, height: 1, fontWeight: FontWeight.w800,
-                  ))),
-                  if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(
-                    color: t.muted, fontSize: 6.2, height: 1, fontWeight: FontWeight.w800,
-                  ))),
+              )));
+            }
+            while (days.length < 35) {
+              days.add(const SizedBox.shrink());
+            }
+            return GridView.count(
+              crossAxisCount: 7,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 2,
+              crossAxisSpacing: 1,
+              mainAxisExtent: rowExtent,
+              childAspectRatio: 1,
+              children: days,
+            );
+          })),
+        ])),
+        const SizedBox(width: 7),
+        Container(width: 1, color: t.border),
+        const SizedBox(width: 7),
+        Expanded(flex: 4, child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(flex: 4, child: Center(child: SizedBox(
+              width: 66, height: 66,
+              child: Stack(alignment: Alignment.center, children: [
+                SizedBox.expand(child: CircularProgressIndicator(
+                  value: _attendanceRate / 100,
+                  strokeWidth: 6,
+                  backgroundColor: t.neutral,
+                  valueColor: AlwaysStoppedAnimation<Color>(t.primary),
+                )),
+                Column(mainAxisSize: MainAxisSize.min, children: [
+                  Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 16, fontWeight: FontWeight.w900)),
+                  Text('$_tracked / $_daysInMonth', style: TextStyle(color: t.softText, fontSize: 8, fontWeight: FontWeight.w700)),
                 ]),
-              ),
-            )));
-          }
-          while (days.length < 42) {
-            days.add(const SizedBox.shrink());
-          }
-          return GridView.count(
-            crossAxisCount: 7,
-            shrinkWrap: false,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 2,
-            crossAxisSpacing: 2,
-            mainAxisExtent: rowExtent,
-            childAspectRatio: 1.0,
-            children: days,
-          );
-        })),
-        const SizedBox(height: 3),
-        Wrap(alignment: WrapAlignment.spaceBetween, spacing: 3, runSpacing: 1, children: [
-          _legendDot('Present', t.success),
-          _legendDot('Late', t.warning),
-          _legendDot('Absent $_absent', t.danger),
-          _legendDot('Holiday $_holiday', t.secondary),
-          _legendDot('Off $_countOffDays', t.neutral),
-          _legendDot('Today', t.primary),
-        ]),
+              ]),
+            ))),
+            _attendanceStatRow('Present', _present, t.success),
+            _attendanceStatRow('Late', _late, t.warning),
+            _attendanceStatRow('Absent', _absent, t.danger),
+            _attendanceStatRow('Holiday', _holiday, t.muted),
+            const SizedBox(height: 3),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              const Text('🔥', style: TextStyle(fontSize: 12)),
+              const SizedBox(width: 3),
+              Text('5 Days Streak', style: TextStyle(color: t.cardText, fontSize: 8.5, fontWeight: FontWeight.w900)),
+            ]),
+          ],
+        )),
+      ]),
+    );
+  }
+
+  Widget _attendanceStatRow(String label, int value, Color color) {
+    final percent = _tracked == 0 ? 0.0 : value / _tracked;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(children: [
+        Container(width: 7, height: 7, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        const SizedBox(width: 4),
+        Expanded(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w700))),
+        Text('$value', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w900)),
+        const SizedBox(width: 4),
+        SizedBox(width: 27, child: ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: LinearProgressIndicator(
+            value: percent,
+            minHeight: 4,
+            backgroundColor: t.neutral,
+            valueColor: AlwaysStoppedAnimation<Color>(color),
+          ),
+        )),
       ]),
     );
   }
