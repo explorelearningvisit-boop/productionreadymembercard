@@ -123,3 +123,13 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - **Matching Reference Design**: Matches `media_1794676950728_33461b16.jpg` across all 6 sections (Laurel wreath header bar, Check-In Success banner, Member Profile pass, Quick Stats with active red gradient Attendance card, two-column 372px fixed-height intelligence section with dark rail and Attendance Intelligence card with 3D flame/trophy badges and solid colored pill calendar matrix with day 16 concentric ring, and bottom nutrition burger banner).
 - **Test Validation**: 10/10 Flutter tests passing, analyzer 0 issues.
 - **App Data**: 100% preserved. No uninstall, no data clear.
+
+
+## 2026-11-17 — ACTIVE: Member Intelligence mobile rebuild (new isolated branch)
+- Dedicated branch: `chatgpt/member-intelligence-mobile-rebuild` (branched from `main`; do not merge or push to main until verified).
+- Project identity: this repository is the standalone BAD GYM Member Intelligence Flutter project. Keep APK outputs and artifacts project-specific; other apps must use separate sibling workspace/repositories and unique package/artifact names.
+- Latest visual authority: user's Xiaomi screenshot uploaded 2026-11-17, 691 × 1536 px including system bars. Follow `docs/ANTIGRAVITY_MEMBER_INTELLIGENCE_REBUILD.md`; it supersedes older conflicting visual descriptions.
+- Visual target: pale ice-blue glass panels, navy typography, cool blue borders, semantic green/amber/red/grey states; compact profile/check-in, payment/expiry, four KPIs and bounded attendance workspace. Do not restore old crimson/ivory, dark rail, oversized banner or duplicated stacked cards.
+- ChatGPT found the previous experimental branch `chatgpt/ui-ux-remediation` is not buildable: latest run 44106838230 failed static analysis with widespread undefined `t`, `_subSection`, attendance state and test `dashboardThemes`; tests/build/device QA were skipped. Do not copy its broken `lib/main.dart` into this branch. The new branch starts from the actual `main` Flutter architecture.
+- Antigravity must read the new rebuild handoff and all mandatory AGENTS.md docs, repair/implement in this branch, run format/analyze/tests/release build, then device QA with signing continuity checks. Preserve app data; never uninstall or clear storage.
+- Latest screenshot dimensions are image pixels, not dp. Use LayoutBuilder/MediaQuery to adapt to device logical viewport and safe areas.
