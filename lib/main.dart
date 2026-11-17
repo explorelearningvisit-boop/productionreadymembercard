@@ -463,27 +463,27 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         boxShadow: const [BoxShadow(color: Color(0x77850042), blurRadius: 10, offset: Offset(0, 4))],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: List.generate(labels.length, (i) {
           final active = _activeSection == i;
-          return Expanded(
-            child: GestureDetector(
-              onTap: () => setState(() => _activeSection = i),
-              child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 3),
-                decoration: BoxDecoration(
-                  color: active ? const Color(0xFFFFD12D) : Colors.transparent,
-                  borderRadius: BorderRadius.circular(14),
-                  border: active ? Border.all(color: const Color(0xFFFFF1A8), width: 1.2) : null,
-                  boxShadow: active ? const [BoxShadow(color: Color(0xAAFFC928), blurRadius: 9)] : null,
-                ),
-                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Icon(icons[i], color: active ? const Color(0xFF7B1235) : Colors.white, size: 21),
-                  const SizedBox(height: 2),
-                  FittedBox(fit: BoxFit.scaleDown, child: Text(labels[i],
-                    style: TextStyle(color: active ? const Color(0xFF421023) : Colors.white,
-                      fontSize: 8, fontWeight: FontWeight.w700))),
-                ]),
+          return GestureDetector(
+            onTap: () => setState(() => _activeSection = i),
+            child: Container(
+              height: 61,
+              margin: const EdgeInsets.symmetric(vertical: 3),
+              decoration: BoxDecoration(
+                color: active ? const Color(0xFFFFD12D) : Colors.transparent,
+                borderRadius: BorderRadius.circular(14),
+                border: active ? Border.all(color: const Color(0xFFFFF1A8), width: 1.2) : null,
+                boxShadow: active ? const [BoxShadow(color: Color(0xAAFFC928), blurRadius: 9)] : null,
               ),
+              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(icons[i], color: active ? const Color(0xFF7B1235) : Colors.white, size: 21),
+                const SizedBox(height: 2),
+                FittedBox(fit: BoxFit.scaleDown, child: Text(labels[i],
+                  style: TextStyle(color: active ? const Color(0xFF421023) : Colors.white,
+                    fontSize: 8, fontWeight: FontWeight.w700))),
+              ]),
             ),
           );
         }),
