@@ -513,9 +513,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           SizedBox(
             width: height * .70,
             child: Align(alignment: Alignment.bottomCenter, child: Image.asset(
-              'assets/hero/hero_athlete.png',
-              width: height * .70, height: height - 4, fit: BoxFit.contain,
-              alignment: Alignment.bottomCenter,
+              'assets/images/avatar_ashwani_hq.png',
+              width: height * .70, height: height - 4, fit: BoxFit.cover,
+              alignment: Alignment.center,
               errorBuilder: (_, __, ___) => Icon(Icons.person, color: t.primary, size: 72),
             )),
           ),
@@ -549,7 +549,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                 ),
               ]),
               SizedBox(height: dense ? 3 : 6),
-              Text('Welcome Back 👋', style: TextStyle(color: t.softText, fontSize: dense ? 7.5 : 9, fontWeight: FontWeight.w600)),
               Text('Ashwani Kumar Singh Vishwakarma', maxLines: 2, overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: t.cardText, fontFamily: 'Poppins', fontSize: dense ? 12 : 14, height: 1.0, letterSpacing: -.25, fontWeight: FontWeight.w900)),
               SizedBox(height: dense ? 2 : 4),
