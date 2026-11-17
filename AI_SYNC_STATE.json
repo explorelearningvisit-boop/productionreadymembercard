@@ -25,21 +25,29 @@
     }
   },
   "currentMilestone": {
-    "status": "TEN_THEME_DASHBOARD_IMPLEMENTED_CI_PENDING",
+    "status": "TEN_THEME_DASHBOARD_APK_BUILT_DEVICE_QA_RUNNING",
     "designSystem": "Ten selectable BAD GYM dashboard systems in one Flutter app: Ice Glass, Crimson Gold, Festival Yellow, Sky Pearl, Athletic Red, Emerald Pulse, Royal Ruby, Gold Festival, Obsidian Neon, Minimal Red.",
     "designReference": "Ten user-uploaded portrait dashboard references dated 2026-11-17; mapped individually in docs/10_REFERENCE_GOLD_DESIGN_SPEC.md.",
     "previousDesignSystem": "Royal Purple / Neon-Glow is historical and superseded",
     "buildVerification": {
-      "status": "PENDING_CI",
-      "format": "PENDING",
-      "analyze": "PENDING",
-      "flutterTests": "PENDING",
-      "apkBuild": "PENDING"
+      "status": "PASSED",
+      "sourceCommit": "19dc7807d522bc3657a8d4b74ae63fac6976e07e",
+      "runId": 44047147367,
+      "formatting": "PASSED",
+      "staticAnalysis": "PASSED",
+      "widgetTests": "PASSED (4/4)",
+      "androidReleaseBuild": "PASSED",
+      "releaseArtifactId": 14312181566,
+      "releaseArtifactName": "bad-gym-android-release-19dc7807d522bc3657a8d4b74ae63fac6976e07e",
+      "apkSizeBytes": 44685921,
+      "apkSha256": "4ff61b7dc27f5d997adbf0e72c9ec58a668ee347dd8b86d2debe711d96f04b2e",
+      "note": "Release-mode CI QA APK uses the repository's stable CI/debug signing identity; production signing with the protected release keystore remains separate."
     },
     "deviceVerification": {
-      "status": "NOT_VERIFIED",
+      "status": "IN_PROGRESS",
       "targetDevice": "Xiaomi 11i 5G (21091116I)",
-      "note": "Fresh physical screenshot comparison for all ten theme variants remains required."
+      "runId": 44047147367,
+      "note": "Tailscale joined successfully; APK artifact downloaded; Android fleet discovery, install/launch and screenshots are still running. Do not mark physical QA passed until the job and evidence confirm it."
     },
     "lastUpdated": "2026-11-17",
     "ciDiagnosis": {
@@ -81,23 +89,16 @@
     "latestChanges": {
       "date": "2026-11-17",
       "branch": "chatgpt/design-lab-yellow-festive",
+      "sourceCommit": "19dc7807d522bc3657a8d4b74ae63fac6976e07e",
       "summary": [
-        "Implemented ten independently styled dashboard theme systems in one Flutter app with an in-app theme gallery.",
-        "Shared member identity, QR, membership/payment context, Attendance/Workout/Payment/Body tabs and contextual rail remain common across themes.",
-        "Added theme-specific canvas/surface palettes, gradients, borders, shadows, geometry, decorative PNG artwork and theme-aware Android status/navigation bar styling.",
-        "Added attendance donut summary, present/late/absent/off counts, streak/trophy indicators and native date grid; Sunday and holiday use neutral styling.",
-        "Registered complete assets/ directory and reused existing avatar, 3D badge, promo, dumbbell and theme artwork.",
-        "Added widget coverage for ten theme selections, tab/rail navigation, 360dp and 320dp compact viewport."
+        "Implemented ten selectable visual dashboard systems in one Flutter app: Ice Glass, Crimson Gold, Festival Yellow, Sky Pearl, Athletic Red, Emerald Pulse, Royal Ruby, Gold Festival, Obsidian Neon and Minimal Red.",
+        "Theme gallery switches complete palette, background gradient/art, surfaces, borders, radius, shadows, status/navigation bar contrast while retaining shared member state.",
+        "Member header includes avatar, checked-in status/time, member details, active/Gold plan, QR, membership progress, payment due and expiry.",
+        "Four quick tabs and contextual rail provide Attendance, Workout, Payment and Body workspaces; attendance includes calendar, trend, history, insights, goal, counts and streak summary.",
+        "Reused existing PNG assets and registered assets/ directory; native widgets remain responsible for text, dates, QR, metrics and charts.",
+        "SafeArea bounded mobile viewport; no root vertical scroll; 360dp and 320dp widget coverage."
       ],
-      "codeCommits": [
-        "3c0274bc4236d41227be7ed0f6d851d5e7c04483",
-        "0076acaba2502969212c651e4d67c64eea5ebf60",
-        "a3c7ef009d0c4df9a766bb6a810609e0a8848575",
-        "b33085afea942c48ba614756c310b21ccc38e51a",
-        "221c1d22dd4a973fe2d178692ddd7f6d2b4b34bd"
-      ],
-      "verification": "Awaiting latest GitHub Actions run. Physical Xiaomi screenshot verification not yet performed.",
-      "deviceVerification": "NOT_VERIFIED"
+      "verification": "Flutter formatting, static analysis, all four widget tests and Android release APK build passed on source commit 19dc7807d522bc3657a8d4b74ae63fac6976e07e. Physical Xiaomi QA still in progress."
     },
     "deviceProfile": {
       "lastUserReportedWirelessAdbPort": 37337,
@@ -417,7 +418,7 @@
     }
   },
   "tenDashboardThemes": {
-    "status": "IMPLEMENTED_CI_PENDING",
+    "status": "APK_BUILT_DEVICE_QA_RUNNING",
     "themes": [
       "Ice Glass",
       "Crimson Gold",
