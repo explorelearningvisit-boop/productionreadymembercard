@@ -17,7 +17,7 @@ abstract final class BadGymColors {
   static const Color warning =
       Color(0xFFFFB300); // Amber Gold (Late, Gold Plan)
   static const Color danger =
-      Color(0xFF2187D5); // Bright Coral Red (Absent, Due)
+      Color(0xFFD9485B); // Semantic red (Absent, Due)
   static const Color infoHoliday =
       Color(0xFF8AAFC7); // Electric Purple (Holiday)
   static const Color cyanBody = Color(0xFF00B4D8); // Cyan (Body stat)
@@ -68,7 +68,7 @@ abstract final class BadGymColors {
   static const Color chipGreyText = Color(0xFF6B7280);
   static const Color chipGreen = Color(0xFF00C853);
   static const Color chipYellow = Color(0xFFFFB300);
-  static const Color chipRed = Color(0xFF2187D5);
+  static const Color chipRed = Color(0xFFD9485B);
   static const Color chipPurple = Color(0xFF8AAFC7);
 
   // Backward-compatible aliases for other screens & legacy widgets
