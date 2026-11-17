@@ -9,61 +9,201 @@ class MemberIntelligenceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: LayoutBuilder(builder: (context, constraints) {
-          final height = constraints.maxHeight;
-          final gap = height < 720 ? 3.0 : 4.0;
-          return Center(child: SizedBox(
-            width: (constraints.maxWidth - 8).clamp(0.0, 540.0),
-            height: height,
-            child: Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft, end: Alignment.bottomRight,
-                  colors: [Color(0xFF68002F), Color(0xFFB00052), Color(0xFF6D0037)],
-                ),
-                borderRadius: BorderRadius.circular(27),
-                border: Border.all(color: const Color(0xFFFFB7DA), width: 1.4),
-                boxShadow: const [
-                  BoxShadow(color: Color(0x66F50078), blurRadius: 22, spreadRadius: 1),
-                  BoxShadow(color: Color(0x663D001F), blurRadius: 12, offset: Offset(0, 5)),
-                ],
-              ),
-              child: Stack(children: [
-                Positioned.fill(child: IgnorePointer(child: DecoratedBox(
-                  decoration: BoxDecoration(gradient: RadialGradient(
-                    center: const Alignment(0, -.82), radius: 1.25,
-                    colors: [Color(0x55FF68B5), Color(0x00FF68B5)],
-                  )),
-                ))),
-                Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                    _eventHeader(),
-                    SizedBox(height: gap),
-                    _memberHero(),
-                    SizedBox(height: gap),
-                    _paymentAndExpiry(),
-                    SizedBox(height: gap),
-                    _earlyPaymentOffer(),
-                    SizedBox(height: gap),
-                    _membershipProgressBar(),
-                    SizedBox(height: gap),
-                    _promotionBanner(),
-                    SizedBox(height: gap),
-                    _quickMetrics(),
-                    SizedBox(height: gap),
-                    Expanded(child: _intelligenceWorkspace()),
-                  ]),
-                ),
-              ]),
-            ),
-          ));
-        }),
+    return MaterialApp(
+      title: 'Member Intelligence',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        useMaterial3: true,
+        fontFamily: 'Poppins',
+        scaffoldBackgroundColor: const Color(0xFFF6EAF1),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFFCF0055),
+          brightness: Brightness.light,
+        ),
       ),
+      home: const MemberDashboardPage(),
     );
+  }
+}
+
+class MemberDashboardPage extends StatefulWidget {
+  const MemberDashboardPage({super.key});
+
+  @override
+  State<MemberDashboardPage> createState() => _MemberDashboardPageState();
+}
+
+class _MemberDashboardPageState extends State<MemberDashboardPage> {
+  int _activeSection = 1;
+  int _activeSubSection = 0;
+  // Demo fixture dates are derived from the device's local date so the
+  // preview never shows expired dates or a stale calendar month.
+  late final DateTime _today = DateUtils.dateOnly(DateTime.now());
+  late final DateTime _paymentDueDate = _today.add(const Duration(days: 4));
+  late final DateTime _membershipExpiryDate = _today.add(const Duration(days: 8));
+  static const double _paymentDueAmount = 500;
+  int get _paymentDueInDays => _paymentDueDate.difference(_today).inDays;
+  int get _membershipDaysLeft => _membershipExpiryDate.difference(_today).inDays;
+  int get _membershipDaysUsed => (30 - _membershipDaysLeft).clamp(0, 30).toInt();
+  double get _membershipProgressValue => _membershipDaysUsed / 30;
+  double get _earlyPaymentRate {
+    if (_paymentDueInDays >= 7) return .02;
+    if (_paymentDueInDays >= 3) return .01;
+    if (_paymentDueInDays >= 1) return .005;
+    return 0;
+  }
+  double get _earlyPaymentSavings => _paymentDueAmount * _earlyPaymentRate;
+  late int _month = _today.month;
+  late int _year = _today.year;
+
+  // Demo-only attendance fixture for the current month. Live attendance
+  // should replace this map when the member data API is connected.
+  Map<int, DayKind> get _currentMonthDays {
+    final days = <int, DayKind>{};
+    for (var day = 1; day <= _today.day; day++) {
+      if (day == 4 || day == 16) {
+        days[day] = DayKind.holiday;
+      } else if (day == 7 || day == 14) {
+        days[day] = DayKind.absent;
+      } else if (day == 10) {
+        days[day] = DayKind.payment;
+      } else {
+        days[day] = DayKind.present;
+      }
+    }
+    return days;
+  }
+
+  final Map<int, DayKind> _octoberDays = {
+    1: DayKind.present,
+    2: DayKind.present,
+    3: DayKind.holiday,
+    4: DayKind.present,
+    5: DayKind.present,
+    6: DayKind.present,
+    7: DayKind.absent,
+    8: DayKind.present,
+    9: DayKind.present,
+    10: DayKind.payment,
+    11: DayKind.present,
+    12: DayKind.present,
+    13: DayKind.present,
+    14: DayKind.absent,
+    15: DayKind.present,
+    16: DayKind.present,
+    17: DayKind.present,
+    18: DayKind.holiday,
+    19: DayKind.present,
+    20: DayKind.present,
+    21: DayKind.present,
+    22: DayKind.present,
+    23: DayKind.present,
+    24: DayKind.absent,
+    25: DayKind.present,
+    26: DayKind.present,
+    27: DayKind.present,
+    28: DayKind.payment,
+    29: DayKind.present,
+    30: DayKind.present,
+    31: DayKind.present,
+  };
+
+  Map<int, DayKind> get _days {
+    if (_month == _today.month && _year == _today.year) {
+      return _currentMonthDays;
+    }
+    if (_month == 10 && _year == 2026) return _octoberDays;
+    return const {};
+  }
+
+  int get _presentDays => _days.values
+      .where((kind) => kind == DayKind.present || kind == DayKind.payment)
+      .length;
+  int get _absentDays =>
+      _days.values.where((kind) => kind == DayKind.absent).length;
+  int get _holidayDays =>
+      _days.values.where((kind) => kind == DayKind.holiday).length;
+  int get _trackedAttendanceDays => _presentDays + _absentDays;
+  int get _elapsedCalendarDays => _days.length;
+  double get _attendanceRate => _trackedAttendanceDays == 0
+      ? 0
+      : _presentDays / _trackedAttendanceDays;
+  String get _attendancePercent => '${(_attendanceRate * 100).round()}%';
+
+  String _formatDate(DateTime date) {
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return '${date.day} ${months[date.month - 1]} ${date.year}';
+  }
+
+  String get _sectionTitle => const [
+        'Dashboard',
+        'Attendance Intelligence',
+        'Workout Intelligence',
+        'Payment Intelligence',
+        'Offers & Rewards',
+        'Member History',
+        'Body Intelligence',
+      ][_activeSection];
+
+  void _changeMonth(int delta) {
+    setState(() {
+      _month += delta;
+      if (_month < 1) {
+        _month = 12;
+        _year--;
+      }
+      if (_month > 12) {
+        _month = 1;
+        _year++;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(body: SafeArea(child: LayoutBuilder(builder: (context, constraints) {
+      final height = constraints.maxHeight;
+      final gap = height < 720 ? 3.0 : 4.0;
+      return Center(child: SizedBox(
+        width: (constraints.maxWidth - 8).clamp(0.0, 540.0), height: height,
+        child: Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
+              colors: [Color(0xFF68002F), Color(0xFFB00052), Color(0xFF6D0037)]),
+            borderRadius: BorderRadius.circular(27),
+            border: Border.all(color: const Color(0xFFFFB7DA), width: 1.4),
+            boxShadow: const [
+              BoxShadow(color: Color(0x66F50078), blurRadius: 22, spreadRadius: 1),
+              BoxShadow(color: Color(0x663D001F), blurRadius: 12, offset: Offset(0, 5)),
+            ],
+          ),
+          child: Stack(children: [
+            Positioned.fill(child: IgnorePointer(child: DecoratedBox(
+              decoration: BoxDecoration(gradient: RadialGradient(
+                center: const Alignment(0, -.82), radius: 1.25,
+                colors: [Color(0x55FF68B5), Color(0x00FF68B5)],
+              )),
+            ))),
+            Padding(padding: const EdgeInsets.all(6), child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                _eventHeader(), SizedBox(height: gap),
+                _memberHero(), SizedBox(height: gap),
+                _paymentAndExpiry(), SizedBox(height: gap),
+                _earlyPaymentOffer(), SizedBox(height: gap),
+                _membershipProgressBar(), SizedBox(height: gap),
+                _promotionBanner(), SizedBox(height: gap),
+                _quickMetrics(), SizedBox(height: gap),
+                Expanded(child: _intelligenceWorkspace()),
+              ],
+            )),
+          ]),
+        ),
+      ));
+    })));
   }
 
   Widget _eventHeader() {
@@ -71,10 +211,8 @@ class MemberIntelligenceApp extends StatelessWidget {
       Expanded(flex: 6, child: Container(
         decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [Color(0xFFFF1677), Color(0xFFB00050), Color(0xFF780039)]),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFFFF9CCB), width: 1.2),
-          boxShadow: const [BoxShadow(color: Color(0x88FF1677), blurRadius: 12)],
-        ),
+          borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xFFFF9CCB), width: 1.2),
+          boxShadow: const [BoxShadow(color: Color(0x88FF1677), blurRadius: 12)]),
         padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Row(children: [
           Container(width: 30, height: 30,
@@ -83,30 +221,26 @@ class MemberIntelligenceApp extends StatelessWidget {
               boxShadow: const [BoxShadow(color: Color(0xAA00FF54), blurRadius: 9)]),
             child: const Icon(Icons.check_rounded, color: Colors.white, size: 22)),
           const SizedBox(width: 7),
-          const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('CHECK-IN', style: TextStyle(color: Colors.white, fontSize: 14, height: 1, fontWeight: FontWeight.w900, letterSpacing: .3)),
-              SizedBox(height: 3),
-              Text('Completed · 07:12 AM', maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Color(0xFFFFE8F3), fontSize: 8.5, fontWeight: FontWeight.w600)),
-            ])),
+          const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('CHECK-IN', style: TextStyle(color: Colors.white, fontSize: 14, height: 1, fontWeight: FontWeight.w900, letterSpacing: .3)),
+            SizedBox(height: 3),
+            Text('Completed · 07:12 AM', maxLines: 1, overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Color(0xFFFFE8F3), fontSize: 8.5, fontWeight: FontWeight.w600)),
+          ])),
         ]),
       )),
       const SizedBox(width: 5),
       Expanded(flex: 5, child: Container(
         decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [Color(0xFFFFF6FB), Color(0xFFFFDCEB)]),
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFFFFB9D8), width: 1.1),
-          boxShadow: const [BoxShadow(color: Color(0x66FF8DC1), blurRadius: 8)],
-        ),
+          borderRadius: BorderRadius.circular(24), border: Border.all(color: const Color(0xFFFFB9D8), width: 1.1),
+          boxShadow: const [BoxShadow(color: Color(0x66FF8DC1), blurRadius: 8)]),
         padding: const EdgeInsets.symmetric(horizontal: 7),
         child: Row(children: [
           const Icon(Icons.ac_unit_rounded, color: Color(0xFF9A0060), size: 23),
           const SizedBox(width: 3),
           const Expanded(child: Text('FREEZE MEMBER', maxLines: 1, overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xFF771044), fontSize: 8.5, fontWeight: FontWeight.w900))),
+            textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF771044), fontSize: 8.5, fontWeight: FontWeight.w900))),
           Container(width: 27, height: 27,
             decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFF850044)),
             child: const Icon(Icons.notifications_none_rounded, color: Colors.white, size: 18)),
@@ -122,8 +256,7 @@ class MemberIntelligenceApp extends StatelessWidget {
           shape: BoxShape.circle,
           gradient: const LinearGradient(colors: [Color(0xFFFFD6EC), Color(0xFFED4F9B), Color(0xFFFFB4D9)]),
           boxShadow: const [BoxShadow(color: Color(0xCCFF4DAD), blurRadius: 15, spreadRadius: 1),
-            BoxShadow(color: Color(0x77FFB9DF), blurRadius: 4)],
-        ))),
+            BoxShadow(color: Color(0x77FFB9DF), blurRadius: 4)]))),
       Positioned(left: 6, top: 6, width: 76, height: 76,
         child: Container(padding: const EdgeInsets.all(2),
           decoration: const BoxDecoration(shape: BoxShape.circle, color: Color(0xFFFFF3FA)),
@@ -178,29 +311,25 @@ class MemberIntelligenceApp extends StatelessWidget {
     return Container(height: 54, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
       decoration: BoxDecoration(
         gradient: const LinearGradient(colors: [Color(0xFFFFF7FB), Color(0xFFFFE6F1)]),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFFFC0DD)),
-        boxShadow: const [BoxShadow(color: Color(0x55FF9BC8), blurRadius: 8, offset: Offset(0, 2))],
-      ),
+        borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFFFC0DD)),
+        boxShadow: const [BoxShadow(color: Color(0x55FF9BC8), blurRadius: 8, offset: Offset(0, 2))]),
       child: Row(children: [
         const Icon(Icons.account_balance_wallet_rounded, color: Color(0xFFB9005A), size: 23),
         const SizedBox(width: 5),
-        const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('PAYMENT DUE', style: TextStyle(color: Color(0xFF7D3155), fontSize: 7.5, fontWeight: FontWeight.w800)),
-            Text('₹500', style: TextStyle(color: Color(0xFFB00045), fontSize: 17, height: 1, fontWeight: FontWeight.w900)),
-          ])),
+        const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('PAYMENT DUE', style: TextStyle(color: Color(0xFF7D3155), fontSize: 7.5, fontWeight: FontWeight.w800)),
+          Text('₹500', style: TextStyle(color: Color(0xFFB00045), fontSize: 17, height: 1, fontWeight: FontWeight.w900)),
+        ])),
         Container(width: 1, height: 36, color: const Color(0xFFDFA9C4)),
         const SizedBox(width: 6),
         const Icon(Icons.event_available_rounded, color: Color(0xFFB9005A), size: 22),
         const SizedBox(width: 4),
-        Expanded(flex: 2, child: Column(mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('$_membershipDaysLeft DAYS LEFT', maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Color(0xFF9C0049), fontSize: 11, fontWeight: FontWeight.w900)),
-            Text('Expires ' + _formatDate(_membershipExpiryDate), maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Color(0xFF70445A), fontSize: 7.5)),
-          ])),
+        Expanded(flex: 2, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('$_membershipDaysLeft DAYS LEFT', maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Color(0xFF9C0049), fontSize: 11, fontWeight: FontWeight.w900)),
+          Text('Expires ' + _formatDate(_membershipExpiryDate), maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Color(0xFF70445A), fontSize: 7.5)),
+        ])),
         const SizedBox(width: 5),
         Container(width: 1, height: 36, color: const Color(0xFFDFA9C4)),
         const SizedBox(width: 5),
@@ -213,18 +342,16 @@ class MemberIntelligenceApp extends StatelessWidget {
 
   Widget _earlyPaymentOffer() {
     final rate = _earlyPaymentRate;
-    final savingsText = _earlyPaymentSavings == _earlyPaymentSavings.roundToDouble() ? _earlyPaymentSavings.toStringAsFixed(0) : _earlyPaymentSavings.toStringAsFixed(2);
+    final savingsText = _earlyPaymentSavings == _earlyPaymentSavings.roundToDouble()
+        ? _earlyPaymentSavings.toStringAsFixed(0) : _earlyPaymentSavings.toStringAsFixed(2);
     final message = rate > 0
         ? 'DUE SOON  ·  Pay in $_paymentDueInDays days  ·  Save ' + (rate * 100).toStringAsFixed(rate == .005 ? 1 : 0) + '%  (₹' + savingsText + ')'
-        : _paymentDueInDays == 0
-            ? 'DUE TODAY  ·  Pay now to avoid late fees'
-            : 'OVERDUE  ·  Late fee policy may apply';
+        : _paymentDueInDays == 0 ? 'DUE TODAY  ·  Pay now to avoid late fees' : 'OVERDUE  ·  Late fee policy may apply';
     return Container(height: 28, padding: const EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
         gradient: const LinearGradient(colors: [Color(0xFFFFF7FB), Color(0xFFFFE0EF)]),
         borderRadius: BorderRadius.circular(12), border: Border.all(color: const Color(0xFFFFB7D6)),
-        boxShadow: const [BoxShadow(color: Color(0x55FF8FC1), blurRadius: 6)],
-      ),
+        boxShadow: const [BoxShadow(color: Color(0x55FF8FC1), blurRadius: 6)]),
       child: Row(children: [
         const Icon(Icons.sell_rounded, color: Color(0xFFB50058), size: 14),
         const SizedBox(width: 5),
@@ -235,16 +362,14 @@ class MemberIntelligenceApp extends StatelessWidget {
 
   Widget _membershipProgressBar() {
     return SizedBox(height: 34, child: Row(children: [
-      Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('MEMBERSHIP  $_membershipDaysUsed / 30 DAYS',
-            style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: .25)),
-          const SizedBox(height: 4),
-          ClipRRect(borderRadius: BorderRadius.circular(10),
-            child: LinearProgressIndicator(value: _membershipProgressValue, minHeight: 7,
-              backgroundColor: const Color(0xFFFFD5E9),
-              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFF1B8D)))),
-        ])),
+      Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('MEMBERSHIP  $_membershipDaysUsed / 30 DAYS',
+          style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w900, letterSpacing: .25)),
+        const SizedBox(height: 4),
+        ClipRRect(borderRadius: BorderRadius.circular(10),
+          child: LinearProgressIndicator(value: _membershipProgressValue, minHeight: 7,
+            backgroundColor: const Color(0xFFFFD5E9), valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFF1B8D)))),
+      ])),
       const SizedBox(width: 8),
       Container(padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         decoration: BoxDecoration(
@@ -260,27 +385,24 @@ class MemberIntelligenceApp extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: const LinearGradient(colors: [Color(0xFFFFF18B), Color(0xFFFFD34B), Color(0xFFFFB91F)]),
         borderRadius: BorderRadius.circular(15), border: Border.all(color: const Color(0xFFFFF8C9), width: 1.3),
-        boxShadow: const [BoxShadow(color: Color(0x88FFCE3D), blurRadius: 9, offset: Offset(0, 2))],
-      ),
+        boxShadow: const [BoxShadow(color: Color(0x88FFCE3D), blurRadius: 9, offset: Offset(0, 2))]),
       child: Row(children: [
         const Text('amazon', style: TextStyle(color: Color(0xFF20151B), fontSize: 19, fontWeight: FontWeight.w900, letterSpacing: -1.4)),
         const SizedBox(width: 6),
         Container(width: 1, height: 30, color: const Color(0xFFB58B3D)),
         const SizedBox(width: 7),
-        const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Big Billion Sale', maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Color(0xFF8D164B), fontSize: 12, fontWeight: FontWeight.w900)),
-            Text('Up to 40% OFF · Fitness Gear', maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Color(0xFF49313A), fontSize: 7.5, fontWeight: FontWeight.w800)),
-          ])),
+        const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('Big Billion Sale', maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Color(0xFF8D164B), fontSize: 12, fontWeight: FontWeight.w900)),
+          Text('Up to 40% OFF · Fitness Gear', maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Color(0xFF49313A), fontSize: 7.5, fontWeight: FontWeight.w800)),
+        ])),
         const Icon(Icons.fitness_center_rounded, color: Color(0xFF5D3545), size: 23),
         const SizedBox(width: 5),
         Container(padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
           decoration: BoxDecoration(
             gradient: const LinearGradient(colors: [Color(0xFFB90050), Color(0xFF780035)]),
-            borderRadius: BorderRadius.circular(18),
-            boxShadow: const [BoxShadow(color: Color(0x668D003F), blurRadius: 5)]),
+            borderRadius: BorderRadius.circular(18), boxShadow: const [BoxShadow(color: Color(0x668D003F), blurRadius: 5)]),
           child: const Text('Shop Now ›', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w900))),
       ]));
   }
@@ -301,13 +423,11 @@ class MemberIntelligenceApp extends StatelessWidget {
           margin: EdgeInsets.only(right: i == 3 ? 0 : 4),
           padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
           decoration: BoxDecoration(
-            gradient: active
-                ? const LinearGradient(colors: [Color(0xFFFFF0A2), Color(0xFFFFC928)])
+            gradient: active ? const LinearGradient(colors: [Color(0xFFFFF0A2), Color(0xFFFFC928)])
                 : const LinearGradient(colors: [Color(0xFFE32A83), Color(0xFF970047)]),
             borderRadius: BorderRadius.circular(13),
             border: Border.all(color: active ? const Color(0xFFFFF7C9) : const Color(0xFFFF9AC8)),
-            boxShadow: [BoxShadow(color: active ? const Color(0x77FFCC35) : const Color(0x55FF2C91), blurRadius: 7)],
-          ),
+            boxShadow: [BoxShadow(color: active ? const Color(0x77FFCC35) : const Color(0x55FF2C91), blurRadius: 7)]),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Icon(item.$1, color: active ? const Color(0xFF762B45) : Colors.white, size: 15),
             Text(item.$2, maxLines: 1, overflow: TextOverflow.ellipsis,
@@ -331,10 +451,8 @@ class MemberIntelligenceApp extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
               colors: [Color(0xFFFFFBFE), Color(0xFFFFEAF4), Color(0xFFFFF8FC)]),
-            borderRadius: BorderRadius.circular(19),
-            border: Border.all(color: const Color(0xFFFFB8D9), width: 1.2),
-            boxShadow: const [BoxShadow(color: Color(0x77FF9BC8), blurRadius: 10, offset: Offset(0, 2))],
-          ),
+            borderRadius: BorderRadius.circular(19), border: Border.all(color: const Color(0xFFFFB8D9), width: 1.2),
+            boxShadow: const [BoxShadow(color: Color(0x77FF9BC8), blurRadius: 10, offset: Offset(0, 2))]),
           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             SizedBox(height: 30, child: _workspaceHeader()),
             const SizedBox(height: 4),
@@ -349,21 +467,15 @@ class MemberIntelligenceApp extends StatelessWidget {
 
   Widget _verticalRail({required double tileHeight}) {
     const labels = ['Dashboard', 'Attendance', 'Workout', 'Payments', 'Offers', 'History', 'Body'];
-    const icons = [
-      Icons.bar_chart_rounded, Icons.calendar_month_rounded, Icons.fitness_center_rounded,
-      Icons.account_balance_wallet_rounded, Icons.sell_rounded, Icons.history_rounded,
-      Icons.monitor_weight_rounded
-    ];
-    return Container(
-      width: 48, height: tileHeight * 7 + 8,
+    const icons = [Icons.bar_chart_rounded, Icons.calendar_month_rounded, Icons.fitness_center_rounded,
+      Icons.account_balance_wallet_rounded, Icons.sell_rounded, Icons.history_rounded, Icons.monitor_weight_rounded];
+    return Container(width: 48, height: tileHeight * 7 + 8,
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
       decoration: BoxDecoration(
         gradient: const LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
           colors: [Color(0xFFB60055), Color(0xFF79003B), Color(0xFF4E0029)]),
-        borderRadius: BorderRadius.circular(17),
-        border: Border.all(color: const Color(0xFFFFA4D0), width: 1.1),
-        boxShadow: const [BoxShadow(color: Color(0x88FF4CA8), blurRadius: 9, offset: Offset(0, 2))],
-      ),
+        borderRadius: BorderRadius.circular(17), border: Border.all(color: const Color(0xFFFFA4D0), width: 1.1),
+        boxShadow: const [BoxShadow(color: Color(0x88FF4CA8), blurRadius: 9, offset: Offset(0, 2))]),
       child: Column(children: List.generate(labels.length, (i) {
         final active = _activeSection == i;
         return SizedBox(height: tileHeight, child: GestureDetector(
@@ -373,11 +485,9 @@ class MemberIntelligenceApp extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 1.5),
             decoration: BoxDecoration(
               gradient: active ? const LinearGradient(colors: [Color(0xFFFFF0A1), Color(0xFFFFC928)]) : null,
-              color: active ? null : Colors.transparent,
-              borderRadius: BorderRadius.circular(11),
+              color: active ? null : Colors.transparent, borderRadius: BorderRadius.circular(11),
               border: active ? Border.all(color: const Color(0xFFFFF6C8)) : null,
-              boxShadow: active ? const [BoxShadow(color: Color(0x88FFD34B), blurRadius: 7)] : null,
-            ),
+              boxShadow: active ? const [BoxShadow(color: Color(0x88FFD34B), blurRadius: 7)] : null),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Icon(icons[i], color: active ? const Color(0xFF762B45) : const Color(0xFFFFF5FA), size: 17),
               const SizedBox(height: 2),
@@ -445,20 +555,15 @@ class MemberIntelligenceApp extends StatelessWidget {
       Expanded(flex: 7, child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-          decoration: BoxDecoration(
-            color: const Color(0xFFFFF8FC), borderRadius: BorderRadius.circular(13),
-            border: Border.all(color: const Color(0xFFF2C9DC)),
-            boxShadow: const [BoxShadow(color: Color(0x44E99ABC), blurRadius: 6)],
-          ),
+          decoration: BoxDecoration(color: const Color(0xFFFFF8FC), borderRadius: BorderRadius.circular(13),
+            border: Border.all(color: const Color(0xFFF2C9DC)), boxShadow: const [BoxShadow(color: Color(0x44E99ABC), blurRadius: 6)]),
           child: Row(children: [
-            SizedBox(width: 66, height: 66, child: CustomPaint(
-              painter: _DonutPainter(value: rate),
+            SizedBox(width: 66, height: 66, child: CustomPaint(painter: _DonutPainter(value: rate),
               child: Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
                 Text(_attendancePercent, style: const TextStyle(color: Color(0xFF3B0D28), fontSize: 17, fontWeight: FontWeight.w900)),
                 Text('$present / $tracked', style: const TextStyle(color: Color(0xFF77516A), fontSize: 7, fontWeight: FontWeight.w700)),
                 const Text('Days', style: TextStyle(color: Color(0xFF77516A), fontSize: 6)),
-              ])),
-            )),
+              ])))),
             const SizedBox(width: 5),
             Expanded(child: Column(children: [
               _progressLine('Present', '$present', _attendancePercent, const Color(0xFF08A82E), rate),
@@ -484,28 +589,23 @@ class MemberIntelligenceApp extends StatelessWidget {
           ])),
         const SizedBox(height: 5),
         _sideInsightCard(icon: Icons.local_fire_department_rounded, title: 'Streak',
-          child: const Text('5 Days', textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xFF97004C), fontSize: 13, fontWeight: FontWeight.w900))),
+          child: const Text('5 Days', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF97004C), fontSize: 13, fontWeight: FontWeight.w900))),
         const SizedBox(height: 5),
         _sideInsightCard(icon: Icons.emoji_events_rounded, title: 'Best',
-          child: const Text('14 Days', textAlign: TextAlign.center,
-            style: TextStyle(color: Color(0xFF97004C), fontSize: 12, fontWeight: FontWeight.w900))),
+          child: const Text('14 Days', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF97004C), fontSize: 12, fontWeight: FontWeight.w900))),
         const Spacer(),
-        const Icon(Icons.fitness_center_rounded, color: Color(0xFFEC62A4), size: 38),
-        const Text('KEEP GOING', textAlign: TextAlign.center,
-          style: TextStyle(color: Color(0xFF9A4770), fontSize: 5.5, fontWeight: FontWeight.w900)),
+        const Icon(Icons.fitness_center_rounded, color: Color(0xFFEC62A4), size: 32),
+        const Text('KEEP GOING', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF9A4770), fontSize: 5.5, fontWeight: FontWeight.w900)),
       ])),
     ]);
   }
 
   Widget _sideInsightCard({required IconData icon, required String title, required Widget child}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+    return Container(padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
       decoration: BoxDecoration(
         gradient: const LinearGradient(colors: [Color(0xFFFFF9FC), Color(0xFFFFEAF4)]),
         borderRadius: BorderRadius.circular(11), border: Border.all(color: const Color(0xFFF0C5D9)),
-        boxShadow: const [BoxShadow(color: Color(0x33E88DB6), blurRadius: 5)],
-      ),
+        boxShadow: const [BoxShadow(color: Color(0x33E88DB6), blurRadius: 5)]),
       child: Column(children: [
         Icon(icon, color: const Color(0xFFB00059), size: 14),
         const SizedBox(height: 2),
@@ -513,8 +613,7 @@ class MemberIntelligenceApp extends StatelessWidget {
           style: const TextStyle(color: Color(0xFF6C2949), fontSize: 6.5, fontWeight: FontWeight.w900)),
         const SizedBox(height: 4),
         child,
-      ]),
-    );
+      ]));
   }
 
   Widget _progressLine(String label, String count, String percent, Color color, double value) {
@@ -556,9 +655,7 @@ class MemberIntelligenceApp extends StatelessWidget {
     final offset = first.weekday - 1;
     final monthName = const ['January','February','March','April','May','June','July','August','September','October','November','December'][_month - 1];
     final grid = GridView.builder(
-      shrinkWrap: !fill,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 42,
+      shrinkWrap: !fill, physics: const NeverScrollableScrollPhysics(), itemCount: 42,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 7, mainAxisSpacing: 3, crossAxisSpacing: 3, childAspectRatio: 1.28),
       itemBuilder: (context, index) {
@@ -567,38 +664,29 @@ class MemberIntelligenceApp extends StatelessWidget {
         final isFuture = _year > _today.year || (_year == _today.year && _month == _today.month && day > _today.day);
         final kind = _days[day] ?? (isFuture ? DayKind.off : DayKind.present);
         final color = switch (kind) {
-          DayKind.present => const Color(0xFF08A82E),
-          DayKind.absent => const Color(0xFFE91E43),
-          DayKind.holiday => const Color(0xFFB000D8),
-          DayKind.payment => const Color(0xFFFFBB18),
+          DayKind.present => const Color(0xFF08A82E), DayKind.absent => const Color(0xFFE91E43),
+          DayKind.holiday => const Color(0xFFB000D8), DayKind.payment => const Color(0xFFFFBB18),
           DayKind.off => const Color(0xFFEAE3E8),
         };
         return Container(
           decoration: BoxDecoration(
             gradient: kind == DayKind.present ? const LinearGradient(colors: [Color(0xFF12BC42), Color(0xFF078D2B)]) : null,
-            color: kind == DayKind.present ? null : color,
-            borderRadius: BorderRadius.circular(8),
+            color: kind == DayKind.present ? null : color, borderRadius: BorderRadius.circular(8),
             border: day == _today.day && _month == _today.month && _year == _today.year
               ? Border.all(color: const Color(0xFF1D743A), width: 1.5) : null,
-            boxShadow: kind == DayKind.present ? const [BoxShadow(color: Color(0x3311A93A), blurRadius: 3, offset: Offset(0, 1))] : null,
-          ),
+            boxShadow: kind == DayKind.present ? const [BoxShadow(color: Color(0x3311A93A), blurRadius: 3, offset: Offset(0, 1))] : null),
           alignment: Alignment.center,
-          child: kind == DayKind.holiday
-            ? const Icon(Icons.calendar_month_rounded, color: Colors.white, size: 10)
-            : kind == DayKind.payment
-              ? const Icon(Icons.currency_rupee_rounded, color: Color(0xFF67450B), size: 10)
-              : Text('$day', style: TextStyle(color: kind == DayKind.off ? const Color(0xFF948A91) : Colors.white,
-                  fontSize: 7.5, fontWeight: FontWeight.w900)),
+          child: kind == DayKind.holiday ? const Icon(Icons.calendar_month_rounded, color: Colors.white, size: 10)
+            : kind == DayKind.payment ? const Icon(Icons.currency_rupee_rounded, color: Color(0xFF67450B), size: 10)
+            : Text('$day', style: TextStyle(color: kind == DayKind.off ? const Color(0xFF948A91) : Colors.white, fontSize: 7.5, fontWeight: FontWeight.w900)),
         );
       },
     );
-    return Container(
-      padding: const EdgeInsets.all(5),
+    return Container(padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
         gradient: const LinearGradient(colors: [Color(0xFFFFFCFE), Color(0xFFFFF0F7)]),
         borderRadius: BorderRadius.circular(13), border: Border.all(color: const Color(0xFFF0C8DA)),
-        boxShadow: const [BoxShadow(color: Color(0x33E88DB6), blurRadius: 5)],
-      ),
+        boxShadow: const [BoxShadow(color: Color(0x33E88DB6), blurRadius: 5)]),
       child: Column(children: [
         SizedBox(height: 24, child: Row(children: [
           _monthButton(Icons.chevron_left_rounded, () => _changeMonth(-1)),
@@ -612,8 +700,7 @@ class MemberIntelligenceApp extends StatelessWidget {
         )).toList()),
         const SizedBox(height: 3),
         if (fill) Expanded(child: grid) else SizedBox(height: 142, child: grid),
-      ]),
-    );
+      ]));
   }
 
   Widget _monthButton(IconData icon, VoidCallback onTap) => GestureDetector(
@@ -630,10 +717,8 @@ class MemberIntelligenceApp extends StatelessWidget {
 
   Widget _legend() {
     final items = [
-      (const Color(0xFF08A82E), 'Present'),
-      (const Color(0xFFE91E43), 'Absent'),
-      (const Color(0xFFB000D8), 'Holiday'),
-      (const Color(0xFFFFBB18), 'Payment'),
+      (const Color(0xFF08A82E), 'Present'), (const Color(0xFFE91E43), 'Absent'),
+      (const Color(0xFFB000D8), 'Holiday'), (const Color(0xFFFFBB18), 'Payment'),
     ];
     return Padding(padding: const EdgeInsets.only(top: 2, bottom: 1), child: Wrap(
       alignment: WrapAlignment.center, spacing: 7, runSpacing: 2,
@@ -876,7 +961,8 @@ class MemberIntelligenceApp extends StatelessWidget {
   Widget _paymentContent() {
     final dueLabel = _paymentDueInDays > 0 ? 'Due in $_paymentDueInDays days'
         : _paymentDueInDays == 0 ? 'Due today' : 'Overdue by ' + (-_paymentDueInDays).toString() + ' days';
-    final savingsText = _earlyPaymentSavings.toStringAsFixed(0);
+    final savingsText = _earlyPaymentSavings == _earlyPaymentSavings.roundToDouble()
+        ? _earlyPaymentSavings.toStringAsFixed(0) : _earlyPaymentSavings.toStringAsFixed(2);
     final overdueDays = (-_paymentDueInDays).clamp(0, 999);
     final lateFee = overdueDays <= 3 ? 0 : overdueDays <= 10 ? 10 : overdueDays <= 20 ? 20 : 30;
     if (_activeSubSection == 1) {
