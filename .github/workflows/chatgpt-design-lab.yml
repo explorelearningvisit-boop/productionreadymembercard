@@ -19,7 +19,7 @@ on:
     - cron: '17 */6 * * *'
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: chatgpt-design-lab-${{ github.ref }}
@@ -43,8 +43,16 @@ jobs:
         run: flutter --version
       - name: Dependencies
         run: flutter pub get
-      - name: Format
-        run: dart format --output=none lib test
+      - name: Format and commit Dart sources
+        run: |
+          dart format lib test
+          if [[ -n "$(git status --porcelain -- lib test)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add lib test
+            git commit -m "style: format member intelligence dashboard"
+            git push
+          fi
       - name: Analyze
         run: flutter analyze --no-fatal-infos
       - name: Tests
