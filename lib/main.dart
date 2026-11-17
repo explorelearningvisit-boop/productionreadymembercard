@@ -442,7 +442,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _intelligenceWorkspace() {
     return LayoutBuilder(builder: (context, constraints) {
-      final tileHeight = ((constraints.maxHeight - 12) / 7).clamp(35.0, 57.0);
+      final tileHeight = ((constraints.maxHeight - 10) / 7).clamp(33.0, 57.0);
       return Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _verticalRail(tileHeight: tileHeight),
         const SizedBox(width: 4),
@@ -469,7 +469,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     const labels = ['Dashboard', 'Attendance', 'Workout', 'Payments', 'Offers', 'History', 'Body'];
     const icons = [Icons.bar_chart_rounded, Icons.calendar_month_rounded, Icons.fitness_center_rounded,
       Icons.account_balance_wallet_rounded, Icons.sell_rounded, Icons.history_rounded, Icons.monitor_weight_rounded];
-    return Container(width: 48, height: tileHeight * 7 + 8,
+    return Container(width: 48, height: tileHeight * 7 + 10,
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
       decoration: BoxDecoration(
         gradient: const LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter,
@@ -584,24 +584,25 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       SizedBox(width: 78, child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         _sideInsightCard(icon: Icons.query_stats_rounded, title: 'Monthly Trend',
           child: Column(children: [
-            SizedBox(height: 35, child: CustomPaint(painter: _BarsPainter(values: const [.25, .4, .48, .64, .8, .95]))),
-            const Text('↑ 6% vs last month', style: TextStyle(color: Color(0xFF16843B), fontSize: 6.5, fontWeight: FontWeight.w900)),
+            SizedBox(height: 28, child: CustomPaint(painter: _BarsPainter(values: const [.25, .4, .48, .64, .8, .95]))),
+            const Text('+6% this month', style: TextStyle(color: Color(0xFF16843B), fontSize: 6, fontWeight: FontWeight.w900)),
           ])),
-        const SizedBox(height: 5),
+        const SizedBox(height: 4),
         _sideInsightCard(icon: Icons.local_fire_department_rounded, title: 'Streak',
-          child: const Text('5 Days', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF97004C), fontSize: 13, fontWeight: FontWeight.w900))),
-        const SizedBox(height: 5),
+          child: const Text('5 Days', textAlign: TextAlign.center,
+            style: TextStyle(color: Color(0xFF97004C), fontSize: 11, fontWeight: FontWeight.w900))),
+        const SizedBox(height: 4),
         _sideInsightCard(icon: Icons.emoji_events_rounded, title: 'Best',
-          child: const Text('14 Days', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF97004C), fontSize: 12, fontWeight: FontWeight.w900))),
+          child: const Text('14 Days', textAlign: TextAlign.center,
+            style: TextStyle(color: Color(0xFF97004C), fontSize: 10, fontWeight: FontWeight.w900))),
         const Spacer(),
-        const Icon(Icons.fitness_center_rounded, color: Color(0xFFEC62A4), size: 32),
-        const Text('KEEP GOING', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF9A4770), fontSize: 5.5, fontWeight: FontWeight.w900)),
-      ])),
+        const Icon(Icons.fitness_center_rounded, color: Color(0xFFEC62A4), size: 25),
+      ])),,
     ]);
   }
 
   Widget _sideInsightCard({required IconData icon, required String title, required Widget child}) {
-    return Container(padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 5),
+    return Container(padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
       decoration: BoxDecoration(
         gradient: const LinearGradient(colors: [Color(0xFFFFF9FC), Color(0xFFFFEAF4)]),
         borderRadius: BorderRadius.circular(11), border: Border.all(color: const Color(0xFFF0C5D9)),
