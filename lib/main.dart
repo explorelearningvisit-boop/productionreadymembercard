@@ -494,48 +494,59 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _memberCard(double height) {
+    final compact = height < 100;
+    final avatarSize = compact ? 44.0 : 52.0;
+    final qrSize = compact ? 37.0 : 41.0;
     return Container(
       height: height,
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 6),
       decoration: t.panel(radius: t.radius + 2, selected: false),
       child: Column(children: [
         Expanded(child: Row(children: [
           Container(
-            width: height - 25, height: height - 25,
+            width: avatarSize, height: avatarSize,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(color: t.primary, width: 2),
               boxShadow: [BoxShadow(color: t.primary.withOpacity(.22), blurRadius: 8)],
             ),
-            child: ClipOval(child: Image.asset('assets/images/avatar_ashwani_hq.png', fit: BoxFit.cover, alignment: Alignment.topCenter,
-              errorBuilder: (_, __, ___) => Container(color: t.surfaceEnd, child: Icon(Icons.person, color: t.primary, size: 34)))),
+            child: ClipOval(child: Image.asset('assets/images/avatar_ashwani_hq.png',
+              fit: BoxFit.cover, alignment: Alignment.topCenter,
+              errorBuilder: (_, __, ___) => Container(color: t.surfaceEnd,
+                child: Icon(Icons.person, color: t.primary, size: 30)))),
           ),
-          const SizedBox(width: 8),
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-            Row(children: [
-              _smallPill('✓ CHECKED-IN', t.success, Colors.white),
-              const SizedBox(width: 4),
-              Expanded(child: Text(_todayLabel, maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
-                style: TextStyle(color: t.softText, fontSize: 7.5, fontWeight: FontWeight.w700))),
-            ]),
-            const SizedBox(height: 3),
-            Text('Ashwani Kumar Singh', maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: t.cardText, fontSize: 13, height: 1.05, fontWeight: FontWeight.w900)),
-            const SizedBox(height: 2),
-            Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: t.softText, fontSize: 8, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 4),
-            Row(children: [
-              _smallPill('✓ Active', t.success, Colors.white),
-              const SizedBox(width: 4),
-              _smallPill('♛ Gold Plan', t.secondary, t.style == 'gold' || t.style == 'ruby' ? const Color(0xFF3C1900) : (t.dark ? t.ink : const Color(0xFF49300A))),
-            ]),
-          ])),
+          const SizedBox(width: 7),
+          Expanded(child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(children: [
+                _smallPill('✓ CHECKED-IN', t.success, Colors.white),
+                const SizedBox(width: 3),
+                Expanded(child: Text(_todayLabel, maxLines: 1,
+                  overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
+                  style: TextStyle(color: t.softText, fontSize: 6.5, fontWeight: FontWeight.w700))),
+              ]),
+              Text('Ashwani Kumar Singh', maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: t.cardText, fontSize: 11.5, height: 1, fontWeight: FontWeight.w900)),
+              Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: t.softText, fontSize: 7, height: 1, fontWeight: FontWeight.w600)),
+              Row(children: [
+                _smallPill('✓ Active', t.success, Colors.white),
+                const SizedBox(width: 4),
+                _smallPill('♛ Gold Plan', t.secondary,
+                  t.style == 'gold' || t.style == 'ruby'
+                    ? const Color(0xFF3C1900)
+                    : (t.dark ? t.ink : const Color(0xFF49300A))),
+              ]),
+            ],
+          )),
           const SizedBox(width: 4),
           Container(
-            width: 43, height: 43,
+            width: qrSize, height: qrSize,
             padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: t.border)),
+            decoration: BoxDecoration(color: Colors.white,
+              borderRadius: BorderRadius.circular(8), border: Border.all(color: t.border)),
             child: QrImageView(
               data: 'BADGYM:MEMBER:BG215', version: QrVersions.auto, padding: EdgeInsets.zero,
               eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
@@ -543,29 +554,45 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             ),
           ),
         ])),
-        const SizedBox(height: 5),
+        const SizedBox(height: 3),
         Row(children: [
-          Expanded(flex: 4, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('MEMBERSHIP  22 / 30 DAYS', style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w800)),
-            const SizedBox(height: 3),
-            ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(
-              value: _membershipProgress, minHeight: 6, backgroundColor: t.neutral,
-              valueColor: AlwaysStoppedAnimation<Color>(t.primary),
-            )),
-          ])),
-          const SizedBox(width: 6),
-          Expanded(flex: 2, child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('PAYMENT', style: TextStyle(color: t.softText, fontSize: 6.5, fontWeight: FontWeight.w800)),
-            Text('₹500 DUE', style: TextStyle(color: t.danger, fontSize: 8.5, fontWeight: FontWeight.w900)),
-          ])),
+          Expanded(flex: 4, child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('MEMBERSHIP  22 / 30 DAYS',
+                style: TextStyle(color: t.cardText, fontSize: 7, fontWeight: FontWeight.w800)),
+              const SizedBox(height: 2),
+              ClipRRect(borderRadius: BorderRadius.circular(10),
+                child: LinearProgressIndicator(
+                  value: _membershipProgress, minHeight: 5,
+                  backgroundColor: t.neutral,
+                  valueColor: AlwaysStoppedAnimation<Color>(t.primary),
+                )),
+            ],
+          )),
           const SizedBox(width: 5),
+          Expanded(flex: 2, child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('PAYMENT', style: TextStyle(color: t.softText, fontSize: 6, fontWeight: FontWeight.w800)),
+              Text('₹500 DUE', style: TextStyle(color: t.danger, fontSize: 8, fontWeight: FontWeight.w900)),
+            ],
+          )),
+          const SizedBox(width: 4),
           Expanded(flex: 3, child: Row(children: [
-            Icon(Icons.event_available_rounded, color: t.primary, size: 15),
+            Icon(Icons.event_available_rounded, color: t.primary, size: 13),
             const SizedBox(width: 2),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text('8 DAYS LEFT', style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w900)),
-              Text('Expires ' + _expiryLabel, style: TextStyle(color: t.softText, fontSize: 6.5, fontWeight: FontWeight.w600)),
-            ])),
+            Expanded(child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('8 DAYS LEFT', style: TextStyle(color: t.cardText, fontSize: 7, fontWeight: FontWeight.w900)),
+                Text('Expires ' + _expiryLabel, maxLines: 1, overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: t.softText, fontSize: 6, fontWeight: FontWeight.w600)),
+              ],
+            )),
           ])),
         ]),
       ]),
@@ -586,12 +613,12 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _smallPill(String text, Color color, Color foreground) {
     return Flexible(child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(20), boxShadow: [
         BoxShadow(color: color.withOpacity(.22), blurRadius: 4, offset: const Offset(0, 1)),
       ]),
       child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: foreground, fontSize: 7.5, fontWeight: FontWeight.w900)),
+        style: TextStyle(color: foreground, fontSize: 6.8, fontWeight: FontWeight.w900)),
     ));
   }
 
