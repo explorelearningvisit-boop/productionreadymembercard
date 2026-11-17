@@ -56,7 +56,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             final h = constraints.maxHeight;
             final compact = h < 690;
             final headerH = compact ? 44.0 : 54.0;
-            final profileH = compact ? 150.0 : 166.0;
+            final profileH = compact ? 166.0 : 184.0;
             final promoH = compact ? 54.0 : 74.0;
             final statsH = compact ? 76.0 : 104.0;
             final insightH = compact ? 40.0 : 54.0;
