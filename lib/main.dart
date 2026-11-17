@@ -681,8 +681,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _intelligenceWorkspace() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _verticalRail(),
         const SizedBox(width: 5),
@@ -720,7 +721,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             ),
           ),
         ),
-      ],
+        ],
+      ),
     );
   }
 
