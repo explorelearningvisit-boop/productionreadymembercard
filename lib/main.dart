@@ -587,7 +587,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     child: Row(mainAxisSize: MainAxisSize.min, children: [
       Icon(icon, size: 11, color: darkText ? const Color(0xFF271B05) : Colors.white),
       const SizedBox(width: 3),
-      Text(label, style: TextStyle(color: darkText ? const Color(0xFF271B05) : Colors.white, fontSize: 8.5, fontWeight: FontWeight.w900)),
+      Text(label, style: TextStyle(color: darkText ? const Color(0xFF271B05) : Colors.white, fontSize: 11, fontWeight: FontWeight.w900)),
     ]),
   );
 
@@ -608,7 +608,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         Icon(Icons.account_balance_wallet_rounded, color: t.danger, size: 18),
         const SizedBox(width: 4),
         Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('PAYMENT', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 8, fontWeight: FontWeight.w800)),
+          Text('PAYMENT', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 10.5, fontWeight: FontWeight.w800)),
           Text('₹500 Due', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.danger, fontSize: 12, fontWeight: FontWeight.w900)),
         ])),
       ])),
@@ -618,7 +618,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         const SizedBox(width: 4),
         Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('8 Days Left', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.primary, fontSize: 11, fontWeight: FontWeight.w900)),
-          Text('Expires: 24 Oct 2026', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 8, fontWeight: FontWeight.w600)),
+          Text('Expires: 24 Oct 2026', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 10.5, fontWeight: FontWeight.w600)),
         ])),
       ])),
       Icon(Icons.chevron_right_rounded, color: t.primary, size: 19),
@@ -675,7 +675,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               FittedBox(fit: BoxFit.scaleDown, child: Text(item.$5,
                 style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 12, height: 1.05, fontWeight: FontWeight.w900))),
               Text(item.$6, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.success, fontSize: 8, height: 1, fontWeight: FontWeight.w800)),
+                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.success, fontSize: 10.5, height: 1, fontWeight: FontWeight.w800)),
             ]),
           ),
         ),
@@ -762,7 +762,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                       Icon(icons[index], size: 16, color: active ? (t.dark ? Colors.black : Colors.white) : t.primary),
                       const SizedBox(height: 2),
                       Text(labels[index], maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: active ? (t.dark ? Colors.black : Colors.white) : t.cardText, fontSize: 8.5, fontWeight: FontWeight.w700)),
+                        style: TextStyle(color: active ? (t.dark ? Colors.black : Colors.white) : t.cardText, fontSize: 11, fontWeight: FontWeight.w700)),
                     ]),
                   ),
                 ),
@@ -844,8 +844,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                 color: kind == DayKind.off || kind == DayKind.holiday ? (t.dark ? Colors.white70 : t.muted) : Colors.white,
                 fontSize: 9, fontWeight: FontWeight.w900,
               ))),
-            if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: t.muted, fontSize: 5.5, height: 1, fontWeight: FontWeight.w900))),
-            if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(color: t.muted, fontSize: 5.5, height: 1, fontWeight: FontWeight.w900))),
+            if (isSunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: t.muted, fontSize: 9, height: 1, fontWeight: FontWeight.w900))),
+            if (kind == DayKind.holiday && !isSunday) Positioned(bottom: 1, child: Text('HOL', style: TextStyle(color: t.muted, fontSize: 9, height: 1, fontWeight: FontWeight.w900))),
           ]),
         ),
       ])));
@@ -861,7 +861,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             )),
             Column(mainAxisSize: MainAxisSize.min, children: [
               Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 12, fontWeight: FontWeight.w900)),
-              Text('25 / 31', style: TextStyle(color: t.softText, fontSize: 7, fontWeight: FontWeight.w700)),
+              Text('25 / 31', style: TextStyle(color: t.softText, fontSize: 9.5, fontWeight: FontWeight.w700)),
             ]),
           ])),
           const SizedBox(width: 5),
@@ -876,19 +876,19 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             Row(mainAxisSize: MainAxisSize.min, children: [
               Icon(Icons.local_fire_department_rounded, color: t.warning, size: 11),
               const SizedBox(width: 2),
-              Text('5D', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w900)),
+              Text('5D', style: TextStyle(color: t.cardText, fontSize: 10.5, fontWeight: FontWeight.w900)),
             ]),
             const SizedBox(height: 4),
             Row(mainAxisSize: MainAxisSize.min, children: [
               Icon(Icons.emoji_events_rounded, color: t.warning, size: 11),
               const SizedBox(width: 2),
-              Text('14D', style: TextStyle(color: t.cardText, fontSize: 8, fontWeight: FontWeight.w900)),
+              Text('14D', style: TextStyle(color: t.cardText, fontSize: 10.5, fontWeight: FontWeight.w900)),
             ]),
           ])),
         ])),
         const SizedBox(height: 4),
         Row(children: const ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(
-          child: Center(child: Text(d, style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: Colors.grey))),
+          child: Center(child: Text(d, style: TextStyle(fontSize: 10.5, fontWeight: FontWeight.w900, color: Colors.grey))),
         )).toList()),
         const SizedBox(height: 2),
         Expanded(child: LayoutBuilder(builder: (context, constraints) {
@@ -912,7 +912,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
     const SizedBox(width: 2),
     Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
-      style: TextStyle(color: t.softText, fontSize: 7.5, fontWeight: FontWeight.w700))),
+      style: TextStyle(color: t.softText, fontSize: 10, fontWeight: FontWeight.w700))),
   ]);
 
   Widget _attendanceTrend() => _innerPanel(
