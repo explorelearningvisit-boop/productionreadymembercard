@@ -56,7 +56,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             final h = constraints.maxHeight;
             final compact = h < 690;
             final headerH = compact ? 44.0 : 54.0;
-            final profileH = compact ? 166.0 : 184.0;
+            final profileH = compact ? 178.0 : 210.0;
             final promoH = compact ? 54.0 : 74.0;
             final statsH = compact ? 76.0 : 104.0;
             final insightH = compact ? 40.0 : 54.0;
@@ -139,7 +139,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   Widget _memberPass(bool compact) {
     final avatar = compact ? 58.0 : 78.0;
     return _glass(radius: 22, padding: const EdgeInsets.fromLTRB(9, 7, 9, 6), child: Column(children: [
-      SizedBox(height: compact ? 92 : 108, child: Row(children: [
+      SizedBox(height: compact ? 104 : 122, child: Row(children: [
         Container(
           width: avatar, height: avatar,
           decoration: BoxDecoration(
@@ -160,8 +160,8 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             _pill(Icons.calendar_month_rounded, compact ? '16 Oct · 7:12 AM' : '${_data.checkInDate} · ${_data.checkInTime}', const Color(0xFFE8F4FF), _navy, outlined: true),
           ]),
           const SizedBox(height: 4),
-          Text(_data.name, maxLines: compact ? 2 : 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: _navy, fontSize: compact ? 11.4 : 13.7, height: 1.02, fontWeight: FontWeight.w900, letterSpacing: -.25)),
+          Text(_data.name, maxLines: 2, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: _navy, fontSize: compact ? 11.4 : 13.2, height: 1.02, fontWeight: FontWeight.w900, letterSpacing: -.25)),
           const SizedBox(height: 3),
           FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
             const Icon(Icons.badge_outlined, size: 12, color: _blue),
@@ -247,14 +247,14 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
       const Text('Up to 40% OFF', maxLines: 1, style: TextStyle(color: _navy, fontSize: 9.2, fontWeight: FontWeight.w900)),
       Text('Fitness & Wellness', maxLines: 1, style: TextStyle(color: _blue, fontSize: 8.5, fontWeight: FontWeight.w800)),
     ])),
-    const SizedBox(width: 4),
-    const Icon(Icons.fitness_center_rounded, color: _navy, size: 30),
-    const SizedBox(width: 3),
-    Align(alignment: Alignment.topRight, child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-      decoration: BoxDecoration(color: _blue, borderRadius: BorderRadius.circular(10)),
-      child: const Text('Sponsored', style: TextStyle(color: Colors.white, fontSize: 7, fontWeight: FontWeight.w900)),
-    )),
+    Expanded(flex: 2, child: Stack(alignment: Alignment.center, children: [
+      const Icon(Icons.fitness_center_rounded, color: _navy, size: 27),
+      Positioned(top: 0, right: 0, child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        decoration: BoxDecoration(color: _blue, borderRadius: BorderRadius.circular(9)),
+        child: const Text('Sponsored', style: TextStyle(color: Colors.white, fontSize: 6.5, fontWeight: FontWeight.w900)),
+      )),
+    ])),
   ]));
 
   Widget _quickStats(bool compact) {
