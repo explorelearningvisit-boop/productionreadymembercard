@@ -319,7 +319,8 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               const SizedBox(height: 4),
               Text('10 complete visual systems · shared member data', style: TextStyle(color: t.muted, fontSize: 10)),
               const SizedBox(height: 12),
-              Flexible(
+              SizedBox(
+                height: 365,
                 child: GridView.builder(
                   shrinkWrap: true,
                   itemCount: dashboardThemes.length,
