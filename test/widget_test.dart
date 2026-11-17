@@ -54,7 +54,7 @@ void main() {
     expect(find.text('Payment Intelligence'), findsOneWidget);
     await tester.tap(find.text('Transactions').last);
     await tester.pumpAndSettle();
-    expect(find.text('Transactions · payment activity'), findsOneWidget);
+    expect(find.text('Payment transactions'), findsOneWidget);
 
     await tester.tap(find.text('Body').first);
     await tester.pumpAndSettle();
