@@ -139,7 +139,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   Widget _memberPass(bool compact) {
     final avatar = compact ? 58.0 : 78.0;
     return _glass(radius: 22, padding: const EdgeInsets.fromLTRB(9, 7, 9, 6), child: Column(children: [
-      Expanded(child: Row(children: [
+      SizedBox(height: compact ? 92 : 108, child: Row(children: [
         Container(
           width: avatar, height: avatar,
           decoration: BoxDecoration(
@@ -235,16 +235,16 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     Expanded(flex: 3, child: Container(
       height: double.infinity, alignment: Alignment.center,
       decoration: BoxDecoration(color: Colors.white.withValues(alpha: .78), borderRadius: BorderRadius.circular(13), border: Border.all(color: _line)),
-      child: const Text('amazon', style: TextStyle(color: Color(0xFF182D4A), fontSize: 20, fontWeight: FontWeight.w900, letterSpacing: -1.1)),
+      child: const Text('amazon', style: TextStyle(color: Color(0xFF182D4A), fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: -1.1)),
     )),
     const SizedBox(width: 6),
     Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       const Icon(Icons.auto_awesome_rounded, color: Color(0xFFE7A51B), size: 17),
-      const Text('Great Indian\nFestival', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF8A1C65), fontSize: 11, height: .95, fontWeight: FontWeight.w900)),
+      const Text('Great Indian\nFestival', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF8A1C65), fontSize: 9.5, height: .95, fontWeight: FontWeight.w900)),
     ])),
     const SizedBox(width: 5),
     Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const Text('Up to 40% OFF', maxLines: 1, style: TextStyle(color: _navy, fontSize: 11, fontWeight: FontWeight.w900)),
+      const Text('Up to 40% OFF', maxLines: 1, style: TextStyle(color: _navy, fontSize: 9.2, fontWeight: FontWeight.w900)),
       Text('Fitness & Wellness', maxLines: 1, style: TextStyle(color: _blue, fontSize: 8.5, fontWeight: FontWeight.w800)),
     ])),
     const SizedBox(width: 4),
@@ -461,11 +461,11 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     _statLine(_red, 'Absent', _data.absentCount, _data.absentCount / 31),
     _statLine(const Color(0xFF9EB4CA), 'Holiday', _data.holidayCount, _data.holidayCount / 31),
     const SizedBox(height: 3),
-    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+    FittedBox(fit: BoxFit.scaleDown, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       const Text('🔥', style: TextStyle(fontSize: 12)),
       const SizedBox(width: 3),
       Text('${_data.currentStreak} Streak', style: const TextStyle(color: _navy, fontSize: 8.5, fontWeight: FontWeight.w900)),
-    ]),
+    ])),
   ]);
 
   Widget _statLine(Color color, String label, int value, double fraction) => Padding(
