@@ -202,7 +202,7 @@ class MemberIntelligenceData {
     ];
 
     return MemberIntelligenceData(
-      name: 'Ashwani Kumar Singh',
+      name: 'Ashwani Kumar Sharma Vishwakarma',
       memberId: 'BG215',
       age: 28,
       gender: 'Male',
