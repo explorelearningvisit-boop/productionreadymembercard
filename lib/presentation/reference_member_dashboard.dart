@@ -160,8 +160,8 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             _pill(Icons.calendar_month_rounded, compact ? '16 Oct · 7:12 AM' : '${_data.checkInDate} · ${_data.checkInTime}', const Color(0xFFE8F4FF), _navy, outlined: true),
           ]),
           const SizedBox(height: 4),
-          Text(_data.name, maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: _navy, fontSize: compact ? 12.3 : 13.7, fontWeight: FontWeight.w900, letterSpacing: -.25)),
+          Text(_data.name, maxLines: compact ? 2 : 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: _navy, fontSize: compact ? 11.4 : 13.7, height: 1.02, fontWeight: FontWeight.w900, letterSpacing: -.25)),
           const SizedBox(height: 3),
           FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
             const Icon(Icons.badge_outlined, size: 12, color: _blue),
