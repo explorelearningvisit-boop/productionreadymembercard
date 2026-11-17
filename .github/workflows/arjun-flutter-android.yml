@@ -107,7 +107,7 @@ jobs:
           chmod 600 "$HOME/.android/adbkey"
       - name: Connect and install on configured phone
         env:
-          DEVICE_IP: "100.123.18.54"
+          DEVICE_IP: ${{ secrets.DEVICE_TAILSCALE_IP }}
           DEVICE_PORTS_JSON: ${{ secrets.ANDROID_DEVICE_PORTS_JSON }}
         run: |
           set -euo pipefail
