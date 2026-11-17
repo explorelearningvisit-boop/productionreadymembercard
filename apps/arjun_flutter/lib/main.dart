@@ -41,7 +41,7 @@ extension RoleLabel on UserRole {
     UserRole.manager => 'साइट मैनेजर', UserRole.supplier => 'सप्लायर'
   };
   IconData get icon => switch (this) {
-    UserRole.customer => Icons.home_work_outlined, UserRole.worker => Icons.handyman_outlined,
+    UserRole.customer => Icons.home_work_outlined, UserRole.worker => Icons.build_outlined,
     UserRole.manager => Icons.assignment_ind_outlined, UserRole.supplier => Icons.inventory_2_outlined
   };
 }
@@ -179,9 +179,9 @@ class _HeroCard extends StatelessWidget {
 class CategoryGrid extends StatelessWidget {
   const CategoryGrid({super.key});
   static const entries = [
-    ('मिस्त्री', Icons.foundation_outlined, Color(0xFFFFF1D6)), ('इलेक्ट्रिशियन', Icons.electrical_services, Color(0xFFE7F0FF)),
+    ('मिस्त्री', Icons.construction, Color(0xFFFFF1D6)), ('इलेक्ट्रिशियन', Icons.electrical_services, Color(0xFFE7F0FF)),
     ('प्लंबर', Icons.plumbing, Color(0xFFDFF7F1)), ('AC रिपेयर', Icons.ac_unit, Color(0xFFEDE9FE)),
-    ('बढ़ई', Icons.carpenter_outlined, Color(0xFFFFE9E1)), ('ड्राइवर', Icons.local_shipping_outlined, Color(0xFFE8F3FF)),
+    ('बढ़ई', Icons.chair_outlined, Color(0xFFFFE9E1)), ('ड्राइवर', Icons.local_shipping_outlined, Color(0xFFE8F3FF)),
     ('हेल्पर', Icons.construction, Color(0xFFF0F2F6)), ('सभी सेवाएँ', Icons.apps_rounded, Color(0xFFFFF0E2)),
   ];
   @override Widget build(BuildContext context) => GridView.builder(
