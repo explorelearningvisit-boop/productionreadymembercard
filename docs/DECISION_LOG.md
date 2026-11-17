@@ -96,3 +96,12 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
   2. **ChatGPT (Cloud Automation Agent)**: Operates remotely via GitHub Actions and Tailscale automation when the laptop is off or unavailable.
   3. **GitHub Push Gate**: Code and verification artifacts are committed and pushed to GitHub `main` only after full local completion and physical device verification, providing ChatGPT with synchronized truth.
 - **Outcome**: The full 6-section BAD GYM composite dashboard with 3D badges, 372px fixed intelligence viewport, and zero-jump navigation was compiled and verified live on Xiaomi 11i 5G (`docs/screenshots/bad_gym_live_screen.png`).
+
+
+## 2026-11-17 — User re-authorizes independent ChatGPT implementation + screenshot authority
+- User explicitly instructs ChatGPT to perform the complete Member Intelligence Flutter UI/UX implementation directly; Antigravity may continue separate local laptop work, but ChatGPT must not depend on Antigravity output.
+- Latest reference image: `/mnt/data/1000320035.jpg`, 1024×1536 px, reopened and verified. It supersedes earlier red/ivory, crimson, and other visual references where they conflict.
+- Exact visual target: ice-blue/cyan water-glass background, translucent pearl cards, navy typography, blue accents, green/amber/red/neutral attendance semantics; header, integrated member pass/QR/progress, festival banner, four KPI tiles, compact left rail + calendar + right attendance summary, bottom AI Insights.
+- ChatGPT implementation lives on `chatgpt/member-intelligence-mobile-rebuild`, not main. Antigravity's local changes are independent and must not be overwritten or treated as a prerequisite.
+- Dashboard must remain a bounded no-scroll mobile viewport; rail/tab actions replace the content in place. Do not invent sections or substitute old promo/hero artwork.
+- CI build/test, physical Xiaomi install, screenshot comparison, and signing continuity remain separate gates. Preserve existing app data and never uninstall/clear data automatically.
