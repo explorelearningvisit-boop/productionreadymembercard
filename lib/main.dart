@@ -290,16 +290,16 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
 
   Widget _pill(String text, Color color, Color foreground) => Expanded(
         child: Container(
-          height: 34,
+          height: 24,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
-                  color: color.withOpacity(.35),
-                  blurRadius: 9,
-                  offset: const Offset(0, 3))
+                  color: color.withOpacity(.28),
+                  blurRadius: 5,
+                  offset: const Offset(0, 2))
             ],
           ),
           child: FittedBox(
@@ -307,7 +307,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
               child: Text(text,
                   style: TextStyle(
                       color: foreground,
-                      fontSize: 12,
+                      fontSize: 10,
                       fontWeight: FontWeight.w800))),
         ),
       );
