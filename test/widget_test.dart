@@ -14,7 +14,7 @@ void main() {
     expect(find.text('BAD GYM'), findsOneWidget);
     expect(find.text('Ashwani Kumar Sharma Vishwakarma'), findsOneWidget);
     expect(find.text('Attendance Intelligence'), findsOneWidget);
-    expect(find.textContaining('22 / 30 DAYS'), findsOneWidget);
+    expect(find.text('25 / 31'), findsOneWidget);
     expect(find.byType(SingleChildScrollView), findsNothing);
     expect(tester.takeException(), isNull);
   });
@@ -47,21 +47,21 @@ void main() {
 
     await tester.tap(find.text('History').last);
     await tester.pumpAndSettle();
-    expect(find.text('Workout history'), findsOneWidget);
+    expect(find.text('History · workout activity'), findsOneWidget);
 
     await tester.tap(find.text('Payment').first);
     await tester.pumpAndSettle();
     expect(find.text('Payment Intelligence'), findsOneWidget);
     await tester.tap(find.text('Transactions').last);
     await tester.pumpAndSettle();
-    expect(find.text('Payment transactions'), findsOneWidget);
+    expect(find.text('Transactions · payment activity'), findsOneWidget);
 
     await tester.tap(find.text('Body').first);
     await tester.pumpAndSettle();
     expect(find.text('Body Intelligence'), findsOneWidget);
     await tester.tap(find.text('Composition').last);
     await tester.pumpAndSettle();
-    expect(find.text('Body composition'), findsOneWidget);
+    expect(find.text('Composition · body progress'), findsOneWidget);
   });
 
   testWidgets('compact 320dp viewport has no render overflow', (tester) async {
