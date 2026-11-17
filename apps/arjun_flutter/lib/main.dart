@@ -72,7 +72,7 @@ class _AppShellState extends State<AppShell> {
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
-      DashboardPage(role: role, jobs: jobs, english: english, onPost: _postJob, onBrowse: () => setState(() => tab = 1)),
+      role == UserRole.worker ? WorkerDashboardPage(jobs: jobs, onBrowse: () => setState(() => tab = 1)) : DashboardPage(role: role, jobs: jobs, english: english, onPost: _postJob, onBrowse: () => setState(() => tab = 1)),
       ExplorePage(jobs: jobs, role: role, onAccept: (job) => _notice('काम के लिए आपकी रुचि दर्ज हुई: ${job.title}')),
       ActivityPage(role: role, jobs: jobs),
       ProfilePage(role: role, english: english, onLanguage: () => setState(() => english = !english), onRole: _chooseRole),
@@ -238,4 +238,50 @@ class ProfilePage extends StatelessWidget {
     const SizedBox(height: 14),
     const Text('ARJUN • Rooted in Kashi. Built for the World.', textAlign: TextAlign.center, style: TextStyle(color: Colors.black45, fontSize: 11)),
   ]);
+}
+
+class WorkerDashboardPage extends StatelessWidget {
+  const WorkerDashboardPage({super.key, required this.jobs, required this.onBrowse});
+  final List<Job> jobs; final VoidCallback onBrowse;
+  @override Widget build(BuildContext context) => CustomScrollView(slivers: [
+    SliverPadding(padding: const EdgeInsets.fromLTRB(18,16,18,12), sliver: SliverToBoxAdapter(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Row(children: [
+        Container(width:44,height:44,decoration:BoxDecoration(color:ink,borderRadius:BorderRadius.circular(14)),child:const Center(child:Text('अ',style:TextStyle(color:saffron,fontSize:27,fontWeight:FontWeight.w900)))),
+        const SizedBox(width:10),const Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text('ARJUN WORKER',style:TextStyle(color:ink,fontWeight:FontWeight.w900,fontSize:17)),Text('आपका हुनर, आपकी कमाई',style:TextStyle(color:Colors.black54,fontSize:11))])),
+        IconButton(onPressed:()=>ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:Text('Notifications backend अभी connected नहीं है.'))),icon:const Icon(Icons.notifications_none)),
+      ]),
+      const SizedBox(height:18),const Text('नमस्ते, मेहनतकश 👋',style:TextStyle(fontSize:24,fontWeight:FontWeight.w900,color:ink)),
+      const Text('आज के काम और आपकी प्रोफाइल',style:TextStyle(color:Colors.black54)),
+      const SizedBox(height:16),
+      Container(padding:const EdgeInsets.all(18),decoration:BoxDecoration(gradient:const LinearGradient(colors:[ink,Color(0xFF27447D)]),borderRadius:BorderRadius.circular(22)),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+        const Text('आज की उपलब्धता',style:TextStyle(color:Colors.white70)),
+        const SizedBox(height:6),const Text('काम खोजने के लिए तैयार?',style:TextStyle(color:Colors.white,fontSize:19,fontWeight:FontWeight.w800)),
+        const SizedBox(height:12),FilledButton.icon(onPressed:onBrowse,style:FilledButton.styleFrom(backgroundColor:saffron,foregroundColor:ink),icon:const Icon(Icons.search),label:const Text('नजदीकी काम देखें')),
+      ])),
+      const SizedBox(height:16),
+      const Row(children:[
+        Expanded(child:_WorkerMetric(label:'आज की कमाई',value:'₹0',icon:Icons.currency_rupee)),
+        SizedBox(width:8),Expanded(child:_WorkerMetric(label:'पूरे काम',value:'0',icon:Icons.task_alt)),
+      ]),
+      const SizedBox(height:18),const Text('आपकी प्रोफाइल पूरी करें',style:TextStyle(fontSize:17,fontWeight:FontWeight.w800,color:ink)),
+      const SizedBox(height:8),
+      const _WorkerAction(icon:Icons.badge_outlined,title:'पहचान और KYC',subtitle:'ID verification — अभी live नहीं'),
+      const _WorkerAction(icon:Icons.construction,title:'हुनर और अनुभव',subtitle:'अपनी skills, अनुभव और प्रमाणपत्र जोड़ें'),
+      const _WorkerAction(icon:Icons.location_on_outlined,title:'काम का क्षेत्र',subtitle:'आप किन इलाकों में काम करेंगे'),
+      const _WorkerAction(icon:Icons.account_balance_wallet_outlined,title:'बैंक और payout विवरण',subtitle:'सुरक्षित payout onboarding — अभी live नहीं'),
+      const SizedBox(height:18),const Text('आपके लिए उपलब्ध काम',style:TextStyle(fontSize:17,fontWeight:FontWeight.w800,color:ink)),
+    ]))),
+    SliverPadding(padding:const EdgeInsets.symmetric(horizontal:18),sliver:SliverList(delegate:SliverChildBuilderDelegate((ctx,i)=>JobCard(job:jobs[i]),childCount:jobs.length))),
+    const SliverToBoxAdapter(child:SizedBox(height:90)),
+  ]);
+}
+class _WorkerMetric extends StatelessWidget {
+  const _WorkerMetric({required this.label,required this.value,required this.icon});
+  final String label,value;final IconData icon;
+  @override Widget build(BuildContext context)=>Card(child:Padding(padding:const EdgeInsets.all(13),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Icon(icon,color:teal),const SizedBox(height:8),Text(value,style:const TextStyle(fontSize:22,fontWeight:FontWeight.w900,color:ink)),Text(label,style:const TextStyle(fontSize:11,color:Colors.black54))])));
+}
+class _WorkerAction extends StatelessWidget {
+  const _WorkerAction({required this.icon,required this.title,required this.subtitle});
+  final IconData icon;final String title,subtitle;
+  @override Widget build(BuildContext context)=>Card(child:ListTile(leading:Icon(icon,color:ink),title:Text(title,style:const TextStyle(fontWeight:FontWeight.w700)),subtitle:Text(subtitle,style:const TextStyle(fontSize:11)),trailing:const Icon(Icons.chevron_right)));
 }
