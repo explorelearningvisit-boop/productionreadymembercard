@@ -11,366 +11,6 @@ class MemberIntelligenceApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'BAD GYM Member Intelligence',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        fontFamily: 'Inter',
-      textTheme: const TextTheme(
-        bodySmall: TextStyle(fontFamily: 'Inter'),
-        bodyMedium: TextStyle(fontFamily: 'Inter'),
-        bodyLarge: TextStyle(fontFamily: 'Inter'),
-      ),
-        scaffoldBackgroundColor: const Color(0xFFF3F5F9),
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFB51F31)),
-      ),
-      home: const MemberDashboardPage(),
-    );
-  }
-}
-
-enum DayKind { present, late, absent, holiday, off }
-enum WorkspaceTab { attendance, workout, payment, body }
-
-class DashboardTheme {
-  const DashboardTheme({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.background,
-    required this.backgroundEnd,
-    required this.surface,
-    required this.surfaceEnd,
-    required this.ink,
-    required this.muted,
-    required this.primary,
-    required this.secondary,
-    required this.border,
-    required this.success,
-    required this.warning,
-    required this.danger,
-    required this.neutral,
-    required this.radius,
-    required this.borderWidth,
-    required this.dark,
-    required this.style,
-    required this.art,
-    required this.promoArt,
-  });
-
-  final int id;
-  final String name;
-  final String description;
-  final Color background;
-  final Color backgroundEnd;
-  final Color surface;
-  final Color surfaceEnd;
-  final Color ink;
-  final Color muted;
-  final Color primary;
-  final Color secondary;
-  final Color border;
-  final Color success;
-  final Color warning;
-  final Color danger;
-  final Color neutral;
-  final double radius;
-  final double borderWidth;
-  final bool dark;
-  final String style;
-  final String art;
-  final String promoArt;
-
-  Color get canvasText => dark ? Colors.white : ink;
-  Color get softText => dark ? const Color(0xFFB9BEC8) : muted;
-  Color get cardText => dark ? Colors.white : ink;
-
-  BoxDecoration panel({double? radius, bool selected = false}) {
-    final r = radius ?? this.radius;
-    final base = BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: dark
-            ? [surface.withOpacity(.98), surfaceEnd.withOpacity(.96)]
-            : [surface.withOpacity(.98), surfaceEnd.withOpacity(.96)],
-      ),
-      borderRadius: BorderRadius.circular(r),
-      border: Border.all(
-        color: selected ? primary : border,
-        width: selected ? borderWidth + .6 : borderWidth,
-      ),
-      boxShadow: [
-        BoxShadow(
-          color: primary.withOpacity(dark ? .17 : .10),
-          blurRadius: style == 'neon' ? 15 : 9,
-          spreadRadius: style == 'neon' ? 1 : 0,
-          offset: const Offset(0, 3),
-        ),
-        if (style == 'glass')
-          BoxShadow(color: Colors.white.withOpacity(.55), blurRadius: 2, offset: const Offset(-1, -1)),
-      ],
-    );
-    return base;
-  }
-}
-
-const dashboardThemes = <DashboardTheme>[
-  DashboardTheme(
-    id: 0, name: 'Ice Glass', description: 'Crystal blue · frosted glass',
-    background: Color(0xFFEAF5FF), backgroundEnd: Color(0xFFCFE4FF),
-    surface: Color(0xFFFDFEFF), surfaceEnd: Color(0xFFDCEBFF),
-    ink: Color(0xFF10294C), muted: Color(0xFF526B8B),
-    primary: Color(0xFF1679D8), secondary: Color(0xFF59B7F4),
-    border: Color(0xFFB5D8FF), success: Color(0xFF0B9E50),
-    warning: Color(0xFFF0B323), danger: Color(0xFFD93648),
-    neutral: Color(0xFFD5DFEB), radius: 23, borderWidth: 1.2,
-    dark: false, style: 'glass', art: 'assets/images/illustration_3d_dumbbell_mini.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-  DashboardTheme(
-    id: 1, name: 'Crimson Gold', description: 'Deep red · gold edge · luxury',
-    background: Color(0xFF50000B), backgroundEnd: Color(0xFF19040A),
-    surface: Color(0xFF8E0719), surfaceEnd: Color(0xFF51000C),
-    ink: Color(0xFF2A080B), muted: Color(0xFFFFD9C4),
-    primary: Color(0xFFFFC928), secondary: Color(0xFFE23A2E),
-    border: Color(0xFFFFD36A), success: Color(0xFF14B95B),
-    warning: Color(0xFFFFC12B), danger: Color(0xFFE3263B),
-    neutral: Color(0xFFB6A8A5), radius: 20, borderWidth: 1.6,
-    dark: true, style: 'gold', art: 'assets/themes/crimson_wave/checkin_success_banner.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-  DashboardTheme(
-    id: 2, name: 'Festival Yellow', description: 'Sunshine yellow · festive red',
-    background: Color(0xFFFFF1A8), backgroundEnd: Color(0xFFFFD52D),
-    surface: Color(0xFFFFFEF6), surfaceEnd: Color(0xFFFFEAA0),
-    ink: Color(0xFF241B0A), muted: Color(0xFF74602D),
-    primary: Color(0xFFC51D2B), secondary: Color(0xFFFFBE18),
-    border: Color(0xFFE7B92B), success: Color(0xFF168B35),
-    warning: Color(0xFFE5A900), danger: Color(0xFFD92D2D),
-    neutral: Color(0xFFD8D2C2), radius: 19, borderWidth: 1.2,
-    dark: false, style: 'festival', art: 'assets/themes/festive_gold/marquee_header.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-  DashboardTheme(
-    id: 3, name: 'Sky Pearl', description: 'Soft blue · pearl white · 3D',
-    background: Color(0xFFDDEEFF), backgroundEnd: Color(0xFFF2F8FF),
-    surface: Color(0xFFFFFFFF), surfaceEnd: Color(0xFFDCEBFA),
-    ink: Color(0xFF0C2850), muted: Color(0xFF59718F),
-    primary: Color(0xFF1769D2), secondary: Color(0xFF62B7EF),
-    border: Color(0xFFB6D4F7), success: Color(0xFF16A34A),
-    warning: Color(0xFFEAB308), danger: Color(0xFFDC3545),
-    neutral: Color(0xFFD7DFEA), radius: 25, borderWidth: 1.1,
-    dark: false, style: 'pearl', art: 'assets/backgrounds/bg_waves.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-  DashboardTheme(
-    id: 4, name: 'Athletic Red', description: 'White concrete · racing red',
-    background: Color(0xFFF2F1EF), backgroundEnd: Color(0xFFE3E2E0),
-    surface: Color(0xFFFFFFFF), surfaceEnd: Color(0xFFF2F0EE),
-    ink: Color(0xFF151515), muted: Color(0xFF626262),
-    primary: Color(0xFFD71927), secondary: Color(0xFF282828),
-    border: Color(0xFFBFC0C2), success: Color(0xFF168B35),
-    warning: Color(0xFFE5A900), danger: Color(0xFFD71927),
-    neutral: Color(0xFFD7D7D7), radius: 11, borderWidth: 1.1,
-    dark: false, style: 'athletic', art: 'assets/promo/promo_protein_bar.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-  DashboardTheme(
-    id: 5, name: 'Emerald Pulse', description: 'Pearl white · vivid emerald',
-    background: Color(0xFFF1F7EF), backgroundEnd: Color(0xFFDCEBD8),
-    surface: Color(0xFFFFFFFF), surfaceEnd: Color(0xFFE7F3E3),
-    ink: Color(0xFF122B1A), muted: Color(0xFF58705E),
-    primary: Color(0xFF16A34A), secondary: Color(0xFF91D52B),
-    border: Color(0xFFB7DDB9), success: Color(0xFF149447),
-    warning: Color(0xFFE7AD17), danger: Color(0xFFD93643),
-    neutral: Color(0xFFD8E0D8), radius: 22, borderWidth: 1.4,
-    dark: false, style: 'emerald', art: 'assets/themes/emerald_neon/neon_green_dumbbell.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-  DashboardTheme(
-    id: 6, name: 'Royal Ruby', description: 'Ruby red · champagne gold',
-    background: Color(0xFF790018), backgroundEnd: Color(0xFF32000E),
-    surface: Color(0xFFA70D25), surfaceEnd: Color(0xFF680018),
-    ink: Color(0xFF31000A), muted: Color(0xFFFFD5C9),
-    primary: Color(0xFFFFD15B), secondary: Color(0xFFED3147),
-    border: Color(0xFFFFC65A), success: Color(0xFF13B85A),
-    warning: Color(0xFFFFC22D), danger: Color(0xFFFF4659),
-    neutral: Color(0xFFB9A5A4), radius: 21, borderWidth: 1.7,
-    dark: true, style: 'ruby', art: 'assets/themes/festive_gold/bottom_gear.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-  DashboardTheme(
-    id: 7, name: 'Gold Festival', description: 'Warm gold · ivory · crimson',
-    background: Color(0xFFFFE47A), backgroundEnd: Color(0xFFFFF4C8),
-    surface: Color(0xFFFFFEF8), surfaceEnd: Color(0xFFFFEFC0),
-    ink: Color(0xFF2C1B0B), muted: Color(0xFF7B5D34),
-    primary: Color(0xFFB51F31), secondary: Color(0xFFE4A900),
-    border: Color(0xFFE7BE49), success: Color(0xFF178B3C),
-    warning: Color(0xFFE8A900), danger: Color(0xFFD42D36),
-    neutral: Color(0xFFD9D2C4), radius: 18, borderWidth: 1.3,
-    dark: false, style: 'goldFestival', art: 'assets/themes/festive_gold/top_lanterns.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-  DashboardTheme(
-    id: 8, name: 'Obsidian Neon', description: 'Carbon black · neon lime',
-    background: Color(0xFF101211), backgroundEnd: Color(0xFF050706),
-    surface: Color(0xFF242925), surfaceEnd: Color(0xFF111713),
-    ink: Color(0xFF0A100B), muted: Color(0xFFB8C1B8),
-    primary: Color(0xFFC4FF00), secondary: Color(0xFF8CDA00),
-    border: Color(0xFF8EBB13), success: Color(0xFFB5F500),
-    warning: Color(0xFFFFC928), danger: Color(0xFFFF4B53),
-    neutral: Color(0xFF657067), radius: 17, borderWidth: 1.4,
-    dark: true, style: 'neon', art: 'assets/images/black_plates.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-  DashboardTheme(
-    id: 9, name: 'Minimal Red', description: 'Clean white · sharp red detail',
-    background: Color(0xFFF7F7F7), backgroundEnd: Color(0xFFECECEC),
-    surface: Color(0xFFFFFFFF), surfaceEnd: Color(0xFFF8F8F8),
-    ink: Color(0xFF171717), muted: Color(0xFF686868),
-    primary: Color(0xFFD51E2B), secondary: Color(0xFF202020),
-    border: Color(0xFFD8D8D8), success: Color(0xFF178B3C),
-    warning: Color(0xFFE6AA16), danger: Color(0xFFD51E2B),
-    neutral: Color(0xFFDADADA), radius: 14, borderWidth: 1,
-    dark: false, style: 'minimal', art: 'assets/images/illustration_3d_workout_dumbbells.png', promoArt: 'assets/hero/hero_athlete.png',
-  ),
-];
-
-class MemberDashboardPage extends StatefulWidget {
-  const MemberDashboardPage({super.key});
-
-  @override
-  State<MemberDashboardPage> createState() => _MemberDashboardPageState();
-}
-
-class _MemberDashboardPageState extends State<MemberDashboardPage> {
-  int _themeIndex = 0;
-  WorkspaceTab _tab = WorkspaceTab.attendance;
-  int _subSection = 1;
-  late final DateTime _today = DateTime(2026, 10, 16);
-  late int _month = 10;
-  late int _year = 2026;
-
-  DashboardTheme get t => dashboardThemes[_themeIndex];
-  DateTime get _monthDate => DateTime(_year, _month, 1);
-  int get _daysInMonth => DateUtils.getDaysInMonth(_year, _month);
-  int get _firstWeekdayOffset => (_monthDate.weekday + 6) % 7;
-  DayKind _dayKind(int day) {
-    if (_month == 10 && _year == 2026) {
-      const fixture = <int, DayKind>{
-        1: DayKind.off, 2: DayKind.off, 3: DayKind.present, 4: DayKind.off,
-        5: DayKind.present, 6: DayKind.present, 7: DayKind.present, 8: DayKind.present,
-        9: DayKind.present, 10: DayKind.late, 11: DayKind.off, 12: DayKind.present,
-        13: DayKind.present, 14: DayKind.present, 15: DayKind.present, 16: DayKind.present,
-        17: DayKind.absent, 18: DayKind.off, 19: DayKind.present, 20: DayKind.present,
-        21: DayKind.late, 22: DayKind.present, 23: DayKind.absent, 24: DayKind.absent,
-        25: DayKind.off, 26: DayKind.present, 27: DayKind.present, 28: DayKind.late,
-        29: DayKind.present, 30: DayKind.present, 31: DayKind.present,
-      };
-      return fixture[day] ?? DayKind.off;
-    }
-    final date = DateTime(_year, _month, day);
-    if (date.weekday == DateTime.sunday) return DayKind.off;
-    if (date.isAfter(_today)) return DayKind.off;
-    if (day % 13 == 0 || day % 17 == 0) return DayKind.absent;
-    if (day % 10 == 0) return DayKind.late;
-    if (day % 11 == 0) return DayKind.holiday;
-    return DayKind.present;
-  }
-
-  int get _present => _month == 10 && _year == 2026 ? 23 : List.generate(_daysInMonth, (i) => _dayKind(i + 1)).where((v) => v == DayKind.present).length;
-  int get _late => _month == 10 && _year == 2026 ? 2 : List.generate(_daysInMonth, (i) => _dayKind(i + 1)).where((v) => v == DayKind.late).length;
-  int get _absent => _month == 10 && _year == 2026 ? 2 : List.generate(_daysInMonth, (i) => _dayKind(i + 1)).where((v) => v == DayKind.absent).length;
-  int get _holiday => _month == 10 && _year == 2026 ? 4 : List.generate(_daysInMonth, (i) => _dayKind(i + 1)).where((v) => v == DayKind.holiday).length;
-  int get _tracked => _present + _late + _absent;
-  int get _countOffDays => List.generate(_daysInMonth, (i) => _dayKind(i + 1))
-      .where((v) => v == DayKind.off).length;
-  int get _attendanceRate => _month == 10 && _year == 2026 ? 81 : (_tracked == 0 ? 0 : ((_present + _late) * 100 / _tracked).round());
-
-  int get _membershipDaysUsed => 22;
-  int get _membershipDaysTotal => 30;
-  double get _membershipProgress => _membershipDaysUsed / _membershipDaysTotal;
-
-  void _setTab(WorkspaceTab tab) {
-    setState(() {
-      _tab = tab;
-      _subSection = tab == WorkspaceTab.attendance ? 1 : 0;
-    });
-  }
-
-  void _setSubSection(int index) => setState(() => _subSection = index);
-
-  void _changeMonth(int delta) {
-    setState(() {
-      final next = DateTime(_year, _month + delta, 1);
-      _year = next.year;
-      _month = next.month;
-    });
-  }
-
-  Future<void> _showThemePicker() async {
-    final selected = await showModalBottomSheet<int>(
-      context: context,
-      backgroundColor: t.surface,
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(t.radius + 8))),
-      builder: (context) => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(child: Container(width: 38, height: 4, decoration: BoxDecoration(color: t.muted.withOpacity(.4), borderRadius: BorderRadius.circular(8)))),
-              const SizedBox(height: 12),
-              Text('Choose your dashboard', style: TextStyle(color: t.ink, fontSize: 18, fontWeight: FontWeight.w800)),
-              const SizedBox(height: 4),
-              Text('10 complete visual systems · shared member data', style: TextStyle(color: t.muted, fontSize: 10)),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 365,
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  itemCount: dashboardThemes.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, mainAxisSpacing: 9, crossAxisSpacing: 9, childAspectRatio: 2.55,
-                  ),
-                  itemBuilder: (context, index) {
-                    final theme = dashboardThemes[index];
-                    final active = index == _themeIndex;
-                    return InkWell(
-                      onTap: () => Navigator.pop(context, index),
-                      borderRadius: BorderRadius.circular(14),
-                      child: Container(
-                        padding: const EdgeInsets.all(9),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [theme.background, theme.backgroundEnd]),
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: active ? theme.primary : theme.border, width: active ? 2 : 1),
-                        ),
-                        child: Row(children: [
-                          Container(
-                            width: 34, height: 34,
-                            padding: const EdgeInsets.all(3),
-                            decoration: BoxDecoration(color: theme.surface, shape: BoxShape.circle, border: Border.all(color: theme.border)),
-                            child: Image.asset(theme.promoArt, fit: BoxFit.contain,
-                              errorBuilder: (_, __, ___) => Icon(Icons.fitness_center_rounded, color: theme.primary, size: 20)),
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-                            Text(theme.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: theme.ink, fontSize: 10, fontWeight: FontWeight.w800)),
-                            Text(theme.description, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: theme.muted, fontSize: 9)),
-                          ])),
-                          if (active) Icon(Icons.check_circle, color: theme.primary, size: 17),
-                        ]),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-    if (selected != null && mounted) setState(() => _themeIndex = selected);
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: t.background,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -382,58 +22,48 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           systemNavigationBarIconBrightness: t.dark ? Brightness.light : Brightness.dark,
         ),
         child: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final compact = constraints.maxHeight < 650;
-            final ultraCompact = constraints.maxHeight < 570;
-            final gap = ultraCompact ? 3.0 : 5.0;
-            final width = math.min(constraints.maxWidth - 12, 520.0);
-            return Center(
-              child: SizedBox(
-                width: width,
-                height: constraints.maxHeight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [t.background, t.backgroundEnd],
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final compact = constraints.maxHeight < 650;
+              final ultraCompact = constraints.maxHeight < 570;
+              final gap = ultraCompact ? 3.0 : 5.0;
+              final width = math.min(constraints.maxWidth - 12, 520.0);
+              return Center(
+                child: SizedBox(
+                  width: width,
+                  height: constraints.maxHeight,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [t.background, t.backgroundEnd],
+                      ),
                     ),
-                  ),
-                  child: Stack(children: [
-                    Positioned(
-                      right: -18, top: 48, width: 150, height: 110,
-                      child: IgnorePointer(child: Opacity(
-                        opacity: t.dark ? .12 : .16,
-                        child: Image.asset(t.art, fit: BoxFit.contain,
-                          errorBuilder: (_, __, ___) => const SizedBox.shrink()),
-                      )),
-                    ),
-                    Padding(
+                    child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          _brandHeader(compact ? 38 : 43),
+                          _brandHeader(compact ? 40 : 46),
                           SizedBox(height: gap),
-                          _memberCard(ultraCompact ? 132 : compact ? 148 : 164),
+                          _memberCard(ultraCompact ? 148 : compact ? 164 : 184),
                           SizedBox(height: gap),
-                          _paymentStrip(ultraCompact ? 40 : compact ? 46 : 50),
+                          _adBanner(ultraCompact ? 48 : compact ? 56 : 66),
                           SizedBox(height: gap),
-                          _membershipProgressBar(ultraCompact ? 36 : compact ? 40 : 44),
-                          SizedBox(height: gap),
-                          _quickMetrics(ultraCompact ? 62 : compact ? 70 : 76),
+                          _quickMetrics(ultraCompact ? 58 : compact ? 66 : 74),
                           SizedBox(height: gap),
                           Expanded(child: _workspace()),
+                          SizedBox(height: gap),
+                          _smartInsightStrip(ultraCompact ? 32 : 40),
                         ],
                       ),
                     ),
-                  ]),
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -443,156 +73,261 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     return SizedBox(
       height: height,
       child: Row(children: [
-        Container(
-          width: height - 3, height: height - 3,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [t.primary, t.secondary]),
-            borderRadius: BorderRadius.circular(t.radius * .55),
-            border: Border.all(color: t.border, width: t.borderWidth),
-            boxShadow: [BoxShadow(color: t.primary.withOpacity(.22), blurRadius: 8)],
-          ),
-          child: const Icon(Icons.fitness_center_rounded, color: Colors.white, size: 24),
-        ),
-        const SizedBox(width: 8),
-        Expanded(child: FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.centerLeft,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('BAD GYM', style: TextStyle(color: t.canvasText, fontFamily: 'Poppins', fontSize: 20, height: 1, fontWeight: FontWeight.w900, letterSpacing: -.7)),
-              Text('Member Intelligence', style: TextStyle(color: t.softText, fontSize: 9, height: 1.2, fontWeight: FontWeight.w600)),
-            ],
-          ),
-        )),
-        _headerAction(Icons.notifications_none_rounded, 'Notifications', badge: '3'),
-        const SizedBox(width: 5),
         InkWell(
           onTap: _showThemePicker,
           borderRadius: BorderRadius.circular(14),
           child: Container(
             width: height - 2, height: height - 2,
-            decoration: t.panel(radius: 14, selected: true),
-            child: Icon(Icons.palette_outlined, color: t.primary, size: 20),
+            decoration: t.panel(radius: 15, selected: true),
+            child: Icon(Icons.fitness_center_rounded, color: t.primary, size: 23),
           ),
         ),
+        const SizedBox(width: 8),
+        Expanded(child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('BAD GYM', style: TextStyle(color: t.canvasText, fontFamily: 'Poppins', fontSize: 21, height: 1, fontWeight: FontWeight.w900, letterSpacing: -.7)),
+            Text('Member Intelligence', style: TextStyle(color: t.softText, fontSize: 10, height: 1.2, fontWeight: FontWeight.w600)),
+          ],
+        )),
+        _headerAction(Icons.search_rounded, 'Search', onTap: _showSearchDialog),
+        const SizedBox(width: 6),
+        _headerAction(Icons.notifications_none_rounded, 'Notifications', badge: '3', onTap: () => _showHeaderMessage('Notifications', 'You have 3 unread notifications.')),
+        const SizedBox(width: 6),
+        _headerAction(Icons.qr_code_scanner_rounded, 'QR scanner', onTap: () => _showHeaderMessage('QR scanner', 'Member QR: BG215')),
       ]),
     );
   }
 
-  Widget _headerAction(IconData icon, String label, {String? badge}) {
-    return Container(
-      width: 34, height: 34,
-      decoration: t.panel(radius: t.style == 'athletic' ? 9 : 13),
-      child: Stack(clipBehavior: Clip.none, children: [
-        Center(child: Icon(icon, color: t.canvasText, size: 19)),
-        if (badge != null) Positioned(right: -3, top: -4, child: Container(
-          width: 15, height: 15, alignment: Alignment.center,
-          decoration: const BoxDecoration(color: Color(0xFFE33143), shape: BoxShape.circle),
-          child: Text(badge, style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900)),
-        )),
-      ]),
+  Future<void> _showSearchDialog() async {
+    final controller = TextEditingController();
+    await showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: t.surface,
+        title: Text('Search member', style: TextStyle(color: t.ink, fontWeight: FontWeight.w800)),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: 'Name, member ID or phone',
+            filled: true,
+            fillColor: t.surfaceEnd,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+          ),
+        ),
+        actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close'))],
+      ),
+    );
+    controller.dispose();
+  }
+
+  void _showHeaderMessage(String title, String message) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: t.surface,
+        title: Text(title, style: TextStyle(color: t.ink, fontWeight: FontWeight.w800)),
+        content: Text(message, style: TextStyle(color: t.muted)),
+        actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('OK'))],
+      ),
+    );
+  }
+
+  Widget _headerAction(IconData icon, String label, {String? badge, VoidCallback? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        width: 38, height: 38,
+        decoration: t.panel(radius: 14),
+        child: Stack(clipBehavior: Clip.none, children: [
+          Center(child: Icon(icon, color: t.canvasText, size: 20)),
+          if (badge != null) Positioned(right: -3, top: -4, child: Container(
+            width: 16, height: 16, alignment: Alignment.center,
+            decoration: const BoxDecoration(color: Color(0xFFE33143), shape: BoxShape.circle),
+            child: Text(badge, style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900)),
+          )),
+        ]),
+      ),
     );
   }
 
   Widget _memberCard(double height) {
     final dense = height < 160;
+    final avatarSize = dense ? 76.0 : 88.0;
     return Container(
       height: height,
       clipBehavior: Clip.antiAlias,
       decoration: t.panel(radius: t.radius + 3, selected: false),
-      child: Stack(children: [
-        Positioned.fill(child: DecoratedBox(decoration: BoxDecoration(
-          gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
-            colors: [t.surface, t.surfaceEnd, t.backgroundEnd]),
-        ))),
-        Positioned(right: -18, top: -18, width: 120, height: height,
-          child: IgnorePointer(child: Opacity(opacity: t.dark ? .16 : .12,
-            child: Image.asset(t.art, fit: BoxFit.contain, errorBuilder: (_, __, ___) => const SizedBox.shrink())))),
-        Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          SizedBox(
-            width: height * .70,
-            child: Align(alignment: Alignment.bottomCenter, child: Image.asset(
-              'assets/images/avatar_ashwani_hq.png',
-              width: height * .70, height: height - 4, fit: BoxFit.cover,
-              alignment: Alignment.center,
-              errorBuilder: (_, __, ___) => Icon(Icons.person, color: t.primary, size: 72),
-            )),
-          ),
-          Expanded(child: Padding(
-            padding: EdgeInsets.fromLTRB(2, dense ? 3 : 8, 8, dense ? 3 : 8),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-              Row(children: [
-                Expanded(child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: dense ? 5 : 7, vertical: dense ? 3 : 5),
-                  decoration: BoxDecoration(color: t.primary.withOpacity(.16), borderRadius: BorderRadius.circular(18), border: Border.all(color: t.primary.withOpacity(.5))),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Icon(Icons.check_circle_rounded, color: t.success, size: dense ? 11 : 14),
-                    const SizedBox(width: 3),
-                    Text('CHECK-IN', style: TextStyle(color: t.cardText, fontSize: dense ? 8 : 9, fontWeight: FontWeight.w900)),
-                  ]),
-                )),
-                 SizedBox(width: dense ? 3 : 4),
-                Container(
-                  width: dense ? 36 : 42,
-                  height: dense ? 36 : 42,
-                  padding: const EdgeInsets.all(3),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: t.border, width: 1),
-                    boxShadow: [BoxShadow(color: t.primary.withOpacity(.10), blurRadius: 5)],
-                  ),
-                  child: QrImageView(
-                    data: 'BADGYM:MEMBER:BG215',
-                    version: QrVersions.auto,
-                    padding: EdgeInsets.zero,
-                    eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
-                    dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black),
-                  ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 7, 8, 6),
+        child: Column(children: [
+          Expanded(child: Row(children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(18),
+              child: Container(
+                width: avatarSize, height: avatarSize,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [t.secondary.withOpacity(.30), t.surfaceEnd]),
                 ),
-              ]),
-              SizedBox(height: dense ? 1 : 3),
-              Text(
-                'Ashwani Kumar Sharma Vishwakarma',
-                maxLines: 2,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: t.cardText,
-                  fontFamily: 'Poppins',
-                  fontSize: dense ? 13 : 15,
-                  height: 1.02,
-                  letterSpacing: -.2,
-                  fontWeight: FontWeight.w800,
+                child: Image.asset(
+                  'assets/images/avatar_ashwani_hq.png',
+                  fit: BoxFit.cover,
+                  alignment: Alignment.center,
+                  errorBuilder: (_, __, ___) => Icon(Icons.person, color: t.primary, size: 56),
                 ),
               ),
-              SizedBox(height: dense ? 2 : 4),
-              FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
-                Icon(Icons.badge_outlined, color: t.softText, size: 12),
-                const SizedBox(width: 3),
-                Text('BG215', style: TextStyle(color: t.softText, fontSize: dense ? 8 : 9, fontWeight: FontWeight.w700)),
-                const SizedBox(width: 5),
-                Text('|', style: TextStyle(color: t.softText, fontSize: 9)),
-                const SizedBox(width: 5),
-                Icon(Icons.person_outline_rounded, color: t.softText, size: 12),
-                const SizedBox(width: 2),
-                Text('28 Yrs', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
-                const SizedBox(width: 5),
-                Text('|', style: TextStyle(color: t.softText, fontSize: 9)),
-                const SizedBox(width: 5),
-                Icon(Icons.male_rounded, color: t.secondary, size: 13),
-                Text('Male', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
-              ])),
-              SizedBox(height: dense ? 1 : 3),
-              Wrap(spacing: 4, runSpacing: 1, children: [
-                _memberBadge(Icons.workspace_premium_rounded, 'Gold Plan', t.warning, darkText: true),
-                _memberBadge(Icons.check_circle_rounded, 'Active', t.success),
-              ]),
+            ),
+            const SizedBox(width: 7),
+            Expanded(child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(children: [
+                  Flexible(child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                    decoration: BoxDecoration(color: t.success, borderRadius: BorderRadius.circular(16)),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: const [
+                      Icon(Icons.check_rounded, color: Colors.white, size: 12),
+                      SizedBox(width: 2),
+                      Text('CHECKED-IN', style: TextStyle(color: Colors.white, fontSize: 8.5, fontWeight: FontWeight.w900)),
+                    ]),
+                  )),
+                  const SizedBox(width: 4),
+                  Flexible(child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+                    decoration: BoxDecoration(color: t.surfaceEnd, borderRadius: BorderRadius.circular(15), border: Border.all(color: t.border)),
+                    child: FittedBox(fit: BoxFit.scaleDown, child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Icon(Icons.calendar_month_rounded, color: t.primary, size: 12),
+                      const SizedBox(width: 3),
+                      Text('16 Oct 2026 · 07:12 AM', style: TextStyle(color: t.cardText, fontSize: 8.2, fontWeight: FontWeight.w800)),
+                    ])),
+                  )),
+                ]),
+                const SizedBox(height: 4),
+                Text(
+                  'Ashwani Kumar Sharma Vishwakarma',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: t.cardText, fontFamily: 'Poppins', fontSize: dense ? 12 : 13.5, height: 1.02, letterSpacing: -.2, fontWeight: FontWeight.w900),
+                ),
+                const SizedBox(height: 3),
+                FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
+                  Icon(Icons.badge_outlined, color: t.softText, size: 12),
+                  const SizedBox(width: 3),
+                  Text('BG215', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
+                  const SizedBox(width: 5),
+                  Text('|', style: TextStyle(color: t.softText, fontSize: 9)),
+                  const SizedBox(width: 5),
+                  Icon(Icons.person_outline_rounded, color: t.softText, size: 12),
+                  const SizedBox(width: 2),
+                  Text('28 Yrs', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
+                  const SizedBox(width: 5),
+                  Text('|', style: TextStyle(color: t.softText, fontSize: 9)),
+                  const SizedBox(width: 5),
+                  Icon(Icons.male_rounded, color: t.secondary, size: 13),
+                  Text('Male', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
+                ])),
+                const SizedBox(height: 3),
+                Wrap(spacing: 4, children: [
+                  _memberBadge(Icons.check_circle_rounded, 'Active', t.success),
+                  _memberBadge(Icons.workspace_premium_rounded, 'Gold Plan', t.warning, darkText: true),
+                ]),
+              ],
+            )),
+            const SizedBox(width: 5),
+            Container(
+              width: dense ? 40 : 48, height: dense ? 40 : 48,
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: t.border, width: 1.2), boxShadow: [BoxShadow(color: t.primary.withOpacity(.12), blurRadius: 7)]),
+              child: QrImageView(
+                data: 'BADGYM:MEMBER:BG215',
+                version: QrVersions.auto,
+                padding: EdgeInsets.zero,
+                eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
+                dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black),
+              ),
+            ),
+          ])),
+          Container(height: 1, color: t.border.withOpacity(.8), margin: const EdgeInsets.symmetric(vertical: 4)),
+          Row(children: [
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text('MEMBERSHIP  22 / 30 Days', style: TextStyle(color: t.cardText, fontSize: 9.5, fontWeight: FontWeight.w900)),
+              const SizedBox(height: 4),
+              ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(
+                value: _membershipProgress, minHeight: 6, backgroundColor: t.neutral,
+                valueColor: AlwaysStoppedAnimation<Color>(t.primary),
+              )),
+            ])),
+            const SizedBox(width: 8),
+            Container(width: 1, height: 30, color: t.border),
+            const SizedBox(width: 8),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text('EXPIRES: 24 OCT 2026', style: TextStyle(color: t.danger, fontSize: 9.2, fontWeight: FontWeight.w900)),
+              Text('(8 Days Left)', style: TextStyle(color: t.danger, fontSize: 9, fontWeight: FontWeight.w700)),
             ]),
+            const SizedBox(width: 5),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+              decoration: BoxDecoration(color: t.primary.withOpacity(.14), borderRadius: BorderRadius.circular(14)),
+              child: Text('73%', style: TextStyle(color: t.primary, fontSize: 11, fontWeight: FontWeight.w900)),
+            ),
+          ]),
+        ]),
+      ),
+    );
+  }
+
+  Widget _adBanner(double height) {
+    return SizedBox(
+      height: height,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(t.radius),
+        child: Stack(fit: StackFit.expand, children: [
+          Image.asset(
+            'assets/promo/promo_card_full.png',
+            fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) => DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [t.primary, t.secondary]),
+              ),
+              child: Row(children: [
+                const SizedBox(width: 12),
+                const Icon(Icons.fitness_center_rounded, color: Colors.white, size: 28),
+                const SizedBox(width: 8),
+                const Expanded(child: Text('GREAT INDIAN FITNESS FESTIVAL  ·  UP TO 40% OFF', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w900))),
+              ]),
+            ),
+          ),
+          Positioned(right: 7, top: 5, child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+            decoration: BoxDecoration(color: t.primary.withOpacity(.92), borderRadius: BorderRadius.circular(12)),
+            child: const Text('Sponsored', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w900)),
           )),
         ]),
+      ),
+    );
+  }
+
+  Widget _smartInsightStrip(double height) {
+    return Container(
+      height: height,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: t.panel(radius: t.radius, selected: false),
+      child: Row(children: [
+        Icon(Icons.auto_awesome_rounded, color: t.primary, size: 18),
+        const SizedBox(width: 4),
+        Expanded(child: Text('AI Insights', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900))),
+        Container(width: 1, height: 22, color: t.border),
+        const SizedBox(width: 7),
+        Expanded(flex: 2, child: Text('Attendance  ↑ 6% vs last month', maxLines: 2, style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w800))),
+        Container(width: 1, height: 22, color: t.border),
+        const SizedBox(width: 7),
+        Icon(Icons.emoji_events_rounded, color: t.warning, size: 17),
+        const SizedBox(width: 3),
+        Expanded(child: Text('Best streak 14 Days', maxLines: 2, style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w900))),
       ]),
     );
   }
@@ -604,52 +339,6 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
       Icon(icon, size: 11, color: darkText ? const Color(0xFF271B05) : Colors.white),
       const SizedBox(width: 3),
       Text(label, style: TextStyle(color: darkText ? const Color(0xFF271B05) : Colors.white, fontSize: 11, fontWeight: FontWeight.w900)),
-    ]),
-  );
-
-  Widget _paymentStrip(double height) => Container(
-    height: height,
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-    decoration: t.panel(radius: t.radius, selected: false),
-    child: Row(children: [
-      Expanded(child: Row(children: [
-        Icon(Icons.account_balance_wallet_rounded, color: t.danger, size: 18),
-        const SizedBox(width: 4),
-        Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('PAYMENT', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 10.5, fontWeight: FontWeight.w800)),
-          Text('₹500 Due', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.danger, fontSize: 12, fontWeight: FontWeight.w900)),
-        ])),
-      ])),
-      Container(width: 1, height: height * .62, color: t.border),
-      Expanded(child: Row(children: [
-        Icon(Icons.calendar_month_rounded, color: t.primary, size: 18),
-        const SizedBox(width: 4),
-        Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('8 Days Left', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.primary, fontSize: 11, fontWeight: FontWeight.w900)),
-          Text('Expires: 24 Oct 2026', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.softText, fontSize: 10.5, fontWeight: FontWeight.w600)),
-        ])),
-      ])),
-      Icon(Icons.chevron_right_rounded, color: t.primary, size: 19),
-    ]),
-  );
-
-  Widget _membershipProgressBar(double height) => Container(
-    height: height,
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-    decoration: t.panel(radius: t.radius, selected: false),
-    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Row(children: [
-        Expanded(child: Text('Membership 22 / 30 Days', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: t.cardText, fontSize: 9.5, fontWeight: FontWeight.w900))),
-        const Spacer(),
-        Container(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-          decoration: BoxDecoration(color: t.primary.withOpacity(.14), borderRadius: BorderRadius.circular(14)),
-          child: Text('73%', style: TextStyle(color: t.primary, fontSize: 11, fontWeight: FontWeight.w900))),
-      ]),
-      const SizedBox(height: 2),
-      ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(
-        value: _membershipProgress, minHeight: 4, backgroundColor: t.neutral,
-        valueColor: AlwaysStoppedAnimation<Color>(t.primary),
-      )),
     ]),
   );
 
