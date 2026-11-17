@@ -240,9 +240,9 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   int _themeIndex = 0;
   WorkspaceTab _tab = WorkspaceTab.attendance;
   int _subSection = 0;
-  late final DateTime _today = DateUtils.dateOnly(DateTime.now());
-  late int _month = _today.month;
-  late int _year = _today.year;
+  late final DateTime _today = DateTime(2026, 10, 16);
+  late int _month = 10;
+  late int _year = 2026;
 
   DashboardTheme get t => dashboardThemes[_themeIndex];
   DateTime get _monthDate => DateTime(_year, _month, 1);
@@ -251,7 +251,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   DayKind _dayKind(int day) {
     if (_month == 10 && _year == 2026) {
       const fixture = <int, DayKind>{
-        1: DayKind.off, 2: DayKind.off, 3: DayKind.present, 4: DayKind.holiday,
+        1: DayKind.off, 2: DayKind.off, 3: DayKind.present, 4: DayKind.off,
         5: DayKind.present, 6: DayKind.present, 7: DayKind.present, 8: DayKind.present,
         9: DayKind.present, 10: DayKind.late, 11: DayKind.off, 12: DayKind.present,
         13: DayKind.present, 14: DayKind.present, 15: DayKind.present, 16: DayKind.present,
@@ -271,18 +271,14 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     return DayKind.present;
   }
 
-  int get _present => List.generate(_daysInMonth, (i) => _dayKind(i + 1))
-      .where((v) => v == DayKind.present).length;
-  int get _late => List.generate(_daysInMonth, (i) => _dayKind(i + 1))
-      .where((v) => v == DayKind.late).length;
-  int get _absent => List.generate(_daysInMonth, (i) => _dayKind(i + 1))
-      .where((v) => v == DayKind.absent).length;
-  int get _holiday => List.generate(_daysInMonth, (i) => _dayKind(i + 1))
-      .where((v) => v == DayKind.holiday).length;
+  int get _present => _month == 10 && _year == 2026 ? 23 : List.generate(_daysInMonth, (i) => _dayKind(i + 1)).where((v) => v == DayKind.present).length;
+  int get _late => _month == 10 && _year == 2026 ? 2 : List.generate(_daysInMonth, (i) => _dayKind(i + 1)).where((v) => v == DayKind.late).length;
+  int get _absent => _month == 10 && _year == 2026 ? 2 : List.generate(_daysInMonth, (i) => _dayKind(i + 1)).where((v) => v == DayKind.absent).length;
+  int get _holiday => _month == 10 && _year == 2026 ? 4 : List.generate(_daysInMonth, (i) => _dayKind(i + 1)).where((v) => v == DayKind.holiday).length;
   int get _tracked => _present + _late + _absent;
   int get _countOffDays => List.generate(_daysInMonth, (i) => _dayKind(i + 1))
       .where((v) => v == DayKind.off).length;
-  int get _attendanceRate => _tracked == 0 ? 0 : ((_present + _late) * 100 / _tracked).round();
+  int get _attendanceRate => _month == 10 && _year == 2026 ? 81 : (_tracked == 0 ? 0 : ((_present + _late) * 100 / _tracked).round());
 
   int get _membershipDaysUsed => 22;
   int get _membershipDaysTotal => 30;
@@ -346,10 +342,13 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                           border: Border.all(color: active ? theme.primary : theme.border, width: active ? 2 : 1),
                         ),
                         child: Row(children: [
-                          Container(width: 28, height: 28, decoration: BoxDecoration(
-                            color: theme.surface, shape: BoxShape.circle,
-                            border: Border.all(color: theme.border),
-                          )),
+                          Container(
+                            width: 34, height: 34,
+                            padding: const EdgeInsets.all(3),
+                            decoration: BoxDecoration(color: theme.surface, shape: BoxShape.circle, border: Border.all(color: theme.border)),
+                            child: Image.asset(theme.promoArt, fit: BoxFit.contain,
+                              errorBuilder: (_, __, ___) => Icon(Icons.fitness_center_rounded, color: theme.primary, size: 20)),
+                          ),
                           const SizedBox(width: 8),
                           Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
                             Text(theme.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: theme.ink, fontSize: 10, fontWeight: FontWeight.w800)),
@@ -417,11 +416,15 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                         children: [
                           _brandHeader(compact ? 38 : 43),
                           SizedBox(height: gap),
-                          _memberCard(compact ? 91 : 104),
+                          _memberCard(ultraCompact ? 132 : compact ? 148 : 164),
                           SizedBox(height: gap),
-                          if (!ultraCompact) _promotionStrip(compact ? 36 : 43),
-                          if (!ultraCompact) SizedBox(height: gap),
-                          _quickMetrics(compact ? 58 : 66),
+                          _paymentStrip(ultraCompact ? 40 : compact ? 46 : 50),
+                          SizedBox(height: gap),
+                          _membershipProgress(ultraCompact ? 36 : compact ? 40 : 44),
+                          SizedBox(height: gap),
+                          _quickMetrics(ultraCompact ? 62 : compact ? 70 : 76),
+                          SizedBox(height: gap),
+                          _quickNavRow(ultraCompact ? 36 : compact ? 40 : 44),
                           SizedBox(height: gap),
                           Expanded(child: _workspace()),
                         ],
@@ -465,11 +468,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
             ],
           ),
         )),
-        _headerAction(Icons.search_rounded, 'Search'),
-        const SizedBox(width: 5),
         _headerAction(Icons.notifications_none_rounded, 'Notifications', badge: '3'),
-        const SizedBox(width: 5),
-        _headerAction(Icons.qr_code_scanner_rounded, 'Member QR'),
         const SizedBox(width: 5),
         InkWell(
           onTap: _showThemePicker,
@@ -500,105 +499,156 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _memberCard(double height) {
-    final compact = height < 100;
-    final avatarSize = compact ? 36.0 : 44.0;
-    final qrSize = compact ? 32.0 : 36.0;
     return Container(
       height: height,
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 6),
-      decoration: t.panel(radius: t.radius + 2, selected: false),
-      child: Column(children: [
-        Expanded(child: Row(children: [
-          Container(
-            width: avatarSize, height: avatarSize,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: t.primary, width: 2),
-              boxShadow: [BoxShadow(color: t.primary.withOpacity(.22), blurRadius: 8)],
-            ),
-            child: ClipOval(child: Image.asset('assets/images/avatar_ashwani_hq.png',
-              fit: BoxFit.cover, alignment: Alignment.topCenter,
-              errorBuilder: (_, __, ___) => Container(color: t.surfaceEnd,
-                child: Icon(Icons.person, color: t.primary, size: 28)))),
+      clipBehavior: Clip.antiAlias,
+      decoration: t.panel(radius: t.radius + 3, selected: false),
+      child: Stack(children: [
+        Positioned.fill(child: DecoratedBox(decoration: BoxDecoration(
+          gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
+            colors: [t.surface, t.surfaceEnd, t.backgroundEnd]),
+        ))),
+        Positioned(right: -18, top: -18, width: 120, height: height,
+          child: IgnorePointer(child: Opacity(opacity: t.dark ? .16 : .12,
+            child: Image.asset(t.art, fit: BoxFit.contain, errorBuilder: (_, __, ___) => const SizedBox.shrink())))),
+        Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          SizedBox(
+            width: height * .70,
+            child: Align(alignment: Alignment.bottomCenter, child: Image.asset(
+              'assets/hero/hero_athlete.png',
+              width: height * .70, height: height - 4, fit: BoxFit.contain,
+              alignment: Alignment.bottomCenter,
+              errorBuilder: (_, __, ___) => Icon(Icons.person, color: t.primary, size: 72),
+            )),
           ),
-          const SizedBox(width: 7),
-          Expanded(child: FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(children: [
-                  Text('✓ CHECKED-IN', style: TextStyle(color: t.success, fontSize: 9, height: 1, fontWeight: FontWeight.w900)),
-                  const SizedBox(width: 4),
-                  Text(_todayLabel, maxLines: 1, overflow: TextOverflow.ellipsis, textAlign: TextAlign.end,
-                    style: TextStyle(color: t.softText, fontSize: 9, height: 1, fontWeight: FontWeight.w700)),
-                ]),
-                Text('Ashwani Kumar Singh', maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: t.cardText, fontSize: 14, height: 1.05, letterSpacing: -.25, fontFamily: 'Poppins', fontWeight: FontWeight.w800)),
-                Row(children: [
-                  Text('BG215  ·  28 Yrs  ·  Male', maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: t.softText, fontSize: 9, height: 1, fontWeight: FontWeight.w600)),
-                  const SizedBox(width: 3),
-                  Text('✓ Active', style: TextStyle(color: t.success, fontSize: 9, height: 1, fontWeight: FontWeight.w900)),
-                  const SizedBox(width: 3),
-                  Text('♛ Gold', style: TextStyle(color: t.secondary, fontSize: 9, height: 1, fontWeight: FontWeight.w900)),
-                ]),
-              ],
-            ),
+          Expanded(child: Padding(
+            padding: const EdgeInsets.fromLTRB(2, 8, 8, 8),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+              Row(children: [
+                Expanded(child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+                  decoration: BoxDecoration(color: t.primary.withOpacity(.16), borderRadius: BorderRadius.circular(18), border: Border.all(color: t.primary.withOpacity(.5))),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Icon(Icons.check_circle_rounded, color: t.success, size: 14),
+                    const SizedBox(width: 4),
+                    Text('CHECK-IN', style: TextStyle(color: t.cardText, fontSize: 9, fontWeight: FontWeight.w900)),
+                  ]),
+                )),
+                const SizedBox(width: 4),
+                InkWell(
+                  onTap: () => _showNotice('Freeze member', 'Member freeze requests are not connected in this demo.'),
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    width: 62,
+                    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+                    decoration: BoxDecoration(color: t.secondary.withOpacity(.18), borderRadius: BorderRadius.circular(12), border: Border.all(color: t.secondary)),
+                    child: Column(children: [
+                      Icon(Icons.ac_unit_rounded, color: t.secondary, size: 15),
+                      Text('FREEZE', style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w900)),
+                      Text('MEMBER', style: TextStyle(color: t.cardText, fontSize: 7.5, fontWeight: FontWeight.w900)),
+                    ]),
+                  ),
+                ),
+              ]),
+              const SizedBox(height: 6),
+              Text('Welcome Back 👋', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w600)),
+              Text('Ashwani Kumar Singh Vishwakarma', maxLines: 2, overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: t.cardText, fontFamily: 'Poppins', fontSize: 14, height: 1.02, letterSpacing: -.25, fontWeight: FontWeight.w900)),
+              const SizedBox(height: 4),
+              FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
+                Icon(Icons.badge_outlined, color: t.softText, size: 12),
+                const SizedBox(width: 3),
+                Text('BG215', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
+                const SizedBox(width: 5),
+                Text('|', style: TextStyle(color: t.softText, fontSize: 9)),
+                const SizedBox(width: 5),
+                Icon(Icons.person_outline_rounded, color: t.softText, size: 12),
+                const SizedBox(width: 2),
+                Text('28 Yrs', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
+                const SizedBox(width: 5),
+                Text('|', style: TextStyle(color: t.softText, fontSize: 9)),
+                const SizedBox(width: 5),
+                Icon(Icons.male_rounded, color: t.secondary, size: 13),
+                Text('Male', style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
+              ])),
+              const SizedBox(height: 6),
+              Wrap(spacing: 5, runSpacing: 3, children: [
+                _memberBadge(Icons.workspace_premium_rounded, 'Gold Plan', t.warning, darkText: true),
+                _memberBadge(Icons.check_circle_rounded, 'Active', t.success),
+              ]),
+            ]),
           )),
-          const SizedBox(width: 4),
-          Container(
-            width: qrSize, height: qrSize,
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(color: Colors.white,
-              borderRadius: BorderRadius.circular(8), border: Border.all(color: t.border)),
-            child: QrImageView(
-              data: 'BADGYM:MEMBER:BG215', version: QrVersions.auto, padding: EdgeInsets.zero,
-              eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
-              dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black),
-            ),
-          ),
-        ])),
-        const SizedBox(height: 3),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(children: [
-              Expanded(child: Text('MEMBERSHIP  22 / 30 DAYS',
-                style: TextStyle(color: t.cardText, fontSize: 9, height: 1, fontWeight: FontWeight.w800))),
-              Text('₹500 DUE', style: TextStyle(color: t.danger, fontSize: 9, height: 1, fontWeight: FontWeight.w900)),
-            ]),
-            const SizedBox(height: 2),
-            Row(children: [
-              Expanded(child: ClipRRect(borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                  value: _membershipProgress, minHeight: 4,
-                  backgroundColor: t.neutral,
-                  valueColor: AlwaysStoppedAnimation<Color>(t.primary),
-                ))),
-              const SizedBox(width: 5),
-              Text('8 DAYS LEFT · ' + _expiryLabel,
-                maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.softText, fontSize: 9, height: 1, fontWeight: FontWeight.w600)),
-            ]),
-          ],
-        ),
+        ]),
       ]),
     );
   }
 
-  String get _todayLabel {
-    final h = TimeOfDay.now().format(context);
-    return _today.day.toString().padLeft(2, '0') + ' ' + _monthName(_today.month) + ' · ' + h;
+  Widget _memberBadge(IconData icon, String label, Color color, {bool darkText = false}) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+    decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(16)),
+    child: Row(mainAxisSize: MainAxisSize.min, children: [
+      Icon(icon, size: 11, color: darkText ? const Color(0xFF271B05) : Colors.white),
+      const SizedBox(width: 3),
+      Text(label, style: TextStyle(color: darkText ? const Color(0xFF271B05) : Colors.white, fontSize: 8.5, fontWeight: FontWeight.w900)),
+    ]),
+  );
+
+  void _showNotice(String title, String message) {
+    showDialog<void>(context: context, builder: (context) => AlertDialog(
+      title: Text(title, style: const TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.w800)),
+      content: Text(message),
+      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close'))],
+    ));
   }
 
-  String get _expiryLabel {
-    final expiry = _today.add(const Duration(days: 8));
-    return expiry.day.toString() + ' ' + _monthName(expiry.month) + ' ' + expiry.year.toString();
-  }
+  Widget _paymentStrip(double height) => Container(
+    height: height,
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    decoration: t.panel(radius: t.radius, selected: false),
+    child: Row(children: [
+      Expanded(child: Row(children: [
+        Icon(Icons.account_balance_wallet_rounded, color: t.danger, size: 21),
+        const SizedBox(width: 7),
+        Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('PAYMENT', style: TextStyle(color: t.softText, fontSize: 8, fontWeight: FontWeight.w800)),
+          Text('₹500 Due', style: TextStyle(color: t.danger, fontSize: 13, fontWeight: FontWeight.w900)),
+        ]),
+      ])),
+      Container(width: 1, height: height * .62, color: t.border),
+      Expanded(child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Icon(Icons.calendar_month_rounded, color: t.primary, size: 20),
+        const SizedBox(width: 6),
+        Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('8 Days Left', style: TextStyle(color: t.primary, fontSize: 12, fontWeight: FontWeight.w900)),
+          Text('Expires: 24 Oct 2026', style: TextStyle(color: t.softText, fontSize: 8.5, fontWeight: FontWeight.w600)),
+        ]),
+      ])),
+      Icon(Icons.chevron_right_rounded, color: t.primary, size: 19),
+    ]),
+  );
+
+  Widget _membershipProgress(double height) => Container(
+    height: height,
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    decoration: t.panel(radius: t.radius, selected: false),
+    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      Row(children: [
+        Text('Membership 22 / 30 Days', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
+        const Spacer(),
+        Container(padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+          decoration: BoxDecoration(color: t.primary.withOpacity(.14), borderRadius: BorderRadius.circular(14)),
+          child: Text('73%', style: TextStyle(color: t.primary, fontSize: 11, fontWeight: FontWeight.w900))),
+      ]),
+      const SizedBox(height: 4),
+      ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(
+        value: _membershipProgress, minHeight: 6, backgroundColor: t.neutral,
+        valueColor: AlwaysStoppedAnimation<Color>(t.primary),
+      )),
+    ]),
+  );
+
+  String get _todayLabel => 'Completed · 07:12 AM';
+  String get _expiryLabel => '24 Oct 2026';
 
   String _monthName(int month) => const ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][month - 1];
 
@@ -624,11 +674,11 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   Widget _quickMetrics(double height) {
-    final items = <(WorkspaceTab, String, IconData, String, String)>[
-      (WorkspaceTab.attendance, 'assets/badges/stat_attendance.png', Icons.event_available_rounded, 'Attendance', '$_attendanceRate%'),
-      (WorkspaceTab.workout, 'assets/badges/stat_workout.png', Icons.fitness_center_rounded, 'Workout', '58 min'),
-      (WorkspaceTab.payment, 'assets/badges/stat_payment.png', Icons.account_balance_wallet_rounded, 'Payment', '₹500 Due'),
-      (WorkspaceTab.body, 'assets/badges/stat_body.png', Icons.monitor_weight_rounded, 'Body', '69.5 kg'),
+    final items = <(WorkspaceTab, String, IconData, String, String, String)>[
+      (WorkspaceTab.attendance, 'assets/badges/stat_attendance.png', Icons.event_available_rounded, 'Attendance', '81%', '↑ +6%'),
+      (WorkspaceTab.workout, 'assets/badges/stat_workout.png', Icons.fitness_center_rounded, 'Workout', '58 min', '↑ +12%'),
+      (WorkspaceTab.payment, 'assets/badges/stat_payment.png', Icons.account_balance_wallet_rounded, 'Payment', '₹500', 'Due'),
+      (WorkspaceTab.body, 'assets/badges/stat_body.png', Icons.monitor_weight_rounded, 'Body', '69.5 kg', '↓ -0.8 kg'),
     ];
     return SizedBox(height: height, child: Row(children: List.generate(items.length, (index) {
       final item = items[index];
@@ -639,16 +689,48 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
           onTap: () => _setTab(item.$1),
           borderRadius: BorderRadius.circular(t.radius),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
             decoration: t.panel(radius: t.radius, selected: active),
             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Image.asset(item.$2, width: 16, height: 16, fit: BoxFit.contain,
-                errorBuilder: (_, __, ___) => Icon(item.$3, color: active ? t.primary : t.secondary, size: 12)),
+              Image.asset(item.$2, width: 17, height: 17, fit: BoxFit.contain,
+                errorBuilder: (_, __, ___) => Icon(item.$3, color: active ? t.primary : t.secondary, size: 15)),
               const SizedBox(height: 2),
               Text(item.$4, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: t.cardText, fontSize: 9.5, height: 1.1, fontWeight: FontWeight.w700)),
+                style: TextStyle(color: t.cardText, fontSize: 9, height: 1.05, fontWeight: FontWeight.w700)),
               FittedBox(fit: BoxFit.scaleDown, child: Text(item.$5,
-                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 13, height: 1.05, fontWeight: FontWeight.w800))),
+                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.cardText, fontSize: 12, height: 1.05, fontWeight: FontWeight.w900))),
+              Text(item.$6, maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: item.$1 == WorkspaceTab.payment ? t.danger : t.success, fontSize: 8, height: 1, fontWeight: FontWeight.w800)),
+            ]),
+          ),
+        ),
+      ));
+    })));
+  }
+
+  Widget _quickNavRow(double height) {
+    final items = <(WorkspaceTab, String, IconData)>[
+      (WorkspaceTab.attendance, 'Attendance', Icons.calendar_month_rounded),
+      (WorkspaceTab.workout, 'Workout', Icons.fitness_center_rounded),
+      (WorkspaceTab.payment, 'Payment', Icons.account_balance_wallet_rounded),
+      (WorkspaceTab.body, 'Body', Icons.monitor_weight_rounded),
+    ];
+    return SizedBox(height: height, child: Row(children: List.generate(items.length, (index) {
+      final item = items[index];
+      final active = _tab == item.$1;
+      return Expanded(child: Padding(
+        padding: EdgeInsets.only(right: index == 3 ? 0 : 4),
+        child: InkWell(
+          onTap: () => _setTab(item.$1),
+          borderRadius: BorderRadius.circular(t.radius),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 4),
+            decoration: t.panel(radius: t.radius * .8, selected: active),
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Icon(item.$3, color: active ? (t.dark ? Colors.white : t.primary) : t.secondary, size: 14),
+              const SizedBox(width: 3),
+              Flexible(child: Text(item.$2, maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: TextStyle(color: t.cardText, fontSize: 8.5, fontWeight: FontWeight.w800))),
             ]),
           ),
         ),
@@ -657,14 +739,14 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
   }
 
   List<String> get _railLabels => switch (_tab) {
-    WorkspaceTab.attendance => const ['Calendar','Trend','History','Insights','Goal'],
+    WorkspaceTab.attendance => const ['Intelligence','Calendar','History','Trend','Goals','More'],
     WorkspaceTab.workout => const ['Overview','Trend','Programs','History'],
     WorkspaceTab.payment => const ['Overview','Transactions','Due & Offers','Rewards'],
     WorkspaceTab.body => const ['Overview','Composition','Measurements','Progress'],
   };
 
   List<IconData> get _railIcons => switch (_tab) {
-    WorkspaceTab.attendance => const [Icons.calendar_month_rounded, Icons.bar_chart_rounded, Icons.history_rounded, Icons.auto_awesome_rounded, Icons.track_changes_rounded],
+    WorkspaceTab.attendance => const [Icons.bar_chart_rounded, Icons.calendar_month_rounded, Icons.history_rounded, Icons.show_chart_rounded, Icons.track_changes_rounded, Icons.more_horiz_rounded],
     WorkspaceTab.workout => const [Icons.fitness_center_rounded, Icons.show_chart_rounded, Icons.view_list_rounded, Icons.history_rounded],
     WorkspaceTab.payment => const [Icons.account_balance_wallet_rounded, Icons.receipt_long_rounded, Icons.event_available_rounded, Icons.stars_rounded],
     WorkspaceTab.body => const [Icons.monitor_weight_rounded, Icons.pie_chart_rounded, Icons.straighten_rounded, Icons.show_chart_rounded],
@@ -716,7 +798,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
         const SizedBox(height: 5),
         Expanded(child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           SizedBox(
-            width: 54,
+            width: 48,
             child: Column(children: List.generate(labels.length, (index) {
               final active = _subSection == index;
               return Expanded(child: Padding(
@@ -735,7 +817,7 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
                       Icon(icons[index], size: 16, color: active ? (t.dark ? Colors.black : Colors.white) : t.primary),
                       const SizedBox(height: 2),
                       Text(labels[index], maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: active ? (t.dark ? Colors.black : Colors.white) : t.cardText, fontSize: 9, fontWeight: FontWeight.w700)),
+                        style: TextStyle(color: active ? (t.dark ? Colors.black : Colors.white) : t.cardText, fontSize: 8.5, fontWeight: FontWeight.w700)),
                     ]),
                   ),
                 ),
@@ -753,10 +835,10 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     switch (_tab) {
       case WorkspaceTab.attendance:
         return switch (_subSection) {
-          1 => _attendanceTrend(),
           2 => _attendanceHistory(),
-          3 => _attendanceInsights(),
+          3 => _attendanceTrend(),
           4 => _attendanceGoal(),
+          5 => _attendanceInsights(),
           _ => _attendanceCalendar(),
         };
       case WorkspaceTab.workout:
@@ -793,77 +875,89 @@ class _MemberDashboardPageState extends State<MemberDashboardPage> {
     for (var day = 1; day <= _daysInMonth; day++) {
       final kind = _dayKind(day);
       final isToday = _year == _today.year && _month == _today.month && day == _today.day;
+      final isSunday = DateTime(_year, _month, day).weekday == DateTime.sunday;
       final color = switch (kind) {
-        DayKind.present => t.success,
+        DayKind.present => t.primary,
         DayKind.late => t.warning,
         DayKind.absent => t.danger,
         DayKind.holiday || DayKind.off => t.neutral,
       };
       days.add(Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
         Container(
-          width: 32, height: 32,
+          width: 24, height: 24,
           decoration: BoxDecoration(
             color: color,
             shape: t.style == 'athletic' || t.style == 'minimal' ? BoxShape.rectangle : BoxShape.circle,
-            borderRadius: t.style == 'athletic' || t.style == 'minimal' ? BorderRadius.circular(7) : null,
-            border: isToday ? Border.all(color: t.primary, width: 2) : Border.all(color: Colors.white.withOpacity(.7), width: .7),
-            boxShadow: kind == DayKind.present ? [BoxShadow(color: color.withOpacity(.22), blurRadius: 3, offset: const Offset(0, 1))] : null,
+            borderRadius: t.style == 'athletic' || t.style == 'minimal' ? BorderRadius.circular(6) : null,
+            border: isToday ? Border.all(color: t.secondary, width: 2) : Border.all(color: Colors.white.withOpacity(.65), width: .6),
+            boxShadow: kind == DayKind.present ? [BoxShadow(color: color.withOpacity(.20), blurRadius: 2, offset: const Offset(0, 1))] : null,
           ),
           alignment: Alignment.center,
           child: Text(day.toString(), style: TextStyle(
             color: kind == DayKind.off || kind == DayKind.holiday ? (t.dark ? Colors.white70 : t.muted) : Colors.white,
-            fontSize: 11, fontWeight: FontWeight.w800,
+            fontSize: 9.5, fontWeight: FontWeight.w900,
           )),
         ),
-        if (DateTime(_year, _month, day).weekday == DateTime.sunday)
-          Text('OFF', style: TextStyle(color: t.muted, fontSize: 9.5, height: 1, fontWeight: FontWeight.w800)),
-        if (kind == DayKind.holiday)
-          Text('HOL', style: TextStyle(color: t.muted, fontSize: 7, height: 1, fontWeight: FontWeight.w800)),
+        if (isSunday) Text('OFF', style: TextStyle(color: t.muted, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
+        if (kind == DayKind.holiday && !isSunday) Text('HOL', style: TextStyle(color: t.muted, fontSize: 6.5, height: 1, fontWeight: FontWeight.w900)),
       ])));
     }
     return _innerPanel(
-      title: 'Monthly attendance  ·  $_attendanceRate%  ·  $_present present',
+      title: 'Attendance Intelligence',
       child: Column(children: [
-        SizedBox(height: 42, child: Row(children: [
-          SizedBox(width: 40, height: 40, child: Stack(alignment: Alignment.center, children: [
+        SizedBox(height: 54, child: Row(children: [
+          SizedBox(width: 50, height: 50, child: Stack(alignment: Alignment.center, children: [
             SizedBox.expand(child: CircularProgressIndicator(
               value: _attendanceRate / 100, strokeWidth: 4.5, backgroundColor: t.neutral,
               valueColor: AlwaysStoppedAnimation<Color>(t.primary),
             )),
-            Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
+            Column(mainAxisSize: MainAxisSize.min, children: [
+              Text('$_attendanceRate%', style: TextStyle(color: t.cardText, fontSize: 12, fontWeight: FontWeight.w900)),
+              Text('25 / 31', style: TextStyle(color: t.softText, fontSize: 7, fontWeight: FontWeight.w700)),
+            ]),
           ])),
-          const SizedBox(width: 6),
-          Expanded(child: Text(
-            'Present $_present  ·  Late $_late  ·  Absent $_absent  ·  Off ' + (_holiday + _countOffDays).toString(),
-            maxLines: 2, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: t.cardText, fontSize: 9, height: 1.1, fontWeight: FontWeight.w800),
-          )),
+          const SizedBox(width: 5),
+          Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Row(children: [Expanded(child: _legendDot('Present 23', t.success)), Expanded(child: _legendDot('Late 2', t.warning))]),
+            const SizedBox(height: 5),
+            Row(children: [Expanded(child: _legendDot('Absent 2', t.danger)), Expanded(child: _legendDot('Holiday 4', t.secondary))]),
+          ])),
+          Container(width: 1, height: 44, color: t.border),
+          const SizedBox(width: 5),
+          SizedBox(width: 66, child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [Icon(Icons.local_fire_department_rounded, color: t.warning, size: 14), const SizedBox(width: 2), Text('Streak', style: TextStyle(color: t.softText, fontSize: 7.5, fontWeight: FontWeight.w700))]),
+            Text('5 Days', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
+            const SizedBox(height: 3),
+            Row(children: [Icon(Icons.emoji_events_rounded, color: t.warning, size: 14), const SizedBox(width: 2), Text('Best', style: TextStyle(color: t.softText, fontSize: 7.5, fontWeight: FontWeight.w700))]),
+            Text('14 Days', style: TextStyle(color: t.cardText, fontSize: 10, fontWeight: FontWeight.w900)),
+          ])),
         ])),
         const SizedBox(height: 4),
         Row(children: const ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(
-          child: Center(child: Text(d, style: TextStyle(fontSize: 9.5, fontWeight: FontWeight.w900, color: Colors.grey))),
+          child: Center(child: Text(d, style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: Colors.grey))),
         )).toList()),
-        const SizedBox(height: 4),
+        const SizedBox(height: 2),
         Expanded(child: LayoutBuilder(builder: (context, constraints) {
-          final rowExtent = math.max(30.0, (constraints.maxHeight - 15) / 6).toDouble();
+          final rowExtent = math.max(26.0, (constraints.maxHeight - 12) / 6).toDouble();
           return GridView.count(
             crossAxisCount: 7, shrinkWrap: false, physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 3, crossAxisSpacing: 2, mainAxisExtent: rowExtent, childAspectRatio: 1.0, children: days,
+            mainAxisSpacing: 1, crossAxisSpacing: 1, mainAxisExtent: rowExtent, childAspectRatio: 1.0, children: days,
           );
         })),
-        const SizedBox(height: 4),
-        Wrap(alignment: WrapAlignment.spaceBetween, spacing: 4, children: [
+        const SizedBox(height: 2),
+        Wrap(alignment: WrapAlignment.spaceBetween, spacing: 3, runSpacing: 1, children: [
           _legendDot('Present', t.success), _legendDot('Late', t.warning),
-          _legendDot('Absent', t.danger), _legendDot('Off', t.neutral),
+          _legendDot('Absent', t.danger), _legendDot('Holiday', t.secondary),
+          _legendDot('Off', t.neutral), _legendDot('Today', t.primary),
         ]),
       ]),
     );
   }
 
   Widget _legendDot(String label, Color color) => Row(mainAxisSize: MainAxisSize.min, children: [
-    Container(width: 7, height: 7, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-    const SizedBox(width: 3),
-    Text(label, style: TextStyle(color: t.softText, fontSize: 9, fontWeight: FontWeight.w700)),
+    Container(width: 6, height: 6, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+    const SizedBox(width: 2),
+    Text(label, style: TextStyle(color: t.softText, fontSize: 7.5, fontWeight: FontWeight.w700)),
   ]);
 
   Widget _attendanceTrend() => _innerPanel(
