@@ -3,9 +3,15 @@ import 'package:arjun_app/main.dart';
 import 'package:arjun_app/operations.dart';
 
 void main() {
-  testWidgets('ARJUN opens the Hindi-first dashboard', (tester) async {
+  testWidgets('Debug tester can enter ARJUN with one tap', (tester) async {
     await tester.pumpWidget(const ArjunApp());
     expect(find.text('ARJUN'), findsOneWidget);
+    expect(find.text('tester@arjun.demo'), findsOneWidget);
+    expect(find.text('टेस्ट ऐप खोलें'), findsOneWidget);
+
+    await tester.tap(find.text('टेस्ट ऐप खोलें'));
+    await tester.pumpAndSettle();
+
     expect(find.text('नमस्ते 👋'), findsOneWidget);
     expect(find.text('काम पोस्ट करें'), findsWidgets);
   });
