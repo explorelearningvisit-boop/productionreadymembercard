@@ -41,7 +41,7 @@ jobs:
           channel: stable
           cache: true
       - name: Generate Android platform project
-        run: flutter create --platforms=android --org in.arjun --project-name arjun_app .
+        run: flutter create --platforms=android --org com.arjun --project-name arjun_app .
       - name: Dependencies and quality checks
         run: |
           flutter pub get
@@ -78,7 +78,7 @@ jobs:
           channel: stable
           cache: true
       - name: Generate iOS platform project
-        run: flutter create --platforms=ios --org in.arjun --project-name arjun_app .
+        run: flutter create --platforms=ios --org com.arjun --project-name arjun_app .
       - name: Build unsigned iOS app for simulator validation
         run: |
           flutter pub get
@@ -130,7 +130,7 @@ jobs:
           adb connect "$DEVICE_IP:$PORT"
           adb -s "$DEVICE_IP:$PORT" get-state
           adb -s "$DEVICE_IP:$PORT" install -r dist/app-debug.apk
-          adb -s "$DEVICE_IP:$PORT" shell monkey -p in.arjun.arjun_app 1
+          adb -s "$DEVICE_IP:$PORT" shell monkey -p com.arjun.arjun_app 1
           sleep 5
           mkdir -p evidence
           adb -s "$DEVICE_IP:$PORT" exec-out screencap -p > evidence/arjun-phone.png
