@@ -167,12 +167,12 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             ]),
             const SizedBox(height: 4),
             Text(_data.name, maxLines: 2, overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: _navy, fontSize: compact ? 11.4 : 13.2, height: 1.02, fontWeight: FontWeight.w900, letterSpacing: -.25)),
+              style: TextStyle(color: _navy, fontSize: compact ? 12.2 : 14.2, height: 1.02, fontWeight: FontWeight.w900, letterSpacing: -.25)),
             const SizedBox(height: 3),
             FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Row(children: [
               const Icon(Icons.badge_outlined, size: 12, color: _blue),
               const SizedBox(width: 2),
-              Text(_data.memberId, style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w700)),
+              Text(_data.memberId, style: const TextStyle(color: _navy, fontSize: 10.2, fontWeight: FontWeight.w700)),
               const SizedBox(width: 5), const Text('|', style: TextStyle(color: _muted)),
               const SizedBox(width: 5), const Icon(Icons.person_outline, size: 12, color: _blue),
               const SizedBox(width: 2), Text('${_data.age} Yrs', style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w700)),
@@ -234,7 +234,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
       Icon(icon, color: accent, size: 17), const SizedBox(width: 5),
       Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: _navy, fontSize: 7.5, fontWeight: FontWeight.w800)),
-        Text(value, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: accent, fontSize: 8.5, fontWeight: FontWeight.w900)),
+        Text(value, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: accent, fontSize: 9.2, fontWeight: FontWeight.w900)),
       ])),
       Icon(Icons.chevron_right_rounded, color: accent, size: 16),
     ]),
@@ -279,7 +279,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
                 errorBuilder: (_, __, ___) => Icon(v.$2, color: v.$5, size: compact ? 13 : 15),
               )),
               const SizedBox(width: 2),
-              Flexible(child: Text(v.$1, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: _navy, fontSize: 8.3, fontWeight: FontWeight.w900))),
+              Flexible(child: Text(v.$1, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: _navy, fontSize: 9.1, fontWeight: FontWeight.w900))),
             ]),
             const SizedBox(height: 1),
             if (i == 0)
@@ -290,7 +290,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
                 ])),
               ])
             else
-              Text(v.$3, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: i == 2 ? _red : _navy, fontSize: compact ? 11 : 13, fontWeight: FontWeight.w900)),
+              Text(v.$3, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: i == 2 ? _red : _navy, fontSize: compact ? 12 : 14, fontWeight: FontWeight.w900)),
             const SizedBox(height: 1),
             if (i == 1) _miniBars()
             else Text(v.$4, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: i == 2 ? _blue : _green, fontSize: i == 2 ? 6.3 : (compact ? 7 : 7.5), fontWeight: FontWeight.w900)),
@@ -337,7 +337,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           Icon(_railIcons[_rail], color: _blue, size: 19),
           const SizedBox(width: 5),
           Expanded(child: Text(_tab == 0 ? 'Attendance Intelligence' : ['Attendance','Workout','Payment','Body'][_tab] + ' Intelligence', maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: const TextStyle(color: _navy, fontSize: 14, fontWeight: FontWeight.w900))),
+            style: const TextStyle(color: _navy, fontSize: 15, fontWeight: FontWeight.w900))),
           _glass(radius: 16, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5), child: Row(children: [
             Text(_data.attendanceMonthLabel, style: const TextStyle(color: _navy, fontSize: 9, fontWeight: FontWeight.w800)),
             const Icon(Icons.keyboard_arrow_down_rounded, color: _navy, size: 15),
@@ -405,7 +405,6 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     for (var i = 1; i < first; i++) { cells.add(const SizedBox.shrink()); }
     for (var day = 1; day <= count; day++) {
       final item = byDay[day];
-      final sunday = DateTime(_data.attendanceYear, _data.attendanceMonth, day).weekday == DateTime.sunday;
       final status = item?.status ?? DayAttendanceStatus.empty;
       final color = switch (status) {
         DayAttendanceStatus.present => _green,
@@ -414,24 +413,23 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         DayAttendanceStatus.holiday => MemberDashboardPalette.purple,
         DayAttendanceStatus.empty => const Color(0xFFB7C8D9),
       };
-      final filled = !sunday && (status == DayAttendanceStatus.present || status == DayAttendanceStatus.late || status == DayAttendanceStatus.absent || status == DayAttendanceStatus.holiday);
+      final filled = status == DayAttendanceStatus.present || status == DayAttendanceStatus.late || status == DayAttendanceStatus.absent || status == DayAttendanceStatus.holiday;
+      final dayColor = filled ? color : const Color(0xFFE7F0F9);
       cells.add(Center(child: Container(
-        width: compact ? 18 : 26, height: compact ? 18 : 26,
+        width: compact ? 18 : 34, height: compact ? 18 : 22,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: filled ? color : const Color(0xFFE7F0F9),
+          borderRadius: BorderRadius.circular(18),
+          color: dayColor,
           border: Border.all(color: item?.isToday == true ? _green : (filled ? color : _line), width: item?.isToday == true ? 2.2 : 1),
           boxShadow: [BoxShadow(color: (filled ? color : _blue).withValues(alpha: .16), blurRadius: 4, offset: const Offset(0, 2))],
         ),
-        child: Stack(alignment: Alignment.center, children: [
-          Padding(padding: EdgeInsets.only(bottom: sunday ? 5 : 0), child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 7.5 : 10.5, fontWeight: FontWeight.w900))),
-          if (sunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: _muted, fontSize: compact ? 4.5 : 5.5, fontWeight: FontWeight.w900))),
-        ]),
+        alignment: Alignment.center,
+        child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 7.5 : 10.5, fontWeight: FontWeight.w900)),
       )));
     }
     while (cells.length % 7 != 0) { cells.add(const SizedBox.shrink()); }
     return Column(children: [
-      Row(children: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(child: Center(child: Text(d, style: TextStyle(color: _navy, fontSize: 8.5, fontWeight: FontWeight.w900))))).toList()),
+      Row(children: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d) => Expanded(child: Center(child: Text(d, style: TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w900))))).toList()),
       const SizedBox(height: 3),
       Expanded(child: LayoutBuilder(builder: (context, constraints) {
         final rows = (cells.length / 7).ceil();
@@ -498,14 +496,14 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   ]);
 
   Widget _statLine(Color color, String label, int value, double fraction) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 1),
+    padding: const EdgeInsets.symmetric(vertical: 2),
     child: Row(children: [
-      Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
-      const SizedBox(width: 4),
-      Expanded(child: Text(label, style: const TextStyle(color: _navy, fontSize: 8, fontWeight: FontWeight.w700))),
+      Container(width: 9, height: 9, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+      const SizedBox(width: 5),
+      Expanded(child: Text(label, style: const TextStyle(color: _navy, fontSize: 9, fontWeight: FontWeight.w800))),
       Text('$value', style: const TextStyle(color: _navy, fontSize: 8.5, fontWeight: FontWeight.w900)),
       const SizedBox(width: 3),
-      SizedBox(width: 15, child: ClipRRect(borderRadius: BorderRadius.circular(5), child: LinearProgressIndicator(value: fraction, minHeight: 4, backgroundColor: const Color(0xFFDCEAF6), valueColor: AlwaysStoppedAnimation(color)))),
+      SizedBox(width: 30, child: Text('${(fraction * 100).round()}%', textAlign: TextAlign.end, style: const TextStyle(color: _navy, fontSize: 9, fontWeight: FontWeight.w900))),
     ]),
   );
 
