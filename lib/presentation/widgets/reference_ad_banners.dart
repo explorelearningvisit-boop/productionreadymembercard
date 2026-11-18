@@ -3,7 +3,9 @@ import 'package:bad_gym/core/theme/member_dashboard_palette.dart';
 
 /// Compact, responsive advertising surfaces sized to the phone viewport.
 class ReferenceAmazonBanner extends StatelessWidget {
-  const ReferenceAmazonBanner({super.key});
+  const ReferenceAmazonBanner({super.key, this.compact = false});
+
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class ReferenceAmazonBanner extends StatelessWidget {
               Positioned(left: -12, top: -22, child: _sparkle(76)),
               Positioned(right: -10, bottom: -30, child: _sparkle(92)),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
+                padding: EdgeInsets.symmetric(horizontal: 9, vertical: compact ? 3 : 6),
                 child: Row(
                   children: [
                     Expanded(
@@ -48,27 +50,31 @@ class ReferenceAmazonBanner extends StatelessWidget {
                     const SizedBox(width: 7),
                     Expanded(
                       flex: 3,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(Icons.auto_awesome_rounded, color: Color(0xFFFFD12D), size: 15),
-                          FittedBox(fit: BoxFit.scaleDown, child: Text('Great Indian\nFestival', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF8D164C), fontSize: 11, height: .95, fontWeight: FontWeight.w900))),
-                        ],
-                      ),
+                      child: compact
+                          ? const FittedBox(fit: BoxFit.scaleDown, child: Text('GREAT INDIAN FESTIVAL', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF8D164C), fontSize: 9, fontWeight: FontWeight.w900)))
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(Icons.auto_awesome_rounded, color: Color(0xFFFFD12D), size: 15),
+                                FittedBox(fit: BoxFit.scaleDown, child: Text('Great Indian\nFestival', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF8D164C), fontSize: 11, height: .95, fontWeight: FontWeight.w900))),
+                              ],
+                            ),
                     ),
                     const SizedBox(width: 5),
                     Expanded(
                       flex: 4,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          FittedBox(fit: BoxFit.scaleDown, child: Text('Up to 40% OFF', maxLines: 1, style: TextStyle(color: Color(0xFF2D183B), fontSize: 12, fontWeight: FontWeight.w900))),
-                          FittedBox(fit: BoxFit.scaleDown, child: Text('Fitness & Wellness', maxLines: 1, style: TextStyle(color: Color(0xFF4E168E), fontSize: 9, fontWeight: FontWeight.w800))),
-                        ],
-                      ),
+                      child: compact
+                          ? const FittedBox(fit: BoxFit.scaleDown, child: Text('UP TO 40% OFF', maxLines: 1, style: TextStyle(color: Color(0xFF2D183B), fontSize: 11, fontWeight: FontWeight.w900)))
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                FittedBox(fit: BoxFit.scaleDown, child: Text('Up to 40% OFF', maxLines: 1, style: TextStyle(color: Color(0xFF2D183B), fontSize: 12, fontWeight: FontWeight.w900))),
+                                FittedBox(fit: BoxFit.scaleDown, child: Text('Fitness & Wellness', maxLines: 1, style: TextStyle(color: Color(0xFF4E168E), fontSize: 9, fontWeight: FontWeight.w800))),
+                              ],
+                            ),
                     ),
                     const SizedBox(width: 3),
-                    const Icon(Icons.fitness_center_rounded, color: Color(0xFF291B26), size: 30),
+                    Icon(Icons.fitness_center_rounded, color: const Color(0xFF291B26), size: compact ? 22 : 30),
                   ],
                 ),
               ),
@@ -132,39 +138,43 @@ class ReferenceProteinBanner extends StatelessWidget {
                     ],
                     Expanded(
                       flex: 5,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
-                            decoration: BoxDecoration(color: MemberDashboardPalette.gold, borderRadius: BorderRadius.circular(5)),
-                            child: const Text('FITNESS NUTRITION', style: TextStyle(color: Color(0xFF2B080A), fontSize: 8, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
-                          ),
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.centerLeft,
-                            child: RichText(text: const TextSpan(children: [
-                              TextSpan(text: 'PROTEIN ', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
-                              TextSpan(text: 'BURGER', style: TextStyle(color: MemberDashboardPalette.gold, fontSize: 20, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
-                            ])),
-                          ),
-                          if (!compact) const Text('High Protein  •  Low Fat  •  More Energy', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w700)),
-                        ],
-                      ),
+                      child: compact
+                          ? const FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text('PROTEIN BURGER', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)))
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                                  decoration: BoxDecoration(color: MemberDashboardPalette.gold, borderRadius: BorderRadius.circular(5)),
+                                  child: const Text('FITNESS NUTRITION', style: TextStyle(color: Color(0xFF2B080A), fontSize: 8, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
+                                ),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  alignment: Alignment.centerLeft,
+                                  child: RichText(text: const TextSpan(children: [
+                                    TextSpan(text: 'PROTEIN ', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
+                                    TextSpan(text: 'BURGER', style: TextStyle(color: MemberDashboardPalette.gold, fontSize: 20, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
+                                  ])),
+                                ),
+                                const Text('High Protein  •  Low Fat  •  More Energy', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w700)),
+                              ],
+                            ),
                     ),
                     const SizedBox(width: 4),
                     if (!compact) const Text('🍔', style: TextStyle(fontSize: 37)),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: compact ? 6 : 8, vertical: compact ? 3 : 5),
                       decoration: BoxDecoration(color: MemberDashboardPalette.gold, borderRadius: BorderRadius.circular(20), boxShadow: const [BoxShadow(color: Color(0x99FFB300), blurRadius: 8)]),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('50% OFF', style: TextStyle(color: Color(0xFF37000A), fontSize: 11, fontWeight: FontWeight.w900)),
-                          if (!compact) const Text('Order Now  →', style: TextStyle(color: Color(0xFF37000A), fontSize: 8, fontWeight: FontWeight.w900)),
-                        ],
-                      ),
+                      child: compact
+                          ? const Text('50% OFF', style: TextStyle(color: Color(0xFF37000A), fontSize: 10, fontWeight: FontWeight.w900))
+                          : const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('50% OFF', style: TextStyle(color: Color(0xFF37000A), fontSize: 11, fontWeight: FontWeight.w900)),
+                                Text('Order Now  →', style: TextStyle(color: Color(0xFF37000A), fontSize: 8, fontWeight: FontWeight.w900)),
+                              ],
+                            ),
                     ),
                   ],
                 ),
