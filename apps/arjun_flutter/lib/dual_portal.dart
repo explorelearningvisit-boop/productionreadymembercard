@@ -51,7 +51,8 @@ class RolePicker extends StatelessWidget {
 }
 class _Task {
   _Task(this.name, this.target, this.unit, this.rate, {this.done = 0, this.accepted = 0, this.delay = 'कोई देरी नहीं'});
-  final String name, unit, delay;
+  final String name, unit;
+  String delay;
   final int target, rate;
   int done, accepted;
   int get payable => accepted * rate;
