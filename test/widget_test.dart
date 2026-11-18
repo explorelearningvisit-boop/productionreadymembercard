@@ -21,10 +21,10 @@ void main() {
     expect(find.text('Member Intelligence'), findsOneWidget);
     expect(find.text('CHECKED-IN'), findsOneWidget);
     expect(find.text('Ashwani Kumar Sharma Vishwakarma'), findsOneWidget);
-    expect(find.text('Great Indian\nFestival'), findsOneWidget);
+    expect(find.byKey(const ValueKey('amazon_festival_banner')), findsOneWidget);
     expect(find.text('Attendance Intelligence'), findsOneWidget);
     expect(find.text('October 2026'), findsOneWidget);
-    expect(find.text('AI Insights'), findsOneWidget);
+    expect(find.byKey(const ValueKey('protein_burger_banner')), findsOneWidget);
     expect(find.byKey(const ValueKey('stat_tab_attendance')), findsOneWidget);
     expect(find.byKey(const ValueKey('stat_tab_workout')), findsOneWidget);
     expect(find.byKey(const ValueKey('stat_tab_payment')), findsOneWidget);
