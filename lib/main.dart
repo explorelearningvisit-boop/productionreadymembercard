@@ -304,7 +304,7 @@ class AttendanceWorkspace extends StatelessWidget {
   final double width;
   const AttendanceWorkspace({super.key, required this.width});
   @override
-  Widget build(BuildContext context) => Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+  Widget build(BuildContext context) => IntrinsicHeight(child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
     SizedBox(width: 51, child: GoldFrame(dark: true, radius: 17, padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3), child: const Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       RailItem(icon: Icons.calendar_month, label: 'Cal', selected: true),
       RailItem(icon: Icons.bar_chart, label: 'Trend'),
@@ -315,7 +315,7 @@ class AttendanceWorkspace extends StatelessWidget {
     ]))),
     const SizedBox(width: 5),
     Expanded(child: GoldFrame(radius: 18, padding: const EdgeInsets.all(7), child: const AttendanceContent())),
-  ]);
+  ]));
 }
 
 class RailItem extends StatelessWidget {
