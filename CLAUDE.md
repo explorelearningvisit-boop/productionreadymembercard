@@ -1,0 +1,3 @@
+# Claude instructions
+
+Mandatory: read `docs/AI_AGENT_OPERATING_CONSTITUTION.md` in full, then `AGENTS.md` and `docs/AI_CONTEXT_BOOTSTRAP.md`. Follow the complete startup, branch safety, design authority, implementation, validation, security, cross-agent and handoff rules there. For the current Member Intelligence rebuild, work only on `chatgpt/member-intelligence-mobile-rebuild`; do not modify or merge `main` without explicit user direction. Inspect live repository/CI state rather than relying on chat memory. Persist meaningful decisions and evidence in the repository.

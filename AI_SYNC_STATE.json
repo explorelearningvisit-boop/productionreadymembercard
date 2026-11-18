@@ -4,7 +4,7 @@
     "description": "BAD GYM VIP Member Intelligence Cross-Platform App",
     "repository": "https://github.com/explorelearningvisit-boop/productionreadymembercard.git",
     "rootPath": "C:\\Users\\User\\AndroidStudioProjects\\productionreadymembercard",
-    "activeBranch": "main",
+    "activeBranch": "chatgpt/member-intelligence-mobile-rebuild",
     "applicationId": "com.badgym.bad_gym",
     "mainActivity": "com.badgym.bad_gym/.MainActivity"
   },
@@ -177,12 +177,13 @@
   "contextBootstrap": {
     "entrypoint": "docs/AI_CONTEXT_BOOTSTRAP.md",
     "mandatoryReadOrder": [
-      "docs/AI_CONTEXT_BOOTSTRAP.md",
+      "docs/AI_AGENT_OPERATING_CONSTITUTION.md",
       "AGENTS.md",
+      "docs/AI_CONTEXT_BOOTSTRAP.md",
       "AI_SYNC_STATE.json",
       "CURRENT_DESIGN_SPEC.md",
+      "docs/ANTIGRAVITY_MEMBER_INTELLIGENCE_REBUILD.md",
       "ANTIGRAVITY_TASK.md",
-      "docs/NETWORK_ARCHITECTURE.md",
       "docs/DECISION_LOG.md",
       "AI_SHARED_COMMUNICATION_HUB.md",
       ".github/workflows/android-cloud-device.yml"
@@ -225,7 +226,9 @@
     "bootstrap": "docs/AI_CONTEXT_BOOTSTRAP.md",
     "decisionLog": "docs/DECISION_LOG.md",
     "handoff": "AI_SHARED_COMMUNICATION_HUB.md",
-    "rule": "All agents read before edits and write back decisions, changes, verification and next action."
+    "rule": "All agents read before edits and write back decisions, changes, verification and next action.",
+    "constitution": "docs/AI_AGENT_OPERATING_CONSTITUTION.md",
+    "activeBranch": "chatgpt/member-intelligence-mobile-rebuild"
   },
   "localAgent": {
     "status": "MERGED_MAIN_AGENT_CI_PASS_WINDOWS_INSTALL_AND_TUNNEL_PENDING",
@@ -348,15 +351,19 @@
   },
   "productDirection": {
     "compactWorkspace": {
-      "status": "ACCEPTED_SPEC_IMPLEMENTATION_PENDING",
+      "status": "IMPLEMENTED_IN_CHATGPT_BRANCH_PENDING_CI_AND_DEVICE_VISUAL_QA",
       "spec": "docs/UI_COMPACT_WORKSPACE_SPEC.md",
       "defaultTab": "Attendance",
       "defaultRailItem": "Calendar",
       "rootScroll": "PROHIBITED",
       "widgetSwitching": "REPLACE_IN_PLACE",
       "viewportTarget": "360dp and Xiaomi 11i usable height",
-      "palette": "warm ivory + crimson/red + restrained gold + semantic green/red/amber/grey",
-      "supersedes": "2026-11-16 tall unified scrollable dashboard"
+      "palette": "ice-blue / cyan glass + pearl white surfaces + navy typography + blue primary + semantic green/red/amber/neutral grey",
+      "supersedes": "2026-11-16 tall unified scrollable dashboard",
+      "visualAuthority": "CURRENT_DESIGN_SPEC.md — 2026-11-17 screenshot /mnt/data/1000320035.jpg (1024x1536)",
+      "implementationBranch": "chatgpt/member-intelligence-mobile-rebuild",
+      "screen": "lib/presentation/reference_member_dashboard.dart",
+      "entryPoint": "lib/main.dart"
     }
   },
   "releaseUpdateCenter": {
@@ -374,12 +381,13 @@
     "appendOnly": true,
     "mandatoryDocs": [
       "docs/UI_COMPACT_WORKSPACE_SPEC.md",
-      "docs/IN_APP_UPDATE_ARCHITECTURE.md"
+      "docs/IN_APP_UPDATE_ARCHITECTURE.md",
+      "docs/CONTINUOUS_AGENT_RECOVERY.md"
     ],
     "history": "AI_SHARED_COMMUNICATION_HUB.md + docs/DECISION_LOG.md + AI_SYNC_STATE.json + ANTIGRAVITY_TASK.md",
     "preserveAllPriorHistory": true
   },
-  "lastUpdated": "2026-11-16T18:37:00+05:30",
+  "lastUpdated": "2026-11-18T21:02:00+05:30",
   "releaseSigning": {
     "status": "PROTECTED_KEY_REQUIRED",
     "requiredSecrets": [
@@ -390,5 +398,238 @@
     ],
     "workflow": ".github/workflows/publish-android-release.yml",
     "policy": "Never publish stable update from default debug signing. Existing app data must be preserved on signature mismatch."
+  },
+  "latestChatGPTImplementation": {
+    "date": "2026-11-17",
+    "status": "IMPLEMENTED_PENDING_LATEST_CI_AND_DEVICE_VISUAL_QA",
+    "userDecision": "ChatGPT must implement the UI independently; Antigravity laptop work is separate and is not a dependency.",
+    "branch": "chatgpt/member-intelligence-mobile-rebuild",
+    "latestReference": "/mnt/data/1000320035.jpg",
+    "referenceDimensions": "1024x1536",
+    "screenFile": "lib/presentation/reference_member_dashboard.dart",
+    "entryPoint": "lib/main.dart",
+    "fixtureFile": "lib/core/models/member_intelligence_data.dart",
+    "tests": "test/widget_test.dart",
+    "addedDependency": "qr_flutter ^4.1.0",
+    "implementedSections": [
+      "ice-blue glass header",
+      "integrated member/check-in/QR/membership pass",
+      "festival sponsored banner",
+      "four KPI cards",
+      "contextual left rail",
+      "attendance calendar and summary donut",
+      "AI Insights footer"
+    ],
+    "verification": "Pending latest GitHub Actions run and physical Xiaomi screenshot comparison; do not claim release-ready yet.",
+    "ciRecovery": {
+      "status": "ACTIVE_BOUNDED_REPAIR_LOOP",
+      "contract": "docs/CONTINUOUS_AGENT_RECOVERY.md",
+      "lastObservedRun": 44156871082,
+      "failedJob": 134299832456,
+      "failureSummary": [
+        "Member pass RenderFlex overflowed by 8.4px",
+        "Compact 360dp viewport RenderFlex overflowed by 20px",
+        "Brand test expected a single BAD GYM Text widget although the header uses a composed RichText"
+      ],
+      "fixesCommitted": [
+        "382b99418da65248c8605dbd46842d76e859bb18",
+        "0b4b0b778706a0130b35092019690ce7b5a56c89"
+      ],
+      "retryBudget": 5,
+      "currentStatus": "Awaiting CI verification of member-pass/calendar sizing and RichText assertion"
+    }
+  },
+  "ciRecovery": {
+    "status": "FIX_COMMITTED_VERIFICATION_RUNNING",
+    "contract": "docs/CONTINUOUS_AGENT_RECOVERY.md",
+    "latestFailure": {
+      "run": 44226038425,
+      "job": 134539344039,
+      "step": "Flutter tests",
+      "test": "dashboard fits compact 360dp viewport without layout overflow",
+      "error": "RenderFlex overflowed by 6.4 pixels on the bottom",
+      "classification": "compact 360x600 viewport vertical constraint overflow"
+    },
+    "passedBeforeFailure": [
+      "Flutter setup",
+      "dependency resolution",
+      "Dart formatting",
+      "static analysis"
+    ],
+    "skipped": [
+      "Android release APK build",
+      "APK artifact upload",
+      "device QA"
+    ],
+    "fixCommit": "4a15c7874fd1be7f18461c3bafb6459c6a7ef61d",
+    "fixSummary": "Rebalanced compact-only vertical section heights to free 22dp for the bounded workspace while retaining minimum 46dp header; full test remains unchanged.",
+    "verificationRuns": [
+      44233146562,
+      44233152878
+    ],
+    "retryCount": 2,
+    "retryBudget": 5,
+    "nextAction": "Inspect latest run 253/254 after Flutter tests complete; if failure persists capture full FlutterError diagnostics and isolate the overflowing RenderFlex before another source edit."
+  },
+  "activeWorkstream": {
+    "status": "APK_BUILD_PASS_DEVICE_QA_BLOCKED_BY_OFFLINE_TAILNET_PEERS",
+    "branch": "chatgpt/member-intelligence-mobile-rebuild",
+    "baseBranch": "main",
+    "latestCommit": "c11e709ba8550435980cd3aef98015c579ef4171",
+    "commits": [
+      "790cfb579378ba6c9b01293fd974e148e00237f0",
+      "17c0ec773b93e6988a86bd64861ceaf100df5120",
+      "c11e709ba8550435980cd3aef98015c579ef4171"
+    ],
+    "latestRuns": [
+      {
+        "id": 44316707299,
+        "number": 283,
+        "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44316707299",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedStep": "Dart formatting report",
+        "tests": "skipped",
+        "apk": "not built",
+        "deviceQA": "skipped"
+      },
+      {
+        "id": 44316713882,
+        "number": 284,
+        "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44316713882",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedStep": "Dart formatting report",
+        "tests": "skipped",
+        "apk": "not built",
+        "deviceQA": "skipped"
+      }
+    ],
+    "failureDiagnosis": "Both runs reached Dart formatting report and failed there. Static analysis, Flutter tests and APK build were skipped. The workflow job-log connector returned 404 when fetching the log, so exact formatter diff/error is not yet known; do not guess. Next agent must retrieve/reproduce formatter output and fix formatting before proceeding.",
+    "nextAction": "Use workflow_dispatch with run_device_test=true or a push event on the feature branch when authorized; verify Tailnet/ADB reachability, package/signature compatibility, then install in place only if compatible, launch, capture fresh screenshot/logcat. Never uninstall or clear app data.",
+    "verifiedCommit": "bae87c5d6d494db508dea2197661212742b094bb",
+    "latestSuccessfulRun": {
+      "id": 44334805538,
+      "number": 299,
+      "event": "pull_request",
+      "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538",
+      "artifactId": 14440288666,
+      "artifactName": "bad-gym-member-intelligence-android-d809205fa2ee527fd59bfc60b9a7b0e9f6a2f9df",
+      "artifactUrl": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538/artifacts/14440288666",
+      "artifactExpiresAt": "2026-12-02T15:25:30Z",
+      "apk": "build/app/outputs/flutter-apk/app-release.apk",
+      "apkSize": "59.6 MB",
+      "dartFormat": "PASS",
+      "flutterAnalyze": "PASS",
+      "flutterTests": "PASS (12/12)",
+      "releaseApkBuild": "PASS",
+      "artifactUpload": "PASS",
+      "deviceQa": "NOT RUN (PR event)",
+      "signing": "Release build variant is debug-signed because protected release keystore is not configured; verify signature continuity before in-place update."
+    },
+    "previousFailedRuns": [
+      {
+        "id": 44316707299,
+        "number": 283,
+        "conclusion": "failure",
+        "failedStep": "Dart formatting report",
+        "resolution": "Later commits corrected formatting; run #299 confirms formatting PASS."
+      },
+      {
+        "id": 44316713882,
+        "number": 284,
+        "conclusion": "failure",
+        "failedStep": "Dart formatting report",
+        "resolution": "Later commits corrected formatting; run #299 confirms formatting PASS."
+      }
+    ],
+    "remainingBlockers": [
+      "Physical Xiaomi install/launch/screenshot QA has not run for this successful artifact.",
+      "Production signing key/fingerprint continuity is not established; artifact is not verified as production-signed.",
+      "Current run is a PR check; Tailnet device QA job was skipped by event condition."
+    ],
+    "deviceQaFailure": {
+      "run": 44333513576,
+      "number": 297,
+      "event": "push",
+      "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333513576",
+      "buildJob": "PASS",
+      "deviceJob": "FAIL",
+      "cause": "Tailnet connected successfully, but all listed peers reported Online=false at 2026-11-18T15:19:48Z, including Xiaomi 11i (100.123.18.54). Therefore no Android device was tested and the workflow correctly failed its 'at least one device PASS' gate.",
+      "devices": [
+        {
+          "name": "Xiaomi 11i",
+          "ip": "100.123.18.54",
+          "result": "OFFLINE_SKIPPED"
+        },
+        {
+          "name": "badgym-21091116i",
+          "ip": "100.84.228.109",
+          "result": "OFFLINE_SKIPPED"
+        },
+        {
+          "name": "OPPO A53",
+          "ip": "100.80.18.55",
+          "result": "OFFLINE_SKIPPED"
+        }
+      ],
+      "appCodeFailure": false,
+      "nextAction": "When Xiaomi is powered on and reachable in Tailscale, trigger a new push-based device QA run on the current feature branch (or workflow_dispatch with run_device_test=true). Use the current Wireless Debugging endpoint; verify package/signing compatibility before in-place install. Do not uninstall or clear data."
+    }
+  },
+  "latestCIWatch": {
+    "workflow": "Android Cloud Build & Multi-Device QA",
+    "branch": "chatgpt/member-intelligence-mobile-rebuild",
+    "observedAt": "2026-11-18T15:19:52Z",
+    "codeHead": "a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c",
+    "sourceFixCommits": [
+      "5dc1d10dcf0f3c10cf967e4725138bca25350143",
+      "19ddc9c3314172a809cb200d4c04cdd3670118d5",
+      "a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c"
+    ],
+    "latestPushRun": {
+      "id": 44333513576,
+      "runNumber": 297,
+      "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333513576",
+      "conclusion": "failure",
+      "buildAndTestJob": "success",
+      "format": "PASS",
+      "analyze": "PASS",
+      "flutterTests": "PASS (12 tests)",
+      "releaseVariantApk": "PASS",
+      "deviceQaJob": "failure: no Android device online",
+      "apkArtifact": {
+        "id": 14441375560,
+        "name": "bad-gym-member-intelligence-android-a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c",
+        "zipSizeBytes": 36663418,
+        "zipSha256": "a368a78210532b30360562fb9b31965126bb46b1889036b9d9e1d83f45d1cb7d",
+        "apkPath": "app-release.apk",
+        "apkSizeBytes": 59630657,
+        "apkSha256": "a6fe3a0647a8c2b1241ebb2bce38fb1ac60a0438a50978f50c8507f61b17a447",
+        "expiresAt": "2026-12-02T15:18:54Z"
+      },
+      "signing": "CI debug keystore; not production-signed",
+      "deviceQa": {
+        "status": "BLOCKED_NO_DEVICES_ONLINE",
+        "testedAndroidDevices": 0,
+        "onlinePeers": 0,
+        "xiaomi11i": "OFFLINE_SKIPPED",
+        "artifactId": 14440333225,
+        "artifactSha256": "830f8e55f036dbcc92e5029429f9e8eefe0b6cd1c03e463991aae72fac9d83dd",
+        "installLaunchScreenshot": "NOT_ATTEMPTED"
+      }
+    },
+    "latestPullRequestRun": {
+      "id": 44333532312,
+      "runNumber": 298,
+      "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333532312",
+      "conclusion": "success",
+      "format": "PASS",
+      "analyze": "PASS",
+      "flutterTests": "PASS (12 tests)",
+      "releaseVariantApk": "PASS",
+      "deviceQa": "SKIPPED_BY_PULL_REQUEST_EVENT"
+    },
+    "requiredNextAction": "Bring the Xiaomi 11i online in Tailscale and ensure its current Wireless Debugging ADB endpoint is available; a later push or manual workflow_dispatch can then retry device QA. Preserve installed app data; do not uninstall or wipe."
   }
 }

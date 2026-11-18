@@ -96,3 +96,20 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
   2. **ChatGPT (Cloud Automation Agent)**: Operates remotely via GitHub Actions and Tailscale automation when the laptop is off or unavailable.
   3. **GitHub Push Gate**: Code and verification artifacts are committed and pushed to GitHub `main` only after full local completion and physical device verification, providing ChatGPT with synchronized truth.
 - **Outcome**: The full 6-section BAD GYM composite dashboard with 3D badges, 372px fixed intelligence viewport, and zero-jump navigation was compiled and verified live on Xiaomi 11i 5G (`docs/screenshots/bad_gym_live_screen.png`).
+
+
+## 2026-11-17 — User re-authorizes independent ChatGPT implementation + screenshot authority
+- User explicitly instructs ChatGPT to perform the complete Member Intelligence Flutter UI/UX implementation directly; Antigravity may continue separate local laptop work, but ChatGPT must not depend on Antigravity output.
+- Latest reference image: `/mnt/data/1000320035.jpg`, 1024×1536 px, reopened and verified. It supersedes earlier red/ivory, crimson, and other visual references where they conflict.
+- Exact visual target: ice-blue/cyan water-glass background, translucent pearl cards, navy typography, blue accents, green/amber/red/neutral attendance semantics; header, integrated member pass/QR/progress, festival banner, four KPI tiles, compact left rail + calendar + right attendance summary, bottom AI Insights.
+- ChatGPT implementation lives on `chatgpt/member-intelligence-mobile-rebuild`, not main. Antigravity's local changes are independent and must not be overwritten or treated as a prerequisite.
+- Dashboard must remain a bounded no-scroll mobile viewport; rail/tab actions replace the content in place. Do not invent sections or substitute old promo/hero artwork.
+- CI build/test, physical Xiaomi install, screenshot comparison, and signing continuity remain separate gates. Preserve existing app data and never uninstall/clear data automatically.
+
+
+## 2026-11-18 — Universal cross-agent operating constitution
+- **User decision**: project context and working rules must persist in the repository so a fresh chat or any AI tool can read them and continue without asking the user to repeat known details.
+- **Decision**: `docs/AI_AGENT_OPERATING_CONSTITUTION.md` is the canonical complete rulebook. It covers understanding voice/rough requests before coding, source-of-truth precedence, branch isolation, approved design authority, asset/code quality, testing, CI recovery, device/network/security safety, cross-agent collaboration and evidence-based reporting.
+- **Discovery**: add thin tool-specific entrypoints for Gemini/Antigravity, Claude, GitHub Copilot and Cursor; all point to the canonical rulebook. `AGENTS.md` and the bootstrap make it mandatory for all agents.
+- **Current branch**: `chatgpt/member-intelligence-mobile-rebuild`; do not alter `main` without explicit user instruction.
+- **Current verification**: runs #283 and #284 failed at Dart formatting; tests, APK and device QA were skipped. Formatter diagnostics remain to be retrieved/reproduced. The burgundy/protein-burger UI is not accepted as a design change because the approved current target remains the ice-blue reference. The 2026-11-18 phone screenshot is output evidence only.

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:bad_gym/core/theme/bad_gym_theme.dart';
-import 'package:bad_gym/presentation/member_checkin_screen.dart';
+import 'package:bad_gym/presentation/reference_member_dashboard.dart';
+import 'package:bad_gym/core/theme/member_dashboard_palette.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,15 +17,14 @@ class BadGymApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: BadGymColors.background,
-        fontFamily: BadGymTypography.fontBody,
+        scaffoldBackgroundColor: MemberDashboardPalette.deepBurgundy,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: BadGymColors.coralPrimary,
-          primary: BadGymColors.coralPrimary,
-          surface: BadGymColors.background,
+          seedColor: MemberDashboardPalette.crimson,
+          primary: MemberDashboardPalette.crimson,
+          surface: MemberDashboardPalette.ivory,
         ),
       ),
-      home: const MemberCheckInScreen(),
+      home: const ReferenceMemberDashboard(),
     );
   }
 }

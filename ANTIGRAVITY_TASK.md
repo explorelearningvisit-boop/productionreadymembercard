@@ -123,3 +123,56 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - **Matching Reference Design**: Matches `media_1794676950728_33461b16.jpg` across all 6 sections (Laurel wreath header bar, Check-In Success banner, Member Profile pass, Quick Stats with active red gradient Attendance card, two-column 372px fixed-height intelligence section with dark rail and Attendance Intelligence card with 3D flame/trophy badges and solid colored pill calendar matrix with day 16 concentric ring, and bottom nutrition burger banner).
 - **Test Validation**: 10/10 Flutter tests passing, analyzer 0 issues.
 - **App Data**: 100% preserved. No uninstall, no data clear.
+
+
+## 2026-11-17 — ACTIVE: Member Intelligence mobile rebuild (new isolated branch)
+- Dedicated branch: `chatgpt/member-intelligence-mobile-rebuild` (branched from `main`; do not merge or push to main until verified).
+- Project identity: this repository is the standalone BAD GYM Member Intelligence Flutter project. Keep APK outputs and artifacts project-specific; other apps must use separate sibling workspace/repositories and unique package/artifact names.
+- Latest visual authority: user's Xiaomi screenshot uploaded 2026-11-17, 691 × 1536 px including system bars. Follow `docs/ANTIGRAVITY_MEMBER_INTELLIGENCE_REBUILD.md`; it supersedes older conflicting visual descriptions.
+- Visual target: pale ice-blue glass panels, navy typography, cool blue borders, semantic green/amber/red/grey states; compact profile/check-in, payment/expiry, four KPIs and bounded attendance workspace. Do not restore old crimson/ivory, dark rail, oversized banner or duplicated stacked cards.
+- ChatGPT found the previous experimental branch `chatgpt/ui-ux-remediation` is not buildable: latest run 44106838230 failed static analysis with widespread undefined `t`, `_subSection`, attendance state and test `dashboardThemes`; tests/build/device QA were skipped. Do not copy its broken `lib/main.dart` into this branch. The new branch starts from the actual `main` Flutter architecture.
+- Antigravity must read the new rebuild handoff and all mandatory AGENTS.md docs, repair/implement in this branch, run format/analyze/tests/release build, then device QA with signing continuity checks. Preserve app data; never uninstall or clear storage.
+- Latest screenshot dimensions are image pixels, not dp. Use LayoutBuilder/MediaQuery to adapt to device logical viewport and safe areas.
+
+
+## 2026-11-17 — ChatGPT independently implementing exact ice-blue reference dashboard
+- User clarified that Antigravity's laptop-local work is independent and ChatGPT must complete its own implementation without waiting for Antigravity. Do not block this branch on laptop results.
+- Reference re-opened: `/mnt/data/1000320035.jpg`, 1024×1536 px. No re-upload is required for the current reference.
+- Working branch remains `chatgpt/member-intelligence-mobile-rebuild`; base/main untouched.
+- New screen `lib/presentation/reference_member_dashboard.dart` is now the app's entry screen via `lib/main.dart`. It implements the reference hierarchy: ice-blue water-glass header, integrated profile/check-in/QR/membership progress card, festival banner, four KPI cards, contextual rail, attendance calendar + donut/counts, and AI Insights footer.
+- Added scannable QR rendering with `qr_flutter`; updated sample fixture name to match the reference.
+- Rewrote widget tests for all reference sections, compact 360dp viewport, in-place tab/rail switching and notification action.
+- Latest code commit at this handoff: `5800e6e47225fde652906783b9fb7b1d994cab58`; later docs-only commits update the visual source authority and shared state.
+- Latest Actions run must be checked by current branch head SHA. No release-ready, physical install or screenshot-comparison claim until fresh CI and device evidence are available.
+
+
+## Universal AI Constitution — 2026-11-18
+- Mandatory policy for every AI/new chat: `docs/AI_AGENT_OPERATING_CONSTITUTION.md`.
+- Current independent workstream: `chatgpt/member-intelligence-mobile-rebuild`; base `main` must remain untouched unless the user explicitly changes the instruction.
+- The current approved design target is the 2026-11-17 ice-blue/cyan reference in `CURRENT_DESIGN_SPEC.md`; the 2026-11-18 phone screenshot is the current implementation output for gap analysis, not a replacement design target.
+- Latest commits: `790cfb5`, `17c0ec7`, `c11e709`. Runs #283 and #284 failed at Dart formatting; tests, APK build and device QA did not run. Recover formatter diagnostics before further UI work.
+- Every agent must update `AI_SYNC_STATE.json`, append `AI_SHARED_COMMUNICATION_HUB.md`, and keep this handoff aligned after meaningful work.
+
+
+## CI recovery status — 2026-11-18 20:49 IST
+- Working branch remains `chatgpt/member-intelligence-mobile-rebuild`; latest code commit: `a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c`.
+- Repairs: extra closing delimiter in `_calendarWorkspace`; KPI/calendar-footer width/height constraints; compact header/member-pass height. Tests were not weakened or skipped.
+- Push run [#297](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333513576): format PASS, analyze PASS, Flutter tests PASS (12), release-variant APK build PASS. APK artifact was downloaded and inspected; `app-release.apk` is 59,630,657 bytes, SHA-256 `a6fe3a0647a8c2b1241ebb2bce38fb1ac60a0438a50978f50c8507f61b17a447`. It is CI-debug-signed, not production-signed.
+- Device QA failed only because every Tailnet peer was offline, including Xiaomi 11i. Zero devices were tested; no install, launch or screenshot was attempted. QA evidence artifact: `tailnet-multi-device-qa-a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c`.
+- PR run [#298](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333532312) passed all code/build checks; device QA was skipped by event condition.
+- User-side next step: bring Xiaomi 11i online in Tailscale and ensure the current Wireless Debugging ADB port is configured. Do not uninstall, clear data, or claim physical verification until fresh install/launch/screenshot evidence exists.
+
+
+## Latest APK verification — 2026-11-18
+- Successful CI run #299: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538
+- Commit: `bae87c5d6d494db508dea2197661212742b094bb`.
+- Format PASS; analyze PASS; Flutter tests 12/12 PASS; release APK build PASS (59.6 MB); artifact upload PASS.
+- Artifact ZIP: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538/artifacts/14440288666 (expires 2026-12-02 UTC).
+- Device QA was skipped because the run was pull_request-triggered. Trigger workflow_dispatch with `run_device_test=true` or a feature-branch push to perform device QA.
+- Release variant falls back to debug signing when protected release keystore is absent. Do not claim production signing or overwrite an existing installation until signature compatibility is verified.
+
+
+## Device QA root cause — 2026-11-18
+- Run #297 push event: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333513576
+- Build job PASS; device QA FAIL because Tailscale was connected but every listed peer was offline. Xiaomi 11i 100.123.18.54 was OFFLINE_SKIPPED; no ADB/install attempt happened. This is not an app source/build failure.
+- Wait for Xiaomi to be powered on and online in Tailscale, then run current-branch device QA (push or manual workflow_dispatch with run_device_test=true). Verify current ADB endpoint and signing compatibility before install. Preserve existing data.

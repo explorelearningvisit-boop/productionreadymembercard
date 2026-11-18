@@ -1,10 +1,10 @@
 # BAD GYM — AI Context Bootstrap (Start Here)
 
-This is the universal handoff for every fresh AI chat or coding agent. GitHub is the durable project memory; do not depend on chat history.
+This is the universal handoff for every fresh AI chat or coding agent. First read `docs/AI_AGENT_OPERATING_CONSTITUTION.md` in full. GitHub is the durable project memory; do not depend on chat history.
 
 ## 60-second startup
-1. Open repository explorelearningvisit-boop/productionreadymembercard, branch main.
-2. Read this file, AGENTS.md, AI_SYNC_STATE.json, CURRENT_DESIGN_SPEC.md, ANTIGRAVITY_TASK.md, docs/NETWORK_ARCHITECTURE.md, docs/DECISION_LOG.md, AI_SHARED_COMMUNICATION_HUB.md, and .github/workflows/android-cloud-device.yml.
+1. Open repository explorelearningvisit-boop/productionreadymembercard and identify the user's active task branch. For the current rebuild use `chatgpt/member-intelligence-mobile-rebuild`; keep `main` untouched.
+2. Read `docs/AI_AGENT_OPERATING_CONSTITUTION.md`, this file, AGENTS.md, AI_SYNC_STATE.json, CURRENT_DESIGN_SPEC.md, ANTIGRAVITY_TASK.md, docs/NETWORK_ARCHITECTURE.md, docs/DECISION_LOG.md, AI_SHARED_COMMUNICATION_HUB.md, and .github/workflows/android-cloud-device.yml.
 3. Inspect latest commits, pull requests, Actions runs and artifacts. Do not assume old status remains current.
 4. Inspect actual source before editing. Preserve all other agent changes.
 5. After work, update state and handoff log, then commit.
@@ -50,11 +50,11 @@ Laptop and Xiaomi may use same home Wi-Fi, different cellular networks, user's o
 - Report build, test, device connection, install, launch and screenshot separately. Never claim physical QA without fresh artifacts.
 
 ## Copy-ready new-session prompt
-You are joining BAD GYM Member Intelligence. Repository: https://github.com/explorelearningvisit-boop/productionreadymembercard, branch main.
+You are joining BAD GYM Member Intelligence. Repository: https://github.com/explorelearningvisit-boop/productionreadymembercard, branch `chatgpt/member-intelligence-mobile-rebuild` (base `main`; do not modify main).
 
-Do not ask me to explain previous context. First read docs/AI_CONTEXT_BOOTSTRAP.md, AGENTS.md, AI_SYNC_STATE.json, CURRENT_DESIGN_SPEC.md, ANTIGRAVITY_TASK.md, docs/NETWORK_ARCHITECTURE.md, docs/DECISION_LOG.md, AI_SHARED_COMMUNICATION_HUB.md and inspect the actual GitHub Actions workflow and latest run/artifacts.
+Do not ask me to explain previous context. First read docs/AI_AGENT_OPERATING_CONSTITUTION.md, then docs/AI_CONTEXT_BOOTSTRAP.md, AGENTS.md, AI_SYNC_STATE.json, CURRENT_DESIGN_SPEC.md, ANTIGRAVITY_TASK.md, docs/NETWORK_ARCHITECTURE.md, docs/DECISION_LOG.md, AI_SHARED_COMMUNICATION_HUB.md and inspect the actual GitHub Actions workflow and latest run/artifacts.
 
-Fetch latest main and recent commits before editing. Preserve ChatGPT/Antigravity/other-agent work. Laptop and Xiaomi may use different changing Wi-Fi, cellular, hotspot, USB tethering or Ethernet networks. Do not assume same LAN or fixed ADB port. Tailscale identity is preferred; ADB pairing and current connect endpoint must be discovered and verified separately. Latest reported port 37337 is transient. User is an experienced developer; do not give generic debugging-toggle instructions without evidence. Android may disable Wireless Debugging after power-off; user will re-enable it.
+Fetch the latest `chatgpt/member-intelligence-mobile-rebuild` branch and recent commits before editing; do not modify `main`. Preserve ChatGPT/Antigravity/other-agent work. Laptop and Xiaomi may use different changing Wi-Fi, cellular, hotspot, USB tethering or Ethernet networks. Do not assume same LAN or fixed ADB port. Tailscale identity is preferred; ADB pairing and current connect endpoint must be discovered and verified separately. Latest reported port 37337 is transient. User is an experienced developer; do not give generic debugging-toggle instructions without evidence. Android may disable Wireless Debugging after power-off; user will re-enable it.
 
 Make only the requested change, inspect actual code, run relevant tests/build, report evidence precisely, and update AI_SYNC_STATE.json plus AI_SHARED_COMMUNICATION_HUB.md. Never expose secrets or wipe app data. Current task: [DESCRIBE TASK].
 
@@ -102,3 +102,8 @@ Read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` before any work. Inspect actual co
 - Latest known cloud APK build: version 0.2.0+2, run 43879102167 attempt 2, commit 70f943f09e0e528241fd8df64a9cb05a00d0af3b, artifact 14231087792, SHA-256 c9fe784ce1db28dc2d4fe85bdbedc218303b3a3a1af5dd522e3c3de595006f08. Cloud Xiaomi QA reported the peer offline at that time; check live.
 - Do not install/replace unless package/version/signing compatibility is verified. `flutter run` may replace the installed app with a locally debug-signed APK. Never uninstall or clear data.
 - Antigravity must write redacted evidence to `qa/local-runs/<timestamp>/RUN_REPORT.md`, update state and append-only hub, update ANTIGRAVITY_TASK, commit/push to GitHub and return exact URLs. ChatGPT will read the report on the next turn.
+
+## Universal agent operating constitution — 2026-11-18
+- Mandatory policy: [docs/AI_AGENT_OPERATING_CONSTITUTION.md](AI_AGENT_OPERATING_CONSTITUTION.md). This is the complete cross-agent rulebook and includes a copy-ready fresh-chat prompt.
+- Tool-specific discovery files are present: `GEMINI.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, and `.cursor/rules/bad-gym-project.mdc`. They all direct agents to the same canonical constitution.
+- Every new chat must inspect live branch/CI state. Current rebuild branch is `chatgpt/member-intelligence-mobile-rebuild`; `main` is not the work branch.
