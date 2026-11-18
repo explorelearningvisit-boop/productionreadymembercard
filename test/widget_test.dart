@@ -56,6 +56,19 @@ void main() {
     expect(scrollables, findsNothing);
   });
 
+  testWidgets('attendance calendar dates remain readable on a normal phone', (tester) async {
+    configurePhoneViewport(tester, height: 800);
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    expect(find.text('16'), findsOneWidget);
+    expect(tester.getSize(find.text('16')).height, greaterThanOrEqualTo(10));
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('quick tabs and attendance rail switch content in place',
       (tester) async {
     configurePhoneViewport(tester, height: 800);
