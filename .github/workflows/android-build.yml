@@ -25,7 +25,9 @@ jobs:
         run: flutter create --platforms=android --org com.badgym .
       - name: Resolve dependencies
         run: flutter pub get
-      - name: Format check
+      - name: Format Dart sources
+        run: dart format lib test
+      - name: Format verification
         run: dart format --output=none --set-exit-if-changed lib test
       - name: Static analysis
         run: flutter analyze --fatal-infos
