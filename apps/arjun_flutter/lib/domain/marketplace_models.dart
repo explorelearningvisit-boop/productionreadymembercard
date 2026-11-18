@@ -154,3 +154,130 @@ class WorkMilestone {
     verifiedAt:j['verifiedAt']==null?null:DateTime.parse(j['verifiedAt'] as String),
     verifiedBy:j['verifiedBy'] as String?);
 }
+
+
+enum TaskStatus { planned, ready, inProgress, blocked, submitted, accepted, partiallyAccepted, rejected }
+enum DelayReason { weather, materials, designChange, equipmentFailure, workerAbsent, siteAccess, ownerHold, safetyHold, other }
+enum EvidenceKind { beforePhoto, progressPhoto, completionPhoto, document, voiceNote }
+enum ReviewDecision { pending, accepted, partiallyAccepted, rejected, reworkRequired }
+
+/// A measurable unit of work. Presence/time alone never marks this task complete.
+class WorkTask {
+  const WorkTask({
+    required this.id, required this.jobId, required this.title,
+    required this.scope, required this.unitLabel, required this.targetQuantity,
+    required this.ratePerUnitPaise, required this.status,
+    required this.plannedStart, required this.plannedEnd,
+    this.acceptedQuantity = 0, this.safetyChecklistRequired = true,
+    this.qualityCriteria = const [], this.leadWorkerId,
+  });
+  final String id, jobId, title, scope, unitLabel;
+  final num targetQuantity, acceptedQuantity;
+  final int ratePerUnitPaise;
+  final TaskStatus status;
+  final DateTime plannedStart, plannedEnd;
+  final bool safetyChecklistRequired;
+  final List<String> qualityCriteria;
+  final String? leadWorkerId;
+  num get remainingQuantity => (targetQuantity - acceptedQuantity).clamp(0, targetQuantity);
+  int get payableAcceptedValuePaise => (acceptedQuantity * ratePerUnitPaise).round();
+  Map<String,Object?> toJson()=>{
+    'id':id,'jobId':jobId,'title':title,'scope':scope,'unitLabel':unitLabel,
+    'targetQuantity':targetQuantity,'acceptedQuantity':acceptedQuantity,
+    'ratePerUnitPaise':ratePerUnitPaise,'status':status.name,
+    'plannedStart':plannedStart.toIso8601String(),'plannedEnd':plannedEnd.toIso8601String(),
+    'safetyChecklistRequired':safetyChecklistRequired,'qualityCriteria':qualityCriteria,
+    'leadWorkerId':leadWorkerId,
+  };
+  factory WorkTask.fromJson(Map<String,Object?> j)=>WorkTask(
+    id:j['id'] as String,jobId:j['jobId'] as String,title:j['title'] as String,
+    scope:j['scope'] as String,unitLabel:j['unitLabel'] as String,
+    targetQuantity:j['targetQuantity'] as num,acceptedQuantity:(j['acceptedQuantity'] as num?)??0,
+    ratePerUnitPaise:j['ratePerUnitPaise'] as int,
+    status:TaskStatus.values.byName(j['status'] as String),
+    plannedStart:DateTime.parse(j['plannedStart'] as String),
+    plannedEnd:DateTime.parse(j['plannedEnd'] as String),
+    safetyChecklistRequired:(j['safetyChecklistRequired'] as bool?)??true,
+    qualityCriteria:(j['qualityCriteria'] as List? ?? const []).cast<String>(),
+    leadWorkerId:j['leadWorkerId'] as String?,
+  );
+}
+
+/// Who contributed to an accepted task quantity and what share was approved.
+class ContributorAllocation {
+  const ContributorAllocation({required this.id,required this.taskId,
+    required this.workerId,required this.acceptedQuantity,
+    required this.amountPaise,required this.approvedBy,required this.approvedAt});
+  final String id,taskId,workerId,approvedBy;
+  final num acceptedQuantity;
+  final int amountPaise;
+  final DateTime approvedAt;
+  Map<String,Object?> toJson()=>{'id':id,'taskId':taskId,'workerId':workerId,
+    'acceptedQuantity':acceptedQuantity,'amountPaise':amountPaise,
+    'approvedBy':approvedBy,'approvedAt':approvedAt.toIso8601String()};
+  factory ContributorAllocation.fromJson(Map<String,Object?> j)=>ContributorAllocation(
+    id:j['id'] as String,taskId:j['taskId'] as String,workerId:j['workerId'] as String,
+    acceptedQuantity:j['acceptedQuantity'] as num,amountPaise:j['amountPaise'] as int,
+    approvedBy:j['approvedBy'] as String,approvedAt:DateTime.parse(j['approvedAt'] as String));
+}
+
+/// Delay events explain variance without automatically blaming a worker.
+class WorkDelayEvent {
+  const WorkDelayEvent({required this.id,required this.taskId,required this.reason,
+    required this.startedAt,required this.reportedBy,this.endedAt,this.notes = ''});
+  final String id,taskId,reportedBy,notes;
+  final DelayReason reason;
+  final DateTime startedAt;
+  final DateTime? endedAt;
+  Map<String,Object?> toJson()=>{'id':id,'taskId':taskId,'reason':reason.name,
+    'startedAt':startedAt.toIso8601String(),'endedAt':endedAt?.toIso8601String(),
+    'reportedBy':reportedBy,'notes':notes};
+  factory WorkDelayEvent.fromJson(Map<String,Object?> j)=>WorkDelayEvent(
+    id:j['id'] as String,taskId:j['taskId'] as String,
+    reason:DelayReason.values.byName(j['reason'] as String),
+    startedAt:DateTime.parse(j['startedAt'] as String),
+    endedAt:j['endedAt']==null?null:DateTime.parse(j['endedAt'] as String),
+    reportedBy:j['reportedBy'] as String,notes:(j['notes'] as String?)??'');
+}
+
+class TaskEvidence {
+  const TaskEvidence({required this.id,required this.taskId,required this.uploaderId,
+    required this.kind,required this.storagePath,required this.capturedAt,
+    this.latitude,this.longitude,this.caption = ''});
+  final String id,taskId,uploaderId,storagePath,caption;
+  final EvidenceKind kind;
+  final DateTime capturedAt;
+  final double? latitude,longitude;
+  Map<String,Object?> toJson()=>{'id':id,'taskId':taskId,'uploaderId':uploaderId,
+    'kind':kind.name,'storagePath':storagePath,'capturedAt':capturedAt.toIso8601String(),
+    'latitude':latitude,'longitude':longitude,'caption':caption};
+  factory TaskEvidence.fromJson(Map<String,Object?> j)=>TaskEvidence(
+    id:j['id'] as String,taskId:j['taskId'] as String,uploaderId:j['uploaderId'] as String,
+    kind:EvidenceKind.values.byName(j['kind'] as String),storagePath:j['storagePath'] as String,
+    capturedAt:DateTime.parse(j['capturedAt'] as String),
+    latitude:(j['latitude'] as num?)?.toDouble(),longitude:(j['longitude'] as num?)?.toDouble(),
+    caption:(j['caption'] as String?)??'');
+}
+
+class TaskQualityReview {
+  const TaskQualityReview({required this.id,required this.taskId,required this.reviewerId,
+    required this.decision,required this.reviewedAt,required this.acceptedQuantity,
+    required this.reason,this.safetyApproved = false,this.evidenceIds = const []});
+  final String id,taskId,reviewerId,reason;
+  final ReviewDecision decision;
+  final DateTime reviewedAt;
+  final num acceptedQuantity;
+  final bool safetyApproved;
+  final List<String> evidenceIds;
+  Map<String,Object?> toJson()=>{'id':id,'taskId':taskId,'reviewerId':reviewerId,
+    'decision':decision.name,'reviewedAt':reviewedAt.toIso8601String(),
+    'acceptedQuantity':acceptedQuantity,'reason':reason,
+    'safetyApproved':safetyApproved,'evidenceIds':evidenceIds};
+  factory TaskQualityReview.fromJson(Map<String,Object?> j)=>TaskQualityReview(
+    id:j['id'] as String,taskId:j['taskId'] as String,reviewerId:j['reviewerId'] as String,
+    decision:ReviewDecision.values.byName(j['decision'] as String),
+    reviewedAt:DateTime.parse(j['reviewedAt'] as String),
+    acceptedQuantity:j['acceptedQuantity'] as num,reason:j['reason'] as String,
+    safetyApproved:(j['safetyApproved'] as bool?)??false,
+    evidenceIds:(j['evidenceIds'] as List? ?? const []).cast<String>());
+}
