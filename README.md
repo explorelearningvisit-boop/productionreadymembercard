@@ -107,3 +107,8 @@ flutter run
 ## 🖥️ Windows Local Agent + MCP
 
 The repository includes an optional Windows MCP execution agent for direct USB/Wireless ADB iteration, screenshot return, device logs, bounded screen interaction, Flutter analyze/test/build, and guarded code changes. Start with [docs/LOCAL_AGENT_SETUP.md](docs/LOCAL_AGENT_SETUP.md) and [tools/badgym_local_agent/README.md](tools/badgym_local_agent/README.md). The agent is separate from the Flutter runtime; GitHub Actions remains the cloud build and device-QA pipeline. ChatGPT mobile custom MCP is not currently supported; see the setup guide for Secure MCP Tunnel and product eligibility constraints.
+
+
+## Universal AI engineering rules
+
+Every AI or developer must start with [the Universal AI Engineering Constitution](docs/AI_AGENT_OPERATING_CONSTITUTION.md). Tool-specific entrypoints are provided for [Gemini / Antigravity](GEMINI.md), [Claude](CLAUDE.md), [GitHub Copilot](.github/copilot-instructions.md), and [Cursor](.cursor/rules/bad-gym-project.mdc). The constitution defines how to load project context, interpret voice/screenshot requests, resolve design decisions, work across agents, validate CI/device builds, protect user data, and persist handoffs.
