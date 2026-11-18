@@ -30,8 +30,9 @@ class MarketplaceStore {
     }
   }
 
-  Future<void> _write<T>(String key, List<T> values, Map<String,Object?> Function(T) encode) =>
-      _preferences.setString(key, jsonEncode(values.map(encode).toList()));
+  Future<void> _write<T>(String key, List<T> values, Map<String,Object?> Function(T) encode) async {
+    await _preferences.setString(key, jsonEncode(values.map(encode).toList()));
+  }
 
   List<WorkJob> get jobs => _read(_jobsKey, WorkJob.fromJson);
   List<JobApplication> get applications => _read(_applicationsKey, JobApplication.fromJson);
