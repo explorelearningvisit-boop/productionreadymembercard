@@ -1,241 +1,44 @@
 import 'package:flutter/material.dart';
-
-void main() => runApp(const BeautySalonApp());
-
-class SalonPalette {
-  static const rose = Color(0xFFD98FA2);
-  static const deepRose = Color(0xFFA94F6B);
-  static const ivory = Color(0xFFFFF9F5);
-  static const champagne = Color(0xFFC6A46A);
-  static const ink = Color(0xFF382F33);
-  static const muted = Color(0xFF8C7D82);
+void main()=>runApp(const SalonApp());
+class C{static const rose=Color(0xFFD98FA2),deep=Color(0xFFA94F6B),ivory=Color(0xFFFFF9F5),gold=Color(0xFFC6A46A),ink=Color(0xFF382F33),muted=Color(0xFF8C7D82),blush=Color(0xFFF7E2E7),line=Color(0xFFF0E4E5),green=Color(0xFF648B73);}
+enum Role{customer,owner,staff}
+class SalonApp extends StatelessWidget{const SalonApp({super.key});@override Widget build(BuildContext context)=>MaterialApp(title:'Beauty Salon',debugShowCheckedModeBanner:false,theme:ThemeData(useMaterial3:true,scaffoldBackgroundColor:C.ivory,colorScheme:ColorScheme.fromSeed(seedColor:C.rose),cardTheme:CardThemeData(color:Colors.white,elevation:0,shape:RoundedRectangleBorder(borderRadius:BorderRadius.circular(20))),inputDecorationTheme:InputDecorationTheme(filled:true,fillColor:Colors.white,border:OutlineInputBorder(borderRadius:BorderRadius.circular(14)))),home:const Gate());}
+class Gate extends StatelessWidget{const Gate({super.key});@override Widget build(BuildContext context)=>Scaffold(body:SafeArea(child:ListView(padding:const EdgeInsets.all(22),children:[const Row(children:[CircleAvatar(backgroundColor:C.blush,child:Icon(Icons.spa,color:C.deep)),SizedBox(width:12),Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text('BEAUTY STUDIO',style:TextStyle(letterSpacing:2,fontWeight:FontWeight.w900,color:C.deep)),Text('SALON MANAGEMENT, REIMAGINED',style:TextStyle(fontSize:9,color:C.muted))])]),const SizedBox(height:35),Container(padding:const EdgeInsets.all(24),decoration:BoxDecoration(gradient:const LinearGradient(colors:[C.blush,Color(0xFFFFF0E1)]),borderRadius:BorderRadius.circular(26)),child:const Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text('BEAUTY,\nMADE PERSONAL.',style:TextStyle(fontSize:32,height:1.1,fontWeight:FontWeight.w900,color:C.ink)),SizedBox(height:10),Text('Your salon experience. Your business. One beautiful space.',style:TextStyle(color:C.muted)),SizedBox(height:18),Text('BOOK • MANAGE • GROW',style:TextStyle(letterSpacing:1.5,fontSize:10,color:C.deep,fontWeight:FontWeight.w800))])),const SizedBox(height:28),const Text('Choose your space',style:TextStyle(fontSize:23,fontWeight:FontWeight.w900,color:C.ink)),const SizedBox(height:6),const Text('Continue to your personalized workspace.',style:TextStyle(color:C.muted)),const SizedBox(height:18),for(final r in Role.values)_role(context,r)])));
 }
-
-class BeautySalonApp extends StatelessWidget {
-  const BeautySalonApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = ColorScheme.fromSeed(
-      seedColor: SalonPalette.rose,
-      brightness: Brightness.light,
-      surface: SalonPalette.ivory,
-    );
-    return MaterialApp(
-      title: 'Beauty Salon',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: scheme,
-        scaffoldBackgroundColor: SalonPalette.ivory,
-        textTheme: const TextTheme(
-          headlineMedium: TextStyle(fontSize: 28, fontWeight: FontWeight.w700, color: SalonPalette.ink),
-          titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: SalonPalette.ink),
-          bodyMedium: TextStyle(fontSize: 14, color: SalonPalette.muted),
-        ),
-        cardTheme: CardThemeData(
-          color: Colors.white,
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
-          margin: EdgeInsets.zero,
-        ),
-      ),
-      home: const RoleLandingPage(),
-    );
-  }
-}
-
-enum SalonRole { customer, owner, staff }
-
-class RoleLandingPage extends StatelessWidget {
-  const RoleLandingPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(22, 26, 22, 28),
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: SalonPalette.rose.withValues(alpha: .16),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: const Icon(Icons.spa_rounded, color: SalonPalette.deepRose, size: 27),
-                ),
-                const SizedBox(width: 12),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('BEAUTY SALON', style: TextStyle(letterSpacing: 2.2, fontWeight: FontWeight.w800, color: SalonPalette.deepRose)),
-                    Text('Your salon, beautifully connected', style: TextStyle(fontSize: 11, color: SalonPalette.muted)),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 36),
-            Container(
-              padding: const EdgeInsets.all(22),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFFF7E2E7), Color(0xFFFFF4E9)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(28),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text('A more beautiful\nway to run your salon.', style: TextStyle(fontSize: 27, height: 1.15, fontWeight: FontWeight.w800, color: SalonPalette.ink)),
-                  const SizedBox(height: 10),
-                  const Text('Bookings, people and business — all in one place.', style: TextStyle(color: SalonPalette.muted, height: 1.4)),
-                  const SizedBox(height: 18),
-                  Row(
-                    children: [
-                      _MiniStat(value: '3', label: 'Workspaces'),
-                      const SizedBox(width: 18),
-                      _MiniStat(value: '1', label: 'Connected salon'),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 28),
-            const Text('Continue as', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: SalonPalette.ink)),
-            const SizedBox(height: 6),
-            const Text('Choose the workspace you want to open.', style: TextStyle(color: SalonPalette.muted)),
-            const SizedBox(height: 16),
-            _RoleTile(icon: Icons.face_retouching_natural, title: 'Customer', subtitle: 'Explore services and book appointments', role: SalonRole.customer),
-            const SizedBox(height: 12),
-            _RoleTile(icon: Icons.storefront_rounded, title: 'Salon Owner', subtitle: 'Manage bookings, team and business', role: SalonRole.owner),
-            const SizedBox(height: 12),
-            _RoleTile(icon: Icons.badge_outlined, title: 'Staff', subtitle: 'View your schedule and assigned services', role: SalonRole.staff),
-            const SizedBox(height: 24),
-            const Center(child: Text('A premium salon experience starts here', style: TextStyle(fontSize: 11, color: SalonPalette.muted))),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _MiniStat extends StatelessWidget {
-  const _MiniStat({required this.value, required this.label});
-  final String value;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(value, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: SalonPalette.deepRose)),
-          Text(label, style: const TextStyle(fontSize: 11, color: SalonPalette.muted)),
-        ],
-      );
-}
-
-class _RoleTile extends StatelessWidget {
-  const _RoleTile({required this.icon, required this.title, required this.subtitle, required this.role});
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final SalonRole role;
-
-  @override
-  Widget build(BuildContext context) => InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(
-          builder: (_) => RoleHomePage(role: role),
-        )),
-        child: Ink(
-          padding: const EdgeInsets.all(17),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: SalonPalette.rose.withValues(alpha: .18)),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 46,
-                height: 46,
-                decoration: BoxDecoration(color: SalonPalette.rose.withValues(alpha: .13), borderRadius: BorderRadius.circular(15)),
-                child: Icon(icon, color: SalonPalette.deepRose),
-              ),
-              const SizedBox(width: 14),
-              Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.w800, color: SalonPalette.ink)),
-                const SizedBox(height: 3),
-                Text(subtitle, style: const TextStyle(fontSize: 12, color: SalonPalette.muted)),
-              ])),
-              const Icon(Icons.arrow_forward_ios_rounded, size: 16, color: SalonPalette.champagne),
-            ],
-          ),
-        ),
-      );
-}
-
-class RoleHomePage extends StatelessWidget {
-  const RoleHomePage({super.key, required this.role});
-  final SalonRole role;
-
-  @override
-  Widget build(BuildContext context) {
-    final title = switch (role) {
-      SalonRole.customer => 'Your appointments',
-      SalonRole.owner => 'Salon overview',
-      SalonRole.staff => 'My workday',
-    };
-    final subtitle = switch (role) {
-      SalonRole.customer => 'Discover services and manage your bookings.',
-      SalonRole.owner => 'Your business at a glance.',
-      SalonRole.staff => 'Your schedule and assigned services.',
-    };
-    return Scaffold(
-      appBar: AppBar(title: Text(role.name.toUpperCase()), backgroundColor: SalonPalette.ivory),
-      body: ListView(
-        padding: const EdgeInsets.all(22),
-        children: [
-          Text(title, style: Theme.of(context).textTheme.headlineMedium),
-          const SizedBox(height: 8),
-          Text(subtitle),
-          const SizedBox(height: 22),
-          _DashboardCard(icon: Icons.calendar_month_rounded, title: 'Appointments', value: 'Your schedule will appear here'),
-          const SizedBox(height: 12),
-          _DashboardCard(icon: Icons.spa_rounded, title: 'Services', value: 'Salon services and packages'),
-          const SizedBox(height: 12),
-          _DashboardCard(icon: Icons.insights_rounded, title: 'Insights', value: 'Business and activity insights'),
-        ],
-      ),
-    );
-  }
-}
-
-class _DashboardCard extends StatelessWidget {
-  const _DashboardCard({required this.icon, required this.title, required this.value});
-  final IconData icon;
-  final String title;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) => Card(
-        child: Padding(
-          padding: const EdgeInsets.all(18),
-          child: Row(children: [
-            Icon(icon, color: SalonPalette.deepRose, size: 25),
-            const SizedBox(width: 14),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(title, style: const TextStyle(fontWeight: FontWeight.w700, color: SalonPalette.ink)),
-              const SizedBox(height: 4),
-              Text(value, style: const TextStyle(fontSize: 12, color: SalonPalette.muted)),
-            ])),
-          ]),
-        ),
-      );
-}
+Widget _role(BuildContext c,Role r)=>Padding(padding:const EdgeInsets.only(bottom:12),child:Card(child:ListTile(contentPadding:const EdgeInsets.all(12),leading:CircleAvatar(backgroundColor:C.blush,child:Icon(switch(r){Role.customer=>Icons.face_retouching_natural,Role.owner=>Icons.storefront,Role.staff=>Icons.badge},color:C.deep)),title:Text(switch(r){Role.customer=>'Customer',Role.owner=>'Salon Owner',Role.staff=>'Salon Team'},style:const TextStyle(fontWeight:FontWeight.w800)),subtitle:Text(switch(r){Role.customer=>'Explore services and book appointments',Role.owner=>'Run your salon and grow your business',Role.staff=>'Your schedule, clients and commissions'}),trailing:const Icon(Icons.chevron_right,color:C.gold),onTap:()=>Navigator.push(c,MaterialPageRoute(builder:(_)=>Workspace(role:r))))));
+class Workspace extends StatefulWidget{const Workspace({super.key,required this.role});final Role role;@override State<Workspace> createState()=>_WorkspaceState();}
+class _WorkspaceState extends State<Workspace>{int i=0;List<String> get labels=>switch(widget.role){Role.customer=>['Home','Explore','Bookings','Profile'],Role.owner=>['Overview','Bookings','Services','Business'],Role.staff=>['My day','Schedule','Clients','Profile']};List<IconData> get icons=>[Icons.home,Icons.search,Icons.calendar_month,Icons.person];@override Widget build(BuildContext context)=>Scaffold(appBar:AppBar(title:const Text('BEAUTY STUDIO',style:TextStyle(letterSpacing:2,fontSize:14,fontWeight:FontWeight.w900,color:C.deep)),actions:[IconButton(onPressed:()=>_msg(context,'You are all caught up'),icon:const Icon(Icons.notifications_none))]),body:AnimatedSwitcher(duration:const Duration(milliseconds:200),child:_body()),bottomNavigationBar:NavigationBar(selectedIndex:i,onDestinationSelected:(v)=>setState(()=>i=v),backgroundColor:Colors.white,indicatorColor:C.blush,destinations:List.generate(4,(n)=>NavigationDestination(icon:Icon(icons[n]),label:labels[n]))));}
+Widget _body(){final role=widget.role;if(role==Role.customer)return _customer();if(role==Role.owner)return _owner();return _staff();}
+Widget _customer()=>_list('Hello, beautiful ✨','Ready for a little self-care?',[
+ _hero('MAKE TIME FOR YOU.','Find your feel-good service and book in a few taps.'),
+ _section('Popular services','See all'),
+ _service(Icons.content_cut,'Hair styling','Cut, colour & treatments','From ₹499'),
+ _service(Icons.face_3,'Facial & skincare','Refresh your natural glow','From ₹799'),
+ _service(Icons.brush,'Nails & manicure','Shape, care & colour','From ₹399'),
+ _section('Your next visit','View bookings'),_note('No upcoming appointments','Your next self-care moment is waiting.')]);
+Widget _owner()=>_list('Good morning, Owner','Here is your salon at a glance.',[
+ _hero('TODAY’S REVENUE','₹ 18,450  ·  +12.8% compared with yesterday'),
+ Row(children:[_metric('24','Bookings',Icons.calendar_month),const SizedBox(width:9),_metric('18','Completed',Icons.task_alt)]),
+ Row(children:[_metric('₹2,450','Avg. bill',Icons.receipt_long),const SizedBox(width:9),_metric('8','Team online',Icons.people_alt)]),
+ _section('Today’s activity','View all'),_service(Icons.schedule,'10:30 AM · Hair styling','Ananya Sharma · Priya','Confirmed'),
+ _section('Business tools','Manage'),...[
+ ['Team & permissions','Staff profiles, roles and access',Icons.people],
+ ['POS & billing','Invoices, payments and refunds',Icons.point_of_sale],
+ ['Inventory','Products and low-stock alerts',Icons.inventory_2],
+ ['Expenses & finance','Costs, commissions and profit',Icons.account_balance_wallet],
+ ['Offers & campaigns','Coupons and memberships',Icons.campaign],
+ ['Reports & insights','Sales and staff performance',Icons.analytics],
+ ['Branches & settings','Locations and preferences',Icons.store]].map((e)=>_service(e[2] as IconData,e[0] as String,e[1] as String,'Open'))]);
+Widget _staff()=>_list('Your workday','Welcome back. Let’s make it a great one.',[
+ _hero('HELLO, MEERA','Senior Beauty Therapist · On shift'),
+ Row(children:[_metric('6','Sessions',Icons.spa),const SizedBox(width:9),_metric('4','Completed',Icons.task_alt)]),
+ Row(children:[_metric('₹1,250','Commission',Icons.payments),const SizedBox(width:9),_metric('7.5h','Shift',Icons.schedule)]),
+ _section('Next appointment','View schedule'),_service(Icons.face_3,'11:15 AM · Riya Verma','Signature facial · 60 min','Next'),
+ _section('My workspace','Open'),_service(Icons.event_note,'My schedule','Assigned appointments','Open'),_service(Icons.people,'My clients','Client notes and preferences','Open'),_service(Icons.star,'My reviews','Customer feedback','Open')]);
+Widget _list(String title,String sub,List<Widget> children)=>ListView(key:ValueKey(i),padding:const EdgeInsets.fromLTRB(20,12,20,28),children:[Text(title,style:const TextStyle(fontSize:26,fontWeight:FontWeight.w900,color:C.ink)),const SizedBox(height:5),Text(sub,style:const TextStyle(color:C.muted)),const SizedBox(height:18),...children]);}
+Widget _hero(String title,String sub)=>Container(margin:const EdgeInsets.only(bottom:18),padding:const EdgeInsets.all(21),decoration:BoxDecoration(gradient:const LinearGradient(colors:[C.blush,Color(0xFFFFF1E4)]),borderRadius:BorderRadius.circular(22)),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(title,style:const TextStyle(fontSize:22,fontWeight:FontWeight.w900,color:C.ink)),const SizedBox(height:7),Text(sub,style:const TextStyle(color:C.muted))]));
+Widget _section(String t,String a)=>Padding(padding:const EdgeInsets.only(top:14,bottom:10),child:Row(children:[Expanded(child:Text(t,style:const TextStyle(fontSize:17,fontWeight:FontWeight.w800,color:C.ink))),Text(a,style:const TextStyle(color:C.deep,fontWeight:FontWeight.w700,fontSize:12))]));
+Widget _metric(String v,String l,IconData icon)=>Expanded(child:Container(padding:const EdgeInsets.all(14),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(18),border:Border.all(color:C.line)),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Icon(icon,color:C.deep),const SizedBox(height:10),Text(v,style:const TextStyle(fontSize:21,fontWeight:FontWeight.w900,color:C.ink)),Text(l,style:const TextStyle(fontSize:11,color:C.muted))])));
+Widget _service(IconData icon,String title,String sub,String price)=>Container(margin:const EdgeInsets.only(bottom:10),padding:const EdgeInsets.all(14),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(18),border:Border.all(color:C.line)),child:Row(children:[CircleAvatar(backgroundColor:C.blush,child:Icon(icon,color:C.deep,size:20)),const SizedBox(width:12),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(title,style:const TextStyle(fontWeight:FontWeight.w800,color:C.ink)),Text(sub,style:const TextStyle(fontSize:11,color:C.muted))])),Text(price,style:const TextStyle(fontSize:11,fontWeight:FontWeight.w800,color:C.deep))]));
+Widget _note(String t,String s)=>Container(padding:const EdgeInsets.all(20),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(18)),child:Column(children:[Text(t,style:const TextStyle(fontWeight:FontWeight.w800)),Text(s,style:const TextStyle(color:C.muted))]));
+void _msg(BuildContext c,String s)=>ScaffoldMessenger.of(c).showSnackBar(SnackBar(content:Text(s)));
