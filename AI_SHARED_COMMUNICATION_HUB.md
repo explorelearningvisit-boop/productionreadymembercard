@@ -356,3 +356,14 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Design authority/state**: CURRENT_DESIGN_SPEC.md, docs/DECISION_LOG.md, docs/ANTIGRAVITY_MEMBER_INTELLIGENCE_REBUILD.md and AI_SYNC_STATE.json updated. Historical records retained.
 - **Branch**: `chatgpt/member-intelligence-mobile-rebuild`; latest UI commit `5800e6e47225fde652906783b9fb7b1d994cab58`. Main remains unchanged.
 - **Verification**: inspect latest Actions run and artifact after the last code commit. CI, APK generation, physical Xiaomi install/launch, and fresh screenshot comparison are separate; none is declared successful until verified from current run artifacts.
+
+
+
+### [2026-11-18 08:20 IST] ChatGPT — CI failure recovery loop and run #243 diagnosis
+- **User direction**: Do not stop after a failed CI check; autonomously inspect, repair, recommit and repeat until the bounded completion gates pass. Avoid asking the user to manually relay routine CI failures.
+- **Run inspected**: [Actions run #243](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44156871082), job 134299832456. Dart formatting PASS; static analysis PASS; Flutter tests FAIL; APK build/upload SKIPPED; device QA job SKIPPED.
+- **Root causes from full job log**: member-pass Column overflow 8.4px at reference_member_dashboard.dart:141; compact 360dp test reports 20px RenderFlex overflow; test expected one literal "BAD GYM" Text widget although header renders the words as adjacent RichText spans.
+- **Fixes committed to feature branch**: reduce member-pass content row height (122→108 regular, 94→84 compact), tighten divider margins, reduce compact calendar day markers (25→19dp), and make the brand assertion inspect composed RichText rather than demand a non-existent single Text widget. Commits: 382b99418da65248c8605dbd46842d76e859bb18 and 0b4b0b778706a0130b35092019690ce7b5a56c89.
+- **Durable process change**: added docs/CONTINUOUS_AGENT_RECOVERY.md with a bounded five-cycle diagnosis/fix/retest loop; updated AGENTS.md to make it mandatory for every agent; AI_SYNC_STATE.json now records the failed run, diagnosis and pending verification.
+- **Current verification**: fixes are committed; next push-triggered workflow must be observed through full test/build completion. Do not claim tests/APK/device QA passed until the new run proves each gate.
+- **Capability boundary**: available GitHub tools provide run/job/log snapshots, not an always-on watcher. Persistent second-by-second observation remains unimplemented; during an active session the agent must poll the run and resume from recorded state in the next session.
