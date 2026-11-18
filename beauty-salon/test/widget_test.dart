@@ -8,6 +8,7 @@ void main() {
     expect(find.text('Choose your workspace'), findsOneWidget);
     expect(find.text('Customer'), findsOneWidget);
     expect(find.text('Salon Owner'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Salon Team'), 250, scrollable: find.byType(Scrollable).first);
     expect(find.text('Salon Team'), findsOneWidget);
   });
 
@@ -28,6 +29,7 @@ void main() {
     await tester.pumpWidget(const SalonApp());
     await tester.tap(find.text('Salon Owner'));
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('OPEN POS'), 250, scrollable: find.byType(Scrollable).last);
     await tester.tap(find.text('OPEN POS'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Signature haircut'));
