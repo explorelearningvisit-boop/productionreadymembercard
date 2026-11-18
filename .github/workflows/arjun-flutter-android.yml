@@ -1,7 +1,7 @@
 name: ARJUN Flutter Android Build and Tailscale QA
 on:
   push:
-    branches: [feature/arjun-flutter-marketplace]
+    branches: [rebuild/kaamverse-platform, feature/arjun-flutter-marketplace]
     paths: ["apps/arjun_flutter/**", ".github/workflows/arjun-flutter-android.yml"]
   pull_request:
     branches: [feature/arjun-flutter-marketplace]
