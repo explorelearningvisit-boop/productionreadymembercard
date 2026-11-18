@@ -397,3 +397,14 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Device QA blocker**: Tailscale joined successfully, but every peer in the inventory was offline, including Xiaomi 11i. Fleet inventory recorded 0 online peers / 0 Android devices tested; install, launch and screenshot were not attempted. Device QA job therefore failed at its explicit no-device-passed gate. QA inventory artifact ID `14440333225`, SHA-256 `830f8e55f036dbcc92e5029429f9e8eefe0b6cd1c03e463991aae72fac9d83dd`.
 - **PR confirmation**: run [#298](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333532312) on the same source commit passed format, analyze, all 12 tests, APK build and artifact upload; device QA was skipped because it was a pull-request event.
 - **Next action**: user/device-side availability is required. Bring Xiaomi 11i online in Tailscale and expose its current Wireless Debugging ADB endpoint; a later push or manual workflow_dispatch can retry install/launch/screenshot. Preserve installed data; never uninstall or wipe.
+
+
+### [2026-11-18 20:50 IST] ChatGPT — Run #299 successful Android APK verification
+- **User request**: confirm whether the app is built, provide the APK link, and fix/retry any failures.
+- **Latest verified run**: [#299](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538), commit `bae87c5d6d494db508dea2197661212742b094bb`, event `pull_request`, completed SUCCESS.
+- **Verified checks from job log**: Dart formatting PASS; Flutter analysis PASS; Flutter tests PASS (12/12); Android release variant build PASS; artifact upload PASS. Log confirms `build/app/outputs/flutter-apk/app-release.apk` (59.6 MB).
+- **Artifact**: [Download artifact ZIP](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538/artifacts/14440288666), ID `14440288666`, 36,663,414 bytes, expires 2026-12-02 15:25 UTC. ZIP contains `app-release.apk`.
+- **Prior failures resolved at CI gate**: runs #283 and #284 failed at Dart formatting. Later changes now pass formatting in run #299.
+- **Not yet verified**: physical Xiaomi install/launch/screenshot. Device QA was skipped because run #299 was triggered by `pull_request`; workflow only enables this job for push to main/feature branch or manual dispatch with `run_device_test=true`.
+- **Signing caution**: Gradle release build falls back to debug signing if `BADGYM_RELEASE_STORE_FILE` is not set. This artifact must not be called production-signed. Check signing-certificate compatibility before updating an existing installation; never uninstall or clear data.
+- **Next step**: run the workflow's device QA path (manual dispatch with `run_device_test=true` or an authorized feature-branch push), then verify Tailscale, dynamic ADB endpoint, install compatibility, launch, screenshot and logcat. No device success is claimed yet.
