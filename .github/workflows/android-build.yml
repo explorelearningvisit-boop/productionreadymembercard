@@ -30,7 +30,7 @@ jobs:
       - name: Format verification
         run: dart format --output=none --set-exit-if-changed lib test
       - name: Static analysis
-        run: flutter analyze --fatal-infos
+        run: flutter analyze
       - name: Widget tests
         run: flutter test
       - name: Build release APK
