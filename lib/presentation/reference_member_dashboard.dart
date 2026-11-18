@@ -56,12 +56,14 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         child: SafeArea(
           child: LayoutBuilder(builder: (context, constraints) {
             final h = constraints.maxHeight;
-            final compact = h < 820;
-            final headerH = compact ? 44.0 : 52.0;
-            final profileH = compact ? 160.0 : 202.0;
-            final promoH = compact ? 40.0 : 70.0;
-            final statsH = compact ? 60.0 : 70.0;
-            final bottomAdH = compact ? 32.0 : 108.0;
+            // Keep the full premium composition on normal phones; reserve the
+            // compact variant for genuinely short viewports (e.g. 360x600dp).
+            final compact = h < 680;
+            final headerH = compact ? 42.0 : 50.0;
+            final profileH = compact ? 150.0 : 198.0;
+            final promoH = compact ? 36.0 : 62.0;
+            final statsH = compact ? 54.0 : 66.0;
+            final bottomAdH = compact ? 36.0 : 92.0;
             const gap = 5.0;
             return Container(
               decoration: const BoxDecoration(
@@ -376,21 +378,20 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   }
 
   Widget _calendarWorkspace(bool compact) => Column(children: [
-    SizedBox(height: compact ? 37 : 82, child: _attendanceSummary(compact)),
+    SizedBox(height: compact ? 42 : 82, child: _attendanceSummary(compact)),
     const SizedBox(height: 4),
     Expanded(child: _calendarGrid(compact)),
-    if (!compact) ...[
-      const SizedBox(height: 4),
-      Container(
-        height: 27,
+    const SizedBox(height: 4),
+    Container(
+        height: compact ? 20 : 27,
         padding: const EdgeInsets.symmetric(horizontal: 8),
         decoration: BoxDecoration(color: const Color(0xFFFFF0E3), borderRadius: BorderRadius.circular(12), border: Border.all(color: MemberDashboardPalette.line)),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          const Icon(Icons.local_fire_department_rounded, color: MemberDashboardPalette.crimson, size: 18),
-          Text('Streak ${_data.currentStreak}', style: const TextStyle(color: MemberDashboardPalette.crimson, fontSize: 9, fontWeight: FontWeight.w900)),
-          Container(width: 1, height: 17, color: MemberDashboardPalette.line),
-          const Icon(Icons.emoji_events_rounded, color: MemberDashboardPalette.goldDeep, size: 18),
-          Text('Best ${_data.bestStreak}', style: const TextStyle(color: MemberDashboardPalette.crimson, fontSize: 9, fontWeight: FontWeight.w900)),
+          Icon(Icons.local_fire_department_rounded, color: MemberDashboardPalette.crimson, size: compact ? 14 : 18),
+          Text('Streak ${_data.currentStreak}', style: TextStyle(color: MemberDashboardPalette.crimson, fontSize: compact ? 7.5 : 9, fontWeight: FontWeight.w900)),
+          Container(width: 1, height: compact ? 13 : 17, color: MemberDashboardPalette.line),
+          Icon(Icons.emoji_events_rounded, color: MemberDashboardPalette.goldDeep, size: compact ? 14 : 18),
+          Text('Best ${_data.bestStreak}', style: TextStyle(color: MemberDashboardPalette.crimson, fontSize: compact ? 7.5 : 9, fontWeight: FontWeight.w900)),
         ]),
       ),
     ],
@@ -415,7 +416,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
       };
       final filled = !sunday && (status == DayAttendanceStatus.present || status == DayAttendanceStatus.late || status == DayAttendanceStatus.absent || status == DayAttendanceStatus.holiday);
       cells.add(Center(child: Container(
-        width: compact ? 14 : 22, height: compact ? 14 : 22,
+        width: compact ? 18 : 26, height: compact ? 18 : 26,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: filled ? color : const Color(0xFFE7F0F9),
@@ -423,8 +424,8 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           boxShadow: [BoxShadow(color: (filled ? color : _blue).withValues(alpha: .16), blurRadius: 4, offset: const Offset(0, 2))],
         ),
         child: Stack(alignment: Alignment.center, children: [
-          Padding(padding: EdgeInsets.only(bottom: sunday ? 5 : 0), child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 6.5 : 9, fontWeight: FontWeight.w900))),
-          if (sunday) const Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: _muted, fontSize: 5, fontWeight: FontWeight.w900))),
+          Padding(padding: EdgeInsets.only(bottom: sunday ? 5 : 0), child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 7.5 : 10.5, fontWeight: FontWeight.w900))),
+          if (sunday) Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: _muted, fontSize: compact ? 4.5 : 5.5, fontWeight: FontWeight.w900))),
         ]),
       )));
     }
@@ -461,15 +462,15 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   ]);
 
   Widget _attendanceSummary(bool compact) => Row(children: [
-    SizedBox(width: compact ? 42 : 82, child: Center(child: SizedBox(
-      width: compact ? 34 : 72, height: compact ? 34 : 72,
+    SizedBox(width: compact ? 48 : 82, child: Center(child: SizedBox(
+      width: compact ? 38 : 72, height: compact ? 38 : 72,
       child: Stack(alignment: Alignment.center, children: [
         SizedBox.expand(child: CircularProgressIndicator(
-          value: _data.attendanceRate / 100, strokeWidth: compact ? 4 : 7,
+          value: _data.attendanceRate / 100, strokeWidth: compact ? 4.5 : 7,
           backgroundColor: const Color(0xFFE9D9D0), valueColor: const AlwaysStoppedAnimation(_green),
         )),
         Column(mainAxisSize: MainAxisSize.min, children: [
-          Text('${_data.attendanceRate}%', style: TextStyle(color: _navy, fontSize: compact ? 8 : 18, fontWeight: FontWeight.w900)),
+          Text('${_data.attendanceRate}%', style: TextStyle(color: _navy, fontSize: compact ? 10 : 18, fontWeight: FontWeight.w900)),
           if (!compact) Text(_data.attendanceFraction, style: const TextStyle(color: _navy, fontSize: 7, fontWeight: FontWeight.w800)),
         ]),
       ]),
