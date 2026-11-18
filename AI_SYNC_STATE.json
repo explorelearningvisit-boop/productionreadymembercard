@@ -507,5 +507,60 @@
     ],
     "failureDiagnosis": "Both runs reached Dart formatting report and failed there. Static analysis, Flutter tests and APK build were skipped. The workflow job-log connector returned 404 when fetching the log, so exact formatter diff/error is not yet known; do not guess. Next agent must retrieve/reproduce formatter output and fix formatting before proceeding.",
     "nextAction": "Inspect full formatting output for run #283/#284 or run dart format on the active branch; apply formatter to changed Dart files, commit, and monitor a fresh CI run through tests and APK artifact. Then perform fresh Xiaomi screenshot comparison."
+  },
+  "latestCIWatch": {
+    "workflow": "Android Cloud Build & Multi-Device QA",
+    "branch": "chatgpt/member-intelligence-mobile-rebuild",
+    "observedAt": "2026-11-18T15:19:52Z",
+    "codeHead": "a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c",
+    "sourceFixCommits": [
+      "5dc1d10dcf0f3c10cf967e4725138bca25350143",
+      "19ddc9c3314172a809cb200d4c04cdd3670118d5",
+      "a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c"
+    ],
+    "latestPushRun": {
+      "id": 44333513576,
+      "runNumber": 297,
+      "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333513576",
+      "conclusion": "failure",
+      "buildAndTestJob": "success",
+      "format": "PASS",
+      "analyze": "PASS",
+      "flutterTests": "PASS (12 tests)",
+      "releaseVariantApk": "PASS",
+      "deviceQaJob": "failure: no Android device online",
+      "apkArtifact": {
+        "id": 14441375560,
+        "name": "bad-gym-member-intelligence-android-a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c",
+        "zipSizeBytes": 36663418,
+        "zipSha256": "a368a78210532b30360562fb9b31965126bb46b1889036b9d9e1d83f45d1cb7d",
+        "apkPath": "app-release.apk",
+        "apkSizeBytes": 59630657,
+        "apkSha256": "a6fe3a0647a8c2b1241ebb2bce38fb1ac60a0438a50978f50c8507f61b17a447",
+        "expiresAt": "2026-12-02T15:18:54Z"
+      },
+      "signing": "CI debug keystore; not production-signed",
+      "deviceQa": {
+        "status": "BLOCKED_NO_DEVICES_ONLINE",
+        "testedAndroidDevices": 0,
+        "onlinePeers": 0,
+        "xiaomi11i": "OFFLINE_SKIPPED",
+        "artifactId": 14440333225,
+        "artifactSha256": "830f8e55f036dbcc92e5029429f9e8eefe0b6cd1c03e463991aae72fac9d83dd",
+        "installLaunchScreenshot": "NOT_ATTEMPTED"
+      }
+    },
+    "latestPullRequestRun": {
+      "id": 44333532312,
+      "runNumber": 298,
+      "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333532312",
+      "conclusion": "success",
+      "format": "PASS",
+      "analyze": "PASS",
+      "flutterTests": "PASS (12 tests)",
+      "releaseVariantApk": "PASS",
+      "deviceQa": "SKIPPED_BY_PULL_REQUEST_EVENT"
+    },
+    "requiredNextAction": "Bring the Xiaomi 11i online in Tailscale and ensure its current Wireless Debugging ADB endpoint is available; a later push or manual workflow_dispatch can then retry device QA. Preserve installed app data; do not uninstall or wipe."
   }
 }
