@@ -39,7 +39,9 @@ jobs:
           fi
       - name: Resolve dependencies
         run: flutter pub get
-      - name: Format check
+      - name: Format Dart sources
+        run: dart format lib test
+      - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed lib test
       - name: Static analysis
         run: flutter analyze
@@ -58,18 +60,35 @@ jobs:
   device-qa:
     name: Optional Tailscale + ADB device QA
     needs: build
-    if: ${{ github.event_name != 'pull_request' && secrets.TAILSCALE_AUTHKEY != '' && secrets.ANDROID_DEVICE_HOST != '' && secrets.ANDROID_DEVICE_PORT != '' }}
+    if: ${{ github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Check device QA configuration
+        id: config
+        env:
+          TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY }}
+          DEVICE_HOST: ${{ secrets.ANDROID_DEVICE_HOST }}
+          DEVICE_PORT: ${{ secrets.ANDROID_DEVICE_PORT }}
+        run: |
+          if [ -n "$TAILSCALE_AUTHKEY" ] && [ -n "$DEVICE_HOST" ] && [ -n "$DEVICE_PORT" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Device QA skipped: configure TAILSCALE_AUTHKEY, ANDROID_DEVICE_HOST and ANDROID_DEVICE_PORT."
+          fi
       - uses: actions/checkout@v4
+        if: steps.config.outputs.enabled == 'true'
       - uses: actions/download-artifact@v4
+        if: steps.config.outputs.enabled == 'true'
         with:
           name: beauty-salon-debug-apk-${{ github.run_number }}
           path: artifacts
       - uses: tailscale/github-action@v3
+        if: steps.config.outputs.enabled == 'true'
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
       - name: Connect Android device and install APK
+        if: steps.config.outputs.enabled == 'true'
         env:
           DEVICE_HOST: ${{ secrets.ANDROID_DEVICE_HOST }}
           DEVICE_PORT: ${{ secrets.ANDROID_DEVICE_PORT }}
@@ -80,19 +99,19 @@ jobs:
           mkdir -p qa-evidence
           adb start-server
           if [ -n "${PAIRING_PORT:-}" ] && [ -n "${PAIRING_CODE:-}" ]; then
-            printf '%s\n' "$PAIRING_CODE" | adb pair "$DEVICE_HOST:$PAIRING_PORT"
+            printf '%s\\n' "$PAIRING_CODE" | adb pair "$DEVICE_HOST:$PAIRING_PORT"
           fi
           adb connect "$DEVICE_HOST:$DEVICE_PORT"
-          adb devices
+          adb -s "$DEVICE_HOST:$DEVICE_PORT" get-state
           adb -s "$DEVICE_HOST:$DEVICE_PORT" install -r artifacts/app-debug.apk
           adb -s "$DEVICE_HOST:$DEVICE_PORT" shell monkey -p com.beautyverse.beauty_salon 1
           sleep 8
           adb -s "$DEVICE_HOST:$DEVICE_PORT" shell screencap -p /sdcard/beauty-salon.png
           adb -s "$DEVICE_HOST:$DEVICE_PORT" pull /sdcard/beauty-salon.png qa-evidence/beauty-salon.png
           adb -s "$DEVICE_HOST:$DEVICE_PORT" logcat -d -t 3000 > qa-evidence/logcat.txt
-          printf 'install=passed\nlaunch=triggered\nscreenshot=captured\n' > qa-evidence/device-report.txt
+          printf 'install=passed\\nlaunch=triggered\\nscreenshot=captured\\n' > qa-evidence/device-report.txt
       - name: Upload device QA evidence
-        if: always()
+        if: always() && steps.config.outputs.enabled == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: beauty-salon-device-qa-${{ github.run_number }}
