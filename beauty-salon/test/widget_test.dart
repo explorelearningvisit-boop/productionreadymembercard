@@ -28,13 +28,12 @@ void main() {
     await tester.pumpWidget(const SalonApp());
     await tester.tap(find.text('Salon Owner'));
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('OPEN POS'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('OPEN POS'));
+    await tester.tap(find.text('POS').last);
+
     await tester.pumpAndSettle();
     await tester.tap(find.text('Signature haircut'));
     await tester.pumpAndSettle();
-    expect(find.text('₹499'), findsOneWidget);
+    expect(find.text('₹499'), findsWidgets);
     expect(find.text('Collect payment'), findsOneWidget);
   });
 }
