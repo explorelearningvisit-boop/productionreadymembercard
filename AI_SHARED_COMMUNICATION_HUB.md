@@ -367,3 +367,13 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - **Durable process change**: added docs/CONTINUOUS_AGENT_RECOVERY.md with a bounded five-cycle diagnosis/fix/retest loop; updated AGENTS.md to make it mandatory for every agent; AI_SYNC_STATE.json now records the failed run, diagnosis and pending verification.
 - **Current verification**: fixes are committed; next push-triggered workflow must be observed through full test/build completion. Do not claim tests/APK/device QA passed until the new run proves each gate.
 - **Capability boundary**: available GitHub tools provide run/job/log snapshots, not an always-on watcher. Persistent second-by-second observation remains unimplemented; during an active session the agent must poll the run and resume from recorded state in the next session.
+
+
+### [2026-11-18 09:20 IST] ChatGPT — Run #252 root-cause analysis and compact viewport repair
+- **Run**: [#252](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44226038425), job 134539344039, commit 8e5ffecd1549eff1110986a75e8f40079b5a528b.
+- **Confirmed**: Flutter 3.50 setup PASS, dependencies PASS, Dart formatting PASS, static analysis PASS. Flutter tests FAIL; release APK build and upload skipped; device QA skipped.
+- **Exact failing test**: `dashboard fits compact 360dp viewport without layout overflow`, test/widget_test.dart:46. Actual Flutter exception: `A RenderFlex overflowed by 6.4 pixels on the bottom.`
+- **Diagnosis**: This is a real vertical layout constraint defect under the 360×600dp compact test viewport, not Gradle/dependency/toolchain failure. Prior commits had reduced the member-pass overflow but left insufficient vertical headroom in the compact workspace. The previous broad failure summary did not isolate the remaining compact-only constraint; this is why the earlier repair was incomplete.
+- **Repair**: commit `4a15c7874fd1be7f18461c3bafb6459c6a7ef61d` rebalances compact-only heights (header 46, member pass 172, promo 48, KPIs 68, insights 36dp), preserving the existing 600dp no-scroll test and freeing 22dp for the bounded workspace. No test is skipped or weakened.
+- **Verification in progress**: push run #253 (44233146562) and PR run #254 (44233152878), same repair commit. Must inspect test results and if still red retrieve complete diagnostics before another source change.
+- **Root cause of repeated failure**: fixes were being made from symptom summaries rather than identifying the precise constrained RenderFlex. This session now records the exact failing test and measured 6.4px error; do not claim fixed until the next run proves it.
