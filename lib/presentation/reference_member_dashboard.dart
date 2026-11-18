@@ -55,11 +55,11 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           child: LayoutBuilder(builder: (context, constraints) {
             final h = constraints.maxHeight;
             final compact = h < 690;
-            final headerH = compact ? 44.0 : 54.0;
-            final profileH = compact ? 180.0 : 220.0;
-            final promoH = compact ? 54.0 : 74.0;
-            final statsH = compact ? 76.0 : 104.0;
-            final insightH = compact ? 40.0 : 54.0;
+            final headerH = compact ? 46.0 : 54.0;
+            final profileH = compact ? 172.0 : 220.0;
+            final promoH = compact ? 48.0 : 74.0;
+            final statsH = compact ? 68.0 : 104.0;
+            final insightH = compact ? 36.0 : 54.0;
             const gap = 5.0;
             return Container(
               decoration: const BoxDecoration(
