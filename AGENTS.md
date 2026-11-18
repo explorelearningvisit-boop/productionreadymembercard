@@ -1,17 +1,23 @@
 # BAD GYM — Repository Rules for Every AI Agent
 
-> **MANDATORY FIRST READ:** `docs/AI_CONTEXT_BOOTSTRAP.md`. It is the entry point for every fresh ChatGPT, Antigravity, Claude, IDE agent, or human contributor. Then read `AI_SYNC_STATE.json`, `CURRENT_DESIGN_SPEC.md`, `ANTIGRAVITY_TASK.md`, and the latest entries in `AI_SHARED_COMMUNICATION_HUB.md`.
+> **MANDATORY FIRST READ:** `docs/AI_AGENT_OPERATING_CONSTITUTION.md` in full, then `docs/AI_CONTEXT_BOOTSTRAP.md`. This constitution governs every AI system, fresh chat, local agent and human contributor. Tool-specific entrypoints (`GEMINI.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.cursor/rules/bad-gym-project.mdc`) point here.
+
+> **CURRENT WORKSTREAM:** `chatgpt/member-intelligence-mobile-rebuild`. Keep `main` untouched unless the user explicitly authorizes a change.
+
+> **MANDATORY FIRST READ (continued):** `docs/AI_CONTEXT_BOOTSTRAP.md`. It is the entry point for every fresh ChatGPT, Antigravity, Claude, IDE agent, or human contributor. Then read `AI_SYNC_STATE.json`, `CURRENT_DESIGN_SPEC.md`, `ANTIGRAVITY_TASK.md`, and the latest entries in `AI_SHARED_COMMUNICATION_HUB.md`.
 
 ## Canonical project identity
 - Repository: https://github.com/explorelearningvisit-boop/productionreadymembercard
-- Branch: `main` (check remote state before editing; do not assume local checkout is current).
+- Current isolated Member Intelligence rebuild branch: `chatgpt/member-intelligence-mobile-rebuild` (verify live remote HEAD before editing). Base branch: `main` (do not modify, merge or push this workstream to `main` without explicit user direction).
 - App: Flutter/Dart, Android + iOS target; Android package `com.badgym.bad_gym`; launcher `com.badgym.bad_gym/.MainActivity`.
 - Primary local path historically used: `C:\Users\User\AndroidStudioProjects\productionreadymembercard` (verify on the actual machine).
 - `badnewgym` is obsolete. Never edit it.
 - GitHub is the shared durable source of truth. Do not rely on chat memory.
 
 ## Required session protocol
-1. Fetch latest `main`; inspect `git status` and recent commits before any edits.
+0. Read `docs/AI_AGENT_OPERATING_CONSTITUTION.md` in full. It is the universal policy for intent interpretation, cross-agent work, design authority, implementation, QA and reporting.
+
+1. Fetch the latest remote state for the task's active branch; inspect `git status`, branch HEAD and recent commits before any edits. For the current rebuild, use `chatgpt/member-intelligence-mobile-rebuild`; do not assume `main`.
 2. Read the mandatory context documents above and inspect the actual source files relevant to the task.
 3. Read latest CI run and artifacts before assuming build/device state.
 4. Record the user's new requirement in `docs/DECISION_LOG.md` before/with implementation when it changes architecture, product behaviour, design, security, or workflow.
