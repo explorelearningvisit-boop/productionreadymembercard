@@ -1,6 +1,0 @@
----
-description: Mandatory BAD GYM Member Intelligence project context, design, safety, testing and cross-agent workflow
-alwaysApply: true
----
-
-Before any work, read `docs/AI_AGENT_OPERATING_CONSTITUTION.md`, `AGENTS.md` and `docs/AI_CONTEXT_BOOTSTRAP.md`. Follow their mandatory startup protocol, current branch rules, approved visual source of truth, inspect-before-edit discipline, test/build requirements, CI recovery, Android/Tailscale safety and append-only handoff rules. For the current Member Intelligence rebuild, use `chatgpt/member-intelligence-mobile-rebuild`; do not modify `main` without explicit user authorization. Treat the phone screenshot as output evidence unless the user explicitly declares it the new design reference.

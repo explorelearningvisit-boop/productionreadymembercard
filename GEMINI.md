@@ -1,3 +1,0 @@
-# Gemini / Google Antigravity instructions
-
-Before any BAD GYM task, read `docs/AI_AGENT_OPERATING_CONSTITUTION.md` in full. Then follow `AGENTS.md` and `docs/AI_CONTEXT_BOOTSTRAP.md` startup order. Fetch the latest remote state; for the current Member Intelligence rebuild work only on `chatgpt/member-intelligence-mobile-rebuild`, never `main` unless the user explicitly authorizes it. Treat GitHub docs, current code, CI evidence and the latest approved reference as durable context. Understand and plan before coding, preserve other agents' changes, run tests/build, inspect fresh device evidence, and update `AI_SYNC_STATE.json` plus the append-only `AI_SHARED_COMMUNICATION_HUB.md`. Do not claim unverified results. The constitution is authoritative for details.
