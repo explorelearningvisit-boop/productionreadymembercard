@@ -37,7 +37,7 @@ ThemeData buildMarketplaceTheme() {
       foregroundColor: AppTokens.ink,
       centerTitle: false,
       elevation: 0,
-      minHeight: 56,
+      toolbarHeight: 56,
     ),
     cardTheme: CardThemeData(
       color: AppTokens.surface,
