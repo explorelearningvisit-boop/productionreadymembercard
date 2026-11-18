@@ -147,8 +147,7 @@ jobs:
           if [ -n "$TS_ID" ] && [ -n "$TS_AUDIENCE" ]; then echo "auth_mode=oauth" >> "$GITHUB_OUTPUT"
           elif [ -n "$TS_AUTHKEY" ]; then echo "auth_mode=authkey" >> "$GITHUB_OUTPUT"
           else missing+=("TS_OAUTH_CLIENT_ID + TS_AUDIENCE (or TAILSCALE_AUTHKEY)"); fi
-          if [ "${{ missing[@] }}" != "" ]; then :; fi
-          if [ "${{#missing[@]}}" -gt 0 ]; then printf '::error::Missing GitHub Actions secrets: %s\n' "$(IFS=', '; echo "${{missing[*]}}")"; exit 1; fi
+          if [ "${#missing[@]}" -gt 0 ]; then printf '::error::Missing GitHub Actions secrets: %s\n' "$(IFS=', '; echo "${missing[*]}")"; exit 1; fi
           printf '%s' "$DEVICE_PORTS_JSON" | jq -e 'type == "object"' >/dev/null
           mkdir -p "$HOME/.android"
           printf '%s' "$ADB_KEY" | base64 --decode > "$HOME/.android/adbkey"
