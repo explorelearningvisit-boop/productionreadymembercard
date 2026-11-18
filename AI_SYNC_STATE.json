@@ -387,7 +387,7 @@
     "history": "AI_SHARED_COMMUNICATION_HUB.md + docs/DECISION_LOG.md + AI_SYNC_STATE.json + ANTIGRAVITY_TASK.md",
     "preserveAllPriorHistory": true
   },
-  "lastUpdated": "2026-11-18T20:31:00+05:30",
+  "lastUpdated": "2026-11-18T20:50:00+05:30",
   "releaseSigning": {
     "status": "PROTECTED_KEY_REQUIRED",
     "requiredSecrets": [
@@ -472,7 +472,7 @@
     "nextAction": "Inspect latest run 253/254 after Flutter tests complete; if failure persists capture full FlutterError diagnostics and isolate the overflowing RenderFlex before another source edit."
   },
   "activeWorkstream": {
-    "status": "CI_FAILED_FORMATTING_GATE",
+    "status": "ANDROID_APK_BUILD_AND_CI_PASS_DEVICE_QA_PENDING",
     "branch": "chatgpt/member-intelligence-mobile-rebuild",
     "baseBranch": "main",
     "latestCommit": "c11e709ba8550435980cd3aef98015c579ef4171",
@@ -506,7 +506,48 @@
       }
     ],
     "failureDiagnosis": "Both runs reached Dart formatting report and failed there. Static analysis, Flutter tests and APK build were skipped. The workflow job-log connector returned 404 when fetching the log, so exact formatter diff/error is not yet known; do not guess. Next agent must retrieve/reproduce formatter output and fix formatting before proceeding.",
-    "nextAction": "Inspect full formatting output for run #283/#284 or run dart format on the active branch; apply formatter to changed Dart files, commit, and monitor a fresh CI run through tests and APK artifact. Then perform fresh Xiaomi screenshot comparison."
+    "nextAction": "Use workflow_dispatch with run_device_test=true or a push event on the feature branch when authorized; verify Tailnet/ADB reachability, package/signature compatibility, then install in place only if compatible, launch, capture fresh screenshot/logcat. Never uninstall or clear app data.",
+    "verifiedCommit": "bae87c5d6d494db508dea2197661212742b094bb",
+    "latestSuccessfulRun": {
+      "id": 44334805538,
+      "number": 299,
+      "event": "pull_request",
+      "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538",
+      "artifactId": 14440288666,
+      "artifactName": "bad-gym-member-intelligence-android-d809205fa2ee527fd59bfc60b9a7b0e9f6a2f9df",
+      "artifactUrl": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538/artifacts/14440288666",
+      "artifactExpiresAt": "2026-12-02T15:25:30Z",
+      "apk": "build/app/outputs/flutter-apk/app-release.apk",
+      "apkSize": "59.6 MB",
+      "dartFormat": "PASS",
+      "flutterAnalyze": "PASS",
+      "flutterTests": "PASS (12/12)",
+      "releaseApkBuild": "PASS",
+      "artifactUpload": "PASS",
+      "deviceQa": "SKIPPED: run event was pull_request; workflow condition permits device QA for push to main/feature branch or manual workflow_dispatch with run_device_test=true",
+      "signing": "Gradle release variant falls back to debug signing when BADGYM_RELEASE_STORE_FILE is not configured. Do not treat this artifact as production-signed or overwrite an existing app until certificate compatibility is verified."
+    },
+    "previousFailedRuns": [
+      {
+        "id": 44316707299,
+        "number": 283,
+        "conclusion": "failure",
+        "failedStep": "Dart formatting report",
+        "resolution": "Later commits corrected formatting; run #299 confirms formatting PASS."
+      },
+      {
+        "id": 44316713882,
+        "number": 284,
+        "conclusion": "failure",
+        "failedStep": "Dart formatting report",
+        "resolution": "Later commits corrected formatting; run #299 confirms formatting PASS."
+      }
+    ],
+    "remainingBlockers": [
+      "Physical Xiaomi install/launch/screenshot QA has not run for this successful artifact.",
+      "Production signing key/fingerprint continuity is not established; artifact is not verified as production-signed.",
+      "Current run is a PR check; Tailnet device QA job was skipped by event condition."
+    ]
   },
   "latestCIWatch": {
     "workflow": "Android Cloud Build & Multi-Device QA",
