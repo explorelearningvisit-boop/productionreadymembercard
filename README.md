@@ -1,18 +1,23 @@
 # BAD GYM — Member Intelligence
 
-Fresh Flutter implementation rebuilt from the user-approved glossy crimson / metallic gold / pearl-white reference.
+## Clean-slate rebuild
+
+The previous crimson/metallic-gold dashboard implementation and its derived portrait asset have been removed from the active source tree. The Flutter app is intentionally reduced to a neutral shell while the new UI is rebuilt from the user's latest approved reference.
 
 ## Design authority
-- Approved reference: 691 × 1536 px screenshot uploaded by the user.
-- Target layout: mobile-first, 360dp logical width.
-- Visual language: ruby/crimson background, illuminated metallic-gold edges, pearl-white panels, bold high-contrast typography.
-- Semantic colors: green = present, amber = late, red = absent, purple = holiday.
-- Reference banners remain present: Amazon Great Indian Festival and Protein Burger.
-- Calendar, QR, charts, typography and controls are native Flutter widgets; do not rasterize text or controls.
 
-## Run
+- Master: the user's final approved **first/red** dashboard image from 17 November 2026.
+- The second and third concepts were also liked; the fourth pale concept was explicitly rejected.
+- Target: mobile-first Android layout at 360dp width.
+- Member card, vertical rail, and horizontal menu must use one consistent visual identity.
+- Information workspaces may use the approved light white/lavender/yellow/green surfaces from the latest reference.
+- Use only the matching recent approved asset/theme pack. Static transparent PNGs are for decorative/illustrative artwork; dynamic text, charts, calendar states, controls, progress and QR elements must remain native Flutter widgets.
+- Do not restore the retired `1000320298.png` crimson/metallic-gold reference, its derived portrait, or any retired screenshot/material pack.
+- Do not substitute older purple/glass/neumorphic concepts for the approved first/red master.
+
+## Build
+
 ```sh
-flutter create --platforms=android --org com.badgym .
 flutter pub get
 flutter analyze
 flutter test
@@ -20,7 +25,7 @@ flutter build apk --release
 ```
 
 ## CI
+
 GitHub Actions workflow: `.github/workflows/android-build.yml`.
 
-## Important
-This is the first clean implementation baseline. A successful CI build is not the same as device installation or pixel-perfect acceptance. Device screenshot comparison on the target Xiaomi handset remains a separate QA gate.
+A successful CI build is not the same as physical-device installation, launch, or visual acceptance.
