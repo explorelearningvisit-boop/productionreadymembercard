@@ -130,3 +130,9 @@ Never call it production-ready or pixel-perfect without current device evidence.
 - USB ADB first; Tailscale + current Wireless Debugging endpoint second. Pairing and connect ports differ; never guess 5555.
 - Never uninstall/clear app data. Check package/version/signing certificate before in-place APK install; stop on signature mismatch.
 - Always commit a redacted run report under `qa/local-runs/<timestamp>/` and update AI_SYNC_STATE.json, append-only AI_SHARED_COMMUNICATION_HUB.md, and ANTIGRAVITY_TASK.md.
+
+## Mandatory continuous CI failure recovery
+- Before work, read `docs/CONTINUOUS_AGENT_RECOVERY.md` and `docs/CONTINUOUS_AGENT_OBSERVABILITY.md`.
+- For every code change, monitor the resulting GitHub Actions run through completion; inspect full failure logs, repair the cause, commit, and repeat within the bounded retry budget. Never stop after merely reporting a red check.
+- Do not ask the user to manually monitor or relay CI logs when authorized GitHub tools can retrieve them.
+- Do not weaken tests, bypass gates, touch main, or claim persistent monitoring when only finite run snapshots are available.
