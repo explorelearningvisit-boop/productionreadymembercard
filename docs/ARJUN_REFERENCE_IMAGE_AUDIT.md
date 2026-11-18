@@ -51,3 +51,28 @@ The mounted upload set also contains large composite concept boards with multipl
 
 ## Status
 The existing Flutter app remains a prototype. Typed models and local cache were added in the rebuild branch, but server authentication, cloud persistence, real payments, KYC, notifications, security rules, operational tooling and release/device QA are not yet complete. This image audit is now recorded so the implementation can be traced to the uploaded source screens.
+
+## Additional exact screen inventory from the second captured batch
+- 1000320164: ARJUN welcome / sign-in
+- 1000320165: worker home
+- 1000320166: worker activity / work operations
+- 1000320167: profile / role / language settings
+- 1000320170–0171: job posting form (continued across screens)
+- 1000320375: role selection
+- 1000320376–0377: worker home and quick actions
+- 1000320378: job search
+- 1000320379: attendance
+- 1000320380: earnings
+- 1000320381: worker profile
+- 1000320382–0383: provider dashboard and quick actions
+- 1000320384: provider job listings
+- 1000320385: team list
+- 1000320386: project progress and milestone payment placeholder
+- 1000320387: provider profile
+- 1000320388–0405: repeated/alternate provider and worker screen variants, including profile, dashboard, job posting and job management flows
+
+## Concept-board evidence
+The contact sheets show several wide boards, including ARJUN ecosystem and role-specific UI boards, workforce marketplace/service categories, worker/provider dashboard variants, task/progress and supplier/material marketplace concepts, and GARJUN/ARJUN brand explorations. Use them to expand the feature inventory, but preserve the uploaded phone-screen navigation as the starting point. Where boards disagree visually, unify them into one light, accessible design system with worker emerald/green and provider purple accents; do not copy every variant as a separate product theme.
+
+## Product-flow gaps visible in the current Flutter code
+The current `dual_portal.dart` still contains hard-coded sample jobs, a fictitious worker name, fixed earnings and team counts, demo-only QR/GPS check-in, dialog-only KYC/SOS, a local in-memory job-post list, placeholder payment and milestone actions, and no supplier, map, application, assignment or dispute flows. These are prototype placeholders, not implemented business functions. Replace them with repository-backed state and honest empty/loading/error states; never show demo values as actual account data.
