@@ -211,10 +211,27 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         const SizedBox(width: 8),
         Container(width: 1, height: 30, color: _line),
         const SizedBox(width: 8),
-        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Expires: ${_data.renewDate}', style: const TextStyle(color: _navy, fontSize: 9, fontWeight: FontWeight.w900)),
-          Text('(${_data.daysLeft} Days Left)', style: const TextStyle(color: Color(0xFF9C397A), fontSize: 9, fontWeight: FontWeight.w800)),
-        ]),
+        SizedBox(
+          width: compact ? 112 : null,
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  compact ? 'Exp: ${_data.renewDate}' : 'Expires: ${_data.renewDate}',
+                  style: const TextStyle(color: _navy, fontSize: 9, fontWeight: FontWeight.w900),
+                ),
+                Text(
+                  compact ? '(${_data.daysLeft}d left)' : '(${_data.daysLeft} Days Left)',
+                  style: const TextStyle(color: Color(0xFF9C397A), fontSize: 9, fontWeight: FontWeight.w800),
+                ),
+              ],
+            ),
+          ),
+        ),
         const SizedBox(width: 8),
         _glass(radius: 14, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
           child: Text('${_data.membershipPercent}%', style: const TextStyle(color: _blue, fontSize: 11, fontWeight: FontWeight.w900))),
