@@ -161,3 +161,12 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - Device QA failed only because every Tailnet peer was offline, including Xiaomi 11i. Zero devices were tested; no install, launch or screenshot was attempted. QA evidence artifact: `tailnet-multi-device-qa-a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c`.
 - PR run [#298](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333532312) passed all code/build checks; device QA was skipped by event condition.
 - User-side next step: bring Xiaomi 11i online in Tailscale and ensure the current Wireless Debugging ADB port is configured. Do not uninstall, clear data, or claim physical verification until fresh install/launch/screenshot evidence exists.
+
+
+## Latest APK verification — 2026-11-18
+- Successful CI run #299: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538
+- Commit: `bae87c5d6d494db508dea2197661212742b094bb`.
+- Format PASS; analyze PASS; Flutter tests 12/12 PASS; release APK build PASS (59.6 MB); artifact upload PASS.
+- Artifact ZIP: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538/artifacts/14440288666 (expires 2026-12-02 UTC).
+- Device QA was skipped because the run was pull_request-triggered. Trigger workflow_dispatch with `run_device_test=true` or a feature-branch push to perform device QA.
+- Release variant falls back to debug signing when protected release keystore is absent. Do not claim production signing or overwrite an existing installation until signature compatibility is verified.
