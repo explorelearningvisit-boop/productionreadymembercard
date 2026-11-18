@@ -114,7 +114,7 @@ class BrandHeader extends StatelessWidget {
   const BrandHeader({super.key});
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: 67,
+    height: 72,
     child: Stack(children: [
       Positioned.fill(child: CustomPaint(painter: HeaderRibbonPainter())),
       Row(children: [
@@ -130,8 +130,8 @@ class BrandHeader extends StatelessWidget {
         ),
         const SizedBox(width: 9),
         const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text.rich(TextSpan(children: [TextSpan(text: 'BAD ', style: TextStyle(color: Colors.white, fontSize: 21, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)), TextSpan(text: 'GYM', style: TextStyle(color: C.gold, fontSize: 21, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic))])),
-          Text('Member Intelligence', style: TextStyle(color: Colors.white, fontSize: 11.5, fontWeight: FontWeight.w600)),
+          Text.rich(TextSpan(children: [TextSpan(text: 'BAD ', style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)), TextSpan(text: 'GYM', style: TextStyle(color: C.gold, fontSize: 21, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic))])),
+          FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text('Member Intelligence', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600))),
         ])),
         const HeaderAction(icon: Icons.search),
         const SizedBox(width: 5),
@@ -237,7 +237,7 @@ class SmallPill extends StatelessWidget {
   final IconData icon; final String text;
   const SmallPill({super.key, required this.icon, required this.text});
   @override
-  Widget build(BuildContext context) => Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4), decoration: BoxDecoration(color: const Color(0xFFF4F4F4), borderRadius: BorderRadius.circular(18), border: Border.all(color: const Color(0xFFD8C8B2))), child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(icon, size: 11, color: C.ink), const SizedBox(width: 3), Text(text, style: const TextStyle(fontSize: 8.5, fontWeight: FontWeight.w800, color: C.ink))]));
+  Widget build(BuildContext context) => Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4), decoration: BoxDecoration(color: const Color(0xFFF4F4F4), borderRadius: BorderRadius.circular(18), border: Border.all(color: const Color(0xFFD8C8B2))), child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(icon, size: 11, color: C.ink), const SizedBox(width: 3), FittedBox(fit: BoxFit.scaleDown, child: Text(text, style: const TextStyle(fontSize: 8.5, fontWeight: FontWeight.w800, color: C.ink)))]));
 }
 
 class MetaItem extends StatelessWidget {
@@ -304,7 +304,7 @@ class AttendanceWorkspace extends StatelessWidget {
   final double width;
   const AttendanceWorkspace({super.key, required this.width});
   @override
-  Widget build(BuildContext context) => SizedBox(height: 300, child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+  Widget build(BuildContext context) => SizedBox(height: 350, child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
     SizedBox(width: 51, child: GoldFrame(dark: true, radius: 17, padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3), child: const Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       RailItem(icon: Icons.calendar_month, label: 'Cal', selected: true),
       RailItem(icon: Icons.bar_chart, label: 'Trend'),
@@ -375,9 +375,9 @@ class AttendanceContent extends StatelessWidget {
       ]),
       const SizedBox(height: 6),
       Container(padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 5), decoration: BoxDecoration(color: const Color(0xFFFFF5ED), borderRadius: BorderRadius.circular(16), border: Border.all(color: const Color(0xFFE5CBA4))), child: const Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Icon(Icons.local_fire_department, color: C.red, size: 18), Text('Streak  5 Days', style: TextStyle(color: C.red, fontSize: 9, fontWeight: FontWeight.w900)),
+        Icon(Icons.local_fire_department, color: C.red, size: 18), Expanded(child: FittedBox(fit: BoxFit.scaleDown, child: Text('Streak  5 Days', style: TextStyle(color: C.red, fontSize: 9, fontWeight: FontWeight.w900)))),
         SizedBox(height: 18, child: VerticalDivider(color: C.red, width: 12)),
-        Icon(Icons.emoji_events, color: C.goldDark, size: 18), Text('Best  14 Days', style: TextStyle(color: C.red, fontSize: 9, fontWeight: FontWeight.w900)),
+        Icon(Icons.emoji_events, color: C.goldDark, size: 18), Expanded(child: FittedBox(fit: BoxFit.scaleDown, child: Text('Best  14 Days', style: TextStyle(color: C.red, fontSize: 9, fontWeight: FontWeight.w900)))),
       ])),
     ]);
   }
@@ -420,13 +420,13 @@ class DonutPainter extends CustomPainter {
 class ProteinBanner extends StatelessWidget {
   const ProteinBanner({super.key});
   @override
-  Widget build(BuildContext context) => GoldFrame(radius: 18, dark: true, padding: const EdgeInsets.all(9), child: SizedBox(height: 82, child: Row(children: [
+  Widget build(BuildContext context) => GoldFrame(radius: 18, dark: true, padding: const EdgeInsets.all(9), child: SizedBox(height: 100, child: Row(children: [
     const SizedBox(width: 47, child: Icon(Icons.fitness_center, size: 39, color: C.gold)),
     Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2), decoration: BoxDecoration(color: C.gold, borderRadius: BorderRadius.circular(8)), child: const Text('FITNESS NUTRITION', style: TextStyle(color: C.ink, fontSize: 7, fontWeight: FontWeight.w900))),
       const SizedBox(height: 3),
-      const Text.rich(TextSpan(children: [TextSpan(text: 'PROTEIN ', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)), TextSpan(text: 'BURGER', style: TextStyle(color: C.gold, fontSize: 16, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic))])),
-      const Text('High Protein  ·  Low Fat  ·  More Energy', style: TextStyle(color: Colors.white, fontSize: 7, fontWeight: FontWeight.w700)),
+      FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text.rich(TextSpan(children: [TextSpan(text: 'PROTEIN ', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)), TextSpan(text: 'BURGER', style: TextStyle(color: C.gold, fontSize: 16, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic))]))),
+      const FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Text('High Protein  ·  Low Fat  ·  More Energy', style: TextStyle(color: Colors.white, fontSize: 7, fontWeight: FontWeight.w700))),
     ])),
     const Text('🍔', style: TextStyle(fontSize: 37)),
     const SizedBox(width: 4),
