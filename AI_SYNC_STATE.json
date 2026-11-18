@@ -387,7 +387,7 @@
     "history": "AI_SHARED_COMMUNICATION_HUB.md + docs/DECISION_LOG.md + AI_SYNC_STATE.json + ANTIGRAVITY_TASK.md",
     "preserveAllPriorHistory": true
   },
-  "lastUpdated": "2026-11-18T20:50:00+05:30",
+  "lastUpdated": "2026-11-18T21:02:00+05:30",
   "releaseSigning": {
     "status": "PROTECTED_KEY_REQUIRED",
     "requiredSecrets": [
@@ -472,7 +472,7 @@
     "nextAction": "Inspect latest run 253/254 after Flutter tests complete; if failure persists capture full FlutterError diagnostics and isolate the overflowing RenderFlex before another source edit."
   },
   "activeWorkstream": {
-    "status": "ANDROID_APK_BUILD_AND_CI_PASS_DEVICE_QA_PENDING",
+    "status": "APK_BUILD_PASS_DEVICE_QA_BLOCKED_BY_OFFLINE_TAILNET_PEERS",
     "branch": "chatgpt/member-intelligence-mobile-rebuild",
     "baseBranch": "main",
     "latestCommit": "c11e709ba8550435980cd3aef98015c579ef4171",
@@ -524,8 +524,8 @@
       "flutterTests": "PASS (12/12)",
       "releaseApkBuild": "PASS",
       "artifactUpload": "PASS",
-      "deviceQa": "SKIPPED: run event was pull_request; workflow condition permits device QA for push to main/feature branch or manual workflow_dispatch with run_device_test=true",
-      "signing": "Gradle release variant falls back to debug signing when BADGYM_RELEASE_STORE_FILE is not configured. Do not treat this artifact as production-signed or overwrite an existing app until certificate compatibility is verified."
+      "deviceQa": "NOT RUN (PR event)",
+      "signing": "Release build variant is debug-signed because protected release keystore is not configured; verify signature continuity before in-place update."
     },
     "previousFailedRuns": [
       {
@@ -547,7 +547,35 @@
       "Physical Xiaomi install/launch/screenshot QA has not run for this successful artifact.",
       "Production signing key/fingerprint continuity is not established; artifact is not verified as production-signed.",
       "Current run is a PR check; Tailnet device QA job was skipped by event condition."
-    ]
+    ],
+    "deviceQaFailure": {
+      "run": 44333513576,
+      "number": 297,
+      "event": "push",
+      "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333513576",
+      "buildJob": "PASS",
+      "deviceJob": "FAIL",
+      "cause": "Tailnet connected successfully, but all listed peers reported Online=false at 2026-11-18T15:19:48Z, including Xiaomi 11i (100.123.18.54). Therefore no Android device was tested and the workflow correctly failed its 'at least one device PASS' gate.",
+      "devices": [
+        {
+          "name": "Xiaomi 11i",
+          "ip": "100.123.18.54",
+          "result": "OFFLINE_SKIPPED"
+        },
+        {
+          "name": "badgym-21091116i",
+          "ip": "100.84.228.109",
+          "result": "OFFLINE_SKIPPED"
+        },
+        {
+          "name": "OPPO A53",
+          "ip": "100.80.18.55",
+          "result": "OFFLINE_SKIPPED"
+        }
+      ],
+      "appCodeFailure": false,
+      "nextAction": "When Xiaomi is powered on and reachable in Tailscale, trigger a new push-based device QA run on the current feature branch (or workflow_dispatch with run_device_test=true). Use the current Wireless Debugging endpoint; verify package/signing compatibility before in-place install. Do not uninstall or clear data."
+    }
   },
   "latestCIWatch": {
     "workflow": "Android Cloud Build & Multi-Device QA",
