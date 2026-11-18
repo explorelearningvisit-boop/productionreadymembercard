@@ -114,10 +114,10 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     const SizedBox(width: 8),
     Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
       RichText(text: const TextSpan(children: [
-        TextSpan(text: 'BAD ', style: TextStyle(color: Colors.white, fontSize: 21, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: -.8)),
-        TextSpan(text: 'GYM', style: TextStyle(color: MemberDashboardPalette.gold, fontSize: 21, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: -.8)),
+        TextSpan(text: 'BAD ', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: -.8)),
+        TextSpan(text: 'GYM', style: TextStyle(color: MemberDashboardPalette.gold, fontSize: 20, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: -.8)),
       ])),
-      const Text('Member Intelligence', style: TextStyle(color: Color(0xFFFFE8C1), fontSize: 10.5, height: 1, fontWeight: FontWeight.w700)),
+      const Text('Member Intelligence', style: TextStyle(color: Color(0xFFFFE8C1), fontSize: 10, height: 1, fontWeight: FontWeight.w700)),
     ])),
     _headerButton(Icons.search_rounded, () => _showInfo('Search', 'Search members by name, ID or phone.')),
     const SizedBox(width: 5),
@@ -142,7 +142,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   Widget _memberPass(bool compact) {
     final avatar = compact ? 52.0 : 78.0;
     return _glass(radius: 22, padding: const EdgeInsets.fromLTRB(9, 7, 9, 6), child: Column(children: [
-      SizedBox(height: compact ? 70 : 108, child: Row(children: [
+      SizedBox(height: compact ? 62 : 108, child: Row(children: [
         Container(
           width: avatar, height: avatar,
           decoration: BoxDecoration(
@@ -201,14 +201,14 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           ),
         )),
       ])),
-      Container(height: 1, color: _line.withValues(alpha: .65), margin: const EdgeInsets.symmetric(vertical: 3)),
+      Container(height: 1, color: _line.withValues(alpha: .65), margin: EdgeInsets.symmetric(vertical: compact ? 1 : 3)),
       Column(children: [
         Row(children: [
           Expanded(child: _detailPill(Icons.account_balance_wallet_rounded, 'Payment', _data.paymentAmount, _red)),
           const SizedBox(width: 6),
           Expanded(child: _detailPill(Icons.calendar_month_rounded, 'Expires: ${_data.renewDate}', '(${_data.daysLeft} Days Left)', _red)),
         ]),
-        const SizedBox(height: 5),
+        SizedBox(height: compact ? 3 : 5),
         Row(children: [
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('Membership  ${_data.daysUsed} / ${_data.totalDays} Days', style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w800)),
