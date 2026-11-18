@@ -170,3 +170,9 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - Artifact ZIP: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44334805538/artifacts/14440288666 (expires 2026-12-02 UTC).
 - Device QA was skipped because the run was pull_request-triggered. Trigger workflow_dispatch with `run_device_test=true` or a feature-branch push to perform device QA.
 - Release variant falls back to debug signing when protected release keystore is absent. Do not claim production signing or overwrite an existing installation until signature compatibility is verified.
+
+
+## Device QA root cause — 2026-11-18
+- Run #297 push event: https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333513576
+- Build job PASS; device QA FAIL because Tailscale was connected but every listed peer was offline. Xiaomi 11i 100.123.18.54 was OFFLINE_SKIPPED; no ADB/install attempt happened. This is not an app source/build failure.
+- Wait for Xiaomi to be powered on and online in Tailscale, then run current-branch device QA (push or manual workflow_dispatch with run_device_test=true). Verify current ADB endpoint and signing compatibility before install. Preserve existing data.
