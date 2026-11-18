@@ -83,7 +83,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
                     const SizedBox(height: gap),
                     SizedBox(height: profileH, child: _memberPass(compact)),
                     const SizedBox(height: gap),
-                    SizedBox(height: promoH, child: _festivalBanner()),
+                    SizedBox(height: promoH, child: _festivalBanner(compact)),
                     const SizedBox(height: gap),
                     SizedBox(height: statsH, child: _quickStats(compact)),
                     const SizedBox(height: gap),
@@ -252,7 +252,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     ]),
   );
 
-  Widget _festivalBanner() => const ReferenceAmazonBanner();
+  Widget _festivalBanner(bool compact) => ReferenceAmazonBanner(compact: compact);
 
   Widget _quickStats(bool compact) {
     final values = [
