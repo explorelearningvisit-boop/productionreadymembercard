@@ -278,7 +278,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           key: ValueKey('stat_tab_${['attendance','workout','payment','body'][i]}'),
           onTap: () => setState(() { _tab = i; _rail = 0; }),
           borderRadius: BorderRadius.circular(16),
-          child: _glass(radius: 16, padding: EdgeInsets.fromLTRB(2, compact ? 2 : 3, 2, compact ? 2 : 3), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          child: _glass(radius: 16, padding: EdgeInsets.fromLTRB(2, compact ? 1 : 3, 2, compact ? 1 : 3), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               SizedBox(width: compact ? 17 : 22, height: compact ? 17 : 22, child: Image.asset(
                 ['assets/images/illustration_3d_attendance_calendar.png','assets/images/illustration_3d_workout_dumbbells.png','assets/images/illustration_3d_payment_wallet.png','assets/images/illustration_3d_body_scale.png'][i],
@@ -291,7 +291,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             const SizedBox(height: 2),
             if (i == 0)
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                SizedBox(width: compact ? 24 : 44, height: compact ? 24 : 44, child: Stack(alignment: Alignment.center, children: [
+                SizedBox(width: compact ? 22 : 44, height: compact ? 22 : 44, child: Stack(alignment: Alignment.center, children: [
                   SizedBox.expand(child: CircularProgressIndicator(value: _data.attendanceRate / 100, strokeWidth: 5, backgroundColor: const Color(0xFFD7E9F9), valueColor: const AlwaysStoppedAnimation(_green))),
                   Text('${_data.attendanceRate}%', style: const TextStyle(color: _navy, fontSize: 11, fontWeight: FontWeight.w900)),
                 ])),
