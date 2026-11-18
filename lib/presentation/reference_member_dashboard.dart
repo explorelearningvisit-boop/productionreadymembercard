@@ -395,7 +395,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         ]),
       ),
     ],
-  ]);
+  );
 
   Widget _calendarGrid(bool compact) {
     final byDay = {for (final day in _data.calendarDays) day.day: day};
