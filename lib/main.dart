@@ -181,7 +181,7 @@ class MemberPassCard extends StatelessWidget {
           boxShadow: [BoxShadow(color: C.gold.withOpacity(.35), blurRadius: 5)],
         ), child: Container(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(14), gradient: const LinearGradient(colors: [Color(0xFF6B0610), Color(0xFFB30B1B)])),
-          child: const Center(child: Icon(Icons.person, size: 54, color: Color(0xFFFFD978))),
+          child: ClipRRect(borderRadius: BorderRadius.circular(14), child: Image.asset('assets/images/member_ashwani.webp', fit: BoxFit.cover, errorBuilder: (context, error, stack) => const Center(child: Icon(Icons.person, size: 54, color: Color(0xFFFFD978))))),
         )),
         const SizedBox(width: 8),
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -304,7 +304,7 @@ class AttendanceWorkspace extends StatelessWidget {
   final double width;
   const AttendanceWorkspace({super.key, required this.width});
   @override
-  Widget build(BuildContext context) => IntrinsicHeight(child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+  Widget build(BuildContext context) => SizedBox(height: 300, child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
     SizedBox(width: 51, child: GoldFrame(dark: true, radius: 17, padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3), child: const Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
       RailItem(icon: Icons.calendar_month, label: 'Cal', selected: true),
       RailItem(icon: Icons.bar_chart, label: 'Trend'),
