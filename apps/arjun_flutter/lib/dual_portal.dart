@@ -22,7 +22,7 @@ class _RoleChoice extends StatelessWidget {
   Container(width:60,height:60,decoration:BoxDecoration(color:role.tint,borderRadius:BorderRadius.circular(18)),child:Center(child:Text(role.emoji,style:const TextStyle(fontSize:34)))),
   const SizedBox(width:13), Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(role.label,style:TextStyle(fontWeight:FontWeight.w900,color:role.deep,fontSize:16)),Text(role.isWorker?'काम खोजें • हाजिरी • कमाई':'काम पोस्ट करें • टीम बनाएँ • प्रोजेक्ट चलाएँ',style:const TextStyle(fontSize:11,color:Colors.black54))])),
   Icon(Icons.arrow_forward_ios,color:role.accent,size:17)
- ]))))));
+ ])))));
 }
 class DemoJob{const DemoJob(this.title,this.kind,this.place,this.rate,this.unit,this.people);final String title,kind,place,unit;final int rate,people;}
 class PortalHome extends StatefulWidget{const PortalHome({super.key,required this.role,required this.onSwitch});final AppRole role;final VoidCallback onSwitch;@override State<PortalHome> createState()=>_PortalHomeState();}
