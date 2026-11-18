@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 const g=Color(0xFF087F5B),gd=Color(0xFF064638),gm=Color(0xFFE2F7EE),p=Color(0xFF6C35C8),pd=Color(0xFF32106D),pl=Color(0xFFF0E8FF),gold=Color(0xFFFFB52E),ink=Color(0xFF182342),bg=Color(0xFFF4F6FB);
 enum AppRole{worker,owner,contractor,manager,company}
 extension RoleUI on AppRole{bool get isWorker=>this==AppRole.worker;Color get accent=>isWorker?g:p;Color get deep=>isWorker?gd:pd;Color get tint=>isWorker?gm:pl;String get label=>switch(this){AppRole.worker=>'मजदूर / कारीगर',AppRole.owner=>'मकान मालिक',AppRole.contractor=>'ठेकेदार / कारीगर',AppRole.manager=>'साइट मैनेजर',AppRole.company=>'कंपनी / बिल्डर'};String get emoji=>switch(this){AppRole.worker=>'👷🏽‍♂️',AppRole.owner=>'🏡',AppRole.contractor=>'🦺',AppRole.manager=>'📋',AppRole.company=>'🏗️'};}
-class ArjunApp extends StatelessWidget{const ArjunApp({super.key});@override Widget build(BuildContext c)=>MaterialApp(title:'ARJUN',debugShowCheckedModeBanner:false,theme:ThemeData(useMaterial3:true,scaffoldBackgroundColor:bg,colorScheme:ColorScheme.fromSeed(seedColor:g)),home:const RoleEntry());}
 class RoleEntry extends StatefulWidget{const RoleEntry({super.key});@override State<RoleEntry> createState()=>_RoleEntryState();}
 class _RoleEntryState extends State<RoleEntry>{AppRole? role;@override Widget build(BuildContext c)=>role==null?RolePicker(onPick:(r)=>setState(()=>role=r)):PortalHome(role:role!,onSwitch:()=>setState(()=>role=null));}
 class RolePicker extends StatelessWidget {
