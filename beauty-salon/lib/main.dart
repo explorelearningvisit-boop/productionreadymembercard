@@ -53,14 +53,14 @@ class RoleGate extends StatelessWidget {
     body: SafeArea(child: ListView(padding: const EdgeInsets.all(22), children: [
       const Row(children: [CircleAvatar(backgroundColor: P.blush, child: Icon(Icons.spa, color: P.deep)),
         SizedBox(width: 12), Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('BEAUTY STUDIO', style: TextStyle(letterSpacing: 2, fontWeight: FontWeight.w900, color: P.deep)),
-          Text('SALON MANAGEMENT', style: TextStyle(fontSize: 9, color: P.muted))])]),
+          Text('BEAUTY PARLOUR', style: TextStyle(letterSpacing: 2, fontWeight: FontWeight.w900, color: P.deep)),
+          Text('BEAUTY PARLOUR MANAGEMENT', style: TextStyle(fontSize: 9, color: P.muted))])]),
       const SizedBox(height: 30),
       Container(padding: const EdgeInsets.all(24), decoration: BoxDecoration(
         gradient: const LinearGradient(colors: [P.blush, Color(0xFFFFF0E1)]), borderRadius: BorderRadius.circular(26)),
         child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('BEAUTY,\nMADE PERSONAL.', style: TextStyle(fontSize: 32, height: 1.1, fontWeight: FontWeight.w900, color: P.ink)),
-          SizedBox(height: 10), Text('Your salon experience. Your business. One beautiful space.', style: TextStyle(color: P.muted)),
+          SizedBox(height: 10), Text('Your beauty parlour experience. Your business. One beautiful space.', style: TextStyle(color: P.muted)),
           SizedBox(height: 18), Text('BOOK  •  MANAGE  •  GROW', style: TextStyle(letterSpacing: 1.4, fontSize: 10, color: P.deep, fontWeight: FontWeight.w800))])),
       const SizedBox(height: 26),
       const Text('Choose your workspace', style: TextStyle(fontSize: 23, fontWeight: FontWeight.w900, color: P.ink)),
@@ -114,7 +114,7 @@ class _WorkspaceState extends State<Workspace> {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context)),
-      title: const Text('BEAUTY STUDIO', style: TextStyle(fontSize: 14, letterSpacing: 2, fontWeight: FontWeight.w900, color: P.deep)),
+      title: const Text('BEAUTY PARLOUR', style: TextStyle(fontSize: 14, letterSpacing: 2, fontWeight: FontWeight.w900, color: P.deep)),
       actions: [IconButton(onPressed: () => toast('No new notifications'), icon: const Icon(Icons.notifications_none))]),
     body: AnimatedSwitcher(duration: const Duration(milliseconds: 180), child: page()),
     bottomNavigationBar: NavigationBar(selectedIndex: tab, backgroundColor: Colors.white, indicatorColor: P.blush,
@@ -132,10 +132,10 @@ class _WorkspaceState extends State<Workspace> {
       for (final b in bookings) tile(Icons.event_available, b, 'Appointment details and stylist', 'VIEW'),
       tile(Icons.history, 'Past visits', 'Your salon visit history', 'OPEN'),
     ]);
-    if (tab == 3) return scroll('Your profile', 'Manage your salon experience.', [
+    if (tab == 3) return scroll('Your profile', 'Manage your beauty parlour experience.', [
       tile(Icons.person_outline, 'Personal details', 'Name, phone and preferences', 'EDIT'),
       tile(Icons.card_giftcard, 'Rewards & memberships', 'Offers and loyalty benefits', 'OPEN'),
-      tile(Icons.help_outline, 'Help & support', 'Contact the salon team', 'HELP'),
+      tile(Icons.help_outline, 'Help & support', 'Contact the beauty parlour team', 'HELP'),
     ]);
     return scroll('Hello, beautiful ✨', 'Ready for a little self-care?', [
       hero('YOUR SELF-CARE MOMENT', 'Discover services made around you.'),
@@ -313,8 +313,16 @@ class _BookingSheetState extends State<BookingSheet> {
       Text('₹' + widget.service.price.toString() + ' • ' + widget.service.minutes.toString() + ' minutes', style: const TextStyle(color: P.muted)),
       const SizedBox(height: 17), const Text('Choose a time', style: TextStyle(fontWeight: FontWeight.w800)),
       const SizedBox(height: 8),
-      Wrap(spacing: 8, children: ['11:00 AM', '12:30 PM', '02:00 PM', '04:30 PM'].map((v) =>
-        ChoiceChip(label: Text(v), selected: slot == v, onSelected: (_) => setState(() => slot = v)).toList()),
+      Wrap(
+        spacing: 8,
+        children: ['11:00 AM', '12:30 PM', '02:00 PM', '04:30 PM']
+            .map((v) => ChoiceChip(
+                  label: Text(v),
+                  selected: slot == v,
+                  onSelected: (_) => setState(() => slot = v),
+                ))
+            .toList(),
+      ),
       const SizedBox(height: 15), const Text('Stylist', style: TextStyle(fontWeight: FontWeight.w800)),
       DropdownButton<String>(isExpanded: true, value: stylist,
         items: ['Any available', 'Priya', 'Meera', 'Aditi'].map((v) => DropdownMenuItem(value: v, child: Text(v))).toList(),
