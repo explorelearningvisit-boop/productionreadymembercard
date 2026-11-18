@@ -269,7 +269,7 @@ class FestivalBanner extends StatelessWidget {
       const Positioned(right: 74, top: 12, child: Text('Up to 40% OFF', style: TextStyle(color: Color(0xFF4B164C), fontSize: 13, fontWeight: FontWeight.w900))),
       const Positioned(right: 73, bottom: 10, child: Text('Fitness & Wellness', style: TextStyle(color: Color(0xFF4B164C), fontSize: 9, fontWeight: FontWeight.w700))),
       const Positioned(right: 5, top: 15, child: Icon(Icons.fitness_center, size: 37, color: Color(0xFF7D0914))),
-      Positioned(right: 6, top: 2, child: Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2), decoration: BoxDecoration(color: C.green, borderRadius: BorderRadius.circular(12)), child: const Text('Sponsored', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold))),
+      Positioned(right: 6, top: 2, child: Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2), decoration: BoxDecoration(color: C.green, borderRadius: BorderRadius.circular(12)), child: const Text('Sponsored', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.bold)))),
     ]),
   ));
 }
