@@ -43,7 +43,13 @@ void main() {
 
     expect(find.text('Attendance Intelligence'), findsOneWidget);
     expect(find.byKey(const ValueKey('rail_item_0')), findsOneWidget);
-    expect(tester.takeException(), isNull);
+    final layoutException = tester.takeException();
+    if (layoutException != null) {
+      fail(
+        'Compact 360x600 layout produced a Flutter error:\n'
+        '${layoutException is FlutterError ? layoutException.toStringDeep() : layoutException}',
+      );
+    }
     final scrollables = find.byType(Scrollable);
     expect(scrollables, findsNothing);
   });
