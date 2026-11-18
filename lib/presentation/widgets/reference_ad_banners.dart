@@ -74,7 +74,19 @@ class ReferenceAmazonBanner extends StatelessWidget {
                             ),
                     ),
                     const SizedBox(width: 3),
-                    Icon(Icons.fitness_center_rounded, color: const Color(0xFF291B26), size: compact ? 22 : 30),
+                    SizedBox(
+                      width: compact ? 22 : 46,
+                      height: compact ? 22 : 46,
+                      child: Image.asset(
+                        'assets/hero/hero_weights.png',
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, __, ___) => Icon(
+                          Icons.fitness_center_rounded,
+                          color: const Color(0xFF291B26),
+                          size: compact ? 22 : 30,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -129,12 +141,20 @@ class ReferenceProteinBanner extends StatelessWidget {
                 child: Row(
                   children: [
                     if (!compact) ...[
-                      const CircleAvatar(
-                        radius: 25,
-                        backgroundColor: Color(0xFFFFD52E),
-                        child: Icon(Icons.fitness_center_rounded, color: Color(0xFF8E0016), size: 27),
+                      SizedBox(
+                        width: 46,
+                        height: 76,
+                        child: Image.asset(
+                          'assets/promo/promo_model.png',
+                          fit: BoxFit.contain,
+                          errorBuilder: (_, __, ___) => const Icon(
+                            Icons.fitness_center_rounded,
+                            color: MemberDashboardPalette.gold,
+                            size: 30,
+                          ),
+                        ),
                       ),
-                      const SizedBox(width: 7),
+                      const SizedBox(width: 5),
                     ],
                     Expanded(
                       flex: 5,
@@ -162,7 +182,16 @@ class ReferenceProteinBanner extends StatelessWidget {
                             ),
                     ),
                     const SizedBox(width: 4),
-                    if (!compact) const Text('🍔', style: TextStyle(fontSize: 37)),
+                    if (!compact)
+                      SizedBox(
+                        width: 64,
+                        height: 76,
+                        child: Image.asset(
+                          'assets/promo/promo_burger.png',
+                          fit: BoxFit.contain,
+                          errorBuilder: (_, __, ___) => const Text('🍔', style: TextStyle(fontSize: 34)),
+                        ),
+                      ),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: compact ? 6 : 8, vertical: compact ? 3 : 5),
                       decoration: BoxDecoration(color: MemberDashboardPalette.gold, borderRadius: BorderRadius.circular(20), boxShadow: const [BoxShadow(color: Color(0x99FFB300), blurRadius: 8)]),
