@@ -359,7 +359,7 @@ jobs:
             git add docs/screenshots/bad_gym_live.png
             if ! git diff --staged --quiet; then
               git commit -m "chore(qa): auto-capture live screenshot from device [skip ci]"
-              git push origin main
+              git push origin "HEAD:${GITHUB_REF_NAME}"
             fi
           fi
 
