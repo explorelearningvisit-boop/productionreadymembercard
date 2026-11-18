@@ -347,7 +347,7 @@ class AttendanceContent extends StatelessWidget {
         ])),
       ]),
       const SizedBox(height: 7),
-      const Row(children: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((e)=>Expanded(child: Center(child: Text(e, style: TextStyle(fontSize: 8.5, fontWeight: FontWeight.w900, color: C.ink))))).toList(),
+      Row(children: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((e)=>Expanded(child: Center(child: Text(e, style: const TextStyle(fontSize: 8.5, fontWeight: FontWeight.w900, color: C.ink))))).toList(),
       const SizedBox(height: 4),
       GridView.builder(
         shrinkWrap: true, physics: const NeverScrollableScrollPhysics(),
