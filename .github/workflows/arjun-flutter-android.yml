@@ -1,32 +1,26 @@
 name: ARJUN Flutter Android Build and Tailscale QA
-
 on:
   push:
     branches: [feature/arjun-flutter-marketplace]
-    paths:
-      - "apps/arjun_flutter/**"
-      - ".github/workflows/arjun-flutter-android.yml"
+    paths: ["apps/arjun_flutter/**", ".github/workflows/arjun-flutter-android.yml"]
   pull_request:
     branches: [feature/arjun-flutter-marketplace]
   workflow_dispatch:
     inputs:
       deploy_to_phone:
-        description: "Attempt install on the configured, ADB-authorized Android phone"
+        description: "Install on configured ADB-authorized Android phone"
         required: false
         type: boolean
         default: false
-
 permissions:
   contents: read
-
 concurrency:
   group: arjun-android-${{ github.ref }}
-  cancel-in-progress: true
-
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
     defaults:
       run:
         working-directory: apps/arjun_flutter
@@ -35,39 +29,72 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "21"
+          java-version: "17"
+          cache: gradle
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
+      - name: Capture toolchain diagnostics
+        run: |
+          mkdir -p "$RUNNER_TEMP/arjun-diagnostics"
+          flutter --version | tee "$RUNNER_TEMP/arjun-diagnostics/flutter-version.txt"
+          flutter doctor -v 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/flutter-doctor.txt"
+          java -version 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/java-version.txt"
       - name: Generate Android platform project
         run: flutter create --platforms=android --org com.arjun --project-name arjun_app .
-      - name: Dependencies and quality checks
+      - name: Resolve dependencies with bounded network retry
+        shell: bash
         run: |
-          flutter pub get
-          dart format lib test
-          flutter analyze --no-fatal-infos
-          flutter test --reporter expanded
-      - name: Build Android QA APK (release mode, unsigned)
-        run: flutter build apk --release
-      - name: Build one-tap demo APK (debug only)
-        run: flutter build apk --debug
-      - uses: actions/upload-artifact@v4
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if flutter pub get --verbose 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/pub-get-$attempt.log"; then exit 0; fi
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 8)); fi
+          done
+          exit 1
+      - name: Format, analyze and test
+        shell: bash
+        run: |
+          set -euo pipefail
+          dart format --output=none --set-exit-if-changed lib test 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/format.log"
+          flutter analyze --no-fatal-infos 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/analyze.log"
+          flutter test --reporter expanded 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/test.log"
+      - name: Build debug APK with verbose Gradle logs
+        shell: bash
+        run: |
+          set -o pipefail
+          flutter build apk --debug --verbose 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/android-debug-build.log"
+      - name: Build release QA APK with verbose Gradle logs
+        shell: bash
+        run: |
+          set -o pipefail
+          flutter build apk --release --verbose 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/android-release-build.log"
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: arjun-android-demo-debug-${{ github.sha }}
-          path: apps/arjun_flutter/build/app/outputs/flutter-apk/app-debug.apk
-          if-no-files-found: error
-          retention-days: 7
-      - uses: actions/upload-artifact@v4
-        with:
-          name: arjun-android-qa-${{ github.sha }}
-          path: apps/arjun_flutter/build/app/outputs/flutter-apk/app-release.apk
+          name: arjun-android-apks-${{ github.sha }}
+          path: |
+            apps/arjun_flutter/build/app/outputs/flutter-apk/app-debug.apk
+            apps/arjun_flutter/build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
           retention-days: 14
-
+      - name: Upload diagnostics even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: arjun-ci-diagnostics-${{ github.sha }}
+          path: ${{ runner.temp }}/arjun-diagnostics/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Explain failure evidence
+        if: failure()
+        run: |
+          echo "## ARJUN CI failure" >> "$GITHUB_STEP_SUMMARY"
+          echo "Full verbose Flutter, Gradle and dependency logs are in arjun-ci-diagnostics." >> "$GITHUB_STEP_SUMMARY"
+          echo "CI captures diagnostics; it does not autonomously rewrite source code." >> "$GITHUB_STEP_SUMMARY"
   ios-simulator-build:
     runs-on: macos-latest
-    timeout-minutes: 35
+    timeout-minutes: 40
     defaults:
       run:
         working-directory: apps/arjun_flutter
@@ -77,16 +104,15 @@ jobs:
         with:
           channel: stable
           cache: true
-      - name: Generate iOS platform project
+      - name: Generate iOS project
         run: flutter create --platforms=ios --org com.arjun --project-name arjun_app .
-      - name: Build unsigned iOS app for simulator validation
+      - name: Build unsigned simulator app
         run: |
           flutter pub get
-          flutter build ios --simulator --no-codesign
-
+          flutter build ios --simulator --no-codesign --verbose
   phone-qa:
     needs: build
-    if: needs.build.result == 'success' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy_to_phone == true))
+    if: github.event_name == 'workflow_dispatch' && inputs.deploy_to_phone == true && vars.ARJUN_PHONE_QA_ENABLED == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -96,15 +122,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: arjun-android-demo-debug-${{ github.sha }}
+          name: arjun-android-apks-${{ github.sha }}
           path: dist
       - name: Install Android platform tools and jq
-        shell: bash
         run: |
-          set -euo pipefail
           sudo apt-get update
           sudo apt-get install -y android-sdk-platform-tools jq
-      - name: Validate Tailnet and paired ADB configuration
+      - name: Validate Tailscale and ADB configuration
         id: check_keys
         env:
           ADB_KEY: ${{ secrets.DEVICE_ADB_PRIVATE_KEY_B64 }}
@@ -120,23 +144,16 @@ jobs:
           [ -n "$ADB_KEY" ] || missing+=("DEVICE_ADB_PRIVATE_KEY_B64")
           [ -n "$DEVICE_IP" ] || missing+=("DEVICE_TAILSCALE_IP")
           [ -n "$DEVICE_PORTS_JSON" ] || missing+=("ANDROID_DEVICE_PORTS_JSON")
-          if [ -n "$TS_ID" ] && [ -n "$TS_AUDIENCE" ]; then
-            echo "auth_mode=oauth" >> "$GITHUB_OUTPUT"
-          elif [ -n "$TS_AUTHKEY" ]; then
-            echo "auth_mode=authkey" >> "$GITHUB_OUTPUT"
-          else
-            missing+=("TS_OAUTH_CLIENT_ID + TS_AUDIENCE (or TAILSCALE_AUTHKEY)")
-          fi
-          if [ "${#missing[@]}" -gt 0 ]; then
-            printf '::error::Missing required GitHub Actions secrets: %s\n' "$(IFS=', '; echo "${missing[*]}")"
-            exit 1
-          fi
+          if [ -n "$TS_ID" ] && [ -n "$TS_AUDIENCE" ]; then echo "auth_mode=oauth" >> "$GITHUB_OUTPUT"
+          elif [ -n "$TS_AUTHKEY" ]; then echo "auth_mode=authkey" >> "$GITHUB_OUTPUT"
+          else missing+=("TS_OAUTH_CLIENT_ID + TS_AUDIENCE (or TAILSCALE_AUTHKEY)"); fi
+          if [ "${{ missing[@] }}" != "" ]; then :; fi
+          if [ "${{#missing[@]}}" -gt 0 ]; then printf '::error::Missing GitHub Actions secrets: %s\n' "$(IFS=', '; echo "${{missing[*]}}")"; exit 1; fi
           printf '%s' "$DEVICE_PORTS_JSON" | jq -e 'type == "object"' >/dev/null
           mkdir -p "$HOME/.android"
           printf '%s' "$ADB_KEY" | base64 --decode > "$HOME/.android/adbkey"
           chmod 600 "$HOME/.android/adbkey"
-          echo "Phone configuration and secret presence validated (values not printed)."
-      - name: Join Tailscale using GitHub OIDC
+      - name: Join Tailnet with GitHub OIDC
         if: steps.check_keys.outputs.auth_mode == 'oauth'
         uses: tailscale/github-action@v4
         with:
@@ -146,7 +163,7 @@ jobs:
           timeout: 3m
           retry: 8
           use-cache: true
-      - name: Join Tailscale using auth key
+      - name: Join Tailnet with auth key
         if: steps.check_keys.outputs.auth_mode == 'authkey'
         uses: tailscale/github-action@v4
         with:
@@ -155,7 +172,7 @@ jobs:
           timeout: 3m
           retry: 8
           use-cache: true
-      - name: Connect and install on configured phone
+      - name: Install, launch and capture phone evidence
         env:
           DEVICE_IP: ${{ secrets.DEVICE_TAILSCALE_IP }}
           DEVICE_PORTS_JSON: ${{ secrets.ANDROID_DEVICE_PORTS_JSON }}
@@ -167,29 +184,22 @@ jobs:
           tailscale ping --timeout=10s "$DEVICE_IP"
           HOST=$(jq -r --arg ip "$DEVICE_IP" '.Peer // {} | to_entries[] | select((.value.TailscaleIPs // []) | index($ip)) | .value.HostName' tailnet-status.json | head -n1)
           PORT=$(jq -r --arg host "$HOST" --arg ip "$DEVICE_IP" '.[$host] // .[$ip] // empty' <<< "$DEVICE_PORTS_JSON")
-          if [ -z "$PORT" ] || ! [[ "$PORT" =~ ^[0-9]+$ ]]; then
-            echo "::error::No valid ADB Wireless Debugging port configured for the Tailnet peer."
-            exit 1
-          fi
+          [[ "$PORT" =~ ^[0-9]+$ ]] || { echo "::error::Invalid Wireless debugging port"; exit 1; }
           SERIAL="$DEVICE_IP:$PORT"
-          echo "Connecting to configured Android peer $HOST at $SERIAL"
           adb connect "$SERIAL"
           STATE=$(adb -s "$SERIAL" get-state 2>/dev/null || true)
-          if [ "$STATE" != "device" ]; then
-            echo "::error::ADB is not authorized/online. Re-pair this runner's ADB public key on the phone and refresh the current Wireless debugging port."
-            adb devices -l
-            exit 1
-          fi
+          [ "$STATE" = "device" ] || { echo "::error::ADB not authorized; re-pair runner key on phone"; adb devices -l; exit 1; }
           adb -s "$SERIAL" install -r -d -g dist/app-debug.apk
           adb -s "$SERIAL" shell am force-stop com.arjun.arjun_app || true
           adb -s "$SERIAL" shell monkey -p com.arjun.arjun_app 1
           sleep 6
           mkdir -p evidence
           adb -s "$SERIAL" exec-out screencap -p > evidence/arjun-phone.png
-          adb -s "$SERIAL" logcat -d -t 1500 > evidence/arjun-logcat.txt
+          adb -s "$SERIAL" logcat -d -t 2000 > evidence/arjun-logcat.txt
           test -s evidence/arjun-phone.png
-      - uses: actions/upload-artifact@v4
+      - name: Upload phone QA evidence
         if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: arjun-phone-qa-${{ github.sha }}
           path: evidence/
