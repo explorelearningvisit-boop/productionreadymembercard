@@ -1,0 +1,54 @@
+name: Purge legacy Member Intelligence visual assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/purge-member-assets.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  rewrite-history:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rewrite BAD GYM refs and remove historical visual asset blobs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y git
+          python3 -m pip install --user git-filter-repo
+          export PATH="$HOME/.local/bin:$PATH"
+
+          git clone --bare "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git" purge.git
+          cd purge.git
+
+          # Keep only BAD GYM / Member Intelligence branches in this local rewrite.
+          KEEP='^(main|chatgpt/design-lab-yellow-festive|chatgpt/member-intelligence-mobile-rebuild|chatgpt/member-intelligence-visual-rebuild-v2|chatgpt/ui-ux-remediation|feat/badgym-windows-local-agent|feature/member-intelligence-reference-purple|fix/member-intelligence-qa-and-calendar|production/flutter-member-intelligence|setup/flutter-member-intelligence)$'
+          while IFS= read -r ref; do
+            name="${ref#refs/heads/}"
+            if ! printf '%s' "$name" | grep -Eq "$KEEP"; then
+              git update-ref -d "$ref"
+            fi
+          done < <(git for-each-ref --format='%(refname)' refs/heads)
+
+          # Do not rewrite or push tags belonging to unrelated work.
+          while IFS= read -r ref; do git update-ref -d "$ref"; done < <(git for-each-ref --format='%(refname)' refs/tags)
+
+          # Remove complete asset/theme pack directories, screenshots, every
+          # image/vector/font/design export, and archive bundles from all
+          # retained BAD GYM branch history. App source and Dart theme code stay.
+          git filter-repo --force --invert-paths --path-regex '^(assets|asset_packs|asset-packs|theme_packs|theme-packs|design_assets|design-assets|uploaded_assets|reference_assets)/|^docs/(screenshots|assets|references)/|\.(png|jpe?g|webp|gif|svg|avif|bmp|heic|tiff?|ico|ttf|otf|woff2?|zip|7z|rar|psd|ai|fig)$'
+
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${REPOSITORY}.git"
+          for branch in main chatgpt/design-lab-yellow-festive chatgpt/member-intelligence-mobile-rebuild chatgpt/member-intelligence-visual-rebuild-v2 chatgpt/ui-ux-remediation feat/badgym-windows-local-agent feature/member-intelligence-reference-purple fix/member-intelligence-qa-and-calendar production/flutter-member-intelligence setup/flutter-member-intelligence; do
+            if git show-ref --verify --quiet "refs/heads/$branch"; then
+              git push --force origin "refs/heads/$branch:refs/heads/$branch"
+            fi
+          done
+
+          echo "History rewrite pushed for the selected BAD GYM refs."
