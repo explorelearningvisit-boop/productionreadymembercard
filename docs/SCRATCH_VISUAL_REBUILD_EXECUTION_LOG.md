@@ -12,10 +12,10 @@ Comparison capture: `1000320408.jpg`, 691×1536.
 - [ ] Record source hashes and measured section geometry in a machine-readable manifest.
 
 ## Phase 1 — Forensic inventory
-- [ ] Enumerate all assets recursively; record dimensions, format, alpha, hash, file size.
-- [ ] Map every asset reference in Dart to widget/screen.
-- [ ] Generate contact sheets for review only.
-- [ ] Classify all assets keep/extract/regenerate/retire; no automatic reuse.
+- [x] Enumerate all assets recursively; record path, file size and Git blob hash (257 assets; 246 PNG, 6 TTF, 4 SVG, 1 README).
+- [ ] Map every asset reference in Dart to widget/screen (not yet complete).
+- [ ] Generate contact sheets for review only (not yet complete).
+- [x] Initial classification policy and suspicious families documented; individual asset approvals remain pending.
 
 ## Phase 2 — Material/theme pack
 - [ ] Define color, typography, spacing, radii, border, bevel, glow and shadow tokens from reference.
@@ -48,4 +48,9 @@ Comparison capture: `1000320408.jpg`, 691×1536.
 - [ ] Release only after acceptance gates.
 
 ## Current honest status
-Only the clean branch and source-derived specification have been established. No fresh APK or pixel-perfect claim is made. Work must proceed through the gates above.
+- Clean v2 branch created from main.
+- Approved reference and installed screenshot compared at identical 691×1536 dimensions (mean absolute RGB difference about 66.95/255; this is a coarse global difference, not a perceptual score).
+- Source-derived visual specification committed.
+- Recursive inventory found 257 asset files and 21 duplicate-content groups; 76 files are in extracted_new and 80 in images. Berries/fruit assets are present but are not part of this approved screen.
+- Asset forensic audit committed.
+- No fresh APK, integrated production asset pack, device QA, or pixel-perfect claim is made. Continue only through the explicit gates above.
