@@ -435,5 +435,37 @@
       "retryBudget": 5,
       "currentStatus": "Awaiting CI verification of member-pass/calendar sizing and RichText assertion"
     }
+  },
+  "ciRecovery": {
+    "status": "FIX_COMMITTED_VERIFICATION_RUNNING",
+    "contract": "docs/CONTINUOUS_AGENT_RECOVERY.md",
+    "latestFailure": {
+      "run": 44226038425,
+      "job": 134539344039,
+      "step": "Flutter tests",
+      "test": "dashboard fits compact 360dp viewport without layout overflow",
+      "error": "RenderFlex overflowed by 6.4 pixels on the bottom",
+      "classification": "compact 360x600 viewport vertical constraint overflow"
+    },
+    "passedBeforeFailure": [
+      "Flutter setup",
+      "dependency resolution",
+      "Dart formatting",
+      "static analysis"
+    ],
+    "skipped": [
+      "Android release APK build",
+      "APK artifact upload",
+      "device QA"
+    ],
+    "fixCommit": "4a15c7874fd1be7f18461c3bafb6459c6a7ef61d",
+    "fixSummary": "Rebalanced compact-only vertical section heights to free 22dp for the bounded workspace while retaining minimum 46dp header; full test remains unchanged.",
+    "verificationRuns": [
+      44233146562,
+      44233152878
+    ],
+    "retryCount": 2,
+    "retryBudget": 5,
+    "nextAction": "Inspect latest run 253/254 after Flutter tests complete; if failure persists capture full FlutterError diagnostics and isolate the overflowing RenderFlex before another source edit."
   }
 }
