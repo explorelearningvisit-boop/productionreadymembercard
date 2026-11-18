@@ -273,7 +273,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           borderRadius: BorderRadius.circular(16),
           child: _glass(radius: 16, padding: EdgeInsets.fromLTRB(2, compact ? 1 : 3, 2, compact ? 1 : 3), child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              SizedBox(width: compact ? 17 : 22, height: compact ? 17 : 22, child: Image.asset(
+              SizedBox(width: compact ? 16 : 20, height: compact ? 16 : 20, child: Image.asset(
                 ['assets/images/illustration_3d_attendance_calendar.png','assets/images/illustration_3d_workout_dumbbells.png','assets/images/illustration_3d_payment_wallet.png','assets/images/illustration_3d_body_scale.png'][i],
                 fit: BoxFit.contain,
                 errorBuilder: (_, __, ___) => Icon(v.$2, color: v.$5, size: compact ? 13 : 15),
@@ -281,19 +281,19 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
               const SizedBox(width: 2),
               Flexible(child: Text(v.$1, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: _navy, fontSize: 8.3, fontWeight: FontWeight.w900))),
             ]),
-            const SizedBox(height: 2),
+            const SizedBox(height: 1),
             if (i == 0)
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                SizedBox(width: compact ? 22 : 44, height: compact ? 22 : 44, child: Stack(alignment: Alignment.center, children: [
+                SizedBox(width: compact ? 18 : 24, height: compact ? 18 : 24, child: Stack(alignment: Alignment.center, children: [
                   SizedBox.expand(child: CircularProgressIndicator(value: _data.attendanceRate / 100, strokeWidth: 5, backgroundColor: const Color(0xFFD7E9F9), valueColor: const AlwaysStoppedAnimation(_green))),
-                  Text('${_data.attendanceRate}%', style: const TextStyle(color: _navy, fontSize: 11, fontWeight: FontWeight.w900)),
+                  Text('${_data.attendanceRate}%', style: TextStyle(color: _navy, fontSize: compact ? 7 : 9, fontWeight: FontWeight.w900)),
                 ])),
               ])
             else
               Text(v.$3, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: i == 2 ? _red : _navy, fontSize: compact ? 11 : 13, fontWeight: FontWeight.w900)),
-            const SizedBox(height: 2),
+            const SizedBox(height: 1),
             if (i == 1) _miniBars()
-            else Text(v.$4, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: i == 2 ? _blue : _green, fontSize: i == 2 ? 6.3 : 8, fontWeight: FontWeight.w900)),
+            else Text(v.$4, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: i == 2 ? _blue : _green, fontSize: i == 2 ? 6.3 : (compact ? 7 : 7.5), fontWeight: FontWeight.w900)),
           ])),
         ),
       ));
@@ -388,10 +388,10 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         decoration: BoxDecoration(color: const Color(0xFFFFF0E3), borderRadius: BorderRadius.circular(12), border: Border.all(color: MemberDashboardPalette.line)),
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           Icon(Icons.local_fire_department_rounded, color: MemberDashboardPalette.crimson, size: compact ? 14 : 18),
-          Text('Streak ${_data.currentStreak}', style: TextStyle(color: MemberDashboardPalette.crimson, fontSize: compact ? 7.5 : 9, fontWeight: FontWeight.w900)),
+          Flexible(child: FittedBox(fit: BoxFit.scaleDown, child: Text('Streak ${_data.currentStreak}', style: TextStyle(color: MemberDashboardPalette.crimson, fontSize: compact ? 7.5 : 9, fontWeight: FontWeight.w900)))),
           Container(width: 1, height: compact ? 13 : 17, color: MemberDashboardPalette.line),
           Icon(Icons.emoji_events_rounded, color: MemberDashboardPalette.goldDeep, size: compact ? 14 : 18),
-          Text('Best ${_data.bestStreak}', style: TextStyle(color: MemberDashboardPalette.crimson, fontSize: compact ? 7.5 : 9, fontWeight: FontWeight.w900)),
+          Flexible(child: FittedBox(fit: BoxFit.scaleDown, child: Text('Best ${_data.bestStreak}', style: TextStyle(color: MemberDashboardPalette.crimson, fontSize: compact ? 7.5 : 9, fontWeight: FontWeight.w900)))),
         ]),
       ),
     ],
