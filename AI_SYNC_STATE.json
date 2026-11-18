@@ -4,7 +4,7 @@
     "description": "BAD GYM VIP Member Intelligence Cross-Platform App",
     "repository": "https://github.com/explorelearningvisit-boop/productionreadymembercard.git",
     "rootPath": "C:\\Users\\User\\AndroidStudioProjects\\productionreadymembercard",
-    "activeBranch": "main",
+    "activeBranch": "chatgpt/member-intelligence-mobile-rebuild",
     "applicationId": "com.badgym.bad_gym",
     "mainActivity": "com.badgym.bad_gym/.MainActivity"
   },
@@ -177,12 +177,13 @@
   "contextBootstrap": {
     "entrypoint": "docs/AI_CONTEXT_BOOTSTRAP.md",
     "mandatoryReadOrder": [
-      "docs/AI_CONTEXT_BOOTSTRAP.md",
+      "docs/AI_AGENT_OPERATING_CONSTITUTION.md",
       "AGENTS.md",
+      "docs/AI_CONTEXT_BOOTSTRAP.md",
       "AI_SYNC_STATE.json",
       "CURRENT_DESIGN_SPEC.md",
+      "docs/ANTIGRAVITY_MEMBER_INTELLIGENCE_REBUILD.md",
       "ANTIGRAVITY_TASK.md",
-      "docs/NETWORK_ARCHITECTURE.md",
       "docs/DECISION_LOG.md",
       "AI_SHARED_COMMUNICATION_HUB.md",
       ".github/workflows/android-cloud-device.yml"
@@ -225,7 +226,9 @@
     "bootstrap": "docs/AI_CONTEXT_BOOTSTRAP.md",
     "decisionLog": "docs/DECISION_LOG.md",
     "handoff": "AI_SHARED_COMMUNICATION_HUB.md",
-    "rule": "All agents read before edits and write back decisions, changes, verification and next action."
+    "rule": "All agents read before edits and write back decisions, changes, verification and next action.",
+    "constitution": "docs/AI_AGENT_OPERATING_CONSTITUTION.md",
+    "activeBranch": "chatgpt/member-intelligence-mobile-rebuild"
   },
   "localAgent": {
     "status": "MERGED_MAIN_AGENT_CI_PASS_WINDOWS_INSTALL_AND_TUNNEL_PENDING",
@@ -384,7 +387,7 @@
     "history": "AI_SHARED_COMMUNICATION_HUB.md + docs/DECISION_LOG.md + AI_SYNC_STATE.json + ANTIGRAVITY_TASK.md",
     "preserveAllPriorHistory": true
   },
-  "lastUpdated": "2026-11-18T08:20:00+05:30",
+  "lastUpdated": "2026-11-18T20:31:00+05:30",
   "releaseSigning": {
     "status": "PROTECTED_KEY_REQUIRED",
     "requiredSecrets": [
@@ -467,5 +470,42 @@
     "retryCount": 2,
     "retryBudget": 5,
     "nextAction": "Inspect latest run 253/254 after Flutter tests complete; if failure persists capture full FlutterError diagnostics and isolate the overflowing RenderFlex before another source edit."
+  },
+  "activeWorkstream": {
+    "status": "CI_FAILED_FORMATTING_GATE",
+    "branch": "chatgpt/member-intelligence-mobile-rebuild",
+    "baseBranch": "main",
+    "latestCommit": "c11e709ba8550435980cd3aef98015c579ef4171",
+    "commits": [
+      "790cfb579378ba6c9b01293fd974e148e00237f0",
+      "17c0ec773b93e6988a86bd64861ceaf100df5120",
+      "c11e709ba8550435980cd3aef98015c579ef4171"
+    ],
+    "latestRuns": [
+      {
+        "id": 44316707299,
+        "number": 283,
+        "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44316707299",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedStep": "Dart formatting report",
+        "tests": "skipped",
+        "apk": "not built",
+        "deviceQA": "skipped"
+      },
+      {
+        "id": 44316713882,
+        "number": 284,
+        "url": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44316713882",
+        "status": "completed",
+        "conclusion": "failure",
+        "failedStep": "Dart formatting report",
+        "tests": "skipped",
+        "apk": "not built",
+        "deviceQA": "skipped"
+      }
+    ],
+    "failureDiagnosis": "Both runs reached Dart formatting report and failed there. Static analysis, Flutter tests and APK build were skipped. The workflow job-log connector returned 404 when fetching the log, so exact formatter diff/error is not yet known; do not guess. Next agent must retrieve/reproduce formatter output and fix formatting before proceeding.",
+    "nextAction": "Inspect full formatting output for run #283/#284 or run dart format on the active branch; apply formatter to changed Dart files, commit, and monitor a fresh CI run through tests and APK artifact. Then perform fresh Xiaomi screenshot comparison."
   }
 }
