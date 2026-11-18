@@ -15,7 +15,9 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: arjun-android-${{ github.ref }}
+  # Keep each build attempt independent; a queued macOS simulator job must not
+  # hold later Android APK builds behind the same branch-level lock.
+  group: arjun-android-${{ github.ref }}-${{ github.run_id }}
   cancel-in-progress: false
 jobs:
   build:
@@ -102,6 +104,7 @@ jobs:
           echo "Full verbose Flutter, Gradle and dependency logs are in arjun-ci-diagnostics." >> "$GITHUB_STEP_SUMMARY"
           echo "CI captures diagnostics; it does not autonomously rewrite source code." >> "$GITHUB_STEP_SUMMARY"
   ios-simulator-build:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: macos-latest
     timeout-minutes: 40
     defaults:
