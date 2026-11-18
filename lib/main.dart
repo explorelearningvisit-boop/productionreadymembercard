@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bad_gym/presentation/reference_member_dashboard.dart';
+import 'package:bad_gym/core/theme/member_dashboard_palette.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,11 +17,11 @@ class BadGymApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFE7F3FF),
+        scaffoldBackgroundColor: MemberDashboardPalette.deepBurgundy,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1685D5),
-          primary: const Color(0xFF1685D5),
-          surface: const Color(0xFFF8FCFF),
+          seedColor: MemberDashboardPalette.crimson,
+          primary: MemberDashboardPalette.crimson,
+          surface: MemberDashboardPalette.ivory,
         ),
       ),
       home: const ReferenceMemberDashboard(),
