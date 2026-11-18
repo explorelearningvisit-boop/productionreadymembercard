@@ -237,7 +237,7 @@ class SmallPill extends StatelessWidget {
   final IconData icon; final String text;
   const SmallPill({super.key, required this.icon, required this.text});
   @override
-  Widget build(BuildContext context) => Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4), decoration: BoxDecoration(color: const Color(0xFFF4F4F4), borderRadius: BorderRadius.circular(18), border: Border.all(color: const Color(0xFFD8C8B2))), child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(icon, size: 11, color: C.ink), const SizedBox(width: 3), FittedBox(fit: BoxFit.scaleDown, child: Text(text, style: const TextStyle(fontSize: 8.5, fontWeight: FontWeight.w800, color: C.ink)))]));
+  Widget build(BuildContext context) => Container(padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4), decoration: BoxDecoration(color: const Color(0xFFF4F4F4), borderRadius: BorderRadius.circular(18), border: Border.all(color: const Color(0xFFD8C8B2))), child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(icon, size: 11, color: C.ink), const SizedBox(width: 3), Flexible(child: Text(text, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 8.5, fontWeight: FontWeight.w800, color: C.ink)))]));
 }
 
 class MetaItem extends StatelessWidget {
