@@ -56,12 +56,12 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         child: SafeArea(
           child: LayoutBuilder(builder: (context, constraints) {
             final h = constraints.maxHeight;
-            final compact = h < 690;
-            final headerH = compact ? 46.0 : 52.0;
-            final profileH = compact ? 168.0 : 202.0;
-            final promoH = compact ? 44.0 : 70.0;
-            final statsH = compact ? 66.0 : 70.0;
-            final bottomAdH = compact ? 40.0 : 108.0;
+            final compact = h < 820;
+            final headerH = compact ? 44.0 : 52.0;
+            final profileH = compact ? 160.0 : 202.0;
+            final promoH = compact ? 40.0 : 70.0;
+            final statsH = compact ? 60.0 : 70.0;
+            final bottomAdH = compact ? 32.0 : 108.0;
             const gap = 5.0;
             return Container(
               decoration: const BoxDecoration(
@@ -414,7 +414,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
       };
       final filled = !sunday && (status == DayAttendanceStatus.present || status == DayAttendanceStatus.late || status == DayAttendanceStatus.absent || status == DayAttendanceStatus.holiday);
       cells.add(Center(child: Container(
-        width: compact ? 16 : 22, height: compact ? 16 : 22,
+        width: compact ? 14 : 22, height: compact ? 14 : 22,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: filled ? color : const Color(0xFFE7F0F9),
@@ -422,7 +422,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           boxShadow: [BoxShadow(color: (filled ? color : _blue).withValues(alpha: .16), blurRadius: 4, offset: const Offset(0, 2))],
         ),
         child: Stack(alignment: Alignment.center, children: [
-          Padding(padding: EdgeInsets.only(bottom: sunday ? 5 : 0), child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 7 : 9, fontWeight: FontWeight.w900))),
+          Padding(padding: EdgeInsets.only(bottom: sunday ? 5 : 0), child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 6.5 : 9, fontWeight: FontWeight.w900))),
           if (sunday) const Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: _muted, fontSize: 5, fontWeight: FontWeight.w900))),
         ]),
       )));
@@ -474,12 +474,25 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
       ]),
     ))),
     const SizedBox(width: 6),
-    Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      _statLine(_green, 'Present', _data.presentCount, _data.presentCount / 31),
-      _statLine(_amber, 'Late', _data.lateCount, _data.lateCount / 31),
-      _statLine(_red, 'Absent', _data.absentCount, _data.absentCount / 31),
-      _statLine(MemberDashboardPalette.purple, 'Holiday', _data.holidayCount, _data.holidayCount / 31),
-    ])),
+    Expanded(child: compact
+        ? Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Expanded(child: Row(children: [
+              Expanded(child: _statLine(_green, 'Present', _data.presentCount, _data.presentCount / 31)),
+              const SizedBox(width: 3),
+              Expanded(child: _statLine(_amber, 'Late', _data.lateCount, _data.lateCount / 31)),
+            ])),
+            Expanded(child: Row(children: [
+              Expanded(child: _statLine(_red, 'Absent', _data.absentCount, _data.absentCount / 31)),
+              const SizedBox(width: 3),
+              Expanded(child: _statLine(MemberDashboardPalette.purple, 'Holiday', _data.holidayCount, _data.holidayCount / 31)),
+            ])),
+          ])
+        : Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            _statLine(_green, 'Present', _data.presentCount, _data.presentCount / 31),
+            _statLine(_amber, 'Late', _data.lateCount, _data.lateCount / 31),
+            _statLine(_red, 'Absent', _data.absentCount, _data.absentCount / 31),
+            _statLine(MemberDashboardPalette.purple, 'Holiday', _data.holidayCount, _data.holidayCount / 31),
+          ])),
   ]);
 
   Widget _statLine(Color color, String label, int value, double fraction) => Padding(
