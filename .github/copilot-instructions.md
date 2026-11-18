@@ -1,0 +1,3 @@
+# GitHub Copilot repository instructions
+
+Read `docs/AI_AGENT_OPERATING_CONSTITUTION.md` and `AGENTS.md` before making changes. The constitution defines mandatory context loading, branch restrictions, approved design authority, implementation standards, testing, CI recovery, Android safety, security, and handoff requirements. For the current Member Intelligence rebuild, use `chatgpt/member-intelligence-mobile-rebuild` and leave `main` untouched unless explicitly authorized. Never infer that the running-app screenshot is the desired reference; compare it against `CURRENT_DESIGN_SPEC.md`.
