@@ -378,12 +378,13 @@
     "appendOnly": true,
     "mandatoryDocs": [
       "docs/UI_COMPACT_WORKSPACE_SPEC.md",
-      "docs/IN_APP_UPDATE_ARCHITECTURE.md"
+      "docs/IN_APP_UPDATE_ARCHITECTURE.md",
+      "docs/CONTINUOUS_AGENT_RECOVERY.md"
     ],
     "history": "AI_SHARED_COMMUNICATION_HUB.md + docs/DECISION_LOG.md + AI_SYNC_STATE.json + ANTIGRAVITY_TASK.md",
     "preserveAllPriorHistory": true
   },
-  "lastUpdated": "2026-11-17T22:32:00+05:30",
+  "lastUpdated": "2026-11-18T08:20:00+05:30",
   "releaseSigning": {
     "status": "PROTECTED_KEY_REQUIRED",
     "requiredSecrets": [
@@ -416,6 +417,23 @@
       "attendance calendar and summary donut",
       "AI Insights footer"
     ],
-    "verification": "Pending latest GitHub Actions run and physical Xiaomi screenshot comparison; do not claim release-ready yet."
+    "verification": "Pending latest GitHub Actions run and physical Xiaomi screenshot comparison; do not claim release-ready yet.",
+    "ciRecovery": {
+      "status": "ACTIVE_BOUNDED_REPAIR_LOOP",
+      "contract": "docs/CONTINUOUS_AGENT_RECOVERY.md",
+      "lastObservedRun": 44156871082,
+      "failedJob": 134299832456,
+      "failureSummary": [
+        "Member pass RenderFlex overflowed by 8.4px",
+        "Compact 360dp viewport RenderFlex overflowed by 20px",
+        "Brand test expected a single BAD GYM Text widget although the header uses a composed RichText"
+      ],
+      "fixesCommitted": [
+        "382b99418da65248c8605dbd46842d76e859bb18",
+        "0b4b0b778706a0130b35092019690ce7b5a56c89"
+      ],
+      "retryBudget": 5,
+      "currentStatus": "Awaiting CI verification of member-pass/calendar sizing and RichText assertion"
+    }
   }
 }
