@@ -1,0 +1,101 @@
+name: Beauty Salon Android CI & Device QA
+
+on:
+  push:
+    branches: [ "feature/beauty-salon-app" ]
+    paths:
+      - "beauty-salon/**"
+      - ".github/workflows/beauty-salon-android.yml"
+  pull_request:
+    paths:
+      - "beauty-salon/**"
+      - ".github/workflows/beauty-salon-android.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: beauty-salon-android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Analyze, test and build APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: beauty-salon
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Generate Android platform scaffolding when absent
+        run: |
+          if [ ! -d android ]; then
+            flutter create --platforms=android --org com.beautyverse --project-name beauty_salon .
+          fi
+      - name: Resolve dependencies
+        run: flutter pub get
+      - name: Format check
+        run: dart format --output=none --set-exit-if-changed lib test
+      - name: Static analysis
+        run: flutter analyze
+      - name: Unit and widget tests
+        run: flutter test --reporter expanded
+      - name: Build debug APK
+        run: flutter build apk --debug
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: beauty-salon-debug-apk-${{ github.run_number }}
+          path: beauty-salon/build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14
+
+  device-qa:
+    name: Optional Tailscale + ADB device QA
+    needs: build
+    if: ${{ github.event_name != 'pull_request' && secrets.TAILSCALE_AUTHKEY != '' && secrets.ANDROID_DEVICE_HOST != '' && secrets.ANDROID_DEVICE_PORT != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: beauty-salon-debug-apk-${{ github.run_number }}
+          path: artifacts
+      - uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+      - name: Connect Android device and install APK
+        env:
+          DEVICE_HOST: ${{ secrets.ANDROID_DEVICE_HOST }}
+          DEVICE_PORT: ${{ secrets.ANDROID_DEVICE_PORT }}
+          PAIRING_PORT: ${{ secrets.ANDROID_ADB_PAIRING_PORT }}
+          PAIRING_CODE: ${{ secrets.ANDROID_ADB_PAIRING_CODE }}
+        run: |
+          set -euo pipefail
+          mkdir -p qa-evidence
+          adb start-server
+          if [ -n "${PAIRING_PORT:-}" ] && [ -n "${PAIRING_CODE:-}" ]; then
+            printf '%s\n' "$PAIRING_CODE" | adb pair "$DEVICE_HOST:$PAIRING_PORT"
+          fi
+          adb connect "$DEVICE_HOST:$DEVICE_PORT"
+          adb devices
+          adb -s "$DEVICE_HOST:$DEVICE_PORT" install -r artifacts/app-debug.apk
+          adb -s "$DEVICE_HOST:$DEVICE_PORT" shell monkey -p com.beautyverse.beauty_salon 1
+          sleep 8
+          adb -s "$DEVICE_HOST:$DEVICE_PORT" shell screencap -p /sdcard/beauty-salon.png
+          adb -s "$DEVICE_HOST:$DEVICE_PORT" pull /sdcard/beauty-salon.png qa-evidence/beauty-salon.png
+          adb -s "$DEVICE_HOST:$DEVICE_PORT" logcat -d -t 3000 > qa-evidence/logcat.txt
+          printf 'install=passed\nlaunch=triggered\nscreenshot=captured\n' > qa-evidence/device-report.txt
+      - name: Upload device QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: beauty-salon-device-qa-${{ github.run_number }}
+          path: qa-evidence/
+          if-no-files-found: warn
+          retention-days: 14
