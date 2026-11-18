@@ -105,3 +105,11 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
 - ChatGPT implementation lives on `chatgpt/member-intelligence-mobile-rebuild`, not main. Antigravity's local changes are independent and must not be overwritten or treated as a prerequisite.
 - Dashboard must remain a bounded no-scroll mobile viewport; rail/tab actions replace the content in place. Do not invent sections or substitute old promo/hero artwork.
 - CI build/test, physical Xiaomi install, screenshot comparison, and signing continuity remain separate gates. Preserve existing app data and never uninstall/clear data automatically.
+
+
+## 2026-11-18 — Universal cross-agent operating constitution
+- **User decision**: project context and working rules must persist in the repository so a fresh chat or any AI tool can read them and continue without asking the user to repeat known details.
+- **Decision**: `docs/AI_AGENT_OPERATING_CONSTITUTION.md` is the canonical complete rulebook. It covers understanding voice/rough requests before coding, source-of-truth precedence, branch isolation, approved design authority, asset/code quality, testing, CI recovery, device/network/security safety, cross-agent collaboration and evidence-based reporting.
+- **Discovery**: add thin tool-specific entrypoints for Gemini/Antigravity, Claude, GitHub Copilot and Cursor; all point to the canonical rulebook. `AGENTS.md` and the bootstrap make it mandatory for all agents.
+- **Current branch**: `chatgpt/member-intelligence-mobile-rebuild`; do not alter `main` without explicit user instruction.
+- **Current verification**: runs #283 and #284 failed at Dart formatting; tests, APK and device QA were skipped. Formatter diagnostics remain to be retrieved/reproduced. The burgundy/protein-burger UI is not accepted as a design change because the approved current target remains the ice-blue reference. The 2026-11-18 phone screenshot is output evidence only.
