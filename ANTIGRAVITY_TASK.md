@@ -144,3 +144,11 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - Rewrote widget tests for all reference sections, compact 360dp viewport, in-place tab/rail switching and notification action.
 - Latest code commit at this handoff: `5800e6e47225fde652906783b9fb7b1d994cab58`; later docs-only commits update the visual source authority and shared state.
 - Latest Actions run must be checked by current branch head SHA. No release-ready, physical install or screenshot-comparison claim until fresh CI and device evidence are available.
+
+
+## Universal AI Constitution — 2026-11-18
+- Mandatory policy for every AI/new chat: `docs/AI_AGENT_OPERATING_CONSTITUTION.md`.
+- Current independent workstream: `chatgpt/member-intelligence-mobile-rebuild`; base `main` must remain untouched unless the user explicitly changes the instruction.
+- The current approved design target is the 2026-11-17 ice-blue/cyan reference in `CURRENT_DESIGN_SPEC.md`; the 2026-11-18 phone screenshot is the current implementation output for gap analysis, not a replacement design target.
+- Latest commits: `790cfb5`, `17c0ec7`, `c11e709`. Runs #283 and #284 failed at Dart formatting; tests, APK build and device QA did not run. Recover formatter diagnostics before further UI work.
+- Every agent must update `AI_SYNC_STATE.json`, append `AI_SHARED_COMMUNICATION_HUB.md`, and keep this handoff aligned after meaningful work.
