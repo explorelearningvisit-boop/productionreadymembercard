@@ -152,3 +152,12 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - The current approved design target is the 2026-11-17 ice-blue/cyan reference in `CURRENT_DESIGN_SPEC.md`; the 2026-11-18 phone screenshot is the current implementation output for gap analysis, not a replacement design target.
 - Latest commits: `790cfb5`, `17c0ec7`, `c11e709`. Runs #283 and #284 failed at Dart formatting; tests, APK build and device QA did not run. Recover formatter diagnostics before further UI work.
 - Every agent must update `AI_SYNC_STATE.json`, append `AI_SHARED_COMMUNICATION_HUB.md`, and keep this handoff aligned after meaningful work.
+
+
+## CI recovery status — 2026-11-18 20:49 IST
+- Working branch remains `chatgpt/member-intelligence-mobile-rebuild`; latest code commit: `a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c`.
+- Repairs: extra closing delimiter in `_calendarWorkspace`; KPI/calendar-footer width/height constraints; compact header/member-pass height. Tests were not weakened or skipped.
+- Push run [#297](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333513576): format PASS, analyze PASS, Flutter tests PASS (12), release-variant APK build PASS. APK artifact was downloaded and inspected; `app-release.apk` is 59,630,657 bytes, SHA-256 `a6fe3a0647a8c2b1241ebb2bce38fb1ac60a0438a50978f50c8507f61b17a447`. It is CI-debug-signed, not production-signed.
+- Device QA failed only because every Tailnet peer was offline, including Xiaomi 11i. Zero devices were tested; no install, launch or screenshot was attempted. QA evidence artifact: `tailnet-multi-device-qa-a3bf015d12f2732dbd3b8c9bdbb69225da17ba2c`.
+- PR run [#298](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44333532312) passed all code/build checks; device QA was skipped by event condition.
+- User-side next step: bring Xiaomi 11i online in Tailscale and ensure the current Wireless Debugging ADB port is configured. Do not uninstall, clear data, or claim physical verification until fresh install/launch/screenshot evidence exists.
