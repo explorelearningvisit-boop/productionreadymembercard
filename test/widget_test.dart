@@ -45,6 +45,8 @@ void main() {
     expect(find.byKey(const ValueKey('rail_item_0')), findsOneWidget);
     final layoutException = tester.takeException();
     if (layoutException != null) {
+      // Include the render tree so CI identifies the exact RenderFlex that overflowed.
+      debugDumpRenderTree();
       fail(
         'Compact 360x600 layout produced a Flutter error:\n'
         '${layoutException is FlutterError ? layoutException.toStringDeep() : layoutException}',
