@@ -250,12 +250,17 @@ class _WorkspaceState extends State<Workspace> {
         Text('₹' + s.price.toString(), style: const TextStyle(fontWeight: FontWeight.w900, color: P.deep))])));
 
   Widget tile(IconData icon, String title, String subtitle, String tag, [VoidCallback? action]) => Container(margin: const EdgeInsets.only(bottom: 9),
-    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: P.line)),
-    child: ListTile(onTap: action ?? () => toast(title + ' • Demo screen'),
-      leading: CircleAvatar(backgroundColor: P.blush, child: Icon(icon, color: P.deep, size: 19)),
-      title: Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: P.ink)),
-      subtitle: Text(subtitle, style: const TextStyle(fontSize: 11, color: P.muted)),
-      trailing: Text(tag, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: P.deep))));
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), border: Border.all(color: P.line)),
+    child: Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16),
+      clipBehavior: Clip.antiAlias,
+      child: ListTile(onTap: action ?? () => toast(title + ' • Demo screen'),
+        leading: CircleAvatar(backgroundColor: P.blush, child: Icon(icon, color: P.deep, size: 19)),
+        title: Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: P.ink)),
+        subtitle: Text(subtitle, style: const TextStyle(fontSize: 11, color: P.muted)),
+        trailing: Text(tag, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: P.deep))),
+    ));
 
   Widget empty(String title, String subtitle) => Container(padding: const EdgeInsets.all(18),
     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(17)),
