@@ -221,6 +221,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
             child: Text('${_data.membershipPercent}%', style: const TextStyle(color: MemberDashboardPalette.goldDeep, fontSize: 11, fontWeight: FontWeight.w900))),
         ]),
       ]),
+    ]));
   }
 
   Widget _detailPill(IconData icon, String title, String value, Color accent) => Container(
