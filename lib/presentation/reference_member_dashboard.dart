@@ -6,6 +6,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:bad_gym/core/models/member_intelligence_data.dart';
 import 'package:bad_gym/presentation/widgets/member_qr_sheet.dart';
 import 'package:bad_gym/presentation/widgets/notification_sheet.dart';
+import 'package:bad_gym/core/theme/member_dashboard_palette.dart';
+import 'package:bad_gym/presentation/widgets/reference_ad_banners.dart';
 
 class ReferenceMemberDashboard extends StatefulWidget {
   const ReferenceMemberDashboard({super.key});
@@ -18,13 +20,13 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   final MemberIntelligenceData _data = MemberIntelligenceData.ashwaniKumarSingh;
   int _tab = 0;
   int _rail = 0;
-  static const _blue = Color(0xFF1685D5);
-  static const _navy = Color(0xFF142F55);
-  static const _muted = Color(0xFF617C9C);
-  static const _green = Color(0xFF17B64B);
-  static const _amber = Color(0xFFF5B51B);
-  static const _red = Color(0xFFE34850);
-  static const _line = Color(0xFFA8D4F6);
+  static const _blue = MemberDashboardPalette.crimson;
+  static const _navy = MemberDashboardPalette.ink;
+  static const _muted = MemberDashboardPalette.muted;
+  static const _green = MemberDashboardPalette.green;
+  static const _amber = MemberDashboardPalette.amber;
+  static const _red = MemberDashboardPalette.red;
+  static const _line = MemberDashboardPalette.line;
 
   List<String> get _railLabels => switch (_tab) {
     0 => const ['Calendar', 'Trend', 'History', 'Insight', 'Goal'],
@@ -43,38 +45,37 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFE7F3FF),
+      backgroundColor: MemberDashboardPalette.deepBurgundy,
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.dark,
-          systemNavigationBarColor: Color(0xFFE7F3FF),
-          systemNavigationBarIconBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarColor: MemberDashboardPalette.deepBurgundy,
+          systemNavigationBarIconBrightness: Brightness.light,
         ),
         child: SafeArea(
           child: LayoutBuilder(builder: (context, constraints) {
             final h = constraints.maxHeight;
             final compact = h < 690;
-            final headerH = compact ? 46.0 : 54.0;
-            final profileH = compact ? 172.0 : 220.0;
-            final promoH = compact ? 48.0 : 74.0;
-            final statsH = compact ? 68.0 : 104.0;
-            final insightH = compact ? 36.0 : 54.0;
+            final headerH = compact ? 46.0 : 52.0;
+            final profileH = compact ? 168.0 : 202.0;
+            final promoH = compact ? 44.0 : 70.0;
+            final statsH = compact ? 66.0 : 70.0;
+            final bottomAdH = compact ? 40.0 : 108.0;
             const gap = 5.0;
             return Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFFE6F3FF), Color(0xFFF9FCFF), Color(0xFFDDEEFF)],
+                  colors: [MemberDashboardPalette.deepBurgundy, MemberDashboardPalette.burgundy, Color(0xFF8F0014), MemberDashboardPalette.deepBurgundy],
                 ),
               ),
               child: Stack(children: [
-                Positioned.fill(child: IgnorePointer(child: Opacity(
-                  opacity: .35,
-                  child: Image.asset('assets/images/bg_waves.png', fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => const SizedBox.shrink()),
-                ))),
+                Positioned.fill(child: IgnorePointer(child: DecoratedBox(decoration: BoxDecoration(
+                  gradient: RadialGradient(center: const Alignment(-.75, -.8), radius: 1.25,
+                    colors: [Color(0x66FF6A2A), Color(0x00FF6A2A)]),
+                )))),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(7, 2, 7, 3),
                   child: Column(children: [
@@ -88,7 +89,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
                     const SizedBox(height: gap),
                     Expanded(child: _workspace(compact)),
                     const SizedBox(height: gap),
-                    SizedBox(height: insightH, child: _insights(compact)),
+                    SizedBox(height: bottomAdH, child: ReferenceProteinBanner(compact: compact)),
                   ]),
                 ),
               ]),
@@ -111,10 +112,10 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     const SizedBox(width: 8),
     Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
       RichText(text: const TextSpan(children: [
-        TextSpan(text: 'BAD ', style: TextStyle(color: _navy, fontSize: 21, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: -.8)),
-        TextSpan(text: 'GYM', style: TextStyle(color: _blue, fontSize: 21, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: -.8)),
+        TextSpan(text: 'BAD ', style: TextStyle(color: Colors.white, fontSize: 21, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: -.8)),
+        TextSpan(text: 'GYM', style: TextStyle(color: MemberDashboardPalette.gold, fontSize: 21, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic, letterSpacing: -.8)),
       ])),
-      const Text('Member Intelligence', style: TextStyle(color: _muted, fontSize: 10.5, height: 1, fontWeight: FontWeight.w700)),
+      const Text('Member Intelligence', style: TextStyle(color: Color(0xFFFFE8C1), fontSize: 10.5, height: 1, fontWeight: FontWeight.w700)),
     ])),
     _headerButton(Icons.search_rounded, () => _showInfo('Search', 'Search members by name, ID or phone.')),
     const SizedBox(width: 5),
@@ -199,45 +200,42 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         )),
       ])),
       Container(height: 1, color: _line.withValues(alpha: .65), margin: const EdgeInsets.symmetric(vertical: 3)),
-      Row(children: [
-        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Membership  ${_data.daysUsed} / ${_data.totalDays} Days', style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w800)),
-          const SizedBox(height: 4),
-          ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(
-            value: _data.membershipProgress, minHeight: 6, backgroundColor: const Color(0xFFD3E8FA),
-            valueColor: const AlwaysStoppedAnimation(_blue),
-          )),
-        ])),
-        const SizedBox(width: 8),
-        Container(width: 1, height: 30, color: _line),
-        const SizedBox(width: 8),
-        SizedBox(
-          width: compact ? 112 : null,
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  compact ? 'Exp: ${_data.renewDate}' : 'Expires: ${_data.renewDate}',
-                  style: const TextStyle(color: _navy, fontSize: 9, fontWeight: FontWeight.w900),
-                ),
-                Text(
-                  compact ? '(${_data.daysLeft}d left)' : '(${_data.daysLeft} Days Left)',
-                  style: const TextStyle(color: Color(0xFF9C397A), fontSize: 9, fontWeight: FontWeight.w800),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
-        _glass(radius: 14, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-          child: Text('${_data.membershipPercent}%', style: const TextStyle(color: _blue, fontSize: 11, fontWeight: FontWeight.w900))),
+      Column(children: [
+        Row(children: [
+          Expanded(child: _detailPill(Icons.account_balance_wallet_rounded, 'Payment', _data.paymentAmount, _red)),
+          const SizedBox(width: 6),
+          Expanded(child: _detailPill(Icons.calendar_month_rounded, 'Expires: ${_data.renewDate}', '(${_data.daysLeft} Days Left)', _red)),
+        ]),
+        const SizedBox(height: 5),
+        Row(children: [
+          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('Membership  ${_data.daysUsed} / ${_data.totalDays} Days', style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w800)),
+            const SizedBox(height: 4),
+            ClipRRect(borderRadius: BorderRadius.circular(10), child: LinearProgressIndicator(
+              value: _data.membershipProgress, minHeight: 7, backgroundColor: const Color(0xFF4B2025),
+              valueColor: const AlwaysStoppedAnimation(MemberDashboardPalette.gold),
+            )),
+          ])),
+          const SizedBox(width: 8),
+          _glass(radius: 14, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            child: Text('${_data.membershipPercent}%', style: const TextStyle(color: MemberDashboardPalette.goldDeep, fontSize: 11, fontWeight: FontWeight.w900))),
+        ]),
       ]),
-    ]));
   }
+
+  Widget _detailPill(IconData icon, String title, String value, Color accent) => Container(
+    height: 34,
+    padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+    decoration: BoxDecoration(color: const Color(0xFFFFF0EA), borderRadius: BorderRadius.circular(12), border: Border.all(color: MemberDashboardPalette.line.withValues(alpha: .85))),
+    child: Row(children: [
+      Icon(icon, color: accent, size: 17), const SizedBox(width: 5),
+      Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(color: _navy, fontSize: 7.5, fontWeight: FontWeight.w800)),
+        Text(value, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: accent, fontSize: 8.5, fontWeight: FontWeight.w900)),
+      ])),
+      Icon(Icons.chevron_right_rounded, color: accent, size: 16),
+    ]),
+  );
 
   Widget _pill(IconData icon, String text, Color bg, Color fg, {bool outlined = false}) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
@@ -253,32 +251,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     ]),
   );
 
-  Widget _festivalBanner() => _glass(radius: 18, padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5), child: Row(children: [
-    Expanded(flex: 3, child: Container(
-      height: double.infinity, alignment: Alignment.center,
-      decoration: BoxDecoration(color: Colors.white.withValues(alpha: .78), borderRadius: BorderRadius.circular(13), border: Border.all(color: _line)),
-      child: const Text('amazon', style: TextStyle(color: Color(0xFF182D4A), fontSize: 16, fontWeight: FontWeight.w900, letterSpacing: -1.1)),
-    )),
-    const SizedBox(width: 6),
-    Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const Icon(Icons.auto_awesome_rounded, color: Color(0xFFE7A51B), size: 13),
-      const FittedBox(fit: BoxFit.scaleDown, child: Text('Great Indian\nFestival', textAlign: TextAlign.center, style: TextStyle(color: Color(0xFF8A1C65), fontSize: 8.4, height: .9, fontWeight: FontWeight.w900))),
-    ])),
-    const SizedBox(width: 5),
-    Expanded(flex: 3, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const FittedBox(fit: BoxFit.scaleDown, child: Text('Up to 40% OFF', maxLines: 1, style: TextStyle(color: _navy, fontSize: 8.4, fontWeight: FontWeight.w900))),
-      const FittedBox(fit: BoxFit.scaleDown, child: Text('Fitness & Wellness', maxLines: 1, style: TextStyle(color: _blue, fontSize: 7.6, fontWeight: FontWeight.w800))),
-    ])),
-    Expanded(flex: 2, child: Stack(alignment: Alignment.center, children: [
-      Image.asset('assets/images/dumbbell_3d.png', fit: BoxFit.contain,
-        errorBuilder: (_, __, ___) => const Icon(Icons.fitness_center_rounded, color: _navy, size: 22)),
-      Positioned(top: 0, right: 0, child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-        decoration: BoxDecoration(color: _blue, borderRadius: BorderRadius.circular(9)),
-        child: const Text('Sponsored', style: TextStyle(color: Colors.white, fontSize: 6.5, fontWeight: FontWeight.w900)),
-      )),
-    ])),
-  ]));
+  Widget _festivalBanner() => const ReferenceAmazonBanner();
 
   Widget _quickStats(bool compact) {
     final values = [
@@ -401,12 +374,25 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     ]);
   }
 
-  Widget _calendarWorkspace(bool compact) => Row(children: [
-    Expanded(flex: 6, child: _calendarGrid(compact)),
-    const SizedBox(width: 6),
-    Container(width: 1, color: _line.withValues(alpha: .8)),
-    const SizedBox(width: 6),
-    Expanded(flex: 4, child: _attendanceSummary(compact)),
+  Widget _calendarWorkspace(bool compact) => Column(children: [
+    SizedBox(height: compact ? 37 : 82, child: _attendanceSummary(compact)),
+    const SizedBox(height: 4),
+    Expanded(child: _calendarGrid(compact)),
+    if (!compact) ...[
+      const SizedBox(height: 4),
+      Container(
+        height: 27,
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(color: const Color(0xFFFFF0E3), borderRadius: BorderRadius.circular(12), border: Border.all(color: MemberDashboardPalette.line)),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          const Icon(Icons.local_fire_department_rounded, color: MemberDashboardPalette.crimson, size: 18),
+          Text('Streak ${_data.currentStreak}', style: const TextStyle(color: MemberDashboardPalette.crimson, fontSize: 9, fontWeight: FontWeight.w900)),
+          Container(width: 1, height: 17, color: MemberDashboardPalette.line),
+          const Icon(Icons.emoji_events_rounded, color: MemberDashboardPalette.goldDeep, size: 18),
+          Text('Best ${_data.bestStreak}', style: const TextStyle(color: MemberDashboardPalette.crimson, fontSize: 9, fontWeight: FontWeight.w900)),
+        ]),
+      ),
+    ],
   ]);
 
   Widget _calendarGrid(bool compact) {
@@ -423,11 +409,12 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
         DayAttendanceStatus.present => _green,
         DayAttendanceStatus.late => _amber,
         DayAttendanceStatus.absent => _red,
-        DayAttendanceStatus.holiday || DayAttendanceStatus.empty => const Color(0xFFB7C8D9),
+        DayAttendanceStatus.holiday => MemberDashboardPalette.purple,
+        DayAttendanceStatus.empty => const Color(0xFFB7C8D9),
       };
-      final filled = status == DayAttendanceStatus.present || status == DayAttendanceStatus.late || status == DayAttendanceStatus.absent;
+      final filled = !sunday && (status == DayAttendanceStatus.present || status == DayAttendanceStatus.late || status == DayAttendanceStatus.absent || status == DayAttendanceStatus.holiday);
       cells.add(Center(child: Container(
-        width: compact ? 19 : 29, height: compact ? 19 : 29,
+        width: compact ? 16 : 22, height: compact ? 16 : 22,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: filled ? color : const Color(0xFFE7F0F9),
@@ -435,7 +422,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           boxShadow: [BoxShadow(color: (filled ? color : _blue).withValues(alpha: .16), blurRadius: 4, offset: const Offset(0, 2))],
         ),
         child: Stack(alignment: Alignment.center, children: [
-          Padding(padding: EdgeInsets.only(bottom: sunday ? 5 : 0), child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 8 : 10, fontWeight: FontWeight.w900))),
+          Padding(padding: EdgeInsets.only(bottom: sunday ? 5 : 0), child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 7 : 9, fontWeight: FontWeight.w900))),
           if (sunday) const Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: _muted, fontSize: 5, fontWeight: FontWeight.w900))),
         ]),
       )));
@@ -472,21 +459,27 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     Text(text, style: const TextStyle(color: _muted, fontSize: 7.5, fontWeight: FontWeight.w700)),
   ]);
 
-  Widget _attendanceSummary(bool compact) => Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-    Expanded(flex: 5, child: Center(child: SizedBox(
-      width: compact ? 64 : 82, height: compact ? 64 : 82,
+  Widget _attendanceSummary(bool compact) => Row(children: [
+    SizedBox(width: compact ? 42 : 82, child: Center(child: SizedBox(
+      width: compact ? 34 : 72, height: compact ? 34 : 72,
       child: Stack(alignment: Alignment.center, children: [
-        SizedBox.expand(child: CircularProgressIndicator(value: _data.attendanceRate / 100, strokeWidth: 7, backgroundColor: const Color(0xFFD4E8F9), valueColor: const AlwaysStoppedAnimation(_blue))),
+        SizedBox.expand(child: CircularProgressIndicator(
+          value: _data.attendanceRate / 100, strokeWidth: compact ? 4 : 7,
+          backgroundColor: const Color(0xFFE9D9D0), valueColor: const AlwaysStoppedAnimation(_green),
+        )),
         Column(mainAxisSize: MainAxisSize.min, children: [
-          FittedBox(fit: BoxFit.scaleDown, child: Text('${_data.attendanceRate}%', style: const TextStyle(color: _navy, fontSize: 19, fontWeight: FontWeight.w900))),
-          FittedBox(fit: BoxFit.scaleDown, child: Text(_data.attendanceFraction, style: const TextStyle(color: _navy, fontSize: 7, fontWeight: FontWeight.w800))),
+          Text('${_data.attendanceRate}%', style: TextStyle(color: _navy, fontSize: compact ? 8 : 18, fontWeight: FontWeight.w900)),
+          if (!compact) Text(_data.attendanceFraction, style: const TextStyle(color: _navy, fontSize: 7, fontWeight: FontWeight.w800)),
         ]),
       ]),
     ))),
-    _statLine(_green, 'Present', _data.presentCount, _data.presentCount / 31),
-    _statLine(_amber, 'Late', _data.lateCount, _data.lateCount / 31),
-    _statLine(_red, 'Absent', _data.absentCount, _data.absentCount / 31),
-    _statLine(const Color(0xFF9EB4CA), 'Holiday', _data.holidayCount, _data.holidayCount / 31),
+    const SizedBox(width: 6),
+    Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      _statLine(_green, 'Present', _data.presentCount, _data.presentCount / 31),
+      _statLine(_amber, 'Late', _data.lateCount, _data.lateCount / 31),
+      _statLine(_red, 'Absent', _data.absentCount, _data.absentCount / 31),
+      _statLine(MemberDashboardPalette.purple, 'Holiday', _data.holidayCount, _data.holidayCount / 31),
+    ])),
   ]);
 
   Widget _statLine(Color color, String label, int value, double fraction) => Padding(
@@ -559,12 +552,12 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   Widget _glass({double? width, double? height, double radius = 16, EdgeInsets padding = EdgeInsets.zero, required Widget child}) => Container(
     width: width, height: height, padding: padding,
     decoration: BoxDecoration(
-      gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xDFFFFFFF), Color(0xBDEAF6FF), Color(0xC8FFFFFF)]),
+      gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Color(0xFFFFFCF7), Color(0xFFF6E9DD), Color(0xFFFFFDF9)]),
       borderRadius: BorderRadius.circular(radius),
-      border: Border.all(color: Colors.white.withValues(alpha: .95), width: 1.2),
+      border: Border.all(color: MemberDashboardPalette.line.withValues(alpha: .92), width: 1.2),
       boxShadow: [
-        BoxShadow(color: const Color(0xFF74B9EC).withValues(alpha: .18), blurRadius: 10, offset: const Offset(0, 3)),
-        BoxShadow(color: Colors.white.withValues(alpha: .8), blurRadius: 2, offset: const Offset(-1, -1)),
+        BoxShadow(color: MemberDashboardPalette.crimson.withValues(alpha: .16), blurRadius: 10, offset: const Offset(0, 3)),
+        BoxShadow(color: MemberDashboardPalette.gold.withValues(alpha: .18), blurRadius: 3, offset: const Offset(-1, -1)),
       ],
     ),
     child: child,
