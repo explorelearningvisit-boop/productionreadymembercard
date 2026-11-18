@@ -547,22 +547,6 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
     Text('Current ${_data.attendanceRate}% · Target 85%', style: const TextStyle(color: _muted, fontSize: 8)),
   ]);
 
-  Widget _insights(bool compact) => _glass(radius: 18, padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4), child: Row(children: [
-    const Icon(Icons.auto_awesome_rounded, color: Color(0xFF8050E8), size: 22),
-    const SizedBox(width: 4),
-    const Expanded(child: Text('AI Insights', style: TextStyle(color: _navy, fontSize: 10, fontWeight: FontWeight.w900))),
-    Container(width: 1, height: 28, color: _line),
-    const SizedBox(width: 6),
-    const Icon(Icons.bar_chart_rounded, color: _blue, size: 20),
-    Expanded(flex: 2, child: Text('Attendance ↑ 6% vs last month', maxLines: 2, style: TextStyle(color: _navy, fontSize: compact ? 8 : 9, fontWeight: FontWeight.w800))),
-    Container(width: 1, height: 28, color: _line),
-    const SizedBox(width: 5),
-    const Icon(Icons.emoji_events_rounded, color: _amber, size: 21),
-    const SizedBox(width: 3),
-    Expanded(child: Text('Best Streak ${_data.bestStreak}', maxLines: 2, style: const TextStyle(color: _navy, fontSize: 8.5, fontWeight: FontWeight.w900))),
-    const Icon(Icons.chevron_right_rounded, color: _blue, size: 20),
-  ]));
-
   Widget _glass({double? width, double? height, double radius = 16, EdgeInsets padding = EdgeInsets.zero, required Widget child}) => Container(
     width: width, height: height, padding: padding,
     decoration: BoxDecoration(
