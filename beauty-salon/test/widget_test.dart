@@ -4,7 +4,7 @@ import 'package:beauty_salon/main.dart';
 void main() {
   testWidgets('role gate exposes all three workspaces', (tester) async {
     await tester.pumpWidget(const SalonApp());
-    expect(find.text('BEAUTY STUDIO'), findsOneWidget);
+    expect(find.text('BEAUTY PARLOUR'), findsOneWidget);
     expect(find.text('Choose your workspace'), findsOneWidget);
     expect(find.text('Customer'), findsOneWidget);
     expect(find.text('Salon Owner'), findsOneWidget);
