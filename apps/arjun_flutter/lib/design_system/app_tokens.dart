@@ -31,7 +31,6 @@ ThemeData buildMarketplaceTheme() {
     useMaterial3: true,
     colorScheme: scheme,
     scaffoldBackgroundColor: AppTokens.canvas,
-    fontFamily: 'NotoSansDevanagari',
     visualDensity: VisualDensity.standard,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppTokens.canvas,
