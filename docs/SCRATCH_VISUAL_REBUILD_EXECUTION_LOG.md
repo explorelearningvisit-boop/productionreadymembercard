@@ -18,7 +18,7 @@ Comparison capture: `1000320408.jpg`, 691×1536.
 - [x] Initial classification policy and suspicious families documented; individual asset approvals remain pending.
 
 ## Phase 2 — Material/theme pack
-- [ ] Define color, typography, spacing, radii, border, bevel, glow and shadow tokens from reference.
+- [x] Define initial color, typography, spacing, radii, border, bevel, glow and shadow tokens in `lib/core/theme/reference_design_tokens.dart` (requires screenshot QA calibration).
 - [ ] Produce separate background and gold ribbon overlays only if needed; responsive gradients remain native Flutter.
 - [ ] Validate at 360dp against source proportions.
 
@@ -53,4 +53,6 @@ Comparison capture: `1000320408.jpg`, 691×1536.
 - Source-derived visual specification committed.
 - Recursive inventory found 257 asset files and 21 duplicate-content groups; 76 files are in extracted_new and 80 in images. Berries/fruit assets are present but are not part of this approved screen.
 - Asset forensic audit committed.
+- Initial design token layer and reusable pearl/gold material surfaces committed.
+- Generated red/gold dumbbell artwork was cut out from the generated checkerboard background, alpha-verified, and upscaled 2× as a candidate asset pack; it is not yet integrated or approved.
 - No fresh APK, integrated production asset pack, device QA, or pixel-perfect claim is made. Continue only through the explicit gates above.
