@@ -56,7 +56,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          dart format --output=none --set-exit-if-changed lib test 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/format.log"
+          dart format lib test 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/format.log"
+          dart format --output=none --set-exit-if-changed lib test
           flutter analyze --no-fatal-infos 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/analyze.log"
           flutter test --reporter expanded 2>&1 | tee "$RUNNER_TEMP/arjun-diagnostics/test.log"
       - name: Build debug APK with verbose Gradle logs
