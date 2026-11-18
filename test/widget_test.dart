@@ -17,7 +17,7 @@ void main() {
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('BAD GYM'), findsOneWidget);
+    expect(find.text('BAD GYM', findRichText: true), findsOneWidget);
     expect(find.text('Member Intelligence'), findsOneWidget);
     expect(find.text('CHECKED-IN'), findsOneWidget);
     expect(find.text('Ashwani Kumar Sharma Vishwakarma'), findsOneWidget);
