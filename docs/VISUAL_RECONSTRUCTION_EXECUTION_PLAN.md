@@ -1,98 +1,99 @@
 # BAD GYM — Visual Reconstruction & Asset Production Execution Plan
 
-Status: IN PROGRESS — baseline audit started; authoritative final reference image required before pixel-level extraction.
+Status: IN PROGRESS — authoritative user reference received and measured.
 Target branch: chatgpt/member-intelligence-mobile-rebuild
 Base branch: main (do not modify directly).
 
-## 0. Non-negotiable source-of-truth gate
-- The final approved visual reference is documented as the 17 Nov 2026 ice-blue glass Member Intelligence screenshot, 1024×1536.
-- The referenced source file `1000320035.jpg` is not present in the currently mounted working files and was not found in the Library search.
-- Several earlier design images exist, but they are not interchangeable with the final reference. Do not use an older variant as the authority.
-- Pause pixel-accurate extraction and final layout implementation until the user re-uploads the exact approved reference.
-- Once received, record its exact file identity, dimensions, color profile, and SHA-256 in the asset manifest.
+## 0. Source of truth
+- Authoritative reference: user-uploaded `1000320298.png`, 691×1536 px, RGB.
+- SHA-256: `694278b5a4c8aa76a4a3306bfe978f36d9aaaef897495965d31170785d4e59c6`.
+- The reference is crimson/burgundy red + gold + white glass, not ice-blue. Any earlier ice-blue specification is superseded.
+- Preserve both visible promotional surfaces: Amazon Great Indian Festival banner and Protein Burger banner. They are part of the supplied reference; do not remove them.
+- Native Flutter elements: all text, numbers, QR, calendar, charts, controls, pills, progress indicators and borders. Raster artwork only for isolated photographic/complex promotional art.
+- User requests slightly larger typography while preserving the same layout, color relationships, hierarchy and content.
 
-## 1. Baseline findings (verified from current feature branch)
+## 1. Verified repository baseline
 - `lib/main.dart` launches `ReferenceMemberDashboard`.
-- `lib/presentation/reference_member_dashboard.dart` hard-codes a burgundy/crimson dashboard background and old theme styling.
-- The screen includes `ReferenceProteinBanner` at the bottom, which conflicts with the latest reference specification's compact AI Insights strip.
-- `lib/presentation/widgets/reference_ad_banners.dart` implements legacy Amazon and Protein Burger promo surfaces and references legacy artwork.
-- `lib/core/theme/member_dashboard_palette.dart` defines burgundy/crimson/gold tokens, inconsistent with the latest ice-blue reference.
-- Existing repository contains many historical/experimental asset folders and duplicate exports, including `assets/extracted_new/`, `assets/images/extracted/`, old theme folders, and multiple variants of similar badges/artwork.
-- Existing `assets/README.md` correctly requires transparent isolated art, verified alpha, dimensions, source/license and intended usage; this policy will be expanded into a strict asset manifest and validation workflow.
+- `lib/presentation/reference_member_dashboard.dart` already uses burgundy/crimson/gold tokens and includes member pass, Amazon banner, KPI row, attendance intelligence workspace, contextual rail and Protein Burger banner.
+- `lib/presentation/widgets/reference_ad_banners.dart` draws both promo banners in Flutter and references `assets/hero/hero_weights.png`, `assets/promo/promo_model.png`, and `assets/promo/promo_burger.png`.
+- `lib/core/theme/member_dashboard_palette.dart` already defines a crimson/gold palette consistent with the reference family; final token calibration and typography sizing remain to be verified against device capture.
+- Current branch has historical/experimental asset folders; perform usage mapping before deletion.
+- The current implementation has not yet been proven pixel-equivalent to the newly uploaded reference. CI success alone is not visual acceptance.
 
-## 2. Phase-by-phase implementation
+## 2. Phase-by-phase execution
 
-### Phase A — Reference intake and measurement
-1. Obtain the exact final approved screenshot from the user.
-2. Preserve the original unchanged; compute SHA-256 and dimensions.
-3. Separate OS status/navigation bars from the app viewport for comparison.
-4. Build a geometry sheet: screen bounds, safe areas, section bounds, card radii, border widths, spacing, typography scale, colors, shadows and artwork bounds.
-5. Derive dp layout from the actual target device density; do not treat screenshot pixels as dp.
-6. Record all reference-visible content and explicitly prohibit unrequested UI additions.
+### Phase A — Reference intake and measurement (source received)
+1. Preserve original image unchanged and record SHA-256/dimensions.
+2. Exclude Android status and navigation bars when comparing app viewport.
+3. Measure header, member pass, sponsor banner, KPI row, workspace/rail, attendance calendar, streak strip and lower promo banner.
+4. Record geometry, color samples, typography hierarchy, border radii, double gold outlines, highlights, shadows and safe areas.
+5. Map screenshot pixel geometry to dp using target Xiaomi 11i display density; do not equate pixels with dp.
+6. Freeze all visible text/content and disallow unrequested additions.
 
 ### Phase B — Repository and asset forensics
-1. Enumerate every asset with dimensions, format, byte size, alpha presence, color mode and SHA-256.
-2. Search Dart source for every asset reference and map asset -> widget -> screen.
-3. Identify duplicate, stale, test, sprite-sheet, composite and unused assets.
-4. Render contact sheets for human review, but never ship contact sheets or sprite sheets as production art.
-5. Inspect source screenshots at full resolution before extracting any element.
-6. Create an asset disposition table: keep, extract, regenerate, replace, or retire.
-7. Preserve originals; all processing outputs go into a versioned staging folder.
+1. Enumerate every asset: dimensions, format, byte size, alpha, color mode and SHA-256.
+2. Map every asset reference to Dart widget/screen.
+3. Classify duplicates, stale, test, composite, sprite-sheet and unused assets.
+4. Preserve source artwork; stage derivatives separately.
+5. Create an asset disposition ledger: keep, extract, regenerate, replace or retire.
 
-### Phase C — Transparent extraction and cleanup
-1. Extract only isolated elements that are actually visible in the approved reference.
-2. Remove backgrounds with edge-aware masks; inspect hair, fine edges, glass reflections and semi-transparent highlights manually.
-3. Extract card borders, glass highlights, wave overlays and isolated 3D objects as separate layers where source quality permits.
-4. Export transparent PNG (RGBA); use lossless WebP only after visual comparison if it materially reduces size.
-5. Tight-crop transparent bounds while retaining a documented safe padding.
-6. Never infer hidden pixels or invent missing pieces from a low-resolution crop; regenerate those assets instead.
-7. Record alpha bounding box, dimensions, crop padding, source and processing steps for every output.
+### Phase C — Extraction and cleanup
+1. Profile portrait extracted from the member card using GrabCut and exported as RGBA PNG at 3×.
+2. Portrait cutout is an automated first pass; inspect hair, face, shoulder and clothing edges for red spill/halos before production approval.
+3. Amazon and Protein Burger banners are cropped as exact RGB PNG source artwork because their red gradients, text and decorative elements are intrinsic to each banner; do not force transparent backgrounds.
+4. For isolated art inside banners, use object-level segmentation only where edges can be validated. Keep full-banner crops as fallback.
+5. Extract gold borders/glass highlights only when a clean independent layer exists. Otherwise implement borders/highlights natively in Flutter to avoid screenshot artifacts.
+6. Export transparent PNG (RGBA) for isolated foreground art; preserve RGB for full composite banners.
+7. Tight-crop alpha bounds, document padding, inspect alpha on light and dark preview backgrounds.
+8. Never fabricate unseen pixels from cropped source areas.
 
-### Phase D — Regeneration and upscaling
-1. Generate only isolated artwork that cannot be cleanly extracted or whose source resolution is inadequate.
-2. Keep all text, numbers, charts, calendars, QR codes, controls and borders as native Flutter elements unless the reference clearly uses a raster illustration.
-3. Generate transparent, tightly cropped assets with consistent cool ice-blue lighting and material treatment.
-4. Upscale only assets that need it; do not upscale screenshots and then treat the result as original source art.
-5. Verify alpha channel, edge halos, color fringing, sharpness and scale behavior on light and cool-blue surfaces.
-6. Maintain a stable naming convention and asset manifest.
+### Phase D — Upscaling and regeneration
+1. Upscale only isolated assets that need it; portrait was enlarged 3× with Lanczos after segmentation.
+2. Do not upscale the full screenshot and pass it off as original asset art.
+3. Regenerate only isolated artwork that cannot be cleanly extracted.
+4. Maintain the screenshot's crimson/gold/white lighting and visual treatment.
+5. Validate sharpness, alpha fringe, color spill, aspect ratio and scale behavior.
 
-### Phase E — Design system and Flutter reconstruction
-1. Replace the incorrect crimson palette with measured reference tokens: ice-blue/cyan, pearl-white glass, cool-blue edge highlights, navy text and semantic status colors.
-2. Rebuild reusable glass surfaces, double-edge borders, elevation/shadows, typography and spacing tokens.
-3. Rebuild the exact approved hierarchy: brand header; single member pass; compact sponsored banner; four KPI cards; bounded intelligence workspace with contextual rail; compact AI Insights strip.
-4. Remove Protein Burger banner and all other elements absent from the reference.
-5. Do not duplicate payment/expiry/progress data across cards.
-6. Keep calendar, chart, text and controls native and data-driven.
-7. Increase typography modestly only where it remains consistent with the reference and fits at 360dp.
-8. Use actual profile photo source and correct crop; never AI-regenerate member identity.
-9. Ensure 360dp width, target Xiaomi 11i and short viewport behavior without clipping or horizontal/vertical overflow.
+### Phase E — Flutter reconstruction
+1. Match crimson/burgundy background, gold outlines/highlights, white/ivory glass surfaces, black/dark text and semantic green/red/purple/yellow status colors.
+2. Preserve exact screen hierarchy: header; member pass with QR and payment/expiry; membership progress; Amazon banner; four KPI cards; left rail + Attendance Intelligence; streak/best strip; Protein Burger banner.
+3. Keep both banners; their presence is explicitly required by the supplied reference.
+4. Keep text, metrics, calendar, chart, QR and controls native and data-driven.
+5. Increase text modestly (target +1 to +2 logical px at compact sizes, responsive) without overflow or collapsing the layout.
+6. Preserve gold double borders, rounded corners, soft white/glass cards, glossy red background and shadows.
+7. Validate 360dp width and Xiaomi 11i viewport, including short-height behavior.
+8. Avoid duplicating payment, due-date, attendance or progress metrics.
 
-### Phase F — Asset integration and quality controls
-1. Add only approved production assets to pubspec.
-2. Add a machine-readable asset manifest (path, source, dimensions, alpha, purpose, hash, license).
-3. Add a validation script/test for missing references, duplicate hashes, invalid alpha exports and oversized assets.
-4. Remove unused asset declarations only after a repository-wide reference audit.
-5. Run formatter, analyzer, unit/widget tests and asset validation.
+### Phase F — Asset integration and validation
+1. Add approved production assets only, with stable filenames.
+2. Maintain machine-readable manifest with source, dimensions, alpha, purpose, hash, processing and license.
+3. Validate every referenced asset exists; detect duplicate hashes and unexpected non-alpha transparent exports.
+4. Remove unused asset declarations only after a complete source-reference audit.
+5. Run formatter, analyzer, unit/widget tests and asset checks.
 
-### Phase G — Visual QA and delivery
-1. Build a fresh release APK from the feature branch.
-2. Install on Xiaomi 11i only when Tailscale and current Wireless Debugging endpoint are online.
-3. Capture a fresh screenshot and logcat from that exact build.
-4. Align reference and capture to the same app viewport and scale.
-5. Produce overlay and difference images; inspect geometry, colors, typography, crop, shadows and edge treatment.
-6. Fix every visible mismatch and repeat until acceptance criteria pass.
-7. Report CI, APK build, signing status, device installation, launch, screenshot and visual-match status separately.
-8. Do not call the app pixel-perfect or production-ready without fresh device evidence.
+### Phase G — Visual QA and release
+1. Build fresh release APK on the feature branch.
+2. Install only when Xiaomi 11i is online in Tailscale and its current Wireless Debugging endpoint is available.
+3. Capture screenshot/logcat from the exact artifact.
+4. Crop reference and device screenshot to the same app viewport and scale.
+5. Produce overlay/difference images and inspect geometry, colors, text, crop, shadows and border fidelity.
+6. Fix mismatches and repeat; report CI, signing, install, launch and visual match separately.
+7. Do not claim pixel-perfect or production-signed without evidence.
 
-## 3. Acceptance criteria
-- Approved reference is the only visual authority.
-- No unrequested promo banners or invented graphics.
-- All raster artwork is isolated, tightly cropped, correctly transparent and documented.
-- No sprite sheets/contact sheets used as final app assets.
-- Borders are crisp and consistently visible; no clipped or distorted imagery.
-- Text is comfortably readable at 360dp without overflow.
-- Flutter-native data, calendar, chart, QR and controls remain functional.
-- CI passes and fresh Xiaomi device screenshot is compared to the approved reference.
+## 3. Asset extraction package generated
+- `reference_full_691x1536.png`: unchanged source.
+- `member_portrait_cutout_3x.png`: RGBA, 336×489, alpha channel.
+- `sponsored_amazon_banner.png`: RGB, 666×123.
+- `protein_burger_banner.png`: RGB, 671×193.
+- `asset_manifest.json`: SHA-256, dimensions, alpha, bytes and source notes.
+- ZIP: `bad_gym_reference_asset_pack.zip` (generated in the current ChatGPT workspace; not yet committed as repository binary assets).
 
-## 4. Current blocker / required user input
-The exact final 17 Nov 2026 approved screenshot (documented as 1024×1536, previously referenced as `1000320035.jpg`) is missing from the current working files and Library search. User must re-upload that exact final design image. Do not substitute the installed red screenshot or older blue/green/purple variants.
+## 4. Acceptance criteria
+- Uploaded reference is sole visual authority.
+- Both promo banners remain in their specified positions.
+- Portrait alpha has no visible red halo or missing hair/clothing edges.
+- Full banner artwork remains crisp; no unwanted transparency.
+- Borders are crisp, aligned and consistent.
+- Text is slightly larger but readable at 360dp with no clipping/overflow.
+- All dynamic text/data/chart/calendar/QR remain native Flutter UI.
+- CI passes and a fresh Xiaomi screenshot is compared with the reference.
