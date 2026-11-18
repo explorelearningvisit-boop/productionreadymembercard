@@ -139,7 +139,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
   Widget _memberPass(bool compact) {
     final avatar = compact ? 52.0 : 78.0;
     return _glass(radius: 22, padding: const EdgeInsets.fromLTRB(9, 7, 9, 6), child: Column(children: [
-      SizedBox(height: compact ? 94 : 122, child: Row(children: [
+      SizedBox(height: compact ? 84 : 108, child: Row(children: [
         Container(
           width: avatar, height: avatar,
           decoration: BoxDecoration(
@@ -198,7 +198,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           ),
         )),
       ])),
-      Container(height: 1, color: _line.withValues(alpha: .65), margin: const EdgeInsets.symmetric(vertical: 5)),
+      Container(height: 1, color: _line.withValues(alpha: .65), margin: const EdgeInsets.symmetric(vertical: 3)),
       Row(children: [
         Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('Membership  ${_data.daysUsed} / ${_data.totalDays} Days', style: const TextStyle(color: _navy, fontSize: 9.5, fontWeight: FontWeight.w800)),
@@ -410,7 +410,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
       };
       final filled = status == DayAttendanceStatus.present || status == DayAttendanceStatus.late || status == DayAttendanceStatus.absent;
       cells.add(Center(child: Container(
-        width: compact ? 25 : 29, height: compact ? 25 : 29,
+        width: compact ? 19 : 29, height: compact ? 19 : 29,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: filled ? color : const Color(0xFFE7F0F9),
@@ -418,7 +418,7 @@ class _ReferenceMemberDashboardState extends State<ReferenceMemberDashboard> {
           boxShadow: [BoxShadow(color: (filled ? color : _blue).withValues(alpha: .16), blurRadius: 4, offset: const Offset(0, 2))],
         ),
         child: Stack(alignment: Alignment.center, children: [
-          Padding(padding: EdgeInsets.only(bottom: sunday ? 5 : 0), child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 9 : 10, fontWeight: FontWeight.w900))),
+          Padding(padding: EdgeInsets.only(bottom: sunday ? 5 : 0), child: Text('$day', style: TextStyle(color: filled ? Colors.white : _navy, fontSize: compact ? 8 : 10, fontWeight: FontWeight.w900))),
           if (sunday) const Positioned(bottom: 1, child: Text('OFF', style: TextStyle(color: _muted, fontSize: 5, fontWeight: FontWeight.w900))),
         ]),
       )));
