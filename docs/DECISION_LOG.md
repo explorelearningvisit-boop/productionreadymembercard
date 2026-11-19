@@ -96,3 +96,15 @@ Append new accepted decisions; mark old choices superseded instead of deleting h
   2. **ChatGPT (Cloud Automation Agent)**: Operates remotely via GitHub Actions and Tailscale automation when the laptop is off or unavailable.
   3. **GitHub Push Gate**: Code and verification artifacts are committed and pushed to GitHub `main` only after full local completion and physical device verification, providing ChatGPT with synchronized truth.
 - **Outcome**: The full 6-section BAD GYM composite dashboard with 3D badges, 372px fixed intelligence viewport, and zero-jump navigation was compiled and verified live on Xiaomi 11i 5G (`docs/screenshots/bad_gym_live_screen.png`).
+
+
+## 2026-11-19 — KaamVerse marketplace UX direction (branch rebuild/kaamverse-platform)
+- User approved the KaamVerse multi-role labour marketplace concept and authorized implementation in `apps/arjun_flutter/` on `rebuild/kaamverse-platform` only.
+- Customer audiences: individual customers and business/contractor customers.
+- Hiring/payment modes: hourly, daily and project/contract quotation.
+- Roles: customer/business, worker/labour, contractor/team, field manager and platform admin.
+- UX direction: blend the approved KaamVerse reference with useful existing ARJUN marketplace flows and components; use judgement to retain the clearer interaction. Do not reuse BAD GYM/gym-specific UI.
+- Asset requirement: all decorative/photo graphics must be individual transparent PNGs with verified alpha; never bake checkerboard transparency into the image. Native Flutter icons, text, charts and controls remain native widgets.
+- Implementation method: screen-by-screen and widget-by-widget; background, assets, header, footer/navigation, cards/widgets, typography, interactions, then tests before moving to the next screen.
+- Scope guard: UX prototype only. No Firebase/backend integration, no production payment/KYC/location claims. Demo/sample values must remain clearly labelled.
+- First accepted implementation slice: Customer Home dashboard; remaining Customer screens, Worker screens, Business/Contractor flows and Admin screens follow as separate verified slices.

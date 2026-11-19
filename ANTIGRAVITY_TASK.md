@@ -123,3 +123,13 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - **Matching Reference Design**: Matches `media_1794676950728_33461b16.jpg` across all 6 sections (Laurel wreath header bar, Check-In Success banner, Member Profile pass, Quick Stats with active red gradient Attendance card, two-column 372px fixed-height intelligence section with dark rail and Attendance Intelligence card with 3D flame/trophy badges and solid colored pill calendar matrix with day 16 concentric ring, and bottom nutrition burger banner).
 - **Test Validation**: 10/10 Flutter tests passing, analyzer 0 issues.
 - **App Data**: 100% preserved. No uninstall, no data clear.
+
+
+## 2026-11-19 — KaamVerse marketplace UX implementation handoff
+- Active scope: `apps/arjun_flutter/` on branch `rebuild/kaamverse-platform` only. Do not edit unrelated branches.
+- User approved KaamVerse labour marketplace: both individual + business customers; hourly + daily + project hiring; Customer, Worker, Contractor/Team, Field Manager and Admin journeys.
+- Current visual authority for this branch: KaamVerse collage approved by user in 2026-11-19 conversation, blended with existing ARJUN marketplace flows where clearer. Root BAD GYM history is not applicable to this app folder.
+- First implementation slice: Customer Home is committed in source. Check current branch head and Actions before further edits.
+- Transparent asset rule: decorative raster art must be individual PNGs with actual alpha; no checkerboard-baked images or flattened screen collages. Native Flutter icons/text/charts remain native.
+- Current limitation: ChatGPT can inspect GitHub snapshots and Actions runs; it cannot claim continuous second-by-second monitoring or physical phone QA without fresh evidence. Firebase/backend is explicitly out of scope for this UX phase.
+- Next: verify current Customer Home build/test run; fix any concrete failures; then implement Customer service discovery screen and add widget tests.

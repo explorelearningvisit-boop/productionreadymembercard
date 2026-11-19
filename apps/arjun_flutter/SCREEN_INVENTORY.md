@@ -43,3 +43,18 @@
 9. Production Android signing and iOS signing/provisioning; store compliance review.
 
 A successful compilation alone is not a production-readiness certification.
+
+
+## 2026-11-19 KaamVerse screen-by-screen implementation status
+- [x] Customer Home — first UI slice implemented: location/greeting, search entry, bulk-manpower hero, eight service category tiles, nearby labour cards, and trust strip. Sample data only; booking/profile callbacks are preview interactions.
+- [ ] Customer service discovery and filters
+- [ ] Customer worker list and worker profile
+- [ ] Booking composer: hourly, daily and project/contract
+- [ ] Booking review, confirmation and status timeline
+- [ ] Customer bookings, chat, payment preview, reviews and profile
+- [ ] Worker onboarding, KYC preview, skills and work area
+- [ ] Worker home, availability, job feed, job details and accept/decline
+- [ ] Worker work progress, attendance preview, earnings and payout preview
+- [ ] Business/contractor bulk hiring and team management
+- [ ] Admin overview, bookings, labour verification, operations, analytics, commissions and disputes
+- All listed screens are UX-only until backend/auth/persistence and real integrations are implemented. No Firebase/backend work is in this phase.

@@ -124,3 +124,14 @@ Rules: ads must never imitate system actions, hide the primary task CTA, interru
 ## Definition of done
 
 A screen is complete only when: responsive UI exists; loading/empty/error/offline states exist; accessibility labels and touch targets are checked; navigation is wired; role authorization is enforced server-side; data persists; analytics/events are privacy-reviewed; unit/widget/integration tests pass; and the feature is verified on a real Android device. Payment, KYC, messaging, maps, push, ads and uploads must not be called live before their external services and security controls are validated.
+
+
+## 2026-11-19 — Approved KaamVerse visual implementation direction
+The user approved the KaamVerse three-role UI concept. The current implementation target is the `rebuild/kaamverse-platform` branch and this Flutter app directory.
+- Customer types: Individual and Business/Contractor.
+- Hiring units: Hourly, Daily and Project/Contract quote.
+- Primary journeys: Customer discovery/booking/tracking; Worker onboarding/job requests/work/earnings; Admin operations/KYC review/bookings/payments/commission/support.
+- Blend the approved reference's soft white surfaces, rounded cards, purple discovery/promotional elements and green primary actions with existing ARJUN Hindi-first marketplace functionality. Prefer existing components when they are clearer and accessible.
+- Use only individual transparent PNG assets for raster illustrations; validate PNG alpha before committing. Do not embed screen collages as app backgrounds. Use native Flutter for text, charts, maps placeholders, buttons, icons and status.
+- Work one screen at a time. Current screen: Customer Home. Next screens: service discovery, worker list, worker profile, booking composer (hour/day/project), booking confirmation, booking detail/tracking, customer bookings, chat, payment preview and profile.
+- This remains a non-production UX prototype until authentication, server persistence, KYC, location, messaging and payment integrations are independently implemented and verified.

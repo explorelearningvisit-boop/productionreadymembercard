@@ -1,6 +1,6 @@
-# ARJUN Flutter App
+# KaamVerse Flutter App
 
-ARJUN is a Hindi-first workforce, services and building-material marketplace.
+KaamVerse is a Hindi-first on-demand labour and manpower marketplace, evolved from the KaamVerse workforce UX prototype.
 
 ## Run locally
 ```sh
@@ -16,7 +16,8 @@ Debug builds show a one-tap synthetic tester identity:
 This identity is not verified and must never be used for customer data or real transactions. The gate checks `kDebugMode`; release builds cannot activate this demo login using a Dart define. Release login intentionally remains blocked until real authentication is configured.
 
 ## Implemented in this branch
-- Flutter Material 3 mobile app with Hindi-first base theme.
+- Flutter Material 3 mobile app with Hindi-first base theme and KaamVerse branding.
+- Customer Home UI slice: location, search, bulk-manpower banner, eight labour/service categories, nearby labour cards and trust strip.
 - Role modes: customer, worker, field manager, supplier and admin/operations.
 - Dedicated manager, supplier and admin dashboard layouts.
 - Customer job composer with camera/gallery image selection and upload attempt to Firebase Storage.
