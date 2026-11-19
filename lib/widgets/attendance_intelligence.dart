@@ -11,7 +11,7 @@ class AttendanceIntelligence extends StatelessWidget {
       Row(children: const [
         CircleAvatar(radius: 15, backgroundColor: MemberTheme.berry, child: Icon(Icons.bar_chart, color: Colors.white, size: 18)),
         SizedBox(width: 7),
-        Expanded(child: Text('Attendance Intelligence', style: TextStyle(fontSize: 15, color: MemberTheme.ink, fontWeight: FontWeight.w900))),
+        Expanded(child: Text('Attendance Intelligence', style: TextStyle(fontSize: 14, color: MemberTheme.ink, fontWeight: FontWeight.w900))),
         _PartnerTag(),
       ]),
       const SizedBox(height: 6),
@@ -95,8 +95,8 @@ class _SummaryPanel extends StatelessWidget {
     padding: const EdgeInsets.all(6),
     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(17), boxShadow: const [BoxShadow(color: Color(0x18000000), blurRadius: 8, offset: Offset(0, 3))]),
     child: Row(children: [
-      SizedBox(width: 56, height: 56, child: Stack(alignment: Alignment.center, children: [
-        const SizedBox.expand(child: CircularProgressIndicator(value: .81, strokeWidth: 6, backgroundColor: Color(0xFFFFD9E9), valueColor: AlwaysStoppedAnimation(MemberTheme.green))),
+      SizedBox(width: 52, height: 52, child: Stack(alignment: Alignment.center, children: [
+        const SizedBox.expand(child: CircularProgressIndicator(value: .81, strokeWidth: 5, backgroundColor: Color(0xFFFFD9E9), valueColor: AlwaysStoppedAnimation(MemberTheme.green))),
         Column(mainAxisSize: MainAxisSize.min, children: const [
           Text('81%', style: TextStyle(fontSize: 15, color: MemberTheme.ink, fontWeight: FontWeight.w900)),
           Text('25 / 31', style: TextStyle(fontSize: 7, color: MemberTheme.ink)),
@@ -188,7 +188,7 @@ class _CalendarGrid extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 35,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 3, crossAxisSpacing: 3, childAspectRatio: 1.35),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 2, crossAxisSpacing: 3, childAspectRatio: 1.5),
         itemBuilder: (context, index) {
           final day = index - 2;
           if (day < 1 || day > 31) return const SizedBox.shrink();
