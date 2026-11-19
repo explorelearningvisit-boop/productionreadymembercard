@@ -14,7 +14,7 @@ class AttendanceIntelligence extends StatelessWidget {
         Expanded(child: Text('Attendance Intelligence', style: TextStyle(fontSize: 15, color: MemberTheme.ink, fontWeight: FontWeight.w900))),
         _PartnerTag(),
       ]),
-      const SizedBox(height: 10),
+      const SizedBox(height: 6),
       Row(crossAxisAlignment: CrossAxisAlignment.start, children: const [
         _AttendanceRail(),
         SizedBox(width: 8),
@@ -92,15 +92,15 @@ class _SummaryPanel extends StatelessWidget {
   const _SummaryPanel();
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(8),
+    padding: const EdgeInsets.all(6),
     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(17), boxShadow: const [BoxShadow(color: Color(0x18000000), blurRadius: 8, offset: Offset(0, 3))]),
     child: Row(children: [
-      SizedBox(width: 72, height: 72, child: Stack(alignment: Alignment.center, children: [
-        const SizedBox.expand(child: CircularProgressIndicator(value: .81, strokeWidth: 9, backgroundColor: Color(0xFFFFD9E9), valueColor: AlwaysStoppedAnimation(MemberTheme.green))),
+      SizedBox(width: 56, height: 56, child: Stack(alignment: Alignment.center, children: [
+        const SizedBox.expand(child: CircularProgressIndicator(value: .81, strokeWidth: 6, backgroundColor: Color(0xFFFFD9E9), valueColor: AlwaysStoppedAnimation(MemberTheme.green))),
         Column(mainAxisSize: MainAxisSize.min, children: const [
-          Text('81%', style: TextStyle(fontSize: 19, color: MemberTheme.ink, fontWeight: FontWeight.w900)),
-          Text('25 / 31', style: TextStyle(fontSize: 8, color: MemberTheme.ink)),
-          Text('Days', style: TextStyle(fontSize: 8, color: MemberTheme.ink)),
+          Text('81%', style: TextStyle(fontSize: 15, color: MemberTheme.ink, fontWeight: FontWeight.w900)),
+          Text('25 / 31', style: TextStyle(fontSize: 7, color: MemberTheme.ink)),
+          Text('Days', style: TextStyle(fontSize: 7, color: MemberTheme.ink)),
         ]),
       ])),
       const SizedBox(width: 8),
@@ -119,7 +119,7 @@ class _SummaryLine extends StatelessWidget {
   const _SummaryLine(this.color, this.title, this.count, this.percent);
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: 2),
+    padding: const EdgeInsets.symmetric(vertical: 1),
     child: Row(children: [
       Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
       const SizedBox(width: 5),
@@ -137,7 +137,7 @@ class _HorizontalMenu extends StatelessWidget {
   const _HorizontalMenu();
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: 27,
+    height: 25,
     child: ListView(scrollDirection: Axis.horizontal, children: const [
       _MenuChip('Overview', true), _MenuChip('Attendance', false), _MenuChip('Workout', false), _MenuChip('Payments', false),
     ]),
@@ -188,7 +188,7 @@ class _CalendarGrid extends StatelessWidget {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 35,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 4, crossAxisSpacing: 3, childAspectRatio: 1.35),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 3, crossAxisSpacing: 3, childAspectRatio: 1.35),
         itemBuilder: (context, index) {
           final day = index - 2;
           if (day < 1 || day > 31) return const SizedBox.shrink();
@@ -241,7 +241,7 @@ class _Insight extends StatelessWidget {
   const _Insight(this.icon, this.title, this.value, this.color);
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 5),
+    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 5),
     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14), border: Border.all(color: const Color(0xFFF5C7DA))),
     child: Column(children: [
       Icon(icon, color: color, size: 17),
