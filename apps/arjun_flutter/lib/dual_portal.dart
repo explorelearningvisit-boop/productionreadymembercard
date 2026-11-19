@@ -82,8 +82,8 @@ class _MarketplaceHomeState extends State<MarketplaceHome> {
   @override Widget build(BuildContext c) {
     final pages = worker ? [workerHome(),jobsPage(),attendance(),earnings(),profile()]
       : [ownerHome(),jobsPage(),taskBoard(),materials(),profile()];
-    return Scaffold(appBar: AppBar(title: const Text('KaamVerse', style: TextStyle(fontWeight: FontWeight.w900)),
-      actions: [IconButton(onPressed: widget.onSwitch, icon: const Icon(Icons.swap_horiz), tooltip: 'भूमिका बदलें')]),
+    return Scaffold(appBar: worker ? AppBar(title: const Text('KaamVerse', style: TextStyle(fontWeight: FontWeight.w900)),
+      actions: [IconButton(onPressed: widget.onSwitch, icon: const Icon(Icons.swap_horiz), tooltip: 'भूमिका बदलें')]) : null,
       body: Column(children: [
         Container(width: double.infinity, color: const Color(0xFFFFF2D6), padding: const EdgeInsets.all(7),
           child: const Text('PREVIEW MODE • सभी नाम, काम और रकम sample data हैं', textAlign: TextAlign.center,
