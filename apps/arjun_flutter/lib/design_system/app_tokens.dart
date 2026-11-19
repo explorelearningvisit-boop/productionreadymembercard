@@ -12,7 +12,7 @@ abstract final class AppTokens {
   static const success = Color(0xFF16794B);
   static const ink = Color(0xFF182342);
   static const muted = Color(0xFF64748B);
-  static const canvas = Color(0xFFF4F6FB);
+  static const canvas = Color(0xFFF5F0FF);
   static const surface = Colors.white;
   static const radiusSmall = 12.0;
   static const radiusCard = 18.0;
@@ -23,7 +23,7 @@ abstract final class AppTokens {
 
 ThemeData buildMarketplaceTheme() {
   final scheme = ColorScheme.fromSeed(
-    seedColor: AppTokens.worker,
+    seedColor: AppTokens.provider,
     surface: AppTokens.surface,
     error: AppTokens.danger,
   );
