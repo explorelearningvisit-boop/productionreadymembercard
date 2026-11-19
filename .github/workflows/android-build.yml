@@ -1,7 +1,7 @@
-name: BAD GYM Android Build
+name: BAD GYM Member Intelligence Flutter APK
 on:
   push:
-    branches: [main]
+    branches: [main, feature/grok-member-intelligence-flutter-port]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -9,10 +9,10 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: bad-gym-android-${{ github.ref }}
+  group: member-intelligence-apk-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  validate-build:
+  build:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -21,24 +21,14 @@ jobs:
         with:
           channel: stable
           cache: true
-      - name: Generate Android platform scaffold
-        run: flutter create --platforms=android --org com.badgym .
-      - name: Resolve dependencies
-        run: flutter pub get
-      - name: Format Dart sources
-        run: dart format lib test
-      - name: Format verification
-        run: dart format --output=none --set-exit-if-changed lib test
-      - name: Static analysis
-        run: flutter analyze
-      - name: Widget tests
-        run: flutter test
-      - name: Build release APK
-        run: flutter build apk --release
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - run: flutter pub get
+      - run: dart format lib
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build apk --release
+      - uses: actions/upload-artifact@v4
         with:
-          name: bad-gym-member-intelligence-${{ github.sha }}
+          name: member-intelligence-apk-${{ github.sha }}
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
           retention-days: 14
