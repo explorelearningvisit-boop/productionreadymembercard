@@ -20,10 +20,10 @@ void main() {
     expect(find.text('आवश्यक है मज़दूर?'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('आपके नज़दीक उपलब्ध मज़दूर'), 350,
         scrollable: find.byType(Scrollable).first);
-    expect(find.text('आपके पास उपलब्ध labour'), findsOneWidget);
+    expect(find.text('आपके नज़दीक उपलब्ध मज़दूर'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('अरुण कुमार'), 350,
         scrollable: find.byType(Scrollable).first);
-    expect(find.text('अर्जुन कुमार'), findsOneWidget);
+    expect(find.text('अरुण कुमार'), findsOneWidget);
   });
 
   testWidgets('Supplier dashboard labels sponsored placement', (tester) async {
