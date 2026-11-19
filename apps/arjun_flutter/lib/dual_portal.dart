@@ -70,10 +70,10 @@ class _MarketplaceHomeState extends State<MarketplaceHome> {
     _Task('ईंट-चिनाई', 120, 'वर्ग फुट', 35, done: 68, accepted: 60),
     _Task('साइट सफाई', 1, 'काम', 1800, done: 1),
   ];
-  final jobNames = ['घर की पेंटिंग','ईंट-चिनाई','बाथरूम पाइप रिपेयर','इलेक्ट्रिकल हेल्पर'];
-  final jobTypes = ['पेंटिंग','निर्माण','प्लंबर','इलेक्ट्रिकल'];
-  final jobPlaces = ['लंका, वाराणसी','शिवपुर, वाराणसी','सिगरा, वाराणसी','वाराणसी'];
-  final jobRates = ['₹700 / दिन','₹900 / दिन','₹600 / काम','₹800 / दिन'];
+  final jobNames = ['घर की पेंटिंग','ईंट-चिनाई','बाथरूम पाइप रिपेयर','इलेक्ट्रिकल हेल्पर','ऑफिस और घर की सफाई','फर्नीचर रिपेयर','लोडिंग और अनलोडिंग','सामान्य हेल्पर'];
+  final jobTypes = ['पेंटिंग','निर्माण','प्लंबर','इलेक्ट्रिकल','सफाई','बढ़ई','लोडिंग','अन्य काम'];
+  final jobPlaces = ['लंका, वाराणसी','शिवपुर, वाराणसी','सिगरा, वाराणसी','वाराणसी','महात्मा गांधी काशी विद्यापीठ, वाराणसी','दुर्गाकुंड, वाराणसी','रामनगर, वाराणसी','पांडेयपुर, वाराणसी'];
+  final jobRates = ['₹700 / दिन','₹900 / दिन','₹600 / काम','₹800 / दिन','₹500 / दिन','₹750 / दिन','₹450 / दिन','₹550 / दिन'];
   bool get worker => widget.role.isWorker;
   List<String> get labels => worker ? ['होम','काम','हाजिरी','कमाई','प्रोफाइल'] : ['डैशबोर्ड','काम','टास्क','सामग्री','प्रोफाइल'];
   List<IconData> get icons => worker
@@ -131,13 +131,13 @@ class _MarketplaceHomeState extends State<MarketplaceHome> {
     heading(worker ? 'काम खोजें' : 'काम मैनेज करें', 'काम, हुनर या जगह के अनुसार'),
     TextField(decoration: const InputDecoration(prefixIcon: Icon(Icons.search), hintText: 'जैसे पेंटर, हेल्पर, वाराणसी')),
     const SizedBox(height: 9),
-    Wrap(spacing: 5, children: ['सभी','निर्माण','पेंटिंग','प्लंबर','इलेक्ट्रिकल'].map((v) => ChoiceChip(
+    Wrap(spacing: 5, children: ['सभी','निर्माण','सफाई','प्लंबर','इलेक्ट्रिकल','बढ़ई','पेंटिंग','लोडिंग','अन्य काम'].map((v) => ChoiceChip(
       label: Text(v), selected: category == v, onSelected: (_) => setState(() => category = v))).toList()),
-    ...List.generate(4, jobCard),
+    ...List.generate(jobNames.length, jobCard),
     if (!worker) OutlinedButton.icon(onPressed: createJob, icon: const Icon(Icons.add), label: const Text('नया काम पोस्ट करें')),
   ]);
   Widget jobCard(int i) {
-    final idx = i % 4;
+    final idx = i % jobNames.length;
     if (category != 'सभी' && category != jobTypes[idx]) return const SizedBox.shrink();
     return Card(child: ListTile(onTap: () => info(jobNames[idx], 'काम का प्रकार: ' + jobTypes[idx] + '\nस्थान: ' + jobPlaces[idx] + '\nरेट: ' + jobRates[idx] + '\nयह sample job है।'),
       leading: CircleAvatar(backgroundColor: widget.role.tint, child: Icon(Icons.handyman, color: widget.role.accent)),
