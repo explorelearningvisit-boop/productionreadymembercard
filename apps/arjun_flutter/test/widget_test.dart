@@ -9,7 +9,17 @@ void main() {
   testWidgets('ARJUN app boots into its configured Material application', (tester) async {
     await tester.pumpWidget(const ArjunApp());
     expect(find.byType(MaterialApp), findsOneWidget);
-    expect(find.text('ARJUN'), findsOneWidget);
+    expect(find.text('KaamVerse'), findsOneWidget);
+  });
+
+  testWidgets('Customer home exposes service discovery and nearby labour', (tester) async {
+    await tester.pumpWidget(const ArjunApp());
+    await tester.tap(find.text('ग्राहक / बिज़नेस'));
+    await tester.pumpAndSettle();
+    expect(find.text('काम की कैटेगरी'), findsOneWidget);
+    expect(find.text('आपके पास उपलब्ध labour'), findsOneWidget);
+    expect(find.text('प्रोजेक्ट के लिए manpower चाहिए?'), findsOneWidget);
+    expect(find.text('अर्जुन कुमार'), findsOneWidget);
   });
 
   testWidgets('Supplier dashboard labels sponsored placement', (tester) async {
