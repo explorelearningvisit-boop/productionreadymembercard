@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import '../theme/member_theme.dart';
 
-class AttendanceIntelligence extends StatelessWidget {
+class AttendanceIntelligence extends StatefulWidget {
   const AttendanceIntelligence({super.key});
+  @override
+  State<AttendanceIntelligence> createState() => _AttendanceIntelligenceState();
+}
+
+class _AttendanceIntelligenceState extends State<AttendanceIntelligence> {
+  int selectedSection = 1;
+  int selectedTab = 0;
+  DateTime month = DateTime(2026, 10);
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(9),
@@ -18,7 +26,7 @@ class AttendanceIntelligence extends StatelessWidget {
       Row(crossAxisAlignment: CrossAxisAlignment.start, children: const [
         _AttendanceRail(),
         SizedBox(width: 8),
-        Expanded(child: _AttendanceContent()),
+        Expanded(child: selectedSection == 1 ? _AttendanceContent(month: month, selectedTab: selectedTab, onTab: (v) => setState(() => selectedTab = v), onMonth: (v) => setState(() => month = DateTime(month.year, month.month + v))) : _SectionPanel(section: selectedSection)),
       ]),
     ]),
   );
@@ -35,43 +43,45 @@ class _PartnerTag extends StatelessWidget {
 }
 
 class _AttendanceRail extends StatelessWidget {
-  const _AttendanceRail();
+  final int selected; final ValueChanged<int> onSelect;
+  const _AttendanceRail({required this.selected, required this.onSelect});
   @override
   Widget build(BuildContext context) => Container(
     width: 45,
     padding: const EdgeInsets.symmetric(vertical: 7),
     decoration: BoxDecoration(gradient: const LinearGradient(colors: [MemberTheme.berry, MemberTheme.wine]), borderRadius: BorderRadius.circular(22)),
-    child: Column(children: const [
-      _RailItem(Icons.dashboard, 'Home'),
-      _RailItem(Icons.calendar_month, 'Attend', active: true),
-      _RailItem(Icons.fitness_center, 'Workout'),
-      _RailItem(Icons.wallet, 'Pay'),
-      _RailItem(Icons.local_offer, 'Offers'),
-      _RailItem(Icons.history, 'History'),
+    child: Column(children: [
+      _RailItem(Icons.dashboard, 'Home', active: selected == 0, onTap: () => onSelect(0)),
+      _RailItem(Icons.calendar_month, 'Attend', active: selected == 1, onTap: () => onSelect(1)),
+      _RailItem(Icons.fitness_center, 'Workout', active: selected == 2, onTap: () => onSelect(2)),
+      _RailItem(Icons.wallet, 'Pay', active: selected == 3, onTap: () => onSelect(3)),
+      _RailItem(Icons.local_offer, 'Offers', active: selected == 4, onTap: () => onSelect(4)),
+      _RailItem(Icons.history, 'History', active: selected == 5, onTap: () => onSelect(5)),
     ]),
   );
 }
 
 class _RailItem extends StatelessWidget {
-  final IconData icon; final String label; final bool active;
-  const _RailItem(this.icon, this.label, {this.active = false});
+  final IconData icon; final String label; final bool active; final VoidCallback onTap;
+  const _RailItem(this.icon, this.label, {this.active = false, required this.onTap});
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 3),
-    child: Container(
-      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 2),
+    child: InkWell(onTap: onTap, borderRadius: BorderRadius.circular(12), child: Container(
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
       decoration: BoxDecoration(color: active ? MemberTheme.gold : Colors.transparent, borderRadius: BorderRadius.circular(12)),
       child: Column(children: [
         Icon(icon, size: 18, color: active ? MemberTheme.ink : Colors.white),
         const SizedBox(height: 2),
         Text(label, style: TextStyle(fontSize: 7, color: active ? MemberTheme.ink : Colors.white, fontWeight: FontWeight.w800)),
       ]),
-    ),
+    )),
   );
 }
 
 class _AttendanceContent extends StatelessWidget {
-  const _AttendanceContent();
+  final DateTime month; final int selectedTab; final ValueChanged<int> onTab; final ValueChanged<int> onMonth;
+  const _AttendanceContent({required this.month, required this.selectedTab, required this.onTab, required this.onMonth});
   @override
   Widget build(BuildContext context) => Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: const [
     _SummaryPanel(),
@@ -134,37 +144,39 @@ class _SummaryLine extends StatelessWidget {
 }
 
 class _HorizontalMenu extends StatelessWidget {
-  const _HorizontalMenu();
+  final int selected; final ValueChanged<int> onSelect;
+  const _HorizontalMenu({required this.selected, required this.onSelect});
   @override
   Widget build(BuildContext context) => SizedBox(
     height: 25,
-    child: ListView(scrollDirection: Axis.horizontal, children: const [
-      _MenuChip('Overview', true), _MenuChip('Attendance', false), _MenuChip('Workout', false), _MenuChip('Payments', false),
+    child: ListView(scrollDirection: Axis.horizontal, children: [
+      _MenuChip('Overview', selected == 0, () => onSelect(0)), _MenuChip('Attendance', selected == 1, () => onSelect(1)), _MenuChip('Workout', selected == 2, () => onSelect(2)), _MenuChip('Payments', selected == 3, () => onSelect(3)),
     ]),
   );
 }
 
 class _MenuChip extends StatelessWidget {
-  final String label; final bool selected;
-  const _MenuChip(this.label, this.selected);
+  final String label; final bool selected; final VoidCallback onTap;
+  const _MenuChip(this.label, this.selected, this.onTap);
   @override
   Widget build(BuildContext context) => Container(
     margin: const EdgeInsets.only(right: 5),
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     decoration: BoxDecoration(color: selected ? MemberTheme.berry : const Color(0xFFFFE5F0), borderRadius: BorderRadius.circular(16)),
     child: Text(label, style: TextStyle(fontSize: 9, color: selected ? Colors.white : MemberTheme.ink, fontWeight: FontWeight.w800)),
-  );
+  ));
 }
 
 class _MonthSelector extends StatelessWidget {
-  const _MonthSelector();
+  final DateTime month; final ValueChanged<int> onChange;
+  const _MonthSelector({required this.month, required this.onChange});
   @override
-  Widget build(BuildContext context) => Row(children: const [
-    _CircleButton(Icons.chevron_left),
-    SizedBox(width: 6),
-    Expanded(child: Center(child: Text('▦  October 2026  ▾', style: TextStyle(fontSize: 12, color: MemberTheme.ink, fontWeight: FontWeight.w900)))),
-    SizedBox(width: 6),
-    _CircleButton(Icons.calendar_month),
+  Widget build(BuildContext context) => Row(children: [
+    GestureDetector(onTap: () => onChange(-1), child: const _CircleButton(Icons.chevron_left)),
+    const SizedBox(width: 6),
+    Expanded(child: Center(child: Text('▦  ${month.month}/${month.year}', style: const TextStyle(fontSize: 12, color: MemberTheme.ink, fontWeight: FontWeight.w900)))),
+    const SizedBox(width: 6),
+    GestureDetector(onTap: () => onChange(1), child: const _CircleButton(Icons.chevron_right)),
   ]);
 }
 
@@ -249,4 +261,26 @@ class _Insight extends StatelessWidget {
       Text(value, style: const TextStyle(fontSize: 11, color: MemberTheme.wine, fontWeight: FontWeight.w900)),
     ]),
   );
+}
+
+class _SectionPanel extends StatelessWidget {
+  final int section;
+  const _SectionPanel({required this.section});
+  @override
+  Widget build(BuildContext context) {
+    const titles = ['Home overview','Attendance','Workout','Payments','Offers','History'];
+    const details = ['Member status and today check-in','Monthly attendance calendar and summary','58 min workout · Strength training','₹500 due · Expires 24 Oct 2026','Member rewards and partner offers','Recent check-ins and payment events'];
+    const icons = [Icons.home,Icons.calendar_month,Icons.fitness_center,Icons.wallet,Icons.local_offer,Icons.history];
+    return Container(height: 230, padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(17)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Row(children: [Icon(icons[section],color: MemberTheme.berry), const SizedBox(width: 7), Expanded(child: Text(titles[section],style: const TextStyle(fontSize: 13,fontWeight: FontWeight.w900,color: MemberTheme.ink)))]),
+        const SizedBox(height: 14), Text(details[section],style: const TextStyle(fontSize: 11,color: MemberTheme.ink)),
+        const SizedBox(height: 12),
+        if(section == 0) const Text('Check-in completed · 07:12 AM\nGold Plan · Active',style: TextStyle(fontSize: 12,height: 1.8)),
+        if(section == 2) const Text('Workout duration     58 min\nTraining focus           Strength',style: TextStyle(fontSize: 12,height: 1.8)),
+        if(section == 3) const Text('Outstanding balance   ₹500\nMembership status       Active',style: TextStyle(fontSize: 12,height: 1.8)),
+        if(section == 4) const Text('Partner offers\nMember reward benefits',style: TextStyle(fontSize: 12,height: 1.8)),
+        if(section == 5) const Text('Today · Check-in 07:12 AM\nPrevious activity · Payment',style: TextStyle(fontSize: 12,height: 1.8)),
+      ]));
+  }
 }
