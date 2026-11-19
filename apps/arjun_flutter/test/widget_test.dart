@@ -16,12 +16,12 @@ void main() {
     await tester.pumpWidget(const ArjunApp());
     await tester.tap(find.text('ग्राहक / बिज़नेस'));
     await tester.pumpAndSettle();
-    expect(find.text('काम की कैटेगरी'), findsOneWidget);
-    expect(find.text('प्रोजेक्ट के लिए manpower चाहिए?'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('आपके पास उपलब्ध labour'), 350,
+    expect(find.text('सेवा श्रेणियाँ'), findsOneWidget);
+    expect(find.text('आवश्यक है मज़दूर?'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('आपके नज़दीक उपलब्ध मज़दूर'), 350,
         scrollable: find.byType(Scrollable).first);
     expect(find.text('आपके पास उपलब्ध labour'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('अर्जुन कुमार'), 350,
+    await tester.scrollUntilVisible(find.text('अरुण कुमार'), 350,
         scrollable: find.byType(Scrollable).first);
     expect(find.text('अर्जुन कुमार'), findsOneWidget);
   });
