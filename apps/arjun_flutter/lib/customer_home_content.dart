@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'design_system/app_tokens.dart';
-import 'design_system/marketplace_components.dart';
 
-class CustomerHomeContent extends StatelessWidget {
+class CustomerHomeContent extends StatefulWidget {
   const CustomerHomeContent({
     super.key,
     required this.onBrowse,
@@ -17,321 +16,350 @@ class CustomerHomeContent extends StatelessWidget {
   final VoidCallback onCreateBooking;
   final ValueChanged<String> onWorkerSelected;
 
-  static const _categories = <_ServiceCategory>[
-    _ServiceCategory('निर्माण', Icons.construction, Color(0xFFFFE8C2)),
-    _ServiceCategory('सफाई', Icons.cleaning_services, Color(0xFFDDF4E8)),
-    _ServiceCategory('प्लंबर', Icons.plumbing, Color(0xFFDDEBFF)),
-    _ServiceCategory('इलेक्ट्रिशियन', Icons.electrical_services, Color(0xFFFFF0C7)),
-    _ServiceCategory('बढ़ई', Icons.carpenter, Color(0xFFF1E5FF)),
-    _ServiceCategory('पेंटर', Icons.format_paint, Color(0xFFFFE2E8)),
-    _ServiceCategory('लोडिंग', Icons.local_shipping, Color(0xFFE0F2FE)),
-    _ServiceCategory('अन्य काम', Icons.grid_view, Color(0xFFECEFF4)),
+  @override
+  State<CustomerHomeContent> createState() => _CustomerHomeContentState();
+}
+
+class _CustomerHomeContentState extends State<CustomerHomeContent> {
+  String hiringMode = 'Hourly';
+  static const purple = Color(0xFF5B16B8);
+  static const deepPurple = Color(0xFF351078);
+  static const lavender = Color(0xFFF5F0FF);
+  static const green = Color(0xFF17B83E);
+  static const yellow = Color(0xFFFFD21C);
+
+  static const categories = <_Category>[
+    _Category('निर्माण', 'मिस्त्री/मज़दूर', Icons.foundation_rounded, Color(0xFFFFE2C7)),
+    _Category('सफाई', 'हाउसकीपिंग', Icons.cleaning_services_rounded, Color(0xFFE7F5E9)),
+    _Category('प्लंबर', 'पाइप/फिटिंग', Icons.plumbing_rounded, Color(0xFFFFE4DF)),
+    _Category('इलेक्ट्रिशियन', 'वायरिंग', Icons.lightbulb_rounded, Color(0xFFFFF4C9)),
+    _Category('बढ़ई', 'कारपेंटर', Icons.handyman_rounded, Color(0xFFFFE8D2)),
+    _Category('पेंटर', 'रंगाई/पुताई', Icons.format_paint_rounded, Color(0xFFFCE1F7)),
+    _Category('ड्राइवर', 'वाहन चालक', Icons.directions_car_filled_rounded, Color(0xFFE7ECF5)),
+    _Category('लोडिंग', 'माल उठाई', Icons.local_shipping_rounded, Color(0xFFFFEBC9)),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      key: const PageStorageKey<String>('customer-home'),
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-      children: [
-        Row(
-          children: [
-            const Icon(Icons.location_on_rounded, color: AppTokens.worker, size: 19),
-            const SizedBox(width: 5),
-            const Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('आपकी लोकेशन', style: TextStyle(color: AppTokens.muted, fontSize: 10)),
-                  Text('वाराणसी, उत्तर प्रदेश', style: TextStyle(color: AppTokens.ink, fontWeight: FontWeight.w800)),
-                ],
+    return Container(
+      color: lavender,
+      child: ListView(
+        key: const PageStorageKey<String>('customer-home'),
+        padding: const EdgeInsets.fromLTRB(14, 8, 14, 22),
+        children: [
+          Row(children: [
+            IconButton(
+              visualDensity: VisualDensity.compact,
+              onPressed: () => _message('KaamVerse मेनू', 'होम • बुकिंग • पेमेंट • सहायता • प्रोफाइल'),
+              icon: const Icon(Icons.menu_rounded, color: deepPurple, size: 27),
+            ),
+            const Expanded(child: Text('KaamVerse', style: TextStyle(
+              color: deepPurple, fontSize: 23, fontWeight: FontWeight.w900, letterSpacing: -.6))),
+            IconButton(
+              onPressed: () => _message('सूचनाएँ', 'आपकी booking और worker updates यहाँ दिखेंगे।'),
+              icon: const Icon(Icons.notifications_active_outlined, color: deepPurple, size: 25),
+            ),
+          ]),
+          InkWell(
+            onTap: () => _message('लोकेशन चुनें', 'अभी चुनी गई लोकेशन: वाराणसी (काशी), उत्तर प्रदेश'),
+            borderRadius: BorderRadius.circular(18),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Row(children: const [
+                Icon(Icons.location_on_rounded, color: purple, size: 22),
+                SizedBox(width: 6),
+                Expanded(child: Text('वाराणसी (काशी), उत्तर प्रदेश',
+                  style: TextStyle(color: deepPurple, fontWeight: FontWeight.w800, fontSize: 13))),
+                Icon(Icons.keyboard_arrow_down_rounded, color: deepPurple),
+              ]),
+            ),
+          ),
+          const SizedBox(height: 9),
+          Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('नमस्ते, Riya Sharma 👋', style: TextStyle(
+                color: Color(0xFF1E1530), fontSize: 19, fontWeight: FontWeight.w900)),
+              SizedBox(height: 3),
+              Text('आपको किस काम के लिए मदद चाहिए?',
+                style: TextStyle(color: Color(0xFF514766), fontSize: 12, fontWeight: FontWeight.w600)),
+            ])),
+            Container(
+              width: 62, height: 62,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(colors: [Color(0xFFE5D1FF), Color(0xFFFDF9FF)])),
+              child: const Icon(Icons.face_3_rounded, color: purple, size: 42),
+            ),
+          ]),
+          const SizedBox(height: 12),
+          Material(
+            color: Colors.white,
+            elevation: 2,
+            shadowColor: const Color(0x335B16B8),
+            borderRadius: BorderRadius.circular(18),
+            child: InkWell(
+              onTap: widget.onBrowse,
+              borderRadius: BorderRadius.circular(18),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+                child: Row(children: [
+                  Icon(Icons.search_rounded, color: purple, size: 26),
+                  SizedBox(width: 10),
+                  Expanded(child: Text('सेवा या मज़दूर खोजें...',
+                    style: TextStyle(color: Color(0xFF746B83), fontWeight: FontWeight.w600))),
+                  Icon(Icons.mic_rounded, color: purple, size: 24),
+                ]),
               ),
             ),
-            IconButton(
-              tooltip: 'सूचनाएँ',
-              onPressed: () => _showMessage(context, 'सूचनाएँ', 'नई booking और worker updates यहाँ दिखेंगे।'),
-              icon: const Icon(Icons.notifications_none_rounded),
+          ),
+          const SizedBox(height: 14),
+          _HiringBanner(onTap: widget.onCreateBooking),
+          const SizedBox(height: 18),
+          _SectionTitle(title: 'सेवा श्रेणियाँ', action: 'सभी देखें', onTap: widget.onBrowse),
+          const SizedBox(height: 9),
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: categories.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4, mainAxisSpacing: 8, crossAxisSpacing: 8,
+              childAspectRatio: .84,
             ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        const Text('नमस्ते! 👋', style: TextStyle(fontSize: 25, fontWeight: FontWeight.w900, color: AppTokens.ink)),
-        const Text('आज आपको किस काम के लिए labour चाहिए?', style: TextStyle(color: AppTokens.muted, fontSize: 13)),
-        const SizedBox(height: 14),
-        TextField(
-          readOnly: true,
-          onTap: onBrowse,
-          decoration: const InputDecoration(
-            prefixIcon: Icon(Icons.search_rounded),
-            hintText: 'काम, हुनर या labour खोजें',
-            suffixIcon: Icon(Icons.tune_rounded),
+            itemBuilder: (context, index) {
+              final item = categories[index];
+              return _CategoryTile(item: item, onTap: () => widget.onCategorySelected(item.label));
+            },
           ),
-        ),
-        const SizedBox(height: 18),
-        _HiringBanner(onTap: onCreateBooking),
-        const SizedBox(height: 22),
-        MarketplaceSectionTitle('काम की कैटेगरी', action: 'सभी देखें', onAction: onBrowse),
-        const SizedBox(height: 10),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: _categories.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 4,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 9,
-            childAspectRatio: .91,
+          const SizedBox(height: 17),
+          const Text('हायरिंग का तरीका चुनें', style: TextStyle(
+            color: Color(0xFF21133D), fontSize: 17, fontWeight: FontWeight.w900)),
+          const SizedBox(height: 8),
+          Row(children: [
+            _ModeChip(label: 'घंटे के हिसाब से', sub: 'Hourly', icon: Icons.access_time_rounded,
+              selected: hiringMode == 'Hourly', onTap: () => setState(() => hiringMode = 'Hourly')),
+            const SizedBox(width: 6),
+            _ModeChip(label: 'दैनिक', sub: 'Daily', icon: Icons.calendar_month_rounded,
+              selected: hiringMode == 'Daily', onTap: () => setState(() => hiringMode = 'Daily')),
+            const SizedBox(width: 6),
+            _ModeChip(label: 'प्रोजेक्ट/ठेका', sub: 'Project', icon: Icons.work_outline_rounded,
+              selected: hiringMode == 'Project', onTap: () => setState(() => hiringMode = 'Project')),
+          ]),
+          const SizedBox(height: 17),
+          _SectionTitle(title: 'आपके नज़दीक उपलब्ध मज़दूर', action: 'सभी देखें', onTap: widget.onBrowse),
+          const SizedBox(height: 8),
+          _WorkerCard(name: 'अरुण कुमार', skill: 'मिस्त्री • 5 साल अनुभव',
+            rating: '4.9 (126 रिव्यू)', rate: hiringMode == 'Hourly' ? '₹120 / घंटा' :
+              hiringMode == 'Daily' ? '₹700 / दिन' : 'रेट पूछें',
+            distance: '1.2 किमी', onTap: () => widget.onWorkerSelected('अरुण कुमार')),
+          const SizedBox(height: 8),
+          _WorkerCard(name: 'सुजीत यादव', skill: 'हेल्पर • 4 साल अनुभव',
+            rating: '4.8 (98 रिव्यू)', rate: hiringMode == 'Hourly' ? '₹95 / घंटा' :
+              hiringMode == 'Daily' ? '₹550 / दिन' : 'रेट पूछें',
+            distance: '1.8 किमी', onTap: () => widget.onWorkerSelected('सुजीत यादव')),
+          const SizedBox(height: 14),
+          Container(
+            padding: const EdgeInsets.all(13),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(colors: [deepPurple, purple]),
+              borderRadius: BorderRadius.circular(17)),
+            child: Row(children: const [
+              Icon(Icons.verified_user_rounded, color: Colors.white, size: 25),
+              SizedBox(width: 9),
+              Expanded(child: Text('सुरक्षित बुकिंग • सत्यापित प्रोफाइल • स्पष्ट रेट',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 11))),
+            ]),
           ),
-          itemBuilder: (context, index) {
-            final item = _categories[index];
-            return _CategoryTile(
-              item: item,
-              onTap: () => onCategorySelected(item.label),
-            );
-          },
-        ),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            const Expanded(child: MarketplaceSectionTitle('आपके पास उपलब्ध labour')),
-            TextButton(onPressed: onBrowse, child: const Text('सभी देखें')),
-          ],
-        ),
-        const SizedBox(height: 8),
-        _WorkerCard(
-          name: 'अर्जुन कुमार',
-          skill: 'राजमिस्त्री • निर्माण',
-          rating: '4.9 (126)',
-          rate: '₹700 / दिन',
-          distance: '1.2 km',
-          onTap: () => onWorkerSelected('अर्जुन कुमार'),
-        ),
-        const SizedBox(height: 9),
-        _WorkerCard(
-          name: 'सुजीत यादव',
-          skill: 'हेल्पर • लोडिंग',
-          rating: '4.8 (98)',
-          rate: '₹550 / दिन',
-          distance: '1.8 km',
-          onTap: () => onWorkerSelected('सुजीत यादव'),
-        ),
-        const SizedBox(height: 20),
-        MarketplaceSectionTitle('काम कैसे करें?', action: 'बुक करें', onAction: onCreateBooking),
-        const SizedBox(height: 10),
-        const _TrustStrip(),
-      ],
-    );
-  }
-
-  static void _showMessage(BuildContext context, String title, String message) {
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('ठीक है')),
         ],
       ),
     );
   }
+
+  void _message(String title, String body) {
+    showDialog<void>(context: context, builder: (context) => AlertDialog(
+      title: Text(title), content: Text(body),
+      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('ठीक है'))],
+    ));
+  }
 }
 
-class _ServiceCategory {
-  const _ServiceCategory(this.label, this.icon, this.tint);
-  final String label;
+class _Category {
+  const _Category(this.label, this.subtitle, this.icon, this.tint);
+  final String label, subtitle;
   final IconData icon;
   final Color tint;
-}
-
-class _CategoryTile extends StatelessWidget {
-  const _CategoryTile({required this.item, required this.onTap});
-  final _ServiceCategory item;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => Material(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(17),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(17),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 9),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 42,
-                  height: 42,
-                  decoration: BoxDecoration(color: item.tint, borderRadius: BorderRadius.circular(14)),
-                  child: Icon(item.icon, color: AppTokens.ink, size: 23),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  item.label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 10.5, fontWeight: FontWeight.w800, color: AppTokens.ink),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
 }
 
 class _HiringBanner extends StatelessWidget {
   const _HiringBanner({required this.onTap});
   final VoidCallback onTap;
+  static const purple = Color(0xFF5B16B8);
+  static const yellow = Color(0xFFFFD21C);
 
   @override
   Widget build(BuildContext context) => Material(
-        color: AppTokens.providerDeep,
-        borderRadius: BorderRadius.circular(22),
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(22),
-          child: Container(
-            padding: const EdgeInsets.all(17),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(22),
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFF5420A6), Color(0xFF7A42D5), Color(0xFF087F5B)],
-              ),
-            ),
-            child: Row(
-              children: [
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('प्रोजेक्ट के लिए manpower चाहिए?',
-                          style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w900)),
-                      SizedBox(height: 5),
-                      Text('एक साथ कई verified workers बुक करें',
-                          style: TextStyle(color: Colors.white, fontSize: 11.5, height: 1.35)),
-                      SizedBox(height: 12),
-                      _BannerActionLabel(),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                const Icon(Icons.engineering, color: Colors.white, size: 68),
-              ],
-            ),
-          ),
-        ),
-      );
+    borderRadius: BorderRadius.circular(20),
+    clipBehavior: Clip.antiAlias,
+    child: InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(15, 15, 10, 13),
+        decoration: const BoxDecoration(gradient: LinearGradient(
+          begin: Alignment.centerLeft, end: Alignment.centerRight,
+          colors: [Color(0xFF48119A), Color(0xFF812DD0), Color(0xFFB36BEA)])),
+        child: Row(children: [
+          const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('आवश्यक है मज़दूर?', style: TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.w900)),
+            SizedBox(height: 5),
+            Text('अभी काम पोस्ट करें और अपने नज़दीक के सत्यापित मज़दूरों से जुड़ें।',
+              style: TextStyle(color: Colors.white, fontSize: 12, height: 1.3)),
+            SizedBox(height: 10),
+            _BannerButton(),
+          ])),
+          const SizedBox(width: 4),
+          const Icon(Icons.engineering_rounded, color: Color(0xFFFFD45C), size: 78),
+        ]),
+      ),
+    ),
+  );
 }
 
-class _BannerActionLabel extends StatelessWidget {
-  const _BannerActionLabel();
-
+class _BannerButton extends StatelessWidget {
+  const _BannerButton();
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(30)),
-        child: const Text('अभी बुक करें  →',
-            style: TextStyle(color: AppTokens.providerDeep, fontSize: 11, fontWeight: FontWeight.w900)),
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 8),
+    decoration: BoxDecoration(color: const Color(0xFFFFD21C), borderRadius: BorderRadius.circular(30)),
+    child: const Text('काम पोस्ट करें  →', style: TextStyle(
+      color: Color(0xFF29164A), fontSize: 12, fontWeight: FontWeight.w900)),
+  );
+}
+
+class _CategoryTile extends StatelessWidget {
+  const _CategoryTile({required this.item, required this.onTap});
+  final _Category item;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) => Material(
+    color: Colors.white,
+    elevation: 2,
+    shadowColor: const Color(0x225B16B8),
+    borderRadius: BorderRadius.circular(15),
+    child: InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(15),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 7),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Container(
+            width: 43, height: 43,
+            decoration: BoxDecoration(color: item.tint, borderRadius: BorderRadius.circular(13)),
+            child: Icon(item.icon, size: 28, color: const Color(0xFF48246F)),
+          ),
+          const SizedBox(height: 5),
+          Text(item.label, maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Color(0xFF21133D), fontSize: 10.5, fontWeight: FontWeight.w900)),
+          Text(item.subtitle, maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: const TextStyle(color: Color(0xFF71677F), fontSize: 8)),
+        ]),
+      ),
+    ),
+  );
+}
+
+class _ModeChip extends StatelessWidget {
+  const _ModeChip({required this.label, required this.sub, required this.icon,
+    required this.selected, required this.onTap});
+  final String label, sub;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) => Expanded(child: Material(
+    color: selected ? const Color(0xFFE9D9FF) : Colors.white,
+    borderRadius: BorderRadius.circular(13),
+    child: InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(13),
+      child: Container(
+        constraints: const BoxConstraints(minHeight: 62),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 7),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(13),
+          border: Border.all(color: selected ? const Color(0xFF9D61E5) : const Color(0xFFE6DDF2))),
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Icon(icon, size: 20, color: selected ? const Color(0xFF7A25CE) : const Color(0xFF514766)),
+          Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: Color(0xFF21133D))),
+          Text('($sub)', style: const TextStyle(fontSize: 8, color: Color(0xFF71677F))),
+        ]),
+      ),
+    ),
+  ));
+}
+
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle({required this.title, required this.action, required this.onTap});
+  final String title, action;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) => Row(children: [
+    Expanded(child: Text(title, style: const TextStyle(
+      color: Color(0xFF21133D), fontSize: 16, fontWeight: FontWeight.w900))),
+    TextButton(onPressed: onTap, child: Text(action,
+      style: const TextStyle(color: Color(0xFF5B16B8), fontWeight: FontWeight.w900, fontSize: 11))),
+  ]);
 }
 
 class _WorkerCard extends StatelessWidget {
-  const _WorkerCard({
-    required this.name,
-    required this.skill,
-    required this.rating,
-    required this.rate,
-    required this.distance,
-    required this.onTap,
-  });
+  const _WorkerCard({required this.name, required this.skill, required this.rating,
+    required this.rate, required this.distance, required this.onTap});
   final String name, skill, rating, rate, distance;
   final VoidCallback onTap;
-
   @override
-  Widget build(BuildContext context) => Card(
-        child: Padding(
-          padding: const EdgeInsets.all(11),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 25,
-                backgroundColor: AppTokens.workerSoft,
-                child: const Icon(Icons.person_rounded, color: AppTokens.workerDeep, size: 29),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(name, style: const TextStyle(fontWeight: FontWeight.w900, color: AppTokens.ink)),
-                    Text(skill, style: const TextStyle(fontSize: 11, color: AppTokens.muted)),
-                    Row(
-                      children: [
-                        const Icon(Icons.star_rounded, color: Color(0xFFFFB52E), size: 14),
-                        Text(' $rating  •  $distance', style: const TextStyle(fontSize: 10, color: AppTokens.muted)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(rate, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: AppTokens.workerDeep)),
-                  const SizedBox(height: 5),
-                  SizedBox(
-                    height: 34,
-                    child: FilledButton(
-                      onPressed: onTap,
-                      style: FilledButton.styleFrom(
-                        backgroundColor: AppTokens.worker,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(horizontal: 13),
-                        minimumSize: const Size(0, 34),
-                      ),
-                      child: const Text('देखें', style: TextStyle(fontSize: 11)),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
-}
-
-class _TrustStrip extends StatelessWidget {
-  const _TrustStrip();
-
-  @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(13),
-        decoration: BoxDecoration(color: AppTokens.workerSoft, borderRadius: BorderRadius.circular(17)),
-        child: const Row(
-          children: [
-            Expanded(child: _TrustItem(icon: Icons.verified_user_outlined, label: 'Verified')),
-            Expanded(child: _TrustItem(icon: Icons.bolt_rounded, label: 'Fast booking')),
-            Expanded(child: _TrustItem(icon: Icons.lock_outline_rounded, label: 'Secure pay')),
-          ],
-        ),
-      );
-}
-
-class _TrustItem extends StatelessWidget {
-  const _TrustItem({required this.icon, required this.label});
-  final IconData icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          Icon(icon, color: AppTokens.workerDeep, size: 20),
+  Widget build(BuildContext context) => Material(
+    color: Colors.white,
+    elevation: 2,
+    shadowColor: const Color(0x225B16B8),
+    borderRadius: BorderRadius.circular(17),
+    child: Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(children: [
+        Container(width: 58, height: 62,
+          decoration: BoxDecoration(color: const Color(0xFFFFE8D9), borderRadius: BorderRadius.circular(13)),
+          child: const Icon(Icons.engineering_rounded, color: Color(0xFF9C4A18), size: 42)),
+        const SizedBox(width: 9),
+        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            Flexible(child: Text(name, maxLines: 1, overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.w900, color: Color(0xFF21133D), fontSize: 13))),
+            const SizedBox(width: 3),
+            const Icon(Icons.verified_rounded, color: Color(0xFF17B83E), size: 15),
+          ]),
+          Row(children: [
+            const Icon(Icons.star_rounded, color: Color(0xFFFFC400), size: 14),
+            Text(' $rating', style: const TextStyle(fontSize: 9, color: Color(0xFF625A6D))),
+          ]),
+          Text(skill, maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 9, color: Color(0xFF625A6D))),
+        ])),
+        const SizedBox(width: 5),
+        Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          Text(rate, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w900, color: Color(0xFF21133D))),
+          Row(children: [
+            const Icon(Icons.location_on_rounded, size: 12, color: Color(0xFF625A6D)),
+            Text(distance, style: const TextStyle(fontSize: 9, color: Color(0xFF625A6D))),
+          ]),
           const SizedBox(height: 4),
-          Text(label, style: const TextStyle(fontSize: 9.5, fontWeight: FontWeight.w800, color: AppTokens.workerDeep)),
-        ],
-      );
+          SizedBox(height: 29, child: FilledButton(
+            onPressed: onTap,
+            style: FilledButton.styleFrom(
+              backgroundColor: const Color(0xFF17B83E), foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 13), minimumSize: const Size(0, 29)),
+            child: const Text('बुक करें', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900)),
+          )),
+        ]),
+      ]),
+    ),
+  );
 }
