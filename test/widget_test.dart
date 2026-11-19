@@ -12,9 +12,12 @@ void main() {
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
     expect(find.text('CHECK-IN'), findsOneWidget);
+    expect(find.byType(MemberProfileCard), findsOneWidget);
+    expect(find.text('FREEZE MEMBER'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.text('Attendance Intelligence'), findsOneWidget);
     expect(find.textContaining('October 2026'), findsOneWidget);
     expect(find.text('Streak'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }
