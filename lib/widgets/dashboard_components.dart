@@ -7,7 +7,7 @@ class MemberProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.fromLTRB(10, 8, 10, 9),
+    padding: const EdgeInsets.fromLTRB(8, 6, 8, 7),
     decoration: BoxDecoration(
       gradient: const LinearGradient(
         begin: Alignment.topLeft,
@@ -22,11 +22,11 @@ class MemberProfileCard extends StatelessWidget {
     ),
     child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       const _CheckInFreezeActions(),
-      const SizedBox(height: 7),
+      const SizedBox(height: 4),
       Row(children: [
         SizedBox(
-          width: 82,
-          height: 96,
+          width: 68,
+          height: 76,
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset(
@@ -46,14 +46,14 @@ class MemberProfileCard extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
             const SizedBox(height: 2),
             const Text('Ashwani Kumar Singh', maxLines: 2,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 19, height: 1.03)),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 17, height: 1.0)),
             const SizedBox(height: 6),
             const Wrap(spacing: 8, runSpacing: 4, children: [
               _Meta(Icons.calendar_month, 'BG215'),
               _Meta(Icons.person_outline, '28 Yrs'),
               _Meta(Icons.male, 'Male'),
             ]),
-            const SizedBox(height: 7),
+            const SizedBox(height: 5),
             Row(children: const [
               Expanded(child: _PlanPill(label: '👑 Gold Plan', color: MemberTheme.gold, textColor: MemberTheme.ink)),
               SizedBox(width: 6),
@@ -62,9 +62,9 @@ class MemberProfileCard extends StatelessWidget {
           ],
         )),
       ]),
-      const SizedBox(height: 7),
+      const SizedBox(height: 5),
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         decoration: BoxDecoration(
           color: const Color(0xFFFFF4F9),
           borderRadius: BorderRadius.circular(16),
@@ -87,7 +87,7 @@ class MemberProfileCard extends StatelessWidget {
           QrImageView(data: 'BADGYM:BG215', version: QrVersions.auto, size: 31, padding: EdgeInsets.zero),
         ]),
       ),
-      const SizedBox(height: 7),
+      const SizedBox(height: 5),
       Row(children: const [
         Expanded(child: Text('Membership 22 / 30 Days',
           style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w900))),
@@ -214,8 +214,8 @@ class _Metric extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    constraints: const BoxConstraints(minHeight: 66),
-    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+    constraints: const BoxConstraints(minHeight: 56),
+    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
     decoration: BoxDecoration(
       gradient: LinearGradient(colors: [bg, bg == MemberTheme.gold ? const Color(0xFFFFE68A) : const Color(0xFF8B0646)]),
       borderRadius: BorderRadius.circular(15),
