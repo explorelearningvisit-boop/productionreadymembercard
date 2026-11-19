@@ -43,7 +43,7 @@ void main() {
     await tester.tap(find.text('Bookings').last);
     await tester.pumpAndSettle();
 
-    expect(find.text('Your GlowBelle experience'), findsOneWidget);
+    expect(find.text('My Bookings'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }
