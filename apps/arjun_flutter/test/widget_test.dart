@@ -17,10 +17,10 @@ void main() {
     await tester.tap(find.text('ग्राहक / बिज़नेस'));
     await tester.pumpAndSettle();
     expect(find.text('काम की कैटेगरी'), findsOneWidget);
+    expect(find.text('प्रोजेक्ट के लिए manpower चाहिए?'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('आपके पास उपलब्ध labour'), 350,
         scrollable: find.byType(Scrollable).first);
     expect(find.text('आपके पास उपलब्ध labour'), findsOneWidget);
-    expect(find.text('प्रोजेक्ट के लिए manpower चाहिए?'), findsOneWidget);
     await tester.scrollUntilVisible(find.text('अर्जुन कुमार'), 350,
         scrollable: find.byType(Scrollable).first);
     expect(find.text('अर्जुन कुमार'), findsOneWidget);
