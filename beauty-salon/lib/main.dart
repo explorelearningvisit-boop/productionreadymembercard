@@ -33,7 +33,7 @@ class GlowBelleHome extends StatefulWidget {
 
 class _GlowBelleHomeState extends State<GlowBelleHome> {
   int nav = 0;
-  int category = 0;
+  int category = -1;
   int cartCount = 3;
   final search = TextEditingController();
   final categories = const [
@@ -58,7 +58,7 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
     final categoryWords = ['facial', 'hair', 'nails', 'makeup', 'spa', ''];
     return services.where((service) {
       final matchesSearch = q.isEmpty || service.$1.toLowerCase().contains(q);
-      final matchesCategory = category == 5 || service.$1.toLowerCase().contains(categoryWords[category]);
+      final matchesCategory = category < 0 || category == 5 || service.$1.toLowerCase().contains(categoryWords[category]);
       return matchesSearch && matchesCategory;
     }).toList();
   }
