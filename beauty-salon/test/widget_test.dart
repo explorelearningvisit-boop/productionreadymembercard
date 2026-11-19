@@ -11,14 +11,27 @@ void setMobileViewport(WidgetTester tester) {
 }
 
 void main() {
-  testWidgets('GlowBelle dashboard renders its reference sections at 360x640', (tester) async {
+  testWidgets('GlowBelle dashboard renders and scrolls without layout exceptions', (tester) async {
     setMobileViewport(tester);
     await tester.pumpWidget(const GlowBelleApp());
 
     expect(find.text('GlowBelle'), findsOneWidget);
     expect(find.text('Priya Sharma 👑'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    final scrollable = find.byType(Scrollable).first;
+    await tester.scrollUntilVisible(
+      find.text('Your Upcoming Booking'),
+      260,
+      scrollable: scrollable,
+    );
     expect(find.text('Your Upcoming Booking'), findsOneWidget);
     expect(find.text('Member Intelligence'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.textContaining('Recommended For You'),
+      260,
+      scrollable: scrollable,
+    );
     expect(find.textContaining('Recommended For You'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
