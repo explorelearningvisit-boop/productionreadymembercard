@@ -1,0 +1,71 @@
+{
+  "brand": "Beauty Parlour",
+  "version": "1.0.0",
+  "typography": {
+    "display": "Georgia",
+    "headline": "Georgia",
+    "body": "Roboto",
+    "label": "Roboto",
+    "displayWeight": "700",
+    "bodyWeight": "400"
+  },
+  "radius": {
+    "card": 22,
+    "pill": 999,
+    "control": 14
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "xxl": 32
+  },
+  "themes": {
+    "signature": {
+      "background": "#FFF8F5",
+      "surface": "#FFFFFF",
+      "primary": "#B51F50",
+      "primaryDeep": "#650D2D",
+      "accent": "#D9A441",
+      "text": "#2D1720",
+      "muted": "#876F78",
+      "line": "#F0DDE3",
+      "soft": "#FBE7EE"
+    },
+    "glamour": {
+      "background": "#10070D",
+      "surface": "#210B19",
+      "primary": "#F20B73",
+      "primaryDeep": "#69002F",
+      "accent": "#F4C95D",
+      "text": "#FFF7FB",
+      "muted": "#D4AFC0",
+      "line": "#6A2348",
+      "soft": "#3A1028"
+    },
+    "bridal": {
+      "background": "#2B120D",
+      "surface": "#401B13",
+      "primary": "#8F1832",
+      "primaryDeep": "#4B0A1B",
+      "accent": "#E7B85D",
+      "text": "#FFF5E8",
+      "muted": "#D8BFA8",
+      "line": "#8A5B35",
+      "soft": "#5A241F"
+    },
+    "blush": {
+      "background": "#FFF1F2",
+      "surface": "#FFFFFF",
+      "primary": "#D94B83",
+      "primaryDeep": "#9E2457",
+      "accent": "#D6A56D",
+      "text": "#3B202A",
+      "muted": "#92717E",
+      "line": "#F3D7E0",
+      "soft": "#FFE0EA"
+    }
+  }
+}
