@@ -1,55 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import '../widgets/dashboard_components.dart';
-import '../widgets/attendance_intelligence.dart';
-
-class MemberDashboardScreen extends StatelessWidget {
-  const MemberDashboardScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
-    value: const SystemUiOverlayStyle(
-      statusBarColor: Color(0xFF700034),
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.black,
-      systemNavigationBarIconBrightness: Brightness.light,
-    ),
-    child: Scaffold(
-        body: DecoratedBox(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0xFF700034), Color(0xFFB20B5D), Color(0xFFFFDCEC)],
-            ),
-          ),
-          child: SafeArea(
-            child: LayoutBuilder(builder: (context, constraints) {
-              final compact = constraints.maxWidth < 420;
-              return SingleChildScrollView(
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                padding: EdgeInsets.fromLTRB(compact ? 10 : 18, 10, compact ? 10 : 18, 22),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 760),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: const [
-                        MemberProfileCard(),
-                        SizedBox(height: 10),
-                        PromoBanner(),
-                        SizedBox(height: 10),
-                        QuickMetricRow(),
-                        SizedBox(height: 9),
-                        AttendanceIntelligence(),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
-          ),
-        ),
-      ),
-  );
+import '../theme/member_theme.dart';
+class MemberDashboardScreen extends StatefulWidget{const MemberDashboardScreen({super.key});@override State<MemberDashboardScreen> createState()=>_MemberDashboardScreenState();}
+class _MemberDashboardScreenState extends State<MemberDashboardScreen>{
+ bool magenta=false,paid=false,frozen=false;int month=10,tab=0;
+ @override Widget build(BuildContext context){final top=magenta?const Color(0xffc026d3):const Color(0xffa31812);final mid=magenta?const Color(0xff86198f):const Color(0xff6a070b);final low=magenta?const Color(0xff4a044e):const Color(0xff3a0206);
+ return Scaffold(backgroundColor:low,floatingActionButton:FloatingActionButton.small(backgroundColor:MemberTheme.gold,onPressed:()=>setState(()=>magenta=!magenta),child:const Icon(Icons.palette)),body:Container(decoration:BoxDecoration(gradient:LinearGradient(begin:Alignment.topCenter,end:Alignment.bottomCenter,colors:[top,mid,low])),child:SafeArea(child:ListView(padding:const EdgeInsets.all(10),children:[
+ Row(children:[const Icon(Icons.fitness_center,color:MemberTheme.gold,size:32),const SizedBox(width:9),const Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text('BAD GYM',style:TextStyle(color:Colors.white,fontSize:24,fontWeight:FontWeight.w900)),Text('Member Intelligence',style:TextStyle(color:Color(0xffffe1a0),fontSize:11))])),IconButton(onPressed:()=>_show('Search members'),icon:const Icon(Icons.search,color:Colors.white)),IconButton(onPressed:()=>_show('3 Member Alerts'),icon:const Icon(Icons.notifications_none,color:Colors.white)),IconButton(onPressed:()=>_show('Member QR Pass'),icon:const Icon(Icons.qr_code_scanner,color:Colors.white))]),
+ _card(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+ Row(children:[_pill(frozen?'FROZEN':'CHECKED-IN',frozen?Colors.blue:const Color(0xff168a3a)),const Spacer(),_pill('16 OCT · 07:12 AM',Colors.white,MemberTheme.ink)]),
+ const SizedBox(height:9),Row(children:[Container(width:84,height:108,decoration:BoxDecoration(color:const Color(0xfff3e2c8),borderRadius:BorderRadius.circular(15),border:Border.all(color:MemberTheme.gold,width:2)),child:const Icon(Icons.person,size:65,color:Color(0xff9b8068))),const SizedBox(width:10),const Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text('Ashwani Kumar Sharma Vishwakarma',style:TextStyle(color:MemberTheme.ink,fontSize:17,fontWeight:FontWeight.w900,height:1.1)),SizedBox(height:6),Text('BG215 · 28 Yrs · Male',style:TextStyle(color:Color(0xff685449),fontSize:11)),SizedBox(height:8),Wrap(spacing:5,children:[_Pill('ACTIVE',Color(0xff168a3a),Colors.white),_Pill('GOLD PLAN',MemberTheme.gold,MemberTheme.ink)])])),IconButton(onPressed:()=>_show('Member QR Pass'),icon:const Icon(Icons.qr_code_2,color:MemberTheme.ink))]),
+ const SizedBox(height:10),Row(children:[Expanded(child:_metric('PAYMENT',paid?'₹500 PAID':'₹500 DUE',Icons.wallet,()=>setState(()=>paid=!paid))),const SizedBox(width:8),Expanded(child:_metric('EXPIRES','24 OCT · 8 DAYS',Icons.event,()=>_show('Membership expiry')))]),
+ const SizedBox(height:10),const Text('Membership 22 / 30 Days',style:TextStyle(color:MemberTheme.ink,fontWeight:FontWeight.w900)),const SizedBox(height:5),ClipRRect(borderRadius:BorderRadius.circular(20),child:const LinearProgressIndicator(value:.733,minHeight:8,backgroundColor:Color(0xffeadbc7),color:Color(0xffd49b23))),
+ const SizedBox(height:10),const Row(children:[_Stat('81%','Attendance'),_Stat('58 min','Workout'),_Stat('69.5 kg','Body')])
+ ])),
+ const SizedBox(height:10),_card(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+ Row(children:[const Expanded(child:Text('ATTENDANCE INTELLIGENCE',style:TextStyle(color:MemberTheme.ink,fontWeight:FontWeight.w900))),DropdownButton<int>(value:month,items:const [DropdownMenuItem(value:9,child:Text('September 2026')),DropdownMenuItem(value:10,child:Text('October 2026')),DropdownMenuItem(value:11,child:Text('November 2026'))],onChanged:(v)=>setState(()=>month=v??10))]),
+ const Row(children:[_Stat('81%','Attendance'),_Stat('22','Present'),_Stat('2','Absent'),_Stat('4','Holiday')]),const SizedBox(height:8),const Row(children:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map((d)=>Expanded(child:Center(child:Text(d,style:TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w800))))).toList()),
+ const SizedBox(height:5),GridView.builder(shrinkWrap:true,physics:const NeverScrollableScrollPhysics(),itemCount:35,gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:7,mainAxisSpacing:5,crossAxisSpacing:5,childAspectRatio:1.1),itemBuilder:(c,i){final d=i-2;if(d<1||d>31)return const SizedBox();final sunday=DateTime(2026,month,d).weekday==7;final absent=month==10&&(d==23||d==24);final late=month==10&&(d==10||d==21);final col=month==11?const Color(0xffd8d4d0):sunday?const Color(0xffd8d4d0):absent?const Color(0xffd3122a):late?MemberTheme.gold:const Color(0xff168a3a);return InkWell(onTap:()=>_show('$d - '+(sunday?'Sunday Off':absent?'Absent':late?'Late':'Present')),child:Container(decoration:BoxDecoration(color:col.withOpacity(.18),border:Border.all(color:col),borderRadius:BorderRadius.circular(9)),alignment:Alignment.center,child:Text('$d',style:const TextStyle(color:MemberTheme.ink,fontWeight:FontWeight.w900))));}),
+ const SizedBox(height:8),const Wrap(spacing:12,children:[_Legend(Color(0xff168a3a),'Present'),_Legend(MemberTheme.gold,'Late'),_Legend(Color(0xffd3122a),'Absent'),_Legend(Color(0xffd8d4d0),'Sunday / Off')])
+ ])),
+ const SizedBox(height:10),_card(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[const Text('QUICK INTELLIGENCE',style:TextStyle(color:MemberTheme.ink,fontWeight:FontWeight.w900)),Wrap(spacing:7,children:[ActionChip(label:const Text('Workout · 58 min'),onPressed:()=>_show('Workout trend')),ActionChip(label:const Text('Body · 69.5 kg'),onPressed:()=>_show('Body progress')),ActionChip(label:const Text('Payment history'),onPressed:()=>_show('Payment history')),ActionChip(label:Text(frozen?'Unfreeze':'Freeze'),onPressed:()=>setState(()=>frozen=!frozen))]) ])),
+ const SizedBox(height:10),_card(const Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text('MEMBER EXCLUSIVE',style:TextStyle(color:MemberTheme.red,fontWeight:FontWeight.w900)),Text('Protein Burger · 50% OFF',style:TextStyle(color:MemberTheme.ink,fontSize:18,fontWeight:FontWeight.w900)),Text('Fuel your next workout',style:TextStyle(color:MemberTheme.ink,fontSize:11))])),
+ const SizedBox(height:12),Row(children:List.generate(5,(i)=>Expanded(child:TextButton(onPressed:()=>setState(()=>tab=i),child:Text(['Cal','Trend','History','Insights','More'][i],style:TextStyle(color:tab==i?MemberTheme.gold:Colors.white,fontSize:10,fontWeight:FontWeight.w800)))))),
+ if(tab>0)_card(Text(['','Workout and attendance trends','Recent check-in history','Coach insights','More member actions'][tab],style:const TextStyle(color:MemberTheme.ink,fontWeight:FontWeight.w800)))
+ ]))));
+ }
+ Widget _metric(String t,String v,IconData i,VoidCallback f)=>InkWell(onTap:f,child:Container(padding:const EdgeInsets.all(9),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(13)),child:Row(children:[Icon(i,color:MemberTheme.red),const SizedBox(width:6),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(t,style:const TextStyle(color:MemberTheme.ink,fontSize:9)),Text(v,style:const TextStyle(color:MemberTheme.red,fontWeight:FontWeight.w900))]))])));
+ void _show(String s)=>showModalBottomSheet(context:context,showDragHandle:true,builder:(c)=>Padding(padding:const EdgeInsets.all(22),child:Column(mainAxisSize:MainAxisSize.min,children:[Text(s,style:const TextStyle(fontSize:18,fontWeight:FontWeight.w900)),const SizedBox(height:15),FilledButton(onPressed:()=>Navigator.pop(c),child:const Text('Close'))])));
 }
+Widget _card(Widget w)=>Container(margin:const EdgeInsets.only(top:10),padding:const EdgeInsets.all(12),decoration:BoxDecoration(gradient:const LinearGradient(colors:[Color(0xfffffdf8),Color(0xfffff3e4)]),borderRadius:BorderRadius.circular(22),border:Border.all(color:const Color(0xffe7c56a),width:1.3),boxShadow:[BoxShadow(color:Colors.black.withOpacity(.2),blurRadius:18,offset:const Offset(0,8))]),child:w);
+Widget _pill(String t,Color c, [Color f=Colors.white])=>Container(padding:const EdgeInsets.symmetric(horizontal:8,vertical:5),decoration:BoxDecoration(color:c,borderRadius:BorderRadius.circular(20)),child:Text(t,style:TextStyle(color:f,fontSize:9,fontWeight:FontWeight.w900)));
+class _Pill extends StatelessWidget{final String t;final Color b,f;const _Pill(this.t,this.b,this.f);@override Widget build(BuildContext c)=>_pill(t,b,f);}
+class _Stat extends StatelessWidget{final String v,l;const _Stat(this.v,this.l);@override Widget build(BuildContext c)=>Expanded(child:Column(children:[Text(v,style:const TextStyle(color:MemberTheme.ink,fontSize:15,fontWeight:FontWeight.w900)),Text(l,style:const TextStyle(color:Color(0xff806c5c),fontSize:9))]));}
+class _Legend extends StatelessWidget{final Color c;final String t;const _Legend(this.c,this.t);@override Widget build(BuildContext x)=>Row(mainAxisSize:MainAxisSize.min,children:[Container(width:8,height:8,decoration:BoxDecoration(color:c,shape:BoxShape.circle)),const SizedBox(width:4),Text(t,style:const TextStyle(color:MemberTheme.ink,fontSize:9))]);}
