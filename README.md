@@ -1,31 +1,25 @@
 # BAD GYM — Member Intelligence
 
-## Clean-slate rebuild
+## Current implementation
+This Flutter screen is rebuilt from the user's uploaded 19 November 2026 reference image. The reference is the visual authority for this implementation.
 
-The previous crimson/metallic-gold dashboard implementation and its derived portrait asset have been removed from the active source tree. The Flutter app is intentionally reduced to a neutral shell while the new UI is rebuilt from the user's latest approved reference.
+- Mobile-first layout with a deep berry / magenta gradient shell.
+- Check-in and Freeze Member header.
+- Member hero, plan and active status.
+- Payment and expiry strip, membership progress.
+- Promotional banner and four quick metric tiles.
+- Attendance Intelligence with vertical rail, horizontal section menu, attendance summary, month selector, calendar and insight tiles.
+- Portrait extracted from the uploaded reference and stored as a transparent PNG at `assets/images/member_portrait.png`.
 
-## Design authority
+The displayed Ashwani profile and metrics are reference/sample presentation data only. No backend connection is implied.
 
-- Master: the user's final approved **first/red** dashboard image from 17 November 2026.
-- The second and third concepts were also liked; the fourth pale concept was explicitly rejected.
-- Target: mobile-first Android layout at 360dp width.
-- Member card, vertical rail, and horizontal menu must use one consistent visual identity.
-- Information workspaces may use the approved light white/lavender/yellow/green surfaces from the latest reference.
-- Use only the matching recent approved asset/theme pack. Static transparent PNGs are for decorative/illustrative artwork; dynamic text, charts, calendar states, controls, progress and QR elements must remain native Flutter widgets.
-- Do not restore the retired `1000320298.png` crimson/metallic-gold reference, its derived portrait, or any retired screenshot/material pack.
-- Do not substitute older purple/glass/neumorphic concepts for the approved first/red master.
-
-## Build
-
+## Build and verify
 ```sh
 flutter pub get
+dart format lib test
 flutter analyze
 flutter test
 flutter build apk --release
 ```
 
-## CI
-
-GitHub Actions workflow: `.github/workflows/android-build.yml`.
-
-A successful CI build is not the same as physical-device installation, launch, or visual acceptance.
+CI: `.github/workflows/android-build.yml`.
