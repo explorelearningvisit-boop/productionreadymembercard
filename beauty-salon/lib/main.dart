@@ -1,339 +1,347 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const SalonApp());
+void main() => runApp(const GlowBelleApp());
 
-class P {
-  static const rose = Color(0xFFD88FA2);
-  static const deep = Color(0xFFA94F6B);
-  static const ivory = Color(0xFFFFF9F5);
-  static const gold = Color(0xFFC6A46A);
-  static const ink = Color(0xFF382F33);
-  static const muted = Color(0xFF8C7D82);
-  static const blush = Color(0xFFF7E2E7);
-  static const line = Color(0xFFF0E4E5);
-}
-
-class Service {
-  const Service(this.name, this.category, this.price, this.minutes, this.icon);
-  final String name, category;
-  final int price, minutes;
-  final IconData icon;
-}
-
-const services = <Service>[
-  Service('Signature haircut', 'Hair', 499, 45, Icons.content_cut),
-  Service('Hair spa ritual', 'Hair', 999, 60, Icons.spa),
-  Service('Radiance facial', 'Skin', 799, 50, Icons.face_retouching_natural),
-  Service('Bridal glow facial', 'Skin', 1899, 75, Icons.auto_awesome),
-  Service('Classic manicure', 'Nails', 399, 35, Icons.brush),
-  Service('Gel nail art', 'Nails', 899, 60, Icons.palette),
-  Service('Relaxing head massage', 'Wellness', 599, 30, Icons.self_improvement),
-];
-
-enum Role { customer, owner, staff }
-
-class SalonApp extends StatelessWidget {
-  const SalonApp({super.key});
+class GlowBelleApp extends StatelessWidget {
+  const GlowBelleApp({super.key});
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'Beauty Studio', debugShowCheckedModeBanner: false,
-    theme: ThemeData(useMaterial3: true, scaffoldBackgroundColor: P.ivory,
-      colorScheme: ColorScheme.fromSeed(seedColor: P.rose),
-      appBarTheme: const AppBarTheme(backgroundColor: P.ivory, foregroundColor: P.ink, elevation: 0),
-      inputDecorationTheme: InputDecorationTheme(filled: true, fillColor: Colors.white,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none))),
-    home: const RoleGate(),
-  );
-}
-
-class RoleGate extends StatelessWidget {
-  const RoleGate({super.key});
-  @override
-  Widget build(BuildContext context) => Scaffold(
-    body: SafeArea(child: ListView(padding: const EdgeInsets.all(22), children: [
-      const Row(children: [CircleAvatar(backgroundColor: P.blush, child: Icon(Icons.spa, color: P.deep)),
-        SizedBox(width: 12), Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('BEAUTY PARLOUR', style: TextStyle(letterSpacing: 2, fontWeight: FontWeight.w900, color: P.deep)),
-          Text('BEAUTY PARLOUR MANAGEMENT', style: TextStyle(fontSize: 9, color: P.muted))])]),
-      const SizedBox(height: 30),
-      Container(padding: const EdgeInsets.all(24), decoration: BoxDecoration(
-        gradient: const LinearGradient(colors: [P.blush, Color(0xFFFFF0E1)]), borderRadius: BorderRadius.circular(26)),
-        child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('BEAUTY,\nMADE PERSONAL.', style: TextStyle(fontSize: 32, height: 1.1, fontWeight: FontWeight.w900, color: P.ink)),
-          SizedBox(height: 10), Text('Your beauty parlour experience. Your business. One beautiful space.', style: TextStyle(color: P.muted)),
-          SizedBox(height: 18), Text('BOOK  •  MANAGE  •  GROW', style: TextStyle(letterSpacing: 1.4, fontSize: 10, color: P.deep, fontWeight: FontWeight.w800))])),
-      const SizedBox(height: 26),
-      const Text('Choose your workspace', style: TextStyle(fontSize: 23, fontWeight: FontWeight.w900, color: P.ink)),
-      const SizedBox(height: 6), const Text('Demo access for customer, salon owner and team.', style: TextStyle(color: P.muted)),
-      const SizedBox(height: 18),
-      _role(context, Role.customer, 'Customer', 'Explore services and book appointments', Icons.face_retouching_natural),
-      _role(context, Role.owner, 'Salon Owner', 'Appointments, billing and business overview', Icons.storefront),
-      _role(context, Role.staff, 'Salon Team', 'Your schedule, clients and commissions', Icons.badge),
-      const SizedBox(height: 10), const Center(child: Text('DEMO BUILD • SAMPLE DATA', style: TextStyle(fontSize: 10, letterSpacing: 1.2, color: P.muted))),
-    ])),
-  );
-
-  Widget _role(BuildContext context, Role role, String title, String subtitle, IconData icon) => Padding(
-    padding: const EdgeInsets.only(bottom: 11),
-    child: Card(color: Colors.white, elevation: 0, shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(18), side: const BorderSide(color: P.line)),
-      child: ListTile(contentPadding: const EdgeInsets.all(12),
-        leading: CircleAvatar(backgroundColor: P.blush, child: Icon(icon, color: P.deep)),
-        title: Text(title, style: const TextStyle(fontWeight: FontWeight.w800)),
-        subtitle: Text(subtitle, style: const TextStyle(fontSize: 12)),
-        trailing: const Icon(Icons.chevron_right, color: P.gold),
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => Workspace(role: role)))),
+    title: 'GlowBelle Beauty Parlour',
+    debugShowCheckedModeBanner: false,
+    theme: ThemeData(
+      useMaterial3: true,
+      scaffoldBackgroundColor: const Color(0xFFFFE8ED),
+      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF9E123D)),
+      fontFamily: 'Georgia',
     ),
+    home: const GlowBelleHome(),
   );
 }
 
-class Workspace extends StatefulWidget {
-  const Workspace({super.key, required this.role});
-  final Role role;
+const wine = Color(0xFF851333);
+const burgundy = Color(0xFF9F1745);
+const blush = Color(0xFFFFE5EB);
+const gold = Color(0xFFD7AE69);
+const ink = Color(0xFF4B1428);
+const muted = Color(0xFF8B5969);
+
+class GlowBelleHome extends StatefulWidget {
+  const GlowBelleHome({super.key});
   @override
-  State<Workspace> createState() => _WorkspaceState();
+  State<GlowBelleHome> createState() => _GlowBelleHomeState();
 }
 
-class _WorkspaceState extends State<Workspace> {
-  int tab = 0;
-  final bookings = <String>['11:00 • Riya Sharma • Radiance facial', '12:30 • Ananya Singh • Hair spa ritual'];
-  final cart = <Service>[];
-  int get total => cart.fold(0, (sum, item) => sum + item.price);
-
-  List<String> get labels => switch (widget.role) {
-    Role.customer => ['Home', 'Services', 'Bookings', 'Profile'],
-    Role.owner => ['Overview', 'Bookings', 'POS', 'Business'],
-    Role.staff => ['My day', 'Schedule', 'Clients', 'Profile'],
-  };
-  List<IconData> get icons => switch (widget.role) {
-    Role.customer => [Icons.home_outlined, Icons.spa_outlined, Icons.calendar_month, Icons.person_outline],
-    Role.owner => [Icons.dashboard_outlined, Icons.event_note, Icons.point_of_sale, Icons.store_outlined],
-    Role.staff => [Icons.today_outlined, Icons.calendar_month, Icons.people_outline, Icons.person_outline],
-  };
+class _GlowBelleHomeState extends State<GlowBelleHome> {
+  int nav = 0;
+  int category = 0;
+  final search = TextEditingController();
+  final categories = const [
+    (Icons.face_retouching_natural, 'Facial'),
+    (Icons.content_cut, 'Hair'),
+    (Icons.brush, 'Nails'),
+    (Icons.auto_awesome, 'Makeup'),
+    (Icons.spa, 'Spa'),
+    (Icons.apps, 'More'),
+  ];
+  final services = const [
+    ('Skin Brightening Facial', '₹1,299', Icons.face_retouching_natural),
+    ('Hair Spa & Repair', '₹899', Icons.spa),
+    ('Gel Nails Art', '₹699', Icons.brush),
+    ('Threading (Eyebrow)', '₹149', Icons.remove_red_eye),
+  ];
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context)),
-      title: const Text('BEAUTY PARLOUR', style: TextStyle(fontSize: 14, letterSpacing: 2, fontWeight: FontWeight.w900, color: P.deep)),
-      actions: [IconButton(onPressed: () => toast('No new notifications'), icon: const Icon(Icons.notifications_none))]),
-    body: AnimatedSwitcher(duration: const Duration(milliseconds: 180), child: page()),
-    bottomNavigationBar: NavigationBar(selectedIndex: tab, backgroundColor: Colors.white, indicatorColor: P.blush,
-      onDestinationSelected: (v) => setState(() => tab = v),
-      destinations: List.generate(4, (i) => NavigationDestination(icon: Icon(icons[i]), label: labels[i]))),
-  );
-
-  Widget page() => switch (widget.role) {
-    Role.customer => customerPage(), Role.owner => ownerPage(), Role.staff => staffPage(),
-  };
-
-  Widget customerPage() {
-    if (tab == 1) return scroll('Explore services', 'Choose a treatment and reserve your slot.', [for (final s in services) serviceCard(s)]);
-    if (tab == 2) return scroll('My bookings', 'Your appointments and visit history.', [
-      for (final b in bookings) tile(Icons.event_available, b, 'Appointment details and stylist', 'VIEW'),
-      tile(Icons.history, 'Past visits', 'Your salon visit history', 'OPEN'),
-    ]);
-    if (tab == 3) return scroll('Your profile', 'Manage your beauty parlour experience.', [
-      tile(Icons.person_outline, 'Personal details', 'Name, phone and preferences', 'EDIT'),
-      tile(Icons.card_giftcard, 'Rewards & memberships', 'Offers and loyalty benefits', 'OPEN'),
-      tile(Icons.help_outline, 'Help & support', 'Contact the beauty parlour team', 'HELP'),
-    ]);
-    return scroll('Hello, beautiful ✨', 'Ready for a little self-care?', [
-      hero('YOUR SELF-CARE MOMENT', 'Discover services made around you.'),
-      section('Popular services', 'VIEW ALL', () => setState(() => tab = 1)),
-      serviceCard(services[0]), serviceCard(services[2]), serviceCard(services[4]),
-      section('Your next visit', 'MY BOOKINGS', () => setState(() => tab = 2)),
-      empty('No upcoming appointment', 'Book a service to see your next visit here.'),
-    ]);
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        bottom: false,
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft, end: Alignment.bottomRight,
+              colors: [Color(0xFFFFF0F2), Color(0xFFFFDDE6), Color(0xFFFFF0EE)],
+            ),
+          ),
+          child: nav == 0 ? _home() : _otherPage(),
+        ),
+      ),
+      bottomNavigationBar: _bottomNav(),
+    );
   }
 
-  Widget ownerPage() {
-    if (tab == 1) return scroll('Appointments', 'Today • 18 November 2026', [
-      for (final b in bookings) tile(Icons.calendar_month, b, 'Stylist assigned • appointment details', 'CONFIRMED'),
-      tile(Icons.add_circle_outline, 'Create walk-in booking', 'Add a phone or walk-in appointment', 'ADD', newBooking),
-    ]);
-    if (tab == 2) return posPage();
-    if (tab == 3) return scroll('Business centre', 'Your salon operations in one place.', [
-      tile(Icons.people, 'Team & permissions', 'Staff profiles, shifts and access', 'OPEN'),
-      tile(Icons.inventory_2, 'Inventory', 'Products and low-stock alerts', 'OPEN'),
-      tile(Icons.account_balance_wallet, 'Expenses & finance', 'Costs, commissions and profit', 'OPEN'),
-      tile(Icons.campaign, 'Offers & memberships', 'Coupons and loyalty plans', 'OPEN'),
-      tile(Icons.analytics, 'Reports & insights', 'Sales and staff performance', 'OPEN'),
-      tile(Icons.settings, 'Salon settings', 'Business profile and preferences', 'OPEN'),
-    ]);
-    return scroll('Good morning, Owner', 'Here is your salon at a glance.', [
-      hero('TODAY’S REVENUE', '₹ 18,450  •  +12.8% compared with yesterday'),
-      Row(children: [metric('24', 'Bookings', Icons.calendar_month), const SizedBox(width: 9), metric('18', 'Completed', Icons.task_alt)]),
-      const SizedBox(height: 9),
-      Row(children: [metric('₹2,450', 'Avg. bill', Icons.receipt_long), const SizedBox(width: 9), metric('8', 'Team online', Icons.people_alt)]),
-      section('Today’s activity', 'ALL BOOKINGS', () => setState(() => tab = 1)),
-      for (final b in bookings) tile(Icons.schedule, b, 'Confirmed appointment', 'TODAY'),
-      section('Quick actions', 'OPEN POS', () => setState(() => tab = 2)),
-      tile(Icons.point_of_sale, 'Create a bill', 'Add services and collect payment', 'BILL', () => setState(() => tab = 2)),
-    ]);
-  }
+  Widget _home() => LayoutBuilder(builder: (context, constraints) {
+    final compact = constraints.maxHeight < 760;
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(18, 8, 18, 20),
+      children: [
+        _topBar(),
+        const SizedBox(height: 12),
+        _greeting(),
+        const SizedBox(height: 14),
+        _searchBar(),
+        const SizedBox(height: 17),
+        _categoryRow(),
+        SizedBox(height: compact ? 15 : 20),
+        _featured(),
+        SizedBox(height: compact ? 13 : 17),
+        _insightRow(),
+        const SizedBox(height: 15),
+        _sectionTitle('♡  Recommended For You', 'View All'),
+        const SizedBox(height: 9),
+        _recommended(),
+        const SizedBox(height: 18),
+        _offerStrip(),
+      ],
+    );
+  });
 
-  Widget posPage() => scroll('Quick billing', 'Add services to create a demo invoice.', [
-    Container(padding: const EdgeInsets.all(17), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18), border: Border.all(color: P.line)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('CURRENT BILL', style: TextStyle(fontSize: 11, letterSpacing: 1.3, color: P.muted, fontWeight: FontWeight.w800)),
-        const SizedBox(height: 7), Text('₹' + total.toString(), style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: P.ink)),
-        Text(cart.length.toString() + ' service(s) added', style: const TextStyle(color: P.muted)),
-        if (cart.isNotEmpty) ...[
-          const Divider(height: 20),
-          for (final item in cart) Padding(padding: const EdgeInsets.only(bottom: 5), child: Text(item.name + '  •  ₹' + item.price.toString())),
-          const SizedBox(height: 8),
-          SizedBox(width: double.infinity, child: FilledButton.icon(onPressed: payment, icon: const Icon(Icons.payments), label: const Text('Collect payment'))),
-        ],
-      ])),
-    section('Add a service', 'SERVICE MENU', () {}),
-    for (final s in services) tile(s.icon, s.name, s.minutes.toString() + ' min', '₹' + s.price.toString(), () => setState(() => cart.add(s))),
+  Widget _topBar() => Row(children: [
+    IconButton(onPressed: () => _message('Menu'), icon: const Icon(Icons.menu, color: wine, size: 29)),
+    const Spacer(),
+    Column(children: [
+      const Icon(Icons.face_3, color: burgundy, size: 31),
+      Text('GlowBelle', style: TextStyle(fontSize: 29, fontStyle: FontStyle.italic, fontWeight: FontWeight.w700, color: wine, letterSpacing: -1.4)),
+      const Text('— BEAUTY PARLOUR —', style: TextStyle(fontSize: 8, letterSpacing: 1.4, color: ink, fontWeight: FontWeight.w700)),
+    ]),
+    const Spacer(),
+    IconButton(onPressed: () => _message('Notifications'), icon: const Icon(Icons.notifications_none, color: wine, size: 27)),
+    Stack(children: [
+      IconButton(onPressed: () => _message('Your cart'), icon: const Icon(Icons.shopping_cart_outlined, color: wine, size: 27)),
+      Positioned(right: 3, top: 2, child: _countBadge('3')),
+    ]),
   ]);
 
-  Widget staffPage() {
-    if (tab == 1) return scroll('My schedule', 'Your assigned sessions for today.', [
-      tile(Icons.schedule, '10:30 AM · Riya Sharma', 'Radiance facial · 50 min', 'DONE'),
-      tile(Icons.schedule, '12:00 PM · Ananya Singh', 'Hair spa ritual · 60 min', 'NEXT'),
-      tile(Icons.schedule, '02:30 PM · Neha Gupta', 'Classic manicure · 35 min', 'LATER'),
-    ]);
-    if (tab == 2) return scroll('My clients', 'Client care and appointment notes.', [
-      tile(Icons.person, 'Riya Sharma', 'Prefers gentle skincare products', 'VIEW'),
-      tile(Icons.person, 'Ananya Singh', 'Regular hair spa client', 'VIEW'),
-      tile(Icons.star, 'Customer feedback', '4.9 average rating', 'OPEN'),
-    ]);
-    if (tab == 3) return scroll('My profile', 'Your team account and work details.', [
-      tile(Icons.badge, 'Meera Kapoor', 'Senior Beauty Therapist', 'PROFILE'),
-      tile(Icons.payments, 'Commission this month', '₹8,450 earned', 'VIEW'),
-      tile(Icons.event_busy, 'Leave & attendance', 'Shift and leave requests', 'OPEN'),
-    ]);
-    return scroll('Your workday', 'Welcome back, Meera. Let’s make it a great one.', [
-      hero('YOU’RE ON SHIFT', 'Senior Beauty Therapist • 9:00 AM – 6:00 PM'),
-      Row(children: [metric('6', 'Sessions', Icons.spa), const SizedBox(width: 9), metric('4', 'Completed', Icons.task_alt)]),
-      const SizedBox(height: 9),
-      Row(children: [metric('₹1,250', 'Commission', Icons.payments), const SizedBox(width: 9), metric('7.5h', 'Hours', Icons.schedule)]),
-      section('Next appointment', 'VIEW SCHEDULE', () => setState(() => tab = 1)),
-      tile(Icons.face_3, '11:15 AM · Riya Verma', 'Signature facial · 60 min', 'NEXT'),
-    ]);
-  }
+  Widget _greeting() => Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      const Text('👋 Hello,', style: TextStyle(fontSize: 20, color: ink)),
+      const SizedBox(height: 1),
+      const Text('Priya Sharma 👑', style: TextStyle(fontSize: 25, height: 1.12, fontWeight: FontWeight.w900, color: wine)),
+      const SizedBox(height: 5),
+      Row(children: const [Text('Ready to Glow Today? ', style: TextStyle(fontSize: 16, color: ink)), Icon(Icons.favorite_border, color: burgundy, size: 21)]),
+    ])),
+    const SizedBox(width: 8),
+    const _BeautyPortrait(size: 120),
+  ]);
 
-  Widget scroll(String title, String subtitle, List<Widget> children) => ListView(
-    key: ValueKey(title + tab.toString()), padding: const EdgeInsets.fromLTRB(19, 10, 19, 28),
-    children: [Text(title, style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w900, color: P.ink)),
-      const SizedBox(height: 5), Text(subtitle, style: const TextStyle(color: P.muted)),
-      const SizedBox(height: 17), ...children],
+  Widget _searchBar() => Container(
+    height: 51, padding: const EdgeInsets.symmetric(horizontal: 15),
+    decoration: BoxDecoration(color: const Color(0xFFFFF8F8), borderRadius: BorderRadius.circular(30),
+      border: Border.all(color: Colors.white, width: 2), boxShadow: [BoxShadow(color: wine.withOpacity(.10), blurRadius: 12, offset: const Offset(0, 4))]),
+    child: Row(children: [
+      const Icon(Icons.search, color: ink, size: 25),
+      const SizedBox(width: 10),
+      Expanded(child: TextField(controller: search, decoration: const InputDecoration(border: InputBorder.none, hintText: 'Search services, packages...', hintStyle: TextStyle(fontFamily: 'Roboto', fontSize: 14, color: muted), isDense: true))),
+      IconButton(onPressed: () => _message('Voice search'), icon: const Icon(Icons.mic_none, color: wine)),
+    ]),
   );
 
-  Widget hero(String title, String subtitle) => Container(margin: const EdgeInsets.only(bottom: 13), padding: const EdgeInsets.all(20),
-    decoration: BoxDecoration(gradient: const LinearGradient(colors: [P.blush, Color(0xFFFFF0E1)]), borderRadius: BorderRadius.circular(22)),
-    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(title, style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w900, color: P.ink)),
-      const SizedBox(height: 7), Text(subtitle, style: const TextStyle(color: P.muted))]));
-
-  Widget section(String title, String action, VoidCallback onTap) => Padding(padding: const EdgeInsets.only(top: 12, bottom: 9),
-    child: Row(children: [Expanded(child: Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: P.ink))),
-      TextButton(onPressed: onTap, child: Text(action, style: const TextStyle(fontSize: 10, color: P.deep, fontWeight: FontWeight.w800)))]));
-  
-  Widget metric(String value, String label, IconData icon) => Expanded(child: Container(padding: const EdgeInsets.all(13),
-    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(17), border: Border.all(color: P.line)),
-    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Icon(icon, color: P.deep, size: 19), const SizedBox(height: 8),
-      Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w900, color: P.ink)),
-      Text(label, style: const TextStyle(fontSize: 11, color: P.muted))])));
-
-  Widget serviceCard(Service s) => InkWell(borderRadius: BorderRadius.circular(17), onTap: () => book(s),
-    child: Container(margin: const EdgeInsets.only(bottom: 10), padding: const EdgeInsets.all(13),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(17), border: Border.all(color: P.line)),
-      child: Row(children: [
-        CircleAvatar(backgroundColor: P.blush, child: Icon(s.icon, color: P.deep)), const SizedBox(width: 12),
-        Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(s.name, style: const TextStyle(fontWeight: FontWeight.w800, color: P.ink)),
-          Text(s.category + ' • ' + s.minutes.toString() + ' min', style: const TextStyle(fontSize: 11, color: P.muted))])),
-        Text('₹' + s.price.toString(), style: const TextStyle(fontWeight: FontWeight.w900, color: P.deep))])));
-
-  Widget tile(IconData icon, String title, String subtitle, String tag, [VoidCallback? action]) => Container(margin: const EdgeInsets.only(bottom: 9),
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), border: Border.all(color: P.line)),
-    child: Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      clipBehavior: Clip.antiAlias,
-      child: ListTile(onTap: action ?? () => toast(title + ' • Demo screen'),
-        leading: CircleAvatar(backgroundColor: P.blush, child: Icon(icon, color: P.deep, size: 19)),
-        title: Text(title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: P.ink)),
-        subtitle: Text(subtitle, style: const TextStyle(fontSize: 11, color: P.muted)),
-        trailing: Text(tag, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: P.deep))),
-    ));
-
-  Widget empty(String title, String subtitle) => Container(padding: const EdgeInsets.all(18),
-    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(17)),
-    child: Column(children: [const Icon(Icons.event_available, color: P.gold, size: 30), const SizedBox(height: 8),
-      Text(title, style: const TextStyle(fontWeight: FontWeight.w800, color: P.ink)),
-      Text(subtitle, textAlign: TextAlign.center, style: const TextStyle(fontSize: 11, color: P.muted))]));
-
-  Future<void> book(Service service) async {
-    final result = await showModalBottomSheet<bool>(context: context, isScrollControlled: true, backgroundColor: P.ivory,
-      builder: (_) => BookingSheet(service: service));
-    if (result == true && mounted) {
-      setState(() { bookings.insert(0, 'New • ' + service.name + ' • Requested'); tab = 2; });
-      toast('Booking request saved in this demo');
-    }
-  }
-
-  Future<void> newBooking() async {
-    final name = TextEditingController();
-    final result = await showDialog<String>(context: context, builder: (context) => AlertDialog(
-      title: const Text('New walk-in booking'),
-      content: TextField(controller: name, decoration: const InputDecoration(labelText: 'Customer name')),
-      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-        FilledButton(onPressed: () => Navigator.pop(context, name.text.trim()), child: const Text('Save'))]));
-    if (result != null && result.isNotEmpty && mounted) setState(() => bookings.insert(0, 'Walk-in • ' + result));
-  }
-
-  Future<void> payment() async {
-    final method = await showDialog<String>(context: context, builder: (context) => AlertDialog(
-      title: const Text('Collect payment'), content: Text('Demo invoice total: ₹' + total.toString() + '\nChoose a payment method.'),
-      actions: [TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-        TextButton(onPressed: () => Navigator.pop(context, 'Cash'), child: const Text('Cash')),
-        FilledButton(onPressed: () => Navigator.pop(context, 'UPI'), child: const Text('UPI'))]));
-    if (method != null && mounted) { setState(cart.clear); toast(method + ' payment recorded in demo'); }
-  }
-
-  void toast(String text) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
-}
-
-class BookingSheet extends StatefulWidget {
-  const BookingSheet({super.key, required this.service});
-  final Service service;
-  @override
-  State<BookingSheet> createState() => _BookingSheetState();
-}
-
-class _BookingSheetState extends State<BookingSheet> {
-  String slot = '11:00 AM';
-  String stylist = 'Any available';
-  @override
-  Widget build(BuildContext context) => SafeArea(child: Padding(
-    padding: EdgeInsets.fromLTRB(20, 20, 20, 20 + MediaQuery.viewInsetsOf(context).bottom),
-    child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Text('Book your service', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: P.ink)),
-      const SizedBox(height: 5), Text(widget.service.name, style: const TextStyle(color: P.deep, fontWeight: FontWeight.w800)),
-      Text('₹' + widget.service.price.toString() + ' • ' + widget.service.minutes.toString() + ' minutes', style: const TextStyle(color: P.muted)),
-      const SizedBox(height: 17), const Text('Choose a time', style: TextStyle(fontWeight: FontWeight.w800)),
-      const SizedBox(height: 8),
-      Wrap(
-        spacing: 8,
-        children: ['11:00 AM', '12:30 PM', '02:00 PM', '04:30 PM']
-            .map((v) => ChoiceChip(
-                  label: Text(v),
-                  selected: slot == v,
-                  onSelected: (_) => setState(() => slot = v),
-                ))
-            .toList(),
-      ),
-      const SizedBox(height: 15), const Text('Stylist', style: TextStyle(fontWeight: FontWeight.w800)),
-      DropdownButton<String>(isExpanded: true, value: stylist,
-        items: ['Any available', 'Priya', 'Meera', 'Aditi'].map((v) => DropdownMenuItem(value: v, child: Text(v))).toList(),
-        onChanged: (v) => setState(() => stylist = v ?? stylist)),
-      const SizedBox(height: 12), SizedBox(width: double.infinity,
-        child: FilledButton(onPressed: () => Navigator.pop(context, true), child: Text('Request booking • ' + slot))),
-    ]),
+  Widget _categoryRow() => SizedBox(height: 93, child: ListView.separated(
+    scrollDirection: Axis.horizontal,
+    itemCount: categories.length,
+    separatorBuilder: (_, __) => const SizedBox(width: 9),
+    itemBuilder: (context, i) {
+      final selected = category == i;
+      return GestureDetector(
+        onTap: () => setState(() => category = i),
+        child: AnimatedContainer(duration: const Duration(milliseconds: 180), width: 82,
+          decoration: BoxDecoration(
+            color: selected ? const Color(0xFFFFF4F5) : const Color(0xFFFFEDEF),
+            borderRadius: BorderRadius.circular(23),
+            border: Border.all(color: selected ? gold : Colors.white, width: 1.6),
+            boxShadow: [BoxShadow(color: wine.withOpacity(.10), blurRadius: 8, offset: const Offset(0, 3))],
+          ),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Icon(categories[i].$1, size: 31, color: wine),
+            const SizedBox(height: 5),
+            Text(categories[i].$2, style: const TextStyle(fontFamily: 'Roboto', fontSize: 13, color: ink, fontWeight: FontWeight.w600)),
+          ]),
+        ),
+      );
+    },
   ));
+
+  Widget _featured() => Container(
+    height: 224,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(27),
+      border: Border.all(color: gold, width: 1.3),
+      gradient: const LinearGradient(colors: [Color(0xFFFFC9D7), Color(0xFFFFE5E9), Color(0xFFF7B8CA)]),
+      boxShadow: [BoxShadow(color: wine.withOpacity(.13), blurRadius: 12, offset: const Offset(0, 5))],
+    ),
+    clipBehavior: Clip.antiAlias,
+    child: Stack(children: [
+      const Positioned(right: -8, top: 4, child: _BeautyPortrait(size: 190)),
+      Positioned(left: 16, top: 16, child: _pill('👑 Featured Treatment')),
+      Positioned(left: 17, top: 54, child: Text('Glow Facial', style: TextStyle(fontSize: 36, fontStyle: FontStyle.italic, fontWeight: FontWeight.w700, color: wine, shadows: [Shadow(color: Colors.white.withOpacity(.7), blurRadius: 8)]))),
+      const Positioned(left: 20, top: 101, child: Text('Deep Cleanse • Hydrate • Brighten', style: TextStyle(fontFamily: 'Roboto', fontSize: 12, color: ink))),
+      const Positioned(left: 18, top: 135, child: Row(children: [
+        Text('₹999', style: TextStyle(fontFamily: 'Roboto', fontSize: 23, fontWeight: FontWeight.w900, color: wine)),
+        SizedBox(width: 10),
+        Text('₹1,499', style: TextStyle(fontFamily: 'Roboto', fontSize: 14, color: muted, decoration: TextDecoration.lineThrough)),
+        SizedBox(width: 8),
+      ])),
+      Positioned(left: 17, bottom: 18, child: FilledButton(
+        style: FilledButton.styleFrom(backgroundColor: burgundy, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10)),
+        onPressed: () => _message('Glow Facial booking'),
+        child: const Text('Book Now  →', style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w700)),
+      )),
+      const Positioned(right: 18, bottom: 15, child: Text('●  ○  ○', style: TextStyle(color: burgundy, letterSpacing: 3))),
+    ]),
+  );
+
+  Widget _insightRow() => Row(children: [
+    Expanded(child: _infoCard(
+      icon: Icons.calendar_month, title: 'Your Upcoming Booking',
+      child: Row(children: [
+        const _MiniBeauty(size: 67),
+        const SizedBox(width: 9),
+        const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('Bridal Makeup', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: ink)),
+          SizedBox(height: 7),
+          Text('▦  Sun, 04 Feb', style: TextStyle(fontFamily: 'Roboto', fontSize: 11, color: ink)),
+          SizedBox(height: 4),
+          Text('◷  11:00 AM', style: TextStyle(fontFamily: 'Roboto', fontSize: 11, color: ink)),
+        ])),
+        const Icon(Icons.chevron_right, color: burgundy),
+      ]),
+    )),
+    const SizedBox(width: 10),
+    Expanded(child: _infoCard(
+      icon: Icons.workspace_premium, title: 'Member Intelligence',
+      child: Row(children: [
+        SizedBox(width: 83, height: 83, child: Stack(alignment: Alignment.center, children: [
+          SizedBox.expand(child: CircularProgressIndicator(value: .8, strokeWidth: 9, backgroundColor: blush, color: burgundy)),
+          const Column(mainAxisSize: MainAxisSize.min, children: [Text('80%', style: TextStyle(fontSize: 19, fontWeight: FontWeight.w900, color: wine)), Text('Beauty Score', style: TextStyle(fontFamily: 'Roboto', fontSize: 8, color: ink))]),
+        ])),
+        const SizedBox(width: 8),
+        const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          _ScoreLine('Skin Care', '85%'), SizedBox(height: 7),
+          _ScoreLine('Hair Care', '78%'), SizedBox(height: 7),
+          _ScoreLine('Self Care', '88%'),
+        ])),
+      ]),
+    )),
+  ]);
+
+  Widget _infoCard({required IconData icon, required String title, required Widget child}) => Container(
+    height: 174, padding: const EdgeInsets.all(11),
+    decoration: BoxDecoration(color: const Color(0xFFFFF0F2), borderRadius: BorderRadius.circular(22), border: Border.all(color: gold, width: 1.1),
+      boxShadow: [BoxShadow(color: wine.withOpacity(.08), blurRadius: 8, offset: const Offset(0, 3))]),
+    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Row(children: [Icon(icon, size: 19, color: burgundy), const SizedBox(width: 5), Expanded(child: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: wine)))]),
+      const SizedBox(height: 12),
+      Expanded(child: child),
+    ]),
+  );
+
+  Widget _sectionTitle(String title, String action) => Row(children: [
+    Expanded(child: Text(title, style: const TextStyle(fontSize: 21, fontWeight: FontWeight.w900, color: wine))),
+    TextButton(onPressed: () => _message(action), child: Text('$action →', style: const TextStyle(fontSize: 13, color: burgundy, fontWeight: FontWeight.w800))),
+  ]);
+
+  Widget _recommended() => SizedBox(height: 174, child: ListView.separated(
+    scrollDirection: Axis.horizontal,
+    itemCount: services.length,
+    separatorBuilder: (_, __) => const SizedBox(width: 9),
+    itemBuilder: (context, i) => Container(
+      width: 145, decoration: BoxDecoration(color: const Color(0xFFFFF2F4), borderRadius: BorderRadius.circular(20), border: Border.all(color: gold, width: 1.1)),
+      clipBehavior: Clip.antiAlias,
+      child: Column(children: [
+        Expanded(child: Container(width: double.infinity, decoration: const BoxDecoration(gradient: LinearGradient(colors: [Color(0xFFF7C2D0), Color(0xFFFFE7E8)])),
+          child: Center(child: Icon(services[i].$3, size: 52, color: burgundy)))),
+        Padding(padding: const EdgeInsets.fromLTRB(5, 6, 5, 1), child: Text(services[i].$1, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w700, color: ink))),
+        Padding(padding: const EdgeInsets.only(bottom: 6), child: Text(services[i].$2, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: wine))),
+      ]),
+    ),
+  ));
+
+  Widget _offerStrip() => Container(
+    padding: const EdgeInsets.all(15),
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(18), gradient: const LinearGradient(colors: [wine, burgundy])),
+    child: const Row(children: [
+      Icon(Icons.card_giftcard, color: Colors.white, size: 28),
+      SizedBox(width: 12),
+      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('GlowBelle Rewards', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16)),
+        Text('Earn points on every beauty ritual', style: TextStyle(color: Color(0xFFFFDDE7), fontFamily: 'Roboto', fontSize: 11)),
+      ])),
+      Icon(Icons.arrow_forward_ios, size: 15, color: Colors.white),
+    ]),
+  );
+
+  Widget _bottomNav() => NavigationBar(
+    height: 76,
+    backgroundColor: wine,
+    indicatorColor: const Color(0xFFFFC6D7),
+    selectedIndex: nav,
+    onDestinationSelected: (i) => setState(() => nav = i),
+    labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+    destinations: const [
+      NavigationDestination(icon: Icon(Icons.home_outlined), selectedIcon: Icon(Icons.home), label: 'Home'),
+      NavigationDestination(icon: Icon(Icons.calendar_month_outlined), label: 'Bookings'),
+      NavigationDestination(icon: Icon(Icons.workspace_premium_outlined), label: 'Membership'),
+      NavigationDestination(icon: Icon(Icons.card_giftcard_outlined), label: 'Rewards'),
+      NavigationDestination(icon: Icon(Icons.person_outline), label: 'Profile'),
+    ],
+  );
+
+  Widget _otherPage() {
+    const labels = ['Home', 'Bookings', 'Membership', 'Rewards', 'Profile'];
+    return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
+      const Icon(Icons.spa, size: 55, color: burgundy),
+      const SizedBox(height: 12),
+      Text(labels[nav], style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: wine)),
+      const SizedBox(height: 8),
+      const Text('Your GlowBelle experience', style: TextStyle(color: muted)),
+      const SizedBox(height: 18),
+      OutlinedButton(onPressed: () => setState(() => nav = 0), child: const Text('Back to Home')),
+    ]));
+  }
+
+  Widget _pill(String text) => Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+    decoration: BoxDecoration(color: const Color(0xFFFFF4F4).withOpacity(.85), borderRadius: BorderRadius.circular(30)),
+    child: Text(text, style: const TextStyle(fontSize: 12, color: wine, fontWeight: FontWeight.w900)));
+
+  Widget _countBadge(String text) => Container(padding: const EdgeInsets.all(4), decoration: const BoxDecoration(color: burgundy, shape: BoxShape.circle),
+    child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w900)));
+
+  void _message(String value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value • Preview')));
+
+  @override
+  void dispose() {
+    search.dispose();
+    super.dispose();
+  }
+}
+
+class _ScoreLine extends StatelessWidget {
+  const _ScoreLine(this.label, this.value);
+  final String label, value;
+  @override
+  Widget build(BuildContext context) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    Row(children: [Expanded(child: Text(label, style: const TextStyle(fontFamily: 'Roboto', fontSize: 9, color: ink, fontWeight: FontWeight.w600))), Text(value, style: const TextStyle(fontFamily: 'Roboto', fontSize: 9, color: ink, fontWeight: FontWeight.w800))]),
+    const SizedBox(height: 3),
+    ClipRRect(borderRadius: BorderRadius.circular(5), child: LinearProgressIndicator(value: double.parse(value.replaceAll('%', ''))/100, minHeight: 5, backgroundColor: const Color(0xFFF5CBD5), color: burgundy)),
+  ]);
+}
+
+class _BeautyPortrait extends StatelessWidget {
+  const _BeautyPortrait({required this.size});
+  final double size;
+  @override
+  Widget build(BuildContext context) => SizedBox(width: size, height: size, child: Stack(alignment: Alignment.center, children: [
+    Container(width: size*.88, height: size*.88, decoration: const BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(colors: [Color(0xFFFFF5F4), Color(0xFFF6B9C9), Color(0xFFE78DA9)]))),
+    Positioned(top: size*.07, child: Icon(Icons.face_3, size: size*.68, color: const Color(0xFF9A435C))),
+    Positioned(top: size*.02, right: size*.08, child: Icon(Icons.local_florist, size: size*.22, color: burgundy)),
+    Positioned(bottom: size*.05, left: size*.08, child: Icon(Icons.auto_awesome, size: size*.16, color: gold)),
+  ]));
+}
+
+class _MiniBeauty extends StatelessWidget {
+  const _MiniBeauty({required this.size});
+  final double size;
+  @override
+  Widget build(BuildContext context) => Container(width: size, height: size,
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), gradient: const LinearGradient(colors: [Color(0xFFF6C0D0), Color(0xFFFFE9E8)])),
+    child: const Icon(Icons.face_3, size: 44, color: burgundy));
 }
