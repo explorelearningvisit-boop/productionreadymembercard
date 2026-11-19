@@ -442,5 +442,5 @@ class _MiniBeauty extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(width: size, height: size,
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), gradient: const LinearGradient(colors: [Color(0xFFF6C0D0), Color(0xFFFFE9E8)])),
-    child: Image.asset('assets/booking_avatar.jpg', width: size, height: size, fit: BoxFit.contain));
+    child: const Icon(Icons.face_3, size: 44, color: burgundy));
 }
