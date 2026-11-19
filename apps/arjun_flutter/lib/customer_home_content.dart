@@ -88,7 +88,7 @@ class _CustomerHomeContentState extends State<CustomerHomeContent> {
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(colors: [Color(0xFFE5D1FF), Color(0xFFFDF9FF)])),
-              child: const Icon(Icons.face_3_rounded, color: purple, size: 42),
+              child: const Icon(Icons.person_rounded, color: purple, size: 42),
             ),
           ]),
           const SizedBox(height: 12),
@@ -217,7 +217,7 @@ class _HiringBanner extends StatelessWidget {
             _BannerButton(),
           ])),
           const SizedBox(width: 4),
-          const Icon(Icons.engineering_rounded, color: Color(0xFFFFD45C), size: 78),
+          const Icon(Icons.engineering, color: Color(0xFFFFD45C), size: 78),
         ]),
       ),
     ),
