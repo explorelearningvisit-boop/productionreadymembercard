@@ -95,33 +95,55 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
     );
   });
 
-  Widget _topBar() => Row(children: [
-    IconButton(onPressed: () => _message('Menu'), icon: const Icon(Icons.menu, color: wine, size: 29)),
-    const Spacer(),
-    Column(children: [
-      const Icon(Icons.face_3, color: burgundy, size: 31),
-      Text('GlowBelle', style: TextStyle(fontSize: 29, fontStyle: FontStyle.italic, fontWeight: FontWeight.w700, color: wine, letterSpacing: -1.4)),
-      const Text('— BEAUTY PARLOUR —', style: TextStyle(fontSize: 8, letterSpacing: 1.4, color: ink, fontWeight: FontWeight.w700)),
-    ]),
-    const Spacer(),
-    IconButton(onPressed: () => _message('Notifications'), icon: const Icon(Icons.notifications_none, color: wine, size: 27)),
-    Stack(children: [
-      IconButton(onPressed: () => _message('Your cart'), icon: const Icon(Icons.shopping_cart_outlined, color: wine, size: 27)),
-      Positioned(right: 3, top: 2, child: _countBadge('3')),
-    ]),
-  ]);
+  Widget _topBar() => Row(
+    children: [
+      SizedBox(width: 38, child: IconButton(
+        padding: EdgeInsets.zero,
+        onPressed: () => _message('Menu'),
+        icon: const Icon(Icons.menu, color: wine, size: 27),
+      )),
+      Expanded(child: Column(children: [
+        const Icon(Icons.face_3, color: burgundy, size: 27),
+        const FittedBox(fit: BoxFit.scaleDown, child: Text(
+          'GlowBelle',
+          style: TextStyle(fontSize: 27, fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.w700, color: wine, letterSpacing: -1.4),
+        )),
+        const Text('— BEAUTY PARLOUR —', style: TextStyle(
+          fontSize: 7, letterSpacing: 1.2, color: ink, fontWeight: FontWeight.w700)),
+      ])),
+      SizedBox(width: 38, child: IconButton(
+        padding: EdgeInsets.zero,
+        onPressed: () => _message('Notifications'),
+        icon: const Icon(Icons.notifications_none, color: wine, size: 24),
+      )),
+      SizedBox(width: 38, child: Stack(children: [
+        IconButton(
+          padding: EdgeInsets.zero,
+          onPressed: () => _message('Your cart'),
+          icon: const Icon(Icons.shopping_cart_outlined, color: wine, size: 24),
+        ),
+        Positioned(right: 0, top: 0, child: _countBadge('3')),
+      ])),
+    ],
+  );
 
-  Widget _greeting() => Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-    Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const Text('👋 Hello,', style: TextStyle(fontSize: 20, color: ink)),
-      const SizedBox(height: 1),
-      const Text('Priya Sharma 👑', style: TextStyle(fontSize: 25, height: 1.12, fontWeight: FontWeight.w900, color: wine)),
-      const SizedBox(height: 5),
-      Row(children: const [Text('Ready to Glow Today? ', style: TextStyle(fontSize: 16, color: ink)), Icon(Icons.favorite_border, color: burgundy, size: 21)]),
-    ])),
-    const SizedBox(width: 8),
-    const _BeautyPortrait(size: 120),
-  ]);
+  Widget _greeting() => LayoutBuilder(builder: (context, constraints) {
+    final portraitSize = constraints.maxWidth < 350 ? 88.0 : 104.0;
+    return Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Text('👋 Hello,', style: TextStyle(fontSize: 19, color: ink)),
+        const SizedBox(height: 1),
+        const FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft,
+          child: Text('Priya Sharma 👑', style: TextStyle(fontSize: 24, height: 1.12, fontWeight: FontWeight.w900, color: wine))),
+        const SizedBox(height: 5),
+        const FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft,
+          child: Row(children: [Text('Ready to Glow Today? ', style: TextStyle(fontSize: 15, color: ink)), Icon(Icons.favorite_border, color: burgundy, size: 20)])),
+      ])),
+      const SizedBox(width: 6),
+      _BeautyPortrait(size: portraitSize),
+    ]);
+  });
 
   Widget _searchBar() => Container(
     height: 51, padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -189,29 +211,33 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
     ]),
   );
 
-  Widget _insightRow() => Row(children: [
-    Expanded(child: _infoCard(
+  Widget _insightRow() => LayoutBuilder(builder: (context, constraints) {
+    final narrow = constraints.maxWidth < 390;
+    final booking = _infoCard(
       icon: Icons.calendar_month, title: 'Your Upcoming Booking',
       child: Row(children: [
-        const _MiniBeauty(size: 67),
-        const SizedBox(width: 9),
+        const _MiniBeauty(size: 58),
+        const SizedBox(width: 8),
         const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('Bridal Makeup', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900, color: ink)),
+          Text('Bridal Makeup', maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w900, color: ink)),
           SizedBox(height: 7),
-          Text('▦  Sun, 04 Feb', style: TextStyle(fontFamily: 'Roboto', fontSize: 11, color: ink)),
+          Text('▦  Sun, 04 Feb', maxLines: 1, style: TextStyle(fontFamily: 'Roboto', fontSize: 10, color: ink)),
           SizedBox(height: 4),
-          Text('◷  11:00 AM', style: TextStyle(fontFamily: 'Roboto', fontSize: 11, color: ink)),
+          Text('◷  11:00 AM', maxLines: 1, style: TextStyle(fontFamily: 'Roboto', fontSize: 10, color: ink)),
         ])),
-        const Icon(Icons.chevron_right, color: burgundy),
+        const Icon(Icons.chevron_right, color: burgundy, size: 20),
       ]),
-    )),
-    const SizedBox(width: 10),
-    Expanded(child: _infoCard(
+    );
+    final intelligence = _infoCard(
       icon: Icons.workspace_premium, title: 'Member Intelligence',
       child: Row(children: [
-        SizedBox(width: 83, height: 83, child: Stack(alignment: Alignment.center, children: [
-          SizedBox.expand(child: CircularProgressIndicator(value: .8, strokeWidth: 9, backgroundColor: blush, color: burgundy)),
-          const Column(mainAxisSize: MainAxisSize.min, children: [Text('80%', style: TextStyle(fontSize: 19, fontWeight: FontWeight.w900, color: wine)), Text('Beauty Score', style: TextStyle(fontFamily: 'Roboto', fontSize: 8, color: ink))]),
+        SizedBox(width: 76, height: 76, child: Stack(alignment: Alignment.center, children: [
+          SizedBox.expand(child: CircularProgressIndicator(value: .8, strokeWidth: 8, backgroundColor: blush, color: burgundy)),
+          const Column(mainAxisSize: MainAxisSize.min, children: [
+            Text('80%', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900, color: wine)),
+            Text('Beauty Score', style: TextStyle(fontFamily: 'Roboto', fontSize: 7, color: ink)),
+          ]),
         ])),
         const SizedBox(width: 8),
         const Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -220,8 +246,12 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
           _ScoreLine('Self Care', '88%'),
         ])),
       ]),
-    )),
-  ]);
+    );
+    if (narrow) {
+      return Column(children: [booking, const SizedBox(height: 10), intelligence]);
+    }
+    return Row(children: [Expanded(child: booking), const SizedBox(width: 10), Expanded(child: intelligence)]);
+  });
 
   Widget _infoCard({required IconData icon, required String title, required Widget child}) => Container(
     height: 174, padding: const EdgeInsets.all(11),
