@@ -63,7 +63,7 @@ ThemeData buildMarketplaceTheme() {
     navigationBarTheme: const NavigationBarThemeData(
       height: 68,
       labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-      indicatorColor: AppTokens.workerSoft,
+      indicatorColor: AppTokens.providerSoft,
     ),
   );
 }
