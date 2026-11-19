@@ -11,7 +11,7 @@ class ArjunApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'ARJUN',
+    title: 'KaamVerse — Labour Marketplace',
     debugShowCheckedModeBanner: false,
     theme: buildMarketplaceTheme(),
     home: const RoleEntry(),
