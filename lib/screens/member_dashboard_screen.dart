@@ -28,7 +28,7 @@ class MemberDashboardScreen extends StatelessWidget {
               final compact = constraints.maxWidth < 420;
               return SingleChildScrollView(
                 physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-                padding: EdgeInsets.fromLTRB(compact ? 10 : 18, 10, compact ? 10 : 18, 22),
+                padding: EdgeInsets.fromLTRB(compact ? 7 : 14, 6, compact ? 7 : 14, 14),
                 child: Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 760),
@@ -36,11 +36,11 @@ class MemberDashboardScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: const [
                         MemberProfileCard(),
-                        SizedBox(height: 10),
+                        SizedBox(height: 6),
                         PromoBanner(),
-                        SizedBox(height: 10),
+                        SizedBox(height: 6),
                         QuickMetricRow(),
-                        SizedBox(height: 9),
+                        SizedBox(height: 6),
                         AttendanceIntelligence(),
                       ],
                     ),
