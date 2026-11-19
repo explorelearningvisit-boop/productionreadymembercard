@@ -18,14 +18,14 @@ class CustomerHomeContent extends StatelessWidget {
   final ValueChanged<String> onWorkerSelected;
 
   static const _categories = <_ServiceCategory>[
-    _ServiceCategory('निर्माण', Icons.construction_rounded, Color(0xFFFFE8C2)),
-    _ServiceCategory('सफाई', Icons.cleaning_services_rounded, Color(0xFFDDF4E8)),
-    _ServiceCategory('प्लंबर', Icons.plumbing_rounded, Color(0xFFDDEBFF)),
-    _ServiceCategory('इलेक्ट्रिशियन', Icons.electrical_services_rounded, Color(0xFFFFF0C7)),
-    _ServiceCategory('बढ़ई', Icons.carpenter_rounded, Color(0xFFF1E5FF)),
-    _ServiceCategory('पेंटर', Icons.format_paint_rounded, Color(0xFFFFE2E8)),
-    _ServiceCategory('लोडिंग', Icons.local_shipping_rounded, Color(0xFFE0F2FE)),
-    _ServiceCategory('अन्य काम', Icons.grid_view_rounded, Color(0xFFECEFF4)),
+    _ServiceCategory('निर्माण', Icons.construction, Color(0xFFFFE8C2)),
+    _ServiceCategory('सफाई', Icons.cleaning_services, Color(0xFFDDF4E8)),
+    _ServiceCategory('प्लंबर', Icons.plumbing, Color(0xFFDDEBFF)),
+    _ServiceCategory('इलेक्ट्रिशियन', Icons.electrical_services, Color(0xFFFFF0C7)),
+    _ServiceCategory('बढ़ई', Icons.carpenter, Color(0xFFF1E5FF)),
+    _ServiceCategory('पेंटर', Icons.format_paint, Color(0xFFFFE2E8)),
+    _ServiceCategory('लोडिंग', Icons.local_shipping, Color(0xFFE0F2FE)),
+    _ServiceCategory('अन्य काम', Icons.grid_view, Color(0xFFECEFF4)),
   ];
 
   @override
@@ -219,7 +219,7 @@ class _HiringBanner extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                const Icon(Icons.engineering_rounded, color: Colors.white, size: 68),
+                const Icon(Icons.engineering, color: Colors.white, size: 68),
               ],
             ),
           ),
