@@ -345,3 +345,15 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
   - `flutter build apk --release`: Successfully generated `build/app/outputs/flutter-apk/app-release.apk` (59.7 MB).
   - USB Direct In-Place Install: `adb -s zxdada69gunb7ls4 install -r build/app/outputs/flutter-apk/app-release.apk` -> `Success`. User data completely preserved.
   - Device Execution: Launched `com.badgym.bad_gym/.MainActivity` and captured physical screenshot to `docs/screenshots/bad_gym_live_screen.png`. Pixel-perfect visual match confirmed.
+
+
+## 2026-11-19 — ChatGPT — KaamVerse Customer Home first implementation slice
+- Repository/branch: `explorelearningvisit-boop/productionreadymembercard` / `rebuild/kaamverse-platform`.
+- Product direction: KaamVerse labour marketplace; individual + business customers; hourly, daily and project hiring; worker, contractor/team, manager and admin journeys.
+- Implemented Customer Home in `apps/arjun_flutter/lib/customer_home_content.dart`: location/greeting, search entry, bulk manpower hero, eight service category tiles, nearby labour cards and trust strip. Wired into the existing app shell and updated app branding.
+- Expanded service filter sample data to match all eight home categories. Added a Customer Home widget test.
+- Documentation updated: branch-specific design authority, decision log, UX blueprint, screen inventory, app README, asset policy and handoff.
+- Transparent asset note: no raster art is currently embedded in the Customer Home; native Flutter icons/gradients are used. Any future decorative raster illustration must be an individual PNG with actual alpha verified; collage/checkerboard images are excluded.
+- Code commits: `3514488c9c56caaeedb8b86390dbddf1cd424bb7`, `671bae64047e5cabf5442c1280be83172a02ea53`, `d6f45e42310f46e8a83929afc8dd55d49064109e`, `9f99b21251bf93d61d8c485d32fab4865f48a6e8`, `a382eb01d31eaf6122cd68f74c23dcf233d0403b`, `62a41aba831770415ddcc8a54ccceb52fa2ac245`; documentation commit `453d4d91553c158720efd75e9be5fe7573ac06be`.
+- Verification: GitHub Actions run for the latest code/docs commit is pending at handoff; no test/build/device success claim yet. Firebase/backend explicitly not touched.
+- Next: inspect run jobs and logs; fix only evidenced Flutter/UI issues on this branch; then proceed to Customer service discovery screen.

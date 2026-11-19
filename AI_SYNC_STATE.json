@@ -1,11 +1,11 @@
 {
   "project": {
-    "name": "bad_gym",
-    "description": "BAD GYM VIP Member Intelligence Cross-Platform App",
+    "name": "kaamverse",
+    "description": "KaamVerse labour hiring and manpower marketplace Flutter app",
     "repository": "https://github.com/explorelearningvisit-boop/productionreadymembercard.git",
     "rootPath": "C:\\Users\\User\\AndroidStudioProjects\\productionreadymembercard",
-    "activeBranch": "main",
-    "applicationId": "com.badgym.bad_gym",
+    "activeBranch": "rebuild/kaamverse-platform",
+    "applicationId": "com.arjun.arjun_app",
     "mainActivity": "com.badgym.bad_gym/.MainActivity"
   },
   "deviceProfile": {
@@ -25,8 +25,8 @@
     }
   },
   "currentMilestone": {
-    "status": "SUCCESS_LOCAL_VERIFIED",
-    "designSystem": "Pixel-perfect BAD GYM performance dashboard with laurel wreath crest header, check-in success hero with dumbbells & shaker, member profile pass (Ashwani Kumar Singh), 4 quick tabs (Attendance 81% red card), 2-column fixed 372px height intelligence section with dark rail and Attendance Intelligence card (Donut gauge, 3D glossy flame streak, 3D championship trophy best, solid color pill calendar matrix with day 16 concentric ring, complete bottom legend), and bottom nutrition promo banner.",
+    "status": "PHASE_1_CUSTOMER_HOME_CI_PENDING",
+    "designSystem": "KaamVerse: soft white canvas, rounded cards, purple discovery accents, forest-green actions, Hindi-first marketplace UI.",
     "designReference": "media_1794676950728_33461b16.jpg (User-provided reference)",
     "workflowProtocol": {
       "localExecution": "Antigravity develops locally on laptop, compiles locally, and installs directly to Xiaomi 11i 5G via USB/local ADB without triggering GitHub Actions during iteration.",
@@ -55,7 +55,7 @@
         "docs/screenshots/bad_gym_live_screen.png (Live physical verification)"
       ]
     },
-    "lastUpdated": "2026-11-16T23:30:00+05:30",
+    "lastUpdated": "2026-11-19T11:29:00+05:30",
     "ciDiagnosis": {
       "latestFailureRun": 43833182700,
       "tailscaleJoin": "SUCCESS_ON_ATTEMPT_1",
@@ -390,5 +390,43 @@
     ],
     "workflow": ".github/workflows/publish-android-release.yml",
     "policy": "Never publish stable update from default debug signing. Existing app data must be preserved on signature mismatch."
+  },
+  "marketplaceStatus": {
+    "updatedAt": "2026-11-19T11:29:00+05:30",
+    "branch": "rebuild/kaamverse-platform",
+    "product": "KaamVerse labour marketplace",
+    "phase": "PHASE_1_CUSTOMER_HOME_UI",
+    "customerTypes": [
+      "individual",
+      "business_contractor"
+    ],
+    "hiringModes": [
+      "hourly",
+      "daily",
+      "project_contract"
+    ],
+    "implemented": [
+      "Customer Home layout",
+      "location and greeting header",
+      "search entry",
+      "bulk manpower hero",
+      "8 service category tiles",
+      "nearby labour cards",
+      "trust strip",
+      "customer home widget test"
+    ],
+    "implementationCommits": [
+      "3514488c9c56caaeedb8b86390dbddf1cd424bb7",
+      "671bae64047e5cabf5442c1280be83172a02ea53",
+      "d6f45e42310f46e8a83929afc8dd55d49064109e",
+      "9f99b21251bf93d61d8c485d32fab4865f48a6e8",
+      "a382eb01d31eaf6122cd68f74c23dcf233d0403b",
+      "62a41aba831770415ddcc8a54ccceb52fa2ac245",
+      "453d4d91553c158720efd75e9be5fe7573ac06be"
+    ],
+    "verification": "CI run pending; sample UI only; physical device not verified",
+    "assetPolicy": "Only individual transparent PNG assets with verified alpha; current Customer Home uses native Flutter icons and no raster image assets.",
+    "scopeGuard": "No Firebase/backend integration in this UX phase.",
+    "nextScreen": "Customer service discovery and filters"
   }
 }
