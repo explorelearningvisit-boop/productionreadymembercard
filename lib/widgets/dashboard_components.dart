@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import '../theme/member_theme.dart';
 
 class MemberProfileCard extends StatelessWidget {
@@ -6,7 +7,7 @@ class MemberProfileCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.fromLTRB(12, 10, 12, 11),
+    padding: const EdgeInsets.fromLTRB(10, 8, 10, 9),
     decoration: BoxDecoration(
       gradient: const LinearGradient(
         begin: Alignment.topLeft,
@@ -24,8 +25,8 @@ class MemberProfileCard extends StatelessWidget {
       const SizedBox(height: 7),
       Row(children: [
         SizedBox(
-          width: 94,
-          height: 112,
+          width: 82,
+          height: 96,
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset(
@@ -63,7 +64,7 @@ class MemberProfileCard extends StatelessWidget {
       ]),
       const SizedBox(height: 7),
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         decoration: BoxDecoration(
           color: const Color(0xFFFFF4F9),
           borderRadius: BorderRadius.circular(16),
@@ -83,7 +84,7 @@ class MemberProfileCard extends StatelessWidget {
             Text('8 Days Left', style: TextStyle(fontSize: 13, color: MemberTheme.red, fontWeight: FontWeight.w900)),
             Text('Expires: 24 Oct 2026', style: TextStyle(fontSize: 9, color: MemberTheme.ink)),
           ])),
-          Icon(Icons.qr_code_2, size: 29, color: MemberTheme.ink),
+          QrImageView(data: 'BADGYM:BG215', version: QrVersions.auto, size: 31, padding: EdgeInsets.zero),
         ]),
       ),
       const SizedBox(height: 7),
