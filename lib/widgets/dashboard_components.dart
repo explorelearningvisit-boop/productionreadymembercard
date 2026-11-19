@@ -5,7 +5,7 @@ class CheckInFreezeHeader extends StatelessWidget {
   const CheckInFreezeHeader({super.key});
   @override
   Widget build(BuildContext context) => Container(
-        height: 62,
+        height: 78,
         decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [MemberTheme.berry, MemberTheme.wine]),
           borderRadius: BorderRadius.circular(30),
