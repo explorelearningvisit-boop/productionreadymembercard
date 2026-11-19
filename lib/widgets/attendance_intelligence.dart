@@ -182,7 +182,7 @@ class _CalendarGrid extends StatelessWidget {
     final days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     final status = <int, String>{3:'holiday',7:'absent',10:'payment',18:'holiday',24:'absent',28:'payment'};
     return Column(children: [
-      Row(children: days.map((d) => Expanded(child: Center(child: Text(d, style: const TextStyle(fontSize: 8, color: MemberTheme.ink, fontWeight: FontWeight.w900)))).toList()),
+      Row(children: days.map((d) => Expanded(child: Center(child: Text(d, style: const TextStyle(fontSize: 8, color: MemberTheme.ink, fontWeight: FontWeight.w900))))).toList()),
       const SizedBox(height: 4),
       GridView.builder(
         shrinkWrap: true,
@@ -190,7 +190,7 @@ class _CalendarGrid extends StatelessWidget {
         itemCount: 35,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 7, mainAxisSpacing: 4, crossAxisSpacing: 3, childAspectRatio: 1.35),
         itemBuilder: (context, index) {
-          final day = index - 1;
+          final day = index - 2;
           if (day < 1 || day > 31) return const SizedBox.shrink();
           final kind = status[day] ?? (day == 22 ? 'selected' : 'present');
           final color = kind == 'absent' ? MemberTheme.red : kind == 'holiday' ? MemberTheme.purple : kind == 'payment' ? MemberTheme.gold : MemberTheme.green;
