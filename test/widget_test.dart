@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym_member_intelligence/main.dart';
+import 'package:bad_gym_member_intelligence/widgets/dashboard_components.dart';
 
 void main() {
   testWidgets('member dashboard renders all primary sections at 360dp', (tester) async {
