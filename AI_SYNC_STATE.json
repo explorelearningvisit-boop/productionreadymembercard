@@ -392,7 +392,7 @@
     "policy": "Never publish stable update from default debug signing. Existing app data must be preserved on signature mismatch."
   },
   "marketplaceStatus": {
-    "updatedAt": "2026-11-19T11:29:00+05:30",
+    "updatedAt": "2026-11-19T11:33:00+05:30",
     "branch": "rebuild/kaamverse-platform",
     "product": "KaamVerse labour marketplace",
     "phase": "PHASE_1_CUSTOMER_HOME_UI",
@@ -424,9 +424,22 @@
       "62a41aba831770415ddcc8a54ccceb52fa2ac245",
       "453d4d91553c158720efd75e9be5fe7573ac06be"
     ],
-    "verification": "CI run pending; sample UI only; physical device not verified",
+    "verification": "Run 44470297648 at app-code commit 05856aa836606b223a5b4d004df51a45c3ff3f94: Flutter setup, Android project generation, dependencies, format, analyze and tests PASS; debug APK build currently in progress; release APK and artifacts pending. Earlier widget test failures were test-order/scroll-visibility assertions, fixed in commit 05856aa.",
     "assetPolicy": "Only individual transparent PNG assets with verified alpha; current Customer Home uses native Flutter icons and no raster image assets.",
     "scopeGuard": "No Firebase/backend integration in this UX phase.",
-    "nextScreen": "Customer service discovery and filters"
+    "nextScreen": "Customer service discovery and filters",
+    "latestRun": 44470297648,
+    "latestCodeCommit": "05856aa836606b223a5b4d004df51a45c3ff3f94",
+    "testFixes": [
+      {
+        "failure": "Customer Home worker section not built until scroll position reaches it",
+        "fix": "scrollUntilVisible before asserting the worker section"
+      },
+      {
+        "failure": "Hero banner scrolled out of the ListView before its text assertion",
+        "fix": "assert hero banner before scrolling to lower sections"
+      }
+    ],
+    "deviceQA": "NOT_RUN; phone-qa requires manual workflow dispatch and configured secrets/vars"
   }
 }

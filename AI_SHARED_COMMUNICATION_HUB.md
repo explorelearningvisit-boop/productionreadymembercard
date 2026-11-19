@@ -357,3 +357,11 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - Code commits: `3514488c9c56caaeedb8b86390dbddf1cd424bb7`, `671bae64047e5cabf5442c1280be83172a02ea53`, `d6f45e42310f46e8a83929afc8dd55d49064109e`, `9f99b21251bf93d61d8c485d32fab4865f48a6e8`, `a382eb01d31eaf6122cd68f74c23dcf233d0403b`, `62a41aba831770415ddcc8a54ccceb52fa2ac245`; documentation commit `453d4d91553c158720efd75e9be5fe7573ac06be`.
 - Verification: GitHub Actions run for the latest code/docs commit is pending at handoff; no test/build/device success claim yet. Firebase/backend explicitly not touched.
 - Next: inspect run jobs and logs; fix only evidenced Flutter/UI issues on this branch; then proceed to Customer service discovery screen.
+
+
+## 2026-11-19 — Customer Home CI diagnosis and test fix
+- Run 44469745735 / commit 62a41aba: Flutter format/analyze passed; widget test failed because the "आपके पास उपलब्ध labour" section had not been built while off-screen in a ListView. No APK build was attempted.
+- Run 44469992938 / commit 3da401567: same test suite reached the lower section; the hero banner assertion then failed because the banner had been scrolled out of the ListView. No source compile error was reported.
+- Fix: assert the hero banner before scrolling; use tester.scrollUntilVisible for lower worker section and worker name. Commit `05856aa836606b223a5b4d004df51a45c3ff3f94`.
+- Latest run 44470297648 at that commit: Flutter setup, Android project generation, dependency resolution, format, analyze and tests all PASS. Debug APK build is currently in progress; release build and artifact upload are pending. No APK success claim yet.
+- Device QA is not run; phone QA job is manual-dispatch gated and requires the configured GitHub variables/secrets. No Firebase/backend work performed.
