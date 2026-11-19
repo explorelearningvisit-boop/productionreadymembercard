@@ -70,7 +70,7 @@ class MemberProfileCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: Colors.white.withValues(alpha: .85)),
         ),
-        child: Row(children: const [
+        child: Row(children: [
           Icon(Icons.account_balance_wallet, color: MemberTheme.berry, size: 23),
           SizedBox(width: 6),
           Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
