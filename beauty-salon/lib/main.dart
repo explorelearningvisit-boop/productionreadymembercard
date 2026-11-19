@@ -34,6 +34,7 @@ class GlowBelleHome extends StatefulWidget {
 class _GlowBelleHomeState extends State<GlowBelleHome> {
   int nav = 0;
   int category = 0;
+  int cartCount = 3;
   final search = TextEditingController();
   final categories = const [
     (Icons.face_retouching_natural, 'Facial'),
@@ -47,8 +48,20 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
     ('Skin Brightening Facial', '₹1,299', Icons.face_retouching_natural),
     ('Hair Spa & Repair', '₹899', Icons.spa),
     ('Gel Nails Art', '₹699', Icons.brush),
+    ('Bridal Makeup', '₹4,999', Icons.auto_awesome),
     ('Threading (Eyebrow)', '₹149', Icons.remove_red_eye),
+    ('Relaxing Spa', '₹1,499', Icons.spa),
   ];
+
+  List<(String, String, IconData)> get visibleServices {
+    final q = search.text.trim().toLowerCase();
+    final categoryWords = ['facial', 'hair', 'nails', 'makeup', 'spa', ''];
+    return services.where((service) {
+      final matchesSearch = q.isEmpty || service.$1.toLowerCase().contains(q);
+      final matchesCategory = category == 5 || service.$1.toLowerCase().contains(categoryWords[category]);
+      return matchesSearch && matchesCategory;
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +136,7 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
           onPressed: () => _message('Your cart'),
           icon: const Icon(Icons.shopping_cart_outlined, color: wine, size: 24),
         ),
-        Positioned(right: 0, top: 0, child: _countBadge('3')),
+        Positioned(right: 0, top: 0, child: _countBadge('$cartCount')),
       ])),
     ],
   );
@@ -152,7 +165,7 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
     child: Row(children: [
       const Icon(Icons.search, color: ink, size: 25),
       const SizedBox(width: 10),
-      Expanded(child: TextField(controller: search, decoration: const InputDecoration(border: InputBorder.none, hintText: 'Search services, packages...', hintStyle: TextStyle(fontFamily: 'Roboto', fontSize: 14, color: muted), isDense: true))),
+      Expanded(child: TextField(controller: search, decoration: const InputDecoration(border: InputBorder.none, hintText: 'Search services, packages...', hintStyle: TextStyle(fontFamily: 'Roboto', fontSize: 14, color: muted), isDense: true), onChanged: (_) => setState(() {}))),
       IconButton(onPressed: () => _message('Voice search'), icon: const Icon(Icons.mic_none, color: wine)),
     ]),
   );
@@ -204,7 +217,7 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
       ])),
       Positioned(left: 17, bottom: 18, child: FilledButton(
         style: FilledButton.styleFrom(backgroundColor: burgundy, foregroundColor: Colors.white, padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10)),
-        onPressed: () => _message('Glow Facial booking'),
+        onPressed: () => setState(() { nav = 1; }),
         child: const Text('Book Now  →', style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w700)),
       )),
       const Positioned(right: 18, bottom: 15, child: Text('●  ○  ○', style: TextStyle(color: burgundy, letterSpacing: 3))),
@@ -271,18 +284,18 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
 
   Widget _recommended() => SizedBox(height: 174, child: ListView.separated(
     scrollDirection: Axis.horizontal,
-    itemCount: services.length,
+    itemCount: visibleServices.length,
     separatorBuilder: (_, __) => const SizedBox(width: 9),
-    itemBuilder: (context, i) => Container(
+    itemBuilder: (context, i) => GestureDetector(onTap: () => setState(() { cartCount++; }), child: Container(
       width: 145, decoration: BoxDecoration(color: const Color(0xFFFFF2F4), borderRadius: BorderRadius.circular(20), border: Border.all(color: gold, width: 1.1)),
       clipBehavior: Clip.antiAlias,
       child: Column(children: [
         Expanded(child: Container(width: double.infinity, decoration: const BoxDecoration(gradient: LinearGradient(colors: [Color(0xFFF7C2D0), Color(0xFFFFE7E8)])),
-          child: Center(child: Icon(services[i].$3, size: 52, color: burgundy)))),
-        Padding(padding: const EdgeInsets.fromLTRB(5, 6, 5, 1), child: Text(services[i].$1, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w700, color: ink))),
-        Padding(padding: const EdgeInsets.only(bottom: 6), child: Text(services[i].$2, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: wine))),
+          child: Center(child: Icon(visibleServices[i].$3, size: 52, color: burgundy)))),
+        Padding(padding: const EdgeInsets.fromLTRB(5, 6, 5, 1), child: Text(visibleServices[i].$1, textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontFamily: 'Roboto', fontSize: 12, fontWeight: FontWeight.w700, color: ink))),
+        Padding(padding: const EdgeInsets.only(bottom: 6), child: Text(visibleServices[i].$2, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: wine))),
       ]),
-    ),
+    )),
   ));
 
   Widget _offerStrip() => Container(
@@ -404,7 +417,7 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
   Widget _countBadge(String text) => Container(padding: const EdgeInsets.all(4), decoration: const BoxDecoration(color: burgundy, shape: BoxShape.circle),
     child: Text(text, style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.w900)));
 
-  void _message(String value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$value • Preview')));
+  void _message(String value) => ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
 
   @override
   void dispose() {
