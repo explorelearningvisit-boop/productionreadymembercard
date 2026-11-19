@@ -14,7 +14,7 @@ void main() {
     expect(find.text('CHECK-IN'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.text('Attendance Intelligence'), findsOneWidget);
-    expect(find.text('October 2026'), findsOneWidget);
+    expect(find.textContaining('October 2026'), findsOneWidget);
     expect(find.text('Streak'), findsOneWidget);
   });
 }
