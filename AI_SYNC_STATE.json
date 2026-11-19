@@ -25,7 +25,7 @@
     }
   },
   "currentMilestone": {
-    "status": "PHASE_1_CUSTOMER_HOME_CI_PENDING",
+    "status": "PHASE_1_CUSTOMER_HOME_CI_VERIFIED_DEVICE_QA_PENDING",
     "designSystem": "KaamVerse: soft white canvas, rounded cards, purple discovery accents, forest-green actions, Hindi-first marketplace UI.",
     "designReference": "media_1794676950728_33461b16.jpg (User-provided reference)",
     "workflowProtocol": {
@@ -55,7 +55,7 @@
         "docs/screenshots/bad_gym_live_screen.png (Live physical verification)"
       ]
     },
-    "lastUpdated": "2026-11-19T11:29:00+05:30",
+    "lastUpdated": "2026-11-19T11:38:00+05:30",
     "ciDiagnosis": {
       "latestFailureRun": 43833182700,
       "tailscaleJoin": "SUCCESS_ON_ATTEMPT_1",
@@ -392,7 +392,7 @@
     "policy": "Never publish stable update from default debug signing. Existing app data must be preserved on signature mismatch."
   },
   "marketplaceStatus": {
-    "updatedAt": "2026-11-19T11:33:00+05:30",
+    "updatedAt": "2026-11-19T11:38:00+05:30",
     "branch": "rebuild/kaamverse-platform",
     "product": "KaamVerse labour marketplace",
     "phase": "PHASE_1_CUSTOMER_HOME_UI",
@@ -424,7 +424,7 @@
       "62a41aba831770415ddcc8a54ccceb52fa2ac245",
       "453d4d91553c158720efd75e9be5fe7573ac06be"
     ],
-    "verification": "Run 44470297648 at app-code commit 05856aa836606b223a5b4d004df51a45c3ff3f94: Flutter setup, Android project generation, dependencies, format, analyze and tests PASS; debug APK build currently in progress; release APK and artifacts pending. Earlier widget test failures were test-order/scroll-visibility assertions, fixed in commit 05856aa.",
+    "verification": "PASS: run 44470297648 completed successfully at app code commit 05856aa836606b223a5b4d004df51a45c3ff3f94. Format, analyze, tests, debug APK build, release QA APK build and both artifact uploads succeeded. Debug and release APK entries verified inside the downloaded ZIP. Phone QA skipped; no physical install/launch/screenshot verified.",
     "assetPolicy": "Only individual transparent PNG assets with verified alpha; current Customer Home uses native Flutter icons and no raster image assets.",
     "scopeGuard": "No Firebase/backend integration in this UX phase.",
     "nextScreen": "Customer service discovery and filters",
@@ -440,6 +440,19 @@
         "fix": "assert hero banner before scrolling to lower sections"
       }
     ],
-    "deviceQA": "NOT_RUN; phone-qa requires manual workflow dispatch and configured secrets/vars"
+    "deviceQA": "NOT_VERIFIED; phone-qa skipped because this run was not a workflow_dispatch with deploy_to_phone=true and configured vars/secrets.",
+    "artifacts": {
+      "runId": 44470297648,
+      "runUrl": "https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44470297648",
+      "debugArtifactId": 14503418172,
+      "combinedArtifactId": 14503539255,
+      "debugApkSha256": "939e0d187fed5ce8beb9e853c6f93ddbdb52db6d89d688cb5f4160479e5ef2f1",
+      "releaseApkSha256": "9428d196ced0340b5ab9fb23b6b0b787045af36ecf23365a3e1ba4b71a0e3306",
+      "verifiedZipContents": [
+        "app-debug.apk",
+        "app-release.apk"
+      ],
+      "artifactExpiry": "2026-12-03"
+    }
   }
 }

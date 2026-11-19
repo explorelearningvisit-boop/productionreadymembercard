@@ -365,3 +365,14 @@ The UI matches the user's fixed, pixel-perfect design across 3 core layers:
 - Fix: assert the hero banner before scrolling; use tester.scrollUntilVisible for lower worker section and worker name. Commit `05856aa836606b223a5b4d004df51a45c3ff3f94`.
 - Latest run 44470297648 at that commit: Flutter setup, Android project generation, dependency resolution, format, analyze and tests all PASS. Debug APK build is currently in progress; release build and artifact upload are pending. No APK success claim yet.
 - Device QA is not run; phone QA job is manual-dispatch gated and requires the configured GitHub variables/secrets. No Firebase/backend work performed.
+
+
+## 2026-11-19 — Customer Home Phase 1 CI verified
+- Final run: [ARJUN Flutter Android Build and Tailscale QA #44470297648](https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/44470297648).
+- App-code commit: `05856aa836606b223a5b4d004df51a45c3ff3f94`. This is the exact commit checked out by the successful build. Branch handoff/documentation commit follows separately; app source did not change after the tested code commit.
+- Results: Flutter setup PASS; Android platform generation PASS; dependency resolution PASS; Dart format PASS; Flutter analyze PASS; Flutter tests PASS; debug APK build PASS; release QA APK build PASS; artifact uploads PASS.
+- Artifacts: debug-only artifact ID `14503418172`; combined debug+release artifact ID `14503539255`; both unexpired at verification. Downloaded combined ZIP and inspected archive entries: `app-debug.apk` and `app-release.apk`.
+- Verified SHA-256: debug `939e0d187fed5ce8beb9e853c6f93ddbdb52db6d89d688cb5f4160479e5ef2f1`; release `9428d196ced0340b5ab9fb23b6b0b787045af36ecf23365a3e1ba4b71a0e3306`.
+- Device QA: phone-qa job SKIPPED. This was a push-triggered build; the phone job requires manual workflow_dispatch with deploy_to_phone=true and configured GitHub vars/secrets. No physical install, launch or screenshot is claimed.
+- APKs are internal QA outputs; release-mode APK is unsigned QA build, not production-signed Play Store distribution.
+- Next screen: Customer Service Discovery and Filters. Continue screen-by-screen; do not add Firebase/backend in this UX phase.

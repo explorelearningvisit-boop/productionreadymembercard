@@ -133,3 +133,11 @@ Before starting, read `docs/CONTINUOUS_AGENT_OBSERVABILITY.md` and follow `AGENT
 - Transparent asset rule: decorative raster art must be individual PNGs with actual alpha; no checkerboard-baked images or flattened screen collages. Native Flutter icons/text/charts remain native.
 - Current limitation: ChatGPT can inspect GitHub snapshots and Actions runs; it cannot claim continuous second-by-second monitoring or physical phone QA without fresh evidence. Firebase/backend is explicitly out of scope for this UX phase.
 - Next: verify current Customer Home build/test run; fix any concrete failures; then implement Customer service discovery screen and add widget tests.
+
+
+## 2026-11-19 — Customer Home CI result
+- Run 44470297648 succeeded at code commit 05856aa836606b223a5b4d004df51a45c3ff3f94.
+- Format, analyze, tests, debug APK, release QA APK and artifact upload all passed.
+- Combined artifact 14503539255 was downloaded and inspected; ZIP contains app-debug.apk and app-release.apk. SHA-256 hashes are recorded in AI_SYNC_STATE.json.
+- Phone QA was skipped; do not claim physical device install or screenshot.
+- Next: Customer Service Discovery and Filters screen, following the approved component-by-component process.
