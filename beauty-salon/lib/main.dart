@@ -316,17 +316,86 @@ class _GlowBelleHomeState extends State<GlowBelleHome> {
   );
 
   Widget _otherPage() {
-    const labels = ['Home', 'Bookings', 'Membership', 'Rewards', 'Profile'];
-    return Center(child: Column(mainAxisSize: MainAxisSize.min, children: [
-      const Icon(Icons.spa, size: 55, color: burgundy),
-      const SizedBox(height: 12),
-      Text(labels[nav], style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: wine)),
-      const SizedBox(height: 8),
-      const Text('Your GlowBelle experience', style: TextStyle(color: muted)),
-      const SizedBox(height: 18),
-      OutlinedButton(onPressed: () => setState(() => nav = 0), child: const Text('Back to Home')),
-    ]));
+    switch (nav) {
+      case 1: return _bookingsPage();
+      case 2: return _membershipPage();
+      case 3: return _rewardsPage();
+      default: return _profilePage();
+    }
   }
+
+  Widget _pageShell(String title, IconData icon, List<Widget> children) =>
+    ListView(padding: const EdgeInsets.fromLTRB(18, 24, 18, 24), children: [
+      Row(children: [Icon(icon, color: burgundy, size: 28), const SizedBox(width: 9),
+        Text(title, style: const TextStyle(fontSize: 27, fontWeight: FontWeight.w900, color: wine))]),
+      const SizedBox(height: 18), ...children,
+    ]);
+
+  Widget _bookingsPage() => _pageShell('My Bookings', Icons.calendar_month, [
+    _infoCard(icon: Icons.event_available, title: 'Upcoming Booking', child: Column(children: [
+      const _MiniBeauty(size: 58), const SizedBox(height: 8),
+      const Text('Bridal Makeup', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w900, color: ink)),
+      const Text('Sun, 04 Feb  •  11:00 AM', style: TextStyle(color: muted)),
+      const SizedBox(height: 8),
+      FilledButton(onPressed: () => _message('Booking details'), child: const Text('View Details')),
+    ])),
+    _sectionTitle('Book a Service', 'Explore'),
+    ...services.map((s) => Card(color: const Color(0xFFFFF3F4), child: ListTile(
+      leading: Icon(s.$3, color: burgundy), title: Text(s.$1, style: const TextStyle(color: ink)),
+      subtitle: Text(s.$2, style: const TextStyle(color: burgundy, fontWeight: FontWeight.bold)),
+      trailing: IconButton(icon: const Icon(Icons.add_circle_outline, color: burgundy),
+        onPressed: () => _message('Added ${s.$1} to booking')),
+    ))),
+  ]);
+
+  Widget _membershipPage() => _pageShell('Membership', Icons.workspace_premium, [
+    Container(padding: const EdgeInsets.all(22), decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(24), gradient: const LinearGradient(colors: [wine, burgundy])),
+      child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('GLOWBELLE ROYAL', style: TextStyle(color: Color(0xFFFFDDE7), letterSpacing: 2)),
+        SizedBox(height: 8), Text('Beauty Club', style: TextStyle(color: Colors.white, fontSize: 27, fontWeight: FontWeight.bold)),
+        Text('Your membership journey starts here.', style: TextStyle(color: Colors.white70)),
+      ])),
+    const SizedBox(height: 14),
+    _infoCard(icon: Icons.stars, title: 'Member Benefits', child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text('• Exclusive member-only offers'), Text('• Priority appointment booking'),
+      Text('• Birthday beauty surprise'), Text('• Reward points on every visit'),
+    ])),
+    FilledButton(onPressed: () => _message('Membership plans'), child: const Text('Explore Membership Plans')),
+  ]);
+
+  Widget _rewardsPage() => _pageShell('GlowBelle Rewards', Icons.card_giftcard, [
+    Container(padding: const EdgeInsets.all(24), decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(24), gradient: const LinearGradient(colors: [wine, burgundy])),
+      child: const Column(children: [
+        Icon(Icons.card_giftcard, color: Colors.white, size: 45),
+        Text('250', style: TextStyle(color: Colors.white, fontSize: 38, fontWeight: FontWeight.w900)),
+        Text('Reward Points', style: TextStyle(color: Colors.white70)),
+      ])),
+    const SizedBox(height: 14),
+    _infoCard(icon: Icons.auto_awesome, title: 'Ways to Earn', child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text('• Complete a beauty service — earn points'),
+      Text('• Refer a friend — bonus points'),
+      Text('• Birthday month — special reward'),
+    ])),
+    _infoCard(icon: Icons.redeem, title: 'Redeem Rewards', child: const Text('Use your points for discounts on selected beauty services.')),
+  ]);
+
+  Widget _profilePage() => _pageShell('My Profile', Icons.person, [
+    const Center(child: _MiniBeauty(size: 104)),
+    const Center(child: Text('Priya Sharma', style: TextStyle(fontSize: 23, fontWeight: FontWeight.w900, color: wine))),
+    const Center(child: Text('GlowBelle Beauty Member', style: TextStyle(color: muted))),
+    const SizedBox(height: 15),
+    _infoCard(icon: Icons.badge, title: 'Personal Details', child: const Column(children: [
+      ListTile(dense: true, leading: Icon(Icons.person, color: burgundy), title: Text('Name'), subtitle: Text('Priya Sharma')),
+      ListTile(dense: true, leading: Icon(Icons.mail_outline, color: burgundy), title: Text('Email'), subtitle: Text('Add email address')),
+      ListTile(dense: true, leading: Icon(Icons.phone, color: burgundy), title: Text('Phone'), subtitle: Text('Add phone number')),
+    ])),
+    _infoCard(icon: Icons.settings, title: 'Preferences & Support', child: Column(children: [
+      ListTile(leading: const Icon(Icons.notifications, color: burgundy), title: const Text('Notifications'), onTap: () => _message('Notification preferences')),
+      ListTile(leading: const Icon(Icons.help_outline, color: burgundy), title: const Text('Help & Support'), onTap: () => _message('Contact GlowBelle salon team')),
+    ])),
+  ]);
 
   Widget _pill(String text) => Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
     decoration: BoxDecoration(color: const Color(0xFFFFF4F4).withOpacity(.85), borderRadius: BorderRadius.circular(30)),
@@ -373,5 +442,5 @@ class _MiniBeauty extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(width: size, height: size,
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), gradient: const LinearGradient(colors: [Color(0xFFF6C0D0), Color(0xFFFFE9E8)])),
-    child: const Icon(Icons.face_3, size: 44, color: burgundy));
+    child: Image.asset('assets/booking_avatar.jpg', width: size, height: size, fit: BoxFit.contain));
 }
