@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../widgets/dashboard_components.dart';
 import '../widgets/attendance_intelligence.dart';
 
@@ -6,7 +7,14 @@ class MemberDashboardScreen extends StatelessWidget {
   const MemberDashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
+    value: const SystemUiOverlayStyle(
+      statusBarColor: Color(0xFF700034),
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.black,
+      systemNavigationBarIconBrightness: Brightness.light,
+    ),
+    child: Scaffold(
         body: DecoratedBox(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -19,6 +27,7 @@ class MemberDashboardScreen extends StatelessWidget {
             child: LayoutBuilder(builder: (context, constraints) {
               final compact = constraints.maxWidth < 420;
               return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
                 padding: EdgeInsets.fromLTRB(compact ? 10 : 18, 10, compact ? 10 : 18, 22),
                 child: Center(
                   child: ConstrainedBox(
@@ -41,5 +50,6 @@ class MemberDashboardScreen extends StatelessWidget {
             }),
           ),
         ),
-      );
+      ),
+  );
 }
