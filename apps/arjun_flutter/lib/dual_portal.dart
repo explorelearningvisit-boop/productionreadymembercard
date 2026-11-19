@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'design_system/app_tokens.dart';
+import 'customer_home_content.dart';
 
 enum AppRole { worker, owner, contractor, manager, company }
 extension RoleInfo on AppRole {
   bool get isWorker => this == AppRole.worker;
   String get label => switch (this) {
-    AppRole.worker => 'काम करने वाला', AppRole.owner => 'मकान मालिक / ग्राहक',
+    AppRole.worker => 'काम करने वाला', AppRole.owner => 'ग्राहक / बिज़नेस',
     AppRole.contractor => 'ठेकेदार', AppRole.manager => 'साइट मैनेजर',
     AppRole.company => 'कंपनी / बिल्डर',
   };
@@ -35,7 +36,7 @@ class RolePicker extends StatelessWidget {
       gradient: const LinearGradient(colors: [AppTokens.workerDeep, AppTokens.worker, Color(0xFF71C9A5)]),
       borderRadius: BorderRadius.circular(26)), child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Icon(Icons.hub_outlined, color: Colors.white, size: 34), Spacer(),
-      Text('ARJUN', style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w900)),
+      Text('KaamVerse', style: TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.w900)),
       Text('काम • हुनर • भरोसा', style: TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w800)),
       Text('हर काम के लिए सही व्यक्ति', style: TextStyle(color: Colors.white70)),
     ])),
@@ -81,7 +82,7 @@ class _MarketplaceHomeState extends State<MarketplaceHome> {
   @override Widget build(BuildContext c) {
     final pages = worker ? [workerHome(),jobsPage(),attendance(),earnings(),profile()]
       : [ownerHome(),jobsPage(),taskBoard(),materials(),profile()];
-    return Scaffold(appBar: AppBar(title: const Text('ARJUN', style: TextStyle(fontWeight: FontWeight.w900)),
+    return Scaffold(appBar: AppBar(title: const Text('KaamVerse', style: TextStyle(fontWeight: FontWeight.w900)),
       actions: [IconButton(onPressed: widget.onSwitch, icon: const Icon(Icons.swap_horiz), tooltip: 'भूमिका बदलें')]),
       body: Column(children: [
         Container(width: double.infinity, color: const Color(0xFFFFF2D6), padding: const EdgeInsets.all(7),
@@ -169,14 +170,16 @@ class _MarketplaceHomeState extends State<MarketplaceHome> {
       trailing: Text('₹' + t.payable.toString(), style: const TextStyle(fontWeight: FontWeight.w900)))),
     OutlinedButton(onPressed: () => info('Payout', 'UPI / bank payout बाद में backend से जुड़ेगा।'), child: const Text('Payout flow preview')),
   ]);
-  Widget ownerHome() => ListView(padding: const EdgeInsets.all(16), children: [
-    heading('प्रोजेक्ट कंट्रोल', 'काम, टीम, गुणवत्ता और भुगतान'),
-    hero('नया काम पोस्ट करें', 'सेवा, repair या construction', Icons.add_task, createJob, 'काम पोस्ट करें'),
-    stat('खुले काम','4',Icons.work), stat('टीम सदस्य','12',Icons.groups),
-    stat('Review pending','3',Icons.fact_check), stat('Accepted payout','₹5,000',Icons.payments),
-    const Text('आज की site activity', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w900)),
-    ...tasks.map(taskCard), safety(),
-  ]);
+  Widget ownerHome() => CustomerHomeContent(
+    onBrowse: () => setState(() => tab = 1),
+    onCategorySelected: (value) => setState(() {
+      category = value;
+      tab = 1;
+    }),
+    onCreateBooking: createJob,
+    onWorkerSelected: (name) => info(name,
+      'Worker profile preview • KYC, availability और booking confirmation वास्तविक backend से जुड़ने के बाद verify होंगे।'),
+  );
   Widget stat(String title, String value, IconData icon) => Card(child: ListTile(
     leading: Icon(icon, color: widget.role.accent), title: Text(value, style: TextStyle(color: widget.role.accent, fontWeight: FontWeight.w900)),
     subtitle: Text(title)));
