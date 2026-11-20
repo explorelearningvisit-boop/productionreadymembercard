@@ -110,7 +110,7 @@ class _BrandHeader extends StatelessWidget {
                         text: 'BAD ',
                         style: TextStyle(
                             color: Color(0xFF101D1B),
-                            fontWeight: FontWeight.w0 + FontWeight.w900,
+                            fontWeight: FontWeight.w900,
                             fontSize: 20,
                             height: 1),
                       ),
