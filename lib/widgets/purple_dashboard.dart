@@ -93,7 +93,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
     decoration: MemberTheme.glass(radius: 24),
     child: Row(children: [
-      _roundIcon(Icons.check_rounded, MemberTheme.green, 34),
+      const AssetSprite(index: 15, size: 34),
       const SizedBox(width: 8),
       const Expanded(child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,7 +191,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
             ]),
             const SizedBox(height: 9),
             Row(children: [
-              Expanded(child: _statusPill('Gold Plan', MemberTheme.gold, const Color(0xFF593000), 11)),
+              Expanded(child: _statusPill('Gold Plan', MemberTheme.gold, const Color(0xFF593000), 14)),
               const SizedBox(width: 6),
               Expanded(child: _statusPill('Active', MemberTheme.green, Colors.white, 15)),
             ]),
@@ -321,8 +321,12 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
             borderRadius: BorderRadius.circular(22), border: Border.all(color: Colors.white, width: 1.2),
             boxShadow: const [BoxShadow(color: Color(0x99FF00FF), blurRadius: 9)],
           ),
-          child: const Text('Shop Now ›', style: TextStyle(fontSize: 10,
-            fontWeight: FontWeight.w900, color: Colors.white)),
+          child: const Row(mainAxisSize: MainAxisSize.min, children: [
+            AssetSprite(index: 17, size: 16),
+            SizedBox(width: 3),
+            Text('Shop Now ›', style: TextStyle(fontSize: 10,
+              fontWeight: FontWeight.w900, color: Colors.white)),
+          ]),
         ),
       ]),
     ]),
@@ -362,6 +366,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
           if (index == 0) const AssetSprite(index: 1, size: 25)
           else if (index == 1) const AssetSprite(index: 2, size: 25)
           else if (index == 2) const AssetSprite(index: 3, size: 25)
+          else if (index == 3) const AssetSprite(index: 9, size: 25)
           else Icon(icon, color: accent, size: 23),
           const SizedBox(height: 3),
           Text(title, maxLines: 1, overflow: TextOverflow.ellipsis,
