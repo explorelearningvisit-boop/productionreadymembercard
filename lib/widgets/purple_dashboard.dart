@@ -301,17 +301,22 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
           ],
         )),
         const SizedBox(width: 5),
-        SizedBox(
-          width: 66, height: 58,
-          child: Image.asset('assets/images/member_hero.webp',
-            fit: BoxFit.contain,
-            errorBuilder: (_, __, ___) => const Icon(
-              Icons.fitness_center_rounded, size: 38, color: Color(0xFFFFD7FF)),
+        if (MediaQuery.sizeOf(context).width >= 350) ...[
+          SizedBox(
+            width: 58, height: 54,
+            child: Image.asset('assets/images/member_hero.webp',
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) => const Icon(
+                Icons.fitness_center_rounded, size: 34, color: Color(0xFFFFD7FF)),
+            ),
           ),
-        ),
-        const SizedBox(width: 6),
+          const SizedBox(width: 5),
+        ],
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.sizeOf(context).width < 350 ? 7 : 10,
+            vertical: 8,
+          ),
           decoration: BoxDecoration(
             gradient: const LinearGradient(colors: [MemberTheme.neon, Color(0xFF7D00D8)]),
             borderRadius: BorderRadius.circular(22), border: Border.all(color: Colors.white, width: 1.2),
@@ -484,27 +489,19 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
   );
 
   Widget _gymFloor() => SizedBox(
-    height: 78,
+    height: 58,
     child: Stack(children: [
       Positioned.fill(child: CustomPaint(painter: _NeonFloorPainter())),
       Positioned(
-        left: 0, right: 0, bottom: 0, height: 68,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: Image.asset('assets/images/member_hero.webp',
-            fit: BoxFit.cover, alignment: Alignment.bottomCenter,
-            errorBuilder: (_, __, ___) => const SizedBox.shrink()),
-        ),
-      ),
-      Positioned(
-        left: 2, bottom: 0, width: 52, height: 64,
-        child: Image.asset('assets/images/member_portrait.png',
+        left: 0, bottom: 0, width: 56, height: 54,
+        child: Image.asset('assets/images/member_hero.webp',
           fit: BoxFit.contain, alignment: Alignment.bottomLeft),
       ),
       Positioned(
-        right: 2, bottom: 0, width: 54, height: 62,
+        right: 0, bottom: 0, width: 56, height: 54,
         child: Image.asset('assets/images/member_hero.webp',
-          fit: BoxFit.contain, alignment: Alignment.bottomRight),
+          fit: BoxFit.contain, alignment: Alignment.bottomRight,
+        ),
       ),
     ]),
   );
