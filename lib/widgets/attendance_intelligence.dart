@@ -8,30 +8,67 @@ class AttendanceIntelligence extends StatefulWidget {
 
 class _AttendanceIntelligenceState extends State<AttendanceIntelligence> {
   int section = 1, tab = 0;
-  DateTime month = DateTime(2026, 10);
+  DateTime month = DateTime.now();
   static const labels = ['Home','Attend','Workout','Pay','Offers','History'];
   static const icons = [Icons.dashboard,Icons.calendar_month,Icons.fitness_center,Icons.wallet,Icons.local_offer,Icons.history];
-  @override Widget build(BuildContext context) => Container(padding: const EdgeInsets.all(7), decoration: MemberTheme.glassCard(radius: 22, bright: true), child: Column(children: [
-    const Row(children: [CircleAvatar(radius: 14,backgroundColor: MemberTheme.berry,child: Icon(Icons.insights,color: Colors.white,size: 16)),SizedBox(width: 7),Expanded(child: Text('Attendance Intelligence',style: TextStyle(fontSize: 14,color: MemberTheme.ink,fontWeight: FontWeight.w900))),Text('LIVE',style: TextStyle(fontSize: 8,color: MemberTheme.berry,fontWeight: FontWeight.w900))]),
-    const SizedBox(height: 6),
+  @override Widget build(BuildContext context) => Container(padding: const EdgeInsets.all(6), decoration: MemberTheme.glassCard(radius: 20, bright: true), child: Column(children: [
+    const Row(children: [CircleAvatar(radius: 12,backgroundColor: MemberTheme.berry,child: Icon(Icons.insights,color: Colors.white,size: 16)),SizedBox(width: 7),Expanded(child: Text('Attendance Intelligence',style: TextStyle(fontSize: 12,color: MemberTheme.ink,fontWeight: FontWeight.w900))),Text('LIVE',style: TextStyle(fontSize: 8,color: MemberTheme.berry,fontWeight: FontWeight.w900))]),
+    const SizedBox(height: 4),
     Row(crossAxisAlignment: CrossAxisAlignment.start,children: [_rail(),const SizedBox(width: 6),Expanded(child: section == 1 ? _attendance() : _page())]),
   ]));
-  Widget _rail() => Container(width: 42,padding: const EdgeInsets.symmetric(vertical: 4,horizontal: 3),decoration: BoxDecoration(gradient: const LinearGradient(colors: [MemberTheme.berry,MemberTheme.wine]),borderRadius: BorderRadius.circular(18)),child: Column(mainAxisSize: MainAxisSize.min,children: List.generate(6,(i)=>Padding(padding: const EdgeInsets.symmetric(vertical: 2),child: Material(color: section==i?MemberTheme.gold:Colors.transparent,borderRadius: BorderRadius.circular(9),child: InkWell(onTap: ()=>setState(()=>section=i),borderRadius: BorderRadius.circular(9),child: SizedBox(width: 36,height: 42,child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [Icon(icons[i],size: 16,color: section==i?MemberTheme.ink:Colors.white),Text(labels[i],style: TextStyle(fontSize: 7,fontWeight: FontWeight.w800,color: section==i?MemberTheme.ink:Colors.white))]))))))));
+  Widget _rail() => Container(width: 40,padding: const EdgeInsets.symmetric(vertical: 3,horizontal: 2),decoration: BoxDecoration(gradient: const LinearGradient(colors: [MemberTheme.berry,MemberTheme.wine]),borderRadius: BorderRadius.circular(18)),child: Column(mainAxisSize: MainAxisSize.min,children: List.generate(6,(i)=>Padding(padding: const EdgeInsets.symmetric(vertical: 2),child: Material(color: section==i?MemberTheme.gold:Colors.transparent,borderRadius: BorderRadius.circular(9),child: InkWell(onTap: ()=>setState(()=>section=i),borderRadius: BorderRadius.circular(9),child: SizedBox(width: 35,height: 39,child: Column(mainAxisAlignment: MainAxisAlignment.center,children: [Icon(icons[i],size: 16,color: section==i?MemberTheme.ink:Colors.white),Text(labels[i],style: TextStyle(fontSize: 7,fontWeight: FontWeight.w800,color: section==i?MemberTheme.ink:Colors.white))]))))))));
   Widget _attendance() => Column(children: [
-    const _Summary(),const SizedBox(height: 5),
+    const _Summary(),const SizedBox(height: 3),
     SizedBox(height: 26,child: ListView(scrollDirection: Axis.horizontal,children: List.generate(4,(i)=>Padding(padding: const EdgeInsets.only(right: 4),child: ChoiceChip(label: Text(['Overview','Attendance','Workout','Payments'][i],style: TextStyle(fontSize: 9,color: tab==i?Colors.white:MemberTheme.ink,fontWeight: FontWeight.w800)),selected: tab==i,onSelected: (_)=>setState(()=>tab=i),showCheckmark: false,visualDensity: VisualDensity.compact,padding: const EdgeInsets.symmetric(horizontal: 3),labelPadding: const EdgeInsets.symmetric(horizontal: 3),side: BorderSide.none,backgroundColor: const Color(0xFFFFE5F0),selectedColor: MemberTheme.berry))))),
     const SizedBox(height: 4),Row(children: [_monthBtn(Icons.chevron_left,()=>setState(()=>month=DateTime(month.year,month.month-1))),Expanded(child: Center(child: Text('${_monthName(month.month)} ${month.year}',style: const TextStyle(fontSize: 11,fontWeight: FontWeight.w900,color: MemberTheme.ink)))),_monthBtn(Icons.chevron_right,()=>setState(()=>month=DateTime(month.year,month.month+1)))]),
     const SizedBox(height: 4),_calendar(),const SizedBox(height: 4),
     const Wrap(spacing: 7,children: [_Dot(MemberTheme.green,'Present'),_Dot(MemberTheme.red,'Absent'),_Dot(MemberTheme.purple,'Holiday'),_Dot(MemberTheme.gold,'Payment')]),
-    const SizedBox(height: 5),const Row(children: [Expanded(child: _Insight(Icons.local_fire_department,'Streak','5 Days',MemberTheme.red)),SizedBox(width: 4),Expanded(child: _Insight(Icons.emoji_events,'Best','14 Days',MemberTheme.gold)),SizedBox(width: 4),Expanded(child: _Insight(Icons.trending_up,'Monthly','+6%',MemberTheme.green))]),
+    
   ]);
   String _monthName(int m) => const ['January','February','March','April','May','June','July','August','September','October','November','December'][m-1];
   Widget _monthBtn(IconData icon,VoidCallback tap)=>SizedBox(width: 26,height: 26,child: Material(color: const Color(0xFFFFE5F0),shape: const CircleBorder(),child: InkWell(customBorder: const CircleBorder(),onTap: tap,child: Icon(icon,size: 17,color: MemberTheme.wine))));
-  Widget _calendar(){final offset=DateTime(month.year,month.month,1).weekday-1;final total=DateTime(month.year,month.month+1,0).day;final count=((offset+total+6)~/7)*7;final status=<int,String>{3:'holiday',7:'absent',10:'payment',18:'holiday',24:'absent',28:'payment'};const week=['M','T','W','T','F','S','S'];return Column(children:[Row(children: week.map((d) => Expanded(child: Center(child: Text(d, style: const TextStyle(fontSize: 8, color: MemberTheme.ink, fontWeight: FontWeight.w900))))).toList()),const SizedBox(height: 3),GridView.builder(shrinkWrap:true,physics:const NeverScrollableScrollPhysics(),itemCount:count,gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:7,mainAxisSpacing:2,crossAxisSpacing:3,childAspectRatio:1.85),itemBuilder:(context,i){final d=i-offset+1;if(d<1||d>total)return const SizedBox.shrink();final s=status[d]??'present';final c=s=='absent'?MemberTheme.red:s=='holiday'?MemberTheme.purple:s=='payment'?MemberTheme.gold:MemberTheme.green;return Container(alignment:Alignment.center,decoration:BoxDecoration(color:c,borderRadius:BorderRadius.circular(10)),child:s=='holiday'?const Icon(Icons.event,color:Colors.white,size:11):s=='payment'?const Icon(Icons.currency_rupee,color:MemberTheme.ink,size:11):Text(d.toString(),style:const TextStyle(color:Colors.white,fontSize:9,fontWeight:FontWeight.w900)));})]);}
+  Widget _calendar(){final offset=DateTime(month.year,month.month,1).weekday-1;final total=DateTime(month.year,month.month+1,0).day;final count=((offset+total+6)~/7)*7;final status=<int,String>{3:'holiday',7:'absent',10:'payment',18:'holiday',24:'absent',28:'payment'};const week=['M','T','W','T','F','S','S'];return Column(children:[Row(children: week.map((d) => Expanded(child: Center(child: Text(d, style: const TextStyle(fontSize: 8, color: MemberTheme.ink, fontWeight: FontWeight.w900))))).toList()),const SizedBox(height: 3),GridView.builder(shrinkWrap:true,physics:const NeverScrollableScrollPhysics(),itemCount:count,gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount:7,mainAxisSpacing:2,crossAxisSpacing:3,childAspectRatio:2.05),itemBuilder:(context,i){final d=i-offset+1;if(d<1||d>total)return const SizedBox.shrink();final s=status[d]??'present';final c=s=='absent'?MemberTheme.red:s=='holiday'?MemberTheme.purple:s=='payment'?MemberTheme.gold:MemberTheme.green;return Container(alignment:Alignment.center,decoration:BoxDecoration(color:c,borderRadius:BorderRadius.circular(10)),child:s=='holiday'?const Icon(Icons.event,color:Colors.white,size:11):s=='payment'?const Icon(Icons.currency_rupee,color:MemberTheme.ink,size:11):Text(d.toString(),style:const TextStyle(color:Colors.white,fontSize:9,fontWeight:FontWeight.w900)));})]);}
   Widget _page(){final titles=['Home overview','Attendance','Workout intelligence','Payment overview','Member offers','Activity history'];final desc=['Check-in complete · 07:12 AM','Monthly attendance calendar and insights','58 min training · Strength session','₹500 pending · Expires 24 Oct 2026','Rewards and partner offers','Recent check-ins and payment events'];return Container(height:230,padding:const EdgeInsets.all(11),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(15)),child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[Text(titles[section],style:const TextStyle(fontSize:13,color:MemberTheme.ink,fontWeight:FontWeight.w900)),const SizedBox(height:9),Text(desc[section],style:const TextStyle(fontSize:11,color:MemberTheme.ink)),const SizedBox(height:12),if(section==0)const _Summary(),if(section==2)const _Data('Workout duration','58 minutes',MemberTheme.green),if(section==3)const _Data('Outstanding balance','₹500',MemberTheme.red),if(section==4)const _Data('Partner reward','5% offer',MemberTheme.purple),if(section==5)const _Data('Last check-in','Today · 07:12 AM',MemberTheme.green),const Spacer(),const Text('Sample data · API connection required for live records',style:TextStyle(fontSize:8,color:Colors.black45))]));}
 }
 
-class _Summary extends StatelessWidget { const _Summary(); @override Widget build(BuildContext context)=>Container(padding:const EdgeInsets.all(5),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(14)),child:Row(children:[SizedBox(width:46,height:46,child:Stack(alignment:Alignment.center,children:[const SizedBox.expand(child:CircularProgressIndicator(value:.81,strokeWidth:5,backgroundColor:Color(0xFFFFD9E9),valueColor:AlwaysStoppedAnimation(MemberTheme.green))),const Column(mainAxisSize:MainAxisSize.min,children:[Text('81%',style:TextStyle(fontSize:13,fontWeight:FontWeight.w900,color:MemberTheme.ink)),Text('25/31',style:TextStyle(fontSize:7,color:MemberTheme.ink))])])),const SizedBox(width:6),const Expanded(child:Column(children:[_Stat(MemberTheme.green,'Present','25','81%',.81),_Stat(MemberTheme.red,'Absent','2','6%',.06),_Stat(MemberTheme.purple,'Holiday','4','13%',.13),_Stat(MemberTheme.gold,'Payment ✓','1/1','100%',1)]))]));}
+class _Summary extends StatelessWidget {
+  const _Summary();
+  @override Widget build(BuildContext context)=>Container(
+    padding:const EdgeInsets.symmetric(horizontal:5,vertical:4),
+    decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(13)),
+    child:Row(children:[
+      SizedBox(width:43,height:43,child:Stack(alignment:Alignment.center,children:[
+        const SizedBox.expand(child:CircularProgressIndicator(value:.81,strokeWidth:4.5,backgroundColor:Color(0xFFFFD9E9),valueColor:AlwaysStoppedAnimation(MemberTheme.green))),
+        const Column(mainAxisSize:MainAxisSize.min,children:[
+          Text('81%',style:TextStyle(fontSize:12,fontWeight:FontWeight.w900,color:MemberTheme.ink)),
+          Text('25/31',style:TextStyle(fontSize:6,color:MemberTheme.ink))
+        ])
+      ])),
+      const SizedBox(width:5),
+      const Expanded(child:Column(children:[
+        _Stat(MemberTheme.green,'Present','25','81%',.81),
+        _Stat(MemberTheme.red,'Absent','2','6%',.06),
+        _Stat(MemberTheme.purple,'Holiday','4','13%',.13),
+        _Stat(MemberTheme.gold,'Payment','1/1','100%',1),
+        SizedBox(height:2),
+        Row(children:[
+          Expanded(child:_MiniInsight(Icons.local_fire_department,'5d')),
+          Expanded(child:_MiniInsight(Icons.emoji_events,'14d')),
+          Expanded(child:_MiniInsight(Icons.trending_up,'+6%')),
+        ])
+      ]))
+    ])
+  );
+}
+class _MiniInsight extends StatelessWidget {
+  final IconData icon; final String value;
+  const _MiniInsight(this.icon,this.value);
+  @override Widget build(BuildContext context)=>Row(mainAxisAlignment:MainAxisAlignment.center,children:[
+    Icon(icon,size:10,color:MemberTheme.berry),
+    const SizedBox(width:2),
+    Text(value,style:const TextStyle(fontSize:7,fontWeight:FontWeight.w900,color:MemberTheme.wine))
+  ]);
+}
 class _Stat extends StatelessWidget {final Color c;final String n,v,p;final double f;const _Stat(this.c,this.n,this.v,this.p,this.f);@override Widget build(BuildContext context)=>Padding(padding:const EdgeInsets.symmetric(vertical:1),child:Row(children:[Container(width:7,height:7,decoration:BoxDecoration(color:c,shape:BoxShape.circle)),const SizedBox(width:4),Expanded(child:Text(n,style:const TextStyle(fontSize:8,color:MemberTheme.ink,fontWeight:FontWeight.w700))),Text(v,style:const TextStyle(fontSize:8,color:MemberTheme.ink,fontWeight:FontWeight.w900)),const SizedBox(width:4),SizedBox(width:32,child:LinearProgressIndicator(value:f,minHeight:5,backgroundColor:const Color(0xFFF3DCE7),valueColor:AlwaysStoppedAnimation(c))),const SizedBox(width:3),SizedBox(width:22,child:Text(p,style:const TextStyle(fontSize:7,color:MemberTheme.ink)))]));}
 class _Dot extends StatelessWidget {final Color c;final String t;const _Dot(this.c,this.t);@override Widget build(BuildContext context)=>Row(mainAxisSize:MainAxisSize.min,children:[Container(width:6,height:6,decoration:BoxDecoration(color:c,shape:BoxShape.circle)),const SizedBox(width:3),Text(t,style:const TextStyle(fontSize:7,color:MemberTheme.ink,fontWeight:FontWeight.w700))]);}
 class _Insight extends StatelessWidget {final IconData i;final String t,v;final Color c;const _Insight(this.i,this.t,this.v,this.c);@override Widget build(BuildContext context)=>Container(padding:const EdgeInsets.symmetric(vertical:4),decoration:BoxDecoration(color:Colors.white,borderRadius:BorderRadius.circular(10),border:Border.all(color:const Color(0xFFF5C7DA))),child:Column(children:[Icon(i,color:c,size:14),Text(t,style:const TextStyle(fontSize:7,color:MemberTheme.ink)),Text(v,style:const TextStyle(fontSize:9,color:MemberTheme.wine,fontWeight:FontWeight.w900))]));}
