@@ -1,43 +1,62 @@
 import 'package:flutter/material.dart';
 
 class MemberTheme {
-  static const wine = Color(0xFF8B0646);
-  static const berry = Color(0xFFC20A62);
-  static const pink = Color(0xFFF52B91);
-  static const blush = Color(0xFFFFE7F2);
-  static const pale = Color(0xFFFFF5FA);
-  static const ink = Color(0xFF4B1235);
-  static const green = Color(0xFF13B84A);
-  static const red = Color(0xFFE52545);
-  static const purple = Color(0xFF9B19D5);
-  static const gold = Color(0xFFFFC928);
+  static const forest = Color(0xFF176B45);
+  static const emerald = Color(0xFF0B8F61);
+  static const leaf = Color(0xFFBDEB79);
+  static const mint = Color(0xFFE4F4E9);
+  static const canvas = Color(0xFFF4F7F2);
+  static const surface = Color(0xFFFFFFFF);
+  static const ink = Color(0xFF18382B);
+  static const muted = Color(0xFF718278);
+  static const line = Color(0xFFDCE8DF);
+  static const gold = Color(0xFFF4C85B);
+  static const red = Color(0xFFD94B58);
+  static const blue = Color(0xFF4779D8);
+  static const purple = Color(0xFF8B61C8);
+  static const teal = Color(0xFF149A91);
 
   static ThemeData get light => ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: pale,
+        scaffoldBackgroundColor: canvas,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: berry,
-          primary: berry,
-          secondary: pink,
-          surface: Colors.white,
+          seedColor: forest,
+          primary: forest,
+          secondary: emerald,
+          surface: surface,
         ),
         fontFamily: 'Roboto',
+        textTheme: const TextTheme(
+          titleMedium: TextStyle(color: ink, fontWeight: FontWeight.w800),
+          bodyMedium: TextStyle(color: ink),
+        ),
       );
 
-  static BoxDecoration glassCard({double radius = 22, bool bright = false}) =>
+  static BoxDecoration card({double radius = 22, bool elevated = true}) =>
       BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: bright
-              ? [Colors.white, const Color(0xFFFFEAF4)]
-              : [const Color(0xFFFFF9FC), const Color(0xFFFFE7F2)],
-        ),
+        color: surface,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: Colors.white, width: 1.8),
-        boxShadow: const [
-          BoxShadow(color: Color(0x557A0A43), blurRadius: 18, offset: Offset(0, 7)),
-          BoxShadow(color: Color(0xAAFFFFFF), blurRadius: 4, offset: Offset(-2, -2)),
-        ],
+        border: Border.all(color: line, width: 1),
+        boxShadow: elevated
+            ? const [
+                BoxShadow(
+                  color: Color(0x120E4B2F),
+                  blurRadius: 18,
+                  offset: Offset(0, 7),
+                ),
+                BoxShadow(
+                  color: Color(0xBFFFFFFF),
+                  blurRadius: 4,
+                  offset: Offset(-2, -2),
+                ),
+              ]
+            : const [],
+      );
+
+  static BoxDecoration softSurface({double radius = 16, Color? tint}) =>
+      BoxDecoration(
+        color: tint ?? const Color(0xFFF7FAF7),
+        borderRadius: BorderRadius.circular(radius),
+        border: Border.all(color: line.withValues(alpha: .8)),
       );
 }
