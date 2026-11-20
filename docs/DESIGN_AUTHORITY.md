@@ -1,19 +1,26 @@
-# BAD GYM dashboard — current design authority
+# BAD GYM Member Dashboard — Visual Authority
 
-## Visual target
-- Current target is the user's latest purple-neon BAD GYM dashboard reference.
-- Keep the member screen's information hierarchy: brand, check-in/freeze, member profile, plan/status, payment/expiry/QR, membership progress, promotion, four metric tiles, Attendance Intelligence and its vertical rail, attendance breakdown and gym-floor decorative finish.
-- The member example currently shown is Ashwani Kumar Singh / BG215; retain the sample values only as demo data, not as hard-coded production member records.
-- Use the compact phone viewport first (360dp baseline). Scale layout with constraints rather than stretching a screenshot.
+## Master reference
+The user's latest 864 × 1536 purple-neon dashboard screenshot is the composition authority. The two supplied asset-library sheets are the source of visual assets and styling cues; do not replace them with unrelated UI concepts.
 
-## Implementation rules
-- Rebuild UI using Flutter widgets, gradients, shapes, text, Material icons and dynamic progress/chart primitives.
-- Do not use a flattened dashboard image as a screen background.
-- Dynamic text, icon choices, statuses, progress, navigation, QR, charts and banners must remain code-driven and data-bound.
-- Decorative photography/illustration may use transparent PNG assets. A checkerboard preview is not proof of alpha transparency; validate alpha before using a supplied sprite sheet as a production asset.
-- The currently supplied composite sheets are retained as visual reference only; do not crop or present the whole sheet as a single live dashboard asset.
-- The existing member portrait is retained pending delivery of a separately approved transparent portrait asset.
+## Required hierarchy
+1. BAD GYM wordmark and fitness-management subtitle.
+2. Completed check-in/time, Freeze action, notification indicator.
+3. Member portrait, welcome line, name, ID, age, gender, plan and active state.
+4. Payment due, days remaining, expiry date and QR marker.
+5. Membership elapsed/total days and progress.
+6. Big Billion Sale promotional banner.
+7. Four compact metric cards: Attendance, Workout, Payment, Body.
+8. Attendance Intelligence with vertical rail (Home, Attend, Workout, Pay, Offers, History), Home overview, check-in time, attendance ring, Present/Absent/Holiday/Payment progress rows, streak, trophy and trend.
+9. Gym-floor decorative finish.
 
-## Rebuild history
-- The prior green dashboard widgets were removed from the new rebuild branch.
-- The current branch implements the purple-neon visual system as a native Flutter screen; it is a first implementation pass and must pass CI plus on-device screenshot comparison before being called pixel-perfect.
+## Engineering constraints
+- 360dp width is the primary phone baseline. 320dp must remain usable.
+- All text, metrics, progress, status, navigation and QR data must be real Flutter widgets and remain data-driven when backend integration is added.
+- Use decorative image assets only as individual transparent assets; never flatten the whole dashboard or a composite asset sheet into the screen.
+- Use native Flutter gradients, clipped glass panels, shadows and custom painting for scalable surfaces and decorative effects.
+- Keep motion short and purposeful; respect reduced-motion settings when animation expands beyond implicit transitions.
+- Demo values must be clearly treated as sample data until connected to member APIs.
+
+## Current state
+This branch is a fresh purple-neon Flutter UI implementation. The visual asset library is available in the working asset pack, but the individual source assets still need to be committed into the repository and wired to their intended widget slots. Do not claim the full asset library is integrated until that is done and visually checked on-device.

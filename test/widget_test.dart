@@ -4,32 +4,50 @@ import 'package:bad_gym_member_intelligence/main.dart';
 import 'package:bad_gym_member_intelligence/screens/member_dashboard_screen.dart';
 
 void main() {
-  testWidgets('purple neon member dashboard renders at 360dp', (tester) async {
+  Future<void> pumpDashboard(WidgetTester tester) async {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
+  }
+
+  testWidgets('reference dashboard renders at 360dp', (tester) async {
+    await pumpDashboard(tester);
     expect(find.byType(MemberDashboardScreen), findsOneWidget);
-    expect(find.text('CHECK-IN'), findsOneWidget);
-    expect(find.text('FREEZE'), findsOneWidget);
-    expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
-    expect(find.text('Attendance Intelligence'), findsOneWidget);
-    expect(find.text('Home overview'), findsOneWidget);
-    expect(find.text('Big Billion Sale'), findsOneWidget);
+    for (final label in [
+      'CHECK-IN', 'FREEZE', 'Ashwani Kumar Singh', 'BG215',
+      'Gold Plan', 'Active', '₹500 Due', '8 Days Left',
+      'Membership 22 / 30 Days', 'Big Billion Sale',
+      'Attendance', 'Workout', 'Payment', 'Body',
+      'Attendance Intelligence', 'Home overview',
+      'Present', 'Absent', 'Holiday', 'History',
+    ]) {
+      expect(find.text(label), findsWidgets, reason: 'Missing reference label: $label');
+    }
     expect(find.text('81%'), findsWidgets);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('freeze action toggles its visible state', (tester) async {
-    tester.view.physicalSize = const Size(360, 780);
+  testWidgets('freeze control toggles and navigation rail selection works', (tester) async {
+    await pumpDashboard(tester);
+    await tester.tap(find.text('FREEZE'));
+    await tester.pumpAndSettle();
+    expect(find.text('FROZEN'), findsOneWidget);
+    await tester.tap(find.text('Attend'));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('dashboard remains usable on a narrow 320dp device', (tester) async {
+    tester.view.physicalSize = const Size(320, 720);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(const BadGymApp());
-    await tester.tap(find.text('FREEZE'));
     await tester.pumpAndSettle();
-    expect(find.text('FROZEN'), findsOneWidget);
+    expect(find.text('Attendance Intelligence'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }

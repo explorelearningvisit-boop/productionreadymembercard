@@ -11,17 +11,23 @@ class MemberTheme {
   static const canvas = Color(0xFFF4EDFF);
   static const muted = Color(0xFF766887);
   static const line = Color(0xFFE4D5F7);
-  static const white = Colors.white;
 
   static ThemeData get light => ThemeData(
     useMaterial3: true,
     scaffoldBackgroundColor: canvas,
-    colorScheme: ColorScheme.fromSeed(seedColor: purple, primary: purple, secondary: neon),
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: purple,
+      primary: purple,
+      secondary: neon,
+      surface: const Color(0xFFFFFCFF),
+    ),
     fontFamily: 'Roboto',
+    splashFactory: InkSparkle.splashFactory,
+    visualDensity: VisualDensity.standard,
   );
 
   static BoxDecoration glass({double radius = 22, Color tint = Colors.white}) => BoxDecoration(
-    color: tint.withValues(alpha: .92),
+    color: tint.withValues(alpha: .91),
     borderRadius: BorderRadius.circular(radius),
     border: Border.all(color: Colors.white, width: 1.6),
     boxShadow: const [
@@ -31,10 +37,15 @@ class MemberTheme {
   );
 
   static BoxDecoration neonPanel({double radius = 20}) => BoxDecoration(
-    gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
-      colors: [Color(0xFF5B00A8), Color(0xFF210044), Color(0xFF8700C8)]),
+    gradient: const LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [Color(0xFF7600C9), Color(0xFF28004F), Color(0xFF9200D8)],
+    ),
     borderRadius: BorderRadius.circular(radius),
-    border: Border.all(color: Color(0xFFE9B6FF), width: 1.4),
-    boxShadow: const [BoxShadow(color: Color(0x667C00C9), blurRadius: 18, offset: Offset(0, 5))],
+    border: Border.all(color: const Color(0xFFE9B6FF), width: 1.4),
+    boxShadow: const [
+      BoxShadow(color: Color(0x667C00C9), blurRadius: 18, offset: Offset(0, 5)),
+    ],
   );
 }
