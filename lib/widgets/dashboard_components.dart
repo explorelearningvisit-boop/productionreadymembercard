@@ -116,7 +116,7 @@ class _Pill extends StatelessWidget {
 class PromoBanner extends StatelessWidget {
   const PromoBanner({super.key});
   @override Widget build(BuildContext context) => Container(
-    height: 82, padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 9),
+    height: 96, padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 9),
     decoration: BoxDecoration(
       gradient: const LinearGradient(colors: [Color(0xFF3D056B), Color(0xFF9A21D4), Color(0xFF4B087C)]),
       borderRadius: BorderRadius.circular(22), border: Border.all(color: Colors.white, width: 2),
@@ -124,8 +124,8 @@ class PromoBanner extends StatelessWidget {
     child: Row(children: [
       const Expanded(flex: 2, child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
         Text('BAD GYM', style: TextStyle(color: Colors.white, fontSize: 19, fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
-        Text('Big Billion Sale', maxLines: 1, style: TextStyle(color: MemberTheme.gold, fontSize: 17, fontWeight: FontWeight.w900)),
-        Text('Up to 40% OFF · Fitness Gear', style: TextStyle(color: Colors.white, fontSize: 9)),
+        Text('Big Billion Sale', maxLines: 1, style: TextStyle(color: MemberTheme.gold, fontSize: 14, fontWeight: FontWeight.w900)),
+        Text('Up to 40% OFF · Fitness Gear', style: TextStyle(color: Colors.white, fontSize: 8)),
       ])),
       const Icon(Icons.fitness_center_rounded, color: Color(0xFFFFD2FF), size: 40),
       const SizedBox(width: 8),
