@@ -1,7 +1,7 @@
 name: BAD GYM Android Build
 on:
   push:
-    branches: [main, 'feature/grok-member-intelligence-flutter']
+    branches: [main, 'feature/grok-member-intelligence-flutter', 'feature/badgym-green-glass-reference']
   pull_request:
     branches: [main]
   workflow_dispatch:
