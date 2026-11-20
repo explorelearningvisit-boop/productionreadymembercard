@@ -12,7 +12,7 @@ class _AttendanceIntelligenceState extends State<AttendanceIntelligence> {
   static const labels = ['Home','Attend','Workout','Pay','Offers','History'];
   static const icons = [Icons.dashboard,Icons.calendar_month,Icons.fitness_center,Icons.wallet,Icons.local_offer,Icons.history];
   @override Widget build(BuildContext context) => Container(padding: const EdgeInsets.all(7), decoration: MemberTheme.glassCard(radius: 22, bright: true), child: Column(children: [
-    const Row(children: [CircleAvatar(radius: 14,backgroundColor: MemberTheme.berry,child: Icon(Icons.insights,color: Colors.white,size: 16)),SizedBox(width: 7),Expanded(child: Text('Member Intelligence',style: TextStyle(fontSize: 14,color: MemberTheme.ink,fontWeight: FontWeight.w900))),Text('LIVE',style: TextStyle(fontSize: 8,color: MemberTheme.berry,fontWeight: FontWeight.w900))]),
+    const Row(children: [CircleAvatar(radius: 14,backgroundColor: MemberTheme.berry,child: Icon(Icons.insights,color: Colors.white,size: 16)),SizedBox(width: 7),Expanded(child: Text('Attendance Intelligence',style: TextStyle(fontSize: 14,color: MemberTheme.ink,fontWeight: FontWeight.w900))),Text('LIVE',style: TextStyle(fontSize: 8,color: MemberTheme.berry,fontWeight: FontWeight.w900))]),
     const SizedBox(height: 6),
     Row(crossAxisAlignment: CrossAxisAlignment.start,children: [_rail(),const SizedBox(width: 6),Expanded(child: section == 1 ? _attendance() : _page())]),
   ]));
