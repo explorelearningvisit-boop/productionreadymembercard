@@ -381,7 +381,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
     decoration: MemberTheme.glass(radius: 23),
     child: Column(children: [
       Row(children: [
-        _roundIcon(Icons.trending_up_rounded, MemberTheme.purple, 31),
+        const AssetSprite(index: 13, size: 31),
         const SizedBox(width: 7),
         const Expanded(child: Text('Attendance Intelligence', maxLines: 1,
           style: TextStyle(fontSize: 15.5, height: 1, fontWeight: FontWeight.w900, color: MemberTheme.ink))),
@@ -479,9 +479,9 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
       const Divider(height: 1, color: MemberTheme.line),
       const SizedBox(height: 6),
       const Row(children: [
-        Expanded(child: _FootMetric(Icons.local_fire_department_rounded, '5d', MemberTheme.red)),
-        Expanded(child: _FootMetric(Icons.emoji_events_rounded, '14d', MemberTheme.purple)),
-        Expanded(child: _FootMetric(Icons.trending_up_rounded, '+6%', MemberTheme.purple)),
+        Expanded(child: _FootMetric(12, '5d', MemberTheme.red)),
+        Expanded(child: _FootMetric(11, '14d', MemberTheme.purple)),
+        Expanded(child: _FootMetric(13, '+6%', MemberTheme.purple)),
       ]),
       const SizedBox(height: 4),
       const Text('Sample data  ·  API connection required for live records',
@@ -515,6 +515,9 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         ),
       ),
       Positioned.fill(child: CustomPaint(painter: _NeonFloorPainter())),
+      const Positioned(left: 58, bottom: 5, child: EquipmentSprite(index: 1, size: 38)),
+      const Positioned(left: 112, bottom: 3, child: EquipmentSprite(index: 2, size: 34)),
+      const Positioned(right: 55, bottom: 4, child: EquipmentSprite(index: 3, size: 42)),
       Positioned(
         left: 0, right: 0, bottom: 0, height: 42,
         child: IgnorePointer(
@@ -559,6 +562,55 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
 }
 
 
+
+class EquipmentSprite extends StatelessWidget {
+  final int index;
+  final double size;
+  const EquipmentSprite({super.key, required this.index, this.size = 40});
+
+  static final Future<ui.Image> _atlas = _loadAtlas();
+
+  static Future<ui.Image> _loadAtlas() async {
+    final data = await rootBundle.load('assets/images/badgym_equipment_sprites.webp');
+    final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+    final frame = await codec.getNextFrame();
+    return frame.image;
+  }
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder<ui.Image>(
+    future: _atlas,
+    builder: (context, snapshot) {
+      if (!snapshot.hasData) return SizedBox(width: size, height: size);
+      return CustomPaint(
+        size: Size.square(size),
+        painter: _EquipmentSpritePainter(snapshot.data!, index),
+      );
+    },
+  );
+}
+
+class _EquipmentSpritePainter extends CustomPainter {
+  final ui.Image image;
+  final int index;
+  const _EquipmentSpritePainter(this.image, this.index);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const cell = 48.0;
+    final source = Rect.fromLTWH(index * cell, 0, cell, cell);
+    canvas.drawImageRect(
+      image,
+      source,
+      Offset.zero & size,
+      Paint()..filterQuality = FilterQuality.high,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _EquipmentSpritePainter oldDelegate) =>
+    oldDelegate.image != image || oldDelegate.index != index;
+}
 class AssetSprite extends StatelessWidget {
   final int index;
   final double size;
@@ -663,16 +715,16 @@ class _StatRow extends StatelessWidget {
 }
 
 class _FootMetric extends StatelessWidget {
-  final IconData icon;
+  final int spriteIndex;
   final String value;
   final Color color;
-  const _FootMetric(this.icon, this.value, this.color);
+  const _FootMetric(this.spriteIndex, this.value, this.color);
 
   @override
   Widget build(BuildContext context) => Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      Icon(icon, color: color, size: 18),
+      AssetSprite(index: spriteIndex, size: 18),
       const SizedBox(width: 4),
       Text(value, style: TextStyle(fontSize: 15, height: 1,
         fontWeight: FontWeight.w900, color: color)),
