@@ -43,7 +43,7 @@ class _AttendanceIntelligenceState extends State<AttendanceIntelligence> {
                 const SizedBox(width: 8),
                 const Expanded(
                   child: Text(
-                    'Member Intelligence',
+                    'Attendance Intelligence',
                     style: TextStyle(
                       fontSize: 13,
                       color: MemberTheme.ink,
@@ -147,14 +147,14 @@ class _AttendanceIntelligenceState extends State<AttendanceIntelligence> {
         return _attendancePage();
       case 2:
         return _detailPage(
-          title: 'Workout intelligence',
-          subtitle: 'Today’s training session',
+          title: 'Workout',
+          subtitle: 'Workout duration',
           value: '58 min',
-          detail: 'Strength training · 6 exercises',
+          detail: 'Today’s workout',
           icon: Icons.fitness_center_rounded,
           accent: MemberTheme.blue,
           progress: .72,
-          footer: 'Weekly goal · 4 of 5 sessions',
+          footer: 'Workout summary',
         );
       case 3:
         return _detailPage(
@@ -285,16 +285,16 @@ class _AttendanceIntelligenceState extends State<AttendanceIntelligence> {
               children: [
                 Expanded(
                     child: _InsightPill(
-                        Icons.local_fire_department_rounded, '5d', 'STREAK',
+                        Icons.local_fire_department_rounded, '5d', '',
                         MemberTheme.red)),
                 SizedBox(width: 5),
                 Expanded(
                     child: _InsightPill(
-                        Icons.emoji_events_rounded, '14d', 'BEST', MemberTheme.gold)),
+                        Icons.emoji_events_rounded, '14d', '', MemberTheme.gold)),
                 SizedBox(width: 5),
                 Expanded(
                     child: _InsightPill(
-                        Icons.trending_up_rounded, '+6%', 'TREND', MemberTheme.emerald)),
+                        Icons.trending_up_rounded, '+6%', '', MemberTheme.emerald)),
               ],
             ),
             const SizedBox(height: 8),
@@ -521,7 +521,7 @@ class _StatRow extends StatelessWidget {
                     BoxDecoration(color: color, shape: BoxShape.circle)),
             const SizedBox(width: 5),
             Expanded(
-                child: Text(label,
+                child: if (label.isNotEmpty) Text(label,
                     style: const TextStyle(
                         fontSize: 8,
                         color: MemberTheme.ink,
