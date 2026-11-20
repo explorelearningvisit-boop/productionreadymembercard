@@ -6,12 +6,11 @@ void main() => runApp(const BadGymApp());
 
 class BadGymApp extends StatelessWidget {
   const BadGymApp({super.key});
-
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'BAD GYM Member Intelligence',
-        debugShowCheckedModeBanner: false,
-        theme: MemberTheme.light,
-        home: const MemberDashboardScreen(),
-      );
+    title: 'BAD GYM Member Intelligence',
+    debugShowCheckedModeBanner: false,
+    theme: MemberTheme.light,
+    home: const MemberDashboardScreen(),
+  );
 }

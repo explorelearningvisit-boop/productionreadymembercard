@@ -1,7 +1,7 @@
 name: BAD GYM Android Build
 on:
   push:
-    branches: [main, 'feature/grok-member-intelligence-flutter']
+    branches: [main, 'feature/grok-member-intelligence-flutter', 'rebuild/purple-neon-member-dashboard']
   pull_request:
     branches: [main]
   workflow_dispatch:

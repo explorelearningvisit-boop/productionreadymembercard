@@ -1,62 +1,40 @@
 import 'package:flutter/material.dart';
 
 class MemberTheme {
-  static const forest = Color(0xFF176B45);
-  static const emerald = Color(0xFF0B8F61);
-  static const leaf = Color(0xFFBDEB79);
-  static const mint = Color(0xFFE4F4E9);
-  static const canvas = Color(0xFFF4F7F2);
-  static const surface = Color(0xFFFFFFFF);
-  static const ink = Color(0xFF18382B);
-  static const muted = Color(0xFF718278);
-  static const line = Color(0xFFDCE8DF);
-  static const gold = Color(0xFFF4C85B);
-  static const red = Color(0xFFD94B58);
-  static const blue = Color(0xFF4779D8);
-  static const purple = Color(0xFF8B61C8);
-  static const teal = Color(0xFF149A91);
+  static const ink = Color(0xFF24103D);
+  static const purple = Color(0xFF7900C8);
+  static const violet = Color(0xFFB52BFF);
+  static const neon = Color(0xFFD500FF);
+  static const green = Color(0xFF16C900);
+  static const red = Color(0xFFE51B45);
+  static const gold = Color(0xFFFFC900);
+  static const canvas = Color(0xFFF4EDFF);
+  static const muted = Color(0xFF766887);
+  static const line = Color(0xFFE4D5F7);
+  static const white = Colors.white;
 
   static ThemeData get light => ThemeData(
-        useMaterial3: true,
-        scaffoldBackgroundColor: canvas,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: forest,
-          primary: forest,
-          secondary: emerald,
-          surface: surface,
-        ),
-        fontFamily: 'Roboto',
-        textTheme: const TextTheme(
-          titleMedium: TextStyle(color: ink, fontWeight: FontWeight.w800),
-          bodyMedium: TextStyle(color: ink),
-        ),
-      );
+    useMaterial3: true,
+    scaffoldBackgroundColor: canvas,
+    colorScheme: ColorScheme.fromSeed(seedColor: purple, primary: purple, secondary: neon),
+    fontFamily: 'Roboto',
+  );
 
-  static BoxDecoration card({double radius = 22, bool elevated = true}) =>
-      BoxDecoration(
-        color: surface,
-        borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: line, width: 1),
-        boxShadow: elevated
-            ? const [
-                BoxShadow(
-                  color: Color(0x120E4B2F),
-                  blurRadius: 18,
-                  offset: Offset(0, 7),
-                ),
-                BoxShadow(
-                  color: Color(0xBFFFFFFF),
-                  blurRadius: 4,
-                  offset: Offset(-2, -2),
-                ),
-              ]
-            : const [],
-      );
+  static BoxDecoration glass({double radius = 22, Color tint = Colors.white}) => BoxDecoration(
+    color: tint.withValues(alpha: .92),
+    borderRadius: BorderRadius.circular(radius),
+    border: Border.all(color: Colors.white, width: 1.6),
+    boxShadow: const [
+      BoxShadow(color: Color(0x337B32B8), blurRadius: 18, offset: Offset(0, 7)),
+      BoxShadow(color: Color(0xBFFFFFFF), blurRadius: 5, offset: Offset(-2, -2)),
+    ],
+  );
 
-  static BoxDecoration softSurface({double radius = 16, Color? tint}) =>
-      BoxDecoration(
-        color: tint ?? const Color(0xFFF7FAF7),
-        borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: line.withValues(alpha: .8)),
-      );
+  static BoxDecoration neonPanel({double radius = 20}) => BoxDecoration(
+    gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
+      colors: [Color(0xFF5B00A8), Color(0xFF210044), Color(0xFF8700C8)]),
+    borderRadius: BorderRadius.circular(radius),
+    border: Border.all(color: Color(0xFFE9B6FF), width: 1.4),
+    boxShadow: const [BoxShadow(color: Color(0x667C00C9), blurRadius: 18, offset: Offset(0, 5))],
+  );
 }
