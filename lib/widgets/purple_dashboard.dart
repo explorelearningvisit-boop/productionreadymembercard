@@ -1,4 +1,6 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/member_theme.dart';
@@ -16,10 +18,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
   bool notificationRead = false;
 
   static const labels = ['Home', 'Attend', 'Workout', 'Pay', 'Offers', 'History'];
-  static const icons = [
-    Icons.home_rounded, Icons.calendar_month_rounded, Icons.fitness_center_rounded,
-    Icons.account_balance_wallet_rounded, Icons.sell_rounded, Icons.history_rounded,
-  ];
+  static const spriteIcons = [0, 1, 2, 3, 4, 5];
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +68,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
               boxShadow: const [BoxShadow(color: Color(0x667900C8), blurRadius: 9, offset: Offset(0, 3))],
               border: Border.all(color: Colors.white, width: 1.4),
             ),
-            child: const Icon(Icons.fitness_center_rounded, color: Colors.white, size: 23),
+            child: const AssetSprite(index: 2, size: 25),
           ),
           const SizedBox(width: 7),
           const Expanded(child: Column(
@@ -115,7 +114,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Row(children: [
-            Icon(Icons.ac_unit_rounded, color: frozen ? MemberTheme.green : MemberTheme.purple, size: 24),
+            AssetSprite(index: 7, size: 25),
             const SizedBox(width: 4),
             Text(frozen ? 'FROZEN' : 'FREEZE', style: const TextStyle(
               fontSize: 13, fontWeight: FontWeight.w900, color: MemberTheme.ink)),
@@ -135,7 +134,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         borderRadius: BorderRadius.circular(20),
         child: Stack(clipBehavior: Clip.none, children: [
           const Padding(padding: EdgeInsets.all(3),
-            child: Icon(Icons.notifications_none_rounded, color: MemberTheme.ink, size: 27)),
+            child: AssetSprite(index: 6, size: 27)),
           if (!notificationRead)
             Positioned(right: 0, top: 0, child: Container(
               width: 10, height: 10,
@@ -192,9 +191,9 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
             ]),
             const SizedBox(height: 9),
             Row(children: [
-              Expanded(child: _statusPill('♛  Gold Plan', MemberTheme.gold, const Color(0xFF593000))),
+              Expanded(child: _statusPill('Gold Plan', MemberTheme.gold, const Color(0xFF593000), 11)),
               const SizedBox(width: 6),
-              Expanded(child: _statusPill('✓  Active', MemberTheme.green, Colors.white)),
+              Expanded(child: _statusPill('Active', MemberTheme.green, Colors.white, 15)),
             ]),
           ],
         )),
@@ -360,7 +359,10 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
           ],
         ),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(icon, color: accent, size: 23),
+          if (index == 0) const AssetSprite(index: 1, size: 25)
+          else if (index == 1) const AssetSprite(index: 2, size: 25)
+          else if (index == 2) const AssetSprite(index: 3, size: 25)
+          else Icon(icon, color: accent, size: 23),
           const SizedBox(height: 3),
           Text(title, maxLines: 1, overflow: TextOverflow.ellipsis,
             style: const TextStyle(fontSize: 9.2, height: 1,
@@ -427,7 +429,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         boxShadow: selectedRail == i ? const [BoxShadow(color: Color(0x66FF00FF), blurRadius: 8)] : null,
       ),
       child: Column(children: [
-        Icon(icons[i], size: 14, color: selectedRail == i ? MemberTheme.purple : Colors.white),
+        AssetSprite(index: spriteIcons[i], size: 22),
         const SizedBox(height: 0.5),
         Text(labels[i], maxLines: 1,
           style: TextStyle(fontSize: 6.8, height: 1,
@@ -537,7 +539,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
     child: Icon(icon, color: Colors.white, size: size * .64),
   );
 
-  Widget _statusPill(String label, Color color, Color textColor) => Container(
+  Widget _statusPill(String label, Color color, Color textColor, int spriteIndex) => Container(
     padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 7),
     decoration: BoxDecoration(
       gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight,
@@ -547,9 +549,69 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
       boxShadow: const [BoxShadow(color: Color(0x337B32B8), blurRadius: 5, offset: Offset(0, 2))],
     ),
     child: FittedBox(fit: BoxFit.scaleDown,
-      child: Text(label, style: TextStyle(fontSize: 12, height: 1,
-        fontWeight: FontWeight.w900, color: textColor))),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        AssetSprite(index: spriteIndex, size: 17),
+        const SizedBox(width: 3),
+        Text(label, style: TextStyle(fontSize: 12, height: 1,
+          fontWeight: FontWeight.w900, color: textColor)),
+      ])),
   );
+}
+
+
+class AssetSprite extends StatelessWidget {
+  final int index;
+  final double size;
+  const AssetSprite({super.key, required this.index, this.size = 24});
+
+  static final Future<ui.Image> _atlas = _loadAtlas();
+
+  static Future<ui.Image> _loadAtlas() async {
+    final data = await rootBundle.load('assets/images/badgym_ui_sprites.webp');
+    final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
+    final frame = await codec.getNextFrame();
+    return frame.image;
+  }
+
+  @override
+  Widget build(BuildContext context) => FutureBuilder<ui.Image>(
+    future: _atlas,
+    builder: (context, snapshot) {
+      if (!snapshot.hasData) return SizedBox(width: size, height: size);
+      return CustomPaint(
+        size: Size.square(size),
+        painter: _AssetSpritePainter(snapshot.data!, index),
+      );
+    },
+  );
+}
+
+class _AssetSpritePainter extends CustomPainter {
+  final ui.Image image;
+  final int index;
+  const _AssetSpritePainter(this.image, this.index);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const cell = 28.0;
+    const columns = 5;
+    final source = Rect.fromLTWH(
+      (index % columns) * cell,
+      (index ~/ columns) * cell,
+      cell,
+      cell,
+    );
+    canvas.drawImageRect(
+      image,
+      source,
+      Offset.zero & size,
+      Paint()..filterQuality = FilterQuality.high,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _AssetSpritePainter oldDelegate) =>
+    oldDelegate.image != image || oldDelegate.index != index;
 }
 
 class _Meta extends StatelessWidget {
