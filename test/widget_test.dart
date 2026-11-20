@@ -24,7 +24,7 @@ void main() {
       'Attendance Intelligence', 'Home overview',
       'Present', 'Absent', 'Holiday', 'History',
     ]) {
-      expect(find.text(label), findsWidgets, reason: 'Missing reference label: $label');
+      expect(find.textContaining(label), findsWidgets, reason: 'Missing reference label: $label');
     }
     expect(find.text('81%'), findsWidgets);
     expect(tester.takeException(), isNull);

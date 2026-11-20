@@ -401,7 +401,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
     child: AnimatedContainer(
       duration: const Duration(milliseconds: 180),
       width: 47,
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 1),
+      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 1),
       decoration: BoxDecoration(
         color: selectedRail == i ? Colors.white.withValues(alpha: .97) : Colors.transparent,
         borderRadius: BorderRadius.circular(12),
@@ -409,10 +409,10 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         boxShadow: selectedRail == i ? const [BoxShadow(color: Color(0x66FF00FF), blurRadius: 8)] : null,
       ),
       child: Column(children: [
-        Icon(icons[i], size: 19, color: selectedRail == i ? MemberTheme.purple : Colors.white),
-        const SizedBox(height: 2),
+        Icon(icons[i], size: 14, color: selectedRail == i ? MemberTheme.purple : Colors.white),
+        const SizedBox(height: 0.5),
         Text(labels[i], maxLines: 1,
-          style: TextStyle(fontSize: 7.8, height: 1,
+          style: TextStyle(fontSize: 6.8, height: 1,
             fontWeight: FontWeight.w800,
             color: selectedRail == i ? MemberTheme.purple : Colors.white)),
       ]),
