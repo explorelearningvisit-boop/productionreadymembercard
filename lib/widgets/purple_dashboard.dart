@@ -513,6 +513,13 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         ),
       ),
       Positioned.fill(child: CustomPaint(painter: _NeonFloorPainter())),
+      Positioned(
+        left: 0, right: 0, bottom: 0, height: 42,
+        child: IgnorePointer(
+          child: Image.asset('assets/images/gym_plants.webp',
+            fit: BoxFit.contain, alignment: Alignment.bottomCenter),
+        ),
+      ),
     ]),
   );
 
