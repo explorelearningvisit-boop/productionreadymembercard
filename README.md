@@ -3,7 +3,7 @@
 ## Current implementation
 This Flutter screen is rebuilt from the user's uploaded 19 November 2026 reference image. The reference is the visual authority for this implementation.
 
-- Mobile-first layout with a deep berry / magenta gradient shell.
+- Mobile-first layout with a ice-cyan / aqua translucent glass shell with vivid emerald and neon-green accents.
 - Check-in and Freeze Member header.
 - Member hero, plan and active status.
 - Payment and expiry strip, membership progress.
