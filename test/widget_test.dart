@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym_member_intelligence/main.dart';
 import 'package:bad_gym_member_intelligence/screens/member_dashboard_screen.dart';
@@ -36,6 +37,16 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('FROZEN'), findsOneWidget);
     await tester.tap(find.text('Attend'));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('supplied UI and equipment sprite atlases load', (tester) async {
+    await pumpDashboard(tester);
+    final uiSprites = await rootBundle.load('assets/images/badgym_ui_sprites.webp');
+    final equipmentSprites = await rootBundle.load('assets/images/badgym_equipment_sprites.webp');
+    expect(uiSprites.lengthInBytes, greaterThan(1000));
+    expect(equipmentSprites.lengthInBytes, greaterThan(1000));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
