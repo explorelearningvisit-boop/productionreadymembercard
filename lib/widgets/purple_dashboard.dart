@@ -378,7 +378,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         ),
       ]),
       const SizedBox(height: 7),
-      Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _verticalRail(),
         const SizedBox(width: 7),
         Expanded(child: _attendanceOverview()),
@@ -388,6 +388,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
 
   Widget _verticalRail() => Container(
     width: 54,
+    height: 192,
     padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
     decoration: MemberTheme.neonPanel(radius: 17),
     child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
