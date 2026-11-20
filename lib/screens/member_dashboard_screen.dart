@@ -46,7 +46,7 @@ class MemberDashboardScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            const _BrandHeader(compact: true),
+                            const _BrandHeader(),
                             const SizedBox(height: 7),
                             const MemberProfileCard(),
                             const SizedBox(height: 9),
@@ -70,8 +70,7 @@ class MemberDashboardScreen extends StatelessWidget {
 }
 
 class _BrandHeader extends StatelessWidget {
-  final bool compact;
-  const _BrandHeader({required this.compact});
+  const _BrandHeader();
 
   @override
   Widget build(BuildContext context) => Padding(
