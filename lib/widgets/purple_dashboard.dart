@@ -167,7 +167,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(23),
-            child: Image.asset('assets/images/member_hero.webp', fit: BoxFit.cover,
+            child: Image.asset('assets/images/member_portrait.png', fit: BoxFit.cover,
               alignment: Alignment.topCenter,
               errorBuilder: (_, __, ___) => const Center(
                 child: Icon(Icons.person_rounded, size: 76, color: Colors.white))),
@@ -301,10 +301,14 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
           ],
         )),
         const SizedBox(width: 5),
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
-          Icon(Icons.sports_gymnastics_rounded, size: 28, color: Color(0xFFFFD7FF)),
-          Icon(Icons.water_drop_rounded, size: 17, color: Colors.white),
-        ]),
+        SizedBox(
+          width: 66, height: 58,
+          child: Image.asset('assets/images/member_hero.webp',
+            fit: BoxFit.contain,
+            errorBuilder: (_, __, ___) => const Icon(
+              Icons.fitness_center_rounded, size: 38, color: Color(0xFFFFD7FF)),
+          ),
+        ),
         const SizedBox(width: 6),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
@@ -480,17 +484,27 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
   );
 
   Widget _gymFloor() => SizedBox(
-    height: 53,
+    height: 78,
     child: Stack(children: [
       Positioned.fill(child: CustomPaint(painter: _NeonFloorPainter())),
-      Align(alignment: Alignment.bottomLeft,
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Icon(Icons.spa_rounded, size: 34, color: const Color(0xFF268E42).withValues(alpha: .78)),
-          const Icon(Icons.fitness_center_rounded, size: 37, color: Color(0xFF32184E)),
-          const Icon(Icons.local_drink_rounded, size: 34, color: MemberTheme.purple),
-          const Icon(Icons.fitness_center_rounded, size: 38, color: Color(0xFF32184E)),
-          Icon(Icons.spa_rounded, size: 34, color: const Color(0xFF268E42).withValues(alpha: .78)),
-        ]),
+      Positioned(
+        left: 0, right: 0, bottom: 0, height: 68,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Image.asset('assets/images/member_hero.webp',
+            fit: BoxFit.cover, alignment: Alignment.bottomCenter,
+            errorBuilder: (_, __, ___) => const SizedBox.shrink()),
+        ),
+      ),
+      Positioned(
+        left: 2, bottom: 0, width: 52, height: 64,
+        child: Image.asset('assets/images/member_portrait.png',
+          fit: BoxFit.contain, alignment: Alignment.bottomLeft),
+      ),
+      Positioned(
+        right: 2, bottom: 0, width: 54, height: 62,
+        child: Image.asset('assets/images/member_hero.webp',
+          fit: BoxFit.contain, alignment: Alignment.bottomRight),
       ),
     ]),
   );
