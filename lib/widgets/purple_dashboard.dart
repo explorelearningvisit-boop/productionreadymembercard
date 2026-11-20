@@ -318,7 +318,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         ),
       ]),
     ]),
-  );
+  ).animate().fadeIn(duration: 360.ms).slideY(begin: .06, end: 0);
 
   Widget _metricStrip() => Row(children: [
     _metricTile('Attendance', '81%', Icons.calendar_month_rounded, MemberTheme.green, 0),
