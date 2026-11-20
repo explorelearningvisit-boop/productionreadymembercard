@@ -304,8 +304,8 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         if (MediaQuery.sizeOf(context).width >= 350) ...[
           SizedBox(
             width: 58, height: 54,
-            child: Image.asset('assets/images/member_hero.webp',
-              fit: BoxFit.contain,
+            child: Image.asset('assets/images/gym_interior.webp',
+              fit: BoxFit.cover,
               errorBuilder: (_, __, ___) => const Icon(
                 Icons.fitness_center_rounded, size: 34, color: Color(0xFFFFD7FF)),
             ),
@@ -489,20 +489,30 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
   );
 
   Widget _gymFloor() => SizedBox(
-    height: 58,
+    height: 76,
     child: Stack(children: [
-      Positioned.fill(child: CustomPaint(painter: _NeonFloorPainter())),
-      Positioned(
-        left: 0, bottom: 0, width: 56, height: 54,
-        child: Image.asset('assets/images/member_hero.webp',
-          fit: BoxFit.contain, alignment: Alignment.bottomLeft),
-      ),
-      Positioned(
-        right: 0, bottom: 0, width: 56, height: 54,
-        child: Image.asset('assets/images/member_hero.webp',
-          fit: BoxFit.contain, alignment: Alignment.bottomRight,
+      Positioned.fill(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Image.asset('assets/images/gym_interior.webp',
+            fit: BoxFit.cover, alignment: Alignment.bottomCenter),
         ),
       ),
+      Positioned.fill(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            gradient: LinearGradient(
+              begin: Alignment.topCenter, end: Alignment.bottomCenter,
+              colors: [
+                const Color(0x227900C8),
+                const Color(0xAA260044),
+              ],
+            ),
+          ),
+        ),
+      ),
+      Positioned.fill(child: CustomPaint(painter: _NeonFloorPainter())),
     ]),
   );
 
