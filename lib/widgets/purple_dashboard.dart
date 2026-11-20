@@ -167,7 +167,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(23),
-            child: Image.asset('assets/images/member_portrait.png', fit: BoxFit.cover,
+            child: Image.asset('assets/images/member_hero.webp', fit: BoxFit.cover,
               alignment: Alignment.topCenter,
               errorBuilder: (_, __, ___) => const Center(
                 child: Icon(Icons.person_rounded, size: 76, color: Colors.white))),
