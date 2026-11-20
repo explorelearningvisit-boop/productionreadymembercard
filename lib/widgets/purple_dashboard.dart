@@ -434,7 +434,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         boxShadow: selectedRail == i ? const [BoxShadow(color: Color(0x66FF00FF), blurRadius: 8)] : null,
       ),
       child: Column(children: [
-        AssetSprite(index: spriteIcons[i], size: 22),
+        AssetSprite(index: spriteIcons[i], size: 16),
         const SizedBox(height: 0.5),
         Text(labels[i], maxLines: 1,
           style: TextStyle(fontSize: 6.8, height: 1,
