@@ -7,137 +7,299 @@ enum MemberPlanTier { gold, silver, spark }
 class MemberProfileCard extends StatelessWidget {
   final MemberPlanTier planTier;
   const MemberProfileCard({super.key, this.planTier = MemberPlanTier.gold});
-  Color get _tierColor => switch (planTier) { MemberPlanTier.gold => MemberTheme.gold, MemberPlanTier.silver => const Color(0xFFD8DEE8), MemberPlanTier.spark => MemberTheme.green };
-  String get _tierLabel => switch (planTier) { MemberPlanTier.gold => '👑 Gold Plan', MemberPlanTier.silver => '◇ Silver Plan', MemberPlanTier.spark => '✦ Spark Plan' };
+
+  Color get _tierColor => switch (planTier) {
+        MemberPlanTier.gold => MemberTheme.gold,
+        MemberPlanTier.silver => const Color(0xFFE5EAF0),
+        MemberPlanTier.spark => MemberTheme.emerald,
+      };
+
+  String get _tierLabel => switch (planTier) {
+        MemberPlanTier.gold => '♛ Gold Plan',
+        MemberPlanTier.silver => '◇ Silver Plan',
+        MemberPlanTier.spark => '✦ Spark Plan',
+      };
 
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.fromLTRB(7, 4, 7, 5),
-    decoration: BoxDecoration(
-      gradient: const LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Color(0xFFB90B60), Color(0xFF790039), Color(0xFF69002F)],
-      ),
-      borderRadius: BorderRadius.circular(26),
-      border: Border.all(color: const Color(0xFFFF9DCE), width: 1.35),
-      boxShadow: const [
-        BoxShadow(color: Color(0x8875003D), blurRadius: 16, offset: Offset(0, 6)),
-      ],
-    ),
-    child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      const _CheckInFreezeActions(),
-      const SizedBox(height: 4),
-      Row(children: [
-        SizedBox(
-          width: 62,
-          height: 66,
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Image.asset(
-              'assets/images/member_portrait.png',
-              fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) =>
-                  const Icon(Icons.fitness_center, size: 66, color: Colors.white70),
-            ),
-          ),
-        ),
-        const SizedBox(width: 9),
-        Expanded(child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Welcome Back 👋',
-              style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500)),
-            const SizedBox(height: 2),
-            const Text('Ashwani Kumar Singh', maxLines: 2,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16, height: 1.0)),
-            const SizedBox(height: 4),
-            const Wrap(spacing: 8, runSpacing: 4, children: [
-              _Meta(Icons.calendar_month, 'BG215'),
-              _Meta(Icons.person_outline, '28 Yrs'),
-              _Meta(Icons.male, 'Male'),
-            ]),
-            const SizedBox(height: 4),
-            Row(children: [
-              Expanded(child: _PlanPill(label: _tierLabel, color: _tierColor, textColor: planTier == MemberPlanTier.spark ? Colors.white : MemberTheme.ink)),
-              SizedBox(width: 6),
-              Expanded(child: _PlanPill(label: '✓ Active', color: MemberTheme.green, textColor: Colors.white)),
-            ]),
-          ],
-        )),
-      ]),
-      const SizedBox(height: 3),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+        padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFF4F9),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white.withValues(alpha: .85)),
+          gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.white, Color(0xFFF0F8F1), Color(0xFFE5F3E8)],
+          ),
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(color: Colors.white, width: 1.6),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x1B164C32),
+              blurRadius: 18,
+              offset: Offset(0, 7),
+            ),
+          ],
         ),
-        child: Row(children: [
-          Icon(Icons.account_balance_wallet, color: MemberTheme.berry, size: 23),
-          SizedBox(width: 6),
-          Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Payment', style: TextStyle(fontSize: 9, color: MemberTheme.ink)),
-            Text('₹500 Due', style: TextStyle(fontSize: 14, color: MemberTheme.red, fontWeight: FontWeight.w900)),
-          ])),
-          SizedBox(width: 5),
-          Icon(Icons.event_available, color: MemberTheme.berry, size: 22),
-          SizedBox(width: 5),
-          Expanded(flex: 2, child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('8 Days Left', style: TextStyle(fontSize: 13, color: MemberTheme.red, fontWeight: FontWeight.w900)),
-            Text('Expires: 24 Oct 2026', style: TextStyle(fontSize: 9, color: MemberTheme.ink)),
-          ])),
-          QrImageView(data: 'BADGYM:BG215', version: QrVersions.auto, size: 46, padding: const EdgeInsets.all(2), errorCorrectionLevel: QrErrorCorrectLevel.H),
-        ]),
-      ),
-      const SizedBox(height: 5),
-      Row(children: const [
-        Expanded(child: Text('Membership 22 / 30 Days',
-          style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w900))),
-        Text('73%', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w900)),
-      ]),
-      const SizedBox(height: 4),
-      ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: const LinearProgressIndicator(
-          value: .73, minHeight: 7,
-          backgroundColor: Color(0xFFFFE8F3),
-          valueColor: AlwaysStoppedAnimation(MemberTheme.pink),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const _CheckInFreezeActions(),
+            const SizedBox(height: 10),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 64,
+                  height: 68,
+                  decoration: BoxDecoration(
+                    color: MemberTheme.mint,
+                    borderRadius: BorderRadius.circular(19),
+                    border: Border.all(color: Colors.white, width: 2),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Image.asset(
+                    'assets/images/member_portrait.png',
+                    fit: BoxFit.contain,
+                    alignment: Alignment.bottomCenter,
+                    errorBuilder: (_, __, ___) => const Icon(
+                      Icons.fitness_center,
+                      size: 36,
+                      color: MemberTheme.forest,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'WELCOME BACK 👋',
+                        style: TextStyle(
+                          color: MemberTheme.muted,
+                          fontSize: 9,
+                          letterSpacing: 1.05,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                      const SizedBox(height: 2),
+                      const Text(
+                        'Ashwani Kumar Singh',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: MemberTheme.ink,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16,
+                          height: 1.1,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      const Wrap(
+                        spacing: 9,
+                        runSpacing: 3,
+                        children: [
+                          _Meta(Icons.badge_outlined, 'BG215'),
+                          _Meta(Icons.person_outline, '28 Yrs'),
+                          _Meta(Icons.male, 'Male'),
+                        ],
+                      ),
+                      const SizedBox(height: 7),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _PlanPill(
+                              label: _tierLabel,
+                              color: _tierColor,
+                              textColor: planTier == MemberPlanTier.spark
+                                  ? Colors.white
+                                  : MemberTheme.ink,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          const Expanded(
+                            child: _PlanPill(
+                              label: '✓ Active',
+                              color: Color(0xFFDDF4E5),
+                              textColor: MemberTheme.forest,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 8),
+              decoration: MemberTheme.softSurface(radius: 16, tint: Colors.white),
+              child: Row(
+                children: [
+                  const _PaymentIcon(),
+                  const SizedBox(width: 7),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('PAYMENT',
+                            style: TextStyle(
+                                color: MemberTheme.muted,
+                                fontSize: 8,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: .6)),
+                        SizedBox(height: 1),
+                        Text('₹500 Due',
+                            style: TextStyle(
+                                color: MemberTheme.red,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w900)),
+                      ],
+                    ),
+                  ),
+                  Container(width: 1, height: 34, color: MemberTheme.line),
+                  const SizedBox(width: 9),
+                  const Icon(Icons.event_available,
+                      color: MemberTheme.forest, size: 20),
+                  const SizedBox(width: 5),
+                  const Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('8 Days Left',
+                            style: TextStyle(
+                                color: MemberTheme.forest,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w900)),
+                        Text('Expires: 24 Oct 2026',
+                            style: TextStyle(
+                                color: MemberTheme.muted, fontSize: 8)),
+                      ],
+                    ),
+                  ),
+                  QrImageView(
+                    data: 'BADGYM:BG215',
+                    version: QrVersions.auto,
+                    size: 42,
+                    padding: const EdgeInsets.all(1),
+                    errorCorrectionLevel: QrErrorCorrectLevel.H,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 9),
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'MEMBERSHIP · 22 / 30 DAYS',
+                    style: TextStyle(
+                      color: MemberTheme.ink,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: .45,
+                    ),
+                  ),
+                ),
+                Text('73%',
+                    style: TextStyle(
+                        color: MemberTheme.forest,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w900)),
+              ],
+            ),
+            const SizedBox(height: 5),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: const LinearProgressIndicator(
+                value: .73,
+                minHeight: 7,
+                backgroundColor: Color(0xFFDCE9DE),
+                valueColor: AlwaysStoppedAnimation(MemberTheme.emerald),
+              ),
+            ),
+          ],
         ),
-      ),
-    ]),
-  );
+      );
+}
+
+class _PaymentIcon extends StatelessWidget {
+  const _PaymentIcon();
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 31,
+        height: 31,
+        decoration: BoxDecoration(
+          color: MemberTheme.mint,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Icon(Icons.account_balance_wallet_outlined,
+            color: MemberTheme.forest, size: 18),
+      );
 }
 
 class _CheckInFreezeActions extends StatelessWidget {
   const _CheckInFreezeActions();
 
   @override
-  Widget build(BuildContext context) => SizedBox(height: 38, child: Row(children: [
-    Expanded(child: Row(children: [
-      const CircleAvatar(radius: 14, backgroundColor: MemberTheme.green,
-        child: Icon(Icons.check, color: Colors.white, size: 18)),
-      const SizedBox(width: 6),
-      const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text('CHECK-IN', maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w900)),
-          Text('Completed · 07:12 AM', maxLines: 1, overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.white, fontSize: 8)),
-        ])),
-    ])),
-    Container(width: 1, height: 30, color: Colors.white54),
-    Expanded(child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      const Icon(Icons.ac_unit, color: Color(0xFFFFD6EC), size: 20),
-      const SizedBox(width: 4),
-      const Flexible(child: Text('FREEZE', maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 11))),
-    ])),
-    const SizedBox(width: 4),
-    const Icon(Icons.notifications_none, color: Colors.white, size: 19),
-  ]));
+  Widget build(BuildContext context) => Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
+            decoration: BoxDecoration(
+              color: const Color(0xFFDDF4E5),
+              borderRadius: BorderRadius.circular(13),
+            ),
+            child: const Row(
+              children: [
+                CircleAvatar(
+                  radius: 11,
+                  backgroundColor: MemberTheme.forest,
+                  child: Icon(Icons.check, color: Colors.white, size: 14),
+                ),
+                SizedBox(width: 6),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('CHECK-IN',
+                        style: TextStyle(
+                            color: MemberTheme.forest,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w900)),
+                    Text('Completed · 07:12 AM',
+                        style: TextStyle(
+                            color: MemberTheme.muted, fontSize: 7)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const Spacer(),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(13),
+              border: Border.all(color: MemberTheme.line),
+            ),
+            child: const Row(
+              children: [
+                Icon(Icons.ac_unit, color: MemberTheme.forest, size: 16),
+                SizedBox(width: 5),
+                Text('FREEZE',
+                    style: TextStyle(
+                        color: MemberTheme.forest,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 10)),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          const Icon(Icons.notifications_none,
+              color: MemberTheme.forest, size: 21),
+        ],
+      );
 }
 
 class _Meta extends StatelessWidget {
@@ -146,93 +308,155 @@ class _Meta extends StatelessWidget {
   const _Meta(this.icon, this.label);
 
   @override
-  Widget build(BuildContext context) => Row(mainAxisSize: MainAxisSize.min, children: [
-    Icon(icon, size: 14, color: Colors.white),
-    const SizedBox(width: 3),
-    Text(label, style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600)),
-  ]);
+  Widget build(BuildContext context) => Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 12, color: MemberTheme.muted),
+          const SizedBox(width: 3),
+          Text(label,
+              style: const TextStyle(
+                  color: MemberTheme.muted,
+                  fontSize: 9,
+                  fontWeight: FontWeight.w700)),
+        ],
+      );
 }
 
 class _PlanPill extends StatelessWidget {
   final String label;
   final Color color;
   final Color textColor;
-  const _PlanPill({required this.label, required this.color, required this.textColor});
+  const _PlanPill(
+      {required this.label, required this.color, required this.textColor});
 
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
-    decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(22),
-      boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 2))]),
-    child: Text(label, textAlign: TextAlign.center, maxLines: 1,
-      style: TextStyle(color: textColor, fontSize: 11, fontWeight: FontWeight.w900)),
-  );
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 5),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(11),
+        ),
+        child: Text(label,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: textColor, fontSize: 10, fontWeight: FontWeight.w900)),
+      );
 }
 
 class PromoBanner extends StatelessWidget {
   const PromoBanner({super.key});
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
-    decoration: BoxDecoration(
-      gradient: const LinearGradient(colors: [Color(0xFFFFF0A4), Color(0xFFFFC52C), Color(0xFFFFE88C)]),
-      borderRadius: BorderRadius.circular(20),
-      border: Border.all(color: Colors.white, width: 1.5),
-      boxShadow: const [BoxShadow(color: Color(0x8875003D), blurRadius: 12, offset: Offset(0, 4))],
-    ),
-    child: Row(children: const [
-      Text('amazon', style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w900)),
-      SizedBox(width: 10), SizedBox(height: 35, child: VerticalDivider(color: MemberTheme.ink, thickness: 1)),
-      Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('Big Billion Sale', style: TextStyle(fontSize: 15, color: MemberTheme.red, fontWeight: FontWeight.w900)),
-        Text('Up to 40% OFF · Fitness Gear', style: TextStyle(fontSize: 10, color: Colors.black87)),
-      ])),
-      Icon(Icons.fitness_center, color: MemberTheme.ink, size: 29),
-      SizedBox(width: 6),
-      DecoratedBox(decoration: BoxDecoration(color: MemberTheme.red, borderRadius: BorderRadius.all(Radius.circular(18))),
-        child: Padding(padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-          child: Text('Shop Now ›', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900)))),
-    ]),
-  );
+        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 10),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF174F37), Color(0xFF0B8F61)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(17),
+          boxShadow: const [
+            BoxShadow(
+                color: Color(0x1D164C32),
+                blurRadius: 12,
+                offset: Offset(0, 4))
+          ],
+        ),
+        child: const Row(
+          children: [
+            Icon(Icons.workspace_premium_outlined,
+                color: MemberTheme.leaf, size: 25),
+            SizedBox(width: 9),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('MEMBER PERKS',
+                      style: TextStyle(
+                          color: MemberTheme.leaf,
+                          fontSize: 8,
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1)),
+                  Text('Train better. Get rewarded.',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w900)),
+                  Text('Exclusive fitness benefits & offers',
+                      style: TextStyle(
+                          color: Colors.white70, fontSize: 8)),
+                ],
+              ),
+            ),
+            Icon(Icons.arrow_forward_rounded,
+                color: Colors.white, size: 20),
+          ],
+        ),
+      );
 }
 
 class QuickMetricRow extends StatelessWidget {
   const QuickMetricRow({super.key});
   @override
-  Widget build(BuildContext context) => Row(children: const [
-    Expanded(child: _Metric(Icons.calendar_month, 'Attendance', '81%', MemberTheme.gold, MemberTheme.green)),
-    SizedBox(width: 6),
-    Expanded(child: _Metric(Icons.fitness_center, 'Workout', '58 min', MemberTheme.berry, Colors.white)),
-    SizedBox(width: 6),
-    Expanded(child: _Metric(Icons.wallet, 'Payment', '₹500 Due', MemberTheme.berry, Colors.white)),
-    SizedBox(width: 6),
-    Expanded(child: _Metric(Icons.monitor_weight, 'Body', '69.5 kg', MemberTheme.berry, Colors.white)),
-  ]);
+  Widget build(BuildContext context) => const Row(
+        children: [
+          Expanded(
+              child: _Metric(Icons.calendar_month_rounded, 'Attendance',
+                  '81%', MemberTheme.forest)),
+          SizedBox(width: 6),
+          Expanded(
+              child: _Metric(
+                  Icons.fitness_center_rounded, 'Workout', '58 min',
+                  MemberTheme.blue)),
+          SizedBox(width: 6),
+          Expanded(
+              child: _Metric(Icons.wallet_outlined, 'Payment', '₹500 Due',
+                  MemberTheme.red)),
+          SizedBox(width: 6),
+          Expanded(
+              child: _Metric(Icons.monitor_weight_outlined, 'Body', '69.5 kg',
+                  MemberTheme.purple)),
+        ],
+      );
 }
 
 class _Metric extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
-  final Color bg;
-  final Color fg;
-  const _Metric(this.icon, this.label, this.value, this.bg, this.fg);
+  final Color accent;
+  const _Metric(this.icon, this.label, this.value, this.accent);
 
   @override
   Widget build(BuildContext context) => Container(
-    constraints: const BoxConstraints(minHeight: 56),
-    padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
-    decoration: BoxDecoration(
-      gradient: LinearGradient(colors: [bg, bg == MemberTheme.gold ? const Color(0xFFFFE68A) : const Color(0xFF8B0646)]),
-      borderRadius: BorderRadius.circular(15),
-      border: Border.all(color: Colors.white, width: 1.2),
-      boxShadow: const [BoxShadow(color: Color(0x66700034), blurRadius: 8, offset: Offset(0, 3))],
-    ),
-    child: Column(children: [
-      Icon(icon, color: bg == MemberTheme.gold ? MemberTheme.ink : Colors.white, size: 19),
-      Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: bg == MemberTheme.gold ? MemberTheme.ink : Colors.white, fontSize: 9, fontWeight: FontWeight.w800)),
-      FittedBox(fit: BoxFit.scaleDown, child: Text(value, style: TextStyle(color: fg, fontSize: 14, fontWeight: FontWeight.w900))),
-    ]),
-  );
+        constraints: const BoxConstraints(minHeight: 70),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 3),
+        decoration: MemberTheme.card(radius: 15, elevated: false).copyWith(
+          color: Colors.white,
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: accent, size: 18),
+            const SizedBox(height: 4),
+            Text(label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    color: MemberTheme.muted,
+                    fontSize: 8,
+                    fontWeight: FontWeight.w800)),
+            const SizedBox(height: 2),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(value,
+                  style: TextStyle(
+                      color: accent,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w900)),
+            ),
+          ],
+        ),
+      );
 }
