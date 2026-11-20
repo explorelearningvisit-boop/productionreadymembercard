@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../theme/member_theme.dart';
 
+enum MemberPlanTier { gold, silver, spark }
+
 class MemberProfileCard extends StatelessWidget {
-  const MemberProfileCard({super.key});
+  final MemberPlanTier planTier;
+  const MemberProfileCard({super.key, this.planTier = MemberPlanTier.gold});
+  Color get _tierColor => switch (planTier) { MemberPlanTier.gold => MemberTheme.gold, MemberPlanTier.silver => const Color(0xFFD8DEE8), MemberPlanTier.spark => MemberTheme.green };
+  String get _tierLabel => switch (planTier) { MemberPlanTier.gold => '👑 Gold Plan', MemberPlanTier.silver => '◇ Silver Plan', MemberPlanTier.spark => '✦ Spark Plan' };
 
   @override
   Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.fromLTRB(8, 6, 8, 7),
+    padding: const EdgeInsets.fromLTRB(7, 4, 7, 5),
     decoration: BoxDecoration(
       gradient: const LinearGradient(
         begin: Alignment.topLeft,
@@ -25,8 +30,8 @@ class MemberProfileCard extends StatelessWidget {
       const SizedBox(height: 4),
       Row(children: [
         SizedBox(
-          width: 68,
-          height: 76,
+          width: 62,
+          height: 66,
           child: Align(
             alignment: Alignment.bottomCenter,
             child: Image.asset(
@@ -43,28 +48,28 @@ class MemberProfileCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Welcome Back 👋',
-              style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
+              style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500)),
             const SizedBox(height: 2),
             const Text('Ashwani Kumar Singh', maxLines: 2,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 17, height: 1.0)),
-            const SizedBox(height: 6),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16, height: 1.0)),
+            const SizedBox(height: 4),
             const Wrap(spacing: 8, runSpacing: 4, children: [
               _Meta(Icons.calendar_month, 'BG215'),
               _Meta(Icons.person_outline, '28 Yrs'),
               _Meta(Icons.male, 'Male'),
             ]),
-            const SizedBox(height: 5),
-            Row(children: const [
-              Expanded(child: _PlanPill(label: '👑 Gold Plan', color: MemberTheme.gold, textColor: MemberTheme.ink)),
+            const SizedBox(height: 4),
+            Row(children: [
+              Expanded(child: _PlanPill(label: _tierLabel, color: _tierColor, textColor: planTier == MemberPlanTier.spark ? Colors.white : MemberTheme.ink)),
               SizedBox(width: 6),
               Expanded(child: _PlanPill(label: '✓ Active', color: MemberTheme.green, textColor: Colors.white)),
             ]),
           ],
         )),
       ]),
-      const SizedBox(height: 5),
+      const SizedBox(height: 3),
       Container(
-        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
         decoration: BoxDecoration(
           color: const Color(0xFFFFF4F9),
           borderRadius: BorderRadius.circular(16),
@@ -84,7 +89,7 @@ class MemberProfileCard extends StatelessWidget {
             Text('8 Days Left', style: TextStyle(fontSize: 13, color: MemberTheme.red, fontWeight: FontWeight.w900)),
             Text('Expires: 24 Oct 2026', style: TextStyle(fontSize: 9, color: MemberTheme.ink)),
           ])),
-          QrImageView(data: 'BADGYM:BG215', version: QrVersions.auto, size: 31, padding: EdgeInsets.zero),
+          QrImageView(data: 'BADGYM:BG215', version: QrVersions.auto, size: 46, padding: const EdgeInsets.all(2), errorCorrectionLevel: QrErrorCorrectLevel.H),
         ]),
       ),
       const SizedBox(height: 5),
@@ -97,7 +102,7 @@ class MemberProfileCard extends StatelessWidget {
       ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: const LinearProgressIndicator(
-          value: .73, minHeight: 8,
+          value: .73, minHeight: 7,
           backgroundColor: Color(0xFFFFE8F3),
           valueColor: AlwaysStoppedAnimation(MemberTheme.pink),
         ),
@@ -110,28 +115,29 @@ class _CheckInFreezeActions extends StatelessWidget {
   const _CheckInFreezeActions();
 
   @override
-  Widget build(BuildContext context) => Row(children: [
-    const CircleAvatar(
-      radius: 15,
-      backgroundColor: MemberTheme.green,
-      child: Icon(Icons.check, color: Colors.white, size: 20),
-    ),
-    const SizedBox(width: 7),
-    const Expanded(child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('CHECK-IN', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
-        Text('Completed · 07:12 AM', style: TextStyle(color: Colors.white, fontSize: 9)),
-      ],
-    )),
-    Container(width: 1, height: 32, color: Colors.white54),
-    const SizedBox(width: 8),
-    const Icon(Icons.ac_unit, color: Color(0xFFFFD6EC), size: 25),
-    const SizedBox(width: 5),
-    const Expanded(child: Text('FREEZE MEMBER', textAlign: TextAlign.center,
-      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 12))),
-    const Icon(Icons.notifications_none, color: Colors.white, size: 21),
-  ]);
+  Widget build(BuildContext context) => SizedBox(height: 38, child: Row(children: [
+    Expanded(child: Row(children: [
+      const CircleAvatar(radius: 14, backgroundColor: MemberTheme.green,
+        child: Icon(Icons.check, color: Colors.white, size: 18)),
+      const SizedBox(width: 6),
+      const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text('CHECK-IN', maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w900)),
+          Text('Completed · 07:12 AM', maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: Colors.white, fontSize: 8)),
+        ])),
+    ])),
+    Container(width: 1, height: 30, color: Colors.white54),
+    Expanded(child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      const Icon(Icons.ac_unit, color: Color(0xFFFFD6EC), size: 20),
+      const SizedBox(width: 4),
+      const Flexible(child: Text('FREEZE', maxLines: 1, overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 11))),
+    ])),
+    const SizedBox(width: 4),
+    const Icon(Icons.notifications_none, color: Colors.white, size: 19),
+  ]));
 }
 
 class _Meta extends StatelessWidget {
