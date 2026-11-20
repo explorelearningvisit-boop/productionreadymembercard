@@ -23,7 +23,7 @@ void main() {
     expect(find.text('FREEZE'), findsOneWidget);
     expect(find.byType(MemberProfileCard), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
-    expect(find.text('Member Intelligence'), findsOneWidget);
+    expect(find.text('Attendance Intelligence'), findsOneWidget);
     expect(find.text('${months[now.month - 1]} ${now.year}'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
