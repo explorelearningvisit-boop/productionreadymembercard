@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/member_theme.dart';
 
 class PurpleMemberDashboard extends StatefulWidget {
@@ -230,7 +232,14 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         width: 43, height: 43,
         decoration: BoxDecoration(color: Colors.white, border: Border.all(color: MemberTheme.line),
           borderRadius: BorderRadius.circular(5)),
-        child: const Icon(Icons.qr_code_2_rounded, size: 40, color: Colors.black),
+        child: QrImageView(
+          data: 'BADGYM|MEMBER:BG215|NAME:ASHWANI KUMAR SINGH|PLAN:GOLD',
+          size: 41,
+          padding: const EdgeInsets.all(2),
+          backgroundColor: Colors.white,
+          eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
+          dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black),
+        ),
       ),
     ]),
   );
