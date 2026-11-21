@@ -40,16 +40,12 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('supplied UI and equipment sprite atlases load', (tester) async {
+  testWidgets('individual dashboard image assets load without sprite atlases', (tester) async {
     await pumpDashboard(tester);
-    final uiSprites = await rootBundle.load('assets/images/badgym_ui_sprites.webp');
-    final equipmentSprites = await rootBundle.load('assets/images/badgym_equipment_sprites.webp');
     final memberHero = await rootBundle.load('assets/images/member_hero.webp');
     final memberPortrait = await rootBundle.load('assets/images/member_portrait.png');
     final gymInterior = await rootBundle.load('assets/images/gym_interior.webp');
     final gymPlants = await rootBundle.load('assets/images/gym_plants.webp');
-    expect(uiSprites.lengthInBytes, greaterThan(1000));
-    expect(equipmentSprites.lengthInBytes, greaterThan(1000));
     expect(memberHero.lengthInBytes, greaterThan(1000));
     expect(memberPortrait.lengthInBytes, greaterThan(1000));
     expect(gymInterior.lengthInBytes, greaterThan(1000));
