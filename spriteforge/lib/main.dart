@@ -80,8 +80,10 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
       final loaded = <_ImageAsset>[];
       for (final file in picked) {
         final bytes = await file.readAsBytes();
-        if (img.decodeImage(bytes) != null) {
-          loaded.add(_ImageAsset(name: file.name, path: file.path, bytes: bytes));
+        final decoded = img.decodeImage(bytes);
+        if (decoded != null) {
+          final normalizedPng = Uint8List.fromList(img.encodePng(decoded));
+          loaded.add(_ImageAsset(name: file.name, path: file.path, bytes: normalizedPng));
         }
       }
       setState(() {
