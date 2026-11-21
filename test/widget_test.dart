@@ -12,7 +12,7 @@ void main(){
   expect(find.textContaining('8 Days Left'),findsOneWidget);expect(find.text('Gold Plan   ·   Active'),findsOneWidget);});
  testWidgets('compact 320dp viewport renders',(t)async{await setSize(t,const Size(320,720));
   await t.pumpWidget(const BadGymApp());await t.pumpAndSettle();expect(find.text('BAD GYM'),findsOneWidget);
-  expect(t.takeException(),isNull);});
+  final error=t.takeException(); if(error!=null){debugDumpRenderTree();} expect(error,isNull);});
  testWidgets('navigation rail interaction works',(t)async{await setSize(t,const Size(360,780));
   await t.pumpWidget(const BadGymApp());await t.ensureVisible(find.byType(InkWell).first); await t.tap(find.byType(InkWell).first);await t.pump();
   expect(t.takeException(),isNull);});
