@@ -13,9 +13,9 @@ class _DashboardState extends State<PurpleMemberDashboard>{
   decoration:BoxDecoration(color:Colors.white.withValues(alpha:.95),
    borderRadius:BorderRadius.circular(19),border:Border.all(color:MemberTheme.line),
    boxShadow:[BoxShadow(color:MemberTheme.purple.withValues(alpha:.08),blurRadius:12)]),child:child);
- Widget _metric(String i,String t,String v,Color c)=>Expanded(child:_card(Column(children:[
+ Widget _metric(String i,String t,String v,Color c)=>_card(Column(children:[
   _ic(i,size:24),Text(t,style:const TextStyle(fontSize:10,color:MemberTheme.muted)),
-  Text(v,style:TextStyle(fontSize:12,fontWeight:FontWeight.w900,color:c))])));
+  Text(v,style:TextStyle(fontSize:12,fontWeight:FontWeight.w900,color:c))]));
  @override Widget build(BuildContext context){
   final compact=MediaQuery.sizeOf(context).width<370;
   const rail=['icon_home','icon_calendar','icon_dumbbell','icon_wallet','icon_tag','icon_clock'];
@@ -55,10 +55,23 @@ class _DashboardState extends State<PurpleMemberDashboard>{
       const Expanded(child:Text('BIG BILLION SALE\nUp to 40% OFF · Fitness Gear',style:TextStyle(fontWeight:FontWeight.w900,color:MemberTheme.purple))),
       _ic('equip_dumbbell_purple_sm',size:40)])),
      const SizedBox(height:9),
-     Row(children:[_metric('icon_calendar','Attendance','81%',MemberTheme.green),const SizedBox(width:5),
-      _metric('icon_dumbbell','Workout','58 min',MemberTheme.purple),const SizedBox(width:5),
-      _metric('icon_wallet','Payment','₹500 Due',MemberTheme.red),const SizedBox(width:5),
-      _metric('icon_chart','Body','69.5 kg',MemberTheme.ink)]),
+     if(compact)
+      LayoutBuilder(builder:(context,constraints){
+       final w=(constraints.maxWidth-5)/2;
+       return Wrap(spacing:5,runSpacing:5,children:[
+        SizedBox(width:w,child:_metric('icon_calendar','Attendance','81%',MemberTheme.green)),
+        SizedBox(width:w,child:_metric('icon_dumbbell','Workout','58 min',MemberTheme.purple)),
+        SizedBox(width:w,child:_metric('icon_wallet','Payment','₹500 Due',MemberTheme.red)),
+        SizedBox(width:w,child:_metric('icon_chart','Body','69.5 kg',MemberTheme.ink)),
+       ]);
+      })
+     else
+      Row(children:[
+       Expanded(child:_metric('icon_calendar','Attendance','81%',MemberTheme.green)),const SizedBox(width:5),
+       Expanded(child:_metric('icon_dumbbell','Workout','58 min',MemberTheme.purple)),const SizedBox(width:5),
+       Expanded(child:_metric('icon_wallet','Payment','₹500 Due',MemberTheme.red)),const SizedBox(width:5),
+       Expanded(child:_metric('icon_chart','Body','69.5 kg',MemberTheme.ink)),
+      ]),
      const SizedBox(height:9),
      _card(Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
       Row(children:[_ic('icon_chart',size:24),const SizedBox(width:6),
