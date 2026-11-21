@@ -1,6 +1,4 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/member_theme.dart';
@@ -585,107 +583,63 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
 
 
 
+/// Transitional semantic icon widgets. The dashboard no longer decodes or
+/// crops sprite atlases at runtime; approved individual PNG assets can replace
+/// these fallbacks without changing the surrounding layout.
 class EquipmentSprite extends StatelessWidget {
   final int index;
   final double size;
   const EquipmentSprite({super.key, required this.index, this.size = 40});
 
-  static final Future<ui.Image> _atlas = _loadAtlas();
-
-  static Future<ui.Image> _loadAtlas() async {
-    final data = await rootBundle.load('assets/images/badgym_equipment_sprites.webp');
-    final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
-    final frame = await codec.getNextFrame();
-    return frame.image;
-  }
+  static const _icons = <IconData>[
+    Icons.fitness_center_rounded,
+    Icons.sports_gymnastics_rounded,
+    Icons.local_drink_rounded,
+    Icons.dry_cleaning_rounded,
+  ];
 
   @override
-  Widget build(BuildContext context) => FutureBuilder<ui.Image>(
-    future: _atlas,
-    builder: (context, snapshot) {
-      if (!snapshot.hasData) return SizedBox(width: size, height: size);
-      return CustomPaint(
-        size: Size.square(size),
-        painter: _EquipmentSpritePainter(snapshot.data!, index),
-      );
-    },
+  Widget build(BuildContext context) => Icon(
+    _icons[index.clamp(0, _icons.length - 1)],
+    size: size,
+    color: Colors.white.withValues(alpha: .92),
+    shadows: const [Shadow(color: MemberTheme.neon, blurRadius: 8)],
   );
 }
 
-class _EquipmentSpritePainter extends CustomPainter {
-  final ui.Image image;
-  final int index;
-  const _EquipmentSpritePainter(this.image, this.index);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    const cell = 48.0;
-    final source = Rect.fromLTWH(index * cell, 0, cell, cell);
-    canvas.drawImageRect(
-      image,
-      source,
-      Offset.zero & size,
-      Paint()..filterQuality = FilterQuality.high,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant _EquipmentSpritePainter oldDelegate) =>
-    oldDelegate.image != image || oldDelegate.index != index;
-}
 class AssetSprite extends StatelessWidget {
   final int index;
   final double size;
   const AssetSprite({super.key, required this.index, this.size = 24});
 
-  static final Future<ui.Image> _atlas = _loadAtlas();
-
-  static Future<ui.Image> _loadAtlas() async {
-    final data = await rootBundle.load('assets/images/badgym_ui_sprites.webp');
-    final codec = await ui.instantiateImageCodec(data.buffer.asUint8List());
-    final frame = await codec.getNextFrame();
-    return frame.image;
-  }
+  static const _icons = <IconData>[
+    Icons.home_rounded,
+    Icons.calendar_month_rounded,
+    Icons.fitness_center_rounded,
+    Icons.account_balance_wallet_rounded,
+    Icons.local_offer_rounded,
+    Icons.history_rounded,
+    Icons.notifications_active_rounded,
+    Icons.ac_unit_rounded,
+    Icons.qr_code_2_rounded,
+    Icons.person_rounded,
+    Icons.check_circle_rounded,
+    Icons.local_fire_department_rounded,
+    Icons.emoji_events_rounded,
+    Icons.trending_up_rounded,
+    Icons.workspace_premium_rounded,
+    Icons.check_circle_rounded,
+    Icons.pause_circle_rounded,
+    Icons.shopping_bag_rounded,
+  ];
 
   @override
-  Widget build(BuildContext context) => FutureBuilder<ui.Image>(
-    future: _atlas,
-    builder: (context, snapshot) {
-      if (!snapshot.hasData) return SizedBox(width: size, height: size);
-      return CustomPaint(
-        size: Size.square(size),
-        painter: _AssetSpritePainter(snapshot.data!, index),
-      );
-    },
+  Widget build(BuildContext context) => Icon(
+    _icons[index.clamp(0, _icons.length - 1)],
+    size: size,
+    color: Colors.white,
+    shadows: const [Shadow(color: MemberTheme.neon, blurRadius: 5)],
   );
-}
-
-class _AssetSpritePainter extends CustomPainter {
-  final ui.Image image;
-  final int index;
-  const _AssetSpritePainter(this.image, this.index);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    const cell = 28.0;
-    const columns = 5;
-    final source = Rect.fromLTWH(
-      (index % columns) * cell,
-      (index ~/ columns) * cell,
-      cell,
-      cell,
-    );
-    canvas.drawImageRect(
-      image,
-      source,
-      Offset.zero & size,
-      Paint()..filterQuality = FilterQuality.high,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant _AssetSpritePainter oldDelegate) =>
-    oldDelegate.image != image || oldDelegate.index != index;
 }
 
 class _Meta extends StatelessWidget {
