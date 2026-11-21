@@ -600,7 +600,7 @@ class EquipmentSprite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Icon(
-    _icons[index.clamp(0, _icons.length - 1)],
+    _icons[index.clamp(0, _icons.length - 1).toInt()],
     size: size,
     color: Colors.white.withValues(alpha: .92),
     shadows: const [Shadow(color: MemberTheme.neon, blurRadius: 8)],
