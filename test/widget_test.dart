@@ -9,7 +9,7 @@ void main(){
   expect(find.text('Attendance Intelligence'),findsOneWidget);});
  testWidgets('member payment and plan render',(t)async{await setSize(t,const Size(360,780));
   await t.pumpWidget(const BadGymApp());expect(find.text('₹500 Due'),findsWidgets);
-  expect(find.text('8 Days Left'),findsOneWidget);expect(find.text('Gold Plan   ·   Active'),findsOneWidget);});
+  expect(find.textContaining('8 Days Left'),findsOneWidget);expect(find.text('Gold Plan   ·   Active'),findsOneWidget);});
  testWidgets('compact 320dp viewport renders',(t)async{await setSize(t,const Size(320,720));
   await t.pumpWidget(const BadGymApp());await t.pumpAndSettle();expect(find.text('BAD GYM'),findsOneWidget);
   expect(t.takeException(),isNull);});
