@@ -13,7 +13,7 @@ A mobile-first image editing and batch-processing app, not limited to sprite she
 - Uniform-grid sprite-sheet splitting plus connected-component detection for already-transparent sprite sheets.
 
 ## Open-source components and credits
-See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Main integrations include `native_cutout` for on-device cutout and adapted `GhostScale` TFLite Real-ESRGAN inference for AI upscaling. The editor also uses `image`, `archive`, `tflite_flutter`, `image_picker`, `share_plus`, and `path_provider`.
+See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Main integrations include `native_cutout` for on-device cutout and adapted `GhostScale` TFLite Real-ESRGAN inference for AI upscaling. The editor also uses `image`, `archive`, `tflite_core`, `image_picker`, `share_plus`, and `path_provider`.
 
 ## Known limitations
 - Automatic segmentation is subject/foreground segmentation; results depend on image content and Android Google Play services. It is not universal semantic object removal.
