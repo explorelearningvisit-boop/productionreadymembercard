@@ -78,17 +78,17 @@ class _DashboardState extends State<PurpleMemberDashboard>{
        const Expanded(child:Text('Attendance Intelligence',style:TextStyle(fontSize:15,fontWeight:FontWeight.w900,color:MemberTheme.ink))),
        const Text('● LIVE',style:TextStyle(color:MemberTheme.red,fontWeight:FontWeight.w900,fontSize:10))]),
       const SizedBox(height:9),Row(children:[
-       Container(width:43,padding:const EdgeInsets.symmetric(vertical:8),
+       Container(width:compact?36:43,padding:const EdgeInsets.symmetric(vertical:8),
         decoration:BoxDecoration(gradient:const LinearGradient(colors:[MemberTheme.violet,MemberTheme.ink],begin:Alignment.topCenter,end:Alignment.bottomCenter),borderRadius:BorderRadius.circular(14)),
         child:Column(children:List.generate(rail.length,(i)=>InkWell(onTap:()=>setState(()=>selected=i),
          child:Padding(padding:const EdgeInsets.symmetric(vertical:6),child:Opacity(opacity:selected==i?1:.55,child:_ic(rail[i],size:22))))))),
-       const SizedBox(width:9),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
+       SizedBox(width:compact?5:9),Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
         const Text('Home overview',style:TextStyle(fontWeight:FontWeight.w900,color:MemberTheme.purple)),
         const Text('Check-in complete · 07:12 AM',style:TextStyle(fontSize:10,color:MemberTheme.muted)),
         const SizedBox(height:8),Row(children:[
-         SizedBox(width:76,height:76,child:Stack(alignment:Alignment.center,children:[
+         SizedBox(width:compact?62:76,height:compact?62:76,child:Stack(alignment:Alignment.center,children:[
           const CircularProgressIndicator(value:.81,strokeWidth:8,color:MemberTheme.green,backgroundColor:MemberTheme.line),
-          const Column(mainAxisSize:MainAxisSize.min,children:[Text('81%',style:TextStyle(fontWeight:FontWeight.w900,fontSize:20)),Text('25/31',style:TextStyle(fontSize:9))])])),
+          const Column(mainAxisSize:MainAxisSize.min,children:[Text('81%',style:TextStyle(fontWeight:FontWeight.w900,fontSize:compact?16:20)),Text('25/31',style:TextStyle(fontSize:8))])])),
          const SizedBox(width:8),const Expanded(child:Column(children:[
           _Legend(color:MemberTheme.green,label:'Present',value:'25 · 81%'),
           _Legend(color:MemberTheme.red,label:'Absent',value:'2 · 6%'),
