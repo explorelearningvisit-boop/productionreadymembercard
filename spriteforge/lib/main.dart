@@ -338,17 +338,6 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     }
   }
 
-  void _resizeActive() {
-    final image = _decoded;
-    if (image == null) return;
-    _recordUndo();
-    setState(() {
-      _decoded = img.copyResize(image, width: image.width * _scale, height: image.height * _scale, interpolation: img.Interpolation.cubic);
-      _restoreSource = img.decodeImage(Uint8List.fromList(img.encodePng(_decoded!)));
-      _active!.bytes = Uint8List.fromList(img.encodePng(_decoded!));
-      _status = 'Resized to \$_scale× using cubic interpolation (not AI super-resolution)';
-    });
-  }
 
   void _splitSheet() {
     final image = _decoded;
