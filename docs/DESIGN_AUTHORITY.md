@@ -23,4 +23,4 @@ The approved purple-neon BAD GYM dashboard screenshot (1024 × 1536) is the comp
 - Preserve asset aspect ratio and tight alpha bounds; avoid arbitrary sprite-cell crops for the final asset library.
 
 ## Current implementation status
-The Flutter dashboard hierarchy and purple theme are present. The latest CI build passed, but this is not proof of visual fidelity or final asset integration. The sprite atlases and their CustomPainter widgets are still in the branch. Individual source assets, naming, transparency, crop quality, and on-device screenshot matching remain open verification gates.
+The Flutter dashboard hierarchy and purple theme are present. Runtime sprite-atlas decoding and CustomPainter cropping have been removed; semantic Material icon fallbacks are used for navigation and equipment until the approved individual PNG pack is committed. Existing standalone image assets (member hero, portrait, gym interior and plants) remain in use. The separately verified 34-PNG archive has not yet been committed to this branch. Asset-by-asset visual matching, 320dp/360dp screenshot QA and on-device verification remain open gates.
