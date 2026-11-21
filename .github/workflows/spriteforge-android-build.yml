@@ -1,0 +1,48 @@
+name: SpriteForge Android APK
+on:
+  push:
+    branches: [feature/spriteforge-image-tools]
+    paths:
+      - 'spriteforge/**'
+      - '.github/workflows/spriteforge-android-build.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: spriteforge-android-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: spriteforge
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Generate Android platform files
+        run: flutter create --platforms=android --org com.spriteforge .
+      - name: Resolve dependencies
+        run: flutter pub get
+      - name: Format
+        run: dart format lib test
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed lib test
+      - name: Static analysis
+        run: flutter analyze
+      - name: Widget tests
+        run: flutter test
+      - name: Build release APK
+        run: flutter build apk --release
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spriteforge-release-apk-${{ github.sha }}
+          path: spriteforge/build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 14
