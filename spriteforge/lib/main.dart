@@ -409,7 +409,12 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     if (image == null) return;
     final rows = int.tryParse(_rows.text) ?? 0;
     final cols = int.tryParse(_cols.text) ?? 0;
-    if (rows < 1 || cols < 1 || rows * cols > 400) { setState(() => _status = 'Enter valid rows and columns (maximum 400 cells)'); return; }
+    if (rows < 1 || cols < 1 || rows * cols > 400 ||
+        rows > image.height || cols > image.width) {
+      setState(() => _status =
+          'Enter valid rows/columns. Each grid cell must be at least 1 pixel (maximum 400 cells).');
+      return;
+    }
     final cellW = image.width ~/ cols, cellH = image.height ~/ rows;
     var count = 0;
     for (var r = 0; r < rows; r++) {
