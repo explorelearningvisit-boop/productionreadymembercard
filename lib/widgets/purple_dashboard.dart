@@ -88,7 +88,7 @@ class _DashboardState extends State<PurpleMemberDashboard>{
         const SizedBox(height:8),Row(children:[
          SizedBox(width:compact?62:76,height:compact?62:76,child:Stack(alignment:Alignment.center,children:[
           const CircularProgressIndicator(value:.81,strokeWidth:8,color:MemberTheme.green,backgroundColor:MemberTheme.line),
-          const Column(mainAxisSize:MainAxisSize.min,children:[Text('81%',style:TextStyle(fontWeight:FontWeight.w900,fontSize:compact?16:20)),Text('25/31',style:TextStyle(fontSize:8))])])),
+          Column(mainAxisSize:MainAxisSize.min,children:[Text('81%',style:TextStyle(fontWeight:FontWeight.w900,fontSize:compact?16:20)),const Text('25/31',style:TextStyle(fontSize:8))])])),
          const SizedBox(width:8),const Expanded(child:Column(children:[
           _Legend(color:MemberTheme.green,label:'Present',value:'25 · 81%'),
           _Legend(color:MemberTheme.red,label:'Absent',value:'2 · 6%'),
