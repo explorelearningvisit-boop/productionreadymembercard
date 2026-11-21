@@ -31,8 +31,13 @@ jobs:
           gradle = Path("android/build.gradle.kts")
           content = gradle.read_text()
           block = """
-          // Keep Kotlin plugin bytecode aligned with Android Java compile target.
+          // Enforce one bytecode target across every Android plugin module.
+          // Some Flutter plugins default Java to 11 while others use 17; align both sides.
           subprojects {
+              tasks.withType<org.gradle.api.tasks.compile.JavaCompile>().configureEach {
+                  sourceCompatibility = "17"
+                  targetCompatibility = "17"
+              }
               tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
                   compilerOptions {
                       jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
