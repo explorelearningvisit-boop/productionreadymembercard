@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MemberTheme {
   static const ink = Color(0xFF24103D);
@@ -22,8 +21,6 @@ class MemberTheme {
       secondary: neon,
       surface: const Color(0xFFFFFCFF),
     ),
-    textTheme: GoogleFonts.poppinsTextTheme(),
-    fontFamily: GoogleFonts.poppins().fontFamily,
     splashFactory: InkSparkle.splashFactory,
     visualDensity: VisualDensity.standard,
   );
