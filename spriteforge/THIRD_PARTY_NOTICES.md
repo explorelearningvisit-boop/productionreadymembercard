@@ -6,7 +6,7 @@ SpriteForge uses or references the following open-source components:
 - GhostScale — MIT License; adapted tiled TFLite Real-ESRGAN inference service and Real-ESRGAN-General-x4v3_float.tflite model asset are sourced from https://github.com/airesearch-official/GhostScale. The Real-ESRGAN model work is credited to its upstream authors; model/architecture terms are described by the upstream project.
 - image — BSD-3-Clause.
 - archive — MIT.
-- tflite_flutter — MIT.
+- tflite_core — MIT.
 - image_picker, path_provider, share_plus — see their respective package license files.
 
 Other projects reviewed as implementation references, not copied wholesale:
