@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:native_cutout/native_cutout.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'services/upscale_service.dart';
 
 void main() => runApp(const SpriteForgeApp());
 
@@ -58,7 +59,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
   final List<_ExportAsset> _exports = [];
   final List<Uint8List> _undo = [];
   int _selected = 0;
-  int _scale = 1;
+  int _scale = 4;
   bool _busy = false;
   bool _modelReady = false;
   String _status = 'Upload any image to start';
@@ -310,6 +311,33 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     });
   }
 
+  Future<void> _aiUpscaleActive() async {
+    final item = _active;
+    if (item == null || _busy) return;
+    if (_scale != 2 && _scale != 4) return;
+    _recordUndo();
+    setState(() { _busy = true; _status = 'Running on-device Real-ESRGAN AI upscale…'; });
+    try {
+      final dir = await getTemporaryDirectory();
+      final input = File('\${dir.path}/spriteforge_input.png');
+      await input.writeAsBytes(item.bytes, flush: true);
+      final output = await UpscaleService().upscaleImage(input, 'assets/models/Real-ESRGAN-General-x4v3_float.tflite', _scale == 2);
+      if (output == null) throw Exception('Upscaler returned no output');
+      final bytes = await output.readAsBytes();
+      final decoded = img.decodeImage(bytes);
+      if (decoded == null) throw Exception('Upscaled image could not be decoded');
+      setState(() {
+        item.bytes = bytes;
+        _decoded = decoded;
+        _restoreSource = img.decodeImage(bytes);
+        _busy = false;
+        _status = 'Real-ESRGAN AI upscale complete';
+      });
+    } catch (e) {
+      setState(() { _busy = false; _status = 'AI upscale failed: $e'; });
+    }
+  }
+
   void _resizeActive() {
     final image = _decoded;
     if (image == null) return;
@@ -455,10 +483,10 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
             Card(child: Padding(padding: const EdgeInsets.all(14), child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
               const Text('Resize & Sprite Sheet', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              SegmentedButton<int>(segments: const [ButtonSegment(value: 1, label: Text('1×')), ButtonSegment(value: 2, label: Text('2×')), ButtonSegment(value: 4, label: Text('4×'))], selected: {_scale}, onSelectionChanged: (v) => setState(() => _scale = v.first)),
+              SegmentedButton<int>(segments: const [ButtonSegment(value: 2, label: Text('2× AI')), ButtonSegment(value: 4, label: Text('4× AI'))], selected: {_scale}, onSelectionChanged: (v) => setState(() => _scale = v.first)),
               const SizedBox(height: 8),
-              OutlinedButton.icon(onPressed: _resizeActive, icon: const Icon(Icons.open_in_full), label: const Text('Resize current image')),
-              const Text('High-quality cubic interpolation resize; neural AI super-resolution is a separate engine and is not claimed here.', style: TextStyle(fontSize: 12, color: Colors.black54)),
+              FilledButton.icon(onPressed: _busy ? null : _aiUpscaleActive, icon: const Icon(Icons.high_quality), label: Text('AI Upscale $_scale×')),
+              const Text('On-device Real-ESRGAN model. 2× mode uses a half-size input followed by 4× inference; transparent alpha is preserved.', style: TextStyle(fontSize: 12, color: Colors.black54)),
               const Divider(),
               Row(children: [
                 Expanded(child: TextField(controller: _rows, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Rows', border: OutlineInputBorder()))),
