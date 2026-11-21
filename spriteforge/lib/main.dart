@@ -339,6 +339,60 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
   }
 
 
+
+  void _detectTransparentSprites() {
+    final image = _decoded;
+    if (image == null) return;
+    final visited = Uint8List(image.width * image.height);
+    final found = <Rect>[];
+    for (var y = 0; y < image.height; y++) {
+      for (var x = 0; x < image.width; x++) {
+        final start = y * image.width + x;
+        if (visited[start] == 1 || image.getPixel(x, y).a <= 12) continue;
+        final stack = <int>[start];
+        visited[start] = 1;
+        var minX = x, maxX = x, minY = y, maxY = y, area = 0;
+        while (stack.isNotEmpty) {
+          final index = stack.removeLast();
+          final px = index % image.width, py = index ~/ image.width;
+          area++;
+          if (px < minX) minX = px;
+          if (px > maxX) maxX = px;
+          if (py < minY) minY = py;
+          if (py > maxY) maxY = py;
+          final neighbors = <int>[
+            if (px > 0) index - 1,
+            if (px + 1 < image.width) index + 1,
+            if (py > 0) index - image.width,
+            if (py + 1 < image.height) index + image.width,
+          ];
+          for (final next in neighbors) {
+            if (visited[next] == 0) {
+              final nx = next % image.width, ny = next ~/ image.width;
+              if (image.getPixel(nx, ny).a > 12) {
+                visited[next] = 1;
+                stack.add(next);
+              }
+            }
+          }
+        }
+        if (area >= 24 && found.length < 400) {
+          found.add(Rect.fromLTRB(minX.toDouble(), minY.toDouble(), (maxX + 1).toDouble(), (maxY + 1).toDouble()));
+        }
+      }
+    }
+    if (found.isEmpty) {
+      setState(() => _status = 'No separate opaque objects found. Make the background transparent first.');
+      return;
+    }
+    for (var i = 0; i < found.length; i++) {
+      final rect = found[i];
+      final tile = img.copyCrop(image, x: rect.left.toInt(), y: rect.top.toInt(), width: rect.width.toInt(), height: rect.height.toInt());
+      _exports.add(_ExportAsset('auto_sprite_\${(i + 1).toString().padLeft(3, '0')}', Uint8List.fromList(img.encodePng(tile))));
+    }
+    setState(() => _status = 'Detected \${found.length} separate transparent sprite object(s).');
+  }
+
   void _splitSheet() {
     final image = _decoded;
     if (image == null) return;
@@ -484,6 +538,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
               ]),
               const SizedBox(height: 8),
               OutlinedButton.icon(onPressed: _splitSheet, icon: const Icon(Icons.grid_view), label: const Text('Split as sprite sheet grid')),
+              OutlinedButton.icon(onPressed: _detectTransparentSprites, icon: const Icon(Icons.auto_awesome_motion), label: const Text('Auto-detect transparent sprites')),
             ]))),
           ],
           Card(child: Padding(padding: const EdgeInsets.all(14), child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
