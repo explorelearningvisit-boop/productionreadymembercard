@@ -4,6 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:image/image.dart' as img;
 import 'package:tflite_core/tflite_core.dart';
+
+// tflite_core retains the Interpreter/Delegate API and includes Flutter/Kotlin
+// compatibility fixes absent from the legacy tflite_flutter package.
 import 'package:path_provider/path_provider.dart';
 
 class UpscaleService {
