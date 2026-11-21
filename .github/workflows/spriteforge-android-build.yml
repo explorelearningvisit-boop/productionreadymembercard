@@ -24,6 +24,25 @@ jobs:
           cache: true
       - name: Generate Android platform files
         run: flutter create --platforms=android --org com.spriteforge .
+      - name: Align Kotlin and Java JVM targets for Android plugins
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          gradle = Path("android/build.gradle.kts")
+          content = gradle.read_text()
+          block = """
+          // Keep Kotlin plugin bytecode aligned with Android Java compile target.
+          subprojects {
+              tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+                  compilerOptions {
+                      jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+                  }
+              }
+          }
+          """
+          if "JvmTarget.JVM_11" not in content:
+              gradle.write_text(content.rstrip() + "\\n\\n" + block)
+          PY
       - name: Add network permission for first-time ML Kit model download
         run: |
           python3 - <<'PY'
