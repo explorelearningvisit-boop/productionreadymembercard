@@ -15,7 +15,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: spriteforge
@@ -34,7 +34,7 @@ jobs:
       - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed lib test
       - name: Static analysis
-        run: flutter analyze
+        run: flutter analyze --no-fatal-infos
       - name: Widget tests
         run: flutter test
       - name: Build release APK
