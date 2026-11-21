@@ -39,7 +39,7 @@ class _ExportAsset {
   final Uint8List bytes;
 }
 
-enum _BrushMode { none, erase, restore, crop }
+enum _BrushMode { none, erase, restore, magicWand, crop }
 
 class SpriteForgeHome extends StatefulWidget {
   const SpriteForgeHome({super.key});
@@ -53,6 +53,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
   final _rows = TextEditingController(text: '4');
   final _cols = TextEditingController(text: '4');
   double _brushSize = 28;
+  double _magicTolerance = 34;
   final List<_ImageAsset> _images = [];
   final List<_ExportAsset> _exports = [];
   final List<Uint8List> _undo = [];
@@ -147,9 +148,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
         final output = await _cutout(item);
         if (output != null) {
           item.bytes = output;
-          _exports.removeWhere((e) => e.name == _safeName(item.name));
-          _exports.add(_ExportAsset(_safeName(item.name), output));
-        }
+                  }
         done++;
         if (mounted) setState(() => _status = 'Background removal: $done/\${targets.length}');
       }
@@ -184,6 +183,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     _gestureStart = details.localPosition;
     _gestureEnd = details.localPosition;
     if (_mode == _BrushMode.erase || _mode == _BrushMode.restore) _paintAt(details.localPosition);
+    if (_mode == _BrushMode.magicWand) _magicWandAt(details.localPosition);
     setState(() {});
   }
 
@@ -208,6 +208,35 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
       _gestureEnd = null;
       if (_active != null && _decoded != null) _active!.bytes = Uint8List.fromList(img.encodePng(_decoded!));
     });
+  }
+
+
+  void _magicWandAt(Offset point) {
+    final image = _decoded;
+    if (image == null || _canvasSize.isEmpty) return;
+    final sx = (point.dx / _canvasSize.width * image.width).round().clamp(0, image.width - 1).toInt();
+    final sy = (point.dy / _canvasSize.height * image.height).round().clamp(0, image.height - 1).toInt();
+    final target = image.getPixel(sx, sy);
+    final limit = _magicTolerance * _magicTolerance * 3;
+    final visited = Uint8List(image.width * image.height);
+    final stack = <int>[sy * image.width + sx];
+    while (stack.isNotEmpty) {
+      final index = stack.removeLast();
+      if (index < 0 || index >= visited.length || visited[index] == 1) continue;
+      visited[index] = 1;
+      final x = index % image.width;
+      final y = index ~/ image.width;
+      final p = image.getPixel(x, y);
+      final dr = p.r - target.r, dg = p.g - target.g, db = p.b - target.b;
+      if (dr * dr + dg * dg + db * db > limit) continue;
+      image.setPixelRgba(x, y, p.r, p.g, p.b, 0);
+      if (x > 0) stack.add(index - 1);
+      if (x + 1 < image.width) stack.add(index + 1);
+      if (y > 0) stack.add(index - image.width);
+      if (y + 1 < image.height) stack.add(index + image.width);
+    }
+    if (_active != null) _active!.bytes = Uint8List.fromList(img.encodePng(image));
+    setState(() => _status = 'Magic wand erased connected color region');
   }
 
   void _paintAt(Offset point) {
@@ -398,6 +427,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
               Wrap(spacing: 8, runSpacing: 8, children: [
                 _toolButton('Erase', Icons.brush, _BrushMode.erase),
                 _toolButton('Restore', Icons.restore, _BrushMode.restore),
+                _toolButton('Magic wand', Icons.auto_fix_high, _BrushMode.magicWand),
                 _toolButton('Crop', Icons.crop, _BrushMode.crop),
                 OutlinedButton.icon(onPressed: _undo.isEmpty ? null : _undoLast, icon: const Icon(Icons.undo), label: const Text('Undo')),
                 OutlinedButton.icon(onPressed: _trimTransparent, icon: const Icon(Icons.filter_center_focus), label: const Text('Trim alpha')),
@@ -406,6 +436,11 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
                 const SizedBox(height: 6),
                 Text('Brush size: \${_brushSize.round()} px'),
                 Slider(value: _brushSize, min: 4, max: 100, divisions: 24, onChanged: (v) => setState(() => _brushSize = v)),
+              ],
+              if (_mode == _BrushMode.magicWand) ...[
+                const SizedBox(height: 6),
+                Text('Color tolerance: ${_magicTolerance.round()}'),
+                Slider(value: _magicTolerance, min: 0, max: 100, divisions: 20, onChanged: (v) => setState(() => _magicTolerance = v)),
               ],
               const SizedBox(height: 4),
               Text('Image: \${decoded.width} × \${decoded.height} px', style: const TextStyle(color: Colors.black54, fontSize: 12)),
