@@ -31,7 +31,7 @@ class UpscaleService {
     // If it's an asset path, copy it to a temp file
     if (modelPath.startsWith('assets/')) {
       final modelFile = File('${tempDir.path}/temp_model.tflite');
-      if (!await modelFile.exists() || true) {
+      {
         final byteData = await rootBundle.load(modelPath);
         await modelFile.writeAsBytes(
           byteData.buffer.asUint8List(
@@ -110,7 +110,7 @@ class UpscaleService {
       final outputImage = img.Image(width: outputWidth, height: outputHeight, numChannels: 4);
 
       // 3. Detect Layout (NCHW vs NHWC) and Type (Float32 vs Uint8)
-      var inputTensor = interpreter!.getInputTensor(0);
+      var inputTensor = interpreter.getInputTensor(0);
       var inputShape = inputTensor.shape;
       var inputType = inputTensor.type;
       bool inputNCHW = inputShape[1] == 3; // [1, 3, H, W] vs [1, H, W, 3]
