@@ -273,7 +273,7 @@ class UpscaleService {
       }
 
       final resultPath =
-          '${data.outputPath}/upscaled_${DateTime.now().millisecondsSinceEpoch}.jpg';
+          '${data.outputPath}/upscaled_${DateTime.now().millisecondsSinceEpoch}.png';
       // Save as JPG with 80% quality to reduce file size
       File(resultPath).writeAsBytesSync(img.encodePng(outputImage));
 
