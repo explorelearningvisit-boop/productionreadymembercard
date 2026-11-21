@@ -27,6 +27,8 @@ jobs:
           cache: true
       - name: Generate Android platform files
         run: flutter create --platforms=android --org com.spriteforge .
+      - name: Add network permission for first-time ML Kit model download
+        run: sed -i '/<application/i\\    <uses-permission android:name="android.permission.INTERNET" />' android/app/src/main/AndroidManifest.xml
       - name: Download Real-ESRGAN TFLite model (MIT project; model credit in notices)
         run: |
           mkdir -p assets/models
