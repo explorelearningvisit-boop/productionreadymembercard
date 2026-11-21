@@ -1,14 +1,13 @@
 name: bad_gym_member_intelligence
-description: BAD GYM purple neon member intelligence mobile dashboard
+description: BAD GYM purple neon member dashboard
 publish_to: none
-version: 2.1.0+6
+version: 2.2.0+7
 environment:
   sdk: ">=3.4.0 <4.0.0"
 dependencies:
   flutter:
     sdk: flutter
   qr_flutter: ^4.1.0
-  native_cutout: ^0.4.0
   flutter_animate: ^4.5.2
 dev_dependencies:
   flutter_test:
@@ -18,3 +17,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/individual/

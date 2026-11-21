@@ -1,25 +1,14 @@
 # BAD GYM — Member Intelligence
 
-## Current implementation
-This Flutter screen is rebuilt from the user's uploaded 19 November 2026 reference image. The reference is the visual authority for this implementation.
+Responsive Flutter member dashboard with a purple/neon visual system.
 
-- Mobile-first layout with a deep berry / magenta gradient shell.
-- Check-in and Freeze Member header.
-- Member hero, plan and active status.
-- Payment and expiry strip, membership progress.
-- Promotional banner and four quick metric tiles.
-- Attendance Intelligence with vertical rail, horizontal section menu, attendance summary, month selector, calendar and insight tiles.
-- Portrait extracted from the uploaded reference and stored as a transparent PNG at `assets/images/member_portrait.png`.
+The 44 files in `assets/images/individual/` are transparent 100×100 RGBA PNG placeholders. Replace each with approved artwork while preserving filenames. `ASSET_MANIFEST.json` identifies the placeholder assets.
 
-The displayed Ashwani profile and metrics are reference/sample presentation data only. No backend connection is implied.
-
-## Build and verify
-```sh
+## Build
+```bash
 flutter pub get
-dart format lib test
+dart format .
 flutter analyze
 flutter test
 flutter build apk --release
 ```
-
-CI: `.github/workflows/android-build.yml`.

@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "asset_count": 44,
+  "format": "PNG",
+  "width": 100,
+  "height": 100,
+  "color_mode": "RGBA",
+  "transparent": true,
+  "placeholder": true,
+  "assets": [
+    {
+      "filename": "icon_home.png",
+      "path": "assets/images/individual/icon_home.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_calendar.png",
+      "path": "assets/images/individual/icon_calendar.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_dumbbell.png",
+      "path": "assets/images/individual/icon_dumbbell.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_wallet.png",
+      "path": "assets/images/individual/icon_wallet.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_tag.png",
+      "path": "assets/images/individual/icon_tag.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_clock.png",
+      "path": "assets/images/individual/icon_clock.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_bell.png",
+      "path": "assets/images/individual/icon_bell.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_snowflake.png",
+      "path": "assets/images/individual/icon_snowflake.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_qr.png",
+      "path": "assets/images/individual/icon_qr.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_person.png",
+      "path": "assets/images/individual/icon_person.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_crown.png",
+      "path": "assets/images/individual/icon_crown.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_trophy.png",
+      "path": "assets/images/individual/icon_trophy.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_fire.png",
+      "path": "assets/images/individual/icon_fire.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_chart.png",
+      "path": "assets/images/individual/icon_chart.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_shield.png",
+      "path": "assets/images/individual/icon_shield.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "icon_medal.png",
+      "path": "assets/images/individual/icon_medal.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "equip_dumbbell_purple_sm.png",
+      "path": "assets/images/individual/equip_dumbbell_purple_sm.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "equip_dumbbell_black.png",
+      "path": "assets/images/individual/equip_dumbbell_black.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "equip_dumbbell_purple_lg.png",
+      "path": "assets/images/individual/equip_dumbbell_purple_lg.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "equip_barbell_purple.png",
+      "path": "assets/images/individual/equip_barbell_purple.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "equip_weight_plates.png",
+      "path": "assets/images/individual/equip_weight_plates.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "equip_kettlebell_black.png",
+      "path": "assets/images/individual/equip_kettlebell_black.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "equip_kettlebell_purple.png",
+      "path": "assets/images/individual/equip_kettlebell_purple.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "equip_medicine_ball.png",
+      "path": "assets/images/individual/equip_medicine_ball.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "acc_shaker_purple.png",
+      "path": "assets/images/individual/acc_shaker_purple.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "acc_shaker_black.png",
+      "path": "assets/images/individual/acc_shaker_black.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "acc_bottle_purple.png",
+      "path": "assets/images/individual/acc_bottle_purple.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "acc_bottle_steel.png",
+      "path": "assets/images/individual/acc_bottle_steel.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "acc_gym_bag.png",
+      "path": "assets/images/individual/acc_gym_bag.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "acc_towel_rolled.png",
+      "path": "assets/images/individual/acc_towel_rolled.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "acc_towel_folded.png",
+      "path": "assets/images/individual/acc_towel_folded.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "acc_yoga_mat.png",
+      "path": "assets/images/individual/acc_yoga_mat.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "acc_foam_roller.png",
+      "path": "assets/images/individual/acc_foam_roller.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "plant_potted_1.png",
+      "path": "assets/images/individual/plant_potted_1.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "plant_potted_2.png",
+      "path": "assets/images/individual/plant_potted_2.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "plant_monstera.png",
+      "path": "assets/images/individual/plant_monstera.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "plant_fern.png",
+      "path": "assets/images/individual/plant_fern.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "plant_leaf_1.png",
+      "path": "assets/images/individual/plant_leaf_1.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "plant_leaf_2.png",
+      "path": "assets/images/individual/plant_leaf_2.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "badge_gold_wreath.png",
+      "path": "assets/images/individual/badge_gold_wreath.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "badge_silver_wreath.png",
+      "path": "assets/images/individual/badge_silver_wreath.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "badge_bronze_wreath.png",
+      "path": "assets/images/individual/badge_bronze_wreath.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "badge_purple_glow_frame.png",
+      "path": "assets/images/individual/badge_purple_glow_frame.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    },
+    {
+      "filename": "badge_neon_circle_frame.png",
+      "path": "assets/images/individual/badge_neon_circle_frame.png",
+      "width": 100,
+      "height": 100,
+      "mode": "RGBA",
+      "placeholder": true
+    }
+  ]
+}

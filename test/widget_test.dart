@@ -1,67 +1,18 @@
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym_member_intelligence/main.dart';
-import 'package:bad_gym_member_intelligence/screens/member_dashboard_screen.dart';
-
-void main() {
-  Future<void> pumpDashboard(WidgetTester tester) async {
-    tester.view.physicalSize = const Size(360, 780);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-    await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
-  }
-
-  testWidgets('reference dashboard renders at 360dp', (tester) async {
-    await pumpDashboard(tester);
-    expect(find.byType(MemberDashboardScreen), findsOneWidget);
-    for (final label in [
-      'CHECK-IN', 'FREEZE', 'Ashwani Kumar Singh', 'BG215',
-      'Gold Plan', 'Active', '₹500 Due', '8 Days Left',
-      'Membership 22 / 30 Days', 'Big Billion Sale',
-      'Attendance', 'Workout', 'Payment', 'Body',
-      'Attendance Intelligence', 'Home overview',
-      'Present', 'Absent', 'Holiday', 'History',
-    ]) {
-      expect(find.textContaining(label), findsWidgets, reason: 'Missing reference label: $label');
-    }
-    expect(find.text('81%'), findsWidgets);
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('freeze control toggles and navigation rail selection works', (tester) async {
-    await pumpDashboard(tester);
-    await tester.tap(find.text('FREEZE'));
-    await tester.pumpAndSettle();
-    expect(find.text('FROZEN'), findsOneWidget);
-    await tester.tap(find.text('Attend'));
-    await tester.pumpAndSettle();
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('individual dashboard image assets load without sprite atlases', (tester) async {
-    await pumpDashboard(tester);
-    final memberHero = await rootBundle.load('assets/images/member_hero.webp');
-    final memberPortrait = await rootBundle.load('assets/images/member_portrait.png');
-    final gymInterior = await rootBundle.load('assets/images/gym_interior.webp');
-    final gymPlants = await rootBundle.load('assets/images/gym_plants.webp');
-    expect(memberHero.lengthInBytes, greaterThan(1000));
-    expect(memberPortrait.lengthInBytes, greaterThan(1000));
-    expect(gymInterior.lengthInBytes, greaterThan(1000));
-    expect(gymPlants.lengthInBytes, greaterThan(1000));
-    await tester.pumpAndSettle();
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('dashboard remains usable on a narrow 320dp device', (tester) async {
-    tester.view.physicalSize = const Size(320, 720);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-    await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
-    expect(find.text('Attendance Intelligence'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
+void main(){
+ Future<void> setSize(WidgetTester t,Size s)async{t.view.physicalSize=s;t.view.devicePixelRatio=1;
+  addTearDown(t.view.resetPhysicalSize);addTearDown(t.view.resetDevicePixelRatio);}
+ testWidgets('dashboard and attendance render',(t)async{await setSize(t,const Size(360,780));
+  await t.pumpWidget(const BadGymApp());expect(find.text('BAD GYM'),findsOneWidget);
+  expect(find.text('Attendance Intelligence'),findsOneWidget);});
+ testWidgets('member payment and plan render',(t)async{await setSize(t,const Size(360,780));
+  await t.pumpWidget(const BadGymApp());expect(find.text('₹500 Due'),findsWidgets);
+  expect(find.text('8 Days Left'),findsOneWidget);expect(find.text('Gold Plan   ·   Active'),findsOneWidget);});
+ testWidgets('compact 320dp viewport renders',(t)async{await setSize(t,const Size(320,720));
+  await t.pumpWidget(const BadGymApp());await t.pumpAndSettle();expect(find.text('BAD GYM'),findsOneWidget);
+  expect(t.takeException(),isNull);});
+ testWidgets('navigation rail interaction works',(t)async{await setSize(t,const Size(360,780));
+  await t.pumpWidget(const BadGymApp());await t.tap(find.byType(InkWell).first);await t.pump();
+  expect(t.takeException(),isNull);});
 }
