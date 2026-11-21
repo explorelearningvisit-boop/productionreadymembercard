@@ -35,12 +35,12 @@ jobs:
           subprojects {
               tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
                   compilerOptions {
-                      jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+                      jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
                   }
               }
           }
           """
-          if "JvmTarget.JVM_11" not in content:
+          if "JvmTarget.JVM_17" not in content:
               gradle.write_text(content.rstrip() + chr(10) * 2 + block)
           PY
       - name: Add network permission for first-time ML Kit model download
