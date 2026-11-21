@@ -47,7 +47,7 @@ class _DashboardState extends State<PurpleMemberDashboard>{
       QrImageView(data:'BADGYM-BG215',size:compact?34:40,padding:EdgeInsets.zero)])),
      const SizedBox(height:7),
      Row(children:[
-      const Expanded(child:Text('Membership 22 / 30 Days',maxLines:1,overflow:TextOverflow.ellipsis,
+      Expanded(child:Text('Membership 22 / 30 Days',maxLines:1,overflow:TextOverflow.ellipsis,
        style:TextStyle(fontSize:compact?10:12,fontWeight:FontWeight.w800))),
       const SizedBox(width:8),const Text('73%',style:TextStyle(fontWeight:FontWeight.w900))]),
      const SizedBox(height:5),ClipRRect(borderRadius:BorderRadius.circular(20),
