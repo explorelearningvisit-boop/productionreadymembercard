@@ -34,7 +34,7 @@ jobs:
           manifest = Path("android/app/src/main/AndroidManifest.xml")
           content = manifest.read_text()
           marker = "    <application"
-          permission = '    <uses-permission android:name="android.permission.INTERNET" />\\n'
+          permission = '    <uses-permission android:name="android.permission.INTERNET" />\n'
           if "android.permission.INTERNET" not in content:
               content = content.replace(marker, permission + marker, 1)
           manifest.write_text(content)
