@@ -319,7 +319,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     setState(() { _busy = true; _status = 'Running on-device Real-ESRGAN AI upscale…'; });
     try {
       final dir = await getTemporaryDirectory();
-      final input = File('\${dir.path}/spriteforge_input.png');
+      final input = File('${dir.path}/spriteforge_input.png');
       await input.writeAsBytes(item.bytes, flush: true);
       final output = await UpscaleService().upscaleImage(input, 'assets/models/Real-ESRGAN-General-x4v3_float.tflite', _scale == 2);
       if (output == null) throw Exception('Upscaler returned no output');
