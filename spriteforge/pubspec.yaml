@@ -13,7 +13,7 @@ dependencies:
   path_provider: ^2.1.5
   share_plus: ^10.1.4
   native_cutout: ^0.4.0
-  tflite_flutter: ^0.12.1
+  tflite_core: ^0.12.11
 dev_dependencies:
   flutter_test:
     sdk: flutter
