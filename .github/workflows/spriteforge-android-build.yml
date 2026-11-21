@@ -24,32 +24,31 @@ jobs:
           cache: true
       - name: Generate Android platform files
         run: flutter create --platforms=android --org com.spriteforge .
-      - name: Align Kotlin targets to each Android plugin Java target
+      - name: Configure consistent Android JVM targets
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          gradle = Path("android/build.gradle.kts")
-          content = gradle.read_text()
-          block = """
-          // Pair each Kotlin variant with its JavaCompile task without afterEvaluate.
-          // Flutter plugins legitimately use different Java targets (11 or 17).
-          subprojects {
-              tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-                  val kotlinTask = this
-                  val javaTaskName = name.replace("Kotlin", "JavaWithJavac")
-                  tasks.withType<org.gradle.api.tasks.compile.JavaCompile>()
-                      .matching { it.name == javaTaskName }
-                      .configureEach {
-                          kotlinTask.compilerOptions.jvmTarget.set(
-                              org.jetbrains.kotlin.gradle.dsl.JvmTarget.fromTarget(targetCompatibility)
-                          )
-                      }
+          mkdir -p android/gradle
+          cat > android/gradle/jvm-compat.gradle <<'GRADLE'
+          // Align Android Java and Kotlin compilation at the Android extension level.
+          // A single JVM target avoids plugin-specific Java 11 / Kotlin 17 conflicts.
+          allprojects {
+              plugins.withId('com.android.application') {
+                  def androidExtension = extensions.findByName('android')
+                  androidExtension.compileOptions.sourceCompatibility = JavaVersion.VERSION_17
+                  androidExtension.compileOptions.targetCompatibility = JavaVersion.VERSION_17
+              }
+              plugins.withId('com.android.library') {
+                  def androidExtension = extensions.findByName('android')
+                  androidExtension.compileOptions.sourceCompatibility = JavaVersion.VERSION_17
+                  androidExtension.compileOptions.targetCompatibility = JavaVersion.VERSION_17
+              }
+              plugins.withId('org.jetbrains.kotlin.android') {
+                  tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+                      kotlinOptions.jvmTarget = '17'
+                  }
               }
           }
-          """
-          if "Match each Kotlin variant to its paired Android JavaCompile task" not in content:
-              gradle.write_text(content.rstrip() + chr(10) * 2 + block)
-          PY
+          GRADLE
+          printf '\n// Shared Android Java/Kotlin compatibility for all Flutter plugins.\napply(from = "gradle/jvm-compat.gradle")\n' >> android/build.gradle.kts
       - name: Add network permission for first-time ML Kit model download
         run: |
           python3 - <<'PY'
