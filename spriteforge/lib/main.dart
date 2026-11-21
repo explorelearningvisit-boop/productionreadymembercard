@@ -148,7 +148,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('SpriteForge'), subtitle: const Text('Batch sprite sheet processor')),
+      appBar: AppBar(title: const Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [Text('SpriteForge'), Text('Batch sprite sheet processor', style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal))])),
       body: SafeArea(child: ListView(padding: const EdgeInsets.all(16), children: [
         Card(child: Padding(padding: const EdgeInsets.all(16), child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           const Text('1. Sprite sheet', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
