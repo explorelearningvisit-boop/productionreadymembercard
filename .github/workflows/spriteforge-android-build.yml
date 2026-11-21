@@ -24,28 +24,32 @@ jobs:
           cache: true
       - name: Generate Android platform files
         run: flutter create --platforms=android --org com.spriteforge .
-      - name: Align Kotlin and Java JVM targets for Android plugins
+      - name: Align Kotlin targets to each Android plugin Java target
         run: |
           python3 - <<'PY'
           from pathlib import Path
           gradle = Path("android/build.gradle.kts")
           content = gradle.read_text()
           block = """
-          // Enforce one bytecode target across every Android plugin module.
-          // Some Flutter plugins default Java to 11 while others use 17; align both sides.
+          // Match each Kotlin variant to its paired Android JavaCompile task.
+          // Flutter plugins legitimately use different Java targets (11 or 17).
           subprojects {
-              tasks.withType<org.gradle.api.tasks.compile.JavaCompile>().configureEach {
-                  sourceCompatibility = "17"
-                  targetCompatibility = "17"
-              }
-              tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-                  compilerOptions {
-                      jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
+              afterEvaluate {
+                  tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+                      val javaTaskName = name.replace("Kotlin", "JavaWithJavac")
+                      val javaTask = tasks.findByName(javaTaskName) as? org.gradle.api.tasks.compile.JavaCompile
+                      if (javaTask != null) {
+                          compilerOptions {
+                              jvmTarget.set(
+                                  org.jetbrains.kotlin.gradle.dsl.JvmTarget.fromTarget(javaTask.targetCompatibility)
+                              )
+                          }
+                      }
                   }
               }
           }
           """
-          if "JvmTarget.JVM_17" not in content:
+          if "Match each Kotlin variant to its paired Android JavaCompile task" not in content:
               gradle.write_text(content.rstrip() + chr(10) * 2 + block)
           PY
       - name: Add network permission for first-time ML Kit model download
