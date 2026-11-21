@@ -1,29 +1,14 @@
-# BAD GYM dashboard assets
+# BAD GYM dashboard asset status
 
-The dashboard uses two optimized WebP sprite atlases generated from the supplied BAD GYM visual asset pack.
+The Flutter dashboard no longer decodes sprite atlases at runtime. `AssetSprite` and `EquipmentSprite` are currently semantic Material icon fallbacks, not PNG crops. This avoids runtime dependence on composite sheets while the approved individual asset archive is integrated.
 
-## UI sprite atlas
-Path: `assets/images/badgym_ui_sprites.webp`
+## Existing standalone images
 
-Atlas geometry: 5 columns × 4 rows, 28 × 28 px cells.
+- `assets/images/member_hero.webp`
+- `assets/images/member_portrait.png`
+- `assets/images/gym_interior.webp`
+- `assets/images/gym_plants.webp`
 
-| Index | Asset |
-|---:|---|
-| 0–5 | Home, Attendance, Workout, Payment, Offers, History |
-| 6–9 | Notification, Freeze, QR, Profile |
-| 10–13 | Group, Trophy, Fire, Trend |
-| 14–17 | Gold button, Active button, Cancel button, Purple button |
+## Pending
 
-## Equipment sprite atlas
-Path: `assets/images/badgym_equipment_sprites.webp`
-
-Atlas geometry: 4 columns × 1 row, 48 × 48 px cells.
-
-| Index | Asset |
-|---:|---|
-| 0 | Dumbbell |
-| 1 | Kettlebell |
-| 2 | Shaker bottle |
-| 3 | Towel |
-
-The sprite atlases are loaded once and individual elements are painted from source rectangles by `AssetSprite` and `EquipmentSprite` in `lib/widgets/purple_dashboard.dart`.
+The verified 34-file `BAD_GYM_Transparent_PNG_Assets.zip` archive is available in the development workspace but has not yet been uploaded into this repository branch. Do not mark final asset integration complete until each approved PNG is committed, visually checked, and wired into the appropriate widget.
