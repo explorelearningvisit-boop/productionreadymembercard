@@ -171,8 +171,8 @@ class UpscaleService {
               int pIndex = 0;
               for (var ty = 0; ty < _tileSize; ty++) {
                 for (var tx = 0; tx < _tileSize; tx++) {
-                  final srcX = (startX + tx).clamp(0, width - 1);
-                  final srcY = (startY + ty).clamp(0, height - 1);
+                  final srcX = (startX + tx).clamp(0, width - 1).toInt();
+                  final srcY = (startY + ty).clamp(0, height - 1).toInt();
                   final pixel = image.getPixel(srcX, srcY);
                   inputBytes[pIndex++] = pixel.r.toInt();
                   inputBytes[pIndex++] = pixel.g.toInt();
@@ -186,8 +186,8 @@ class UpscaleService {
               final planeSize = _tileSize * _tileSize;
               for (var ty = 0; ty < _tileSize; ty++) {
                 for (var tx = 0; tx < _tileSize; tx++) {
-                  final srcX = (startX + tx).clamp(0, width - 1);
-                  final srcY = (startY + ty).clamp(0, height - 1);
+                  final srcX = (startX + tx).clamp(0, width - 1).toInt();
+                  final srcY = (startY + ty).clamp(0, height - 1).toInt();
                   final pixel = image.getPixel(srcX, srcY);
                   final index = ty * _tileSize + tx;
                   inputFloats[index] = pixel.r / 255.0;
@@ -199,8 +199,8 @@ class UpscaleService {
               int pIndex = 0;
               for (var ty = 0; ty < _tileSize; ty++) {
                 for (var tx = 0; tx < _tileSize; tx++) {
-                  final srcX = (startX + tx).clamp(0, width - 1);
-                  final srcY = (startY + ty).clamp(0, height - 1);
+                  final srcX = (startX + tx).clamp(0, width - 1).toInt();
+                  final srcY = (startY + ty).clamp(0, height - 1).toInt();
                   final pixel = image.getPixel(srcX, srcY);
                   inputFloats[pIndex++] = pixel.r / 255.0;
                   inputFloats[pIndex++] = pixel.g / 255.0;
