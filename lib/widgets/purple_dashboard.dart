@@ -46,8 +46,10 @@ class _DashboardState extends State<PurpleMemberDashboard>{
       const Expanded(child:Text('Membership\n8 Days Left',style:TextStyle(fontWeight:FontWeight.w900,color:MemberTheme.purple,fontSize:13))),
       QrImageView(data:'BADGYM-BG215',size:compact?34:40,padding:EdgeInsets.zero)])),
      const SizedBox(height:7),
-     const Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,children:[
-      Text('Membership 22 / 30 Days',style:TextStyle(fontSize:12,fontWeight:FontWeight.w800)),Text('73%',style:TextStyle(fontWeight:FontWeight.w900))]),
+     Row(children:[
+      const Expanded(child:Text('Membership 22 / 30 Days',maxLines:1,overflow:TextOverflow.ellipsis,
+       style:TextStyle(fontSize:compact?10:12,fontWeight:FontWeight.w800))),
+      const SizedBox(width:8),const Text('73%',style:TextStyle(fontWeight:FontWeight.w900))]),
      const SizedBox(height:5),ClipRRect(borderRadius:BorderRadius.circular(20),
       child:const LinearProgressIndicator(value:.73,minHeight:9,color:MemberTheme.violet,backgroundColor:MemberTheme.line)),
      const SizedBox(height:9),
