@@ -1,17 +1,32 @@
-# SpriteForge
+# SpriteForge — Android Image Studio
 
-Android-first, on-device sprite-sheet batch processor.
+A mobile-first image editing and batch-processing app, not limited to sprite sheets.
 
-## Current MVP
-- Import PNG/JPG/WebP from Android gallery.
-- Split a sprite sheet using configurable uniform rows and columns.
-- Remove a flat background sampled from each cell's top-left pixel, with adjustable color tolerance.
-- Trim transparent margins.
-- Scale sprites 1x/2x/4x using nearest-neighbor interpolation (useful for pixel art).
-- Preview output and share a ZIP containing individual transparent PNGs.
+## Features in this branch
+- Import multiple local images (PNG/JPG/WebP supported by the Android picker and decoder).
+- On-device automatic subject/background removal through MIT-licensed `native_cutout` and Google ML Kit Subject Segmentation. No image API key or paid API. The ML Kit model downloads on first use through Google Play services; internet is needed for the initial download.
+- Manual erase and restore brushes with undo.
+- Free rectangular crop and transparent-edge trim.
+- High-quality cubic resize at 1x/2x/4x (interpolation resize, not neural AI super-resolution).
+- Batch background removal and ZIP export.
+- Uniform-grid sprite-sheet splitting as an optional tool.
 
-## Important limitations
-This MVP does **not** include AI subject segmentation, irregular object detection, or AI super-resolution. Flat-color removal can erase subject pixels that match the sampled background. Use the tolerance control carefully. Future versions can add a bundled on-device segmentation/upscaling model without paid API calls, subject to model size and phone performance.
+## Open-source components and feature references
+- `native_cutout` (MIT): on-device subject segmentation.
+- `image` (BSD-3-Clause): pixel operations, alpha editing, crop and resize.
+- `archive` (MIT): ZIP export.
+- `image_picker`, `share_plus`, `path_provider`: Android import/export/share.
+- `dgocker/asset-slicer` (MIT): object-selection and asset-editor workflow reference.
+- `hm21/pro_image_editor` (BSD-3-Clause): crop/paint editor reference.
+- `Laurtiv27/ondevice-inpaint-app-flutter` (MIT): inpainting workflow reference.
+- `GhostScale` (MIT): offline Real-ESRGAN upscaler reference.
+These projects are not blindly copied or bundled; their licenses and platform constraints are respected.
+
+## Known limitations
+- Automatic segmentation is subject/foreground segmentation; results depend on image content and Android Google Play services. It is not universal semantic object removal.
+- Manual erase clears alpha; restore paints pixels back from the current edit baseline.
+- Current resize uses cubic interpolation. True Real-ESRGAN neural super-resolution is not yet integrated.
+- Sprite-sheet splitting currently uses a uniform grid; irregular object detection is not yet integrated.
 
 ## Build
-The repository GitHub Actions workflow generates the Android project scaffold, resolves Flutter dependencies, runs formatting/analyzer/tests, builds a release APK, and uploads it as an artifact.
+GitHub Actions generates Android platform files, resolves Flutter dependencies, formats/analyzes/tests the project, builds a release APK and uploads it as a workflow artifact.
