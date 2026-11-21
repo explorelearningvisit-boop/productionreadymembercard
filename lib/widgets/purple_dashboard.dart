@@ -114,7 +114,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
           child: Row(children: [
-            AssetSprite(index: 7, size: 25),
+            AssetSprite(index: frozen ? 16 : 7, size: 25),
             const SizedBox(width: 4),
             Text(frozen ? 'FROZEN' : 'FREEZE', style: const TextStyle(
               fontSize: 13, fontWeight: FontWeight.w900, color: MemberTheme.ink)),
@@ -149,7 +149,18 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
   Widget _memberHero() => SizedBox(
     height: 139,
     child: Stack(children: [
-      Positioned(right: -8, top: 0, child: Icon(Icons.fitness_center_rounded,
+      Positioned.fill(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24),
+        child: Opacity(
+          opacity: .10,
+          child: Image.asset('assets/images/member_hero.webp', fit: BoxFit.cover,
+            alignment: Alignment.centerRight,
+            errorBuilder: (_, __, ___) => const SizedBox.shrink()),
+        ),
+      ),
+    ),
+    Positioned(right: -8, top: 0, child: Icon(Icons.fitness_center_rounded,
         size: 86, color: MemberTheme.violet.withValues(alpha: .10))),
       Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Container(
@@ -520,9 +531,11 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         ),
       ),
       Positioned.fill(child: CustomPaint(painter: _NeonFloorPainter())),
+      const Positioned(left: 18, bottom: 4, child: EquipmentSprite(index: 0, size: 36)),
       const Positioned(left: 58, bottom: 5, child: EquipmentSprite(index: 1, size: 38)),
       const Positioned(left: 112, bottom: 3, child: EquipmentSprite(index: 2, size: 34)),
       const Positioned(right: 55, bottom: 4, child: EquipmentSprite(index: 3, size: 42)),
+      const Positioned(right: 15, bottom: 4, child: EquipmentSprite(index: 2, size: 32)),
       Positioned(
         left: 0, right: 0, bottom: 0, height: 42,
         child: IgnorePointer(
