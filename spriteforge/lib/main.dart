@@ -27,10 +27,9 @@ class SpriteForgeApp extends StatelessWidget {
 }
 
 class _ImageAsset {
-  _ImageAsset({required this.name, required this.path, required this.original, required this.bytes});
+  _ImageAsset({required this.name, required this.path, required this.bytes});
   final String name;
   final String path;
-  final Uint8List original;
   Uint8List bytes;
 }
 
@@ -80,7 +79,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
       for (final file in picked) {
         final bytes = await file.readAsBytes();
         if (img.decodeImage(bytes) != null) {
-          loaded.add(_ImageAsset(name: file.name, path: file.path, original: bytes, bytes: bytes));
+          loaded.add(_ImageAsset(name: file.name, path: file.path, bytes: bytes));
         }
       }
       setState(() {
@@ -217,11 +216,11 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     if (image == null || _canvasSize.isEmpty) return;
     final px = (point.dx / _canvasSize.width * image.width).round();
     final py = (point.dy / _canvasSize.height * image.height).round();
-    final radius = (_brushSize / _canvasSize.width * image.width / 2).round().clamp(1, 300);
-    final minY = (py - radius).clamp(0, image.height - 1);
-    final maxY = (py + radius).clamp(0, image.height - 1);
-    final minX = (px - radius).clamp(0, image.width - 1);
-    final maxX = (px + radius).clamp(0, image.width - 1);
+    final radius = (_brushSize / _canvasSize.width * image.width / 2).round().clamp(1, 300).toInt();
+    final minY = (py - radius).clamp(0, image.height - 1).toInt();
+    final maxY = (py + radius).clamp(0, image.height - 1).toInt();
+    final minX = (px - radius).clamp(0, image.width - 1).toInt();
+    final maxX = (px + radius).clamp(0, image.width - 1).toInt();
     for (var y = minY; y <= maxY; y++) {
       for (var x = minX; x <= maxX; x++) {
         final dx = x - px, dy = y - py;
@@ -250,7 +249,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     final h = ((bottom - top) / _canvasSize.height * image.height).round();
     if (w < 8 || h < 8) { setState(() => _status = 'Crop area is too small'); return; }
     setState(() {
-      _decoded = img.copyCrop(image, x: x, y: y, width: w.clamp(1, image.width - x), height: h.clamp(1, image.height - y));
+      _decoded = img.copyCrop(image, x: x, y: y, width: w.clamp(1, image.width - x).toInt(), height: h.clamp(1, image.height - y).toInt());
       _restoreSource = img.decodeImage(Uint8List.fromList(img.encodePng(_decoded!)));
       _active!.bytes = Uint8List.fromList(img.encodePng(_decoded!));
       _mode = _BrushMode.none;
