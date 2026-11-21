@@ -41,7 +41,7 @@ jobs:
           }
           """
           if "JvmTarget.JVM_11" not in content:
-              gradle.write_text(content.rstrip() + "\\n\\n" + block)
+              gradle.write_text(content.rstrip() + chr(10) * 2 + block)
           PY
       - name: Add network permission for first-time ML Kit model download
         run: |
