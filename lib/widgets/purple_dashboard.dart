@@ -40,11 +40,11 @@ class _DashboardState extends State<PurpleMemberDashboard>{
        SizedBox(height:7),Text('Gold Plan   ·   Active',style:TextStyle(fontWeight:FontWeight.w900,fontSize:11))
       ]))])),
      const SizedBox(height:9),
-     _card(Row(children:[_ic('icon_wallet',size:26),const SizedBox(width:6),
-      const Expanded(child:Text('Payment\n₹500 Due',style:TextStyle(fontWeight:FontWeight.w900,color:MemberTheme.red))),
-      _ic('icon_calendar',size:26),const SizedBox(width:6),
-      const Expanded(child:Text('Membership\n8 Days Left',style:TextStyle(fontWeight:FontWeight.w900,color:MemberTheme.purple))),
-      QrImageView(data:'BADGYM-BG215',size:40,padding:EdgeInsets.zero)])),
+     _card(Row(children:[_ic('icon_wallet',size:compact?22:26),SizedBox(width:compact?4:6),
+      const Expanded(child:Text('Payment\n₹500 Due',style:TextStyle(fontWeight:FontWeight.w900,color:MemberTheme.red,fontSize:13))),
+      _ic('icon_calendar',size:compact?22:26),SizedBox(width:compact?4:6),
+      const Expanded(child:Text('Membership\n8 Days Left',style:TextStyle(fontWeight:FontWeight.w900,color:MemberTheme.purple,fontSize:13))),
+      QrImageView(data:'BADGYM-BG215',size:compact?34:40,padding:EdgeInsets.zero)])),
      const SizedBox(height:7),
      const Row(mainAxisAlignment:MainAxisAlignment.spaceBetween,children:[
       Text('Membership 22 / 30 Days',style:TextStyle(fontSize:12,fontWeight:FontWeight.w800)),Text('73%',style:TextStyle(fontWeight:FontWeight.w900))]),
