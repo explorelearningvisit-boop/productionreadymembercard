@@ -27,6 +27,12 @@ jobs:
           cache: true
       - name: Generate Android platform files
         run: flutter create --platforms=android --org com.spriteforge .
+      - name: Download Real-ESRGAN TFLite model (MIT project; model credit in notices)
+        run: |
+          mkdir -p assets/models
+          curl -L --fail --retry 3 --retry-delay 2 \\
+            https://raw.githubusercontent.com/airesearch-official/GhostScale/main/assets/models/Real-ESRGAN-General-x4v3_float.tflite \\
+            -o assets/models/Real-ESRGAN-General-x4v3_float.tflite
       - name: Resolve dependencies
         run: flutter pub get
       - name: Format
