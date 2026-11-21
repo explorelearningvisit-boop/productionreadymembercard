@@ -238,19 +238,23 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
           Text('Expires: 24 Oct 2026', style: TextStyle(fontSize: 9.5, color: MemberTheme.ink)),
         ],
       )),
-      Container(
-        width: 43, height: 43,
-        decoration: BoxDecoration(color: Colors.white, border: Border.all(color: MemberTheme.line),
-          borderRadius: BorderRadius.circular(5)),
-        child: QrImageView(
-          data: 'BADGYM|MEMBER:BG215|NAME:ASHWANI KUMAR SINGH|PLAN:GOLD',
-          size: 41,
-          padding: const EdgeInsets.all(2),
-          backgroundColor: Colors.white,
-          eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
-          dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black),
+      Column(mainAxisSize: MainAxisSize.min, children: [
+        const AssetSprite(index: 8, size: 10),
+        const SizedBox(height: 1),
+        Container(
+          width: 43, height: 43,
+          decoration: BoxDecoration(color: Colors.white, border: Border.all(color: MemberTheme.line),
+            borderRadius: BorderRadius.circular(5)),
+          child: QrImageView(
+            data: 'BADGYM|MEMBER:BG215|NAME:ASHWANI KUMAR SINGH|PLAN:GOLD',
+            size: 41,
+            padding: const EdgeInsets.all(2),
+            backgroundColor: Colors.white,
+            eyeStyle: const QrEyeStyle(eyeShape: QrEyeShape.square, color: Colors.black),
+            dataModuleStyle: const QrDataModuleStyle(dataModuleShape: QrDataModuleShape.square, color: Colors.black),
+          ),
         ),
-      ),
+      ]),
     ]),
   );
 
@@ -710,8 +714,11 @@ class _StatRow extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.symmetric(vertical: 3),
     child: Row(children: [
-      Container(width: 8, height: 8,
-        decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+      if (label == 'Present')
+        const AssetSprite(index: 10, size: 12)
+      else
+        Container(width: 8, height: 8,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
       const SizedBox(width: 4),
       Expanded(child: Text(label, maxLines: 1,
         style: const TextStyle(fontSize: 9.5, height: 1,
