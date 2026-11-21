@@ -129,15 +129,26 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     }
   }
 
-  Future<Uint8List?> _cutout(_ImageAsset item) async {
-    final result = await NativeCutout.removeBackground(
-      item.path,
-      options: const CutoutOptions(cropToSubject: false, writeToCache: false),
-    );
-    if (result is CutoutBytesSuccess) return result.pngBytes;
-    if (result is CutoutFileSuccess) return File(result.path).readAsBytes();
-    if (result is CutoutFailure) throw Exception('${result.code.name}: ${result.message}');
-    return null;
+  Future<Uint8List> _cutout(_ImageAsset item) async {
+    // Always give the native ML Kit plugin a stable, app-owned local PNG.
+    // ImagePicker paths can point to provider/cache locations with short lifetimes.
+    final tempDir = await getTemporaryDirectory();
+    final inputFile = File('${tempDir.path}/cutout_input_${DateTime.now().microsecondsSinceEpoch}.png');
+    await inputFile.writeAsBytes(item.bytes, flush: true);
+    try {
+      final result = await NativeCutout.removeBackground(
+        inputFile.path,
+        options: const CutoutOptions(cropToSubject: false, writeToCache: false),
+      );
+      if (result is CutoutBytesSuccess) return result.pngBytes;
+      if (result is CutoutFileSuccess) return await File(result.path).readAsBytes();
+      if (result is CutoutFailure) {
+        throw Exception('${result.code.name}: ${result.message}');
+      }
+      throw Exception('Background removal returned an unsupported result.');
+    } finally {
+      if (await inputFile.exists()) await inputFile.delete();
+    }
   }
 
   Future<void> _removeBackground({bool all = false}) async {
@@ -149,9 +160,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
       var done = 0;
       for (final item in targets) {
         final output = await _cutout(item);
-        if (output != null) {
-          item.bytes = output;
-                  }
+        item.bytes = output;
         done++;
         if (mounted) setState(() => _status = 'Background removal: $done/${targets.length}');
       }
@@ -485,9 +494,17 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
                   final height = width * decoded.height / decoded.width;
                   _canvasSize = Size(width, height);
                   return GestureDetector(
-                    onPanStart: _mode == _BrushMode.none ? null : _startGesture,
-                    onPanUpdate: _mode == _BrushMode.none ? null : _updateGesture,
-                    onPanEnd: _mode == _BrushMode.none ? null : _endGesture,
+                    // Magic wand is a point operation: it must respond to a tap,
+                    // not require the user to drag far enough to start a pan gesture.
+                    onTapDown: _mode == _BrushMode.magicWand
+                        ? (details) {
+                            _recordUndo();
+                            _magicWandAt(details.localPosition);
+                          }
+                        : null,
+                    onPanStart: _mode == _BrushMode.none || _mode == _BrushMode.magicWand ? null : _startGesture,
+                    onPanUpdate: _mode == _BrushMode.none || _mode == _BrushMode.magicWand ? null : _updateGesture,
+                    onPanEnd: _mode == _BrushMode.none || _mode == _BrushMode.magicWand ? null : _endGesture,
                     child: Stack(children: [
                       SizedBox(width: width, height: height, child: Image.memory(current.bytes, fit: BoxFit.fill)),
                       if (_mode == _BrushMode.crop && _gestureStart != null && _gestureEnd != null)
