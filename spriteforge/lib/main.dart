@@ -75,7 +75,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
   Future<void> _pickImages() async {
     final picked = await _picker.pickMultiImage(imageQuality: 100);
     if (picked.isEmpty) return;
-    setState(() { _busy = true; _status = 'Loading \${picked.length} image(s)…'; });
+    setState(() { _busy = true; _status = 'Loading ${picked.length} image(s)…'; });
     try {
       final loaded = <_ImageAsset>[];
       for (final file in picked) {
@@ -91,7 +91,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
         _exports.clear();
         _selected = 0;
         _busy = false;
-        _status = 'Loaded \${loaded.length} image(s). Choose an edit tool.';
+        _status = 'Loaded ${loaded.length} image(s). Choose an edit tool.';
       });
       _loadActive();
     } catch (e) {
@@ -136,7 +136,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     );
     if (result is CutoutBytesSuccess) return result.pngBytes;
     if (result is CutoutFileSuccess) return File(result.path).readAsBytes();
-    if (result is CutoutFailure) throw Exception('\${result.code.name}: \${result.message}');
+    if (result is CutoutFailure) throw Exception('${result.code.name}: ${result.message}');
     return null;
   }
 
@@ -153,7 +153,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
           item.bytes = output;
                   }
         done++;
-        if (mounted) setState(() => _status = 'Background removal: $done/\${targets.length}');
+        if (mounted) setState(() => _status = 'Background removal: $done/${targets.length}');
       }
       setState(() { _busy = false; _status = 'Background removal complete. Use Erase/Restore for manual touch-up.'; });
       _loadActive();
@@ -390,9 +390,9 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
     for (var i = 0; i < found.length; i++) {
       final rect = found[i];
       final tile = img.copyCrop(image, x: rect.left.toInt(), y: rect.top.toInt(), width: rect.width.toInt(), height: rect.height.toInt());
-      _exports.add(_ExportAsset('auto_sprite_\${(i + 1).toString().padLeft(3, '0')}', Uint8List.fromList(img.encodePng(tile))));
+      _exports.add(_ExportAsset("auto_sprite_${(i + 1).toString().padLeft(3, '0')}", Uint8List.fromList(img.encodePng(tile))));
     }
-    setState(() => _status = 'Detected \${found.length} separate transparent sprite object(s).');
+    setState(() => _status = 'Detected ${found.length} separate transparent sprite object(s).');
   }
 
   void _splitSheet() {
@@ -409,7 +409,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
         final w = c == cols - 1 ? image.width - x : cellW;
         final h = r == rows - 1 ? image.height - y : cellH;
         final tile = img.copyCrop(image, x: x, y: y, width: w, height: h);
-        _exports.add(_ExportAsset('sprite_\${(++count).toString().padLeft(3, '0')}', Uint8List.fromList(img.encodePng(tile))));
+        _exports.add(_ExportAsset("sprite_${(++count).toString().padLeft(3, '0')}", Uint8List.fromList(img.encodePng(tile))));
       }
     }
     setState(() => _status = 'Split into $count grid cells.');
@@ -424,14 +424,14 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
       for (final item in _exports) { map[item.name] = item.bytes; }
       final archive = Archive();
       for (final entry in map.entries) {
-        archive.addFile(ArchiveFile('\${entry.key}.png', entry.value.length, entry.value));
+        archive.addFile(ArchiveFile('${entry.key}.png', entry.value.length, entry.value));
       }
       final bytes = ZipEncoder().encode(archive);
       if (bytes == null) throw Exception('Could not encode ZIP');
       final dir = await getTemporaryDirectory();
-      final file = File('\${dir.path}/spriteforge_export.zip');
+      final file = File('${dir.path}/spriteforge_export.zip');
       await file.writeAsBytes(bytes, flush: true);
-      setState(() { _busy = false; _status = 'ZIP ready • \${map.length} PNG file(s)'; });
+      setState(() { _busy = false; _status = 'ZIP ready • ${map.length} PNG file(s)'; });
       await Share.shareXFiles([XFile(file.path)], text: 'SpriteForge image export');
     } catch (e) {
       setState(() { _busy = false; _status = 'Export failed: $e'; });
@@ -456,7 +456,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
       body: SafeArea(
         child: ListView(padding: const EdgeInsets.all(14), children: [
           Card(child: Padding(padding: const EdgeInsets.all(14), child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Row(children: [const Expanded(child: Text('Your images', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))), Text('\${_images.length} selected')]),
+            Row(children: [const Expanded(child: Text('Your images', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))), Text('${_images.length} selected')]),
             const SizedBox(height: 8),
             FilledButton.icon(onPressed: _busy ? null : _pickImages, icon: const Icon(Icons.upload_file), label: const Text('Upload any image(s)')),
             if (_images.isNotEmpty) ...[
@@ -507,7 +507,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
               ]),
               if (_mode == _BrushMode.erase || _mode == _BrushMode.restore) ...[
                 const SizedBox(height: 6),
-                Text('Brush size: \${_brushSize.round()} px'),
+                Text('Brush size: ${_brushSize.round()} px'),
                 Slider(value: _brushSize, min: 4, max: 100, divisions: 24, onChanged: (v) => setState(() => _brushSize = v)),
               ],
               if (_mode == _BrushMode.magicWand) ...[
@@ -516,7 +516,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
                 Slider(value: _magicTolerance, min: 0, max: 100, divisions: 20, onChanged: (v) => setState(() => _magicTolerance = v)),
               ],
               const SizedBox(height: 4),
-              Text('Image: \${decoded.width} × \${decoded.height} px', style: const TextStyle(color: Colors.black54, fontSize: 12)),
+              Text('Image: ${decoded.width} × ${decoded.height} px', style: const TextStyle(color: Colors.black54, fontSize: 12)),
             ]))),
             Card(child: Padding(padding: const EdgeInsets.all(14), child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
               const Text('Automatic tools', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -549,7 +549,7 @@ class _SpriteForgeHomeState extends State<SpriteForgeHome> {
             Text(_status),
             if (_busy) const Padding(padding: EdgeInsets.only(top: 8), child: LinearProgressIndicator()),
             const SizedBox(height: 8),
-            FilledButton.icon(onPressed: _busy || (_images.isEmpty && _exports.isEmpty) ? null : _exportZip, icon: const Icon(Icons.archive_outlined), label: Text('Export ZIP (\${_exports.isEmpty ? _images.length : _exports.length} items)')),
+            FilledButton.icon(onPressed: _busy || (_images.isEmpty && _exports.isEmpty) ? null : _exportZip, icon: const Icon(Icons.archive_outlined), label: Text('Export ZIP (${_exports.isEmpty ? _images.length : _exports.length} items)')),
           ]))),
         ]),
       ),
