@@ -14,6 +14,6 @@ void main(){
   await t.pumpWidget(const BadGymApp());await t.pumpAndSettle();expect(find.text('BAD GYM'),findsOneWidget);
   expect(t.takeException(),isNull);});
  testWidgets('navigation rail interaction works',(t)async{await setSize(t,const Size(360,780));
-  await t.pumpWidget(const BadGymApp());await t.tap(find.byType(InkWell).first);await t.pump();
+  await t.pumpWidget(const BadGymApp());await t.ensureVisible(find.byType(InkWell).first); await t.tap(find.byType(InkWell).first);await t.pump();
   expect(t.takeException(),isNull);});
 }
