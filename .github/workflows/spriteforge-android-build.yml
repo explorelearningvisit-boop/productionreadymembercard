@@ -28,7 +28,17 @@ jobs:
       - name: Generate Android platform files
         run: flutter create --platforms=android --org com.spriteforge .
       - name: Add network permission for first-time ML Kit model download
-        run: sed -i '/<application/i\\    <uses-permission android:name="android.permission.INTERNET" />' android/app/src/main/AndroidManifest.xml
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          manifest = Path("android/app/src/main/AndroidManifest.xml")
+          content = manifest.read_text()
+          marker = "    <application"
+          permission = '    <uses-permission android:name="android.permission.INTERNET" />\\n'
+          if "android.permission.INTERNET" not in content:
+              content = content.replace(marker, permission + marker, 1)
+          manifest.write_text(content)
+          PY
       - name: Download Real-ESRGAN TFLite model (MIT project; model credit in notices)
         run: |
           mkdir -p assets/models
