@@ -1,7 +1,7 @@
 name: spriteforge
-description: Mobile sprite sheet batch processor
+description: Mobile image editing and batch sprite sheet studio
 publish_to: none
-version: 1.0.0+1
+version: 1.0.0+2
 environment:
   sdk: ">=3.4.0 <4.0.0"
 dependencies:
@@ -12,6 +12,7 @@ dependencies:
   archive: ^3.6.1
   path_provider: ^2.1.5
   share_plus: ^10.1.4
+  native_cutout: ^0.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
