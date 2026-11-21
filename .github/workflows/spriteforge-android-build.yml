@@ -31,21 +31,19 @@ jobs:
           gradle = Path("android/build.gradle.kts")
           content = gradle.read_text()
           block = """
-          // Match each Kotlin variant to its paired Android JavaCompile task.
+          // Pair each Kotlin variant with its JavaCompile task without afterEvaluate.
           // Flutter plugins legitimately use different Java targets (11 or 17).
           subprojects {
-              afterEvaluate {
-                  tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-                      val javaTaskName = name.replace("Kotlin", "JavaWithJavac")
-                      val javaTask = tasks.findByName(javaTaskName) as? org.gradle.api.tasks.compile.JavaCompile
-                      if (javaTask != null) {
-                          compilerOptions {
-                              jvmTarget.set(
-                                  org.jetbrains.kotlin.gradle.dsl.JvmTarget.fromTarget(javaTask.targetCompatibility)
-                              )
-                          }
+              tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+                  val kotlinTask = this
+                  val javaTaskName = name.replace("Kotlin", "JavaWithJavac")
+                  tasks.withType<org.gradle.api.tasks.compile.JavaCompile>()
+                      .matching { it.name == javaTaskName }
+                      .configureEach {
+                          kotlinTask.compilerOptions.jvmTarget.set(
+                              org.jetbrains.kotlin.gradle.dsl.JvmTarget.fromTarget(targetCompatibility)
+                          )
                       }
-                  }
               }
           }
           """
