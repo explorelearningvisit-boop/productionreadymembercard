@@ -29,7 +29,7 @@ class BrandHeader extends StatelessWidget {
                   maxLines: 1,
                   style: TextStyle(
                     fontFamily: MemberTheme.display,
-                    fontSize: 28,
+                    fontSize: 25,
                     fontWeight: FontWeight.w900,
                     fontStyle: FontStyle.italic,
                     height: 0.95,
@@ -214,7 +214,7 @@ class _CheckBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: 34,
-        height: 34,
+        height: 30,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           gradient: LinearGradient(
@@ -273,7 +273,7 @@ class MemberProfileCard extends StatelessWidget {
                   'Welcome Back 👋',
                   style: TextStyle(
                     fontFamily: MemberTheme.script,
-                    fontSize: 26,
+                    fontSize: 22,
                     color: MemberTheme.deepPurple,
                     height: 1,
                   ),
@@ -282,8 +282,8 @@ class MemberProfileCard extends StatelessWidget {
                   MemberSample.name,
                   maxLines: 2,
                   style: TextStyle(
-                    fontSize: 20,
-                    height: 1.05,
+                    fontSize: 18,
+                    height: 1.0,
                     fontWeight: FontWeight.w900,
                     color: Colors.black,
                   ),
@@ -318,8 +318,8 @@ class _Portrait extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 102,
-        height: 118,
+        width: 88,
+        height: 102,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
           gradient: const LinearGradient(
@@ -362,7 +362,7 @@ class _Meta extends StatelessWidget {
           Text(
             text,
             style: const TextStyle(
-                fontSize: 11,
+                fontSize: 10,
                 fontWeight: FontWeight.w800,
                 color: MemberTheme.ink),
           ),
@@ -375,7 +375,7 @@ class _GoldPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 34,
+        height: 30,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
@@ -413,7 +413,7 @@ class _ActivePill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 34,
+        height: 30,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
@@ -446,7 +446,7 @@ class PaymentStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.fromLTRB(10, 8, 8, 8),
+        padding: const EdgeInsets.fromLTRB(8, 6, 6, 6),
         decoration: MemberTheme.glass(radius: 22),
         child: Row(
           children: [
@@ -468,7 +468,7 @@ class PaymentStrip extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.w900,
                         color: MemberTheme.purple),
                   ),
@@ -490,7 +490,7 @@ class PaymentStrip extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.w900,
                         color: MemberTheme.purple),
                   ),
@@ -517,7 +517,7 @@ class PaymentStrip extends StatelessWidget {
               child: QrImageView(
                 data: MemberSample.qrPayload,
                 version: QrVersions.auto,
-                size: 46,
+                size: 40,
                 padding: EdgeInsets.zero,
                 eyeStyle: QrEyeStyle(
                     eyeShape: QrEyeShape.square, color: MemberTheme.ink),
@@ -538,8 +538,8 @@ class _IconBlob extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 36,
-        height: 36,
+        width: 32,
+        height: 32,
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(12),
@@ -577,7 +577,7 @@ class MembershipProgress extends StatelessWidget {
         const SizedBox(height: 6),
         LayoutBuilder(
           builder: (context, constraints) => Container(
-            height: 14,
+            height: 10,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(20),
@@ -646,7 +646,7 @@ class PromoBanner extends StatelessWidget {
                       'BAD GYM',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.w900,
                         fontStyle: FontStyle.italic,
                         height: 1,
