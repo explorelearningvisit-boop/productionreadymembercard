@@ -500,7 +500,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
     final dayLabels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
     return Column(children: [
       Row(children: dayLabels.map((d) => Expanded(child: Center(child: Text(d,
-        style: TextStyle(color: ink, fontSize: compact ? 7 : 9, fontWeight: FontWeight.w900)))).toList()),
+        style: TextStyle(color: ink, fontSize: compact ? 7 : 9, fontWeight: FontWeight.w900))))).toList()),
       const SizedBox(height: 3),
       GridView.builder(
         shrinkWrap: true,
