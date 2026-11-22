@@ -207,7 +207,13 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
                     begin: Alignment.topLeft, end: Alignment.bottomRight))),
                 Positioned(top: 6, right: 6, child: Icon(Icons.auto_awesome,
                   color: Colors.white.withOpacity(.75), size: 16)),
-                Center(child: Text('💪', style: TextStyle(fontSize: compact ? 56 : 68))),
+                Center(
+                  child: Image.asset(
+                    'assets/images/member_hero.webp',
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Text('💪', style: TextStyle(fontSize: compact ? 56 : 68)),
+                  ),
+                ),
                 Positioned(bottom: 4, right: 6, child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
                   decoration: BoxDecoration(color: ink, borderRadius: BorderRadius.circular(5)),
