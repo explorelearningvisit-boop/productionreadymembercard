@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PurpleMemberDashboard extends StatefulWidget {
   const PurpleMemberDashboard({super.key});
@@ -96,7 +97,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
         padding: EdgeInsets.symmetric(horizontal: compact ? 7 : 12, vertical: compact ? 9 : 12),
         child: Row(
           children: [
-            Text('🎁', style: TextStyle(fontSize: compact ? 35 : 43)),
+            SvgPicture.asset('assets/graphics/gift_box.svg', width: compact ? 43 : 54, height: compact ? 43 : 54),
             const SizedBox(width: 5),
             Expanded(
               child: Column(
@@ -116,7 +117,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
             const SizedBox(width: 4),
             Column(
               children: [
-                Text('🏋️', style: TextStyle(fontSize: compact ? 26 : 34)),
+                SvgPicture.asset('assets/graphics/weightlifter.svg', width: compact ? 34 : 42, height: compact ? 34 : 42),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: compact ? 8 : 11, vertical: 6),
                   decoration: BoxDecoration(
@@ -167,7 +168,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
             color: purple.withOpacity(.55)),
           Expanded(
             child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(Icons.ac_unit_rounded, color: purple, size: compact ? 25 : 29),
+              SvgPicture.asset('assets/graphics/freeze_snowflake.svg', width: compact ? 25 : 29, height: compact ? 25 : 29),
               const SizedBox(width: 5),
               Text('FREEZE', style: TextStyle(color: ink,
                 fontSize: compact ? 14 : 17, fontWeight: FontWeight.w900)),
@@ -208,11 +209,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
                 Positioned(top: 6, right: 6, child: Icon(Icons.auto_awesome,
                   color: Colors.white.withOpacity(.75), size: 16)),
                 Center(
-                  child: Image.asset(
-                    'assets/images/member_hero.webp',
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Text('💪', style: TextStyle(fontSize: compact ? 56 : 68)),
-                  ),
+                  child: SvgPicture.asset('assets/graphics/member_bodybuilder.svg', fit: BoxFit.contain, width: compact ? 88 : 104, height: compact ? 88 : 104),
                 ),
                 Positioned(bottom: 4, right: 6, child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
@@ -348,7 +345,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Icon(icon, color: accent, size: compact ? 14 : 17),
+          _metricGraphic(title, compact),
           const SizedBox(width: 3),
           Flexible(child: Text(title, maxLines: 1, overflow: TextOverflow.ellipsis,
             style: TextStyle(color: ink, fontSize: compact ? 8 : 10, fontWeight: FontWeight.w900))),
@@ -365,6 +362,18 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
           style: TextStyle(color: ink, fontSize: compact ? 6 : 7, fontWeight: FontWeight.w700)),
       ]),
     );
+  }
+
+  Widget _metricGraphic(String title, bool compact) {
+    final path = switch (title) {
+      'Attendance' => 'assets/graphics/blinkit_bag.svg',
+      'Workout' => 'assets/graphics/creatine_tub.svg',
+      'Payment' => 'assets/graphics/sbi_card.svg',
+      'Body' => 'assets/graphics/protinex_tub.svg',
+      _ => 'assets/graphics/weightlifter.svg',
+    };
+    return SvgPicture.asset(path, width: compact ? 20 : 25, height: compact ? 20 : 25,
+      fit: BoxFit.contain);
   }
 
   Widget _attendanceSection(bool compact) {
