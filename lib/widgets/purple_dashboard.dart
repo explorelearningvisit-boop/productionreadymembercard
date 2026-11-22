@@ -704,8 +704,8 @@ class _LegendRow extends StatelessWidget {
     child: Row(children: [
       Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
       const SizedBox(width: 4),
-      Expanded(child: Text(label, style: const TextStyle(color: ink, fontSize: 9, fontWeight: FontWeight.w700))),
-      Text(count, style: const TextStyle(color: ink, fontSize: 10, fontWeight: FontWeight.w900)),
+      Expanded(child: Text(label, style: const TextStyle(color: Color(0xFF21102F), fontSize: 9, fontWeight: FontWeight.w700))),
+      Text(count, style: const TextStyle(color: Color(0xFF21102F), fontSize: 10, fontWeight: FontWeight.w900)),
     ]),
   );
 }
@@ -719,7 +719,7 @@ class _LegendDot extends StatelessWidget {
   Widget build(BuildContext context) => Row(mainAxisSize: MainAxisSize.min, children: [
     Container(width: 7, height: 7, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
     const SizedBox(width: 3),
-    Text(label, style: const TextStyle(color: ink, fontSize: 7, fontWeight: FontWeight.w700)),
+    Text(label, style: const TextStyle(color: Color(0xFF21102F), fontSize: 7, fontWeight: FontWeight.w700)),
   ]);
 }
 
