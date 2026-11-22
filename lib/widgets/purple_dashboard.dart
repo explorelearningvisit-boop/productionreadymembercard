@@ -336,7 +336,7 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
   Widget _metricCard(String title, String value, String change, IconData icon, Color tint,
       Color accent, String sponsor, String tagline, bool compact) {
     return Container(
-      constraints: BoxConstraints(minHeight: compact ? 100 : 116),
+      height: compact ? 106 : 122,
       padding: EdgeInsets.symmetric(horizontal: compact ? 4 : 6, vertical: compact ? 6 : 8),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [Colors.white, tint.withOpacity(.22), tint.withOpacity(.10)],
