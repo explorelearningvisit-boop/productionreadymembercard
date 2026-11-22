@@ -35,5 +35,6 @@ flutter run
 
 ## Known V1 limitations
 - This is a visual/UI V1; backend, real QR encoding, live attendance and payments are not connected.
-- Some promotional product art and the bodybuilder illustration are represented by native symbols/emoji until approved, individually verified source PNGs are added.
-- A local asset archive is not treated as committed repository assets unless its binary files are actually present in this branch.
+- Existing repository images under `assets/images/` are now registered with Flutter; the profile hero uses `member_hero.webp` with a safe fallback.
+- The separate BADGYM Asset Pack v3 has been audited: 26 transparent RGBA PNGs plus a manifest and review sheets. Its high-resolution binary files are staged as a separate package; they are not falsely represented as already committed to this branch.
+- The older `assets/images/individual/*.png` directory contains 44 placeholder entries with one identical Git blob SHA; these are not used by the V1 UI and must not be mistaken for the verified v3 artwork.
