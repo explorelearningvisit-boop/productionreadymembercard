@@ -40,7 +40,9 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Resolve dependencies
         run: flutter pub get
-      - name: Format verification
+      - name: Format Dart sources
+        run: dart format lib test
+      - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed lib test
       - name: Static analysis
         run: flutter analyze
