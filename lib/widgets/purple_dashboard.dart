@@ -738,15 +738,15 @@ class _QrPainter extends CustomPainter {
       for (int x = 0; x < n; x++) {
         final finder = _finder(x, y, 0, 0) || _finder(x, y, n - 7, 0) || _finder(x, y, 0, n - 7);
         if (finder || random.nextBool()) {
-          canvas.drawRect(Rect.fromLTWH(x * cell, y * cell, cell * .92, cell * .92), p);
+          canvas.drawRect(Rect.fromLTWH(x.toDouble() * cell, y.toDouble() * cell, cell * .92, cell * .92), p);
         }
       }
     }
     final white = Paint()..color = Colors.white;
     for (final origin in [const math.Point(0, 0), math.Point(n - 7, 0), math.Point(0, n - 7)]) {
-      canvas.drawRect(Rect.fromLTWH(origin.x * cell, origin.y * cell, cell * 7, cell * 7), white);
-      canvas.drawRect(Rect.fromLTWH((origin.x + 1) * cell, (origin.y + 1) * cell, cell * 5, cell * 5), p);
-      canvas.drawRect(Rect.fromLTWH((origin.x + 2) * cell, (origin.y + 2) * cell, cell * 3, cell * 3), white);
+      canvas.drawRect(Rect.fromLTWH(origin.x.toDouble() * cell, origin.y.toDouble() * cell, cell * 7, cell * 7), white);
+      canvas.drawRect(Rect.fromLTWH((origin.x + 1).toDouble() * cell, (origin.y + 1).toDouble() * cell, cell * 5, cell * 5), p);
+      canvas.drawRect(Rect.fromLTWH((origin.x + 2).toDouble() * cell, (origin.y + 2).toDouble() * cell, cell * 3, cell * 3), white);
     }
   }
 
