@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../theme/member_theme.dart';
 
 class PurpleMemberDashboard extends StatefulWidget {
   const PurpleMemberDashboard({super.key});
@@ -11,7 +10,6 @@ class PurpleMemberDashboard extends StatefulWidget {
 
 class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
   int selectedRail = 0;
-  int selectedMetric = 0;
 
   static const Color ink = Color(0xFF21102F);
   static const Color purple = Color(0xFF7100C7);
