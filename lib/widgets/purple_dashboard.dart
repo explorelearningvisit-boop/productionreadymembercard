@@ -376,9 +376,10 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
     return _neonPanel(
       radius: 22,
       padding: EdgeInsets.all(compact ? 5 : 7),
-      child: Row(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
           width: compact ? 54 : 62,
+          height: compact ? 355 : 375,
           padding: EdgeInsets.symmetric(vertical: compact ? 5 : 7, horizontal: 3),
           decoration: BoxDecoration(
             gradient: const LinearGradient(colors: [Color(0xFF3A005F), Color(0xFF8700C8), Color(0xFF3A005F)],
