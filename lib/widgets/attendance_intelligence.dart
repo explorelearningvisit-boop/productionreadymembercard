@@ -57,8 +57,8 @@ class _Rail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 62,
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+        width: 54,
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(26),
           gradient: const LinearGradient(
@@ -88,7 +88,7 @@ class _Rail extends StatelessWidget {
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 180),
                     width: 52,
-                    height: 48,
+                    height: 42,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: selected
@@ -106,7 +106,7 @@ class _Rail extends StatelessWidget {
                       children: [
                         Icon(
                           AttendanceIntelligence.icons[index],
-                          size: 18,
+                          size: 17,
                           color: selected ? MemberTheme.purple : Colors.white,
                         ),
                         const SizedBox(height: 2),
@@ -194,8 +194,8 @@ class _MetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 74,
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
+        height: 64,
+        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
         decoration: BoxDecoration(
           color: background,
           borderRadius: BorderRadius.circular(18),
@@ -237,13 +237,13 @@ class _Panel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
+        padding: const EdgeInsets.fromLTRB(9, 8, 9, 8),
         decoration: MemberTheme.glass(radius: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const _PanelHeader(),
-            const SizedBox(height: 8),
+            const SizedBox(height: 5),
             switch (section) {
               0 => const _HomeOverview(),
               1 => const _AttendCalendar(),
@@ -334,7 +334,7 @@ class _HomeOverview extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 color: MemberTheme.ink),
           ),
-          SizedBox(height: 10),
+          SizedBox(height: 6),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -409,18 +409,18 @@ class _AttendanceDonut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const SizedBox(
-        width: 92,
-        height: 92,
+        width: 78,
+        height: 78,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            CustomPaint(size: Size(92, 92), painter: _DonutPainter()),
+            CustomPaint(size: Size(78, 78), painter: _DonutPainter()),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text('81%',
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.w900,
                         color: MemberTheme.ink,
                         height: 1)),
@@ -476,7 +476,7 @@ class _StatLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2),
+        padding: const EdgeInsets.symmetric(vertical: 1),
         child: Row(
           children: [
             Container(
@@ -541,7 +541,7 @@ class _Foot extends StatelessWidget {
           const SizedBox(width: 3),
           Text(value,
               style: TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w900, color: color)),
+                  fontSize: 12, fontWeight: FontWeight.w900, color: color)),
         ],
       );
 }
