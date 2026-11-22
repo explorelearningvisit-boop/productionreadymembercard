@@ -22,6 +22,6 @@ Run CI on this branch. A passing CI run verifies formatting, analysis, widget te
 
 ## Asset audit follow-up
 - Registered the committed `assets/images/` directory in Flutter's asset bundle so the existing member hero artwork can load at runtime.
-- Audited the separate BADGYM Asset Pack v3: 26 PNGs, all RGBA with transparency, with manifest and visual contact/edge-review sheets.
+- Audited the separate BADGYM Asset Pack v3: 30 individually named transparent RGBA PNGs, all RGBA with transparency, with manifest and visual contact/edge-review sheets.
 - The legacy 44 PNG files under `assets/images/individual/` are confirmed placeholders sharing one identical Git blob SHA. They are not used.
 - The v3 high-resolution binary pack is supplied separately for review; this branch's asset documentation does not claim those 26 binary files are already committed.
