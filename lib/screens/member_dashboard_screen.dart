@@ -37,7 +37,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   fontWeight: FontWeight.w900,
                   color: MemberTheme.ink),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 5),
             Text(
               frozen
                   ? 'Resume check-in for ${MemberSample.name}. Sample only — no billing API is connected.'
@@ -187,38 +187,47 @@ class _DashboardScroll extends StatelessWidget {
         return SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           padding:
-              EdgeInsets.fromLTRB(compact ? 10 : 18, 8, compact ? 10 : 18, 18),
+              EdgeInsets.fromLTRB(compact ? 7 : 14, 4, compact ? 7 : 14, 8),
           child: Center(
-            child: ConstrainedBox(
+            child: Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: const Color(0x22FFFFFF),
+                borderRadius: BorderRadius.circular(26),
+                border: Border.all(color: const Color(0x99C084FC), width: 1.2),
+                boxShadow: const [BoxShadow(color: Color(0x227C3AED), blurRadius: 14, offset: Offset(0, 4))],
+              ),
+              child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 520),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const BrandHeader(),
                   if (frozen) ...[
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 5),
                     const _FrozenBanner(),
                   ],
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 5),
                   ActionStrip(
                     frozen: frozen,
                     onFreeze: onFreeze,
                     onNotify: onNotify,
                     onCheckIn: onCheckIn,
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 6),
                   const MemberProfileCard(),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 6),
                   const PaymentStrip(),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 5),
                   const MembershipProgress(),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 6),
                   PromoBanner(onShop: () => onSelect(4)),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 6),
                   AttendanceIntelligence(section: section, onSelect: onSelect),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 5),
                   const EquipmentFooter(),
                 ],
+              ),
               ),
             ),
           ),
