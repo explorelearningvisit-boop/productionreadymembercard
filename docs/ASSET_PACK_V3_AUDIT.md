@@ -1,9 +1,9 @@
 # BADGYM Asset Pack v3 — Audit Record
 
 - Pack: BADGYM Asset Pack v3 — corrected and verified
-- Individual graphics: 26 transparent PNG files
+- Individual graphics: 30 transparent PNG files
 - Color mode: RGBA
-- Alpha: all 26 files contain fully transparent pixels
+- Alpha: all 30 files contain fully transparent pixels
 - Product cutouts: approximately 2.5K–4K pixels on longest edge
 - UI components: some are cropped from a component sheet and upscaled to 4096 px longest edge; not native 4K renders
 - Full dashboard screenshot: none included
