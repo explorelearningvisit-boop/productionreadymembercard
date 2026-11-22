@@ -737,7 +737,7 @@ class _QrPainter extends CustomPainter {
       }
     }
     final white = Paint()..color = Colors.white;
-    for (final origin in [const Point(0, 0), Point(n - 7, 0), Point(0, n - 7)]) {
+    for (final origin in [const math.Point(0, 0), math.Point(n - 7, 0), math.Point(0, n - 7)]) {
       canvas.drawRect(Rect.fromLTWH(origin.x * cell, origin.y * cell, cell * 7, cell * 7), white);
       canvas.drawRect(Rect.fromLTWH((origin.x + 1) * cell, (origin.y + 1) * cell, cell * 5, cell * 5), p);
       canvas.drawRect(Rect.fromLTWH((origin.x + 2) * cell, (origin.y + 2) * cell, cell * 3, cell * 3), white);
