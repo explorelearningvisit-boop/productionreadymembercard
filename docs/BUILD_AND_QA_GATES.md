@@ -1,10 +1,9 @@
-# Build and QA Gates
+# Build and QA gates
 
-1. Source: approved user screenshot only; installed failed screenshot is comparison evidence, not design authority.
-2. Theme: crimson/ruby + metallic gold + pearl white; no ice-blue or arbitrary theme substitutions.
-3. Components: header, member pass, festival banner, four KPI cards, attendance rail/workspace, protein promotion.
-4. Data: profile, dates, payment and membership values remain sample UI data until connected to backend.
+1. Source of truth: purple neon dashboard screenshot plus the asset and theme sheets.
+2. Theme: purple / gold / green / lavender. No crimson substitution on this branch.
+3. Surfaces: brand header, check-in strip, member hero, payment QR, membership bar, sale banner, metric tiles, rail, attendance intelligence, and the five other workspaces.
+4. Data: Ashwani profile, dates, dues, and attendance totals are sample UI data.
 5. CI: format, analyze, widget tests, release APK.
-6. Device QA: install exact artifact on Xiaomi 11i, launch, capture screenshot, inspect logcat.
-7. Visual QA: compare same app viewport against approved screenshot; fix clipping, crop, spacing, typography, color, border and shadows.
-8. Release claim: report CI, APK, signing, install, launch and visual-match separately. Never claim production-ready solely from compilation.
+6. Layout gate: 360dp and 390dp widget tests must finish with no overflow exception.
+7. Release claim: compilation and a debug-signed release APK are not a production signing or device-install sign-off.

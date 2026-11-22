@@ -1,34 +1,53 @@
 import 'package:flutter/material.dart';
 
 class MemberTheme {
-  static const purple = Color(0xFF7B12C8);
+  static const purple = Color(0xFF7A18D1);
   static const deepPurple = Color(0xFF4A087E);
-  static const violet = Color(0xFFB33BFF);
-  static const canvas = Color(0xFFF5EFFF);
-  static const ink = Color(0xFF24102F);
-  static const muted = Color(0xFF786A83);
-  static const line = Color(0xFFDCC8EE);
-  static const green = Color(0xFF12C83C);
-  static const red = Color(0xFFE51D3B);
+  static const violet = Color(0xFFB44BFF);
+  static const neon = Color(0xFFE879F9);
+  static const canvas = Color(0xFFF6ECFF);
+  static const ink = Color(0xFF1B1028);
+  static const muted = Color(0xFF7C6C88);
+  static const line = Color(0xFFE4D0F2);
+  static const green = Color(0xFF22C55E);
+  static const greenInk = Color(0xFF147A32);
+  static const red = Color(0xFFEF3B4D);
   static const gold = Color(0xFFFFC928);
-  static const blue = Color(0xFF22B9E9);
-  static const pink = Color(0xFFEC3EAE);
+  static const goldDeep = Color(0xFFE39B00);
+  static const blue = Color(0xFF38BDF8);
+  static const pink = Color(0xFFEC49C2);
+  static const peach = Color(0xFFFFE4C8);
+
+  static const display = 'Montserrat';
+  static const script = 'GreatVibes';
+  static const sale = 'Lobster';
 
   static ThemeData get light => ThemeData(
-    useMaterial3: true,
-    scaffoldBackgroundColor: canvas,
-    colorScheme: ColorScheme.fromSeed(seedColor: purple, primary: purple),
-    fontFamily: 'Roboto',
-  );
+        useMaterial3: true,
+        scaffoldBackgroundColor: canvas,
+        colorScheme: ColorScheme.fromSeed(seedColor: purple, primary: purple),
+        fontFamily: display,
+        splashFactory: InkSparkle.splashFactory,
+      );
 
   static BoxDecoration glass({double radius = 22, Color tint = Colors.white}) =>
-    BoxDecoration(
-      color: tint.withValues(alpha: .92),
-      borderRadius: BorderRadius.circular(radius),
-      border: Border.all(color: Colors.white, width: 1.7),
-      boxShadow: const [
-        BoxShadow(color: Color(0x337B12C8), blurRadius: 18, offset: Offset(0, 7)),
-        BoxShadow(color: Color(0xBFFFFFFF), blurRadius: 4, offset: Offset(-2, -2)),
-      ],
-    );
+      BoxDecoration(
+        color: tint.withValues(alpha: 0.94),
+        borderRadius: BorderRadius.circular(radius),
+        border: Border.all(color: Colors.white, width: 1.6),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x337A18D1),
+            blurRadius: 18,
+            offset: Offset(0, 8),
+          ),
+        ],
+      );
+
+  static const TextStyle title = TextStyle(
+    fontFamily: display,
+    fontWeight: FontWeight.w900,
+    color: ink,
+    height: 1.05,
+  );
 }
