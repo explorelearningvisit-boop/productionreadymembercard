@@ -1,0 +1,33 @@
+name: Extract dashboard asset pack
+on:
+  push:
+    branches:
+      - feature/purple-neon-dashboard-v1
+    paths:
+      - BADGYM_AssetPack_v3_Mobile_Optimized.zip
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  extract-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/purple-neon-dashboard-v1
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Extract optimized graphics
+        run: |
+          test -f BADGYM_AssetPack_v3_Mobile_Optimized.zip
+          mkdir -p /tmp/badgym-pack assets/images/dashboard
+          unzip -q BADGYM_AssetPack_v3_Mobile_Optimized.zip -d /tmp/badgym-pack
+          cp -a /tmp/badgym-pack/BADGYM_AssetPack_v3_Mobile_Optimized/. assets/images/dashboard/
+          rm BADGYM_AssetPack_v3_Mobile_Optimized.zip
+          grep -q 'assets/images/dashboard/' pubspec.yaml || sed -i '/assets\/images\//a\    - assets/images/dashboard/' pubspec.yaml
+      - name: Commit extracted assets
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/images/dashboard pubspec.yaml
+          git commit -m "Add extracted BADGYM dashboard asset pack v3" || exit 0
+          git push
