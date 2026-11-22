@@ -537,11 +537,14 @@ class _PurpleMemberDashboardState extends State<PurpleMemberDashboard> {
               border: Border.all(color: Colors.white.withOpacity(.8), width: .8),
               boxShadow: state == 'off' ? [] : [BoxShadow(color: end.withOpacity(.18), blurRadius: 3, offset: const Offset(0, 1))],
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text('$day', style: TextStyle(color: state == 'off' ? ink : Colors.white,
-                fontSize: compact ? 9 : 11, fontWeight: FontWeight.w900)),
-              if (state == 'off') Text('OFF', style: TextStyle(color: ink, fontSize: compact ? 5 : 6, fontWeight: FontWeight.w900)),
-            ]),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Column(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text('$day', style: TextStyle(color: state == 'off' ? ink : Colors.white,
+                  fontSize: compact ? 9 : 11, fontWeight: FontWeight.w900)),
+                if (state == 'off') Text('OFF', style: TextStyle(color: ink, fontSize: compact ? 5 : 6, fontWeight: FontWeight.w900)),
+              ]),
+            ),
           );
         },
       ),
