@@ -4,7 +4,7 @@
 The Flutter dashboard registers `assets/images/` in `pubspec.yaml`. The member hero image is loaded from `assets/images/member_hero.webp`; gym interior, plants, portrait and sprite-sheet files are available for later component-level use.
 
 ## Separate verified asset source pack
-A separate **BADGYM Asset Pack v3** was inspected from the development workspace. It contains 26 individually named transparent RGBA PNGs, an asset manifest, a contact sheet and a dark-background edge-review sheet. Product cutouts are approximately 2.5K–4K px on their longest edge. UI background elements were cropped from a component sheet and upscaled to a 4096 px longest edge, so those particular files are not native 4K renders.
+A separate **BADGYM Asset Pack v3** was inspected from the development workspace. It contains 30 individually named transparent RGBA PNGs, an asset manifest, a contact sheet and a dark-background edge-review sheet. Product cutouts are approximately 2.5K–4K px on their longest edge. UI background elements were cropped from a component sheet and upscaled to a 4096 px longest edge, so those particular files are not native 4K renders.
 
 The source pack includes:
 - Member bodybuilder, gift box, whey/creatine/Protinex tubs, purple/green shakers and Blinkit bag
