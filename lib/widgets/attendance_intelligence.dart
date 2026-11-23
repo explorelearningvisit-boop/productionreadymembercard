@@ -144,45 +144,45 @@ class _MetricRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) => const Row(
         children: [
-          Expanded(
-            child: _MetricTile(
-              icon: Icons.calendar_month_rounded,
-              label: 'Attendance',
-              value: MemberSample.attendancePercentLabel,
-              background: Color(0xFFDCFCE7),
-              accent: MemberTheme.greenInk,
-            ),
-          ),
+          Expanded(child: _MetricTile(
+            icon: Icons.calendar_month_rounded,
+            label: 'Attendance',
+            value: MemberSample.attendancePercentLabel,
+            detail: '↑ +6%',
+            image: 'assets/material_pack/offers-promotions/05_blinkit_grocery_bag.webp',
+            background: Color(0xFFFFE66D),
+            accent: MemberTheme.greenInk,
+          )),
           SizedBox(width: 5),
-          Expanded(
-            child: _MetricTile(
-              icon: Icons.fitness_center_rounded,
-              label: 'Workout',
-              value: '${MemberSample.workoutMinutes} min',
-              background: Color(0xFFF3E8FF),
-              accent: MemberTheme.purple,
-            ),
-          ),
+          Expanded(child: _MetricTile(
+            icon: Icons.fitness_center_rounded,
+            label: 'Workout',
+            value: '${MemberSample.workoutMinutes} min',
+            detail: '↑ +12%',
+            image: 'assets/material_pack/offers-promotions/06_creatine_tub.webp',
+            background: Color(0xFFE7C7FF),
+            accent: MemberTheme.deepPurple,
+          )),
           SizedBox(width: 5),
-          Expanded(
-            child: _MetricTile(
-              icon: Icons.account_balance_wallet_rounded,
-              label: 'Payment',
-              value: MemberSample.dueLabel,
-              background: Color(0xFFFFEDD5),
-              accent: Color(0xFFEA580C),
-            ),
-          ),
+          Expanded(child: _MetricTile(
+            icon: Icons.account_balance_wallet_rounded,
+            label: 'Payment',
+            value: MemberSample.dueLabel,
+            detail: 'SBI · 5% OFF',
+            image: 'assets/material_pack/payment/29_sbi_payment_card_graphic.webp',
+            background: Color(0xFF9DE7FF),
+            accent: Color(0xFF075985),
+          )),
           SizedBox(width: 5),
-          Expanded(
-            child: _MetricTile(
-              icon: Icons.monitor_weight_rounded,
-              label: 'Body',
-              value: MemberSample.bodyLabel,
-              background: Color(0xFFE0F2FE),
-              accent: Color(0xFF0284C7),
-            ),
-          ),
+          Expanded(child: _MetricTile(
+            icon: Icons.monitor_weight_rounded,
+            label: 'Body',
+            value: MemberSample.bodyLabel,
+            detail: '↓ -0.8 kg',
+            image: 'assets/material_pack/offers-promotions/28_protinex_tub.webp',
+            background: Color(0xFFB8F1C8),
+            accent: MemberTheme.greenInk,
+          )),
         ],
       );
 }
@@ -191,48 +191,61 @@ class _MetricTile extends StatelessWidget {
   final IconData icon;
   final String label;
   final String value;
+  final String detail;
+  final String image;
   final Color background;
   final Color accent;
   const _MetricTile({
     required this.icon,
     required this.label,
     required this.value,
+    required this.detail,
+    required this.image,
     required this.background,
     required this.accent,
   });
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 64,
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+        height: 94,
+        padding: const EdgeInsets.fromLTRB(3, 4, 3, 3),
         decoration: BoxDecoration(
           color: background,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(17),
           border: Border.all(color: Colors.white, width: 1.5),
           boxShadow: const [
-            BoxShadow(
-                color: Color(0x187A18D1), blurRadius: 8, offset: Offset(0, 3))
+            BoxShadow(color: Color(0x227A18D1), blurRadius: 9, offset: Offset(0, 3)),
+            BoxShadow(color: Color(0x33FFD76A), blurRadius: 5, spreadRadius: 0.5),
           ],
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Icon(icon, color: accent, size: 18),
-            Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                  fontSize: 9,
-                  fontWeight: FontWeight.w800,
-                  color: MemberTheme.ink),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, color: accent, size: 13),
+                const SizedBox(width: 2),
+                Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: MemberTheme.ink))),
+              ],
             ),
-            Text(
-              value,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  fontSize: 12, fontWeight: FontWeight.w900, color: accent),
+            const SizedBox(height: 2),
+            FittedBox(fit: BoxFit.scaleDown, child: Text(value, maxLines: 1,
+              style: TextStyle(fontSize: 16, height: 1, fontWeight: FontWeight.w900, color: accent))),
+            Container(
+              margin: const EdgeInsets.only(top: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.75), borderRadius: BorderRadius.circular(10)),
+              child: Text(detail, maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: accent)),
+            ),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Image.asset(image, fit: BoxFit.contain, height: 37,
+                  errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 24)),
+              ),
             ),
           ],
         ),
@@ -560,14 +573,14 @@ class _AttendCalendar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const heads = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-    final leading = DateTime(2026, 10, 1).weekday % 7;
+    const heads = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final leading = DateTime(2026, 10, 1).weekday - 1;
     final cells = <Widget>[
       for (final head in heads)
         Center(
             child: Text(head,
                 style: const TextStyle(
-                    fontSize: 10,
+                    fontSize: 8,
                     fontWeight: FontWeight.w800,
                     color: MemberTheme.muted))),
       for (var i = 0; i < leading; i++) const SizedBox.shrink(),
@@ -611,12 +624,14 @@ class _DayCell extends StatelessWidget {
   Widget build(BuildContext context) {
     final kind = MemberSample.kindFor(day);
     final color = switch (kind) {
+      DayKind.off => const Color(0xFFE5E7EB),
       DayKind.present => const Color(0xFFDCFCE7),
       DayKind.late => const Color(0xFFFEF3C7),
       DayKind.absent => const Color(0xFFFFE4E6),
       DayKind.holiday => const Color(0xFFF3E8FF),
     };
     final ink = switch (kind) {
+      DayKind.off => const Color(0xFF6B7280),
       DayKind.present => MemberTheme.greenInk,
       DayKind.late => MemberTheme.goldDeep,
       DayKind.absent => MemberTheme.red,
@@ -632,11 +647,14 @@ class _DayCell extends StatelessWidget {
             width: today ? 1.6 : 1),
       ),
       child: Center(
-        child: Text(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text(
           '$day',
           style:
-              TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: ink),
+              TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: ink),
         ),
+        if (kind == DayKind.off) const Text('OFF', style: TextStyle(fontSize: 6, height: 0.9, fontWeight: FontWeight.w900, color: Color(0xFF6B7280))),
+        ]),
       ),
     );
   }
