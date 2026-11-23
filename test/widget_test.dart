@@ -8,6 +8,10 @@ import 'package:bad_gym_member_intelligence/widgets/dashboard_components.dart';
 
 Future<void> _pumpUi(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 700));
+  // A state change can schedule AnimatedSwitcher after the first frame;
+  // advance once more so outgoing and incoming children are no longer both
+  // present when tests assert unique labels.
+  await tester.pump(const Duration(milliseconds: 300));
 }
 
 void main() {
