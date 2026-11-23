@@ -164,6 +164,9 @@ void main() {
 
     await tester.pumpWidget(const BadGymApp());
     await _pumpUi(tester);
+    expect(find.byType(PaymentStrip), findsOneWidget);
+    expect(find.byKey(const ValueKey('payment-promo-row')), findsOneWidget);
+    expect(find.text('PAYMENT DUE'), findsOneWidget);
     await tester.ensureVisible(find.byType(PaymentStrip));
     await tester.tap(find.byType(PaymentStrip));
     await _pumpUi(tester);
