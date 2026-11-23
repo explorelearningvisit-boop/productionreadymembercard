@@ -6,8 +6,10 @@ void main() {
     expect(MemberSample.countKind(DayKind.present), MemberSample.present);
     expect(MemberSample.countKind(DayKind.absent), MemberSample.absent);
     expect(MemberSample.countKind(DayKind.holiday), MemberSample.holiday);
+    expect(MemberSample.countKind(DayKind.late), MemberSample.late);
+    expect(MemberSample.countKind(DayKind.off), 0);
     expect(
-      MemberSample.present + MemberSample.absent + MemberSample.holiday,
+      MemberSample.present + MemberSample.late + MemberSample.absent + MemberSample.holiday,
       MemberSample.monthDays,
     );
     expect(MemberSample.kindFor(MemberSample.today), DayKind.present);

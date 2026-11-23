@@ -205,7 +205,7 @@ class _DashboardScroll extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  PromoBanner(onShop: () => onSelect(3)),
+                  PromoBanner(onShop: () => onSelect(1)),
                   if (frozen) ...[
                     const SizedBox(height: 5),
                     const _FrozenBanner(),

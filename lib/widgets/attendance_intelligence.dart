@@ -30,11 +30,12 @@ class AttendanceIntelligence extends StatelessWidget {
         children: [
           const _MetricRow(),
           const SizedBox(height: 7),
-          IntrinsicHeight(
+          SizedBox(
+            height: 430,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _Rail(section: section, onSelect: onSelect),
+                SizedBox(width: 58, child: _Rail(section: section, onSelect: onSelect)),
                 const SizedBox(width: 6),
                 Expanded(child: _Panel(section: section)),
               ],
@@ -261,20 +262,23 @@ class _Panel extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(9, 8, 9, 8),
         decoration: MemberTheme.glass(radius: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const _PanelHeader(),
-            const SizedBox(height: 5),
-            switch (section) {
-              0 => const _HomeOverview(),
-              1 => const _MoreOverview(),
-              2 => const _AttendCalendar(),
-              3 => const _HistoryOverview(),
-              4 => const _HomeOverview(),
-              _ => const _GoalsOverview(),
-            },
-          ],
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const _PanelHeader(),
+              const SizedBox(height: 5),
+              switch (section) {
+                0 => const _DefaultAnalyticsOverview(),
+                1 => const _MoreOverview(),
+                2 => const _AttendCalendar(),
+                3 => const _HistoryOverview(),
+                4 => const _HomeOverview(),
+                _ => const _GoalsOverview(),
+              },
+            ],
+          ),
         ),
       );
 }
@@ -336,6 +340,22 @@ class _PanelHeader extends StatelessWidget {
       );
 }
 
+class _DefaultAnalyticsOverview extends StatelessWidget {
+  const _DefaultAnalyticsOverview();
+
+  @override
+  Widget build(BuildContext context) => const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _HomeOverview(),
+          SizedBox(height: 8),
+          Divider(height: 1, color: MemberTheme.line),
+          SizedBox(height: 7),
+          _AttendCalendar(),
+        ],
+      );
+}
+
 class _HomeOverview extends StatelessWidget {
   const _HomeOverview();
 
@@ -343,20 +363,6 @@ class _HomeOverview extends StatelessWidget {
   Widget build(BuildContext context) => const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Attendance analytics',
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w900,
-                  color: MemberTheme.deepPurple)),
-          SizedBox(height: 2),
-          Text(
-            'Check-in complete · ${MemberSample.checkInTime}',
-            style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: MemberTheme.ink),
-          ),
-          SizedBox(height: 6),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -628,14 +634,14 @@ class _DayCell extends StatelessWidget {
       DayKind.present => const Color(0xFFDCFCE7),
       DayKind.late => const Color(0xFFFEF3C7),
       DayKind.absent => const Color(0xFFFFE4E6),
-      DayKind.holiday => const Color(0xFFF3E8FF),
+      DayKind.holiday => const Color(0xFFE5E7EB),
     };
     final ink = switch (kind) {
       DayKind.off => const Color(0xFF6B7280),
       DayKind.present => MemberTheme.greenInk,
       DayKind.late => MemberTheme.goldDeep,
       DayKind.absent => MemberTheme.red,
-      DayKind.holiday => MemberTheme.purple,
+      DayKind.holiday => const Color(0xFF6B7280),
     };
     final today = day == MemberSample.today;
     return DecoratedBox(
@@ -653,7 +659,7 @@ class _DayCell extends StatelessWidget {
           style:
               TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: ink),
         ),
-        if (kind == DayKind.off) const Text('OFF', style: TextStyle(fontSize: 6, height: 0.9, fontWeight: FontWeight.w900, color: Color(0xFF6B7280))),
+        if (kind == DayKind.off || kind == DayKind.holiday) const Text('OFF', style: TextStyle(fontSize: 6, height: 0.9, fontWeight: FontWeight.w900, color: Color(0xFF6B7280))),
         ]),
       ),
     );

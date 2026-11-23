@@ -45,11 +45,11 @@ void main() {
       expect(find.text(heading), findsOneWidget);
     }
 
-    await open('Attend', 'Attendance analytics');
+    await open('Attend', 'Attendance Analytics');
     await open('Insights', 'More member insights');
     await open('Cal', 'October attendance');
     await open('History', 'Check-in history');
-    await open('Trend', 'Attendance analytics');
+    await open('Trend', 'Attendance Analytics');
     await open('Goals', 'Member goals');
     expect(tester.takeException(), isNull);
   });
@@ -82,4 +82,20 @@ void main() {
     expect(find.text('Payment due'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
+  testWidgets('dashboard remains layout-safe on a narrow 320dp phone', (tester) async {
+    tester.view.physicalSize = const Size(320, 640);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    final calendarTab = find.byKey(const ValueKey('rail-Cal'));
+    await tester.ensureVisible(calendarTab);
+    await tester.tap(calendarTab);
+    await tester.pumpAndSettle();
+    expect(find.text('October attendance'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
 }
