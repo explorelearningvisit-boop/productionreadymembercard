@@ -736,7 +736,7 @@ class _PromoBannerState extends State<PromoBanner>
                   children: [
                     SizedBox(
                       width: narrow ? 38 : compact ? 46 : 58,
-                      child: Image.asset('assets/material_pack/offers-promotions/04_purple_shaker.webp', fit: BoxFit.contain),
+                      child: Image.asset('assets/material_pack/offers-promotions/03_whey_protein_tub.webp', fit: BoxFit.contain),
                     ),
                     Expanded(
                       child: Padding(
