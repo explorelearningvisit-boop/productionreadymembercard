@@ -473,19 +473,24 @@ class _ActivePill extends StatelessWidget {
                 color: Color(0x4416A34A), blurRadius: 8, offset: Offset(0, 3))
           ],
         ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.check_rounded, size: 16, color: Colors.white),
-            SizedBox(width: 4),
-            Text(
-              'Active',
-              style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white),
-            ),
-          ],
+        child: const FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.check_rounded, size: 16, color: Colors.white),
+              SizedBox(width: 4),
+              Text(
+                'Active',
+                maxLines: 1,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w900,
+                    color: Colors.white),
+              ),
+            ],
+          ),
         ),
       );
 }
