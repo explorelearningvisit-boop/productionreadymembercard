@@ -155,4 +155,22 @@ void main() {
     expect(calendarLayoutException, isNull);
     expect(find.text('October attendance'), findsOneWidget);
   });
+  testWidgets('payment strip opens an honest sample due reminder', (tester) async {
+    tester.view.physicalSize = const Size(360, 780);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const BadGymApp());
+    await _pumpUi(tester);
+    await tester.ensureVisible(find.text('Payment'));
+    await tester.tap(find.text('Payment'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Payment due'), findsOneWidget);
+    expect(find.text('₹500 Due'), findsOneWidget);
+    expect(find.text('Sample reminder only. Online payment is not connected yet.'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
 }
