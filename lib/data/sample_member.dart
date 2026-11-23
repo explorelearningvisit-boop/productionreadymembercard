@@ -1,4 +1,4 @@
-enum DayKind { present, absent, holiday }
+enum DayKind { present, late, absent, holiday }
 
 class WorkoutBlock {
   final String name;
@@ -37,7 +37,8 @@ class MemberSample {
   static const membershipTotal = 30;
   static const attendancePercentLabel = '81%';
   static const attendanceFraction = 0.81;
-  static const present = 25;
+  static const present = 23;
+  static const late = 2;
   static const absent = 2;
   static const holiday = 4;
   static const monthDays = 31;
@@ -52,7 +53,8 @@ class MemberSample {
   static const today = 16;
   static const qrPayload = 'BADGYM:BG215:ASHWANI';
 
-  static const absentDays = {6, 13};
+  static const absentDays = {17, 23};
+  static const lateDays = {10, 21, 28};
   static const holidayDays = {4, 11, 18, 25};
 
   static const blocks = <WorkoutBlock>[
@@ -84,6 +86,7 @@ class MemberSample {
   static DayKind kindFor(int day) {
     if (holidayDays.contains(day)) return DayKind.holiday;
     if (absentDays.contains(day)) return DayKind.absent;
+    if (lateDays.contains(day)) return DayKind.late;
     return DayKind.present;
   }
 
