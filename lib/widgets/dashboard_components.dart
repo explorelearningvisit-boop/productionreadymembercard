@@ -525,7 +525,7 @@ class PaymentStrip extends StatelessWidget {
           child: GestureDetector(
             onTap: () => _showPaymentDue(context),
             child: Container(
-              constraints: const BoxConstraints(minHeight: 68),
+              constraints: const BoxConstraints(minHeight: 72),
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
               decoration: MemberTheme.glass(radius: 20),
               child: Row(

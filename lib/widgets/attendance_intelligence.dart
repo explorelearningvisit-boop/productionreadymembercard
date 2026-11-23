@@ -29,7 +29,7 @@ class AttendanceIntelligence extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
-    final panelHeight = (screenHeight * 0.40).clamp(300.0, 340.0);
+    // Reserve enough vertical space for the full analytics hierarchy on a phone.\n    // The panel remains internally scrollable on shorter devices.\n    final panelHeight = (screenHeight * 0.46).clamp(340.0, 370.0);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -214,7 +214,7 @@ class _MetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 154,
+        height: 174,
         padding: const EdgeInsets.fromLTRB(4, 5, 4, 4),
         decoration: BoxDecoration(
           color: background,
@@ -234,7 +234,7 @@ class _MetricTile extends StatelessWidget {
                 Icon(icon, color: accent, size: 13),
                 const SizedBox(width: 2),
                 Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: MemberTheme.ink))),
+                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: MemberTheme.ink))),
                 if (label == 'Attendance') ...[
                   const SizedBox(width: 2),
                   const Text('+6%', style: TextStyle(fontSize: 7, fontWeight: FontWeight.w900, color: MemberTheme.greenInk)),
@@ -243,7 +243,7 @@ class _MetricTile extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             FittedBox(fit: BoxFit.scaleDown, child: Text(value, maxLines: 1,
-              style: TextStyle(fontSize: 16, height: 1, fontWeight: FontWeight.w900, color: accent))),
+              style: TextStyle(fontSize: 18, height: 1, fontWeight: FontWeight.w900, color: accent))),
             if (label != 'Attendance')
               SizedBox(
                 width: double.infinity,
@@ -275,7 +275,7 @@ class _MetricTile extends StatelessWidget {
                   ),
                   child: image == null
                       ? Icon(icon, color: accent, size: 28)
-                      : Image.asset(image!, fit: BoxFit.contain, height: 62,
+                      : Image.asset(image!, fit: BoxFit.contain, height: 72,
                           errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 28)),
                 ),
               ),
@@ -380,11 +380,11 @@ class _PartnerBanner extends StatelessWidget {
           border: Border.all(color: Colors.white, width: 1.2),
         ),
         child: Row(children: [
-          Image.asset('assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png', width: 42, height: 38, fit: BoxFit.contain),
+          Image.asset('assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png', width: 48, height: 40, fit: BoxFit.contain),
           const SizedBox(width: 6),
           const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('Healthy Snacks & Gym Essentials', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: MemberTheme.ink)),
-            Text('Member partner offer · Up to 30% OFF', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 8, fontWeight: FontWeight.w800, color: MemberTheme.deepPurple)),
+            Text('Member partner offer · Up to 30% OFF', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: MemberTheme.deepPurple)),
           ])),
         ]),
       );
@@ -546,6 +546,54 @@ class _HomeOverview extends StatelessWidget {
                   color: MemberTheme.muted,
                   fontWeight: FontWeight.w600)),
         ],
+      );
+}
+
+class _RecoveryOffer extends StatelessWidget {
+  const _RecoveryOffer();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        height: 54,
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFF5E9FF), Color(0xFFFFFFFF), Color(0xFFFFE9F5)],
+          ),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: const Color(0xFFE7C8FF)),
+        ),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 42,
+              height: 44,
+              child: Image.asset(
+                'assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png',
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(width: 5),
+            const Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Recovery Combo',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900)),
+                  Text('Up to 30% OFF',
+                      maxLines: 1,
+                      style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900,
+                          color: MemberTheme.red)),
+                ],
+              ),
+            ),
+            const Icon(Icons.chevron_right_rounded,
+                color: MemberTheme.deepPurple, size: 22),
+          ],
+        ),
       );
 }
 

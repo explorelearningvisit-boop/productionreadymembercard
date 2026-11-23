@@ -225,7 +225,7 @@ class _DashboardScroll extends StatelessWidget {
                   ],
                   const SizedBox(height: 6),
                   Container(
-                    padding: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(7),
                     decoration: BoxDecoration(
                       color: const Color(0xF8FFFFFF),
                       borderRadius: BorderRadius.circular(24),
