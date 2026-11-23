@@ -249,8 +249,8 @@ class _ActionCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(20),
           child: Ink(
-            height: 66,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            height: 56,
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
@@ -354,8 +354,8 @@ class _Portrait extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 94,
-        height: 112,
+        width: 82,
+        height: 86,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
           image: const DecorationImage(
@@ -525,7 +525,7 @@ class PaymentStrip extends StatelessWidget {
           child: GestureDetector(
             onTap: () => _showPaymentDue(context),
             child: Container(
-              constraints: const BoxConstraints(minHeight: 82),
+              constraints: const BoxConstraints(minHeight: 68),
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
               decoration: MemberTheme.glass(radius: 20),
               child: Row(
@@ -679,7 +679,7 @@ class _PromoBannerState extends State<PromoBanner>
           child: child,
         ),
         child: Container(
-        height: 82,
+        height: 68,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
