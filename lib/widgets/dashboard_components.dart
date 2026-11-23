@@ -129,126 +129,134 @@ class ActionStrip extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.all(3),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: const Color(0xFFFFD76A), width: 1.2),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x337A18D1),
-              blurRadius: 8,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: onCheckIn,
-                  borderRadius: BorderRadius.circular(22),
-                  child: Ink(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 7,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(22),
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0xFF8B20D5),
-                          Color(0xFF5B0B9A),
-                          Color(0xFF3B0764),
-                        ],
-                      ),
-                      border: Border.all(
-                        color: const Color(0xFFFFD76A),
-                        width: 1,
-                      ),
-                    ),
-                    child: Row(
+  Widget build(BuildContext context) => Row(
+        children: [
+          Expanded(
+            child: _ActionCard(
+              onTap: onCheckIn,
+              gradient: const [Color(0xFF8B20D5), Color(0xFF4C087E)],
+              child: Row(
+                children: [
+                  const _CheckBadge(),
+                  const SizedBox(width: 7),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const _CheckBadge(),
-                        const SizedBox(width: 6),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: const [
-                              Text(
-                                'CHECK-IN',
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 13,
+                        const Text('CHECK-IN',
+                            maxLines: 1,
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white)),
+                        Text(MemberSample.checkInTime,
+                            maxLines: 1,
+                            style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFFF4E7FF))),
+                      ],
+                    ),
+                  ),
+                  const Icon(Icons.fitness_center_rounded,
+                      color: Color(0xFFFFD76A), size: 25),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: _ActionCard(
+              onTap: onFreeze,
+              gradient: const [Color(0xFFFFFFFF), Color(0xFFDCEBFF)],
+              child: Row(
+                children: [
+                  const Icon(Icons.ac_unit_rounded,
+                      color: Color(0xFF4F46E5), size: 31),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(frozen ? 'FROZEN' : 'FREEZE',
+                            maxLines: 1,
+                            style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w900,
+                                color: MemberTheme.deepPurple)),
+                        const Text('Stay Cool · Pause Plan',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 8,
+                                fontWeight: FontWeight.w800,
+                                color: MemberTheme.ink)),
+                        Container(
+                          margin: const EdgeInsets.only(top: 2),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 2),
+                          decoration: const BoxDecoration(
+                              color: Color(0xFFE11D48),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12))),
+                          child: const Text('UP TO 20% OFF',
+                              maxLines: 1,
+                              style: TextStyle(
+                                  fontSize: 7,
                                   fontWeight: FontWeight.w900,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              Text(
-                                'Completed · ${MemberSample.checkInTime}',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 9,
-                                  color: Color(0xFFF4E7FF),
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ],
-                          ),
+                                  color: Colors.white)),
                         ),
                       ],
                     ),
                   ),
-                ),
+                  const Icon(Icons.ac_unit_rounded,
+                      color: Color(0xFF7C3AED), size: 23),
+                ],
               ),
             ),
-            const SizedBox(width: 5),
-            InkWell(
-              onTap: onFreeze,
-              borderRadius: BorderRadius.circular(18),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      'assets/material_pack/attendance/23_freeze_snowflake_graphic.webp',
-                      width: 19,
-                      height: 19,
-                      fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) => Icon(
-                        Icons.ac_unit_rounded,
-                        color: frozen ? MemberTheme.blue : MemberTheme.deepPurple,
-                        size: 19,
-                      ),
-                    ),
-                    const SizedBox(width: 3),
-                    Text(
-                      frozen ? 'FROZEN' : 'FREEZE',
-                      style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w900,
-                        color: MemberTheme.ink,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+          ),
+        ],
+      );
+}
+
+class _ActionCard extends StatelessWidget {
+  final VoidCallback onTap;
+  final List<Color> gradient;
+  final Widget child;
+
+  const _ActionCard({
+    required this.onTap,
+    required this.gradient,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) => Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(20),
+          child: Ink(
+            height: 66,
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: gradient),
+              border: Border.all(color: const Color(0xFFFFD76A), width: 1.3),
+              boxShadow: const [
+                BoxShadow(
+                    color: Color(0x447A18D1),
+                    blurRadius: 9,
+                    offset: Offset(0, 3)),
+              ],
             ),
-            IconButton(
-              onPressed: onNotify,
-              visualDensity: VisualDensity.compact,
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints.tightFor(width: 28, height: 32),
-              tooltip: 'Notifications',
-              icon: const _Bell(),
-            ),
-          ],
+            child: child,
+          ),
         ),
       );
 }
