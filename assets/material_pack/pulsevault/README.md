@@ -21,4 +21,4 @@ This directory contains the 14 approved images moved byte-for-byte from `assets/
 | `14_lavender_glass_cta_background.png` | lavender glass cta.png |
 | `09_member_dashboard_reference.png` | Visual reference only; never use a full-screen screenshot as a runtime background |
 
-`08_purple_shaker_bottle_full_canvas.png` is a full-canvas opaque image (not an isolated transparent cutout); keep it as reference-only. Use `BoxFit.contain` for isolated transparent cutouts. Keep labels, prices, member details, and controls as live Flutter widgets. Preserve source aspect ratios and avoid cropping transparent edges.
+`08_purple_shaker_bottle_cutout.png` is the checkerboard-background-removed transparent shaker cutout, cropped to its subject bounds. Use `BoxFit.contain` for isolated transparent cutouts. Keep labels, prices, member details, and controls as live Flutter widgets. Preserve source aspect ratios and avoid cropping transparent edges.
