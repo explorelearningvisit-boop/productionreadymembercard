@@ -117,14 +117,12 @@ class _DumbbellPainter extends CustomPainter {
 class ActionStrip extends StatelessWidget {
   final bool frozen;
   final VoidCallback onFreeze;
-  final VoidCallback onNotify;
   final VoidCallback onCheckIn;
 
   const ActionStrip({
     super.key,
     required this.frozen,
     required this.onFreeze,
-    required this.onNotify,
     required this.onCheckIn,
   });
 
