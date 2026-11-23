@@ -359,30 +359,6 @@ class _PartnerBanner extends StatelessWidget {
       );
 }
 
-class _RecoveryPromo extends StatelessWidget {
-  const _RecoveryPromo();
-
-  @override
-  Widget build(BuildContext context) => Container(
-        height: 44,
-        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [Color(0xFFFFF0FF), Color(0xFFEAD7FF)]),
-          borderRadius: BorderRadius.circular(13),
-          border: Border.all(color: Colors.white, width: 1.2),
-        ),
-        child: Row(children: [
-          Image.asset('assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png', width: 42, height: 38, fit: BoxFit.contain),
-          const SizedBox(width: 6),
-          const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text('Recovery Combo', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: MemberTheme.deepPurple)),
-            Text('Up to 30% OFF', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: MemberTheme.red)),
-          ])),
-          const Icon(Icons.chevron_right_rounded, color: MemberTheme.deepPurple, size: 22),
-        ]),
-      );
-}
-
 class _PanelHeader extends StatelessWidget {
   const _PanelHeader();
 
@@ -523,8 +499,6 @@ class _HomeOverview extends StatelessWidget {
             ],
           ),
           SizedBox(height: 6),
-          _RecoveryPromo(),
-          SizedBox(height: 5),
           Text(MemberSample.sampleNote,
               style: TextStyle(
                   fontSize: 8,
