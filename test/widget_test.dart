@@ -89,6 +89,15 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
+    final previousFlutterErrorHandler = FlutterError.onError;
+    FlutterError.onError = (details) {
+      if (details.exception.toString().contains('RenderFlex overflowed')) {
+        debugPrint('320dp RenderFlex details:\n${details.toDiagnosticsString()}');
+      }
+      previousFlutterErrorHandler?.call(details);
+    };
+    addTearDown(() => FlutterError.onError = previousFlutterErrorHandler);
+
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
