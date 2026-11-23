@@ -25,6 +25,14 @@ void main() {
     expect(find.byType(AttendanceIntelligence), findsOneWidget);
     expect(find.text('Big Billion Sale'), findsOneWidget);
     expect(find.text('81%'), findsWidgets);
+    expect(
+      find.byWidgetPredicate((widget) =>
+          widget is Image &&
+          widget.image is AssetImage &&
+          (widget.image as AssetImage).assetName ==
+              'assets/material_pack/ui-components/15_purple_progress_bar.webp'),
+      findsOneWidget,
+    );
     expect(find.text('Welcome Back 👋'), findsNothing);
     expect(find.text('Shop Now ›'), findsOneWidget);
     expect(tester.takeException(), isNull);

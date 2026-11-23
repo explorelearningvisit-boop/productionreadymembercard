@@ -639,21 +639,16 @@ class MembershipProgress extends StatelessWidget {
             ),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Container(
-                width: constraints.maxWidth * fraction,
-                margin: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  gradient: const LinearGradient(
-                    colors: [
-                      Color(0xFFE879F9),
-                      Color(0xFF8B5CF6),
-                      Color(0xFF6D28D9)
-                    ],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: SizedBox(
+                  width: constraints.maxWidth * fraction,
+                  height: 10,
+                  child: Image.asset(
+                    'assets/material_pack/ui-components/15_purple_progress_bar.webp',
+                    fit: BoxFit.fill,
+                    alignment: Alignment.centerLeft,
                   ),
-                  boxShadow: const [
-                    BoxShadow(color: Color(0xAA7C3AED), blurRadius: 8)
-                  ],
                 ),
               ),
             ),

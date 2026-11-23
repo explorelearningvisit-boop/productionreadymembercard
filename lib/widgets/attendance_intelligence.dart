@@ -62,6 +62,11 @@ class _Rail extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [Color(0xFF9333EA), Color(0xFF6D28D9), Color(0xFF4C1D95)],
           ),
+          image: const DecorationImage(
+            image: AssetImage('assets/material_pack/ui-components/11_purple_menu_background.webp'),
+            fit: BoxFit.cover,
+            opacity: 0.32,
+          ),
           boxShadow: const [
             BoxShadow(
               color: Color(0x886D28D9),
@@ -308,13 +313,21 @@ class _PanelHeader extends StatelessWidget {
           Container(
             width: 28,
             height: 28,
+            padding: const EdgeInsets.all(4),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
                   colors: [MemberTheme.violet, MemberTheme.deepPurple]),
             ),
-            child: const Icon(Icons.insights_rounded,
-                color: Colors.white, size: 16),
+            child: Image.asset(
+              'assets/material_pack/attendance/25_calendar_graphic.webp',
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) => const Icon(
+                Icons.insights_rounded,
+                color: Colors.white,
+                size: 16,
+              ),
+            ),
           ),
           const SizedBox(width: 8),
           const Expanded(
@@ -750,6 +763,24 @@ class _OffersOverview extends StatelessWidget {
               ),
               child: Row(
                 children: [
+                  SizedBox(
+                    width: 42,
+                    height: 42,
+                    child: Image.asset(
+                      switch (offer.name) {
+                        'Hex dumbbells' => 'assets/material_pack/advertisements/27_dumbbell_promo_graphic.webp',
+                        'BAD GYM shaker' => 'assets/material_pack/offers-promotions/04_purple_shaker.webp',
+                        'Stripe towel' => 'assets/material_pack/offers-promotions/07_green_shaker.webp',
+                        _ => 'assets/material_pack/offers-promotions/06_creatine_tub.webp',
+                      },
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => const Icon(
+                        Icons.fitness_center_rounded,
+                        color: MemberTheme.deepPurple,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
