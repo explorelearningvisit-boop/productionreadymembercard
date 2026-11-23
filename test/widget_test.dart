@@ -92,7 +92,7 @@ void main() {
     final previousFlutterErrorHandler = FlutterError.onError;
     FlutterError.onError = (details) {
       if (details.exception.toString().contains('RenderFlex overflowed')) {
-        debugPrint('320dp RenderFlex details:\n${details.toDiagnosticsString()}');
+        debugPrint('320dp RenderFlex details:\n${details.toString()}');
       }
       previousFlutterErrorHandler?.call(details);
     };
