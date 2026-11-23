@@ -163,8 +163,8 @@ void main() {
 
     await tester.pumpWidget(const BadGymApp());
     await _pumpUi(tester);
-    await tester.ensureVisible(find.text('Payment'));
-    await tester.tap(find.text('Payment'));
+    await tester.ensureVisible(find.byType(PaymentStrip));
+    await tester.tap(find.byType(PaymentStrip));
     await tester.pumpAndSettle();
 
     expect(find.text('Payment due'), findsOneWidget);
