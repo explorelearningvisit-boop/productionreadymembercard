@@ -22,11 +22,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     final next = await showModalBottomSheet<bool>(
       context: context,
       backgroundColor: Colors.white,
+      isScrollControlled: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-      builder: (context) => Padding(
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
-        child: Column(
+      builder: (context) => SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+          child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -59,6 +62,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               child: Text(frozen ? 'Resume now' : 'Freeze now'),
             ),
           ],
+          ),
         ),
       ),
     );
@@ -69,11 +73,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.white,
+      isScrollControlled: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-      builder: (context) => const Padding(
-        padding: EdgeInsets.fromLTRB(20, 16, 20, 24),
-        child: Column(
+      builder: (context) => const SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 16, 20, 24),
+          child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -87,6 +94,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             Text(MemberSample.sampleNote,
                 style: TextStyle(fontSize: 10, color: MemberTheme.muted)),
           ],
+          ),
         ),
       ),
     );
