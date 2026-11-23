@@ -648,7 +648,7 @@ class MembershipProgress extends StatelessWidget {
             child: SizedBox(height: 10, child: Stack(children: [
               Positioned.fill(child: ColoredBox(color: Colors.white.withValues(alpha: 0.85))),
               FractionallySizedBox(widthFactor: progress, alignment: Alignment.centerLeft,
-                child: const DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(
+                child: DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(
                   colors: [Color(0xFFE879F9), Color(0xFF8B5CF6), Color(0xFF6D28D9)],
                 )))),
             ])),
