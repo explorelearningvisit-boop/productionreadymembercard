@@ -781,7 +781,7 @@ class EquipmentFooter extends StatelessWidget {
           children: [
             _Kit(
                 icon: Icons.sports_gymnastics_rounded,
-                label: 'Kettle',
+                label: 'Yoga',
                 color: Color(0xFF2A1240)),
             SizedBox(width: 10),
             _Kit(
@@ -791,7 +791,7 @@ class EquipmentFooter extends StatelessWidget {
             SizedBox(width: 10),
             _Kit(
                 icon: Icons.dry_cleaning_rounded,
-                label: 'Towel',
+                label: 'Travel',
                 color: MemberTheme.violet),
             Spacer(),
             Icon(Icons.album_rounded, color: Color(0xFF1F2937), size: 42),
