@@ -23,11 +23,12 @@ void main() {
     expect(find.byType(AttendanceIntelligence), findsOneWidget);
     expect(find.text('Big Billion Sale'), findsOneWidget);
     expect(find.text('81%'), findsWidgets);
-    expect(find.text('BAD GYM'), findsWidgets);
+    expect(find.text('Welcome Back 👋'), findsNothing);
+    expect(find.text('Shop Now ›'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('rail opens every member workspace', (tester) async {
+  testWidgets('context rail switches the intelligence panel', (tester) async {
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -44,12 +45,10 @@ void main() {
       expect(find.text(heading), findsOneWidget);
     }
 
-    await open('Attend', 'October attendance');
-    await open('Workout', 'Workout overview');
-    await open('Pay', 'Payment overview');
-    await open('Offers', 'Member offers');
+    await open('Attendance', 'Home overview');
+    await open('Trend', 'Workout overview');
     await open('History', 'Check-in history');
-    await open('Home', 'Home overview');
+    await open('More', 'More member insights');
     expect(tester.takeException(), isNull);
   });
 
@@ -65,7 +64,7 @@ void main() {
     await tester.ensureVisible(find.text('Shop Now ›'));
     await tester.tap(find.text('Shop Now ›'));
     await tester.pumpAndSettle();
-    expect(find.text('Member offers'), findsOneWidget);
+    expect(find.text('More member insights'), findsOneWidget);
     expect(find.text('Hex dumbbells'), findsOneWidget);
 
     await tester.ensureVisible(find.text('FREEZE'));
