@@ -7,11 +7,13 @@ import '../theme/member_theme.dart';
 class AttendanceIntelligence extends StatelessWidget {
   final int section;
   final ValueChanged<int> onSelect;
+  final VoidCallback onNotify;
 
   const AttendanceIntelligence({
     super.key,
     required this.section,
     required this.onSelect,
+    required this.onNotify,
   });
 
   static const labels = ['Attend', 'Insights', 'Cal', 'History', 'Trend', 'Goals'];
@@ -40,7 +42,7 @@ class AttendanceIntelligence extends StatelessWidget {
               children: [
                 SizedBox(width: 62, child: _Rail(section: section, onSelect: onSelect)),
                 const SizedBox(width: 6),
-                Expanded(child: _Panel(section: section)),
+                Expanded(child: _Panel(section: section, onNotify: onNotify)),
               ],
             ),
           ),
@@ -313,7 +315,8 @@ class _MetricTile extends StatelessWidget {
 
 class _Panel extends StatelessWidget {
   final int section;
-  const _Panel({required this.section});
+  final VoidCallback onNotify;
+  const _Panel({required this.section, required this.onNotify});
 
   @override
   Widget build(BuildContext context) => Container(
@@ -325,7 +328,7 @@ class _Panel extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const _PanelHeader(),
+              _PanelHeader(onNotify: onNotify),
               if (section == 0) ...[
                 const SizedBox(height: 5),
                 const _PartnerBanner(),
@@ -388,7 +391,8 @@ class _PartnerBanner extends StatelessWidget {
 }
 
 class _PanelHeader extends StatelessWidget {
-  const _PanelHeader();
+  final VoidCallback onNotify;
+  const _PanelHeader({required this.onNotify});
 
   @override
   Widget build(BuildContext context) => Row(
@@ -415,6 +419,15 @@ class _PanelHeader extends StatelessWidget {
                   fontWeight: FontWeight.w900,
                   color: MemberTheme.ink),
             ),
+          ),
+          IconButton(
+            tooltip: 'Notifications',
+            visualDensity: VisualDensity.compact,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints.tightFor(width: 28, height: 28),
+            onPressed: onNotify,
+            icon: const Icon(Icons.notifications_active_rounded,
+                color: MemberTheme.deepPurple, size: 19),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
