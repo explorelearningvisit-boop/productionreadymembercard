@@ -45,9 +45,9 @@ void main() {
       expect(find.text(heading), findsOneWidget);
     }
 
-    await open('Attendance', 'Home overview');
-    await open('Trend', 'Workout overview');
-    await open('History', 'Check-in history');
+    await open('Attendance', 'Check-in history');
+    await open('Trend', 'Attendance trend');
+    await open('History', 'October attendance');
     await open('More', 'More member insights');
     expect(tester.takeException(), isNull);
   });
