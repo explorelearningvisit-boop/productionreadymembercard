@@ -838,6 +838,8 @@ class _OffersOverview extends StatelessWidget {
                     child: switch (offer.name) {
                       'Whey Protein' => Image.asset(
                           'assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png', fit: BoxFit.contain),
+                      'Whey Protein Bundle' => Image.asset(
+                          'assets/material_pack/pulsevault/02_whey_protein_bundle_cutout.png', fit: BoxFit.contain),
                       'Creatine Monohydrate' => Image.asset(
                           'assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png', fit: BoxFit.contain),
                       'Fat Loss Support' => Image.asset(
