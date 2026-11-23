@@ -30,6 +30,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pulsevault-14-visual-audit-${{ github.sha }}
-          path: build/asset-audit/pulsevault/
+          path: |
+            build/asset-audit/pulsevault/
+            assets/material_pack/pulsevault/*.png
           if-no-files-found: error
           retention-days: 14
