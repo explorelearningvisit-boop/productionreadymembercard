@@ -75,10 +75,10 @@ class MemberSample {
   ];
 
   static const offers = <OfferItem>[
-    OfferItem('Hex dumbbells', '40% OFF', '₹1,499'),
-    OfferItem('BAD GYM shaker', '30% OFF', '₹349'),
-    OfferItem('Stripe towel', '25% OFF', '₹499'),
-    OfferItem('Kettlebell 12 kg', '20% OFF', '₹1,899'),
+    OfferItem('Whey Protein', '25% OFF', '₹1,499'),
+    OfferItem('Creatine Monohydrate', '20% OFF', '₹899'),
+    OfferItem('Fat Loss Support', '15% OFF', '₹1,199'),
+    OfferItem('Whey Recovery', '20% OFF', '₹1,299'),
   ];
 
   static int get workoutSum =>
