@@ -45,14 +45,15 @@ class AttendanceIntelligence extends StatelessWidget {
 class _Rail extends StatelessWidget {
   final int section;
   final ValueChanged<int> onSelect;
+
   const _Rail({required this.section, required this.onSelect});
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 48,
-        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+        width: 46,
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 3),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(26),
+          borderRadius: BorderRadius.circular(23),
           gradient: const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
@@ -60,63 +61,75 @@ class _Rail extends StatelessWidget {
           ),
           boxShadow: const [
             BoxShadow(
-                color: Color(0x886D28D9), blurRadius: 16, offset: Offset(0, 6)),
+              color: Color(0x886D28D9),
+              blurRadius: 14,
+              offset: Offset(0, 5),
+            ),
           ],
-          border: Border.all(color: const Color(0xFFE9D5FF), width: 1.4),
+          border: Border.all(color: const Color(0xFFFFD76A), width: 1.2),
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children:
-              List.generate(AttendanceIntelligence.labels.length, (index) {
+          children: List.generate(AttendanceIntelligence.labels.length, (index) {
             final selected = section == index;
             return Expanded(
               child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  key: ValueKey('rail-${AttendanceIntelligence.labels[index]}'),
-                  onTap: () => onSelect(index),
-                  borderRadius: BorderRadius.circular(16),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 180),
-                    width: 44,
-                    height: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: selected
-                          ? const Color(0xFFF5F3FF)
-                          : Colors.transparent,
-                      boxShadow: selected
-                          ? const [
-                              BoxShadow(
-                                  color: Color(0x66FFFFFF), blurRadius: 10)
-                            ]
-                          : null,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          AttendanceIntelligence.icons[index],
-                          size: 18,
-                          color: selected ? MemberTheme.purple : Colors.white,
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          AttendanceIntelligence.labels[index],
-                          style: TextStyle(
-                            fontSize: 8,
-                            fontWeight: FontWeight.w800,
-                            color: selected ? MemberTheme.purple : Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    key: ValueKey('rail-${AttendanceIntelligence.labels[index]}'),
+                    onTap: () => onSelect(index),
+                    borderRadius: BorderRadius.circular(15),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 180),
+                      width: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: selected
+                            ? const Color(0xFFFFF8E8)
+                            : Colors.transparent,
+                        border: selected
+                            ? Border.all(
+                                color: const Color(0xFFFFD76A), width: 1)
+                            : null,
+                        boxShadow: selected
+                            ? const [
+                                BoxShadow(
+                                  color: Color(0x66FFFFFF),
+                                  blurRadius: 8,
+                                ),
+                              ]
+                            : null,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            AttendanceIntelligence.icons[index],
+                            size: 17,
+                            color: selected
+                                ? MemberTheme.deepPurple
+                                : Colors.white,
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 2),
+                          Text(
+                            AttendanceIntelligence.labels[index],
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 7,
+                              fontWeight: FontWeight.w900,
+                              color: selected
+                                  ? MemberTheme.deepPurple
+                                  : Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
             );
           }),
         ),
