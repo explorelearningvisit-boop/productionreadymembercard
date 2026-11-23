@@ -178,7 +178,7 @@ class ActionStrip extends StatelessWidget {
                 children: [
                   const Icon(Icons.ac_unit_rounded,
                       color: Color(0xFF4F46E5), size: 31),
-                  const SizedBox(width: 5),
+                  SizedBox(width: 5),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -534,7 +534,7 @@ class PaymentStrip extends StatelessWidget {
                     icon: Icons.account_balance_wallet_rounded,
                     color: MemberTheme.purple,
                   ),
-                  const SizedBox(width: 6),
+                  SizedBox(width: 6),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -618,20 +618,20 @@ class MembershipProgress extends StatelessWidget {
                 'Membership ${MemberSample.membershipDone} / ${MemberSample.membershipTotal} Days',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w900,
                     color: MemberTheme.ink),
               ),
             ),
             const SizedBox(width: 5),
-            const Text('8 Days Left',
+            Text('8 Days Left',
                 style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w900,
                     color: MemberTheme.purple)),
             const SizedBox(width: 6),
-            const Text('73%',
+            Text('73%',
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
