@@ -253,9 +253,18 @@ class _DashboardScroll extends StatelessWidget {
                         const SizedBox(height: 7),
                         const MemberProfileCard(),
                         const SizedBox(height: 7),
-                        const PaymentStrip(),
-                        const SizedBox(height: 6),
-                        PromoBanner(onShop: () => onSelect(1)),
+                        Row(
+                          key: const ValueKey('payment-promo-row'),
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const Expanded(flex: 4, child: PaymentStrip()),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              flex: 6,
+                              child: PromoBanner(onShop: () => onSelect(1)),
+                            ),
+                          ],
+                        ),
                         const SizedBox(height: 6),
                         const MembershipProgress(),
                       ],
