@@ -75,19 +75,21 @@ void main() {
     await tester.pumpWidget(const BadGymApp());
     await _pumpUi(tester);
 
+    await tester.ensureVisible(find.text('FREEZE'));
+    await tester.tap(find.text('FREEZE'));
+    await _pumpUi(tester);
+    expect(find.text('Freeze membership'), findsOneWidget);
+    final freezeAction = find.text('Freeze now');
+    await tester.ensureVisible(freezeAction);
+    await tester.tap(freezeAction);
+    await _pumpUi(tester);
+    expect(find.text('FROZEN'), findsOneWidget);
+
     await tester.ensureVisible(find.text('Shop Now ›'));
     await tester.tap(find.text('Shop Now ›'));
     await _pumpUi(tester);
     expect(find.text('More member insights'), findsOneWidget);
     expect(find.text('Hex dumbbells'), findsOneWidget);
-
-    await tester.ensureVisible(find.text('FREEZE'));
-    await tester.tap(find.text('FREEZE'));
-    await _pumpUi(tester);
-    expect(find.text('Freeze membership'), findsOneWidget);
-    await tester.tap(find.text('Freeze now'));
-    await _pumpUi(tester);
-    expect(find.text('FROZEN'), findsOneWidget);
 
     await tester.ensureVisible(find.text('CHECK-IN'));
     await tester.tap(find.text('CHECK-IN'));
