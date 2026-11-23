@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym_member_intelligence/main.dart';
@@ -93,6 +95,10 @@ void main() {
     FlutterError.onError = (details) {
       if (details.exception.toString().contains('RenderFlex overflowed')) {
         debugPrint('320dp RenderFlex details:\n${details.toString()}');
+        final sourceLines =
+            File('lib/widgets/dashboard_components.dart').readAsLinesSync();
+        debugPrint('Formatted dashboard_components.dart lines 475-490:\n'
+            '${sourceLines.skip(474).take(16).join('\n')}');
       }
       previousFlutterErrorHandler?.call(details);
     };
