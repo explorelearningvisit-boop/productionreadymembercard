@@ -27,7 +27,7 @@ class AttendanceIntelligence extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
-    final panelHeight = (screenHeight * 0.38).clamp(270.0, 310.0);
+    final panelHeight = (screenHeight * 0.35).clamp(258.0, 286.0);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -217,7 +217,7 @@ class _MetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 132,
+        height: 118,
         padding: const EdgeInsets.fromLTRB(4, 5, 4, 4),
         decoration: BoxDecoration(
           color: background,
