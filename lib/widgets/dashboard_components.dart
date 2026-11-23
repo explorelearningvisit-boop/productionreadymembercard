@@ -624,13 +624,13 @@ class MembershipProgress extends StatelessWidget {
                     color: MemberTheme.ink),
               ),
             ),
-            const SizedBox(width: 5),
+            SizedBox(width: 5),
             Text('8 Days Left',
                 style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w900,
                     color: MemberTheme.purple)),
-            const SizedBox(width: 6),
+            SizedBox(width: 6),
             Text('73%',
                 style: TextStyle(
                     fontSize: 16,
