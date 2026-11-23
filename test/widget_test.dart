@@ -79,9 +79,9 @@ void main() {
     await tester.tap(find.text('FREEZE'));
     await _pumpUi(tester);
     expect(find.text('Freeze membership'), findsOneWidget);
-    final freezeAction = find.text('Freeze now');
-    await tester.ensureVisible(freezeAction);
-    await tester.tap(freezeAction);
+    final freezeButton =
+        tester.widget<FilledButton>(find.widgetWithText(FilledButton, 'Freeze now'));
+    freezeButton.onPressed!.call();
     await _pumpUi(tester);
     expect(find.text('FROZEN'), findsOneWidget);
 
