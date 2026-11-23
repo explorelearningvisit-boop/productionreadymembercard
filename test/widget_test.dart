@@ -6,6 +6,10 @@ import 'package:bad_gym_member_intelligence/main.dart';
 import 'package:bad_gym_member_intelligence/widgets/attendance_intelligence.dart';
 import 'package:bad_gym_member_intelligence/widgets/dashboard_components.dart';
 
+Future<void> _pumpUi(WidgetTester tester) async {
+  await tester.pump(const Duration(milliseconds: 700));
+}
+
 void main() {
   testWidgets('approved BAD GYM member dashboard fits 360dp without overflow',
       (tester) async {
@@ -15,7 +19,7 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
 
     expect(find.text('CHECK-IN'), findsOneWidget);
     expect(find.text('FREEZE'), findsOneWidget);
@@ -31,7 +35,6 @@ void main() {
     );
     expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
     expect(find.text('73%'), findsOneWidget);
-    );
     expect(find.text('Welcome Back 👋'), findsNothing);
     expect(find.text('Shop Now ›'), findsOneWidget);
     expect(tester.takeException(), isNull);
@@ -44,13 +47,13 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
 
     Future<void> open(String rail, String heading) async {
       final finder = find.byKey(ValueKey('rail-$rail'));
       await tester.ensureVisible(finder);
       await tester.tap(finder);
-      await tester.pumpAndSettle();
+      await _pumpUi(tester);
       expect(find.text(heading), findsOneWidget);
     }
 
@@ -70,20 +73,20 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
 
     await tester.ensureVisible(find.text('Shop Now ›'));
     await tester.tap(find.text('Shop Now ›'));
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
     expect(find.text('More member insights'), findsOneWidget);
     expect(find.text('Hex dumbbells'), findsOneWidget);
 
     await tester.ensureVisible(find.text('FREEZE'));
     await tester.tap(find.text('FREEZE'));
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
     expect(find.text('Freeze membership'), findsOneWidget);
     await tester.tap(find.text('Freeze now'));
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
     expect(find.text('FROZEN'), findsOneWidget);
 
     await tester.ensureVisible(find.text('CHECK-IN'));
@@ -95,7 +98,7 @@ void main() {
     );
 
     await tester.tap(find.byTooltip('Notifications'));
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
     expect(find.text('Payment due'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
@@ -120,7 +123,7 @@ void main() {
     addTearDown(() => FlutterError.onError = previousFlutterErrorHandler);
 
     await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
 
     final initialLayoutException = tester.takeException();
     if (initialLayoutException is FlutterError) {
@@ -134,7 +137,7 @@ void main() {
     final calendarTab = find.byKey(const ValueKey('rail-Cal'));
     await tester.ensureVisible(calendarTab);
     await tester.tap(calendarTab);
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
 
     final calendarLayoutException = tester.takeException();
     if (calendarLayoutException is FlutterError) {

@@ -671,31 +671,22 @@ class PromoBanner extends StatefulWidget {
 
 class _PromoBannerState extends State<PromoBanner>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _entry = AnimationController(
+  late final AnimationController _pulse = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 520),
-  );
-
-  late final Animation<double> _scale = Tween<double>(begin: 0.965, end: 1)
-      .animate(CurvedAnimation(parent: _entry, curve: Curves.easeOutBack));
-
-  @override
-  void initState() {
-    super.initState();
-    _entry.forward();
-  }
+    duration: const Duration(milliseconds: 1450),
+  )..repeat(reverse: true);
 
   @override
   void dispose() {
-    _entry.dispose();
+    _pulse.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
-        animation: _entry,
+        animation: _pulse,
         builder: (context, child) => Transform.scale(
-          scale: _scale.value,
+          scale: 1 + (_pulse.value * 0.012),
           child: child,
         ),
         child: Container(
@@ -751,11 +742,11 @@ class _PromoBannerState extends State<PromoBanner>
                       SizedBox(
                         width: compact ? 28 : 42,
                         child: AnimatedBuilder(
-                          animation: _entry,
+                          animation: _pulse,
                           builder: (context, child) => Transform.translate(
-                            offset: Offset(0, 4 * (1 - _entry.value)),
+                            offset: Offset(0, -2 * _pulse.value),
                             child: Transform.scale(
-                              scale: 0.94 + 0.06 * _entry.value,
+                              scale: 0.96 + 0.06 * _pulse.value,
                               child: child,
                             ),
                           ),
@@ -774,7 +765,11 @@ class _PromoBannerState extends State<PromoBanner>
                         shape: const StadiumBorder(side: BorderSide(color: Colors.white, width: 1.1)),
                         textStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: narrow ? 8 : 10),
                       ),
-                      child: const Text('Shop Now ›'),
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 650),
+                        opacity: _pulse.value > 0.5 ? 1 : 0.82,
+                        child: const Text('Shop Now ›'),
+                      ),
                     ),
                   ],
                 ),
