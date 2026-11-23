@@ -154,7 +154,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Attendance',
             value: MemberSample.attendancePercentLabel,
             detail: '↑ +6%',
-            image: null,
+            image: 'assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
             background: Color(0xFFFFE66D),
             accent: MemberTheme.greenInk,
           )),
@@ -184,7 +184,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Body',
             value: MemberSample.bodyLabel,
             detail: '↓ -0.8 kg',
-            image: 'assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
+            image: 'assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png',
             background: Color(0xFFB8F1C8),
             accent: MemberTheme.greenInk,
           )),
@@ -298,6 +298,10 @@ class _Panel extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const _PanelHeader(),
+              if (section == 0) ...[
+                const SizedBox(height: 5),
+                const _PartnerBanner(),
+              ],
               const SizedBox(height: 5),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 240),
@@ -328,6 +332,52 @@ class _Panel extends StatelessWidget {
             ],
           ),
         ),
+      );
+}
+
+
+class _PartnerBanner extends StatelessWidget {
+  const _PartnerBanner();
+
+  @override
+  Widget build(BuildContext context) => Container(
+        height: 44,
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFFFF7C7), Color(0xFFFFFFFF), Color(0xFFEAD7FF)]),
+          borderRadius: BorderRadius.circular(13),
+          border: Border.all(color: Colors.white, width: 1.2),
+        ),
+        child: Row(children: [
+          Image.asset('assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png', width: 42, height: 38, fit: BoxFit.contain),
+          const SizedBox(width: 6),
+          const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('Healthy Snacks & Gym Essentials', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: MemberTheme.ink)),
+            Text('Member partner offer · Up to 30% OFF', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 8, fontWeight: FontWeight.w800, color: MemberTheme.deepPurple)),
+          ])),
+        ]),
+      );
+}
+
+class _RecoveryPromo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => Container(
+        height: 44,
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFFFF0FF), Color(0xFFEAD7FF)]),
+          borderRadius: BorderRadius.circular(13),
+          border: Border.all(color: Colors.white, width: 1.2),
+        ),
+        child: Row(children: [
+          Image.asset('assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png', width: 42, height: 38, fit: BoxFit.contain),
+          const SizedBox(width: 6),
+          const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text('Recovery Combo', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: MemberTheme.deepPurple)),
+            Text('Up to 30% OFF', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: MemberTheme.red)),
+          ])),
+          const Icon(Icons.chevron_right_rounded, color: MemberTheme.deepPurple, size: 22),
+        ]),
       );
 }
 
@@ -644,14 +694,36 @@ class _AttendCalendar extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('October attendance',
-            style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w900,
-                color: MemberTheme.deepPurple)),
-        const SizedBox(height: 2),
-        const Text('23 present · 2 late · 2 absent · 4 holiday',
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('October attendance', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: MemberTheme.deepPurple)),
+                  Text('23 present · 2 late · 2 absent · 4 holiday', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w700)),
+                ],
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(colors: [MemberTheme.deepPurple, MemberTheme.purple]),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.white, width: 1),
+              ),
+              child: const Row(mainAxisSize: MainAxisSize.min, children: [
+                SizedBox(width: 24, height: 24, child: Image(image: AssetImage('assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png'), fit: BoxFit.contain)),
+                SizedBox(width: 4),
+                Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+                  Text('Train More', style: TextStyle(fontSize: 9, color: Colors.white, fontWeight: FontWeight.w900)),
+                  Text('Get 15% OFF', style: TextStyle(fontSize: 7, color: Color(0xFFFFE66D), fontWeight: FontWeight.w800)),
+                ]),
+              ]),
+            ),
+          ],
+        ),
         const SizedBox(height: 8),
         GridView.count(
           crossAxisCount: 7,
