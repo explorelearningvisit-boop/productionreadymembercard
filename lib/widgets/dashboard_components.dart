@@ -708,8 +708,8 @@ class _PromoBannerState extends State<PromoBanner>
           child: child,
         ),
         child: Container(
-        height: 86,
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+        height: 78,
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
           gradient: const LinearGradient(
@@ -736,7 +736,7 @@ class _PromoBannerState extends State<PromoBanner>
                   children: [
                     SizedBox(
                       width: narrow ? 38 : compact ? 46 : 58,
-                      child: Image.asset('assets/material_pack/illustrations/02_red_gold_gift_box.webp', fit: BoxFit.contain),
+                      child: Image.asset('assets/material_pack/offers-promotions/04_purple_shaker.webp', fit: BoxFit.contain),
                     ),
                     Expanded(
                       child: Padding(
@@ -745,12 +745,12 @@ class _PromoBannerState extends State<PromoBanner>
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Big Billion Sale', maxLines: 1, overflow: TextOverflow.ellipsis,
+                            Text('Whey Protein', maxLines: 1, overflow: TextOverflow.ellipsis,
                               style: TextStyle(fontFamily: MemberTheme.sale, color: MemberTheme.gold, fontSize: narrow ? 15 : 19, height: 1.05)),
-                            Text('Up to 40% OFF', maxLines: 1, overflow: TextOverflow.ellipsis,
+                            Text('25% OFF', maxLines: 1, overflow: TextOverflow.ellipsis,
                               style: TextStyle(color: Colors.white, fontSize: narrow ? 11 : 14, fontWeight: FontWeight.w900)),
                             if (!narrow)
-                              const Text('Fitness Gear · Supplements · Nutrition', maxLines: 1, overflow: TextOverflow.ellipsis,
+                              const Text('Build · Recover · Grow', maxLines: 1, overflow: TextOverflow.ellipsis,
                                 style: TextStyle(color: Color(0xFFF3E8FF), fontSize: 7, fontWeight: FontWeight.w700)),
                           ],
                         ),
@@ -786,7 +786,7 @@ class _PromoBannerState extends State<PromoBanner>
                       child: AnimatedOpacity(
                         duration: const Duration(milliseconds: 650),
                         opacity: _pulse.value > 0.5 ? 1 : 0.82,
-                        child: const Text('Shop Now ›'),
+                        child: const Text('Buy Now ›'),
                       ),
                     ),
                   ],
