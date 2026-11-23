@@ -168,7 +168,10 @@ void main() {
     await _pumpUi(tester);
 
     expect(find.text('Payment due'), findsOneWidget);
-    expect(find.text('₹500 Due'), findsOneWidget);
+    expect(
+      find.descendant(of: find.byType(AlertDialog), matching: find.text('₹500 Due')),
+      findsOneWidget,
+    );
     expect(find.text('Sample reminder only. Online payment is not connected yet.'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
