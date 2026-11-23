@@ -792,6 +792,10 @@ class _OffersOverview extends StatelessWidget {
                           'assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png', fit: BoxFit.contain),
                       'Whey Recovery' => Image.asset(
                           'assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png', fit: BoxFit.contain),
+                      'Purple Protein Bundle' => Image.asset(
+                          'assets/material_pack/pulsevault/03_purple_protein_product_bundle_cutout.png', fit: BoxFit.contain),
+                      'Blinkit Grocery Partner' => Image.asset(
+                          'assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png', fit: BoxFit.contain),
                       _ => const Icon(
                           Icons.fitness_center_rounded,
                           color: MemberTheme.deepPurple,
