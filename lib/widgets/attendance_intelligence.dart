@@ -27,7 +27,7 @@ class AttendanceIntelligence extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
-    final panelHeight = (screenHeight * 0.35).clamp(258.0, 286.0);
+    final panelHeight = (screenHeight * 0.47).clamp(350.0, 410.0);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -38,7 +38,7 @@ class AttendanceIntelligence extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(width: 58, child: _Rail(section: section, onSelect: onSelect)),
+                SizedBox(width: 62, child: _Rail(section: section, onSelect: onSelect)),
                 const SizedBox(width: 6),
                 Expanded(child: _Panel(section: section)),
               ],
@@ -212,7 +212,7 @@ class _MetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 118,
+        height: 154,
         padding: const EdgeInsets.fromLTRB(4, 5, 4, 4),
         decoration: BoxDecoration(
           color: background,
@@ -264,8 +264,8 @@ class _MetricTile extends StatelessWidget {
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: TweenAnimationBuilder<double>(
-                  tween: Tween(begin: 0.98, end: 1.04),
-                  duration: const Duration(milliseconds: 1800),
+                  tween: Tween(begin: 0.98, end: 1.02),
+                  duration: const Duration(milliseconds: 2200),
                   curve: Curves.easeInOut,
                   builder: (context, scale, child) => Transform.scale(
                     scale: scale,
@@ -273,8 +273,36 @@ class _MetricTile extends StatelessWidget {
                   ),
                   child: image == null
                       ? Icon(icon, color: accent, size: 28)
-                      : Image.asset(image!, fit: BoxFit.contain, height: 58,
+                      : Image.asset(image!, fit: BoxFit.contain, height: 62,
                           errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 28)),
+                ),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  accent,
+                  Color.lerp(accent, Colors.black, 0.18)!,
+                ]),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: Colors.white, width: 1),
+              ),
+              child: Text(
+                switch (label) {
+                  'Attendance' => 'Protein 10% OFF ›',
+                  'Workout' => 'Creatine 15% OFF ›',
+                  'Payment' => 'Get 5% OFF ›',
+                  _ => 'Fat Loss 20% OFF ›',
+                },
+                maxLines: 1,
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 8,
+                  fontWeight: FontWeight.w900,
+                  color: Colors.white,
                 ),
               ),
             ),
@@ -341,7 +369,7 @@ class _PartnerBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 44,
+        height: 40,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
         decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [Color(0xFFFFF7C7), Color(0xFFFFFFFF), Color(0xFFEAD7FF)]),
@@ -513,12 +541,12 @@ class _AttendanceDonut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const SizedBox(
-        width: 78,
-        height: 78,
+        width: 88,
+        height: 88,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            CustomPaint(size: Size(78, 78), painter: _DonutPainter()),
+            CustomPaint(size: Size(88, 88), painter: _DonutPainter()),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -548,7 +576,7 @@ class _DonutPainter extends CustomPainter {
     final rect = Offset.zero & size;
     final stroke = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 10
+      ..strokeWidth = 11
       ..strokeCap = StrokeCap.round;
     canvas.drawArc(rect.deflate(6), 0, math.pi * 2, false,
         stroke..color = const Color(0xFFFCE7F3));
