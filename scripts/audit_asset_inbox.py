@@ -5,7 +5,7 @@ import hashlib, json, math
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
-ROOT = Path("assets/material_pack/inbox/PulseVault")
+ROOT = Path("assets/material_pack/pulsevault")
 OUT = Path("build/asset-audit/pulsevault")
 OUT.mkdir(parents=True, exist_ok=True)
 files = sorted(p for p in ROOT.iterdir() if p.is_file() and p.suffix.lower() == ".png")
