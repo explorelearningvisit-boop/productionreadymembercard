@@ -350,14 +350,18 @@ class _Portrait extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 88,
-        height: 102,
+        width: 94,
+        height: 112,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
+          image: const DecorationImage(
+            image: AssetImage('assets/material_pack/membership/10_gold_photo_backplate.webp'),
+            fit: BoxFit.cover,
+          ),
           gradient: const LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [Color(0xFFF0ABFC), Color(0xFF7C3AED), Color(0xFF4C1D95)],
+            colors: [Color(0xFFFFE66D), Color(0xFFFFC928), Color(0xFF7C3AED)],
           ),
                     boxShadow: const [
             BoxShadow(
@@ -517,7 +521,7 @@ class PaymentStrip extends StatelessWidget {
           child: GestureDetector(
             onTap: () => _showPaymentDue(context),
             child: Container(
-              constraints: const BoxConstraints(minHeight: 78),
+              constraints: const BoxConstraints(minHeight: 82),
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
               decoration: MemberTheme.glass(radius: 20),
               child: Row(
@@ -671,7 +675,7 @@ class _PromoBannerState extends State<PromoBanner>
           child: child,
         ),
         child: Container(
-        height: 78,
+        height: 82,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
