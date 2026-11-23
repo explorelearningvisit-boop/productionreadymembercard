@@ -249,7 +249,7 @@ class _ActionCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(20),
           child: Ink(
-            height: 60,
+            height: 66,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -354,8 +354,8 @@ class _Portrait extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 82,
-        height: 86,
+        width: 94,
+        height: 100,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
           image: const DecorationImage(
@@ -679,7 +679,7 @@ class _PromoBannerState extends State<PromoBanner>
           child: child,
         ),
         child: Container(
-        height: 68,
+        height: 72,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
