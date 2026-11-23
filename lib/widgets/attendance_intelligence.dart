@@ -14,12 +14,14 @@ class AttendanceIntelligence extends StatelessWidget {
     required this.onSelect,
   });
 
-  static const labels = ['Attendance', 'Trend', 'History', 'More'];
+  static const labels = ['Attend', 'Insights', 'Cal', 'History', 'Trend', 'Goals'];
   static const icons = <IconData>[
     Icons.calendar_month_rounded,
-    Icons.stacked_line_chart_rounded,
+    Icons.insights_rounded,
+    Icons.date_range_rounded,
     Icons.history_rounded,
-    Icons.tune_rounded,
+    Icons.trending_up_rounded,
+    Icons.emoji_events_rounded,
   ];
 
   @override
@@ -50,7 +52,7 @@ class _Rail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 46,
+        width: 58,
         padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 3),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(23),
@@ -82,7 +84,7 @@ class _Rail extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 180),
-                      width: 40,
+                      width: 52,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: selected
@@ -117,7 +119,7 @@ class _Rail extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 7,
+                              fontSize: 8,
                               fontWeight: FontWeight.w900,
                               color: selected
                                   ? MemberTheme.deepPurple
@@ -252,10 +254,12 @@ class _Panel extends StatelessWidget {
             const _PanelHeader(),
             const SizedBox(height: 5),
             switch (section) {
-              0 => const _HistoryOverview(),
-              1 => const _HomeOverview(),
+              0 => const _HomeOverview(),
+              1 => const _MoreOverview(),
               2 => const _AttendCalendar(),
-              _ => const _MoreOverview(),
+              3 => const _HistoryOverview(),
+              4 => const _HomeOverview(),
+              _ => const _GoalsOverview(),
             },
           ],
         ),
@@ -282,7 +286,7 @@ class _PanelHeader extends StatelessWidget {
           const SizedBox(width: 8),
           const Expanded(
             child: Text(
-              'Attendance Intelligence',
+              'Attendance Analytics',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -326,7 +330,7 @@ class _HomeOverview extends StatelessWidget {
   Widget build(BuildContext context) => const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Attendance trend',
+          Text('Attendance analytics',
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
@@ -351,9 +355,9 @@ class _HomeOverview extends StatelessWidget {
                     _StatLine(
                         color: MemberTheme.green,
                         label: 'Present',
-                        count: '25',
-                        percent: '81%',
-                        value: 0.81),
+                        count: '23',
+                        percent: '74%',
+                        value: 0.74),
                     _StatLine(
                         color: MemberTheme.red,
                         label: 'Absent',
@@ -368,10 +372,10 @@ class _HomeOverview extends StatelessWidget {
                         value: 0.13),
                     _StatLine(
                         color: MemberTheme.goldDeep,
-                        label: 'Payment',
-                        count: '1/1',
-                        percent: '100%',
-                        value: 1),
+                        label: 'Late',
+                        count: '2',
+                        percent: '6%',
+                        value: 0.06),
                   ],
                 ),
               ),
@@ -579,7 +583,7 @@ class _AttendCalendar extends StatelessWidget {
                 fontWeight: FontWeight.w900,
                 color: MemberTheme.deepPurple)),
         const SizedBox(height: 2),
-        const Text('25 present · 2 absent · 4 holiday',
+        const Text('23 present · 2 late · 2 absent · 4 holiday',
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
         const SizedBox(height: 8),
         GridView.count(
@@ -608,11 +612,13 @@ class _DayCell extends StatelessWidget {
     final kind = MemberSample.kindFor(day);
     final color = switch (kind) {
       DayKind.present => const Color(0xFFDCFCE7),
+      DayKind.late => const Color(0xFFFEF3C7),
       DayKind.absent => const Color(0xFFFFE4E6),
       DayKind.holiday => const Color(0xFFF3E8FF),
     };
     final ink = switch (kind) {
       DayKind.present => MemberTheme.greenInk,
+      DayKind.late => MemberTheme.goldDeep,
       DayKind.absent => MemberTheme.red,
       DayKind.holiday => MemberTheme.purple,
     };
@@ -811,6 +817,43 @@ class _HistoryOverview extends StatelessWidget {
           const SizedBox(height: 4),
           const Text(MemberSample.sampleNote,
               style: TextStyle(fontSize: 8, color: MemberTheme.muted)),
+        ],
+      );
+}
+
+class _GoalsOverview extends StatelessWidget {
+  const _GoalsOverview();
+
+  @override
+  Widget build(BuildContext context) => const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Member goals', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: MemberTheme.deepPurple)),
+          SizedBox(height: 8),
+          _GoalLine(label: 'Monthly check-ins', value: '25 / 30', progress: 0.83),
+          SizedBox(height: 8),
+          _GoalLine(label: 'Workout consistency', value: '4 / 5 days', progress: 0.80),
+          SizedBox(height: 8),
+          _GoalLine(label: 'Strength sessions', value: '3 / 5', progress: 0.60),
+          SizedBox(height: 8),
+          Text(MemberSample.sampleNote, style: TextStyle(fontSize: 8, color: MemberTheme.muted)),
+        ],
+      );
+}
+
+class _GoalLine extends StatelessWidget {
+  final String label;
+  final String value;
+  final double progress;
+  const _GoalLine({required this.label, required this.value, required this.progress});
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [Expanded(child: Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w800))), Text(value, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: MemberTheme.purple))]),
+          const SizedBox(height: 4),
+          ClipRRect(borderRadius: BorderRadius.circular(8), child: LinearProgressIndicator(value: progress, minHeight: 7, backgroundColor: const Color(0xFFF3E8FF), valueColor: const AlwaysStoppedAnimation(MemberTheme.purple))),
         ],
       );
 }
