@@ -14,35 +14,27 @@ class AttendanceIntelligence extends StatelessWidget {
     required this.onSelect,
   });
 
-  static const labels = [
-    'Home',
-    'Attend',
-    'Workout',
-    'Pay',
-    'Offers',
-    'History'
-  ];
+  static const labels = ['Attendance', 'Trend', 'History', 'More'];
   static const icons = <IconData>[
-    Icons.home_rounded,
     Icons.calendar_month_rounded,
-    Icons.fitness_center_rounded,
-    Icons.account_balance_wallet_rounded,
-    Icons.sell_rounded,
+    Icons.stacked_line_chart_rounded,
     Icons.history_rounded,
+    Icons.tune_rounded,
   ];
 
   @override
-  Widget build(BuildContext context) => Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _Rail(section: section, onSelect: onSelect),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
+          const _MetricRow(),
+          const SizedBox(height: 7),
+          IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const _MetricRow(),
-                const SizedBox(height: 8),
-                _Panel(section: section),
+                _Rail(section: section, onSelect: onSelect),
+                const SizedBox(width: 6),
+                Expanded(child: _Panel(section: section)),
               ],
             ),
           ),
@@ -57,8 +49,8 @@ class _Rail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 54,
-        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        width: 48,
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(26),
           gradient: const LinearGradient(
@@ -77,8 +69,9 @@ class _Rail extends StatelessWidget {
           children:
               List.generate(AttendanceIntelligence.labels.length, (index) {
             final selected = section == index;
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
+            return Expanded(
+              child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 2),
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -87,8 +80,8 @@ class _Rail extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 180),
-                    width: 52,
-                    height: 42,
+                    width: 44,
+                    height: double.infinity,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
                       color: selected
@@ -106,7 +99,7 @@ class _Rail extends StatelessWidget {
                       children: [
                         Icon(
                           AttendanceIntelligence.icons[index],
-                          size: 17,
+                          size: 18,
                           color: selected ? MemberTheme.purple : Colors.white,
                         ),
                         const SizedBox(height: 2),
@@ -123,6 +116,7 @@ class _Rail extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
             );
           }),
         ),
@@ -246,11 +240,9 @@ class _Panel extends StatelessWidget {
             const SizedBox(height: 5),
             switch (section) {
               0 => const _HomeOverview(),
-              1 => const _AttendCalendar(),
-              2 => const _WorkoutOverview(),
-              3 => const _PaymentOverview(),
-              4 => const _OffersOverview(),
-              _ => const _HistoryOverview(),
+              1 => const _WorkoutOverview(),
+              2 => const _HistoryOverview(),
+              _ => const _MoreOverview(),
             },
           ],
         ),
@@ -786,6 +778,35 @@ class _OffersOverview extends StatelessWidget {
             ),
           const Text(MemberSample.sampleNote,
               style: TextStyle(fontSize: 8, color: MemberTheme.muted)),
+        ],
+      );
+}
+
+class _MoreOverview extends StatelessWidget {
+  const _MoreOverview();
+
+  @override
+  Widget build(BuildContext context) => const Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'More member insights',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w900,
+              color: MemberTheme.deepPurple,
+            ),
+          ),
+          SizedBox(height: 8),
+          _AttendCalendar(),
+          SizedBox(height: 12),
+          Divider(height: 1, color: MemberTheme.line),
+          SizedBox(height: 10),
+          _PaymentOverview(),
+          SizedBox(height: 12),
+          Divider(height: 1, color: MemberTheme.line),
+          SizedBox(height: 10),
+          _OffersOverview(),
         ],
       );
 }
