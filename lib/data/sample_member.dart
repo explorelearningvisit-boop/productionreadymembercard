@@ -76,6 +76,7 @@ class MemberSample {
 
   static const offers = <OfferItem>[
     OfferItem('Whey Protein', '25% OFF', '₹1,499'),
+    OfferItem('Whey Protein Bundle', '25% OFF', '₹2,499'),
     OfferItem('Creatine Monohydrate', '20% OFF', '₹899'),
     OfferItem('Fat Loss Support', '15% OFF', '₹1,199'),
     OfferItem('Whey Recovery', '20% OFF', '₹1,299'),
