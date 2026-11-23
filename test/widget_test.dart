@@ -89,8 +89,9 @@ void main() {
     await _pumpUi(tester);
     expect(find.text('FROZEN'), findsOneWidget);
 
-    await tester.ensureVisible(find.text('Buy Now ›'));
-    await tester.tap(find.text('Shop Now ›'));
+    final shopButton = find.text('Buy Now ›');
+    await tester.ensureVisible(shopButton);
+    await tester.tap(shopButton);
     await _pumpUi(tester);
     expect(find.text('More member insights'), findsOneWidget);
     expect(find.text('Hex dumbbells'), findsOneWidget);
