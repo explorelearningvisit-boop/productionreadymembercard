@@ -45,10 +45,12 @@ void main() {
       expect(find.text(heading), findsOneWidget);
     }
 
-    await open('Attendance', 'Check-in history');
-    await open('Trend', 'Attendance trend');
-    await open('History', 'October attendance');
-    await open('More', 'More member insights');
+    await open('Attend', 'Attendance analytics');
+    await open('Insights', 'More member insights');
+    await open('Cal', 'October attendance');
+    await open('History', 'Check-in history');
+    await open('Trend', 'Attendance analytics');
+    await open('Goals', 'Member goals');
     expect(tester.takeException(), isNull);
   });
 
