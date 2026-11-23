@@ -19,7 +19,7 @@ void main() {
     expect(find.text('FREEZE'), findsOneWidget);
     expect(find.byType(MemberProfileCard), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
-    expect(find.text('Attendance Intelligence'), findsOneWidget);
+    expect(find.text('Attendance Analytics'), findsOneWidget);
     expect(find.byType(AttendanceIntelligence), findsOneWidget);
     expect(find.text('Big Billion Sale'), findsOneWidget);
     expect(find.text('81%'), findsWidgets);
