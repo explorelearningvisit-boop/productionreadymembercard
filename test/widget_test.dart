@@ -94,7 +94,7 @@ void main() {
     await tester.tap(shopButton);
     await _pumpUi(tester);
     expect(find.text('More member insights'), findsOneWidget);
-    expect(find.text('Whey Protein'), findsOneWidget);
+    expect(find.text('Purple Protein Bundle'), findsOneWidget);
 
     await tester.ensureVisible(find.text('CHECK-IN'));
     await tester.tap(find.text('CHECK-IN'));
