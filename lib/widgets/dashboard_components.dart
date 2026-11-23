@@ -364,6 +364,10 @@ class _Portrait extends StatelessWidget {
             end: Alignment.bottomRight,
             colors: [Color(0xFFF0ABFC), Color(0xFF7C3AED), Color(0xFF4C1D95)],
           ),
+          image: const DecorationImage(
+            image: AssetImage('assets/material_pack/membership/10_gold_photo_backplate.webp'),
+            fit: BoxFit.contain,
+          ),
           boxShadow: const [
             BoxShadow(
                 color: Color(0x887C3AED), blurRadius: 16, offset: Offset(0, 6)),
