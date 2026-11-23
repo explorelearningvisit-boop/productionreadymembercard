@@ -89,7 +89,7 @@ void main() {
     await _pumpUi(tester);
     expect(find.text('FROZEN'), findsOneWidget);
 
-    await tester.ensureVisible(find.text('Shop Now ›'));
+    await tester.ensureVisible(find.text('Buy Now ›'));
     await tester.tap(find.text('Shop Now ›'));
     await _pumpUi(tester);
     expect(find.text('More member insights'), findsOneWidget);
@@ -165,7 +165,7 @@ void main() {
     await _pumpUi(tester);
     await tester.ensureVisible(find.byType(PaymentStrip));
     await tester.tap(find.byType(PaymentStrip));
-    await tester.pumpAndSettle();
+    await _pumpUi(tester);
 
     expect(find.text('Payment due'), findsOneWidget);
     expect(find.text('₹500 Due'), findsOneWidget);
