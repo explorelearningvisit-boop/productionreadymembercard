@@ -1,16 +1,20 @@
-name: BAD GYM Asset Inbox Audit
+name: PulseVault 14 Image Audit
 on:
   push:
     branches: ['grok/purple-neon-member-dashboard']
+    paths:
+      - 'assets/material_pack/inbox/PulseVault/**'
+      - 'scripts/audit_asset_inbox.py'
+      - '.github/workflows/asset-audit.yml'
   workflow_dispatch:
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: bad-gym-asset-audit-${{ github.ref }}
-  cancel-in-progress: true
+  group: pulsevault-audit-${{ github.ref }}
+  cancel-in-progress: false
 jobs:
-  audit-assets:
+  audit-pulsevault:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -18,14 +22,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install image audit dependency
+          cache: pip
+      - name: Install Pillow
         run: python -m pip install --disable-pip-version-check Pillow
-      - name: Inspect inbox images
+      - name: Audit the 14 PulseVault PNGs only
         run: python scripts/audit_asset_inbox.py
-      - name: Upload contact sheet and metadata
+      - name: Upload PulseVault contact sheet and metadata
         uses: actions/upload-artifact@v4
         with:
-          name: bad-gym-asset-audit-${{ github.sha }}
-          path: build/asset-audit/
+          name: pulsevault-14-visual-audit-${{ github.sha }}
+          path: build/asset-audit/pulsevault/
           if-no-files-found: error
           retention-days: 14
