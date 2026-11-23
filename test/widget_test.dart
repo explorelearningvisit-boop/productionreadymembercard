@@ -79,6 +79,14 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('FROZEN'), findsOneWidget);
 
+    await tester.ensureVisible(find.text('CHECK-IN'));
+    await tester.tap(find.text('CHECK-IN'));
+    await tester.pump();
+    expect(
+      find.text('Membership is frozen · resume your plan before check-in'),
+      findsOneWidget,
+    );
+
     await tester.tap(find.byTooltip('Notifications'));
     await tester.pumpAndSettle();
     expect(find.text('Payment due'), findsOneWidget);

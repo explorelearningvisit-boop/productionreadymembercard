@@ -94,7 +94,13 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
 
   void _checkInInfo() {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Check-in already complete · 07:12 AM')),
+      SnackBar(
+        content: Text(
+          frozen
+              ? 'Membership is frozen · resume your plan before check-in'
+              : 'Check-in already complete · 07:12 AM',
+        ),
+      ),
     );
   }
 
