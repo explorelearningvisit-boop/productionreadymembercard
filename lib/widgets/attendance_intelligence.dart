@@ -252,9 +252,9 @@ class _Panel extends StatelessWidget {
             const _PanelHeader(),
             const SizedBox(height: 5),
             switch (section) {
-              0 => const _HomeOverview(),
-              1 => const _WorkoutOverview(),
-              2 => const _HistoryOverview(),
+              0 => const _HistoryOverview(),
+              1 => const _HomeOverview(),
+              2 => const _AttendCalendar(),
               _ => const _MoreOverview(),
             },
           ],
@@ -326,7 +326,7 @@ class _HomeOverview extends StatelessWidget {
   Widget build(BuildContext context) => const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Home overview',
+          Text('Attendance trend',
               style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w900,
