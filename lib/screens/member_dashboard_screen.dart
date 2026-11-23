@@ -244,10 +244,22 @@ class _DashboardScroll extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        Row(
+                          children: [
+                            const Expanded(child: BrandHeader()),
+                            IconButton(
+                              tooltip: 'Notifications',
+                              visualDensity: VisualDensity.compact,
+                              onPressed: onNotify,
+                              icon: const Icon(Icons.notifications_active_rounded,
+                                  color: MemberTheme.deepPurple, size: 22),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 3),
                         ActionStrip(
                           frozen: frozen,
                           onFreeze: onFreeze,
-                          onNotify: onNotify,
                           onCheckIn: onCheckIn,
                         ),
                         const SizedBox(height: 7),
