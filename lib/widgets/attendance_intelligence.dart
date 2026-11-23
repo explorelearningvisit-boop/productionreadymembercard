@@ -554,12 +554,12 @@ class _AttendanceDonut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const SizedBox(
-        width: 88,
-        height: 88,
+        width: 78,
+        height: 78,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            CustomPaint(size: Size(88, 88), painter: _DonutPainter()),
+            CustomPaint(size: Size(78, 78), painter: _DonutPainter()),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -631,7 +631,7 @@ class _StatLine extends StatelessWidget {
                     BoxDecoration(color: color, shape: BoxShape.circle)),
             const SizedBox(width: 4),
             SizedBox(
-              width: 48,
+              width: 40,
               child: Text(label,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -639,7 +639,7 @@ class _StatLine extends StatelessWidget {
                       fontSize: 10, fontWeight: FontWeight.w800)),
             ),
             SizedBox(
-              width: 24,
+              width: 20,
               child: Text(count,
                   textAlign: TextAlign.end,
                   style: const TextStyle(
@@ -659,7 +659,7 @@ class _StatLine extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             SizedBox(
-              width: 32,
+              width: 26,
               child: Text(percent,
                   textAlign: TextAlign.end,
                   style: const TextStyle(
