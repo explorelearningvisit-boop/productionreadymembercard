@@ -808,6 +808,7 @@ class _HistoryOverview extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: switch (record.kind) {
+                        DayKind.off => MemberTheme.muted,
                         DayKind.present => MemberTheme.green,
                         DayKind.late => MemberTheme.goldDeep,
                         DayKind.absent => MemberTheme.red,
