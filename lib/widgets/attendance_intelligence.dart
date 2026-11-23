@@ -234,12 +234,28 @@ class _MetricTile extends StatelessWidget {
             const SizedBox(height: 2),
             FittedBox(fit: BoxFit.scaleDown, child: Text(value, maxLines: 1,
               style: TextStyle(fontSize: 16, height: 1, fontWeight: FontWeight.w900, color: accent))),
-            Container(
-              margin: const EdgeInsets.only(top: 2),
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.75), borderRadius: BorderRadius.circular(10)),
-              child: Text(detail, maxLines: 1, overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: accent)),
+            SizedBox(
+              width: double.infinity,
+              child: Container(
+                margin: const EdgeInsets.only(top: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.75),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    detail,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w900,
+                      color: accent,
+                    ),
+                  ),
+                ),
+              ),
             ),
             Expanded(
               child: Align(
