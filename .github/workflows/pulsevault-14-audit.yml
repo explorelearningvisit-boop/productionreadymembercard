@@ -3,7 +3,7 @@ on:
   push:
     branches: ['grok/purple-neon-member-dashboard']
     paths:
-      - 'assets/material_pack/inbox/PulseVault/**'
+      - 'assets/material_pack/pulsevault/**'
       - 'scripts/audit_asset_inbox.py'
       - '.github/workflows/pulsevault-14-audit.yml'
   workflow_dispatch:
