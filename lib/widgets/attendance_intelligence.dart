@@ -25,13 +25,16 @@ class AttendanceIntelligence extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.sizeOf(context).height;
+    final panelHeight = (screenHeight * 0.38).clamp(270.0, 310.0);
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const _MetricRow(),
           const SizedBox(height: 7),
           SizedBox(
-            height: 430,
+            height: panelHeight,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -43,6 +46,7 @@ class AttendanceIntelligence extends StatelessWidget {
           ),
         ],
       );
+  }
 }
 
 class _Rail extends StatelessWidget {
@@ -213,8 +217,8 @@ class _MetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 94,
-        padding: const EdgeInsets.fromLTRB(3, 4, 3, 3),
+        height: 132,
+        padding: const EdgeInsets.fromLTRB(4, 5, 4, 4),
         decoration: BoxDecoration(
           color: background,
           borderRadius: BorderRadius.circular(17),
@@ -272,7 +276,7 @@ class _MetricTile extends StatelessWidget {
                     scale: scale,
                     child: child,
                   ),
-                  child: Image.asset(image, fit: BoxFit.contain, height: 43,
+                  child: Image.asset(image, fit: BoxFit.contain, height: 58,
                     errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 28)),
                 ),
               ),
@@ -298,14 +302,32 @@ class _Panel extends StatelessWidget {
             children: [
               const _PanelHeader(),
               const SizedBox(height: 5),
-              switch (section) {
-                0 => const _DefaultAnalyticsOverview(),
-                1 => const _MoreOverview(),
-                2 => const _AttendCalendar(),
-                3 => const _HistoryOverview(),
-                4 => const _HomeOverview(),
-                _ => const _GoalsOverview(),
-              },
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 240),
+                switchInCurve: Curves.easeOutCubic,
+                switchOutCurve: Curves.easeInCubic,
+                transitionBuilder: (child, animation) => FadeTransition(
+                  opacity: animation,
+                  child: SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0.025, 0),
+                      end: Offset.zero,
+                    ).animate(animation),
+                    child: child,
+                  ),
+                ),
+                child: KeyedSubtree(
+                  key: ValueKey<int>(section),
+                  child: switch (section) {
+                    0 => const _DefaultAnalyticsOverview(),
+                    1 => const _MoreOverview(),
+                    2 => const _AttendCalendar(),
+                    3 => const _HistoryOverview(),
+                    4 => const _HomeOverview(),
+                    _ => const _GoalsOverview(),
+                  },
+                ),
+              ),
             ],
           ),
         ),
