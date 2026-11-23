@@ -131,61 +131,108 @@ class ActionStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.fromLTRB(8, 7, 8, 7),
-        decoration: MemberTheme.glass(radius: 28),
+        padding: const EdgeInsets.all(3),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: const Color(0xFFFFD76A), width: 1.2),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x337A18D1),
+              blurRadius: 8,
+              offset: Offset(0, 3),
+            ),
+          ],
+        ),
         child: Row(
           children: [
-            const _CheckBadge(),
-            const SizedBox(width: 6),
             Expanded(
-              child: InkWell(
-                onTap: onCheckIn,
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'CHECK-IN',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w900,
-                        color: MemberTheme.ink,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: onCheckIn,
+                  borderRadius: BorderRadius.circular(22),
+                  child: Ink(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(22),
+                      gradient: const LinearGradient(
+                        colors: [
+                          Color(0xFF8B20D5),
+                          Color(0xFF5B0B9A),
+                          Color(0xFF3B0764),
+                        ],
+                      ),
+                      border: Border.all(
+                        color: const Color(0xFFFFD76A),
+                        width: 1,
                       ),
                     ),
-                    Text(
-                      'Completed · ${MemberSample.checkInTime}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 9,
-                        color: MemberTheme.muted,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    child: Row(
+                      children: [
+                        const _CheckBadge(),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              Text(
+                                'CHECK-IN',
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text(
+                                'Completed · ${MemberSample.checkInTime}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 9,
+                                  color: Color(0xFFF4E7FF),
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-            Container(width: 1, height: 32, color: MemberTheme.line),
+            const SizedBox(width: 5),
             InkWell(
               onTap: onFreeze,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(18),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.ac_unit_rounded,
-                      color: frozen ? MemberTheme.blue : MemberTheme.deepPurple,
-                      size: 18,
+                    Image.asset(
+                      'assets/material_pack/attendance/23_freeze_snowflake_graphic.webp',
+                      width: 19,
+                      height: 19,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => Icon(
+                        Icons.ac_unit_rounded,
+                        color: frozen ? MemberTheme.blue : MemberTheme.deepPurple,
+                        size: 19,
+                      ),
                     ),
                     const SizedBox(width: 3),
                     Text(
                       frozen ? 'FROZEN' : 'FREEZE',
                       style: const TextStyle(
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: FontWeight.w900,
                         color: MemberTheme.ink,
                       ),
@@ -194,12 +241,11 @@ class ActionStrip extends StatelessWidget {
                 ),
               ),
             ),
-            Container(width: 1, height: 32, color: MemberTheme.line),
             IconButton(
               onPressed: onNotify,
               visualDensity: VisualDensity.compact,
               padding: EdgeInsets.zero,
-              constraints: const BoxConstraints.tightFor(width: 34, height: 34),
+              constraints: const BoxConstraints.tightFor(width: 28, height: 32),
               tooltip: 'Notifications',
               icon: const _Bell(),
             ),
