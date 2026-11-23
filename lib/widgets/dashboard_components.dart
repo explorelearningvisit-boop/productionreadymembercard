@@ -665,7 +665,7 @@ class PromoBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 76,
+        height: 86,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
@@ -717,12 +717,22 @@ class PromoBanner extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'Up to 40% OFF · Fitness Gear',
+                          'Up to 40% OFF',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 9,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        Text(
+                          'Fitness Gear · Supplements · Nutrition',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Color(0xFFF3E8FF),
+                            fontSize: 7,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -733,7 +743,7 @@ class PromoBanner extends StatelessWidget {
                 SizedBox(
                   width: 42,
                   child: Image.asset(
-                    'assets/material_pack/advertisements/27_dumbbell_promo_graphic.webp',
+                    'assets/material_pack/offers-promotions/03_whey_protein_tub.webp',
                     fit: BoxFit.contain,
                   ),
                 ),
