@@ -29,7 +29,7 @@ class AttendanceIntelligence extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
-    // Reserve enough vertical space for the full analytics hierarchy on a phone.\n    // The panel remains internally scrollable on shorter devices.\n    final panelHeight = (screenHeight * 0.46).clamp(340.0, 370.0);
+    // Reserve enough space for analytics while keeping short phones scroll-safe.\n    final panelHeight = (screenHeight * 0.46).clamp(340.0, 370.0);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -467,6 +467,8 @@ class _DefaultAnalyticsOverview extends StatelessWidget {
           _HomeOverview(),
           SizedBox(height: 8),
           Divider(height: 1, color: MemberTheme.line),
+          SizedBox(height: 7),
+          _RecoveryOffer(),
           SizedBox(height: 7),
           _AttendCalendar(),
         ],

@@ -128,10 +128,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFF3B0764),
-                  Color(0xFF7E22CE),
-                  Color(0xFFE9D5FF)
+                  Color(0xFF32105D),
+                  Color(0xFF6D28D9),
+                  Color(0xFFB879E8),
+                  Color(0xFFF1E5FF),
                 ],
+                stops: [0.0, 0.38, 0.72, 1.0],
               ),
             ),
             child: Stack(
@@ -171,7 +173,13 @@ class _Glow extends StatelessWidget {
         child: Container(
           width: size,
           height: size,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: color),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              colors: [color, color.withValues(alpha: 0.0)],
+              stops: const [0.0, 1.0],
+            ),
+          ),
         ),
       );
 }
