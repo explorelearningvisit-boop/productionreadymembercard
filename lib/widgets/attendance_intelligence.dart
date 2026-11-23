@@ -66,11 +66,6 @@ class _Rail extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [Color(0xFF9333EA), Color(0xFF6D28D9), Color(0xFF4C1D95)],
           ),
-          image: const DecorationImage(
-            image: AssetImage('assets/material_pack/ui-components/11_purple_menu_background.webp'),
-            fit: BoxFit.cover,
-            opacity: 0.32,
-          ),
           boxShadow: const [
             BoxShadow(
               color: Color(0x886D28D9),
@@ -159,7 +154,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Attendance',
             value: MemberSample.attendancePercentLabel,
             detail: '↑ +6%',
-            image: 'assets/material_pack/offers-promotions/03_whey_protein_tub.webp',
+            image: null,
             background: Color(0xFFFFE66D),
             accent: MemberTheme.greenInk,
           )),
@@ -169,7 +164,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Workout',
             value: '${MemberSample.workoutMinutes} min',
             detail: '↑ +12%',
-            image: 'assets/material_pack/offers-promotions/06_creatine_tub.webp',
+            image: 'assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png',
             background: Color(0xFFE7C7FF),
             accent: MemberTheme.deepPurple,
           )),
@@ -179,7 +174,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Payment',
             value: MemberSample.dueLabel,
             detail: 'SBI · 5% OFF',
-            image: 'assets/material_pack/payment/29_sbi_payment_card_graphic.webp',
+            image: 'assets/material_pack/pulsevault/11_sbi_payment_card_cutout.png',
             background: Color(0xFF9DE7FF),
             accent: Color(0xFF075985),
           )),
@@ -202,7 +197,7 @@ class _MetricTile extends StatelessWidget {
   final String label;
   final String value;
   final String detail;
-  final String image;
+  final String? image;
   final Color background;
   final Color accent;
   const _MetricTile({
@@ -349,15 +344,7 @@ class _PanelHeader extends StatelessWidget {
               gradient: LinearGradient(
                   colors: [MemberTheme.violet, MemberTheme.deepPurple]),
             ),
-            child: Image.asset(
-              'assets/material_pack/attendance/25_calendar_graphic.webp',
-              fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) => const Icon(
-                Icons.insights_rounded,
-                color: Colors.white,
-                size: 16,
-              ),
-            ),
+            child: const Icon(Icons.insights_rounded, color: Colors.white, size: 16),
           ),
           const SizedBox(width: 8),
           const Expanded(
@@ -798,11 +785,11 @@ class _OffersOverview extends StatelessWidget {
                     height: 42,
                     child: switch (offer.name) {
                       'Hex dumbbells' => Image.asset(
-                          'assets/material_pack/advertisements/27_dumbbell_promo_graphic.webp',
+                          'assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png',
                           fit: BoxFit.contain,
                         ),
                       'BAD GYM shaker' => Image.asset(
-                          'assets/material_pack/offers-promotions/04_purple_shaker.webp',
+                          'assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png',
                           fit: BoxFit.contain,
                         ),
                       _ => const Icon(
