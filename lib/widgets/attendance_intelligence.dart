@@ -29,7 +29,7 @@ class AttendanceIntelligence extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
-    final panelHeight = (screenHeight * 0.47).clamp(350.0, 410.0);
+    final panelHeight = (screenHeight * 0.40).clamp(300.0, 340.0);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -697,7 +697,8 @@ class _AttendCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const heads = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    final leading = DateTime(2026, 10, 1).weekday - 1;
+    const firstVisibleDay = 13;
+    const lastVisibleDay = 25;
     final cells = <Widget>[
       for (final head in heads)
         Center(
@@ -706,8 +707,7 @@ class _AttendCalendar extends StatelessWidget {
                     fontSize: 8,
                     fontWeight: FontWeight.w800,
                     color: MemberTheme.muted))),
-      for (var i = 0; i < leading; i++) const SizedBox.shrink(),
-      for (var day = 1; day <= MemberSample.monthDays; day++)
+      for (var day = firstVisibleDay; day <= lastVisibleDay; day++)
         _DayCell(day: day),
     ];
     return Column(
