@@ -674,100 +674,68 @@ class PromoBanner extends StatelessWidget {
           ),
           border: Border.all(color: Colors.white, width: 1.5),
           boxShadow: const [
-            BoxShadow(
-              color: Color(0x667A18D1),
-              blurRadius: 12,
-              offset: Offset(0, 4),
-            ),
+            BoxShadow(color: Color(0x667A18D1), blurRadius: 12, offset: Offset(0, 4)),
           ],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(17),
-          child: DecoratedBox(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF3B0764), Color(0xFF7E22CE), Color(0xFF581C87)],
-              ),
-            ),
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 58,
-                  child: Image.asset(
-                    'assets/material_pack/illustrations/02_red_gold_gift_box.webp',
-                    fit: BoxFit.contain,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final narrow = constraints.maxWidth < 300;
+              final compact = constraints.maxWidth < 330;
+              return DecoratedBox(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF3B0764), Color(0xFF7E22CE), Color(0xFF581C87)],
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'Big Billion Sale',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: MemberTheme.sale,
-                            color: MemberTheme.gold,
-                            fontSize: 19,
-                            height: 1.05,
-                          ),
-                        ),
-                        Text(
-                          'Up to 40% OFF',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        Text(
-                          'Fitness Gear · Supplements · Nutrition',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Color(0xFFF3E8FF),
-                            fontSize: 7,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: narrow ? 38 : compact ? 46 : 58,
+                      child: Image.asset('assets/material_pack/illustrations/02_red_gold_gift_box.webp', fit: BoxFit.contain),
                     ),
-                  ),
-                ),
-                SizedBox(
-                  width: 42,
-                  child: Image.asset(
-                    'assets/material_pack/offers-promotions/03_whey_protein_tub.webp',
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                const SizedBox(width: 3),
-                FilledButton(
-                  onPressed: onShop,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: MemberTheme.pink,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
-                    minimumSize: const Size(0, 32),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    shape: const StadiumBorder(
-                      side: BorderSide(color: Colors.white, width: 1.1),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Big Billion Sale', maxLines: 1, overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontFamily: MemberTheme.sale, color: MemberTheme.gold, fontSize: narrow ? 15 : 19, height: 1.05)),
+                            Text('Up to 40% OFF', maxLines: 1, overflow: TextOverflow.ellipsis,
+                              style: TextStyle(color: Colors.white, fontSize: narrow ? 11 : 14, fontWeight: FontWeight.w900)),
+                            if (!narrow)
+                              const Text('Fitness Gear · Supplements · Nutrition', maxLines: 1, overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: Color(0xFFF3E8FF), fontSize: 7, fontWeight: FontWeight.w700)),
+                          ],
+                        ),
+                      ),
                     ),
-                    textStyle: const TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 10,
+                    if (!narrow)
+                      SizedBox(
+                        width: compact ? 28 : 42,
+                        child: Image.asset('assets/material_pack/offers-promotions/03_whey_protein_tub.webp', fit: BoxFit.contain),
+                      ),
+                    const SizedBox(width: 2),
+                    FilledButton(
+                      onPressed: onShop,
+                      style: FilledButton.styleFrom(
+                        backgroundColor: MemberTheme.pink,
+                        foregroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: narrow ? 5 : compact ? 6 : 9, vertical: 7),
+                        minimumSize: const Size(0, 32),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        shape: const StadiumBorder(side: BorderSide(color: Colors.white, width: 1.1)),
+                        textStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: narrow ? 8 : 10),
+                      ),
+                      child: const Text('Shop Now ›'),
                     ),
-                  ),
-                  child: const Text('Shop Now ›'),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       );
