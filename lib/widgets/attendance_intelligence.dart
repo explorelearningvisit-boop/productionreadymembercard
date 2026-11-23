@@ -234,39 +234,47 @@ class _MetricTile extends StatelessWidget {
                 const SizedBox(width: 2),
                 Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
                   style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: MemberTheme.ink))),
+                if (label == 'Attendance') ...[
+                  const SizedBox(width: 2),
+                  const Text('+6%', style: TextStyle(fontSize: 7, fontWeight: FontWeight.w900, color: MemberTheme.greenInk)),
+                ],
               ],
             ),
             const SizedBox(height: 2),
             FittedBox(fit: BoxFit.scaleDown, child: Text(value, maxLines: 1,
               style: TextStyle(fontSize: 16, height: 1, fontWeight: FontWeight.w900, color: accent))),
-            SizedBox(
-              width: double.infinity,
-              child: Container(
-                margin: const EdgeInsets.only(top: 2),
-                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.75),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    detail,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 8,
-                      fontWeight: FontWeight.w900,
-                      color: accent,
-                    ),
+            if (label != 'Attendance')
+              SizedBox(
+                width: double.infinity,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 2),
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.75),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(detail, maxLines: 1, style: TextStyle(
+                      fontSize: 8, fontWeight: FontWeight.w900, color: accent,
+                    )),
                   ),
                 ),
               ),
-            ),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Image.asset(image, fit: BoxFit.contain, height: 37,
-                  errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 24)),
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.98, end: 1.04),
+                  duration: const Duration(milliseconds: 1800),
+                  curve: Curves.easeInOut,
+                  builder: (context, scale, child) => Transform.scale(
+                    scale: scale,
+                    child: child,
+                  ),
+                  child: Image.asset(image, fit: BoxFit.contain, height: 43,
+                    errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 28)),
+                ),
               ),
             ),
           ],

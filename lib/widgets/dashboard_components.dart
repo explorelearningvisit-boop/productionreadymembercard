@@ -421,10 +421,6 @@ class _GoldPill extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
               colors: [Color(0xFFFFE082), MemberTheme.gold, Color(0xFFF5B301)]),
-          image: const DecorationImage(
-            image: AssetImage('assets/material_pack/membership/21_gold_plan_badge_background.webp'),
-            fit: BoxFit.contain,
-          ),
           border: Border.all(color: Colors.white, width: 1.4),
           boxShadow: const [
             BoxShadow(
@@ -463,10 +459,6 @@ class _ActivePill extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
               colors: [Color(0xFF4ADE80), Color(0xFF16A34A)]),
-          image: const DecorationImage(
-            image: AssetImage('assets/material_pack/membership/22_green_active_badge_background.webp'),
-            fit: BoxFit.contain,
-          ),
           border: Border.all(color: Colors.white, width: 1.4),
           boxShadow: const [
             BoxShadow(
@@ -517,14 +509,18 @@ class PaymentStrip extends StatelessWidget {
                           fontSize: 10,
                           color: MemberTheme.muted,
                           fontWeight: FontWeight.w700)),
-                  Text(
-                    MemberSample.dueLabel,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900,
-                        color: MemberTheme.purple),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      MemberSample.dueLabel,
+                      maxLines: 1,
+                      softWrap: false,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          color: MemberTheme.purple),
+                    ),
                   ),
                 ],
               ),
@@ -539,14 +535,18 @@ class PaymentStrip extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    MemberSample.daysLeftLabel,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900,
-                        color: MemberTheme.purple),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      MemberSample.daysLeftLabel,
+                      maxLines: 1,
+                      softWrap: false,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w900,
+                          color: MemberTheme.purple),
+                    ),
                   ),
                   Text(
                     'Expires: ${MemberSample.expiresLabel}',
@@ -644,10 +644,12 @@ class MembershipProgress extends StatelessWidget {
                 child: SizedBox(
                   width: constraints.maxWidth * fraction,
                   height: 10,
-                  child: Image.asset(
-                    'assets/material_pack/ui-components/15_purple_progress_bar.webp',
-                    fit: BoxFit.fill,
-                    alignment: Alignment.centerLeft,
+                  child: DecoratedBox(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFFE879F9), Color(0xFF8B5CF6), Color(0xFF6D28D9)],
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -659,12 +661,35 @@ class MembershipProgress extends StatelessWidget {
   }
 }
 
-class PromoBanner extends StatelessWidget {
+class PromoBanner extends StatefulWidget {
   final VoidCallback onShop;
   const PromoBanner({super.key, required this.onShop});
 
   @override
-  Widget build(BuildContext context) => Container(
+  State<PromoBanner> createState() => _PromoBannerState();
+}
+
+class _PromoBannerState extends State<PromoBanner>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _pulse = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1450),
+  )..repeat(reverse: true);
+
+  @override
+  void dispose() {
+    _pulse.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: _pulse,
+        builder: (context, child) => Transform.scale(
+          scale: 1 + (_pulse.value * 0.012),
+          child: child,
+        ),
+        child: Container(
         height: 86,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         decoration: BoxDecoration(
@@ -716,11 +741,21 @@ class PromoBanner extends StatelessWidget {
                     if (!narrow)
                       SizedBox(
                         width: compact ? 28 : 42,
-                        child: Image.asset('assets/material_pack/offers-promotions/03_whey_protein_tub.webp', fit: BoxFit.contain),
+                        child: AnimatedBuilder(
+                          animation: _pulse,
+                          builder: (context, child) => Transform.translate(
+                            offset: Offset(0, -2 * _pulse.value),
+                            child: Transform.scale(
+                              scale: 0.96 + 0.06 * _pulse.value,
+                              child: child,
+                            ),
+                          ),
+                          child: Image.asset('assets/material_pack/offers-promotions/03_whey_protein_tub.webp', fit: BoxFit.contain),
+                        ),
                       ),
                     const SizedBox(width: 2),
                     FilledButton(
-                      onPressed: onShop,
+                      onPressed: widget.onShop,
                       style: FilledButton.styleFrom(
                         backgroundColor: MemberTheme.pink,
                         foregroundColor: Colors.white,
@@ -730,7 +765,11 @@ class PromoBanner extends StatelessWidget {
                         shape: const StadiumBorder(side: BorderSide(color: Colors.white, width: 1.1)),
                         textStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: narrow ? 8 : 10),
                       ),
-                      child: const Text('Shop Now ›'),
+                      child: AnimatedOpacity(
+                        duration: const Duration(milliseconds: 650),
+                        opacity: _pulse.value > 0.5 ? 1 : 0.82,
+                        child: const Text('Shop Now ›'),
+                      ),
                     ),
                   ],
                 ),
@@ -738,7 +777,8 @@ class PromoBanner extends StatelessWidget {
             },
           ),
         ),
-      );
+      ),
+    );
 }
 
 class EquipmentFooter extends StatelessWidget {
