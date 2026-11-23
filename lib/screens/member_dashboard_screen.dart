@@ -202,27 +202,48 @@ class _DashboardScroll extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const BrandHeader(),
+                  PromoBanner(onShop: () => onSelect(3)),
                   if (frozen) ...[
                     const SizedBox(height: 5),
                     const _FrozenBanner(),
                   ],
-                  const SizedBox(height: 5),
-                  ActionStrip(
-                    frozen: frozen,
-                    onFreeze: onFreeze,
-                    onNotify: onNotify,
-                    onCheckIn: onCheckIn,
+                  const SizedBox(height: 6),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xF8FFFFFF),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: const Color(0xFFFFD76A),
+                        width: 1.5,
+                      ),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Color(0x447A18D1),
+                          blurRadius: 14,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ActionStrip(
+                          frozen: frozen,
+                          onFreeze: onFreeze,
+                          onNotify: onNotify,
+                          onCheckIn: onCheckIn,
+                        ),
+                        const SizedBox(height: 7),
+                        const MemberProfileCard(),
+                        const SizedBox(height: 7),
+                        const PaymentStrip(),
+                        const SizedBox(height: 6),
+                        const MembershipProgress(),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 6),
-                  const MemberProfileCard(),
-                  const SizedBox(height: 6),
-                  const PaymentStrip(),
-                  const SizedBox(height: 5),
-                  const MembershipProgress(),
-                  const SizedBox(height: 6),
-                  PromoBanner(onShop: () => onSelect(4)),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 7),
                   AttendanceIntelligence(section: section, onSelect: onSelect),
                   const SizedBox(height: 5),
                   const EquipmentFooter(),
