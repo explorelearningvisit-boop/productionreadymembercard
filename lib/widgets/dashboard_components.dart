@@ -295,31 +295,6 @@ class _CheckBadge extends StatelessWidget {
       );
 }
 
-class _Bell extends StatelessWidget {
-  const _Bell();
-
-  @override
-  Widget build(BuildContext context) => const SizedBox(
-        width: 28,
-        height: 28,
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Icon(Icons.notifications_rounded, color: MemberTheme.ink, size: 24),
-            Positioned(
-              right: -1,
-              top: -1,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                    color: MemberTheme.red, shape: BoxShape.circle),
-                child: SizedBox(width: 9, height: 9),
-              ),
-            ),
-          ],
-        ),
-      );
-}
-
 class MemberProfileCard extends StatelessWidget {
   const MemberProfileCard({super.key});
 
