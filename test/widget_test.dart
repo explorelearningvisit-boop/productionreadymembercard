@@ -31,7 +31,7 @@ void main() {
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.text('Attendance Analytics'), findsOneWidget);
     expect(find.byType(AttendanceIntelligence), findsOneWidget);
-    expect(find.text('Whey Protein'), findsOneWidget);
+    expect(find.text('Purple Protein Bundle'), findsOneWidget);
     expect(find.text('81%'), findsWidgets);
     expect(
       find.byType(MembershipProgress),
