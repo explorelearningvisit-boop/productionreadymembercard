@@ -194,8 +194,11 @@ class _DashboardScroll extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0x22FFFFFF),
                 borderRadius: BorderRadius.circular(26),
-                border: Border.all(color: const Color(0x99C084FC), width: 1.2),
-                boxShadow: const [BoxShadow(color: Color(0x227C3AED), blurRadius: 14, offset: Offset(0, 4))],
+                border: Border.all(color: const Color(0xFFFFD76A), width: 1.3),
+                boxShadow: const [
+                  BoxShadow(color: Color(0x337C3AED), blurRadius: 14, offset: Offset(0, 4)),
+                  BoxShadow(color: Color(0x22FFC928), blurRadius: 8, spreadRadius: 1),
+                ],
               ),
               child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 520),
