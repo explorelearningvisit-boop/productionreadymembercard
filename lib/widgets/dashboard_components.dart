@@ -371,11 +371,7 @@ class _Portrait extends StatelessWidget {
             end: Alignment.bottomRight,
             colors: [Color(0xFFF0ABFC), Color(0xFF7C3AED), Color(0xFF4C1D95)],
           ),
-          image: const DecorationImage(
-            image: AssetImage('assets/material_pack/membership/10_gold_photo_backplate.webp'),
-            fit: BoxFit.contain,
-          ),
-          boxShadow: const [
+                    boxShadow: const [
             BoxShadow(
                 color: Color(0x887C3AED), blurRadius: 16, offset: Offset(0, 6)),
           ],
@@ -384,7 +380,7 @@ class _Portrait extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(19),
           child: Image.asset(
-            'assets/material_pack/images/01_member_bodybuilder.webp',
+            'assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
             fit: BoxFit.contain,
             alignment: Alignment.bottomCenter,
             errorBuilder: (context, error, stackTrace) => const ColoredBox(
@@ -715,7 +711,7 @@ class _PromoBannerState extends State<PromoBanner>
                   children: [
                     SizedBox(
                       width: narrow ? 38 : compact ? 46 : 58,
-                      child: Image.asset('assets/material_pack/offers-promotions/03_whey_protein_tub.webp', fit: BoxFit.contain),
+                      child: Image.asset('assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png', fit: BoxFit.contain),
                     ),
                     Expanded(
                       child: Padding(
@@ -747,7 +743,7 @@ class _PromoBannerState extends State<PromoBanner>
                               child: child,
                             ),
                           ),
-                          child: Image.asset('assets/material_pack/offers-promotions/03_whey_protein_tub.webp', fit: BoxFit.contain),
+                          child: Image.asset('assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png', fit: BoxFit.contain),
                         ),
                       ),
                     const SizedBox(width: 2),
@@ -785,10 +781,10 @@ class EquipmentFooter extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         height: 72,
         decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/material_pack/backgrounds/09_footer_purple_gold_wave.webp'),
-            fit: BoxFit.cover,
-            alignment: Alignment.center,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Color(0xFF35105B), Color(0xFF7A18D1), Color(0xFF35105B)],
           ),
         ),
         child: const Row(
