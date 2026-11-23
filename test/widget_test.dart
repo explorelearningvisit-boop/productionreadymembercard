@@ -82,20 +82,38 @@ void main() {
     expect(find.text('Payment due'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
-  testWidgets('dashboard remains layout-safe on a narrow 320dp phone', (tester) async {
+
+  testWidgets('dashboard remains layout-safe on a narrow 320dp phone',
+      (tester) async {
     tester.view.physicalSize = const Size(320, 640);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
-    expect(tester.takeException(), isNull);
+
+    final initialLayoutException = tester.takeException();
+    if (initialLayoutException is FlutterError) {
+      debugPrint('320dp initial layout diagnostics:\n'
+          '${initialLayoutException.toStringDeep()}');
+    } else if (initialLayoutException != null) {
+      debugPrint('320dp initial layout exception: $initialLayoutException');
+    }
+    expect(initialLayoutException, isNull);
+
     final calendarTab = find.byKey(const ValueKey('rail-Cal'));
     await tester.ensureVisible(calendarTab);
     await tester.tap(calendarTab);
     await tester.pumpAndSettle();
-    expect(find.text('October attendance'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
 
+    final calendarLayoutException = tester.takeException();
+    if (calendarLayoutException is FlutterError) {
+      debugPrint('320dp calendar layout diagnostics:\n'
+          '${calendarLayoutException.toStringDeep()}');
+    } else if (calendarLayoutException != null) {
+      debugPrint('320dp calendar layout exception: $calendarLayoutException');
+    }
+    expect(calendarLayoutException, isNull);
+    expect(find.text('October attendance'), findsOneWidget);
+  });
 }
