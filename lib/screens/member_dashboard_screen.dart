@@ -128,8 +128,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xFFD8B4FE),
-                  Color(0xFFF7EEFF),
+                  Color(0xFF3B0764),
+                  Color(0xFF7E22CE),
                   Color(0xFFE9D5FF)
                 ],
               ),
