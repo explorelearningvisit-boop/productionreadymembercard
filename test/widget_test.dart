@@ -31,7 +31,7 @@ void main() {
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.text('Attendance Analytics'), findsOneWidget);
     expect(find.byType(AttendanceIntelligence), findsOneWidget);
-    expect(find.text('Big Billion Sale'), findsOneWidget);
+    expect(find.text('Whey Protein'), findsOneWidget);
     expect(find.text('81%'), findsWidgets);
     expect(
       find.byType(MembershipProgress),
@@ -40,7 +40,7 @@ void main() {
     expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
     expect(find.text('73%'), findsOneWidget);
     expect(find.text('Welcome Back 👋'), findsNothing);
-    expect(find.text('Shop Now ›'), findsOneWidget);
+    expect(find.text('Buy Now ›'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
