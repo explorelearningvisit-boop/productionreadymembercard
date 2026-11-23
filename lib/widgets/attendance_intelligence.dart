@@ -360,6 +360,8 @@ class _PartnerBanner extends StatelessWidget {
 }
 
 class _RecoveryPromo extends StatelessWidget {
+  const _RecoveryPromo();
+
   @override
   Widget build(BuildContext context) => Container(
         height: 44,
