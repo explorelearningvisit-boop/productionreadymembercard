@@ -12,7 +12,7 @@ This directory contains the 14 approved images moved byte-for-byte from `assets/
 | `05_purple_gold_cta_background.png` | purple gold cta.png |
 | `06_whey_recovery_tub_cutout.png` | whey recovery tub.png |
 | `07_creatine_monohydrate_tub_cutout.png` | creatine monohydrate tub.png |
-| `08_purple_shaker_bottle_cutout.png` | purple shaker bottle.png |
+| `08_purple_shaker_bottle_full_canvas.png` | purple shaker bottle.png |
 | `09_member_dashboard_reference.png` | member dashboard reference.png |
 | `10_member_bodybuilder_cutout.png` | member bodybuilder.png |
 | `11_sbi_payment_card_cutout.png` | sbi payment card.png |
@@ -21,4 +21,4 @@ This directory contains the 14 approved images moved byte-for-byte from `assets/
 | `14_lavender_glass_cta_background.png` | lavender glass cta.png |
 | `09_member_dashboard_reference.png` | Visual reference only; never use a full-screen screenshot as a runtime background |
 
-Use `BoxFit.contain` for isolated transparent cutouts. Keep labels, prices, member details, and controls as live Flutter widgets. Preserve source aspect ratios and avoid cropping transparent edges.
+`08_purple_shaker_bottle_full_canvas.png` is a full-canvas opaque image (not an isolated transparent cutout); keep it as reference-only. Use `BoxFit.contain` for isolated transparent cutouts. Keep labels, prices, member details, and controls as live Flutter widgets. Preserve source aspect ratios and avoid cropping transparent edges.
