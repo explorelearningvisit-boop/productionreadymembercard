@@ -490,8 +490,38 @@ class _ActivePill extends StatelessWidget {
 class PaymentStrip extends StatelessWidget {
   const PaymentStrip({super.key});
 
+  void _showPaymentDue(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        icon: const CircleAvatar(radius: 26, backgroundColor: Color(0xFFF3E8FF),
+          child: Icon(Icons.account_balance_wallet_rounded, color: MemberTheme.purple, size: 28)),
+        title: const Text('Payment due', textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.w900, color: MemberTheme.ink)),
+        content: const Column(mainAxisSize: MainAxisSize.min, children: [
+          Text(MemberSample.dueLabel, style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: MemberTheme.purple)),
+          SizedBox(height: 5),
+          Text('Gold Plan renewal · ${MemberSample.expiresLabel}', textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 12, color: MemberTheme.muted, fontWeight: FontWeight.w600)),
+          SizedBox(height: 10),
+          Text('Sample reminder only. Online payment is not connected yet.', textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 10, color: MemberTheme.muted)),
+        ]),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [FilledButton(onPressed: () => Navigator.pop(dialogContext),
+          style: FilledButton.styleFrom(backgroundColor: MemberTheme.purple, foregroundColor: Colors.white,
+            minimumSize: const Size(140, 42), shape: const StadiumBorder()), child: const Text('Got it'))],
+      ),
+    );
+  }
+
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () => _showPaymentDue(context),
+        child: Container(
         padding: const EdgeInsets.fromLTRB(8, 6, 6, 6),
         decoration: MemberTheme.glass(radius: 22),
         child: Row(
@@ -582,7 +612,7 @@ class PaymentStrip extends StatelessWidget {
             ),
           ],
         ),
-      );
+      ));
 }
 
 class _IconBlob extends StatelessWidget {
@@ -629,31 +659,19 @@ class MembershipProgress extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 6),
-        LayoutBuilder(
-          builder: (context, constraints) => Container(
-            height: 10,
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.85),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.white),
-            ),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: SizedBox(
-                  width: constraints.maxWidth * fraction,
-                  height: 10,
-                  child: DecoratedBox(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Color(0xFFE879F9), Color(0xFF8B5CF6), Color(0xFF6D28D9)],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+        TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 0, end: fraction),
+          duration: const Duration(milliseconds: 850),
+          curve: Curves.easeOutCubic,
+          builder: (context, progress, child) => ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: SizedBox(height: 10, child: Stack(children: [
+              Positioned.fill(child: ColoredBox(color: Colors.white.withValues(alpha: 0.85))),
+              FractionallySizedBox(widthFactor: progress, alignment: Alignment.centerLeft,
+                child: const DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(
+                  colors: [Color(0xFFE879F9), Color(0xFF8B5CF6), Color(0xFF6D28D9)],
+                )))),
+            ])),
           ),
         ),
       ],
