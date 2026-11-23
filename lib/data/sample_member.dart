@@ -81,6 +81,7 @@ class MemberSample {
     OfferItem('Whey Recovery', '20% OFF', '₹1,299'),
     OfferItem('Purple Protein Bundle', '20% OFF', '₹1,699'),
     OfferItem('Blinkit Grocery Partner', 'Member Offer', 'Shop now'),
+    OfferItem('Purple Shaker Bottle', '20% OFF', '₹399'),
   ];
 
   static int get workoutSum =>
