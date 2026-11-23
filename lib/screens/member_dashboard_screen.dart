@@ -271,7 +271,7 @@ class _DashboardScroll extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 7),
-                  AttendanceIntelligence(section: section, onSelect: onSelect),
+                  AttendanceIntelligence(section: section, onSelect: onSelect, onNotify: onNotify),
                   const SizedBox(height: 2),
                 ],
               ),
