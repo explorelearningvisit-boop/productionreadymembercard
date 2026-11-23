@@ -29,7 +29,8 @@ class AttendanceIntelligence extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
-    // Reserve enough space for analytics while keeping short phones scroll-safe.\n    final panelHeight = (screenHeight * 0.46).clamp(340.0, 370.0);
+    // Reserve enough space for analytics while keeping short phones scroll-safe.
+    final panelHeight = (screenHeight * 0.46).clamp(340.0, 370.0);
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
