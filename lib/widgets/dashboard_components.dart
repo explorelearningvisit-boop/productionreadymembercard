@@ -519,100 +519,72 @@ class PaymentStrip extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: () => _showPaymentDue(context),
-        child: Container(
-        padding: const EdgeInsets.fromLTRB(8, 6, 6, 6),
-        decoration: MemberTheme.glass(radius: 22),
-        child: Row(
-          children: [
-            const _IconBlob(
-                icon: Icons.account_balance_wallet_rounded,
-                color: MemberTheme.purple),
-            const SizedBox(width: 6),
-            const Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) => Semantics(
+          button: true,
+          label: 'Payment due ${MemberSample.dueLabel}. Tap for reminder details.',
+          child: GestureDetector(
+            onTap: () => _showPaymentDue(context),
+            child: Container(
+              constraints: const BoxConstraints(minHeight: 78),
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+              decoration: MemberTheme.glass(radius: 20),
+              child: Row(
                 children: [
-                  Text('Payment',
-                      style: TextStyle(
-                          fontSize: 10,
-                          color: MemberTheme.muted,
-                          fontWeight: FontWeight.w700)),
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      MemberSample.dueLabel,
-                      maxLines: 1,
-                      softWrap: false,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                          color: MemberTheme.purple),
+                  const _IconBlob(
+                    icon: Icons.account_balance_wallet_rounded,
+                    color: MemberTheme.purple,
+                  ),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'PAYMENT DUE',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 9,
+                            color: MemberTheme.muted,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.25,
+                          ),
+                        ),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            MemberSample.dueLabel,
+                            maxLines: 1,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              height: 1.05,
+                              fontWeight: FontWeight.w900,
+                              color: MemberTheme.purple,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          MemberSample.daysLeftLabel,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 9,
+                            color: MemberTheme.ink,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            Container(width: 1, height: 36, color: MemberTheme.line),
-            const SizedBox(width: 8),
-            const Icon(Icons.calendar_month_rounded,
-                color: MemberTheme.purple, size: 22),
-            const SizedBox(width: 4),
-            const Expanded(
-              flex: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      MemberSample.daysLeftLabel,
-                      maxLines: 1,
-                      softWrap: false,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w900,
-                          color: MemberTheme.purple),
-                    ),
-                  ),
-                  Text(
-                    'Expires: ${MemberSample.expiresLabel}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontSize: 10,
-                        color: MemberTheme.muted,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 4),
-            Container(
-              padding: const EdgeInsets.all(3),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: MemberTheme.line),
-              ),
-              child: QrImageView(
-                data: MemberSample.qrPayload,
-                version: QrVersions.auto,
-                size: 40,
-                padding: EdgeInsets.zero,
-                eyeStyle: QrEyeStyle(
-                    eyeShape: QrEyeShape.square, color: MemberTheme.ink),
-                dataModuleStyle: QrDataModuleStyle(
-                    dataModuleShape: QrDataModuleShape.square,
-                    color: MemberTheme.ink),
-              ),
-            ),
-          ],
+          ),
         ),
-      ));
+      );
 }
 
 class _IconBlob extends StatelessWidget {
