@@ -15,37 +15,19 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/member_portrait.png
-    - assets/material_pack/images/01_member_bodybuilder.webp
-    - assets/material_pack/illustrations/02_red_gold_gift_box.webp
-    - assets/material_pack/offers-promotions/03_whey_protein_tub.webp
-    - assets/material_pack/offers-promotions/04_purple_shaker.webp
-    - assets/material_pack/offers-promotions/05_blinkit_grocery_bag.webp
-    - assets/material_pack/offers-promotions/06_creatine_tub.webp
-    - assets/material_pack/offers-promotions/07_green_shaker.webp
-    - assets/material_pack/membership/08_gold_profile_badge_panel.webp
-    - assets/material_pack/backgrounds/09_footer_purple_gold_wave.webp
-    - assets/material_pack/membership/10_gold_photo_backplate.webp
-    - assets/material_pack/ui-components/11_purple_menu_background.webp
-    - assets/material_pack/ui-components/12_white_menu_background.webp
-    - assets/material_pack/ui-components/13_gold_menu_background.webp
-    - assets/material_pack/ui-components/14_green_menu_background.webp
-    - assets/material_pack/ui-components/15_purple_progress_bar.webp
-    - assets/material_pack/ui-components/16_lavender_status_pill.webp
-    - assets/material_pack/ui-components/17_red_status_pill.webp
-    - assets/material_pack/ui-components/18_white_status_pill.webp
-    - assets/material_pack/ui-components/19_purple_square_button_background.webp
-    - assets/material_pack/backgrounds/20_footer_purple_gold_wave.webp
-    - assets/material_pack/membership/21_gold_plan_badge_background.webp
-    - assets/material_pack/membership/22_green_active_badge_background.webp
-    - assets/material_pack/attendance/23_freeze_snowflake_graphic.webp
-    - assets/material_pack/payment/24_qr_graphic.webp
-    - assets/material_pack/attendance/25_calendar_graphic.webp
-    - assets/material_pack/frames/26_master_neon_purple_gold_frame.webp
-    - assets/material_pack/advertisements/27_dumbbell_promo_graphic.webp
-    - assets/material_pack/offers-promotions/28_protinex_tub.webp
-    - assets/material_pack/payment/29_sbi_payment_card_graphic.webp
-    - assets/material_pack/membership/30_member_gold_profile_backplate.webp
+    - assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png
+    - assets/material_pack/pulsevault/02_whey_protein_bundle_cutout.png
+    - assets/material_pack/pulsevault/03_purple_protein_product_bundle_cutout.png
+    - assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png
+    - assets/material_pack/pulsevault/05_purple_gold_cta_background.png
+    - assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png
+    - assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png
+    - assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png
+    - assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png
+    - assets/material_pack/pulsevault/11_sbi_payment_card_cutout.png
+    - assets/material_pack/pulsevault/12_purple_neon_cta_background.png
+    - assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png
+    - assets/material_pack/pulsevault/14_lavender_glass_cta_background.png
   fonts:
     - family: Montserrat
       fonts:
