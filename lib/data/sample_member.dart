@@ -55,7 +55,7 @@ class MemberSample {
 
   static const absentDays = {17, 23};
   static const lateDays = {10, 21};
-  static const offDays = {1, 2, 4, 11, 18, 25};
+  static const offDays = {4, 11, 18, 25};
   static const holidayDays = {4, 11, 18, 25};
 
   static const blocks = <WorkoutBlock>[
