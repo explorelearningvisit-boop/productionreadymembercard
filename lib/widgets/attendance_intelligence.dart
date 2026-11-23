@@ -155,7 +155,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Attendance',
             value: MemberSample.attendancePercentLabel,
             detail: '↑ +6%',
-            image: 'assets/material_pack/offers-promotions/05_blinkit_grocery_bag.webp',
+            image: 'assets/material_pack/attendance/25_calendar_graphic.webp',
             background: Color(0xFFFFE66D),
             accent: MemberTheme.greenInk,
           )),
@@ -165,7 +165,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Workout',
             value: '${MemberSample.workoutMinutes} min',
             detail: '↑ +12%',
-            image: 'assets/material_pack/offers-promotions/06_creatine_tub.webp',
+            image: 'assets/material_pack/advertisements/27_dumbbell_promo_graphic.webp',
             background: Color(0xFFE7C7FF),
             accent: MemberTheme.deepPurple,
           )),
@@ -185,7 +185,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Body',
             value: MemberSample.bodyLabel,
             detail: '↓ -0.8 kg',
-            image: 'assets/material_pack/offers-promotions/28_protinex_tub.webp',
+            image: 'assets/material_pack/offers-promotions/06_creatine_tub.webp',
             background: Color(0xFFB8F1C8),
             accent: MemberTheme.greenInk,
           )),
@@ -774,19 +774,21 @@ class _OffersOverview extends StatelessWidget {
                   SizedBox(
                     width: 42,
                     height: 42,
-                    child: Image.asset(
-                      switch (offer.name) {
-                        'Hex dumbbells' => 'assets/material_pack/advertisements/27_dumbbell_promo_graphic.webp',
-                        'BAD GYM shaker' => 'assets/material_pack/offers-promotions/04_purple_shaker.webp',
-                        'Stripe towel' => 'assets/material_pack/offers-promotions/07_green_shaker.webp',
-                        _ => 'assets/material_pack/offers-promotions/06_creatine_tub.webp',
-                      },
-                      fit: BoxFit.contain,
-                      errorBuilder: (_, __, ___) => const Icon(
-                        Icons.fitness_center_rounded,
-                        color: MemberTheme.deepPurple,
-                      ),
-                    ),
+                    child: switch (offer.name) {
+                      'Hex dumbbells' => Image.asset(
+                          'assets/material_pack/advertisements/27_dumbbell_promo_graphic.webp',
+                          fit: BoxFit.contain,
+                        ),
+                      'BAD GYM shaker' => Image.asset(
+                          'assets/material_pack/offers-promotions/04_purple_shaker.webp',
+                          fit: BoxFit.contain,
+                        ),
+                      _ => const Icon(
+                          Icons.fitness_center_rounded,
+                          color: MemberTheme.deepPurple,
+                          size: 28,
+                        ),
+                    },
                   ),
                   const SizedBox(width: 8),
                   Expanded(
