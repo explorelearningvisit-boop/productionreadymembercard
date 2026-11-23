@@ -154,7 +154,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Attendance',
             value: MemberSample.attendancePercentLabel,
             detail: '↑ +6%',
-            image: 'assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
+            image: 'assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
             background: Color(0xFFFFE66D),
             accent: MemberTheme.greenInk,
           )),
@@ -521,6 +521,8 @@ class _HomeOverview extends StatelessWidget {
             ],
           ),
           SizedBox(height: 6),
+          _RecoveryPromo(),
+          SizedBox(height: 5),
           Text(MemberSample.sampleNote,
               style: TextStyle(
                   fontSize: 8,
@@ -870,6 +872,8 @@ class _OffersOverview extends StatelessWidget {
                           'assets/material_pack/pulsevault/03_purple_protein_product_bundle_cutout.png', fit: BoxFit.contain),
                       'Blinkit Grocery Partner' => Image.asset(
                           'assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png', fit: BoxFit.contain),
+                      'Purple Shaker Bottle' => Image.asset(
+                          'assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png', fit: BoxFit.contain),
                       _ => const Icon(
                           Icons.fitness_center_rounded,
                           color: MemberTheme.deepPurple,
