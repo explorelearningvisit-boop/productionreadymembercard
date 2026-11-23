@@ -79,6 +79,8 @@ class MemberSample {
     OfferItem('Creatine Monohydrate', '20% OFF', '₹899'),
     OfferItem('Fat Loss Support', '15% OFF', '₹1,199'),
     OfferItem('Whey Recovery', '20% OFF', '₹1,299'),
+    OfferItem('Purple Protein Bundle', '20% OFF', '₹1,699'),
+    OfferItem('Blinkit Grocery Partner', 'Member Offer', 'Shop now'),
   ];
 
   static int get workoutSum =>
