@@ -271,8 +271,10 @@ class _MetricTile extends StatelessWidget {
                     scale: scale,
                     child: child,
                   ),
-                  child: Image.asset(image, fit: BoxFit.contain, height: 58,
-                    errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 28)),
+                  child: image == null
+                      ? Icon(icon, color: accent, size: 28)
+                      : Image.asset(image!, fit: BoxFit.contain, height: 58,
+                          errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 28)),
                 ),
               ),
             ),
