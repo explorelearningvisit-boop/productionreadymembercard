@@ -184,7 +184,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Body',
             value: MemberSample.bodyLabel,
             detail: '↓ -0.8 kg',
-            image: 'assets/material_pack/offers-promotions/06_creatine_tub.webp',
+            image: 'assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
             background: Color(0xFFB8F1C8),
             accent: MemberTheme.greenInk,
           )),
@@ -784,14 +784,14 @@ class _OffersOverview extends StatelessWidget {
                     width: 42,
                     height: 42,
                     child: switch (offer.name) {
-                      'Hex dumbbells' => Image.asset(
-                          'assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png',
-                          fit: BoxFit.contain,
-                        ),
-                      'BAD GYM shaker' => Image.asset(
-                          'assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png',
-                          fit: BoxFit.contain,
-                        ),
+                      'Whey Protein' => Image.asset(
+                          'assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png', fit: BoxFit.contain),
+                      'Creatine Monohydrate' => Image.asset(
+                          'assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png', fit: BoxFit.contain),
+                      'Fat Loss Support' => Image.asset(
+                          'assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png', fit: BoxFit.contain),
+                      'Whey Recovery' => Image.asset(
+                          'assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png', fit: BoxFit.contain),
                       _ => const Icon(
                           Icons.fitness_center_rounded,
                           color: MemberTheme.deepPurple,
