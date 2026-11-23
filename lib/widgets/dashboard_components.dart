@@ -270,15 +270,6 @@ class MemberProfileCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Welcome Back 👋',
-                  style: TextStyle(
-                    fontFamily: MemberTheme.script,
-                    fontSize: 22,
-                    color: MemberTheme.deepPurple,
-                    height: 1,
-                  ),
-                ),
-                const Text(
                   MemberSample.name,
                   maxLines: 2,
                   style: TextStyle(
@@ -336,9 +327,9 @@ class _Portrait extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(19),
           child: Image.asset(
-            'assets/images/member_portrait.png',
-            fit: BoxFit.cover,
-            alignment: Alignment.topCenter,
+            'assets/material_pack/images/01_member_bodybuilder.webp',
+            fit: BoxFit.contain,
+            alignment: Alignment.bottomCenter,
             errorBuilder: (context, error, stackTrace) => const ColoredBox(
               color: MemberTheme.deepPurple,
               child: Icon(Icons.fitness_center, color: Colors.white, size: 36),
@@ -380,6 +371,10 @@ class _GoldPill extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
               colors: [Color(0xFFFFE082), MemberTheme.gold, Color(0xFFF5B301)]),
+          image: const DecorationImage(
+            image: AssetImage('assets/material_pack/membership/21_gold_plan_badge_background.webp'),
+            fit: BoxFit.contain,
+          ),
           border: Border.all(color: Colors.white, width: 1.4),
           boxShadow: const [
             BoxShadow(
@@ -418,6 +413,10 @@ class _ActivePill extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
               colors: [Color(0xFF4ADE80), Color(0xFF16A34A)]),
+          image: const DecorationImage(
+            image: AssetImage('assets/material_pack/membership/22_green_active_badge_background.webp'),
+            fit: BoxFit.contain,
+          ),
           border: Border.all(color: Colors.white, width: 1.4),
           boxShadow: const [
             BoxShadow(
@@ -616,85 +615,99 @@ class PromoBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
+        height: 76,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(22),
           gradient: const LinearGradient(
-              colors: [Color(0xFFF5D0FE), Color(0xFFC4B5FD), Colors.white]),
+            colors: [Color(0xFFFFE9A6), Color(0xFFFFC928), Color(0xFF9B35E8)],
+          ),
+          border: Border.all(color: Colors.white, width: 1.5),
           boxShadow: const [
             BoxShadow(
-                color: Color(0x667C3AED), blurRadius: 16, offset: Offset(0, 6))
+              color: Color(0x667A18D1),
+              blurRadius: 12,
+              offset: Offset(0, 4),
+            ),
           ],
         ),
-        padding: const EdgeInsets.all(2),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(12, 10, 10, 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(22),
-            gradient: const LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xFF3B0764), Color(0xFF7E22CE), Color(0xFF581C87)],
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(17),
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF3B0764), Color(0xFF7E22CE), Color(0xFF581C87)],
+              ),
             ),
-          ),
-          child: Row(
-            children: [
-              const Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'BAD GYM',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w900,
-                        fontStyle: FontStyle.italic,
-                        height: 1,
-                      ),
-                    ),
-                    Text(
-                      'Big Billion Sale',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: MemberTheme.sale,
-                        color: MemberTheme.gold,
-                        fontSize: 20,
-                        height: 1.15,
-                      ),
-                    ),
-                    Text(
-                      'Up to 40% OFF - Fitness Gear',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ],
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 58,
+                  child: Image.asset(
+                    'assets/material_pack/illustrations/02_red_gold_gift_box.webp',
+                    fit: BoxFit.contain,
+                  ),
                 ),
-              ),
-              const Icon(Icons.fitness_center_rounded,
-                  color: Color(0xFFF0ABFC), size: 28),
-              const SizedBox(width: 6),
-              FilledButton(
-                onPressed: onShop,
-                style: FilledButton.styleFrom(
-                  backgroundColor: MemberTheme.pink,
-                  foregroundColor: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  minimumSize: const Size(0, 34),
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  shape: const StadiumBorder(
-                      side: BorderSide(color: Colors.white, width: 1.2)),
-                  textStyle: const TextStyle(
-                      fontWeight: FontWeight.w900, fontSize: 12),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text(
+                          'Big Billion Sale',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: MemberTheme.sale,
+                            color: MemberTheme.gold,
+                            fontSize: 19,
+                            height: 1.05,
+                          ),
+                        ),
+                        Text(
+                          'Up to 40% OFF · Fitness Gear',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                child: const Text('Shop Now ›'),
-              ),
-            ],
+                SizedBox(
+                  width: 42,
+                  child: Image.asset(
+                    'assets/material_pack/advertisements/27_dumbbell_promo_graphic.webp',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(width: 3),
+                FilledButton(
+                  onPressed: onShop,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: MemberTheme.pink,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
+                    minimumSize: const Size(0, 32),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    shape: const StadiumBorder(
+                      side: BorderSide(color: Colors.white, width: 1.1),
+                    ),
+                    textStyle: const TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 10,
+                    ),
+                  ),
+                  child: const Text('Shop Now ›'),
+                ),
+              ],
+            ),
           ),
         ),
       );
@@ -704,9 +717,16 @@ class EquipmentFooter extends StatelessWidget {
   const EquipmentFooter({super.key});
 
   @override
-  Widget build(BuildContext context) => const SizedBox(
+  Widget build(BuildContext context) => Container(
         height: 72,
-        child: Row(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/material_pack/backgrounds/09_footer_purple_gold_wave.webp'),
+            fit: BoxFit.cover,
+            alignment: Alignment.center,
+          ),
+        ),
+        child: const Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             _Kit(
