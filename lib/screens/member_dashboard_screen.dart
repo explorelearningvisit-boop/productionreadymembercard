@@ -255,7 +255,6 @@ class _DashboardScroll extends StatelessWidget {
                         const SizedBox(height: 7),
                         Row(
                           key: const ValueKey('payment-promo-row'),
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             const Expanded(flex: 4, child: PaymentStrip()),
                             const SizedBox(width: 6),
