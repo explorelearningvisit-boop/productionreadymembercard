@@ -1,0 +1,248 @@
+{
+  "pack": "BADGYM Asset Pack v3 \u2014 mobile optimized WebP",
+  "source": "BADGYM_AssetPack_v3_Verified",
+  "asset_count": 30,
+  "optimization": "Transparent WebP, Lanczos downscale, quality 84; max dimension selected per component role",
+  "assets": [
+    {
+      "file": "01_member_bodybuilder.webp",
+      "width": 920,
+      "height": 960,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 94934
+    },
+    {
+      "file": "02_red_gold_gift_box.webp",
+      "width": 960,
+      "height": 927,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 80174
+    },
+    {
+      "file": "03_whey_protein_tub.webp",
+      "width": 778,
+      "height": 1024,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 67786
+    },
+    {
+      "file": "04_purple_shaker.webp",
+      "width": 653,
+      "height": 960,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 59332
+    },
+    {
+      "file": "05_blinkit_grocery_bag.webp",
+      "width": 960,
+      "height": 869,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 124574
+    },
+    {
+      "file": "06_creatine_tub.webp",
+      "width": 926,
+      "height": 960,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 67652
+    },
+    {
+      "file": "07_green_shaker.webp",
+      "width": 601,
+      "height": 960,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 55944
+    },
+    {
+      "file": "08_gold_profile_badge_panel.webp",
+      "width": 900,
+      "height": 578,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 44982
+    },
+    {
+      "file": "09_footer_purple_gold_wave.webp",
+      "width": 900,
+      "height": 282,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 46016
+    },
+    {
+      "file": "10_gold_photo_backplate.webp",
+      "width": 900,
+      "height": 830,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 85118
+    },
+    {
+      "file": "11_purple_menu_background.webp",
+      "width": 1200,
+      "height": 291,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 51484
+    },
+    {
+      "file": "12_white_menu_background.webp",
+      "width": 1200,
+      "height": 318,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 48098
+    },
+    {
+      "file": "13_gold_menu_background.webp",
+      "width": 900,
+      "height": 389,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 48928
+    },
+    {
+      "file": "14_green_menu_background.webp",
+      "width": 900,
+      "height": 340,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 43554
+    },
+    {
+      "file": "15_purple_progress_bar.webp",
+      "width": 900,
+      "height": 73,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 20796
+    },
+    {
+      "file": "16_lavender_status_pill.webp",
+      "width": 900,
+      "height": 481,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 46938
+    },
+    {
+      "file": "17_red_status_pill.webp",
+      "width": 1200,
+      "height": 529,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 67760
+    },
+    {
+      "file": "18_white_status_pill.webp",
+      "width": 900,
+      "height": 518,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 50354
+    },
+    {
+      "file": "19_purple_square_button_background.webp",
+      "width": 1200,
+      "height": 1082,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 89296
+    },
+    {
+      "file": "20_footer_purple_gold_wave.webp",
+      "width": 900,
+      "height": 189,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 59722
+    },
+    {
+      "file": "21_gold_plan_badge_background.webp",
+      "width": 1200,
+      "height": 623,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 90496
+    },
+    {
+      "file": "22_green_active_badge_background.webp",
+      "width": 1200,
+      "height": 644,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 88250
+    },
+    {
+      "file": "23_freeze_snowflake_graphic.webp",
+      "width": 915,
+      "height": 960,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 181922
+    },
+    {
+      "file": "24_qr_graphic.webp",
+      "width": 900,
+      "height": 836,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 68730
+    },
+    {
+      "file": "25_calendar_graphic.webp",
+      "width": 900,
+      "height": 786,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 67082
+    },
+    {
+      "file": "26_master_neon_purple_gold_frame.webp",
+      "width": 816,
+      "height": 1440,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 93012
+    },
+    {
+      "file": "27_dumbbell_promo_graphic.webp",
+      "width": 827,
+      "height": 1200,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 99888
+    },
+    {
+      "file": "28_protinex_tub.webp",
+      "width": 882,
+      "height": 960,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 105940
+    },
+    {
+      "file": "29_sbi_payment_card_graphic.webp",
+      "width": 960,
+      "height": 731,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 79600
+    },
+    {
+      "file": "30_member_gold_profile_backplate.webp",
+      "width": 1200,
+      "height": 780,
+      "format": "WEBP",
+      "mode": "RGBA",
+      "size_bytes": 80524
+    }
+  ]
+}
