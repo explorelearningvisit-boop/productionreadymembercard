@@ -156,7 +156,7 @@ class _MetricRow extends StatelessWidget {
             label: 'Attendance',
             value: MemberSample.attendancePercentLabel,
             detail: '↑ +6%',
-            image: 'assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
+            image: 'assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
             background: Color(0xFFFFE66D),
             accent: MemberTheme.greenInk,
           )),

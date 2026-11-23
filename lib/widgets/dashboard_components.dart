@@ -616,13 +616,22 @@ class MembershipProgress extends StatelessWidget {
             Expanded(
               child: Text(
                 'Membership ${MemberSample.membershipDone} / ${MemberSample.membershipTotal} Days',
-                style: TextStyle(
-                    fontSize: 13,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    fontSize: 12,
                     fontWeight: FontWeight.w900,
                     color: MemberTheme.ink),
               ),
             ),
-            Text('73%',
+            const SizedBox(width: 5),
+            const Text('8 Days Left',
+                style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w900,
+                    color: MemberTheme.purple)),
+            const SizedBox(width: 6),
+            const Text('73%',
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w900,
