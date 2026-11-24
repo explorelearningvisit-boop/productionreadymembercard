@@ -368,7 +368,7 @@ class _Panel extends StatelessWidget {
 }
 
 
-class _PartnerBanner extends StatelessWidget {
+class _AdDivider extends StatelessWidget {\n  const _AdDivider();\n\n  @override\n  Widget build(BuildContext context) => Row(children: [\n    const Expanded(child: Divider(height: 1, color: Color(0xFFDCC8EA))),\n    const Padding(padding: EdgeInsets.symmetric(horizontal: 5), child: Text('ADVERTISEMENT · TAP TO VIEW', style: TextStyle(fontSize: 6, letterSpacing: 0.25, fontWeight: FontWeight.w900, color: MemberTheme.muted))),\n    const Expanded(child: Divider(height: 1, color: Color(0xFFDCC8EA))),\n  ]);\n}\n\nclass _PartnerBanner extends StatelessWidget {
   const _PartnerBanner();
 
   @override
