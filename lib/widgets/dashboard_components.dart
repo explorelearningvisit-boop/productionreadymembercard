@@ -571,7 +571,7 @@ class PaymentStrip extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 9,
-                            color: const Color(0xFFFFE8EC),
+                            color: Color(0xFFFFE8EC),
                             fontWeight: FontWeight.w800,
                           ),
                         ),
