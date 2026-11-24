@@ -214,11 +214,14 @@ class ActionStrip extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Image.asset(
-                    'assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png',
-                    width: 34,
-                    height: 48,
-                    fit: BoxFit.contain,
+                  Transform.translate(
+                    offset: const Offset(0, -4),
+                    child: Image.asset(
+                      'assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png',
+                      width: 38,
+                      height: 64,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ],
               ),
