@@ -424,8 +424,8 @@ class _AdShineState extends State<_AdShine>
       _controller
         ..stop()
         ..value = 0;
-    } else if (!_controller.isAnimating) {
-      _controller.repeat();
+    } else if (!_controller.isAnimating && _controller.value == 0) {
+      _controller.forward();
     }
   }
 
