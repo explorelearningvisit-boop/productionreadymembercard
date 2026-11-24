@@ -367,6 +367,67 @@ class _Panel extends StatelessWidget {
 }
 
 
+class _AdShine extends StatefulWidget {
+  final Widget child;
+  const _AdShine({required this.child});
+
+  @override
+  State<_AdShine> createState() => _AdShineState();
+}
+
+class _AdShineState extends State<_AdShine>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 2600),
+  )..repeat();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+        borderRadius: BorderRadius.circular(14),
+        child: Stack(
+          children: [
+            widget.child,
+            Positioned.fill(
+              child: IgnorePointer(
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) => FractionalTranslation(
+                    translation: Offset(2.4 * _controller.value - 1.2, 0),
+                    child: child,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: FractionallySizedBox(
+                      widthFactor: 0.24,
+                      heightFactor: 1,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white.withValues(alpha: 0),
+                              Colors.white.withValues(alpha: 0.34),
+                              Colors.white.withValues(alpha: 0),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
 class _AdDivider extends StatelessWidget {
   const _AdDivider();
 
@@ -384,7 +445,7 @@ class _PartnerBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Partner offer · sample promotion only'))),
-        child: Container(
+        child: _AdShine(child: Container(
         height: 34,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
         decoration: BoxDecoration(
@@ -400,7 +461,7 @@ class _PartnerBanner extends StatelessWidget {
             Text('Member partner offer · Up to 30% OFF', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 8, fontWeight: FontWeight.w800, color: MemberTheme.deepPurple)),
           ])),
         ]),
-      ));
+      )));
 }
 
 class _PanelHeader extends StatelessWidget {
@@ -568,7 +629,7 @@ class _RecoveryOffer extends StatelessWidget {
   const _RecoveryOffer();
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => _AdShine(child: Container(
         height: 48,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         decoration: BoxDecoration(
@@ -609,7 +670,7 @@ class _RecoveryOffer extends StatelessWidget {
                 color: MemberTheme.deepPurple, size: 22),
           ],
         ),
-      );
+      ));
 }
 
 class _AttendanceDonut extends StatelessWidget {
