@@ -206,11 +206,12 @@ class _DashboardScroll extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final compact = constraints.maxWidth < 520;
-        return Padding(
-          padding: EdgeInsets.fromLTRB(compact ? 3 : 10, 1, compact ? 3 : 10, 1),
-          child: FittedBox(
-            fit: BoxFit.scaleDown,
-            alignment: Alignment.topCenter,
+        return SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(compact ? 3 : 10, 1, compact ? 3 : 10, 1),
+            child: Align(
+              alignment: Alignment.topCenter,
             child: SizedBox(
               width: constraints.maxWidth - (compact ? 10 : 24),
               child: Center(
@@ -290,6 +291,7 @@ class _DashboardScroll extends StatelessWidget {
                 ),
               ),
             ),
+          ),
           ),
         );
       },
