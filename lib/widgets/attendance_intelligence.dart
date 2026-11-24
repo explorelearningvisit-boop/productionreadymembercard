@@ -281,7 +281,7 @@ class _MetricTile extends StatelessWidget {
                 ),
               ),
             ),
-            Container(
+            _AdShine(child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
               decoration: BoxDecoration(
@@ -308,7 +308,7 @@ class _MetricTile extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-            ),
+            )),
           ],
         ),
       );
