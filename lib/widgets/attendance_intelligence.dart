@@ -214,82 +214,117 @@ class _MetricTile extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: 148,
-        padding: const EdgeInsets.fromLTRB(3, 4, 3, 3),
-        decoration: BoxDecoration(
-          color: background,
-          borderRadius: BorderRadius.circular(17),
-          border: Border.all(color: Colors.white, width: 1.5),
-          boxShadow: const [
-            BoxShadow(color: Color(0x227A18D1), blurRadius: 9, offset: Offset(0, 3)),
-            BoxShadow(color: Color(0x33FFD76A), blurRadius: 5, spreadRadius: 0.5),
-          ],
+  Widget build(BuildContext context) {
+    final isTrend = label == 'Workout' || label == 'Body';
+    final isPayment = label == 'Payment';
+    final artHeight = 68.0;
+    return Container(
+      height: 158,
+      padding: const EdgeInsets.fromLTRB(3, 5, 3, 3),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [background, Color.lerp(background, Colors.white, 0.18)!],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
+        borderRadius: BorderRadius.circular(17),
+        border: Border.all(color: Colors.white, width: 1.5),
+        boxShadow: const [
+          BoxShadow(color: Color(0x337A18D1), blurRadius: 10, offset: Offset(0, 3)),
+          BoxShadow(color: Color(0x33FFD76A), blurRadius: 5, spreadRadius: 0.5),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: accent, size: 13),
+              const SizedBox(width: 2),
+              Flexible(
+                child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: MemberTheme.ink)),
+              ),
+              if (label == 'Attendance') ...[
+                const SizedBox(width: 2),
+                const Text('+6%', style: TextStyle(fontSize: 7, fontWeight: FontWeight.w900, color: MemberTheme.greenInk)),
+              ],
+            ],
+          ),
+          const SizedBox(height: 3),
+          if (isTrend)
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(icon, color: accent, size: 13),
-                const SizedBox(width: 2),
-                Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: MemberTheme.ink))),
-                if (label == 'Attendance') ...[
-                  const SizedBox(width: 2),
-                  const Text('+6%', style: TextStyle(fontSize: 7, fontWeight: FontWeight.w900, color: MemberTheme.greenInk)),
-                ],
-              ],
-            ),
-            const SizedBox(height: 2),
-            FittedBox(fit: BoxFit.scaleDown, child: Text(value, maxLines: 1,
-              style: TextStyle(fontSize: 17, height: 1, fontWeight: FontWeight.w900, color: accent))),
-            if (label != 'Attendance')
-              SizedBox(
-                width: double.infinity,
-                child: Container(
-                  margin: const EdgeInsets.only(top: 2),
-                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.75),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                Flexible(
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
-                    child: Text(detail, maxLines: 1, style: TextStyle(
-                      fontSize: 8, fontWeight: FontWeight.w900, color: accent,
-                    )),
+                    child: Text(value, maxLines: 1,
+                      style: TextStyle(fontSize: 16, height: 1, fontWeight: FontWeight.w900, color: accent)),
                   ),
                 ),
-              ),
-            const SizedBox(height: 3),
-            SizedBox(
-              height: 52,
-              child: Center(
-                child: TweenAnimationBuilder<double>(
-                  tween: Tween(begin: 0.98, end: 1.02),
-                  duration: const Duration(milliseconds: 2200),
-                  curve: Curves.easeInOut,
-                  builder: (context, scale, child) => Transform.scale(
-                    scale: scale,
-                    child: child,
+                const SizedBox(width: 2),
+                Flexible(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                    decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.82), borderRadius: BorderRadius.circular(9)),
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(detail, maxLines: 1,
+                        style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: label == 'Body' ? MemberTheme.greenInk : MemberTheme.deepPurple)),
+                    ),
                   ),
+                ),
+              ],
+            )
+          else
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(value, maxLines: 1,
+                style: TextStyle(fontSize: 17, height: 1, fontWeight: FontWeight.w900,
+                  color: isPayment ? MemberTheme.alertRed : accent)),
+            ),
+          if (!isTrend && detail.isNotEmpty)
+            Container(
+              margin: const EdgeInsets.only(top: 3),
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.78),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(detail, maxLines: 1,
+                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: isPayment ? MemberTheme.deepPurple : accent)),
+              ),
+            ),
+          const SizedBox(height: 2),
+          Expanded(
+            child: SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 1),
+                child: Center(
                   child: image == null
-                      ? Icon(icon, color: accent, size: 28)
-                      : Image.asset(image!, fit: BoxFit.contain, height: 52,
-                          errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 28)),
+                      ? Icon(icon, color: accent, size: 34)
+                      : Image.asset(
+                          image!,
+                          fit: BoxFit.contain,
+                          width: double.infinity,
+                          height: artHeight,
+                          errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 30),
+                        ),
                 ),
               ),
             ),
-            _AdShine(child: Container(
+          ),
+          _AdShine(
+            child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
               decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [
-                  accent,
-                  Color.lerp(accent, Colors.black, 0.18)!,
-                ]),
+                gradient: LinearGradient(colors: [accent, Color.lerp(accent, Colors.black, 0.18)!]),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.white, width: 1),
               ),
@@ -303,16 +338,14 @@ class _MetricTile extends StatelessWidget {
                 maxLines: 1,
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontSize: 7,
-                  fontWeight: FontWeight.w900,
-                  color: Colors.white,
-                ),
+                style: const TextStyle(fontSize: 7, fontWeight: FontWeight.w900, color: Colors.white),
               ),
-            )),
-          ],
-        ),
-      );
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class _Panel extends StatelessWidget {
