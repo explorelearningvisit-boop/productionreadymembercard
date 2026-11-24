@@ -30,12 +30,12 @@ class AttendanceIntelligence extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
     // Reserve enough space for analytics while keeping short phones scroll-safe.
-    final panelHeight = (screenHeight * 0.46).clamp(340.0, 370.0).toDouble();
+    final panelHeight = (screenHeight * 0.43).clamp(300.0, 340.0).toDouble();
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const _MetricRow(),
-          const SizedBox(height: 7),
+          const SizedBox(height: 4),
           SizedBox(
             height: panelHeight,
             child: Row(
@@ -61,7 +61,7 @@ class _Rail extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: 58,
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 3),
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(23),
           gradient: const LinearGradient(
@@ -92,7 +92,7 @@ class _Rail extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 180),
-                      width: 52,
+                      width: 48,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: selected
@@ -235,7 +235,7 @@ class _MetricTile extends StatelessWidget {
                 Icon(icon, color: accent, size: 13),
                 const SizedBox(width: 2),
                 Flexible(child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w900, color: MemberTheme.ink))),
+                  style: const TextStyle(fontSize: 8, fontWeight: FontWeight.w900, color: MemberTheme.ink))),
                 if (label == 'Attendance') ...[
                   const SizedBox(width: 2),
                   const Text('+6%', style: TextStyle(fontSize: 7, fontWeight: FontWeight.w900, color: MemberTheme.greenInk)),
@@ -244,7 +244,7 @@ class _MetricTile extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             FittedBox(fit: BoxFit.scaleDown, child: Text(value, maxLines: 1,
-              style: TextStyle(fontSize: 18, height: 1, fontWeight: FontWeight.w900, color: accent))),
+              style: TextStyle(fontSize: 17, height: 1, fontWeight: FontWeight.w900, color: accent))),
             if (label != 'Attendance')
               SizedBox(
                 width: double.infinity,
@@ -276,7 +276,7 @@ class _MetricTile extends StatelessWidget {
                   ),
                   child: image == null
                       ? Icon(icon, color: accent, size: 28)
-                      : Image.asset(image!, fit: BoxFit.contain, height: 72,
+                      : Image.asset(image!, fit: BoxFit.contain, height: 60,
                           errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 28)),
                 ),
               ),
@@ -322,7 +322,7 @@ class _Panel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(9, 8, 9, 8),
+        padding: const EdgeInsets.fromLTRB(6, 5, 6, 5),
         decoration: MemberTheme.glass(radius: 24),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -373,7 +373,7 @@ class _PartnerBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 40,
+        height: 34,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
         decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [Color(0xFFFFF7C7), Color(0xFFFFFFFF), Color(0xFFEAD7FF)]),
@@ -381,11 +381,11 @@ class _PartnerBanner extends StatelessWidget {
           border: Border.all(color: Colors.white, width: 1.2),
         ),
         child: Row(children: [
-          Image.asset('assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png', width: 48, height: 40, fit: BoxFit.contain),
+          Image.asset('assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png', width: 42, height: 34, fit: BoxFit.contain),
           const SizedBox(width: 6),
           const Expanded(child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('Healthy Snacks & Gym Essentials', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: MemberTheme.ink)),
-            Text('Member partner offer · Up to 30% OFF', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 9, fontWeight: FontWeight.w800, color: MemberTheme.deepPurple)),
+            Text('Member partner offer · Up to 30% OFF', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 8, fontWeight: FontWeight.w800, color: MemberTheme.deepPurple)),
           ])),
         ]),
       );
@@ -557,7 +557,7 @@ class _RecoveryOffer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 54,
+        height: 48,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
