@@ -720,7 +720,7 @@ class _PromoBannerState extends State<PromoBanner>
                 child: Row(
                   children: [
                     SizedBox(
-                      width: narrow ? 48 : compact ? 56 : 66,
+                      width: narrow ? 60 : compact ? 66 : 72,
                       child: Image.asset('assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png', fit: BoxFit.contain),
                     ),
                     Expanded(
