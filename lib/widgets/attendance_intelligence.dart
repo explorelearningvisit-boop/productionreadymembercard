@@ -30,7 +30,7 @@ class AttendanceIntelligence extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.sizeOf(context).height;
     // Reserve enough space for analytics while keeping short phones scroll-safe.
-    final panelHeight = (screenHeight * 0.43).clamp(300.0, 340.0).toDouble();
+    final panelHeight = (screenHeight * 0.38).clamp(260.0, 290.0).toDouble();
     return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -41,8 +41,8 @@ class AttendanceIntelligence extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(width: 52, child: _Rail(section: section, onSelect: onSelect)),
-                const SizedBox(width: 4),
+                SizedBox(width: 46, child: _Rail(section: section, onSelect: onSelect)),
+                const SizedBox(width: 3),
                 Expanded(child: _Panel(section: section, onNotify: onNotify)),
               ],
             ),
@@ -60,7 +60,7 @@ class _Rail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 52,
+        width: 46,
         padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(23),
@@ -92,7 +92,7 @@ class _Rail extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 180),
-                      width: 48,
+                      width: 42,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         color: selected

@@ -207,7 +207,7 @@ class _DashboardScroll extends StatelessWidget {
       builder: (context, constraints) {
         final compact = constraints.maxWidth < 520;
         return Padding(
-          padding: EdgeInsets.fromLTRB(compact ? 5 : 12, 2, compact ? 5 : 12, 2),
+          padding: EdgeInsets.fromLTRB(compact ? 3 : 10, 1, compact ? 3 : 10, 1),
           child: FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.topCenter,
@@ -215,10 +215,10 @@ class _DashboardScroll extends StatelessWidget {
               width: constraints.maxWidth - (compact ? 10 : 24),
               child: Center(
                 child: Container(
-              padding: const EdgeInsets.all(3),
+              padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: const Color(0x22FFFFFF),
-                borderRadius: BorderRadius.circular(26),
+                borderRadius: BorderRadius.circular(22),
                 border: Border.all(color: const Color(0xFFFFD76A), width: 1.3),
                 boxShadow: const [
                   BoxShadow(color: Color(0x337C3AED), blurRadius: 14, offset: Offset(0, 4)),
@@ -234,12 +234,12 @@ class _DashboardScroll extends StatelessWidget {
                     const SizedBox(height: 5),
                     const _FrozenBanner(),
                   ],
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 3),
                   Container(
-                    padding: const EdgeInsets.all(7),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       color: const Color(0xF8FFFFFF),
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                         color: const Color(0xFFFFD76A),
                         width: 1.5,
@@ -262,9 +262,9 @@ class _DashboardScroll extends StatelessWidget {
                           onFreeze: onFreeze,
                           onCheckIn: onCheckIn,
                         ),
-                        const SizedBox(height: 7),
+                        const SizedBox(height: 4),
                         const MemberProfileCard(),
-                        const SizedBox(height: 7),
+                        const SizedBox(height: 4),
                         Row(
                           key: const ValueKey('payment-promo-row'),
                           children: [
@@ -276,14 +276,14 @@ class _DashboardScroll extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 6),
+                        const SizedBox(height: 4),
                         const MembershipProgress(),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 7),
+                  const SizedBox(height: 4),
                   AttendanceIntelligence(section: section, onSelect: onSelect, onNotify: onNotify),
-                  const SizedBox(height: 2),
+                  const SizedBox(height: 1),
                 ],
               ),
               ),

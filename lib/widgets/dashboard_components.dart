@@ -249,8 +249,8 @@ class _ActionCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(20),
           child: Ink(
-            height: 58,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            height: 52,
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
@@ -303,7 +303,7 @@ class MemberProfileCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const _Portrait(),
-          const SizedBox(width: 10),
+          const SizedBox(width: 7),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -318,7 +318,7 @@ class MemberProfileCard extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
                 const Wrap(
                   spacing: 8,
                   runSpacing: 2,
@@ -328,7 +328,7 @@ class MemberProfileCard extends StatelessWidget {
                     _Meta(Icons.male_rounded, MemberSample.gender),
                   ],
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 5),
                 const Row(
                   children: [
                     Expanded(child: _GoldPill()),
@@ -348,8 +348,8 @@ class _Portrait extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 94,
-        height: 100,
+        width: 78,
+        height: 84,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
           image: const DecorationImage(
@@ -409,7 +409,7 @@ class _GoldPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 30,
+        height: 25,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           gradient: const LinearGradient(
@@ -519,8 +519,8 @@ class PaymentStrip extends StatelessWidget {
           child: GestureDetector(
             onTap: () => _showPaymentDue(context),
             child: Container(
-              constraints: const BoxConstraints(minHeight: 72),
-              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
+              constraints: const BoxConstraints(minHeight: 62),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
               decoration: MemberTheme.glass(radius: 20),
               child: Row(
                 children: [
@@ -587,8 +587,8 @@ class _IconBlob extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 32,
-        height: 32,
+        width: 28,
+        height: 28,
         decoration: BoxDecoration(
           color: color.withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(12),
@@ -632,14 +632,14 @@ class MembershipProgress extends StatelessWidget {
                     color: MemberTheme.ink)),
           ],
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 4),
         TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: 0, end: fraction),
           duration: const Duration(milliseconds: 850),
           curve: Curves.easeOutCubic,
           builder: (context, progress, child) => ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: SizedBox(height: 10, child: Stack(children: [
+            child: SizedBox(height: 8, child: Stack(children: [
               Positioned.fill(child: ColoredBox(color: Colors.white.withValues(alpha: 0.85))),
               FractionallySizedBox(widthFactor: progress, alignment: Alignment.centerLeft,
                 child: DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(
@@ -676,8 +676,8 @@ class _PromoBannerState extends State<PromoBanner>
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 76,
-        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+        height: 68,
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
           gradient: const LinearGradient(
