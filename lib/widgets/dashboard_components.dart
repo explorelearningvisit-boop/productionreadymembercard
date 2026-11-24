@@ -246,7 +246,7 @@ class _ActionCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: Ink(
             height: 58,
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
