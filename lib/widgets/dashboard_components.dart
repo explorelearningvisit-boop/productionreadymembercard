@@ -491,12 +491,12 @@ class PaymentStrip extends StatelessWidget {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        icon: const CircleAvatar(radius: 26, backgroundColor: Color(0xFFF3E8FF),
-          child: Icon(Icons.account_balance_wallet_rounded, color: MemberTheme.purple, size: 28)),
+        icon: const CircleAvatar(radius: 26, backgroundColor: Color(0xFFFFE8EC),
+          child: Icon(Icons.warning_amber_rounded, color: MemberTheme.alertRed, size: 30)),
         title: const Text('Payment due', textAlign: TextAlign.center,
           style: TextStyle(fontWeight: FontWeight.w900, color: MemberTheme.ink)),
         content: const Column(mainAxisSize: MainAxisSize.min, children: [
-          Text(MemberSample.dueLabel, style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: MemberTheme.purple)),
+          Text(MemberSample.dueLabel, style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, color: MemberTheme.alertRed)),
           SizedBox(height: 5),
           Text('Gold Plan renewal · ${MemberSample.expiresLabel}', textAlign: TextAlign.center,
             style: TextStyle(fontSize: 12, color: MemberTheme.muted, fontWeight: FontWeight.w600)),
@@ -506,7 +506,7 @@ class PaymentStrip extends StatelessWidget {
         ]),
         actionsAlignment: MainAxisAlignment.center,
         actions: [FilledButton(onPressed: () => Navigator.pop(dialogContext),
-          style: FilledButton.styleFrom(backgroundColor: MemberTheme.purple, foregroundColor: Colors.white,
+          style: FilledButton.styleFrom(backgroundColor: MemberTheme.alertRed, foregroundColor: Colors.white,
             minimumSize: const Size(140, 42), shape: const StadiumBorder()), child: const Text('Got it'))],
       ),
     );
@@ -578,6 +578,8 @@ class PaymentStrip extends StatelessWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(width: 2),
+                  const Icon(Icons.warning_amber_rounded, color: Color(0xFFFFD7DE), size: 18),
                 ],
               ),
             ),
@@ -709,8 +711,8 @@ class _PromoBannerState extends State<PromoBanner>
       _pulse
         ..stop()
         ..value = 0;
-    } else if (!_pulse.isAnimating) {
-      _pulse.repeat();
+    } else if (!_pulse.isAnimating && _pulse.value == 0) {
+      _pulse.forward();
     }
   }
 
