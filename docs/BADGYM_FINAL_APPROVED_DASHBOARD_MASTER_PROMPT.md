@@ -4,8 +4,8 @@
 **Status:** FINAL VISUAL DIRECTION APPROVED BY PRODUCT OWNER  
 **Target repository:** `explorelearningvisit-boop/productionreadymembercard`  
 **Target branch:** `grok/purple-neon-member-dashboard`  
-**Reference image:** `design/reference/BADGYM_Final_Approved_Dashboard_Reference.jpg` (attach the approved screenshot here before implementation)  
-**Implementation status:** Specification only. Do not treat this document as evidence that the UI has been implemented.
+**Reference image target:** `design/reference/BADGYM_Final_Approved_Dashboard_Reference.jpg` (generated image supplied in this conversation; binary repository upload remains pending)  
+**Implementation status:** Approved specification; implementation has started in the existing Flutter dashboard. See `docs/PIXEL_PERFECT_REBUILD_PLAN.md` for the evidence-based checkpoint. The generated reference image still needs to be committed as a repository binary asset.
 
 ---
 
