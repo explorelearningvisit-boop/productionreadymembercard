@@ -484,26 +484,41 @@ class _PanelHeader extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         children: [
           Container(
-            width: 28,
-            height: 28,
+            width: 22,
+            height: 22,
             padding: const EdgeInsets.all(4),
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
                   colors: [MemberTheme.violet, MemberTheme.deepPurple]),
             ),
-            child: const Icon(Icons.insights_rounded, color: Colors.white, size: 16),
+            child: const Icon(Icons.insights_rounded, color: Colors.white, size: 13),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 4),
           const Expanded(
             child: Text(
               'Attendance Analytics',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 9,
+                  height: 1.0,
                   fontWeight: FontWeight.w900,
                   color: MemberTheme.ink),
+            ),
+          ),
+          const SizedBox(width: 3),
+          GestureDetector(
+            onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Partner ad placement')),
+            ),
+            child: SizedBox(
+              width: 22,
+              height: 22,
+              child: Image.asset(
+                'assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png',
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           IconButton(
