@@ -17,6 +17,17 @@ class MemberTheme {
   static const blue = Color(0xFF38BDF8);
   static const pink = Color(0xFFEC49C2);
   static const peach = Color(0xFFFFE4C8);
+  static const shell = Color(0xFF26004F);
+  static const shellMid = Color(0xFF4A087E);
+  static const electricBlue = Color(0xFF2639B8);
+  static const alertRed = Color(0xFFE5092F);
+  static const alertDeep = Color(0xFFB9092A);
+  static const progressGreen = Color(0xFF18D66B);
+  static const spacingXs = 4.0;
+  static const spacingSm = 6.0;
+  static const spacingMd = 8.0;
+  static const spacingLg = 12.0;
+  static const cardRadius = 18.0;
 
   static const display = 'Montserrat';
   static const script = 'GreatVibes';
