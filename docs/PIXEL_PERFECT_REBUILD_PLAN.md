@@ -9,16 +9,32 @@
 - Keep the current implementation and working behavior until each replacement is verified. No broad destructive rewrite.
 - Sample member/payment/attendance values must remain clearly sample data until connected to a real API.
 
-## Truthful current status (2026-11-23)
-The dashboard is **not** yet a pixel-perfect reconstruction. Existing code is a partial dashboard implementation, not a verified match.
-- `lib/screens/member_dashboard_screen.dart` still uses vertical `SingleChildScrollView` and composes ActionStrip, MemberProfileCard, PaymentStrip, PromoBanner, MembershipProgress, AttendanceIntelligence and EquipmentFooter.
-- `lib/widgets/dashboard_components.dart` contains a profile portrait, payment strip with QR, membership bar and a pulsing promotional banner. The banner was moved below payment but is not yet composed side-by-side with payment as in the reference.
-- `lib/widgets/attendance_intelligence.dart` contains a metric row, rail, attendance donut, calendar and alternate workspaces. The rail panel still has internal scrolling; its panel sizing and artwork need reference comparison.
-- The four current metric image assignments are not yet confirmed against the exact reference asset mapping.
-- `assets/material_pack/inbox/PulseVault/` contains 14 hashed PNGs plus README. Their pixel content, dimensions, transparency, crop and intended role still need a deterministic visual audit before renaming or integrating.
-- Current CI run before the latest test fix failed in widget tests. Formatting and `flutter analyze` passed; APK build was skipped. The latest test correction is awaiting fresh CI evidence.
-- No screenshot-diff / golden comparison has yet demonstrated pixel fidelity. No final APK is verified from this rebuild.
+## Truthful current status (2026-11-24)
+Implementation has started on the approved purple / violet / electric-blue direction. Latest verified CI checkpoint:
+- Branch: `grok/purple-neon-member-dashboard`
+- Latest implementation HEAD: `c12e62400fb203bdd19514c754ea93a0c2b29d15`
+- GitHub Actions run `45358512382`: success (format, analyze, widget tests, release APK build and artifact upload).
+- Artifact: `bad-gym-member-intelligence-c12e62400fb203bdd19514c754ea93a0c2b29d15`
 
+Implemented in this increment:
+- Added centralized shell, alert, progress and spacing tokens in `lib/theme/member_theme.dart`.
+- Changed the dashboard outer frame and inner member surface to a continuous purple/violet/indigo gradient with gold/violet border treatment.
+- Changed the member name and metadata to high-contrast light text on the dark surface.
+- Changed Payment Due to a full crimson alert surface, white amount/label, warning icon and red alert styling in the reminder dialog.
+- Rebuilt membership progress as a compact, semantic card with a visible green 22/30 fill and red days-left warning pill.
+- Reworked Workout and Body KPI trend indicators to sit inline with the primary values; increased the available artwork region in the four metric tiles.
+- Changed promotional shine effects from indefinite repeating loops to finite entrance passes; reduced-motion behavior remains supported.
+
+Still incomplete / not verified:
+- The generated final approved reference image is not yet committed as a binary file in the repository; the GitHub file connector used for this pass exposes text writes but not a binary upload path. The repository already contains the prior PulseVault reference asset, which is not being misrepresented as the newly approved generated image.
+- PNG pixel inspection, dimensions, alpha bounds, crop/duplicate audit and contact sheet remain pending. GitHub's binary file fetch path did not return decoded pixels.
+- Outer frame, profile, metric artwork sizing and spacing still need actual Flutter screenshot comparison against the approved generated image.
+- Analytics rail and content panel have not yet received the full visual rebuild from the new reference.
+- No emulator/device screenshot comparison or real-device install verification has been performed.
+- Live backend/API integration remains out of scope for this UI-only increment; sample values remain sample values.
+
+This checkpoint is a partial implementation, not a pixel-perfect or production-ready completion claim. Continue in thin increments and update this section only with fresh evidence.
+ 
 ## Reference composition inventory
 1. Android status bar / app frame boundaries (do not recreate OS chrome inside Flutter).
 2. Two-column action strip: green Check-in success with time and Freeze / Pause Plan promotion.
