@@ -249,7 +249,7 @@ class _ActionCard extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(20),
           child: Ink(
-            height: 66,
+            height: 58,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -720,7 +720,7 @@ class _PromoBannerState extends State<PromoBanner>
                 child: Row(
                   children: [
                     SizedBox(
-                      width: narrow ? 38 : compact ? 46 : 58,
+                      width: narrow ? 48 : compact ? 56 : 66,
                       child: Image.asset('assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png', fit: BoxFit.contain),
                     ),
                     Expanded(
@@ -731,9 +731,9 @@ class _PromoBannerState extends State<PromoBanner>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Whey Protein', maxLines: 1, overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontFamily: MemberTheme.sale, color: MemberTheme.gold, fontSize: narrow ? 15 : 19, height: 1.05)),
+                              style: TextStyle(fontFamily: MemberTheme.sale, color: MemberTheme.gold, fontSize: narrow ? 16 : 20, height: 1.05)),
                             Text('25% OFF', maxLines: 1, overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: Colors.white, fontSize: narrow ? 11 : 14, fontWeight: FontWeight.w900)),
+                              style: TextStyle(color: Colors.white, fontSize: narrow ? 12 : 14, fontWeight: FontWeight.w900)),
                             if (!narrow)
                               const Text('Build · Recover · Grow', maxLines: 1, overflow: TextOverflow.ellipsis,
                                 style: TextStyle(color: Color(0xFFF3E8FF), fontSize: 7, fontWeight: FontWeight.w700)),
