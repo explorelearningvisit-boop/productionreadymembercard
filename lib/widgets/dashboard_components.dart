@@ -257,10 +257,6 @@ class _ActionCard extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: gradient),
-              image: imageAsset == null
-                  ? null
-                  : DecorationImage(
-                      image: AssetImage(imageAsset!),
                       fit: BoxFit.fill,
                       opacity: 0.94,
                     ),
@@ -688,8 +684,8 @@ class _PromoBannerState extends State<PromoBanner>
           child: child,
         ),
         child: Container(
-        height: 72,
-        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+        height: 76,
+        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(22),
           gradient: const LinearGradient(
@@ -710,11 +706,6 @@ class _PromoBannerState extends State<PromoBanner>
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                     colors: [Color(0xFF3B0764), Color(0xFF7E22CE), Color(0xFF581C87)],
-                  ),
-                  image: DecorationImage(
-                    image: AssetImage('assets/material_pack/pulsevault/12_purple_neon_cta_background.png'),
-                    fit: BoxFit.cover,
-                    opacity: 0.24,
                   ),
                 ),
                 child: Row(
@@ -741,21 +732,6 @@ class _PromoBannerState extends State<PromoBanner>
                         ),
                       ),
                     ),
-                    if (!narrow)
-                      SizedBox(
-                        width: compact ? 28 : 42,
-                        child: AnimatedBuilder(
-                          animation: _pulse,
-                          builder: (context, child) => Transform.translate(
-                            offset: Offset(0, -2 * _pulse.value),
-                            child: Transform.scale(
-                              scale: 0.96 + 0.06 * _pulse.value,
-                              child: child,
-                            ),
-                          ),
-                          child: Image.asset('assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png', fit: BoxFit.contain),
-                        ),
-                      ),
                     const SizedBox(width: 2),
                     FilledButton(
                       onPressed: widget.onShop,
