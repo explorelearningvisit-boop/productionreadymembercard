@@ -217,7 +217,7 @@ class _MetricTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isTrend = label == 'Workout' || label == 'Body';
     final isPayment = label == 'Payment';
-    final artHeight = 68.0;
+    const artHeight = 68.0;
     return Container(
       height: 158,
       padding: const EdgeInsets.fromLTRB(3, 5, 3, 3),
