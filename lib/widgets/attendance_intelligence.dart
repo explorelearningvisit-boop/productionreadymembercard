@@ -263,9 +263,10 @@ class _MetricTile extends StatelessWidget {
                   ),
                 ),
               ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
+            const SizedBox(height: 3),
+            SizedBox(
+              height: 52,
+              child: Center(
                 child: TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0.98, end: 1.02),
                   duration: const Duration(milliseconds: 2200),
@@ -276,7 +277,7 @@ class _MetricTile extends StatelessWidget {
                   ),
                   child: image == null
                       ? Icon(icon, color: accent, size: 28)
-                      : Image.asset(image!, fit: BoxFit.contain, height: 60,
+                      : Image.asset(image!, fit: BoxFit.contain, height: 52,
                           errorBuilder: (_, __, ___) => Icon(icon, color: accent, size: 28)),
                 ),
               ),
@@ -303,7 +304,7 @@ class _MetricTile extends StatelessWidget {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 8,
+                  fontSize: 7,
                   fontWeight: FontWeight.w900,
                   color: Colors.white,
                 ),
