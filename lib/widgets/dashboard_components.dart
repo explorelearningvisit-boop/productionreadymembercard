@@ -661,8 +661,8 @@ class _PromoBannerState extends State<PromoBanner>
     with SingleTickerProviderStateMixin {
   late final AnimationController _pulse = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 1450),
-  )..repeat(reverse: true);
+    duration: const Duration(milliseconds: 2600),
+  )..repeat();
 
   @override
   void dispose() {
@@ -671,13 +671,7 @@ class _PromoBannerState extends State<PromoBanner>
   }
 
   @override
-  Widget build(BuildContext context) => AnimatedBuilder(
-        animation: _pulse,
-        builder: (context, child) => Transform.scale(
-          scale: 1 + (_pulse.value * 0.012),
-          child: child,
-        ),
-        child: Container(
+  Widget build(BuildContext context) => Container(
         height: 76,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
         decoration: BoxDecoration(
@@ -690,26 +684,37 @@ class _PromoBannerState extends State<PromoBanner>
             BoxShadow(color: Color(0x667A18D1), blurRadius: 12, offset: Offset(0, 4)),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(17),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final narrow = constraints.maxWidth < 300;
-              final compact = constraints.maxWidth < 330;
-              return DecoratedBox(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF3B0764), Color(0xFF7E22CE), Color(0xFF581C87)],
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final narrow = constraints.maxWidth < 300;
+            final compact = constraints.maxWidth < 330;
+            return Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(17),
+                    child: const DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Color(0xFF3B0764), Color(0xFF7E22CE), Color(0xFF581C87)],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                child: Stack(
-                  clipBehavior: Clip.hardEdge,
+                Row(
                   children: [
-                    Row(
-                      children: [
-                    SizedBox(
-                      width: narrow ? 60 : compact ? 66 : 72,
-                      child: Image.asset('assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png', fit: BoxFit.contain),
+                    Transform.translate(
+                      offset: const Offset(0, -6),
+                      child: SizedBox(
+                        width: narrow ? 66 : compact ? 72 : 78,
+                        height: 88,
+                        child: Image.asset(
+                          'assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
                     Expanded(
                       child: Padding(
@@ -718,13 +723,37 @@ class _PromoBannerState extends State<PromoBanner>
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Whey Protein', maxLines: 1, overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontFamily: MemberTheme.sale, color: MemberTheme.gold, fontSize: narrow ? 16 : 20, height: 1.05)),
-                            Text('25% OFF', maxLines: 1, overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: Colors.white, fontSize: narrow ? 12 : 14, fontWeight: FontWeight.w900)),
+                            Text(
+                              'Whey Protein',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontFamily: MemberTheme.sale,
+                                color: MemberTheme.gold,
+                                fontSize: narrow ? 15 : 19,
+                                height: 1.05,
+                              ),
+                            ),
+                            Text(
+                              '25% OFF',
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: narrow ? 12 : 14,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
                             if (!narrow)
-                              const Text('Build · Recover · Grow', maxLines: 1, overflow: TextOverflow.ellipsis,
-                                style: TextStyle(color: Color(0xFFF3E8FF), fontSize: 7, fontWeight: FontWeight.w700)),
+                              const Text(
+                                'Build · Recover · Grow',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Color(0xFFF3E8FF),
+                                  fontSize: 7,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
                           ],
                         ),
                       ),
@@ -735,60 +764,58 @@ class _PromoBannerState extends State<PromoBanner>
                       style: FilledButton.styleFrom(
                         backgroundColor: MemberTheme.pink,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(horizontal: narrow ? 5 : compact ? 6 : 9, vertical: 7),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: narrow ? 5 : compact ? 6 : 9,
+                          vertical: 7,
+                        ),
                         minimumSize: const Size(0, 32),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        shape: const StadiumBorder(side: BorderSide(color: Colors.white, width: 1.1)),
-                        textStyle: TextStyle(fontWeight: FontWeight.w900, fontSize: narrow ? 8 : 10),
+                        shape: const StadiumBorder(
+                          side: BorderSide(color: Colors.white, width: 1.1),
+                        ),
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: narrow ? 8 : 10,
+                        ),
                       ),
-                      child: AnimatedOpacity(
-                        duration: const Duration(milliseconds: 650),
-                        opacity: _pulse.value > 0.5 ? 1 : 0.82,
-                        child: const Text('Buy Now ›'),
+                      child: const Text('Buy Now ›'),
+                    ),
+                  ],
+                ),
+                Positioned.fill(
+                  child: IgnorePointer(
+                    child: AnimatedBuilder(
+                      animation: _pulse,
+                      builder: (context, child) => FractionalTranslation(
+                        translation: Offset(2.4 * _pulse.value - 1.2, 0),
+                        child: child,
                       ),
-                    ),
-                      ],
-                    ),
-                    Positioned.fill(
-                      child: IgnorePointer(
-                        child: AnimatedBuilder(
-                          animation: _pulse,
-                          builder: (context, child) => Transform.translate(
-                            offset: Offset(
-                              (constraints.maxWidth + 90) * (2 * _pulse.value - 1),
-                              0,
-                            ),
-                            child: child,
-                          ),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: FractionallySizedBox(
-                              widthFactor: 0.22,
-                              heightFactor: 1,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.white.withValues(alpha: 0),
-                                      Colors.white.withValues(alpha: 0.32),
-                                      Colors.white.withValues(alpha: 0),
-                                    ],
-                                  ),
-                                ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: FractionallySizedBox(
+                          widthFactor: 0.22,
+                          heightFactor: 1,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withValues(alpha: 0),
+                                  Colors.white.withValues(alpha: 0.28),
+                                  Colors.white.withValues(alpha: 0),
+                                ],
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              );
-            },
-          ),
+              ],
+            );
+          },
         ),
-      ),
-    );
+      );
 }
 
 class EquipmentFooter extends StatelessWidget {
