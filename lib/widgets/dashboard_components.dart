@@ -706,8 +706,11 @@ class _PromoBannerState extends State<PromoBanner>
                     colors: [Color(0xFF3B0764), Color(0xFF7E22CE), Color(0xFF581C87)],
                   ),
                 ),
-                child: Row(
+                child: Stack(
+                  clipBehavior: Clip.hardEdge,
                   children: [
+                    Row(
+                      children: [
                     SizedBox(
                       width: narrow ? 60 : compact ? 66 : 72,
                       child: Image.asset('assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png', fit: BoxFit.contain),
@@ -746,6 +749,40 @@ class _PromoBannerState extends State<PromoBanner>
                         duration: const Duration(milliseconds: 650),
                         opacity: _pulse.value > 0.5 ? 1 : 0.82,
                         child: const Text('Buy Now ›'),
+                      ),
+                    ),
+                      ],
+                    ),
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: AnimatedBuilder(
+                          animation: _pulse,
+                          builder: (context, child) => Transform.translate(
+                            offset: Offset(
+                              (constraints.maxWidth + 90) * (2 * _pulse.value - 1),
+                              0,
+                            ),
+                            child: child,
+                          ),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: FractionallySizedBox(
+                              widthFactor: 0.22,
+                              heightFactor: 1,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colors.white.withValues(alpha: 0),
+                                      Colors.white.withValues(alpha: 0.32),
+                                      Colors.white.withValues(alpha: 0),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
