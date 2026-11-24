@@ -315,7 +315,8 @@ class MemberProfileCard extends StatelessWidget {
                     fontSize: 18,
                     height: 1.0,
                     fontWeight: FontWeight.w900,
-                    color: Colors.black,
+                    color: Colors.white,
+                    shadows: [Shadow(color: Color(0x66000000), blurRadius: 8)],
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -391,14 +392,14 @@ class _Meta extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 13, color: MemberTheme.deepPurple),
+          Icon(icon, size: 13, color: const Color(0xFFFFD76A)),
           const SizedBox(width: 3),
           Text(
             text,
             style: const TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w800,
-                color: MemberTheme.ink),
+                color: Colors.white),
           ),
         ],
       );
@@ -521,12 +522,17 @@ class PaymentStrip extends StatelessWidget {
             child: Container(
               constraints: const BoxConstraints(minHeight: 62),
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-              decoration: MemberTheme.glass(radius: 20),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(colors: [MemberTheme.alertRed, MemberTheme.alertDeep]),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: const Color(0xFFFFA5B2), width: 1.4),
+                boxShadow: const [BoxShadow(color: Color(0x66E5092F), blurRadius: 12, offset: Offset(0, 4))],
+              ),
               child: Row(
                 children: [
                   const _IconBlob(
                     icon: Icons.account_balance_wallet_rounded,
-                    color: MemberTheme.purple,
+                    color: Colors.white,
                   ),
                   SizedBox(width: 6),
                   Expanded(
@@ -540,8 +546,8 @@ class PaymentStrip extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 9,
-                            color: MemberTheme.muted,
-                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
                             letterSpacing: 0.25,
                           ),
                         ),
@@ -555,7 +561,7 @@ class PaymentStrip extends StatelessWidget {
                               fontSize: 18,
                               height: 1.05,
                               fontWeight: FontWeight.w900,
-                              color: MemberTheme.purple,
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -565,8 +571,8 @@ class PaymentStrip extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: 9,
-                            color: MemberTheme.ink,
-                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFFFFE8EC),
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                       ],
@@ -590,7 +596,7 @@ class _IconBlob extends StatelessWidget {
         width: 28,
         height: 28,
         decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.12),
+          color: Colors.white.withValues(alpha: 0.18),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Icon(icon, color: color, size: 22),
@@ -603,52 +609,80 @@ class MembershipProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const fraction = MemberSample.membershipDone / MemberSample.membershipTotal;
-    return Column(
-      children: [
-        const Row(
+    final reducedMotion = MediaQuery.disableAnimationsOf(context);
+    return Semantics(
+      label: 'Membership progress',
+      value: '${MemberSample.membershipDone} of ${MemberSample.membershipTotal} days, 73 percent complete',
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(7, 5, 7, 6),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF341064), Color(0xFF4B0A83), Color(0xFF25105C)],
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: const Color(0xFFB66AFF), width: 1.1),
+          boxShadow: const [BoxShadow(color: Color(0x447A18D1), blurRadius: 8, offset: Offset(0, 3))],
+        ),
+        child: Column(
           children: [
-            Expanded(
-              child: Text(
-                'Membership ${MemberSample.membershipDone} / ${MemberSample.membershipTotal} Days',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w900,
-                    color: MemberTheme.ink),
+            Row(
+              children: [
+                const Expanded(
+                  child: Text(
+                    'Membership ${MemberSample.membershipDone} / ${MemberSample.membershipTotal} Days',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w900, color: Colors.white),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: MemberTheme.alertRed,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: const Color(0xFFFFA5B2), width: 0.8),
+                  ),
+                  child: const Row(mainAxisSize: MainAxisSize.min, children: [
+                    Icon(Icons.warning_amber_rounded, size: 11, color: Colors.white),
+                    SizedBox(width: 3),
+                    Text('8 Days Left', style: TextStyle(fontSize: 9, fontWeight: FontWeight.w900, color: Colors.white)),
+                  ]),
+                ),
+                const SizedBox(width: 6),
+                const Text('73%', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w900, color: Colors.white)),
+              ],
+            ),
+            const SizedBox(height: 5),
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0, end: fraction),
+              duration: reducedMotion ? Duration.zero : const Duration(milliseconds: 900),
+              curve: Curves.easeOutCubic,
+              builder: (context, progress, child) => ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: SizedBox(
+                  height: 11,
+                  child: Stack(children: [
+                    const Positioned.fill(child: ColoredBox(color: Color(0xFFEDE2FF))),
+                    FractionallySizedBox(
+                      widthFactor: progress,
+                      alignment: Alignment.centerLeft,
+                      child: const DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [Color(0xFF27E878), Color(0xFF10B957), Color(0xFF079447)],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
+                ),
               ),
             ),
-            SizedBox(width: 5),
-            Text('8 Days Left',
-                style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w900,
-                    color: MemberTheme.purple)),
-            SizedBox(width: 6),
-            Text('73%',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w900,
-                    color: MemberTheme.ink)),
           ],
         ),
-        const SizedBox(height: 4),
-        TweenAnimationBuilder<double>(
-          tween: Tween<double>(begin: 0, end: fraction),
-          duration: const Duration(milliseconds: 850),
-          curve: Curves.easeOutCubic,
-          builder: (context, progress, child) => ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: SizedBox(height: 8, child: Stack(children: [
-              Positioned.fill(child: ColoredBox(color: Colors.white.withValues(alpha: 0.85))),
-              FractionallySizedBox(widthFactor: progress, alignment: Alignment.centerLeft,
-                child: DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(
-                  colors: [Color(0xFFE879F9), Color(0xFF8B5CF6), Color(0xFF6D28D9)],
-                )))),
-            ])),
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
