@@ -330,9 +330,9 @@ class _Panel extends StatelessWidget {
               _PanelHeader(onNotify: onNotify),
               if (section == 0) ...[
                 const SizedBox(height: 5),
-                const _PartnerBanner(),
-                const SizedBox(height: 3),
                 const _AdDivider(),
+                const SizedBox(height: 3),
+                const _PartnerBanner(),
               ],
               const SizedBox(height: 4),
               AnimatedSwitcher(
