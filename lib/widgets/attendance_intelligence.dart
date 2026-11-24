@@ -324,45 +324,57 @@ class _Panel extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(6, 5, 6, 5),
         decoration: MemberTheme.glass(radius: 24),
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _PanelHeader(onNotify: onNotify),
-              if (section == 0) ...[
-                const SizedBox(height: 5),
-                const _AdDivider(),
-                const SizedBox(height: 3),
-                const _PartnerBanner(),
-              ],
-              const SizedBox(height: 4),
-              AnimatedSwitcher(
-                duration: const Duration(milliseconds: 240),
-                switchInCurve: Curves.easeOutCubic,
-                switchOutCurve: Curves.easeInCubic,
-                transitionBuilder: (child, animation) => FadeTransition(
-                  opacity: animation,
-                  child: SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0.025, 0),
-                      end: Offset.zero,
-                    ).animate(animation),
-                    child: child,
-                  ),
-                ),
-                child: KeyedSubtree(
-                  key: ValueKey<int>(section),
-                  child: switch (section) {
-                    0 => const _DefaultAnalyticsOverview(),
-                    1 => const _MoreOverview(),
-                    2 => const _AttendCalendar(),
-                    3 => const _HistoryOverview(),
-                    4 => const _HomeOverview(),
-                    _ => const _GoalsOverview(),
-                  },
+        child: LayoutBuilder(
+          builder: (context, constraints) => ClipRect(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.topCenter,
+              child: SizedBox(
+                width: constraints.maxWidth,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _PanelHeader(onNotify: onNotify),
+                    if (section == 0) ...[
+                      const SizedBox(height: 5),
+                      const _AdDivider(),
+                      const SizedBox(height: 3),
+                      const _PartnerBanner(),
+                    ],
+                    const SizedBox(height: 4),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 240),
+                      switchInCurve: Curves.easeOutCubic,
+                      switchOutCurve: Curves.easeInCubic,
+                      transitionBuilder: (child, animation) => FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0.025, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        ),
+                      ),
+                      child: KeyedSubtree(
+                        key: ValueKey<int>(section),
+                        child: switch (section) {
+                          0 => const _DefaultAnalyticsOverview(),
+                          1 => const _MoreOverview(),
+                          2 => const _AttendCalendar(),
+                          3 => const _HistoryOverview(),
+                          4 => const _HomeOverview(),
+                          _ => const _GoalsOverview(),
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
+        ),
       );
 }
 
