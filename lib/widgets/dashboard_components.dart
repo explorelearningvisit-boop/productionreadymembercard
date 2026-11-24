@@ -254,12 +254,10 @@ class _ActionCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: gradient),
-                      fit: BoxFit.fill,
-                      opacity: 0.94,
-                    ),
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: gradient,
+              ),
               border: Border.all(color: const Color(0xFFFFD76A), width: 1.3),
               boxShadow: const [
                 BoxShadow(
