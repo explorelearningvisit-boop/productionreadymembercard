@@ -41,8 +41,8 @@ class AttendanceIntelligence extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(width: 62, child: _Rail(section: section, onSelect: onSelect)),
-                const SizedBox(width: 6),
+                SizedBox(width: 52, child: _Rail(section: section, onSelect: onSelect)),
+                const SizedBox(width: 4),
                 Expanded(child: _Panel(section: section, onNotify: onNotify)),
               ],
             ),
@@ -60,8 +60,8 @@ class _Rail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 58,
-        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+        width: 52,
+        padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(23),
           gradient: const LinearGradient(
@@ -215,8 +215,8 @@ class _MetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        height: 174,
-        padding: const EdgeInsets.fromLTRB(4, 5, 4, 4),
+        height: 148,
+        padding: const EdgeInsets.fromLTRB(3, 4, 3, 3),
         decoration: BoxDecoration(
           color: background,
           borderRadius: BorderRadius.circular(17),
@@ -324,17 +324,17 @@ class _Panel extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.fromLTRB(6, 5, 6, 5),
         decoration: MemberTheme.glass(radius: 24),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
+        child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _PanelHeader(onNotify: onNotify),
               if (section == 0) ...[
                 const SizedBox(height: 5),
                 const _PartnerBanner(),
+                const SizedBox(height: 3),
+                const _AdDivider(),
               ],
-              const SizedBox(height: 5),
+              const SizedBox(height: 4),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 240),
                 switchInCurve: Curves.easeOutCubic,
@@ -363,16 +363,28 @@ class _Panel extends StatelessWidget {
               ),
             ],
           ),
-        ),
       );
 }
 
 
-class _AdDivider extends StatelessWidget {\n  const _AdDivider();\n\n  @override\n  Widget build(BuildContext context) => Row(children: [\n    const Expanded(child: Divider(height: 1, color: Color(0xFFDCC8EA))),\n    const Padding(padding: EdgeInsets.symmetric(horizontal: 5), child: Text('ADVERTISEMENT · TAP TO VIEW', style: TextStyle(fontSize: 6, letterSpacing: 0.25, fontWeight: FontWeight.w900, color: MemberTheme.muted))),\n    const Expanded(child: Divider(height: 1, color: Color(0xFFDCC8EA))),\n  ]);\n}\n\nclass _PartnerBanner extends StatelessWidget {
+class _AdDivider extends StatelessWidget {
+  const _AdDivider();
+
+  @override
+  Widget build(BuildContext context) => Row(children: [
+    const Expanded(child: Divider(height: 1, color: Color(0xFFDCC8EA))),
+    const Padding(padding: EdgeInsets.symmetric(horizontal: 5), child: Text('ADVERTISEMENT · TAP TO VIEW', style: TextStyle(fontSize: 6, letterSpacing: 0.25, fontWeight: FontWeight.w900, color: MemberTheme.muted))),
+    const Expanded(child: Divider(height: 1, color: Color(0xFFDCC8EA))),
+  ]);
+}
+
+class _PartnerBanner extends StatelessWidget {
   const _PartnerBanner();
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: () => ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Partner offer · sample promotion only'))),
+        child: Container(
         height: 34,
         padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
         decoration: BoxDecoration(
@@ -388,7 +400,7 @@ class _AdDivider extends StatelessWidget {\n  const _AdDivider();\n\n  @override
             Text('Member partner offer · Up to 30% OFF', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 8, fontWeight: FontWeight.w800, color: MemberTheme.deepPurple)),
           ])),
         ]),
-      );
+      ));
 }
 
 class _PanelHeader extends StatelessWidget {
