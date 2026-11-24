@@ -218,12 +218,16 @@ class _DashboardScroll extends StatelessWidget {
                 child: Container(
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                color: const Color(0x22FFFFFF),
+                gradient: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [MemberTheme.shell, MemberTheme.shellMid, MemberTheme.electricBlue],
+                ),
                 borderRadius: BorderRadius.circular(22),
-                border: Border.all(color: const Color(0xFFFFD76A), width: 1.3),
+                border: Border.all(color: const Color(0xFFFFD76A), width: 1.5),
                 boxShadow: const [
-                  BoxShadow(color: Color(0x337C3AED), blurRadius: 14, offset: Offset(0, 4)),
-                  BoxShadow(color: Color(0x22FFC928), blurRadius: 8, spreadRadius: 1),
+                  BoxShadow(color: Color(0x887C3AED), blurRadius: 16, offset: Offset(0, 5)),
+                  BoxShadow(color: Color(0x44FFC928), blurRadius: 8, spreadRadius: 0.5),
                 ],
               ),
               child: ConstrainedBox(
@@ -239,18 +243,15 @@ class _DashboardScroll extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
-                      color: const Color(0xF8FFFFFF),
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: const Color(0xFFFFD76A),
-                        width: 1.5,
+                      gradient: const LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomRight,
+                        colors: [Color(0xFF32105D), Color(0xFF4C087E), Color(0xFF24105E)],
                       ),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: const Color(0xFFFFD76A), width: 1.4),
                       boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x447A18D1),
-                          blurRadius: 14,
-                          offset: Offset(0, 5),
-                        ),
+                        BoxShadow(color: Color(0x557C3AED), blurRadius: 12, offset: Offset(0, 4)),
                       ],
                     ),
                     child: Column(
