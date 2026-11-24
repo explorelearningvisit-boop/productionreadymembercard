@@ -175,8 +175,8 @@ class ActionStrip extends StatelessWidget {
               child: Row(
                 children: [
                   const Icon(Icons.ac_unit_rounded,
-                      color: Color(0xFF4F46E5), size: 31),
-                  SizedBox(width: 5),
+                      color: Color(0xFF4F46E5), size: 26),
+                  SizedBox(width: 4),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -190,15 +190,16 @@ class ActionStrip extends StatelessWidget {
                                 color: MemberTheme.deepPurple)),
                         const Text('Stay Cool · Pause Plan',
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                            softWrap: false,
+                            overflow: TextOverflow.visible,
                             style: TextStyle(
-                                fontSize: 8,
+                                fontSize: 7,
                                 fontWeight: FontWeight.w800,
                                 color: MemberTheme.ink)),
                         Container(
                           margin: const EdgeInsets.only(top: 2),
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 2),
+                              horizontal: 5, vertical: 1),
                           decoration: const BoxDecoration(
                               color: Color(0xFFE11D48),
                               borderRadius:
@@ -206,7 +207,7 @@ class ActionStrip extends StatelessWidget {
                           child: const Text('UP TO 20% OFF',
                               maxLines: 1,
                               style: TextStyle(
-                                  fontSize: 7,
+                                  fontSize: 6,
                                   fontWeight: FontWeight.w900,
                                   color: Colors.white)),
                         ),
