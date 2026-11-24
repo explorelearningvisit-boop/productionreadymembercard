@@ -133,7 +133,6 @@ class ActionStrip extends StatelessWidget {
             child: _ActionCard(
               onTap: onCheckIn,
               gradient: const [Color(0xFF8B20D5), Color(0xFF4C087E)],
-              imageAsset: 'assets/material_pack/pulsevault/05_purple_gold_cta_background.png',
               child: Row(
                 children: [
                   const _CheckBadge(),
@@ -173,7 +172,6 @@ class ActionStrip extends StatelessWidget {
             child: _ActionCard(
               onTap: onFreeze,
               gradient: const [Color(0xFFFFFFFF), Color(0xFFDCEBFF)],
-              imageAsset: 'assets/material_pack/pulsevault/14_lavender_glass_cta_background.png',
               child: Row(
                 children: [
                   const Icon(Icons.ac_unit_rounded,
@@ -232,13 +230,11 @@ class ActionStrip extends StatelessWidget {
 class _ActionCard extends StatelessWidget {
   final VoidCallback onTap;
   final List<Color> gradient;
-  final String? imageAsset;
   final Widget child;
 
   const _ActionCard({
     required this.onTap,
     required this.gradient,
-    this.imageAsset,
     required this.child,
   });
 
