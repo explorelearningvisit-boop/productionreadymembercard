@@ -56,9 +56,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       ),
       child: Column(
         children: [
-          SizedBox(height: 38, child: _topActions()),
+          SizedBox(height: 44, child: _topActions()),
           const SizedBox(height: 5),
-          SizedBox(height: 72, child: _memberIdentity()),
+          SizedBox(height: 78, child: _memberIdentity()),
           const SizedBox(height: 5),
           SizedBox(height: 54, child: _paymentAndOffer()),
           const SizedBox(height: 5),
