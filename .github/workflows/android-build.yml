@@ -52,12 +52,12 @@ jobs:
         run: flutter analyze
       - name: Widget tests
         run: flutter test --reporter expanded
-      - name: Build ARM64 installable QA APK with transient Maven retry
+      - name: Build signed ARM64 debug APK for direct phone installation with transient Maven retry
         shell: bash
         run: |
           set -euo pipefail
           for attempt in 1 2 3 4; do
-            if flutter build apk --release --target-platform android-arm64; then
+            if flutter build apk --debug --target-platform android-arm64; then
               break
             fi
             if [ "$attempt" -eq 4 ]; then
