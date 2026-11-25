@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../data/sample_member.dart';
-import '../theme/member_theme.dart';
 
 class MemberDashboardScreen extends StatefulWidget {
   const MemberDashboardScreen({super.key});
@@ -30,7 +29,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       backgroundColor: _purple,
       body: SafeArea(
         child: LayoutBuilder(
-          builder: (context, constraints) {
+          builder: (context, _) {
             return Center(
               child: FittedBox(
                 fit: BoxFit.contain,
