@@ -99,10 +99,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       children: [
                         Text(_checkedIn ? 'CHECK-IN' : 'CHECK IN',
                           maxLines: 1, style: const TextStyle(
-                            color: Colors.white, fontSize: 13, fontWeight: FontWeight.w900,
+                            color: Colors.white, fontSize: 11, height: 1, fontWeight: FontWeight.w900,
                           )),
                         const Text('07:12 AM', maxLines: 1, style: TextStyle(
-                          color: Colors.white, fontSize: 10, fontWeight: FontWeight.w800,
+                          color: Colors.white, fontSize: 9, height: 1, fontWeight: FontWeight.w800,
                         )),
                       ],
                     ),
@@ -160,8 +160,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       child: Row(
         children: [
           Container(
-            width: 65,
-            height: 62,
+            width: 62,
+            height: 58,
             margin: const EdgeInsets.only(left: 4),
             decoration: BoxDecoration(
               color: const Color(0xFFFFD76B),
@@ -177,18 +177,18 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           const SizedBox(width: 8),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: 2),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(member.name, maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white, fontSize: 17, fontWeight: FontWeight.w900)),
-                  const SizedBox(height: 3),
+                    style: const TextStyle(color: Colors.white, fontSize: 15, height: 1, fontWeight: FontWeight.w900)),
+                  const SizedBox(height: 2),
                   Text('▦ ${member.memberId}  •  ♟ ${member.age}  •  ♂ ${member.gender}',
                     maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w800)),
-                  const SizedBox(height: 4),
+                    style: const TextStyle(color: Colors.white, fontSize: 7, height: 1, fontWeight: FontWeight.w800)),
+                  const SizedBox(height: 2),
                   Row(
                     children: [
                       _statusPill(member.plan, const Color(0xFFFFC629), MemberTheme.ink),
@@ -352,7 +352,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return Expanded(
       child: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(13),
