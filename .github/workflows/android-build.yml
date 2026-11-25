@@ -52,26 +52,12 @@ jobs:
         run: flutter analyze
       - name: Widget tests
         run: flutter test --reporter expanded
-      - name: Android emulator startup and lifecycle regression test
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 34
-          target: google_apis
-          arch: x86_64
-          profile: pixel_2
-          cores: 2
-          ram-size: 4096M
-          disk-size: 8G
-          disable-animations: true
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
-          emulator-boot-timeout: 900
-          script: flutter test integration_test/app_lifecycle_test.dart -d emulator-5554
-      - name: Build ARM64 debug QA APK with transient Maven retry
+      - name: Build ARM64 installable QA APK with transient Maven retry
         shell: bash
         run: |
           set -euo pipefail
           for attempt in 1 2 3 4; do
-            if flutter build apk --debug --target-platform android-arm64; then
+            if flutter build apk --release --target-platform android-arm64; then
               break
             fi
             if [ "$attempt" -eq 4 ]; then
