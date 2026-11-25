@@ -1,31 +1,42 @@
-# BAD GYM — Minimal Member Intelligence Card
+# BAD GYM — Purple Neon Member Intelligence Dashboard
 
-**Status:** Current product scope, approved by the product owner on 2026-11-25.
+**Status:** Current approved visual reference supplied by the product owner on 2026-11-25. This document supersedes the earlier minimal-card-only scope.
 
-## Objective
-Keep one simple Android member card for the gym check-in flow. This is not a multi-page gym app or a marketing dashboard.
+## Product boundary
+One compact Android member dashboard card for the gym check-in flow. The app's own top menu, bottom navigation and Android system navigation are outside this component and must not be implemented here. No left or right navigation rail inside this card.
 
-## Card contents
-1. Member identity: name, member ID, age and gender.
-2. Membership: plan, active status, days used / total days, remaining days and progress.
-3. Check-in: one Check In action; after tapping, show checked-in state and time. No modal, route, bottom sheet or snackbar.
-4. Essential member indicators: attendance percentage, workout duration, body weight and payment due.
-5. Clear sample-data notice until the real gym API is connected.
+## Master visual reference
+Use the owner's uploaded purple neon / gold dashboard screenshot. Reproduce its component order, color language, dense card hierarchy, glow, rounded outlines and asset placements. Do not invent a different visual direction.
 
-## Visual direction
-- Mobile-first, 360 dp target; test 320 dp and 390 dp.
-- One compact card, clean spacing, purple and gold BAD GYM identity.
-- Native Flutter text and containers; initial avatar letters are acceptable.
-- Readable typography and accessible check-in action.
-- No unnecessary page scrolling; avoid overflow on short phones.
+## Component order
+1. Top row: Check-in action/status and Freeze promo.
+2. Member identity: portrait/bodybuilder graphic, name, member ID, age, gender, Gold Plan and Active status.
+3. Payment and promo row: amount due / days left, whey promotion.
+4. Membership progress: days used / total, days remaining, percentage and progress track.
+5. Four compact metric tiles: attendance, workout duration, payment, body weight.
+6. Attendance analytics: title/live status, partner banner, attendance ring, present/absent/holiday/late legend and bars, streak stats, recovery offer, month label, weekday row and compact calendar.
 
-## Explicitly out of scope
-Advertisements, product promotions, shopping, offer carousels, QR, analytics navigation rail, calendar, chart dashboard, workout plans, multiple screens, decorative illustrations, custom fonts, elaborate animations, and third-party runtime packages.
+## Layout constraints
+- Mobile-first; 360 dp is the primary target. Verify 320 dp and 390 dp.
+- Compact, fixed card layout; no vertical scrolling, no horizontal scrolling, no clipping or overflow.
+- Must fit inside the bounded area supplied by the host dashboard; scale proportionally when the available area is smaller.
+- No app-level top menu, bottom menu, left rail or right rail in this component.
+- Keep all important labels legible at the smallest supported size.
+
+## Asset authority
+The authoritative 14-image source pack is:
+`reference_library/recovered_from_history/assets/material_pack/pulsevault/`
+Read its README before choosing assets. Do not use the full-screen screenshot as a runtime background. Prefer the already optimized transparent WebP assets from:
+`reference_library/recovered_from_history/assets/material_pack/inbox/`
+and sibling categorized folders. Use BoxFit.contain for transparent cutouts and preserve their aspect ratio. Keep all labels, amounts, dates and controls as live Flutter widgets.
+
+## Data
+Current demo member: Ashwani Kumar Singh, BG215, 28 yrs, Male, Gold Plan, Active; 22/30 membership days, 8 days left, ₹500 due; attendance 81%, workout 58 min, body weight 69.5 kg. Clearly mark sample data until a real gym API is connected.
 
 ## Engineering rules
 - Keep the existing Flutter app and Android application ID.
-- Prefer Flutter SDK only.
-- Preserve Android launcher resources and required Gradle/manifest files.
-- Use one simple widget tree without GlobalKeys, hero transitions, overlays, modal routes, nested scrolling or animation controllers.
-- Build a signed ARM64 release QA APK for the owner's Android phone. QA signing is not Play Store signing.
-- Verify widget rendering and lifecycle at 320/360/390 dp; report CI verification separately from real-device verification.
+- Flutter SDK only; no new runtime packages.
+- No nested scrolling, GlobalKeys, Hero transitions, overlays, modal routes, snackbars or animation controllers.
+- Use a single stable widget tree; check-in state is local and must not create routes or overlays.
+- Keep reference archive outside pubspec assets. Only register the selected optimized runtime assets.
+- Build a signed ARM64 QA APK and verify format, analysis, widget tests, emulator launch, APK signature and exact size. Real-device verification must be reported separately.
