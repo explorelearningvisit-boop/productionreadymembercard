@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../data/sample_member.dart';
@@ -29,18 +31,36 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       backgroundColor: _purple,
       body: SafeArea(
         child: LayoutBuilder(
-          builder: (context, _) {
+          builder: (context, constraints) {
+            final scale = math.min(
+              constraints.maxWidth / 370,
+              constraints.maxHeight / 650,
+            ).clamp(0.1, 1.0);
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(
                 textScaler: TextScaler.noScaling,
               ),
               child: Center(
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: SizedBox(
-                    width: 360,
-                    height: 640,
-                    child: _dashboardCard(),
+                child: SizedBox(
+                  width: 370 * scale,
+                  height: 650 * scale,
+                  child: ClipRect(
+                    child: OverflowBox(
+                      alignment: Alignment.topLeft,
+                      minWidth: 370,
+                      maxWidth: 370,
+                      minHeight: 650,
+                      maxHeight: 650,
+                      child: Transform.scale(
+                        scale: scale,
+                        alignment: Alignment.topLeft,
+                        child: SizedBox(
+                          width: 370,
+                          height: 650,
+                          child: _dashboardCard(),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
