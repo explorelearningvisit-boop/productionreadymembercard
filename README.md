@@ -1,15 +1,17 @@
 # BAD GYM — Member Intelligence Card
 
-A lightweight Flutter Android app for one gym member's check-in and essential membership information.
+A Flutter Android app reproducing the supplied Purple Neon Member Intelligence dashboard reference.
 
 ## What the app shows
 - Member name, ID, age and membership plan/status
 - Check-in action and current check-in state
 - Membership days and progress
 - Attendance, workout duration, body weight and payment due
+- Attendance analytics, promotional panels and monthly attendance calendar
+- Six-item vertical navigation rail (Attend, Insights, Cal, History, Trend, Goals)
 - A clear demo-data notice until a real gym API is connected
 
-No advertisements, shopping offers, QR scanner, calendar, analytics rail, charts, custom artwork, custom fonts or animation system are included.
+All displayed member values remain sample data until a real gym API is connected.
 
 ## Build and QA
 The GitHub Actions workflow runs:
