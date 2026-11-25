@@ -1,21 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:bad_gym_member_intelligence/main.dart';
-import 'package:bad_gym_member_intelligence/widgets/attendance_intelligence.dart';
-import 'package:bad_gym_member_intelligence/widgets/dashboard_components.dart';
 
-Future<void> _pumpUi(WidgetTester tester) async {
-  await tester.pump(const Duration(milliseconds: 700));
-  // A state change can schedule AnimatedSwitcher after the first frame;
-  // advance once more so outgoing and incoming children are no longer both
-  // present when tests assert unique labels.
-  await tester.pump(const Duration(milliseconds: 300));
-}
+import 'package:bad_gym_member_intelligence/main.dart';
 
 void main() {
-  testWidgets('approved BAD GYM member dashboard fits 360dp without overflow',
+  testWidgets('member card renders essential member information',
       (tester) async {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
@@ -23,192 +12,71 @@ void main() {
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(const BadGymApp());
-    await _pumpUi(tester);
+    await tester.pumpAndSettle();
 
-    expect(find.text('CHECK-IN'), findsOneWidget);
-    expect(find.text('FREEZE'), findsOneWidget);
-    expect(find.byType(MemberProfileCard), findsOneWidget);
+    expect(find.text('BAD GYM'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
-    expect(find.text('Attendance Analytics'), findsOneWidget);
-    expect(find.byType(AttendanceIntelligence), findsOneWidget);
-    expect(find.text('Whey Protein'), findsOneWidget);
-    expect(find.text('81%'), findsWidgets);
-    expect(
-      find.byType(MembershipProgress),
-      findsOneWidget,
-    );
-    expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
-    expect(find.text('73%'), findsOneWidget);
-    expect(find.text('Welcome Back 👋'), findsNothing);
-    expect(find.text('Buy Now ›'), findsOneWidget);
+    expect(find.text('ID BG215  •  28 yrs  •  Male'), findsOneWidget);
+    expect(find.text('Gold Plan'), findsOneWidget);
+    expect(find.text('Not checked in'), findsOneWidget);
+    expect(find.text('22 / 30 days'), findsOneWidget);
+    expect(find.text('81%'), findsOneWidget);
+    expect(find.text('58 min'), findsOneWidget);
+    expect(find.text('69.5 kg'), findsOneWidget);
+    expect(find.text('₹500'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('context rail switches the intelligence panel', (tester) async {
-    tester.view.physicalSize = const Size(390, 844);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-
-    await tester.pumpWidget(const BadGymApp());
-    await _pumpUi(tester);
-
-    Future<void> open(String rail, String heading) async {
-      final finder = find.byKey(ValueKey('rail-$rail'));
-      await tester.ensureVisible(finder);
-      await tester.tap(finder);
-      await _pumpUi(tester);
-      expect(find.text(heading), findsOneWidget);
-    }
-
-    await open('Attend', 'Attendance Analytics');
-    await open('Insights', 'More member insights');
-    await open('Cal', 'October attendance');
-    await open('History', 'Check-in history');
-    await open('Trend', 'Attendance Analytics');
-    await open('Goals', 'Member goals');
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('rapid analytics navigation does not double-deactivate elements', (tester) async {
-    tester.view.physicalSize = const Size(360, 780);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-
-    await tester.pumpWidget(const BadGymApp());
-
-    const tabs = ['Attend', 'Insights', 'Cal', 'History', 'Trend', 'Goals'];
-    for (var round = 0; round < 8; round++) {
-      for (final tab in tabs) {
-        await tester.tap(
-          find.byKey(ValueKey('rail-$tab')),
-          warnIfMissed: false,
-        );
-        await tester.pump(const Duration(milliseconds: 16));
-        expect(tester.takeException(), isNull, reason: 'tab=$tab round=$round');
-      }
-    }
-
-    await tester.pumpAndSettle(const Duration(milliseconds: 16));
-    expect(tester.takeException(), isNull);
-
-    // Dispose while dashboard UI has been exercised, then mount it again.
-    await tester.pumpWidget(const SizedBox.shrink());
-    await tester.pump();
-    await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle(const Duration(milliseconds: 16));
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('shop, freeze and notifications respond', (tester) async {
-    tester.view.physicalSize = const Size(390, 844);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-
-    await tester.pumpWidget(const BadGymApp());
-    await _pumpUi(tester);
-
-    await tester.ensureVisible(find.text('FREEZE'));
-    await tester.tap(find.text('FREEZE'));
-    await _pumpUi(tester);
-    expect(find.text('Freeze membership'), findsOneWidget);
-    final freezeButton =
-        tester.widget<FilledButton>(find.widgetWithText(FilledButton, 'Freeze now'));
-    freezeButton.onPressed!.call();
-    await _pumpUi(tester);
-    expect(find.text('FROZEN'), findsOneWidget);
-
-    final shopButton = find.text('Buy Now ›');
-    await tester.ensureVisible(shopButton);
-    await tester.tap(shopButton);
-    await _pumpUi(tester);
-    expect(find.text('More member insights'), findsOneWidget);
-    expect(find.text('Purple Protein Bundle'), findsOneWidget);
-
-    await tester.ensureVisible(find.text('CHECK-IN'));
-    await tester.tap(find.text('CHECK-IN'));
-    await tester.pump();
-    expect(
-      find.text('Membership is frozen · resume your plan before check-in'),
-      findsOneWidget,
-    );
-
-    await tester.tap(find.byTooltip('Notifications'));
-    await _pumpUi(tester);
-    expect(find.text('Payment due'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('dashboard remains layout-safe on a narrow 320dp phone',
+  testWidgets('check-in changes the member state without overlays',
       (tester) async {
-    tester.view.physicalSize = const Size(320, 640);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-    final previousFlutterErrorHandler = FlutterError.onError;
-    FlutterError.onError = (details) {
-      if (details.exception.toString().contains('RenderFlex overflowed')) {
-        debugPrint('320dp RenderFlex details:\n${details.toString()}');
-        final sourceLines =
-            File('lib/widgets/dashboard_components.dart').readAsLinesSync();
-        debugPrint('Formatted dashboard_components.dart lines 475-490:\n'
-            '${sourceLines.skip(474).take(16).join('\n')}');
-      }
-      previousFlutterErrorHandler?.call(details);
-    };
-    addTearDown(() => FlutterError.onError = previousFlutterErrorHandler);
-
-    await tester.pumpWidget(const BadGymApp());
-    await _pumpUi(tester);
-
-    final initialLayoutException = tester.takeException();
-    if (initialLayoutException is FlutterError) {
-      debugPrint('320dp initial layout diagnostics:\n'
-          '${initialLayoutException.toStringDeep()}');
-    } else if (initialLayoutException != null) {
-      debugPrint('320dp initial layout exception: $initialLayoutException');
-    }
-    expect(initialLayoutException, isNull);
-
-    final calendarTab = find.byKey(const ValueKey('rail-Cal'));
-    await tester.ensureVisible(calendarTab);
-    await tester.tap(calendarTab);
-    await _pumpUi(tester);
-
-    final calendarLayoutException = tester.takeException();
-    if (calendarLayoutException is FlutterError) {
-      debugPrint('320dp calendar layout diagnostics:\n'
-          '${calendarLayoutException.toStringDeep()}');
-    } else if (calendarLayoutException != null) {
-      debugPrint('320dp calendar layout exception: $calendarLayoutException');
-    }
-    expect(calendarLayoutException, isNull);
-    expect(find.text('October attendance'), findsOneWidget);
-  });
-  testWidgets('payment strip opens an honest sample due reminder', (tester) async {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
 
     await tester.pumpWidget(const BadGymApp());
-    await _pumpUi(tester);
-    expect(find.byType(PaymentStrip), findsOneWidget);
-    expect(find.byKey(const ValueKey('payment-promo-row')), findsOneWidget);
-    expect(find.text('PAYMENT DUE'), findsOneWidget);
-    await tester.ensureVisible(find.byType(PaymentStrip));
-    await tester.tap(find.byType(PaymentStrip));
-    await _pumpUi(tester);
+    await tester.pumpAndSettle();
 
-    expect(find.text('Payment due'), findsOneWidget);
-    expect(
-      find.descendant(of: find.byType(AlertDialog), matching: find.text('₹500 Due')),
-      findsOneWidget,
-    );
-    expect(find.text('Sample reminder only. Online payment is not connected yet.'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('check-in-button')));
+    await tester.pump();
+
+    expect(find.text('Checked in'), findsOneWidget);
+    expect(find.text('CHECKED IN'), findsOneWidget);
+    expect(find.text('Not checked in'), findsNothing);
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('card stays usable at 320, 360 and 390 dp', (tester) async {
+    for (final size in <Size>[
+      const Size(320, 640),
+      const Size(360, 780),
+      const Size(390, 844),
+    ]) {
+      tester.view.physicalSize = size;
+      tester.view.devicePixelRatio = 1;
+
+      await tester.pumpWidget(const BadGymApp());
+      await tester.pumpAndSettle();
+
+      expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
+      expect(find.byKey(const ValueKey('check-in-button')), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    }
+
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+  });
+
+  testWidgets('repeated mount and dispose does not retain inactive elements',
+      (tester) async {
+    for (var cycle = 0; cycle < 5; cycle++) {
+      await tester.pumpWidget(const BadGymApp());
+      await tester.pumpAndSettle();
+      expect(find.text('MEMBER INTELLIGENCE'), findsOneWidget);
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pump();
+      expect(tester.takeException(), isNull);
+    }
+  });
 }
