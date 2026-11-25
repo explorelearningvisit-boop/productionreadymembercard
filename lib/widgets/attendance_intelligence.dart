@@ -375,23 +375,24 @@ class _Panel extends StatelessWidget {
                     const _PartnerBanner(),
                   ],
                   const SizedBox(height: 4),
-                  AnimatedSwitcher(
+                  // Keep only one analytics subtree mounted at a time.
+                  // AnimatedSwitcher retains outgoing children during its
+                  // transition; on rapid section changes that can expose
+                  // duplicate element deactivation in the debug widget tree.
+                  AnimatedSize(
                     duration: MediaQuery.disableAnimationsOf(context)
                         ? Duration.zero
-                        : const Duration(milliseconds: 240),
-                    switchInCurve: Curves.easeOutCubic,
-                    switchOutCurve: Curves.easeInCubic,
-                    child: KeyedSubtree(
-                      key: ValueKey<int>(section),
-                      child: switch (section) {
-                        0 => const _DefaultAnalyticsOverview(),
-                        1 => const _MoreOverview(),
-                        2 => const _AttendCalendar(),
-                        3 => const _HistoryOverview(),
-                        4 => const _HomeOverview(),
-                        _ => const _GoalsOverview(),
-                      },
-                    ),
+                        : const Duration(milliseconds: 220),
+                    curve: Curves.easeOutCubic,
+                    alignment: Alignment.topCenter,
+                    child: switch (section) {
+                      0 => const _DefaultAnalyticsOverview(),
+                      1 => const _MoreOverview(),
+                      2 => const _AttendCalendar(),
+                      3 => const _HistoryOverview(),
+                      4 => const _HomeOverview(),
+                      _ => const _GoalsOverview(),
+                    },
                   ),
                 ],
               ),
