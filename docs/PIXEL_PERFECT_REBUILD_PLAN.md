@@ -10,9 +10,10 @@ Follow `BADGYM_FINAL_APPROVED_DASHBOARD_MASTER_PROMPT.md` and the owner's 2026-1
 4. Membership progress
 5. Four compact metric tiles
 6. Attendance analytics, partner promotion, ring + legend, streaks, recovery promotion and mini calendar
+7. Six-item vertical navigation rail: Attend, Insights, Cal, History, Trend and Goals
 
 ## Exclusions
-No app-level menus, navigation rails, scroll views, multiple screens, backend/API, unrelated modules, third-party runtime packages, custom fonts or full-screen screenshot background.
+No additional app-level top/bottom menus, scroll views, multiple screens, backend/API, unrelated modules, third-party runtime packages, custom fonts or full-screen screenshot background. The six-item rail in the supplied reference is required.
 
 ## Layout QA
 360 dp target; test 320 dp and 390 dp widths and compact heights. The card must scale to its bounded parent area, show all components at once and have no scroll, clipping or RenderFlex overflow.
