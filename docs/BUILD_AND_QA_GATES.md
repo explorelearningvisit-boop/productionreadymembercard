@@ -1,9 +1,10 @@
 # Build and QA gates
 
-1. Source of truth: purple neon dashboard screenshot plus the asset and theme sheets.
-2. Theme: purple / gold / green / lavender. No crimson substitution on this branch.
-3. Surfaces: brand header, check-in strip, member hero, payment QR, membership bar, sale banner, metric tiles, rail, attendance intelligence, and the five other workspaces.
-4. Data: Ashwani profile, dates, dues, and attendance totals are sample UI data.
-5. CI: format, analyze, widget tests, release APK.
-6. Layout gate: 360dp and 390dp widget tests must finish with no overflow exception.
-7. Release claim: compilation and a debug-signed release APK are not a production signing or device-install sign-off.
+- One-screen Member Intelligence check-in card only.
+- 320 dp, 360 dp and 390 dp widget layout checks.
+- Demo data visibly labeled; no live-data claims.
+- Format, analyze and all widget tests pass.
+- Build an ARM64 release QA APK; verify signature and SHA-256.
+- Report APK size and ABI.
+- Distinguish CI build/test evidence from real-device installation and launch.
+- QA debug-key signing is not Play Store production signing.
