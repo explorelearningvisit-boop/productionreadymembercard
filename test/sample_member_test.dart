@@ -5,7 +5,7 @@ import 'package:bad_gym_member_intelligence/data/sample_member.dart';
 void main() {
   group('MemberSample', () {
     test('demo membership progress is valid', () {
-      final member = MemberSample.demo;
+      const member = MemberSample.demo;
       expect(member.membershipProgress, closeTo(0.7333, 0.001));
       expect(member.membershipDays, lessThan(member.membershipTotalDays));
       expect(member.daysRemaining, member.membershipTotalDays - member.membershipDays);

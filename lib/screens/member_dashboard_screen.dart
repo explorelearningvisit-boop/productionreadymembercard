@@ -153,7 +153,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _memberIdentity() {
-    final member = MemberSample.demo;
+    const member = MemberSample.demo;
     return DashboardPanel(
       borderColor: MemberTheme.gold,
       radius: 18,
@@ -207,7 +207,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _paymentAndOffer() {
-    final member = MemberSample.demo;
+    const member = MemberSample.demo;
     return Row(
       children: [
         Expanded(
@@ -277,7 +277,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _membershipProgress() {
-    final member = MemberSample.demo;
+    const member = MemberSample.demo;
     return DashboardPanel(
       color: const Color(0xFF39116D),
       borderColor: const Color(0xFFE4C5FF),
@@ -318,7 +318,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _metrics() {
-    final member = MemberSample.demo;
+    const member = MemberSample.demo;
     return Row(
       children: [
         Expanded(child: DashboardMetricTile(
