@@ -1,25 +1,25 @@
-# BAD GYM — Minimal card delivery plan
+# BAD GYM — Purple Neon Dashboard implementation plan
 
-## Product boundary
-One Android screen. One member record. One check-in action. The current scope is defined in `BADGYM_FINAL_APPROVED_DASHBOARD_MASTER_PROMPT.md`.
+## Authority
+Follow `BADGYM_FINAL_APPROVED_DASHBOARD_MASTER_PROMPT.md` and the owner's 2026-11-25 screenshot. This full compact dashboard request supersedes the earlier minimal-card-only scope.
 
-## Essential UI
-- Member identity and plan/status
-- Check-in state/action
-- Membership progress
-- Attendance, workout, body weight and amount due
-- Demo-data notice
+## Components in order
+1. Check-in / Freeze header row
+2. Member identity and plan status
+3. Payment due / whey promotion
+4. Membership progress
+5. Four compact metric tiles
+6. Attendance analytics, partner promotion, ring + legend, streaks, recovery promotion and mini calendar
 
-## Explicit removals
-No offers, ads, product artwork, QR, charts, calendar, secondary analytics panels, navigation rail, custom fonts, animation framework or extra runtime packages.
+## Exclusions
+No app-level menus, navigation rails, scroll views, multiple screens, backend/API, unrelated modules, third-party runtime packages, custom fonts or full-screen screenshot background.
 
-## Verification gates
-1. `flutter pub get`
-2. `dart format --output=none --set-exit-if-changed lib test`
-3. `flutter analyze`
-4. Widget tests for card data, check-in state, repeat mount/dispose and 320/360/390 dp.
-5. ARM64 release QA APK build and APK signature verification.
-6. Real-device installation and launch must be reported separately; do not claim it without evidence.
+## Layout QA
+360 dp target; test 320 dp and 390 dp widths and compact heights. The card must scale to its bounded parent area, show all components at once and have no scroll, clipping or RenderFlex overflow.
 
-## Optimization
-Ship only the ARM64 release APK for the owner's Android phone. Do not upload universal debug APKs as the normal deliverable. Keep only Android boilerplate and the source needed for this single screen.
+## Asset policy
+Source pack: `reference_library/recovered_from_history/assets/material_pack/pulsevault/` (14 original PNGs).
+For runtime use, select only optimized transparent WebP files from the recovered material pack and register only those selected files in pubspec.yaml. Use BoxFit.contain.
+
+## Verification
+Format, analyze, widget tests, no-scroll/overflow checks, Android emulator launch, ARM64 release APK, signature and size report. Real-device install/launch remains a separate check.
