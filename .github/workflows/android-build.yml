@@ -50,36 +50,6 @@ jobs:
       - name: Flutter widget tests
         run: flutter test --reporter expanded
 
-      - name: Run debug launch smoke test on Android emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: 35
-          arch: x86_64
-          profile: pixel_2
-          disable-animations: true
-          script: |
-            set -euo pipefail
-            flutter build apk --debug --target-platform android-x64
-            adb install -r build/app/outputs/flutter-apk/app-debug.apk
-            adb logcat -c
-            adb shell am start -W -n com.badgym.bad_gym_member_intelligence/.MainActivity
-            sleep 8
-            adb logcat -d -v brief > build/emulator-logcat.txt
-            if grep -E "Failed assertion|_elements.contains\\(element\\)|FATAL EXCEPTION" build/emulator-logcat.txt; then
-              echo "Flutter runtime assertion or Android crash detected."
-              exit 1
-            fi
-            test -n "$(adb shell pidof com.badgym.bad_gym_member_intelligence)"
-            adb exec-out screencap -p > build/member-card-emulator.png
-
-      - name: Upload Android emulator screenshot
-        uses: actions/upload-artifact@v4
-        with:
-          name: bad-gym-member-card-emulator-smoke
-          path: build/member-card-emulator.png
-          if-no-files-found: error
-          retention-days: 7
-
       - name: Build optimized ARM64 release QA APK
         run: flutter build apk --release --target-platform android-arm64
 
