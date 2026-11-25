@@ -161,7 +161,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               child: Row(
                 children: [
                   const SizedBox(width: 5),
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 15,
                     backgroundColor: _checkedIn ? MemberTheme.green : const Color(0xFFFFB21C),
                     child: Icon(_checkedIn ? Icons.check : Icons.login, color: Colors.white, size: 21),
