@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym_member_intelligence/main.dart';
 
 void main() {
-  testWidgets('purple dashboard renders every approved section', (tester) async {
+  testWidgets('purple dashboard renders all approved sections', (tester) async {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -29,7 +29,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('check-in action is stable and repeatable', (tester) async {
+  testWidgets('check-in remains safe when tapped repeatedly', (tester) async {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -37,13 +37,16 @@ void main() {
 
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const ValueKey('check-in-button')));
+    final checkIn = find.byKey(const ValueKey('check-in-button'));
+    await tester.tap(checkIn);
+    await tester.pump();
+    await tester.tap(checkIn);
     await tester.pump();
     expect(find.text('CHECK-IN'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('dashboard fits compact phones without scroll or overflow', (tester) async {
+  testWidgets('dashboard renders on compact phone sizes without overflow or scrolling', (tester) async {
     for (final size in <Size>[
       const Size(320, 560),
       const Size(320, 640),
@@ -60,13 +63,13 @@ void main() {
       expect(find.text('Attendance Analytics'), findsOneWidget);
       expect(find.byType(SingleChildScrollView), findsNothing);
       expect(find.byType(ListView), findsNothing);
-      expect(tester.takeException(), isNull);
+      expect(tester.takeException(), isNull, reason: 'Failed at $size');
     }
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
   });
 
-  testWidgets('repeated mount and dispose does not retain inactive elements', (tester) async {
+  testWidgets('repeated mount and dispose stays clean', (tester) async {
     for (var cycle = 0; cycle < 5; cycle++) {
       await tester.pumpWidget(const BadGymApp());
       await tester.pumpAndSettle();
