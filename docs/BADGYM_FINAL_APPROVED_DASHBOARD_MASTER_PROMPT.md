@@ -3,7 +3,7 @@
 **Status:** Current approved visual reference supplied by the product owner on 2026-11-25. This document supersedes the earlier minimal-card-only scope.
 
 ## Product boundary
-One compact Android member dashboard card for the gym check-in flow. The app's own top menu, bottom navigation and Android system navigation are outside this component and must not be implemented here. No left or right navigation rail inside this card.
+One compact Android member dashboard card for the gym check-in flow. The app's own top menu, bottom navigation and Android system navigation are outside this component and must not be implemented here. The supplied full screenshot includes a six-item vertical navigation rail (Attend, Insights, Cal, History, Trend, Goals); reproduce it inside this dashboard.
 
 ## Master visual reference
 Use the owner's uploaded purple neon / gold dashboard screenshot. Reproduce its component order, color language, dense card hierarchy, glow, rounded outlines and asset placements. Do not invent a different visual direction.
@@ -15,12 +15,13 @@ Use the owner's uploaded purple neon / gold dashboard screenshot. Reproduce its 
 4. Membership progress: days used / total, days remaining, percentage and progress track.
 5. Four compact metric tiles: attendance, workout duration, payment, body weight.
 6. Attendance analytics: title/live status, partner banner, attendance ring, present/absent/holiday/late legend and bars, streak stats, recovery offer, month label, weekday row and compact calendar.
+7. Six-item vertical navigation rail: Attend, Insights, Cal, History, Trend and Goals. Match the reference position, width, active-state treatment and icon/label spacing.
 
 ## Layout constraints
 - Mobile-first; 360 dp is the primary target. Verify 320 dp and 390 dp.
 - Compact, fixed card layout; no vertical scrolling, no horizontal scrolling, no clipping or overflow.
 - Must fit inside the bounded area supplied by the host dashboard; scale proportionally when the available area is smaller.
-- No app-level top menu, bottom menu, left rail or right rail in this component.
+- Reproduce the six-item vertical navigation rail visible in the supplied reference. Do not add any additional app-level top menu or bottom menu.
 - Keep all important labels legible at the smallest supported size.
 
 ## Asset authority
