@@ -113,7 +113,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     key: const ValueKey('check-in-button'),
                     behavior: HitTestBehavior.opaque,
                     onTap: _checkIn,
-                    child: Column(
+                    child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -134,7 +134,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           ),
                         ),
                       ],
-                    ),
+                    )),
                   ),
                 ),
                 Image.asset(
@@ -165,7 +165,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ),
                 const SizedBox(width: 4),
                 const Expanded(
-                  child: Column(
+                  child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -173,7 +173,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       Text('Stay Cool • Pause Plan', maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: _ink, fontSize: 8, fontWeight: FontWeight.w700)),
                       Text('UP TO 20% OFF', style: TextStyle(color: Color(0xFFD20F45), fontSize: 8, fontWeight: FontWeight.w900)),
                     ],
-                  ),
+                  )),
                 ),
                 const SizedBox(width: 4),
               ],
@@ -210,7 +210,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           ),
           const SizedBox(width: 8),
           Expanded(
-            child: Column(
+            child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -238,7 +238,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   ],
                 ),
               ],
-            ),
+            )),
           ),
           const SizedBox(width: 5),
         ],
@@ -261,7 +261,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   const Icon(Icons.account_balance_wallet, color: Colors.white, size: 24),
                   const SizedBox(width: 6),
                   const Expanded(
-                    child: Column(
+                    child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -269,7 +269,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         Text('₹500 Due', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w900)),
                         Text('8 Days Left', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w700)),
                       ],
-                    ),
+                    )),
                   ),
                 ],
               ),
@@ -287,7 +287,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 const SizedBox(width: 4),
                 Image.asset('assets/member_card/03_whey_protein_tub.webp', width: 38, height: 45, fit: BoxFit.contain),
                 const Expanded(
-                  child: Column(
+                  child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -295,7 +295,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       Text('25% OFF', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
                       Text('Buy Now  ›', style: TextStyle(color: Colors.white, fontSize: 8, fontWeight: FontWeight.w800)),
                     ],
-                  ),
+                  )),
                 ),
               ],
             ),
@@ -311,14 +311,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       border: const Color(0xFFE4C5FF),
       fill: const Color(0xFF39116D),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 2),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               children: [
                 const Expanded(
-                  child: Text('Membership 22 / 30 Days', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w900)),
+                  child: Text('Membership 22 / 30 Days', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w900)),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
@@ -334,7 +334,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               borderRadius: BorderRadius.circular(20),
               child: const LinearProgressIndicator(
                 value: 22 / 30,
-                minHeight: 9,
+                minHeight: 7,
                 backgroundColor: Color(0xFFE7D9FF),
                 valueColor: AlwaysStoppedAnimation<Color>(_green),
               ),
@@ -628,10 +628,10 @@ class _AttendanceLegend extends StatelessWidget {
         children: [
           Container(width: 8, height: 8, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
           const SizedBox(width: 4),
-          SizedBox(width: 48, child: Text(label, style: const TextStyle(color: Color(0xFF28113F), fontSize: 9, fontWeight: FontWeight.w800))),
-          SizedBox(width: 19, child: Text(count, textAlign: TextAlign.end, style: const TextStyle(color: Color(0xFF28113F), fontSize: 9, fontWeight: FontWeight.w900))),
+          SizedBox(width: 48, child: Text(label, style: const TextStyle(color: Color(0xFF28113F), fontSize: 7, fontWeight: FontWeight.w800))),
+          SizedBox(width: 19, child: Text(count, textAlign: TextAlign.end, style: const TextStyle(color: Color(0xFF28113F), fontSize: 7, fontWeight: FontWeight.w900))),
           const SizedBox(width: 5),
-          Expanded(child: ClipRRect(borderRadius: BorderRadius.circular(8), child: LinearProgressIndicator(value: double.parse(percent.replaceAll('%', '')) / 100, minHeight: 7, backgroundColor: const Color(0xFFE2D7EC), valueColor: AlwaysStoppedAnimation<Color>(color)))),
+          Expanded(child: ClipRRect(borderRadius: BorderRadius.circular(8), child: LinearProgressIndicator(value: double.parse(percent.replaceAll('%', '')) / 100, minHeight: 5, backgroundColor: const Color(0xFFE2D7EC), valueColor: AlwaysStoppedAnimation<Color>(color)))),
           const SizedBox(width: 4),
           SizedBox(width: 25, child: Text(percent, textAlign: TextAlign.end, style: const TextStyle(color: Color(0xFF28113F), fontSize: 8, fontWeight: FontWeight.w900))),
         ],
@@ -682,13 +682,13 @@ class _DayCell extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
             border: selected ? Border.all(color: const Color(0xFF7627C8), width: 1.5) : null,
           ),
-          child: Column(
+          child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft, child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(day, style: const TextStyle(color: Color(0xFF28113F), fontSize: 9, fontWeight: FontWeight.w900)),
               if (off) const Text('OFF', style: TextStyle(color: Color(0xFF635B6B), fontSize: 6, fontWeight: FontWeight.w800)),
             ],
-          ),
+          )),
         ),
       );
 }
