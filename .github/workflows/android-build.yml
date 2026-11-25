@@ -47,12 +47,12 @@ jobs:
         run: flutter analyze
       - name: Widget tests
         run: flutter test --reporter expanded
-      - name: Build release-mode QA APK (unsigned unless private keystore is configured)
-        run: flutter build apk --release
+      - name: Build installable debug QA APK (debug-signed for device testing)
+        run: flutter build apk --debug
       - name: Upload QA APK
         uses: actions/upload-artifact@v4
         with:
-          name: bad-gym-qa-unsigned-${{ github.sha }}
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: bad-gym-qa-debug-${{ github.sha }}
+          path: build/app/outputs/flutter-apk/app-debug.apk
           if-no-files-found: error
           retention-days: 14
