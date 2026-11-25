@@ -1,4 +1,4 @@
-name: BAD GYM Android Build
+name: BAD GYM Android QA Build
 on:
   push:
     branches: ['grok/purple-neon-member-dashboard']
@@ -7,7 +7,6 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
-  actions: read
 concurrency:
   group: bad-gym-android-${{ github.ref }}
   cancel-in-progress: true
@@ -40,20 +39,18 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Resolve dependencies
         run: flutter pub get
-      - name: Format Dart sources
-        run: dart format lib test
-      - name: Verify formatting
+      - name: Verify formatting (read-only)
         run: dart format --output=none --set-exit-if-changed lib test
       - name: Static analysis
         run: flutter analyze
       - name: Widget tests
         run: flutter test --reporter expanded
-      - name: Build release APK
+      - name: Build release-mode QA APK (unsigned unless private keystore is configured)
         run: flutter build apk --release
-      - name: Upload APK
+      - name: Upload QA APK
         uses: actions/upload-artifact@v4
         with:
-          name: bad-gym-member-intelligence-${{ github.sha }}
+          name: bad-gym-qa-unsigned-${{ github.sha }}
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
           retention-days: 14
