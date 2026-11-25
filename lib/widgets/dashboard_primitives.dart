@@ -27,7 +27,8 @@ class DashboardPanel extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: borderColor, width: 1.2),
         boxShadow: const [
-          BoxShadow(color: Color(0x667D26D9), blurRadius: 5),
+          BoxShadow(color: Color(0x887D26D9), blurRadius: 7, spreadRadius: 0.5),
+          BoxShadow(color: Color(0x33FFFFFF), blurRadius: 2),
         ],
       ),
       child: child,
@@ -54,26 +55,44 @@ class DashboardMetricTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(4, 5, 4, 4),
+      padding: const EdgeInsets.fromLTRB(3, 4, 3, 3),
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(13),
-        border: Border.all(color: Colors.white, width: 1.2),
-        boxShadow: const [BoxShadow(color: Color(0x667C31FF), blurRadius: 5)],
+        gradient: LinearGradient(
+          colors: [color, Color.lerp(color, Colors.white, 0.22)!],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white, width: 1.3),
+        boxShadow: const [
+          BoxShadow(color: Color(0x887C31FF), blurRadius: 7, spreadRadius: 0.5),
+        ],
       ),
       child: Column(
         children: [
           _fit(label, 8, MemberTheme.ink),
           const SizedBox(height: 2),
-          Expanded(child: Center(child: _fit(value, 16, MemberTheme.ink))),
-          _fit(note, 7, MemberTheme.ink),
-          const SizedBox(height: 2),
+          _fit(value, 16, MemberTheme.ink),
+          const SizedBox(height: 1),
           Expanded(
-            child: Image.asset(
-              asset,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.medium,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 1),
+              child: Image.asset(
+                asset,
+                fit: BoxFit.contain,
+                filterQuality: FilterQuality.high,
+              ),
             ),
+          ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+            decoration: BoxDecoration(
+              color: const Color(0xAAFFFFFF),
+              borderRadius: BorderRadius.circular(9),
+              border: Border.all(color: const Color(0x66FFFFFF)),
+            ),
+            child: _fit(note, 7, MemberTheme.ink),
           ),
         ],
       ),
@@ -144,7 +163,7 @@ class AttendanceLegend extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
                 value: value.clamp(0.0, 1.0).toDouble(),
-                minHeight: 5,
+                minHeight: 6,
                 backgroundColor: const Color(0xFFE2D7EC),
                 valueColor: AlwaysStoppedAnimation<Color>(color),
               ),
