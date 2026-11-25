@@ -1,9 +1,9 @@
 # BAD GYM project rules
 
-- Keep this project a minimal Flutter Member Intelligence check-in card.
+- Reproduce the full supplied Purple Neon member dashboard screenshot in Flutter, including its promotions, analytics, calendar and six-item vertical navigation rail.
 - Target Android phones first; verify 320 dp, 360 dp and 390 dp widths.
-- Keep member identity, membership status/progress, check-in, attendance, workout, body weight and due amount only.
-- Do not add ads, promotions, product catalogs, analytics rail, calendars, charts, QR, custom animation systems, custom fonts or decorative asset packs without a direct product requirement.
+- Include the reference screenshot's member identity, membership status/progress, check-in/freeze, promotions, four metric tiles and attendance analytics/calendar.
+- Do not add components that are absent from the current reference screenshot. The six-item rail and visible promotional panels are explicitly required by that reference.
 - Keep demo values explicitly labeled until a real gym API is connected.
 - Prefer Flutter SDK widgets and zero runtime packages.
 - Run format, analyze, widget tests and an ARM64 release QA APK build for meaningful changes.
