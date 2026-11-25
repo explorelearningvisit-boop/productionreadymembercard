@@ -30,42 +30,25 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return Scaffold(
       backgroundColor: _purple,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final scale = math.min(
-              constraints.maxWidth / 370,
-              constraints.maxHeight / 650,
-            ).clamp(0.1, 1.0);
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaler: TextScaler.noScaling,
+        child: MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.noScaling,
+          ),
+          child: Center(
+            // Lay out the dashboard at its designed 370x650 logical size first.
+            // FittedBox scales the completed render tree to the available phone
+            // viewport; scaling the constraints before layout caused nested
+            // Columns and promotional rows to overflow on compact devices.
+            child: FittedBox(
+              fit: BoxFit.contain,
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: 370,
+                height: 650,
+                child: _dashboardCard(),
               ),
-              child: Center(
-                child: SizedBox(
-                  width: 370 * scale,
-                  height: 650 * scale,
-                  child: ClipRect(
-                    child: OverflowBox(
-                      alignment: Alignment.topLeft,
-                      minWidth: 370,
-                      maxWidth: 370,
-                      minHeight: 650,
-                      maxHeight: 650,
-                      child: Transform.scale(
-                        scale: scale,
-                        alignment: Alignment.topLeft,
-                        child: SizedBox(
-                          width: 370,
-                          height: 650,
-                          child: _dashboardCard(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          },
+            ),
+          ),
         ),
       ),
     );
