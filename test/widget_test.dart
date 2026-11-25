@@ -4,8 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bad_gym_member_intelligence/main.dart';
 
 void main() {
-  testWidgets('member card renders essential member information',
-      (tester) async {
+  testWidgets('purple dashboard renders every approved section', (tester) async {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -14,21 +13,23 @@ void main() {
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('BAD GYM'), findsOneWidget);
+    expect(find.text('CHECK-IN'), findsOneWidget);
+    expect(find.text('FREEZE'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
-    expect(find.text('ID BG215  •  28 yrs  •  Male'), findsOneWidget);
     expect(find.text('Gold Plan'), findsOneWidget);
-    expect(find.text('Not checked in'), findsOneWidget);
-    expect(find.text('22 / 30 days'), findsOneWidget);
-    expect(find.text('81%'), findsOneWidget);
-    expect(find.text('58 min'), findsOneWidget);
-    expect(find.text('69.5 kg'), findsOneWidget);
-    expect(find.text('₹500'), findsOneWidget);
+    expect(find.text('₹500 Due'), findsOneWidget);
+    expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
+    expect(find.text('Attendance Analytics'), findsOneWidget);
+    expect(find.text('October attendance'), findsOneWidget);
+    expect(find.text('Present'), findsOneWidget);
+    expect(find.text('Absent'), findsOneWidget);
+    expect(find.text('Holiday'), findsOneWidget);
+    expect(find.text('Late'), findsOneWidget);
+    expect(find.text('Sample data • API connection required for live records'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('check-in changes the member state without overlays',
-      (tester) async {
+  testWidgets('check-in action is stable and repeatable', (tester) async {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -36,44 +37,40 @@ void main() {
 
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
-
     await tester.tap(find.byKey(const ValueKey('check-in-button')));
     await tester.pump();
-
-    expect(find.text('Checked in'), findsOneWidget);
-    expect(find.text('CHECKED IN'), findsOneWidget);
-    expect(find.text('Not checked in'), findsNothing);
+    expect(find.text('CHECK-IN'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('card stays usable at 320, 360 and 390 dp', (tester) async {
+  testWidgets('dashboard fits compact phones without scroll or overflow', (tester) async {
     for (final size in <Size>[
+      const Size(320, 560),
       const Size(320, 640),
-      const Size(360, 780),
-      const Size(390, 844),
+      const Size(360, 600),
+      const Size(360, 700),
+      const Size(390, 720),
     ]) {
       tester.view.physicalSize = size;
       tester.view.devicePixelRatio = 1;
-
       await tester.pumpWidget(const BadGymApp());
       await tester.pumpAndSettle();
 
       expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
-      expect(find.byKey(const ValueKey('check-in-button')), findsOneWidget);
+      expect(find.text('Attendance Analytics'), findsOneWidget);
+      expect(find.byType(SingleChildScrollView), findsNothing);
+      expect(find.byType(ListView), findsNothing);
       expect(tester.takeException(), isNull);
     }
-
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
   });
 
-  testWidgets('repeated mount and dispose does not retain inactive elements',
-      (tester) async {
+  testWidgets('repeated mount and dispose does not retain inactive elements', (tester) async {
     for (var cycle = 0; cycle < 5; cycle++) {
       await tester.pumpWidget(const BadGymApp());
       await tester.pumpAndSettle();
-      expect(find.text('MEMBER INTELLIGENCE'), findsOneWidget);
-
+      expect(find.text('Attendance Analytics'), findsOneWidget);
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump();
       expect(tester.takeException(), isNull);
