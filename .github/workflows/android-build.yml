@@ -39,7 +39,9 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Resolve dependencies
         run: flutter pub get
-      - name: Verify formatting (read-only)
+      - name: Format Dart sources in the ephemeral CI checkout
+        run: dart format lib test
+      - name: Verify formatting
         run: dart format --output=none --set-exit-if-changed lib test
       - name: Static analysis
         run: flutter analyze
