@@ -20,34 +20,20 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return Scaffold(
       backgroundColor: MemberTheme.canvas,
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final scale = _scaleFor(constraints.biggest);
-            return Center(
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: SizedBox(
-                  width: 370,
-                  height: 650,
-                  child: Transform.scale(
-                    scale: scale,
-                    alignment: Alignment.topCenter,
-                    child: _dashboard(),
-                  ),
-                ),
-              ),
-            );
-          },
+        child: Center(
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: SizedBox(
+              width: 370,
+              height: 650,
+              child: _dashboard(),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  double _scaleFor(Size available) {
-    final widthScale = available.width / 370;
-    final heightScale = available.height / 650;
-    return widthScale < heightScale ? widthScale : heightScale;
-  }
 
   Widget _dashboard() {
     return Container(
@@ -320,7 +306,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: LinearProgressIndicator(
-              value: member.membershipProgress.clamp(0.0, 1.0),
+              value: member.membershipProgress.clamp(0.0, 1.0).toDouble(),
               minHeight: 7,
               backgroundColor: const Color(0xFFE7D9FF),
               valueColor: const AlwaysStoppedAnimation<Color>(MemberTheme.green),

@@ -143,7 +143,7 @@ class AttendanceLegend extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
-                value: value.clamp(0.0, 1.0),
+                value: value.clamp(0.0, 1.0).toDouble(),
                 minHeight: 5,
                 backgroundColor: const Color(0xFFE2D7EC),
                 valueColor: AlwaysStoppedAnimation<Color>(color),
