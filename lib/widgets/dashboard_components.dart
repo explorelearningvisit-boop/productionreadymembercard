@@ -689,38 +689,9 @@ class MembershipProgress extends StatelessWidget {
   }
 }
 
-class PromoBanner extends StatefulWidget {
+class PromoBanner extends StatelessWidget {
   final VoidCallback onShop;
   const PromoBanner({super.key, required this.onShop});
-
-  @override
-  State<PromoBanner> createState() => _PromoBannerState();
-}
-
-class _PromoBannerState extends State<PromoBanner>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _pulse = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 2600),
-  );
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (MediaQuery.disableAnimationsOf(context)) {
-      _pulse
-        ..stop()
-        ..value = 0;
-    } else if (!_pulse.isAnimating && _pulse.value == 0) {
-      _pulse.forward();
-    }
-  }
-
-  @override
-  void dispose() {
-    _pulse.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) => Container(
@@ -834,28 +805,23 @@ class _PromoBannerState extends State<PromoBanner>
                     ),
                   ],
                 ),
+                // Static glass highlight: avoids a perpetual ticker on a
+                // dashboard card that is frequently mounted/unmounted.
                 Positioned.fill(
                   child: IgnorePointer(
-                    child: AnimatedBuilder(
-                      animation: _pulse,
-                      builder: (context, child) => FractionalTranslation(
-                        translation: Offset(2.4 * _pulse.value - 1.2, 0),
-                        child: child,
-                      ),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: FractionallySizedBox(
-                          widthFactor: 0.22,
-                          heightFactor: 1,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.white.withValues(alpha: 0),
-                                  Colors.white.withValues(alpha: 0.28),
-                                  Colors.white.withValues(alpha: 0),
-                                ],
-                              ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: FractionallySizedBox(
+                        widthFactor: 0.22,
+                        heightFactor: 1,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white.withValues(alpha: 0),
+                                Colors.white.withValues(alpha: 0.22),
+                                Colors.white.withValues(alpha: 0),
+                              ],
                             ),
                           ),
                         ),
