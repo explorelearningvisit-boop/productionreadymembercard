@@ -157,14 +157,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             child: InkWell(
               key: const ValueKey('check-in-button'),
               borderRadius: BorderRadius.circular(15),
-              onTap: () => setState(() => _checkedIn = true),
+              onTap: () => setState(() => _checkedIn = !_checkedIn),
               child: Row(
                 children: [
                   const SizedBox(width: 5),
                   const CircleAvatar(
                     radius: 15,
-                    backgroundColor: MemberTheme.green,
-                    child: Icon(Icons.check, color: Colors.white, size: 21),
+                    backgroundColor: _checkedIn ? MemberTheme.green : const Color(0xFFFFB21C),
+                    child: Icon(_checkedIn ? Icons.check : Icons.login, color: Colors.white, size: 21),
                   ),
                   const SizedBox(width: 5),
                   const Expanded(
