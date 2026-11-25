@@ -70,6 +70,37 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('rapid analytics navigation does not double-deactivate elements', (tester) async {
+    tester.view.physicalSize = const Size(360, 780);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const BadGymApp());
+
+    const tabs = ['Attend', 'Insights', 'Cal', 'History', 'Trend', 'Goals'];
+    for (var round = 0; round < 8; round++) {
+      for (final tab in tabs) {
+        await tester.tap(
+          find.byKey(ValueKey('rail-$tab')),
+          warnIfMissed: false,
+        );
+        await tester.pump(const Duration(milliseconds: 16));
+        expect(tester.takeException(), isNull, reason: 'tab=$tab round=$round');
+      }
+    }
+
+    await tester.pumpAndSettle(const Duration(milliseconds: 16));
+    expect(tester.takeException(), isNull);
+
+    // Dispose while dashboard UI has been exercised, then mount it again.
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pump();
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle(const Duration(milliseconds: 16));
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('shop, freeze and notifications respond', (tester) async {
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
