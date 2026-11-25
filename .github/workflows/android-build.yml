@@ -47,12 +47,19 @@ jobs:
         run: flutter analyze
       - name: Widget tests
         run: flutter test --reporter expanded
-      - name: Build installable debug QA APK (debug-signed for device testing)
-        run: flutter build apk --debug
-      - name: Upload QA APK
+      - name: Build device-specific debug QA APKs
+        run: flutter build apk --debug --split-per-abi
+      - name: Verify 64-bit Android APK signature
+        run: |
+          APK=build/app/outputs/flutter-apk/app-arm64-v8a-debug.apk
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -n 1)
+          test -n "$APKSIGNER"
+          "$APKSIGNER" verify --verbose --print-certs "$APK"
+          test -s "$APK"
+      - name: Upload ARM64 QA APK
         uses: actions/upload-artifact@v4
         with:
-          name: bad-gym-qa-debug-${{ github.sha }}
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          name: bad-gym-qa-arm64-debug-${{ github.sha }}
+          path: build/app/outputs/flutter-apk/app-arm64-v8a-debug.apk
           if-no-files-found: error
           retention-days: 14
