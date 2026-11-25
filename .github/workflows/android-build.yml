@@ -1,9 +1,7 @@
-name: BAD GYM Android QA Build
+name: BAD GYM Android APK
 on:
   push:
     branches: ['grok/purple-neon-member-dashboard']
-  pull_request:
-    branches: ['feature/grok-member-intelligence-flutter']
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,9 +9,9 @@ concurrency:
   group: bad-gym-android-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  validate-build:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -21,11 +19,6 @@ jobs:
           flutter-version: '3.50.1'
           channel: stable
           cache: true
-      - name: Optimize bundled PNG assets as WebP for Android
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y webp
-          bash scripts/optimize_android_assets.sh
       - name: Cache Pub packages
         uses: actions/cache@v4
         with:
@@ -42,41 +35,27 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('pubspec.yaml', 'android/**/gradle-wrapper.properties', 'android/**/*.gradle*', 'android/**/*.gradle.kts') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Resolve dependencies
+      - name: Get Flutter dependencies
         run: flutter pub get
-      - name: Format Dart sources in the ephemeral CI checkout
-        run: dart format lib test
-      - name: Verify formatting
+      - name: Check Dart formatting
         run: dart format --output=none --set-exit-if-changed lib test
-      - name: Static analysis
+      - name: Flutter static analysis
         run: flutter analyze
-      - name: Widget tests
+      - name: Flutter widget tests
         run: flutter test --reporter expanded
-      - name: Build signed ARM64 debug APK for direct phone installation with transient Maven retry
-        shell: bash
-        run: |
-          set -euo pipefail
-          for attempt in 1 2 3 4; do
-            if flutter build apk --debug --target-platform android-arm64; then
-              break
-            fi
-            if [ "$attempt" -eq 4 ]; then
-              echo "ARM64 APK build failed after 4 attempts"
-              exit 1
-            fi
-            sleep $((attempt * 20))
-          done
-      - name: Verify 64-bit Android APK signature
+      - name: Build universal Android debug APK
+        run: flutter build apk --debug
+      - name: Verify APK signature
         run: |
           APK=build/app/outputs/flutter-apk/app-debug.apk
           APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -n 1)
           test -n "$APKSIGNER"
-          "$APKSIGNER" verify --verbose --print-certs "$APK"
           test -s "$APK"
-      - name: Upload ARM64 QA APK
+          "$APKSIGNER" verify --verbose --print-certs "$APK"
+      - name: Upload installable APK
         uses: actions/upload-artifact@v4
         with:
-          name: bad-gym-qa-arm64-debug-${{ github.sha }}
+          name: bad-gym-android-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
           if-no-files-found: error
           retention-days: 14
