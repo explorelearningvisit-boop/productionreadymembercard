@@ -21,6 +21,11 @@ jobs:
           flutter-version: '3.50.1'
           channel: stable
           cache: true
+      - name: Optimize bundled PNG assets as WebP for Android
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y webp
+          bash scripts/optimize_android_assets.sh
       - name: Cache Pub packages
         uses: actions/cache@v4
         with:
