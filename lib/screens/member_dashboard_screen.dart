@@ -30,13 +30,18 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, _) {
-            return Center(
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: SizedBox(
-                  width: 360,
-                  height: 640,
-                  child: _dashboardCard(),
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                textScaler: TextScaler.noScaling,
+              ),
+              child: Center(
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: SizedBox(
+                    width: 360,
+                    height: 640,
+                    child: _dashboardCard(),
+                  ),
                 ),
               ),
             );
