@@ -1,15 +1,6 @@
-import java.util.Properties
-
 plugins {
     id("com.android.application")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
-}
-
-val releaseKeyPropertiesFile = rootProject.file("key.properties")
-val releaseKeyProperties = Properties()
-if (releaseKeyPropertiesFile.exists()) {
-    releaseKeyPropertiesFile.inputStream().use(releaseKeyProperties::load)
 }
 
 android {
@@ -30,24 +21,11 @@ android {
         versionName = flutter.versionName
     }
 
-    if (releaseKeyPropertiesFile.exists()) {
-        signingConfigs {
-            create("release") {
-                keyAlias = releaseKeyProperties.getProperty("keyAlias")
-                keyPassword = releaseKeyProperties.getProperty("keyPassword")
-                storeFile = file(releaseKeyProperties.getProperty("storeFile"))
-                storePassword = releaseKeyProperties.getProperty("storePassword")
-            }
-        }
-    }
-
     buildTypes {
         release {
-            // No debug-key fallback: without a private upload keystore, this is an
-            // unsigned QA build and must not be uploaded to Google Play.
-            if (releaseKeyPropertiesFile.exists()) {
-                signingConfig = signingConfigs.getByName("release")
-            }
+            // Development signing is for sideloadable QA only.
+            // Replace with a private upload keystore before Play Store release.
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 }
