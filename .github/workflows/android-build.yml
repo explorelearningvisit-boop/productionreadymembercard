@@ -47,6 +47,14 @@ jobs:
         run: flutter analyze
       - name: Widget tests
         run: flutter test --reporter expanded
+      - name: Android emulator startup and lifecycle regression test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: flutter test integration_test/app_lifecycle_test.dart -d emulator-5554
       - name: Build ARM64 debug QA APK with transient Maven retry
         shell: bash
         run: |
