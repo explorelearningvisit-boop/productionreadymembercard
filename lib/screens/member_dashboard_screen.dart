@@ -419,7 +419,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           asset: 'assets/member_card/06_creatine_tub.webp')),
         const SizedBox(width: 3),
         Expanded(child: DashboardMetricTile(
-          label: 'PAYMENT', value: '${member.paymentDue} Due', note: 'Get 5% OFF',
+          label: 'PAYMENT', value: member.paymentDue, note: 'SBI • 5% OFF',
           color: const Color(0xFFD9F1FF),
           asset: 'assets/member_card/29_sbi_payment_card_graphic.webp')),
         const SizedBox(width: 3),
