@@ -783,7 +783,7 @@ class PromoBanner extends StatelessWidget {
                     ),
                     const SizedBox(width: 2),
                     FilledButton(
-                      onPressed: widget.onShop,
+                      onPressed: onShop,
                       style: FilledButton.styleFrom(
                         backgroundColor: MemberTheme.pink,
                         foregroundColor: Colors.white,
