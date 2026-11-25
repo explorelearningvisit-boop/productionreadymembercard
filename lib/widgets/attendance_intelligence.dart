@@ -375,16 +375,11 @@ class _Panel extends StatelessWidget {
                     const _PartnerBanner(),
                   ],
                   const SizedBox(height: 4),
-                  // Keep only one analytics subtree mounted at a time.
-                  // AnimatedSwitcher retains outgoing children during its
-                  // transition; on rapid section changes that can expose
-                  // duplicate element deactivation in the debug widget tree.
-                  AnimatedSize(
-                    duration: MediaQuery.disableAnimationsOf(context)
-                        ? Duration.zero
-                        : const Duration(milliseconds: 220),
-                    curve: Curves.easeOutCubic,
-                    alignment: Alignment.topCenter,
+                  // Render exactly one section subtree. Avoid retaining outgoing
+                  // animated children during rapid tab changes; this dashboard
+                  // must remain safe under repeated navigation and disposal.
+                  KeyedSubtree(
+                    key: ValueKey<int>(section),
                     child: switch (section) {
                       0 => const _DefaultAnalyticsOverview(),
                       1 => const _MoreOverview(),
@@ -403,67 +398,31 @@ class _Panel extends StatelessWidget {
 }
 
 
-class _AdShine extends StatefulWidget {
+class _AdShine extends StatelessWidget {
   final Widget child;
   const _AdShine({required this.child});
-
-  @override
-  State<_AdShine> createState() => _AdShineState();
-}
-
-class _AdShineState extends State<_AdShine>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 2600),
-  );
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (MediaQuery.disableAnimationsOf(context)) {
-      _controller
-        ..stop()
-        ..value = 0;
-    } else if (!_controller.isAnimating && _controller.value == 0) {
-      _controller.forward();
-    }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) => ClipRRect(
         borderRadius: BorderRadius.circular(14),
         child: Stack(
           children: [
-            widget.child,
+            child,
             Positioned.fill(
               child: IgnorePointer(
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) => FractionalTranslation(
-                    translation: Offset(2.4 * _controller.value - 1.2, 0),
-                    child: child,
-                  ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: FractionallySizedBox(
-                      widthFactor: 0.24,
-                      heightFactor: 1,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.white.withValues(alpha: 0),
-                              Colors.white.withValues(alpha: 0.34),
-                              Colors.white.withValues(alpha: 0),
-                            ],
-                          ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FractionallySizedBox(
+                    widthFactor: 0.24,
+                    heightFactor: 1,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.white.withValues(alpha: 0),
+                            Colors.white.withValues(alpha: 0.22),
+                            Colors.white.withValues(alpha: 0),
+                          ],
                         ),
                       ),
                     ),
