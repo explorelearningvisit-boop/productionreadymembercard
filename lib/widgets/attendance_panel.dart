@@ -8,6 +8,23 @@ class AttendancePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const designHeight = 270.0;
+        return FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.topCenter,
+          child: SizedBox(
+            width: constraints.maxWidth,
+            height: designHeight,
+            child: _panel(),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _panel() {
     return Container(
       padding: const EdgeInsets.fromLTRB(7, 5, 7, 4),
       decoration: BoxDecoration(
@@ -75,6 +92,8 @@ class AttendancePanel extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 2),
+          const Divider(height: 1, color: Color(0xFFD8C6E9)),
+          const SizedBox(height: 2),
           const Row(
             children: [
               Expanded(child: _MiniStat(icon: '🔥', value: '5d')),
@@ -113,10 +132,15 @@ class AttendancePanel extends StatelessWidget {
           ]),
           const Spacer(),
           const Text(
+            '23 present • 2 late • 2 absent • 4 holiday',
+            maxLines: 1,
+            style: TextStyle(color: MemberTheme.ink, fontSize: 7, fontWeight: FontWeight.w800),
+          ),
+          const Text(
             'Sample data • API connection required for live records',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: MemberTheme.muted, fontSize: 7, fontWeight: FontWeight.w600),
+            style: TextStyle(color: MemberTheme.muted, fontSize: 6, fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -128,7 +152,12 @@ class AttendancePanel extends StatelessWidget {
       height: 20,
       child: Row(
         children: [
-          const Icon(Icons.show_chart, color: MemberTheme.purple, size: 17),
+          Container(
+            width: 19,
+            height: 19,
+            decoration: const BoxDecoration(color: MemberTheme.purple, shape: BoxShape.circle),
+            child: const Icon(Icons.trending_up_rounded, color: Colors.white, size: 13),
+          ),
           const SizedBox(width: 4),
           const Expanded(
             child: Text('Attendance Analytics', maxLines: 1, style: TextStyle(
@@ -204,7 +233,7 @@ class AttendancePanel extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, color: MemberTheme.ink, size: 17),
+          const Icon(Icons.chevron_right, color: MemberTheme.ink, size: 18),
         ],
       ),
     );
@@ -221,9 +250,9 @@ class AttendancePanel extends StatelessWidget {
             )),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
             decoration: BoxDecoration(
-              color: MemberTheme.purple,
+              gradient: const LinearGradient(colors: [Color(0xFF7D16B9), Color(0xFF3B0878)]),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Text('🏋 Train More • 15% OFF', style: TextStyle(
