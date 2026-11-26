@@ -11,16 +11,24 @@ class AttendancePanel extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         const designHeight = 290.0;
-        return FittedBox(
+        final availableHeight = constraints.maxHeight;
+        if (availableHeight < designHeight) {
+          return FittedBox(
+            key: const ValueKey('attendance-panel'),
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.topCenter,
+            child: SizedBox(
+              width: constraints.maxWidth,
+              height: designHeight,
+              child: _panel(),
+            ),
+          );
+        }
+        return SizedBox(
           key: const ValueKey('attendance-panel'),
-          // Preserve the reference proportions; shrink only when required.
-          fit: BoxFit.scaleDown,
-          alignment: Alignment.topCenter,
-          child: SizedBox(
-            width: constraints.maxWidth,
-            height: designHeight,
-            child: _panel(),
-          ),
+          width: constraints.maxWidth,
+          height: availableHeight,
+          child: _panel(),
         );
       },
     );
