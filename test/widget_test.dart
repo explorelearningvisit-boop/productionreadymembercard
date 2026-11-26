@@ -45,7 +45,7 @@ void main() {
     final panel = tester.getSize(find.byKey(const ValueKey('attendance-panel')));
     expect(rail.width, 42);
     expect(rail.height, panel.height);
-    expect(panel.height, greaterThan(290));
+    expect(panel.height, 290);
     expect(tester.takeException(), isNull);
   });
 
@@ -81,6 +81,11 @@ void main() {
 
       expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
       expect(find.text('Attendance Analytics'), findsOneWidget);
+      expect(
+        tester.getSize(find.byKey(const ValueKey('attendance-panel'))).height,
+        lessThanOrEqualTo(290),
+        reason: 'Panel must preserve compact proportions at $size',
+      );
       expect(find.byType(SingleChildScrollView), findsNothing);
       expect(find.byType(ListView), findsNothing);
       expect(tester.takeException(), isNull, reason: 'Failed at $size');
