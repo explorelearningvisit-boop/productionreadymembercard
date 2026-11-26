@@ -183,21 +183,21 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     // Interpolate compact proportions so short phones do not hit an abrupt
     // breakpoint or squeeze text-heavy modules.
     final topHeight = compact
-        ? 42.0 + 10.0 * compactProgress
+        ? 48.0 + 4.0 * compactProgress
         : 60.0;
     final identityHeight = compact
-        ? 78.0 + 10.0 * compactProgress
+        ? 70.0 + 10.0 * compactProgress
         : 98.0;
     final offerHeight = compact
-        ? 48.0 + 6.0 * compactProgress
+        ? 44.0 + 10.0 * compactProgress
         : 68.0;
     final progressHeight = compact
-        ? 42.0 + 5.0 * compactProgress
+        ? 38.0 + 7.0 * compactProgress
         : 54.0;
     final metricsHeight = compact
-        ? 80.0 + 36.0 * compactProgress
+        ? 72.0 + 44.0 * compactProgress
         : 150.0;
-    final sectionGap = compact ? 3.0 + compactProgress : 5.0;
+    final sectionGap = compact ? 2.0 + compactProgress : 5.0;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -361,7 +361,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }) {
     const member = MemberSample.demo;
     final portrait = compact
-        ? 60.0 + 12.0 * compactProgress
+        ? 56.0 + 12.0 * compactProgress
         : 84.0;
     return DashboardPanel(
       borderColor: MemberTheme.gold,
