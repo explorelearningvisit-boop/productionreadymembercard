@@ -10,7 +10,7 @@ class AttendancePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        const designHeight = 290.0;
+        const designHeight = 330.0;
         final availableHeight = constraints.maxHeight;
         if (availableHeight < designHeight) {
           return FittedBox(
@@ -36,38 +36,41 @@ class AttendancePanel extends StatelessWidget {
 
   Widget _panel() {
     return Container(
-      padding: const EdgeInsets.fromLTRB(7, 5, 7, 4),
+      padding: const EdgeInsets.fromLTRB(7, 5, 7, 5),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [MemberTheme.surface, Color(0xFFEAD9FF)],
+          colors: [Color(0xFFFFFDFF), Color(0xFFEAD9FF), Color(0xFFF5E9FF)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(17),
-        border: Border.all(color: const Color(0xFFEBCFFF), width: 1.5),
-        boxShadow: const [BoxShadow(color: Color(0x669B4CFF), blurRadius: 8)],
+        borderRadius: BorderRadius.circular(19),
+        border: Border.all(color: const Color(0xFFEBCFFF), width: 1.6),
+        boxShadow: const [
+          BoxShadow(color: Color(0x669B4CFF), blurRadius: 9),
+          BoxShadow(color: Color(0x44FFFFFF), blurRadius: 2),
+        ],
       ),
       child: Column(
         children: [
           _header(),
           const SizedBox(height: 3),
           _offerBanner(),
-          const SizedBox(height: 4),
+          const SizedBox(height: 3),
           SizedBox(
-            height: 69,
+            height: 72,
             child: Row(
               children: [
                 SizedBox(
-                  width: 76,
+                  width: 82,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       SizedBox(
-                        width: 65,
-                        height: 65,
+                        width: 70,
+                        height: 70,
                         child: CircularProgressIndicator(
                           value: 0.81,
-                          strokeWidth: 9,
+                          strokeWidth: 10,
                           backgroundColor: const Color(0xFFE3D5F2),
                           valueColor: const AlwaysStoppedAnimation<Color>(MemberTheme.green),
                         ),
@@ -76,10 +79,10 @@ class AttendancePanel extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text('81%', style: TextStyle(
-                            color: MemberTheme.ink, fontSize: 18, fontWeight: FontWeight.w900,
+                            color: MemberTheme.ink, fontSize: 20, fontWeight: FontWeight.w900,
                           )),
                           Text('25/31', style: TextStyle(
-                            color: MemberTheme.ink, fontSize: 8, fontWeight: FontWeight.w800,
+                            color: MemberTheme.ink, fontSize: 9, fontWeight: FontWeight.w800,
                           )),
                         ],
                       ),
@@ -111,11 +114,26 @@ class AttendancePanel extends StatelessWidget {
               Expanded(child: _MiniStat(icon: '↗', value: '+6%')),
             ],
           ),
+          const SizedBox(height: 1),
+          const Text(
+            'Sample data • API connection required for live records',
+            maxLines: 1,
+            style: TextStyle(color: MemberTheme.muted, fontSize: 7, fontWeight: FontWeight.w700),
+          ),
           const SizedBox(height: 3),
           _recoveryBanner(),
           const SizedBox(height: 3),
           _calendarTitle(),
-          const SizedBox(height: 2),
+          const SizedBox(height: 1),
+          const SizedBox(
+            height: 11,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text('23 present  •  2 late  •  2 absent  •  4 holiday',
+                maxLines: 1,
+                style: TextStyle(color: MemberTheme.ink, fontSize: 8, fontWeight: FontWeight.w800)),
+            ),
+          ),
           const Row(children: [
             WeekdayLabel('Mon'), WeekdayLabel('Tue'), WeekdayLabel('Wed'),
             WeekdayLabel('Thu'), WeekdayLabel('Fri'), WeekdayLabel('Sat'),
@@ -142,11 +160,6 @@ class AttendancePanel extends StatelessWidget {
           ]),
           const Spacer(),
           const Text(
-            '23 present • 2 late • 2 absent • 4 holiday',
-            maxLines: 1,
-            style: TextStyle(color: MemberTheme.ink, fontSize: 7, fontWeight: FontWeight.w800),
-          ),
-          const Text(
             'Sample data • API connection required for live records',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -159,28 +172,31 @@ class AttendancePanel extends StatelessWidget {
 
   Widget _header() {
     return SizedBox(
-      height: 20,
+      height: 22,
       child: Row(
         children: [
           Container(
-            width: 19,
-            height: 19,
-            decoration: const BoxDecoration(color: MemberTheme.purple, shape: BoxShape.circle),
-            child: const Icon(Icons.trending_up_rounded, color: Colors.white, size: 13),
+            width: 21,
+            height: 21,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(colors: [Color(0xFF8D27DC), Color(0xFF4B0A91)]),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(Icons.trending_up_rounded, color: Colors.white, size: 15),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 5),
           const Expanded(
             child: Text('Attendance Analytics', maxLines: 1, style: TextStyle(
-              color: MemberTheme.ink, fontSize: 12, fontWeight: FontWeight.w900,
+              color: MemberTheme.ink, fontSize: 14, fontWeight: FontWeight.w900,
             )),
           ),
-          const Icon(Icons.notifications_active, color: MemberTheme.purple, size: 15),
-          const SizedBox(width: 4),
+          const Icon(Icons.notifications_active, color: MemberTheme.purple, size: 17),
+          const SizedBox(width: 5),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
             decoration: BoxDecoration(
               color: const Color(0xFFFFE5E8),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.redAccent),
             ),
             child: const Text('● DEMO', style: TextStyle(
@@ -195,7 +211,7 @@ class AttendancePanel extends StatelessWidget {
   Widget _offerBanner() {
     return _smallBanner(
       asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png',
-      assetWidth: 34,
+      assetWidth: 39,
       title: 'Healthy Snacks & Gym Essentials',
       subtitle: 'Member partner offer • Up to 30% OFF',
       colors: const [Color(0xFFFFF3C7), Color(0xFFF4D9FF)],
@@ -205,7 +221,7 @@ class AttendancePanel extends StatelessWidget {
   Widget _recoveryBanner() {
     return _smallBanner(
       asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png',
-      assetWidth: 23,
+      assetWidth: 29,
       title: 'Recovery Combo',
       subtitle: 'Up to 30% OFF',
       colors: const [Color(0xFFF9E9FF), Color(0xFFE5C4FF)],
@@ -220,16 +236,17 @@ class AttendancePanel extends StatelessWidget {
     required List<Color> colors,
   }) {
     return Container(
-      height: 26,
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      height: 30,
+      padding: const EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: colors),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFD8B3F3)),
+        boxShadow: const [BoxShadow(color: Color(0x448B40C4), blurRadius: 4)],
       ),
       child: Row(
         children: [
-          Image.asset(asset, width: assetWidth, height: 23, fit: BoxFit.contain),
+          Image.asset(asset, width: assetWidth, height: 27, fit: BoxFit.contain),
           const SizedBox(width: 5),
           Expanded(
             child: Column(
@@ -243,7 +260,7 @@ class AttendancePanel extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, color: MemberTheme.ink, size: 18),
+          const Icon(Icons.chevron_right, color: MemberTheme.ink, size: 20),
         ],
       ),
     );
@@ -251,14 +268,14 @@ class AttendancePanel extends StatelessWidget {
 
   Widget _calendarTitle() {
     return SizedBox(
-      height: 17,
+      height: 18,
       child: Row(
         children: [
-          Image.asset('assets/member_card/25_calendar_graphic.webp', width: 18, height: 18, fit: BoxFit.contain),
-          const SizedBox(width: 3),
+          Image.asset('assets/member_card/25_calendar_graphic.webp', width: 20, height: 20, fit: BoxFit.contain),
+          const SizedBox(width: 4),
           const Expanded(
             child: Text('October attendance', maxLines: 1, style: TextStyle(
-              color: MemberTheme.ink, fontSize: 12, fontWeight: FontWeight.w900,
+              color: MemberTheme.ink, fontSize: 14, fontWeight: FontWeight.w900,
             )),
           ),
           Container(
@@ -290,7 +307,7 @@ class _MiniStat extends StatelessWidget {
         Text(icon, style: const TextStyle(fontSize: 10)),
         const SizedBox(width: 3),
         Text(value, style: const TextStyle(
-          color: MemberTheme.purple, fontSize: 10, fontWeight: FontWeight.w900,
+          color: MemberTheme.purple, fontSize: 11, fontWeight: FontWeight.w900,
         )),
       ],
     );

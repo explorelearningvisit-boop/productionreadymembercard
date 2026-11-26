@@ -80,6 +80,8 @@ class DashboardMetricTile extends StatelessWidget {
     required this.note,
     required this.color,
     required this.asset,
+    this.trend,
+    this.valueColor = MemberTheme.ink,
     super.key,
   });
 
@@ -88,6 +90,8 @@ class DashboardMetricTile extends StatelessWidget {
   final String note;
   final Color color;
   final String asset;
+  final String? trend;
+  final Color valueColor;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +113,18 @@ class DashboardMetricTile extends StatelessWidget {
         children: [
           _fit(label, 8, MemberTheme.ink),
           const SizedBox(height: 2),
-          _fit(value, 16, MemberTheme.ink),
+          _fit(value, 17, valueColor),
+          if (trend != null) ...[
+            const SizedBox(height: 2),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+              decoration: BoxDecoration(
+                color: const Color(0xAAFFFFFF),
+                borderRadius: BorderRadius.circular(9),
+              ),
+              child: _fit(trend!, 8, const Color(0xFF078B46)),
+            ),
+          ],
           const SizedBox(height: 1),
           Expanded(
             child: Padding(
@@ -173,7 +188,7 @@ class AttendanceLegend extends StatelessWidget {
   Widget build(BuildContext context) {
     final value = (double.tryParse(percent.replaceAll('%', '')) ?? 0) / 100;
     return SizedBox(
-      height: 16,
+      height: 17,
       child: Row(
         children: [
           Container(
@@ -200,7 +215,7 @@ class AttendanceLegend extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
                 value: value.clamp(0.0, 1.0).toDouble(),
-                minHeight: 6,
+                minHeight: 7,
                 backgroundColor: const Color(0xFFE2D7EC),
                 valueColor: AlwaysStoppedAnimation<Color>(color),
               ),
@@ -228,7 +243,7 @@ class WeekdayLabel extends StatelessWidget {
     return Expanded(
       child: Center(
         child: Text(label, style: const TextStyle(
-          color: Color(0xFF4B3C5B), fontSize: 7, fontWeight: FontWeight.w800,
+          color: Color(0xFF4B3C5B), fontSize: 8, fontWeight: FontWeight.w800,
         )),
       ),
     );
@@ -253,8 +268,8 @@ class AttendanceDayCell extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: 22,
-        margin: const EdgeInsets.symmetric(horizontal: 1),
+        height: 25,
+        margin: const EdgeInsets.symmetric(horizontal: 1.5),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: color,
@@ -273,7 +288,7 @@ class AttendanceDayCell extends StatelessWidget {
               )),
               if (off)
                 const Text('OFF', style: TextStyle(
-                  color: Color(0xFF635B6B), fontSize: 6, fontWeight: FontWeight.w800,
+                  color: Color(0xFF635B6B), fontSize: 7, fontWeight: FontWeight.w800,
                 )),
             ],
           ),

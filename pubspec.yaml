@@ -18,8 +18,6 @@ dev_dependencies:
 flutter:
   uses-material-design: false
   assets:
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/17_checkin_freeze_header_compact.webp
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/16_member_identity_card.webp
     - reference_library/recovered_from_history/assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png
     - reference_library/recovered_from_history/assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png
     - reference_library/recovered_from_history/assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png

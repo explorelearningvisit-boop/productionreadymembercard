@@ -33,7 +33,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         child: LayoutBuilder(
           builder: (context, bounds) {
             final compact = bounds.maxHeight < 660;
-            final railWidth = bounds.maxWidth < 350 ? 38.0 : 42.0;
+            final railWidth = bounds.maxWidth < 350 ? 48.0 : 52.0;
             return Container(
               margin: const EdgeInsets.fromLTRB(5, 4, 5, 5),
               padding: const EdgeInsets.all(4),
@@ -171,11 +171,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _dashboardTop({required bool compact}) {
-    final topHeight = compact ? 50.0 : 56.0;
-    final identityHeight = compact ? 72.0 : 82.0;
-    final offerHeight = compact ? 53.0 : 59.0;
-    final progressHeight = compact ? 41.0 : 46.0;
-    final metricsHeight = compact ? 99.0 : 111.0;
+    final topHeight = compact ? 52.0 : 56.0;
+    final identityHeight = compact ? 82.0 : 92.0;
+    final offerHeight = compact ? 58.0 : 65.0;
+    final progressHeight = compact ? 46.0 : 51.0;
+    final metricsHeight = compact ? 122.0 : 140.0;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -193,66 +193,170 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _topActions() {
-    return Semantics(
-      label: 'BAD GYM check-in and freeze status',
-      child: InkWell(
-        key: const ValueKey('check-in-button'),
-        borderRadius: BorderRadius.circular(15),
-        onTap: () => setState(() => _checkedIn = !_checkedIn),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(15),
-          child: Image.asset(
-            key: const ValueKey('check-in-freeze-header-image'),
-            'reference_library/recovered_from_history/assets/material_pack/pulsevault/17_checkin_freeze_header_compact.webp',
-            width: double.infinity,
-            height: double.infinity,
-            fit: BoxFit.fill,
-            errorBuilder: (context, error, stackTrace) => Container(
-              alignment: Alignment.center,
+    return Row(
+      children: [
+        Expanded(
+          child: InkWell(
+            key: const ValueKey('check-in-button'),
+            borderRadius: BorderRadius.circular(17),
+            onTap: () => setState(() => _checkedIn = !_checkedIn),
+            child: Container(
+              key: const ValueKey('check-in-freeze-header-image'),
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
               decoration: BoxDecoration(
-                color: const Color(0xFFF8F3FF),
-                borderRadius: BorderRadius.circular(15),
-                border: Border.all(color: MemberTheme.gold),
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF290052), Color(0xFF6D16B5), Color(0xFF28004F)],
+                ),
+                borderRadius: BorderRadius.circular(17),
+                border: Border.all(color: MemberTheme.gold, width: 1.5),
+                boxShadow: const [
+                  BoxShadow(color: Color(0xAAAD4BFF), blurRadius: 9, spreadRadius: 0.5),
+                ],
               ),
-              child: Text(
-                _checkedIn ? '✓ CHECK-IN COMPLETED  •  FREEZE' : 'CHECK-IN  •  FREEZE',
-                style: const TextStyle(color: MemberTheme.ink, fontWeight: FontWeight.w900),
+              child: Row(
+                children: [
+                  Container(
+                    width: 31,
+                    height: 31,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF0AD66B),
+                      shape: BoxShape.circle,
+                      boxShadow: [BoxShadow(color: Color(0x8847FF9B), blurRadius: 7)],
+                    ),
+                    child: Icon(
+                      _checkedIn ? Icons.check_rounded : Icons.login_rounded,
+                      color: Colors.white,
+                      size: 22,
+                    ),
+                  ),
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text('CHECK-IN', maxLines: 1,
+                            style: TextStyle(color: Colors.white, fontSize: 14,
+                              height: 1, fontWeight: FontWeight.w900)),
+                        ),
+                        const SizedBox(height: 3),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(_checkedIn ? '07:12 AM' : 'TAP TO CHECK-IN',
+                            maxLines: 1,
+                            style: const TextStyle(color: Colors.white, fontSize: 10,
+                              height: 1, fontWeight: FontWeight.w800)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 2),
+                  Image.asset(
+                    'reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
+                    width: 37,
+                    height: 40,
+                    fit: BoxFit.contain,
+                  ),
+                ],
               ),
             ),
           ),
         ),
-      ),
+        const SizedBox(width: 5),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFFF9F5FF), Color(0xFFE6D7FF), Color(0xFFFDFBFF)],
+              ),
+              borderRadius: BorderRadius.circular(17),
+              border: Border.all(color: const Color(0xFFE5BFFF), width: 1.5),
+              boxShadow: const [
+                BoxShadow(color: Color(0x887E30D7), blurRadius: 8),
+              ],
+            ),
+            child: Row(
+              children: [
+                const Icon(Icons.ac_unit_rounded, color: Color(0xFF5526D5), size: 27),
+                const SizedBox(width: 4),
+                const Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('FREEZE', maxLines: 1,
+                        style: TextStyle(color: MemberTheme.ink, fontSize: 14,
+                          height: 1, fontWeight: FontWeight.w900)),
+                      SizedBox(height: 2),
+                      Text('Stay Cool • Pause Plan', maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(color: MemberTheme.ink, fontSize: 7,
+                          height: 1, fontWeight: FontWeight.w800)),
+                      SizedBox(height: 3),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Color(0xFFD71939),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                          child: Text('UP TO 20% OFF',
+                            style: TextStyle(color: Colors.white, fontSize: 7,
+                              height: 1, fontWeight: FontWeight.w900)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 2),
+                Image.asset(
+                  'reference_library/recovered_from_history/assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png',
+                  width: 31,
+                  height: 42,
+                  fit: BoxFit.contain,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
-
   Widget _memberIdentity({required bool compact}) {
     const member = MemberSample.demo;
-    final portrait = compact ? 60.0 : 68.0;
+    final portrait = compact ? 72.0 : 80.0;
     return DashboardPanel(
       borderColor: MemberTheme.gold,
-      radius: 18,
+      radius: 20,
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
       child: Row(
         children: [
           Container(
             width: portrait,
             height: portrait,
-            margin: const EdgeInsets.only(left: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFD76B),
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: MemberTheme.gold, width: 1.5),
-              boxShadow: const [BoxShadow(color: Color(0xAAFFCA3A), blurRadius: 7)],
+              gradient: const LinearGradient(
+                colors: [Color(0xFFFFEA91), Color(0xFFFFB51D), Color(0xFFFFF3B9)],
+              ),
+              borderRadius: BorderRadius.circular(19),
+              border: Border.all(color: MemberTheme.gold, width: 1.8),
+              boxShadow: const [BoxShadow(color: Color(0xAAFFCA3A), blurRadius: 8)],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(13),
+              borderRadius: BorderRadius.circular(17),
               child: Image.asset(
-                'reference_library/recovered_from_history/assets/material_pack/pulsevault/16_member_identity_card.webp',
-                fit: BoxFit.cover,
-                alignment: Alignment.centerLeft,
+                'reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
+                fit: BoxFit.contain,
+                alignment: Alignment.bottomCenter,
               ),
             ),
           ),
-          const SizedBox(width: 7),
+          const SizedBox(width: 9),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 2),
@@ -262,31 +366,30 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 children: [
                   Text(member.name, maxLines: 1, overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.white,
-                      fontSize: compact ? 13 : 15, height: 1,
+                      fontSize: compact ? 17 : 20, height: 1,
                       fontWeight: FontWeight.w900)),
-                  const SizedBox(height: 4),
-                  Text('▦ ${member.memberId}  •  ${member.age} Yrs  •  ♂ ${member.gender}',
+                  const SizedBox(height: 6),
+                  Text('▦  \${member.memberId}  |  \${member.age} Yrs  |  ♂ \${member.gender}',
                     maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(color: Colors.white, fontSize: 8,
+                    style: TextStyle(color: Colors.white, fontSize: compact ? 9 : 10,
                       height: 1, fontWeight: FontWeight.w800)),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 7),
                   Row(
                     children: [
-                      _statusPill('♙ ${member.plan}', const Color(0xFFFFC629), MemberTheme.ink),
-                      const SizedBox(width: 4),
-                      _statusPill('✓ Active', MemberTheme.green, Colors.white),
+                      _statusPill('♙  \${member.plan}', const Color(0xFFFFC629), MemberTheme.ink),
+                      const SizedBox(width: 5),
+                      _statusPill('✓  Active', MemberTheme.green, Colors.white),
                     ],
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(width: 4),
+          const SizedBox(width: 2),
         ],
       ),
     );
   }
-
   Widget _paymentAndOffer({required bool compact}) {
     const member = MemberSample.demo;
     return Row(
@@ -296,28 +399,36 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             glowColor: const Color(0xFFFF415D),
             child: DashboardPanel(
               color: const Color(0xFFB80928),
-              borderColor: const Color(0xFFFF5368),
-              radius: 15,
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              borderColor: const Color(0xFFFF7184),
+              radius: 18,
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
               child: Row(
                 children: [
-                  Icon(Icons.account_balance_wallet_rounded,
-                    color: Colors.white, size: compact ? 23 : 26),
-                  const SizedBox(width: 4),
+                  Container(
+                    width: compact ? 34 : 39,
+                    height: compact ? 34 : 39,
+                    decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                    child: const Icon(Icons.account_balance_wallet_rounded,
+                      color: Color(0xFFE51B43), size: 23),
+                  ),
+                  const SizedBox(width: 6),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text('PAYMENT DUE  ⚠', maxLines: 1,
-                          style: TextStyle(color: Colors.white, fontSize: 8,
-                            fontWeight: FontWeight.w900)),
-                        Text('${member.paymentDue} Due', maxLines: 1,
+                          style: TextStyle(color: Colors.white, fontSize: 9,
+                            height: 1, fontWeight: FontWeight.w900)),
+                        const SizedBox(height: 3),
+                        Text('\${member.paymentDue} Due', maxLines: 1,
                           style: TextStyle(color: Colors.white,
-                            fontSize: compact ? 14 : 16, fontWeight: FontWeight.w900)),
-                        Text('${member.daysRemaining} Days Left', maxLines: 1,
-                          style: const TextStyle(color: Colors.white, fontSize: 7,
-                            fontWeight: FontWeight.w700)),
+                            fontSize: compact ? 15 : 18, height: 1,
+                            fontWeight: FontWeight.w900)),
+                        const SizedBox(height: 3),
+                        Text('\${member.daysRemaining} Days Left', maxLines: 1,
+                          style: const TextStyle(color: Colors.white, fontSize: 8,
+                            height: 1, fontWeight: FontWeight.w800)),
                       ],
                     ),
                   ),
@@ -326,32 +437,47 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             ),
           ),
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: 5),
         Expanded(
           child: DashboardPanel(
             color: const Color(0xFF6D1AA8),
             borderColor: const Color(0xFFE77CFF),
-            radius: 15,
+            radius: 18,
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
             child: Row(
               children: [
-                const SizedBox(width: 2),
-                Image.asset('reference_library/recovered_from_history/assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
-                  width: compact ? 34 : 39, height: 46, fit: BoxFit.contain),
-                const SizedBox(width: 2),
+                Image.asset(
+                  'reference_library/recovered_from_history/assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
+                  width: compact ? 40 : 47,
+                  height: 51,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(width: 3),
                 const Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Whey Protein', maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: MemberTheme.gold, fontSize: 9,
-                          fontWeight: FontWeight.w900)),
+                        style: TextStyle(color: MemberTheme.gold, fontSize: 10,
+                          fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
+                      SizedBox(height: 2),
                       Text('25% OFF', maxLines: 1,
-                        style: TextStyle(color: Colors.white, fontSize: 15,
-                          fontWeight: FontWeight.w900)),
-                      Text('Buy Now  ›', maxLines: 1,
-                        style: TextStyle(color: Colors.white, fontSize: 7,
-                          fontWeight: FontWeight.w800)),
+                        style: TextStyle(color: Colors.white, fontSize: 16,
+                          height: 1, fontWeight: FontWeight.w900)),
+                      SizedBox(height: 4),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(colors: [Color(0xFFFF53B5), Color(0xFFD20A85)]),
+                          borderRadius: BorderRadius.all(Radius.circular(13)),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                          child: Text('Buy Now ›', maxLines: 1,
+                            style: TextStyle(color: Colors.white, fontSize: 8,
+                              height: 1, fontWeight: FontWeight.w900)),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -362,47 +488,60 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       ],
     );
   }
-
   Widget _membershipProgress() {
     const member = MemberSample.demo;
     return DashboardPanel(
       color: const Color(0xFF39116D),
       borderColor: const Color(0xFFE4C5FF),
-      radius: 14,
-      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+      radius: 16,
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [
               Expanded(
-                child: Text('Membership ${member.membershipDays} / ${member.membershipTotalDays} Days',
+                child: Text('Membership \${member.membershipDays} / \${member.membershipTotalDays} Days',
                   maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.white, fontSize: 10,
-                    fontWeight: FontWeight.w900)),
+                  style: const TextStyle(color: Colors.white, fontSize: 13,
+                    height: 1, fontWeight: FontWeight.w900)),
               ),
-              const SizedBox(width: 3),
-              Text('⚠ ${member.daysRemaining} Days Left', maxLines: 1,
-                style: const TextStyle(color: Colors.white, fontSize: 7,
-                  fontWeight: FontWeight.w900)),
-              const SizedBox(width: 3),
-              Text('${(member.membershipProgress * 100).round()}%',
-                style: const TextStyle(color: Colors.white, fontSize: 13,
-                  fontWeight: FontWeight.w900)),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFD71939),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFFFA5B2)),
+                ),
+                child: Text('⚠ \${member.daysRemaining} Days Left', maxLines: 1,
+                  style: const TextStyle(color: Colors.white, fontSize: 8,
+                    height: 1, fontWeight: FontWeight.w900)),
+              ),
+              const SizedBox(width: 5),
+              Text('\${(member.membershipProgress * 100).round()}%',
+                style: const TextStyle(color: Colors.white, fontSize: 19,
+                  height: 1, fontWeight: FontWeight.w900)),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 5),
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: SizedBox(
-              height: 8,
+              height: 11,
               width: double.infinity,
               child: Stack(fit: StackFit.expand, children: [
-                const ColoredBox(color: Color(0xFFE7D9FF)),
+                const ColoredBox(color: Color(0xFFDCCDF0)),
                 FractionallySizedBox(
                   alignment: Alignment.centerLeft,
                   widthFactor: member.membershipProgress.clamp(0.0, 1.0).toDouble(),
-                  child: Image.asset('assets/member_card/15_purple_progress_bar.webp', fit: BoxFit.fill),
+                  child: const DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF19E65E), Color(0xFF00B84E), Color(0xFF45FA82)],
+                      ),
+                      boxShadow: [BoxShadow(color: Color(0xAA00FF68), blurRadius: 7)],
+                    ),
+                  ),
                 ),
               ]),
             ),
@@ -411,34 +550,34 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       ),
     );
   }
-
   Widget _metrics({required bool compact}) {
     const member = MemberSample.demo;
     return Row(
       children: [
         Expanded(child: DashboardMetricTile(
           label: '▦ ATTENDA. +6%', value: member.attendance,
-          note: 'Protein 10% OFF', color: const Color(0xFFFFE96A),
+          note: 'Protein 10% OFF',
+          color: const Color(0xFFFFE96A),
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png')),
-        const SizedBox(width: 3),
+        const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
-          label: 'WORKOUT', value: member.workout, note: 'Creatine 50% OFF',
-          color: const Color(0xFFF2D7FF),
+          label: 'WORKOUT', value: member.workout, trend: '↑ +12%',
+          note: 'Creatine 15% OFF', color: const Color(0xFFF2D7FF),
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png')),
-        const SizedBox(width: 3),
+        const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
-          label: 'PAYMENT', value: member.paymentDue, note: 'SBI • 5% OFF',
+          label: 'PAYMENT', value: '\${member.paymentDue} Due',
+          note: 'Get 5% OFF  ›', valueColor: const Color(0xFFD71939),
           color: const Color(0xFFD9F1FF),
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/11_sbi_payment_card_cutout.png')),
-        const SizedBox(width: 3),
+        const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
-          label: '▣ BODY', value: member.bodyWeight, note: 'Fat Loss 20% OFF',
-          color: const Color(0xFFD8FFE2),
+          label: '▣ BODY', value: member.bodyWeight, trend: '↓ -0.8 kg',
+          note: 'Fat Loss 20% OFF', color: const Color(0xFFD8FFE2),
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png')),
       ],
     );
   }
-
   Widget _statusPill(String label, Color color, Color foreground) {
     return Expanded(
       child: Container(
