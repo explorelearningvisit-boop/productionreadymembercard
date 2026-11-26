@@ -74,61 +74,79 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _navigationRail() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 2),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF4B087F), Color(0xFF280052)],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
-        borderRadius: BorderRadius.circular(19),
-        border: Border.all(color: MemberTheme.gold, width: 1.2),
-      ),
-      child: Column(
-        children: [
-          for (var i = 0; i < _navigation.length; i++)
-            Expanded(
-              child: InkWell(
-                key: ValueKey('navigation-${_navigation[i].$2.toLowerCase()}'),
-                borderRadius: BorderRadius.circular(11),
-                onTap: () => setState(() => _selectedNavigation = i),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 160),
-                  margin: const EdgeInsets.symmetric(vertical: 2),
-                  decoration: BoxDecoration(
-                    color: _selectedNavigation == i
-                        ? const Color(0xFFFFE77A)
-                        : Colors.transparent,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final itemHeight = constraints.maxHeight / _navigation.length;
+        final iconSize = (itemHeight * 0.50).clamp(12.0, 19.0);
+        final labelSize = (itemHeight * 0.21).clamp(6.0, 8.0);
+        final verticalMargin = itemHeight < 34 ? 0.5 : 1.0;
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 2),
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xFF4B087F), Color(0xFF280052)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+            borderRadius: BorderRadius.circular(19),
+            border: Border.all(color: MemberTheme.gold, width: 1.2),
+          ),
+          child: Column(
+            children: [
+              for (var i = 0; i < _navigation.length; i++)
+                Expanded(
+                  child: InkWell(
+                    key: ValueKey('navigation-${_navigation[i].$2.toLowerCase()}'),
                     borderRadius: BorderRadius.circular(11),
-                    border: _selectedNavigation == i
-                        ? Border.all(color: Colors.white, width: 1)
-                        : null,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(_navigation[i].$1,
-                        color: _selectedNavigation == i ? MemberTheme.ink : Colors.white,
-                        size: 19),
-                      const SizedBox(height: 2),
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(_navigation[i].$2,
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: _selectedNavigation == i ? MemberTheme.ink : Colors.white,
-                            fontSize: 8,
-                            fontWeight: FontWeight.w900,
-                          )),
+                    onTap: () => setState(() => _selectedNavigation = i),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 160),
+                      margin: EdgeInsets.symmetric(vertical: verticalMargin),
+                      decoration: BoxDecoration(
+                        color: _selectedNavigation == i
+                            ? const Color(0xFFFFE77A)
+                            : Colors.transparent,
+                        borderRadius: BorderRadius.circular(11),
+                        border: _selectedNavigation == i
+                            ? Border.all(color: Colors.white, width: 1)
+                            : null,
                       ),
-                    ],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            _navigation[i].$1,
+                            color: _selectedNavigation == i
+                                ? MemberTheme.ink
+                                : Colors.white,
+                            size: iconSize,
+                          ),
+                          SizedBox(height: itemHeight < 34 ? 0 : 1),
+                          FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              _navigation[i].$2,
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: _selectedNavigation == i
+                                    ? MemberTheme.ink
+                                    : Colors.white,
+                                fontSize: labelSize,
+                                height: 1,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-        ],
-      ),
+            ],
+          ),
+        );
+      },
     );
   }
 
