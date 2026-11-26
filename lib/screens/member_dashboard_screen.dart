@@ -245,6 +245,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             margin: const EdgeInsets.only(left: 4),
             decoration: BoxDecoration(
               color: const Color(0xFFFFD76B),
+              image: const DecorationImage(
+                image: AssetImage('assets/member_card/10_gold_photo_backplate.webp'),
+                fit: BoxFit.cover,
+              ),
               borderRadius: BorderRadius.circular(15),
               border: Border.all(color: MemberTheme.gold, width: 1.5),
               boxShadow: const [BoxShadow(color: Color(0xAAFFCA3A), blurRadius: 7)],
@@ -397,11 +401,17 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           const SizedBox(height: 4),
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: LinearProgressIndicator(
-              value: member.membershipProgress.clamp(0.0, 1.0).toDouble(),
-              minHeight: 7,
-              backgroundColor: const Color(0xFFE7D9FF),
-              valueColor: const AlwaysStoppedAnimation<Color>(MemberTheme.green),
+            child: SizedBox(
+              height: 8,
+              width: double.infinity,
+              child: Stack(fit: StackFit.expand, children: [
+                const ColoredBox(color: Color(0xFFE7D9FF)),
+                FractionallySizedBox(
+                  alignment: Alignment.centerLeft,
+                  widthFactor: member.membershipProgress.clamp(0.0, 1.0).toDouble(),
+                  child: Image.asset('assets/member_card/15_purple_progress_bar.webp', fit: BoxFit.fill),
+                ),
+              ]),
             ),
           ),
         ],
@@ -437,6 +447,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _statusPill(String label, Color color, Color foreground) {
+    final asset = label.contains('Gold Plan')
+        ? 'assets/member_card/21_gold_plan_badge_background.webp'
+        : label.contains('Active')
+            ? 'assets/member_card/22_green_active_badge_background.webp'
+            : null;
     return Expanded(
       child: Container(
         alignment: Alignment.center,
@@ -447,12 +462,19 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           border: Border.all(color: Colors.white70, width: 0.8),
           boxShadow: const [BoxShadow(color: Color(0x668F4DFF), blurRadius: 4)],
         ),
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(label, maxLines: 1,
-            style: TextStyle(color: foreground, fontSize: 9,
-              fontWeight: FontWeight.w900)),
-        ),
+        child: Stack(alignment: Alignment.center, children: [
+          if (asset != null)
+            Positioned.fill(child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(asset, fit: BoxFit.fill),
+            )),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(label, maxLines: 1,
+              style: TextStyle(color: foreground, fontSize: 9,
+                fontWeight: FontWeight.w900)),
+          ),
+        ]),
       ),
     );
   }
