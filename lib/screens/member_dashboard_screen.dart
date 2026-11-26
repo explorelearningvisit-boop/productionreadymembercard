@@ -33,7 +33,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         child: LayoutBuilder(
           builder: (context, bounds) {
             final compact = bounds.maxHeight < 760;
-            final shortHeight = bounds.maxHeight < 620;
+            final compactProgress =
+                ((bounds.maxHeight - 600.0) / 100.0).clamp(0.0, 1.0);
             final railWidth = bounds.maxWidth < 340
                 ? 46.0
                 : bounds.maxWidth < 380
@@ -57,7 +58,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               ),
               child: Column(
                 children: [
-                  _dashboardTop(compact: compact, shortHeight: shortHeight),
+                  _dashboardTop(compact: compact, compactProgress: compactProgress),
                   const SizedBox(height: 5),
                   Expanded(
                     child: LayoutBuilder(
@@ -175,15 +176,28 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     );
   }
 
-  Widget _dashboardTop({required bool compact, required bool shortHeight}) {
-    // Preserve a distinct compact-phone tier without forcing every component
-    // into the same tiny proportions.
-    final topHeight = shortHeight ? 40.0 : compact ? 52.0 : 60.0;
-    final identityHeight = shortHeight ? 68.0 : compact ? 88.0 : 98.0;
-    final offerHeight = shortHeight ? 40.0 : compact ? 54.0 : 68.0;
-    final progressHeight = shortHeight ? 36.0 : compact ? 47.0 : 54.0;
-    final metricsHeight = shortHeight ? 76.0 : compact ? 116.0 : 150.0;
-    final sectionGap = shortHeight ? 3.0 : compact ? 4.0 : 5.0;
+  Widget _dashboardTop({
+    required bool compact,
+    required double compactProgress,
+  }) {
+    // Interpolate compact proportions so short phones do not hit an abrupt
+    // breakpoint or squeeze text-heavy modules.
+    final topHeight = compact
+        ? 42.0 + 10.0 * compactProgress
+        : 60.0;
+    final identityHeight = compact
+        ? 78.0 + 10.0 * compactProgress
+        : 98.0;
+    final offerHeight = compact
+        ? 48.0 + 6.0 * compactProgress
+        : 68.0;
+    final progressHeight = compact
+        ? 42.0 + 5.0 * compactProgress
+        : 54.0;
+    final metricsHeight = compact
+        ? 80.0 + 36.0 * compactProgress
+        : 150.0;
+    final sectionGap = compact ? 3.0 + compactProgress : 5.0;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -191,7 +205,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         SizedBox(height: sectionGap),
         SizedBox(
           height: identityHeight,
-          child: _memberIdentity(compact: compact, shortHeight: shortHeight),
+          child: _memberIdentity(
+            compact: compact,
+            compactProgress: compactProgress,
+          ),
         ),
         SizedBox(height: sectionGap),
         SizedBox(height: offerHeight, child: _paymentAndOffer(compact: compact)),
@@ -338,9 +355,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       ],
     );
   }
-  Widget _memberIdentity({required bool compact, required bool shortHeight}) {
+  Widget _memberIdentity({
+    required bool compact,
+    required double compactProgress,
+  }) {
     const member = MemberSample.demo;
-    final portrait = shortHeight ? 56.0 : compact ? 72.0 : 84.0;
+    final portrait = compact
+        ? 60.0 + 12.0 * compactProgress
+        : 84.0;
     return DashboardPanel(
       borderColor: MemberTheme.gold,
       radius: 20,
@@ -379,12 +401,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     style: TextStyle(color: Colors.white,
                       fontSize: compact ? 17 : 20, height: 1,
                       fontWeight: FontWeight.w900)),
-                  const SizedBox(height: 6),
+                  SizedBox(height: compact ? 3 : 6),
                   Text('▦  ${member.memberId}  |  ${member.age} Yrs  |  ♂ ${member.gender}',
                     maxLines: 1, overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.white, fontSize: compact ? 9 : 10,
                       height: 1, fontWeight: FontWeight.w800)),
-                  const SizedBox(height: 7),
+                  SizedBox(height: compact ? 4 : 7),
                   Row(
                     children: [
                       _statusPill('♙  ${member.plan}', const Color(0xFFFFC629), MemberTheme.ink),
