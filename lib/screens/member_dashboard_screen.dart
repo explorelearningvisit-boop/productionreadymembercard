@@ -33,7 +33,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         child: LayoutBuilder(
           builder: (context, bounds) {
             final compact = bounds.maxHeight < 660;
-            final railWidth = bounds.maxWidth < 350 ? 47.0 : 54.0;
+            final railWidth = bounds.maxWidth < 350 ? 38.0 : 42.0;
             return Container(
               margin: const EdgeInsets.fromLTRB(5, 4, 5, 5),
               padding: const EdgeInsets.all(4),
@@ -55,13 +55,26 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   _dashboardTop(compact: compact),
                   const SizedBox(height: 5),
                   Expanded(
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        SizedBox(width: railWidth, child: _navigationRail()),
-                        const SizedBox(width: 4),
-                        const Expanded(child: AttendancePanel()),
-                      ],
+                    child: LayoutBuilder(
+                      builder: (context, contentBounds) {
+                        final contentHeight = contentBounds.maxHeight < 350
+                            ? contentBounds.maxHeight
+                            : 350.0;
+                        return Align(
+                          alignment: Alignment.topCenter,
+                          child: SizedBox(
+                            height: contentHeight,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                SizedBox(width: railWidth, child: _navigationRail()),
+                                const SizedBox(width: 3),
+                                const Expanded(child: AttendancePanel()),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
@@ -77,11 +90,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemHeight = constraints.maxHeight / _navigation.length;
-        final iconSize = (itemHeight * 0.50).clamp(12.0, 19.0);
-        final labelSize = (itemHeight * 0.21).clamp(6.0, 8.0);
-        final verticalMargin = itemHeight < 34 ? 0.5 : 1.0;
+        final iconSize = (itemHeight * 0.36).clamp(11.0, 14.0);
+        final labelSize = (itemHeight * 0.17).clamp(6.0, 7.0);
+        final verticalMargin = 0.5;
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 2),
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 1),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xFF4B087F), Color(0xFF280052)],
