@@ -57,10 +57,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   Expanded(
                     child: LayoutBuilder(
                       builder: (context, contentBounds) {
-                        // Give the dashboard's lower analytics area all remaining
-                        // height. The previous 290dp cap left a large unused
-                        // purple region below the card on normal phones.
-                        final contentHeight = contentBounds.maxHeight;
+                        // Keep the approved compact card proportions; scale down
+                        // only when the available phone height is smaller.
+                        final contentHeight = contentBounds.maxHeight.clamp(0.0, 290.0).toDouble();
                         return Align(
                           alignment: Alignment.topCenter,
                           child: SizedBox(
