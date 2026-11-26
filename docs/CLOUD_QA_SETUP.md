@@ -35,8 +35,8 @@ Add these under Repository Settings > Secrets and variables > Actions. Never put
 
 ## Device matrix
 The workflow currently requests:
-- Virtual: `Pixel2.arm`, API 30.
-- Physical: `Pixel2`, API 30.
+- Virtual: `MediumPhone.arm`, API 34.
+- Physical: `redfin` (Google Pixel 5), API 30.
 
 Confirm these model/version combinations in the selected project's current Test Lab device catalog before relying on the matrix. Update the workflow if the catalog changes. Usage beyond the free quota may be billed.
 
@@ -53,3 +53,6 @@ Confirm these model/version combinations in the selected project's current Test 
 - App Distribution delivers a tester release link and notification; it does not silently install an APK on the owner's phone. The owner opens the release link and approves Android installation.
 - Firebase Test Lab uses Google-hosted devices and provides test artifacts/reports; it does not control the owner's physical phone or pull screenshots from it.
 - ChatGPT is not a persistent background process. Jules is the independent cloud coding agent; ChatGPT can review resulting PRs and reports when asked.
+
+## Test Lab lifecycle note
+Google's current documentation marks the legacy Firebase Test Lab gcloud command group as deprecated, with full shutdown announced for 30 September 2027. This integration is a near-term bridge. Plan migration to Google Cloud Developer Device Platform before that date; do not build a long-term device-testing dependency on the legacy Test Lab CLI.
