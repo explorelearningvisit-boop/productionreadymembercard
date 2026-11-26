@@ -21,16 +21,18 @@ concurrency:
 jobs:
   repair:
     if: >-
-      ${{ secrets.JULES_API_KEY != '' &&
-          ((github.event_name == 'workflow_run' &&
+      ${{ (github.event_name == 'workflow_run' &&
             github.event.workflow_run.conclusion == 'failure' &&
             github.event.workflow_run.head_branch == 'grok/purple-neon-member-dashboard' &&
             github.event.workflow_run.head_repository.full_name == github.repository) ||
-           github.event_name == 'workflow_dispatch') }}
+           github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
     steps:
       - name: Invoke Jules for a guarded repair
+        if: ${{ env.JULES_API_KEY != '' }}
         uses: google-labs-code/jules-invoke@v1
         with:
           jules_api_key: ${{ secrets.JULES_API_KEY }}
