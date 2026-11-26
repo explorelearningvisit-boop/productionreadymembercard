@@ -57,9 +57,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   Expanded(
                     child: LayoutBuilder(
                       builder: (context, contentBounds) {
-                        final contentHeight = contentBounds.maxHeight < 290
-                            ? contentBounds.maxHeight
-                            : 290.0;
+                        // Give the dashboard's lower analytics area all remaining
+                        // height. The previous 290dp cap left a large unused
+                        // purple region below the card on normal phones.
+                        final contentHeight = contentBounds.maxHeight;
                         return Align(
                           alignment: Alignment.topCenter,
                           child: SizedBox(
@@ -75,10 +76,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 ),
                                 const SizedBox(width: 3),
                                 const Expanded(
-                                  child: SizedBox(
-                                    height: 290,
-                                    child: AttendancePanel(),
-                                  ),
+                                  child: AttendancePanel(),
                                 ),
                               ],
                             ),
