@@ -32,7 +32,7 @@ void main() {
     expect(find.text('Late'), findsOneWidget);
     expect(find.text('Creatine 15% OFF'), findsOneWidget);
     expect(find.text('Buy Now ›'), findsOneWidget);
-    expect(find.text('Sample data • API connection required for live records'), findsNWidgets(2));
+    expect(find.text('Sample data • API connection required for live records'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -47,10 +47,15 @@ void main() {
 
     final rail = tester.getSize(find.byKey(const ValueKey('navigation-rail')));
     final panel = tester.getSize(find.byKey(const ValueKey('attendance-panel')));
-    expect(rail.width, 52);
+    expect(rail.width, 48);
     expect(rail.height, panel.height);
     expect(panel.height, greaterThan(290),
         reason: 'Attendance panel should use the available height instead of leaving a large blank area');
+    final dateCell = tester.getSize(find.byKey(const ValueKey('attendance-day-13')));
+    expect(dateCell.height, greaterThanOrEqualTo(25),
+        reason: 'Calendar dates must remain readable at 360dp width');
+    final monthTitle = tester.widget<Text>(find.text('October attendance'));
+    expect(monthTitle.style?.fontSize, greaterThanOrEqualTo(13));
     expect(tester.takeException(), isNull);
   });
 

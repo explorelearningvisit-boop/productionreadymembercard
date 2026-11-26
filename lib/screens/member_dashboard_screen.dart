@@ -33,7 +33,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         child: LayoutBuilder(
           builder: (context, bounds) {
             final compact = bounds.maxHeight < 760;
-            final railWidth = bounds.maxWidth < 350 ? 48.0 : 52.0;
+            final shortHeight = bounds.maxHeight < 620;
+            final railWidth = bounds.maxWidth < 340
+                ? 46.0
+                : bounds.maxWidth < 380
+                    ? 48.0
+                    : 50.0;
             return Container(
               margin: const EdgeInsets.fromLTRB(5, 4, 5, 5),
               padding: const EdgeInsets.all(4),
@@ -52,7 +57,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               ),
               child: Column(
                 children: [
-                  _dashboardTop(compact: compact),
+                  _dashboardTop(compact: compact, shortHeight: shortHeight),
                   const SizedBox(height: 5),
                   Expanded(
                     child: LayoutBuilder(
@@ -170,23 +175,29 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     );
   }
 
-  Widget _dashboardTop({required bool compact}) {
-    final topHeight = compact ? 48.0 : 58.0;
-    final identityHeight = compact ? 84.0 : 94.0;
-    final offerHeight = compact ? 48.0 : 65.0;
-    final progressHeight = compact ? 44.0 : 51.0;
-    final metricsHeight = compact ? 104.0 : 140.0;
+  Widget _dashboardTop({required bool compact, required bool shortHeight}) {
+    // Preserve a distinct compact-phone tier without forcing every component
+    // into the same tiny proportions.
+    final topHeight = shortHeight ? 40.0 : compact ? 52.0 : 60.0;
+    final identityHeight = shortHeight ? 68.0 : compact ? 88.0 : 98.0;
+    final offerHeight = shortHeight ? 40.0 : compact ? 54.0 : 68.0;
+    final progressHeight = shortHeight ? 36.0 : compact ? 47.0 : 54.0;
+    final metricsHeight = shortHeight ? 76.0 : compact ? 116.0 : 150.0;
+    final sectionGap = shortHeight ? 3.0 : compact ? 4.0 : 5.0;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(height: topHeight, child: _topActions()),
-        const SizedBox(height: 4),
-        SizedBox(height: identityHeight, child: _memberIdentity(compact: compact)),
-        const SizedBox(height: 4),
+        SizedBox(height: sectionGap),
+        SizedBox(
+          height: identityHeight,
+          child: _memberIdentity(compact: compact, shortHeight: shortHeight),
+        ),
+        SizedBox(height: sectionGap),
         SizedBox(height: offerHeight, child: _paymentAndOffer(compact: compact)),
-        const SizedBox(height: 4),
+        SizedBox(height: sectionGap),
         SizedBox(height: progressHeight, child: _membershipProgress(compact: compact)),
-        const SizedBox(height: 4),
+        SizedBox(height: sectionGap),
         SizedBox(height: metricsHeight, child: _metrics(compact: compact)),
       ],
     );
@@ -327,9 +338,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       ],
     );
   }
-  Widget _memberIdentity({required bool compact}) {
+  Widget _memberIdentity({required bool compact, required bool shortHeight}) {
     const member = MemberSample.demo;
-    final portrait = compact ? 72.0 : 80.0;
+    final portrait = shortHeight ? 56.0 : compact ? 72.0 : 84.0;
     return DashboardPanel(
       borderColor: MemberTheme.gold,
       radius: 20,

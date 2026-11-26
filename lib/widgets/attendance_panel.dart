@@ -10,8 +10,8 @@ class AttendancePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        const fullHeight = 330.0;
-        const compactHeight = 280.0;
+        const fullHeight = 320.0;
+        const compactHeight = 270.0;
         final availableHeight = constraints.maxHeight;
         if (availableHeight < compactHeight) {
           return FittedBox(
@@ -37,14 +37,16 @@ class AttendancePanel extends StatelessWidget {
   }
 
   Widget _panel({bool compact = false}) {
-    final headerHeight = compact ? 18.0 : 22.0;
+    final headerHeight = compact ? 20.0 : 24.0;
     final offerHeight = compact ? 25.0 : 30.0;
-    final chartHeight = compact ? 60.0 : 72.0;
-    final ringSize = compact ? 56.0 : 70.0;
-    final ringWidth = compact ? 8.0 : 10.0;
+    final chartHeight = compact ? 58.0 : 66.0;
+    final ringSize = compact ? 56.0 : 62.0;
+    final ringWidth = compact ? 8.0 : 9.0;
     final recoveryHeight = compact ? 25.0 : 30.0;
-    final calendarTitleHeight = compact ? 16.0 : 18.0;
-    final cellHeight = compact ? 21.0 : 25.0;
+    final calendarTitleHeight = compact ? 21.0 : 24.0;
+    final cellHeight = compact ? 26.0 : 30.0;
+    final summaryHeight = compact ? 14.0 : 16.0;
+
     return Container(
       padding: EdgeInsets.fromLTRB(7, compact ? 4 : 5, 7, compact ? 4 : 5),
       decoration: BoxDecoration(
@@ -61,6 +63,9 @@ class AttendancePanel extends StatelessWidget {
         ],
       ),
       child: Column(
+        // Spread the analytics blocks through the available panel height.
+        // This avoids the large dead zone below the calendar in tall layouts.
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _header(compact: compact, height: headerHeight),
           SizedBox(height: compact ? 2 : 3),
@@ -71,7 +76,7 @@ class AttendancePanel extends StatelessWidget {
             child: Row(
               children: [
                 SizedBox(
-                  width: compact ? 68 : 82,
+                  width: compact ? 66 : 76,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -88,16 +93,22 @@ class AttendancePanel extends StatelessWidget {
                       Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('81%', style: TextStyle(
-                            color: MemberTheme.ink,
-                            fontSize: compact ? 16 : 20,
-                            fontWeight: FontWeight.w900,
-                          )),
-                          Text('25/31', style: TextStyle(
-                            color: MemberTheme.ink,
-                            fontSize: compact ? 7 : 9,
-                            fontWeight: FontWeight.w800,
-                          )),
+                          Text(
+                            '81%',
+                            style: TextStyle(
+                              color: MemberTheme.ink,
+                              fontSize: compact ? 17 : 20,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
+                          Text(
+                            '25/31',
+                            style: TextStyle(
+                              color: MemberTheme.ink,
+                              fontSize: compact ? 8 : 9,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -108,10 +119,34 @@ class AttendancePanel extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      AttendanceLegend(compact: compact, color: const Color(0xFF0CCB60), label: 'Present', count: '23', percent: '74%'),
-                      AttendanceLegend(compact: compact, color: const Color(0xFFE52B52), label: 'Absent', count: '2', percent: '6%'),
-                      AttendanceLegend(compact: compact, color: const Color(0xFF8A35D5), label: 'Holiday', count: '4', percent: '13%'),
-                      AttendanceLegend(compact: compact, color: const Color(0xFFFFB21C), label: 'Late', count: '2', percent: '6%'),
+                      AttendanceLegend(
+                        compact: compact,
+                        color: const Color(0xFF0CCB60),
+                        label: 'Present',
+                        count: '23',
+                        percent: '74%',
+                      ),
+                      AttendanceLegend(
+                        compact: compact,
+                        color: const Color(0xFFE52B52),
+                        label: 'Absent',
+                        count: '2',
+                        percent: '6%',
+                      ),
+                      AttendanceLegend(
+                        compact: compact,
+                        color: const Color(0xFF8A35D5),
+                        label: 'Holiday',
+                        count: '4',
+                        percent: '13%',
+                      ),
+                      AttendanceLegend(
+                        compact: compact,
+                        color: const Color(0xFFFFB21C),
+                        label: 'Late',
+                        count: '2',
+                        percent: '6%',
+                      ),
                     ],
                   ),
                 ),
@@ -128,66 +163,97 @@ class AttendancePanel extends StatelessWidget {
               Expanded(child: _MiniStat(icon: '↗', value: '+6%', compact: compact)),
             ],
           ),
-          const SizedBox(height: 1),
-          Text(
-            'Sample data • API connection required for live records',
-            maxLines: 1,
-            style: TextStyle(
-              color: MemberTheme.muted,
-              fontSize: compact ? 6 : 7,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          SizedBox(height: compact ? 2 : 3),
+          SizedBox(height: compact ? 1 : 2),
           _recoveryBanner(compact: compact, height: recoveryHeight),
-          SizedBox(height: compact ? 2 : 3),
+          SizedBox(height: compact ? 1 : 2),
           _calendarTitle(compact: compact, height: calendarTitleHeight),
-          const SizedBox(height: 1),
           SizedBox(
-            height: compact ? 10 : 11,
+            height: summaryHeight,
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 '23 present  •  2 late  •  2 absent  •  4 holiday',
                 maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: MemberTheme.ink,
-                  fontSize: compact ? 7 : 8,
-                  fontWeight: FontWeight.w800,
+                  fontSize: compact ? 8 : 9,
+                  height: 1,
+                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),
           ),
-          Row(children: [
-            WeekdayLabel('Mon', compact: compact),
-            WeekdayLabel('Tue', compact: compact),
-            WeekdayLabel('Wed', compact: compact),
-            WeekdayLabel('Thu', compact: compact),
-            WeekdayLabel('Fri', compact: compact),
-            WeekdayLabel('Sat', compact: compact),
-            WeekdayLabel('Sun', compact: compact),
-          ]),
-          SizedBox(height: compact ? 1 : 2),
-          Row(children: [
-            AttendanceDayCell('13', height: cellHeight, compact: compact),
-            AttendanceDayCell('14', height: cellHeight, compact: compact),
-            AttendanceDayCell('15', height: cellHeight, compact: compact),
-            AttendanceDayCell('16', color: const Color(0xFFE7D8FF), selected: true, height: cellHeight, compact: compact),
-            AttendanceDayCell('17', color: const Color(0xFFFFDDE2), height: cellHeight, compact: compact),
-            AttendanceDayCell('18', color: const Color(0xFFE5E2E9), off: true, height: cellHeight, compact: compact),
-            AttendanceDayCell('19', height: cellHeight, compact: compact),
-          ]),
-          SizedBox(height: compact ? 1 : 2),
-          Row(children: [
-            AttendanceDayCell('20', height: cellHeight, compact: compact),
-            AttendanceDayCell('21', color: const Color(0xFFFFEDC7), height: cellHeight, compact: compact),
-            AttendanceDayCell('22', height: cellHeight, compact: compact),
-            AttendanceDayCell('23', color: const Color(0xFFFFDDE2), height: cellHeight, compact: compact),
-            AttendanceDayCell('24', height: cellHeight, compact: compact),
-            AttendanceDayCell('25', color: const Color(0xFFE5E2E9), off: true, height: cellHeight, compact: compact),
-            AttendanceDayCell('', height: cellHeight, compact: compact),
-          ]),
-          const Spacer(),
+          Row(
+            children: [
+              WeekdayLabel('Mon', compact: compact),
+              WeekdayLabel('Tue', compact: compact),
+              WeekdayLabel('Wed', compact: compact),
+              WeekdayLabel('Thu', compact: compact),
+              WeekdayLabel('Fri', compact: compact),
+              WeekdayLabel('Sat', compact: compact),
+              WeekdayLabel('Sun', compact: compact),
+            ],
+          ),
+          Row(
+            children: [
+              AttendanceDayCell(
+                '13',
+                height: cellHeight,
+                compact: compact,
+                key: const ValueKey('attendance-day-13'),
+              ),
+              AttendanceDayCell('14', height: cellHeight, compact: compact),
+              AttendanceDayCell('15', height: cellHeight, compact: compact),
+              AttendanceDayCell(
+                '16',
+                selected: true,
+                height: cellHeight,
+                compact: compact,
+              ),
+              AttendanceDayCell(
+                '17',
+                color: const Color(0xFFFFDDE2),
+                height: cellHeight,
+                compact: compact,
+              ),
+              AttendanceDayCell(
+                '18',
+                color: const Color(0xFFE5E2E9),
+                off: true,
+                height: cellHeight,
+                compact: compact,
+              ),
+              AttendanceDayCell('19', height: cellHeight, compact: compact),
+            ],
+          ),
+          Row(
+            children: [
+              AttendanceDayCell('20', height: cellHeight, compact: compact),
+              AttendanceDayCell(
+                '21',
+                color: const Color(0xFFFFEDC7),
+                height: cellHeight,
+                compact: compact,
+              ),
+              AttendanceDayCell('22', height: cellHeight, compact: compact),
+              AttendanceDayCell(
+                '23',
+                color: const Color(0xFFFFDDE2),
+                height: cellHeight,
+                compact: compact,
+              ),
+              AttendanceDayCell('24', height: cellHeight, compact: compact),
+              AttendanceDayCell(
+                '25',
+                color: const Color(0xFFE5E2E9),
+                off: true,
+                height: cellHeight,
+                compact: compact,
+              ),
+              AttendanceDayCell('', height: cellHeight, compact: compact),
+            ],
+          ),
           Text(
             'Sample data • API connection required for live records',
             maxLines: 1,
@@ -209,36 +275,56 @@ class AttendancePanel extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: compact ? 17 : 21,
-            height: compact ? 17 : 21,
+            width: compact ? 18 : 21,
+            height: compact ? 18 : 21,
             decoration: const BoxDecoration(
-              gradient: LinearGradient(colors: [Color(0xFF8D27DC), Color(0xFF4B0A91)]),
+              gradient: LinearGradient(
+                colors: [Color(0xFF8D27DC), Color(0xFF4B0A91)],
+              ),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.trending_up_rounded, color: Colors.white, size: compact ? 12 : 15),
+            child: Icon(
+              Icons.trending_up_rounded,
+              color: Colors.white,
+              size: compact ? 13 : 15,
+            ),
           ),
           const SizedBox(width: 5),
           Expanded(
-            child: Text('Attendance Analytics', maxLines: 1, style: TextStyle(
-              color: MemberTheme.ink,
-              fontSize: compact ? 11 : 14,
-              fontWeight: FontWeight.w900,
-            )),
+            child: Text(
+              'Attendance Analytics',
+              maxLines: 1,
+              style: TextStyle(
+                color: MemberTheme.ink,
+                fontSize: compact ? 13 : 15,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
           ),
-          Icon(Icons.notifications_active, color: MemberTheme.purple, size: compact ? 13 : 17),
+          Icon(
+            Icons.notifications_active,
+            color: MemberTheme.purple,
+            size: compact ? 14 : 17,
+          ),
           const SizedBox(width: 4),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: compact ? 6 : 8, vertical: compact ? 2 : 3),
+            padding: EdgeInsets.symmetric(
+              horizontal: compact ? 6 : 8,
+              vertical: compact ? 2 : 3,
+            ),
             decoration: BoxDecoration(
               color: const Color(0xFFFFE5E8),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.redAccent),
             ),
-            child: Text('● DEMO', style: TextStyle(
-              color: Colors.red,
-              fontSize: compact ? 6 : 8,
-              fontWeight: FontWeight.w900,
-            )),
+            child: Text(
+              '● DEMO',
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: compact ? 7 : 8,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
           ),
         ],
       ),
@@ -289,21 +375,46 @@ class AttendancePanel extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(asset, width: assetWidth, height: height - 3, fit: BoxFit.contain),
+          Image.asset(
+            asset,
+            width: assetWidth,
+            height: height - 3,
+            fit: BoxFit.contain,
+          ),
           const SizedBox(width: 5),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: MemberTheme.ink, fontSize: compact ? 7 : 9, fontWeight: FontWeight.w900)),
-                Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: const Color(0xFF6E258F), fontSize: compact ? 5.5 : 7, fontWeight: FontWeight.w700)),
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: MemberTheme.ink,
+                    fontSize: compact ? 7.5 : 9,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: const Color(0xFF6E258F),
+                    fontSize: compact ? 6 : 7,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
               ],
             ),
           ),
-          Icon(Icons.chevron_right, color: MemberTheme.ink, size: compact ? 16 : 20),
+          Icon(
+            Icons.chevron_right,
+            color: MemberTheme.ink,
+            size: compact ? 16 : 20,
+          ),
         ],
       ),
     );
@@ -314,27 +425,43 @@ class AttendancePanel extends StatelessWidget {
       height: height,
       child: Row(
         children: [
-          Image.asset('assets/member_card/25_calendar_graphic.webp',
-            width: compact ? 16 : 20, height: compact ? 16 : 20, fit: BoxFit.contain),
+          Image.asset(
+            'assets/member_card/25_calendar_graphic.webp',
+            width: compact ? 18 : 21,
+            height: compact ? 18 : 21,
+            fit: BoxFit.contain,
+          ),
           const SizedBox(width: 4),
           Expanded(
-            child: Text('October attendance', maxLines: 1, style: TextStyle(
-              color: MemberTheme.ink,
-              fontSize: compact ? 11 : 14,
-              fontWeight: FontWeight.w900,
-            )),
+            child: Text(
+              'October attendance',
+              maxLines: 1,
+              style: TextStyle(
+                color: MemberTheme.ink,
+                fontSize: compact ? 13.5 : 15.5,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: compact ? 5 : 7, vertical: compact ? 2 : 3),
+            padding: EdgeInsets.symmetric(
+              horizontal: compact ? 5 : 7,
+              vertical: compact ? 2 : 3,
+            ),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(colors: [Color(0xFF7D16B9), Color(0xFF3B0878)]),
+              gradient: const LinearGradient(
+                colors: [Color(0xFF7D16B9), Color(0xFF3B0878)],
+              ),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text('🏋 Train More • 15% OFF', style: TextStyle(
-              color: Colors.white,
-              fontSize: compact ? 5.5 : 7,
-              fontWeight: FontWeight.w900,
-            )),
+            child: Text(
+              '🏋 Train More • 15% OFF',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: compact ? 5.5 : 7,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
           ),
         ],
       ),
@@ -343,7 +470,12 @@ class AttendancePanel extends StatelessWidget {
 }
 
 class _MiniStat extends StatelessWidget {
-  const _MiniStat({required this.icon, required this.value, required this.compact});
+  const _MiniStat({
+    required this.icon,
+    required this.value,
+    required this.compact,
+  });
+
   final String icon;
   final String value;
   final bool compact;
@@ -353,13 +485,16 @@ class _MiniStat extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(icon, style: TextStyle(fontSize: compact ? 8 : 10)),
+        Text(icon, style: TextStyle(fontSize: compact ? 9 : 10)),
         const SizedBox(width: 3),
-        Text(value, style: TextStyle(
-          color: MemberTheme.purple,
-          fontSize: compact ? 8 : 11,
-          fontWeight: FontWeight.w900,
-        )),
+        Text(
+          value,
+          style: TextStyle(
+            color: MemberTheme.purple,
+            fontSize: compact ? 9 : 11,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
       ],
     );
   }
