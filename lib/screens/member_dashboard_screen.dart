@@ -59,7 +59,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       builder: (context, contentBounds) {
                         // Keep the approved compact card proportions; scale down
                         // only when the available phone height is smaller.
-                        final contentHeight = contentBounds.maxHeight.clamp(0.0, 290.0).toDouble();
+                        final contentHeight = contentBounds.maxHeight;
                         return Align(
                           alignment: Alignment.topCenter,
                           child: SizedBox(
@@ -492,34 +492,22 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _statusPill(String label, Color color, Color foreground) {
-    final asset = label.contains('Gold Plan')
-        ? 'assets/member_card/21_gold_plan_badge_background.webp'
-        : label.contains('Active')
-            ? 'assets/member_card/22_green_active_badge_background.webp'
-            : null;
     return Expanded(
       child: Container(
         alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 3),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(13),
           border: Border.all(color: Colors.white70, width: 0.8),
           boxShadow: const [BoxShadow(color: Color(0x668F4DFF), blurRadius: 4)],
         ),
-        child: Stack(alignment: Alignment.center, children: [
-          if (asset != null)
-            Positioned.fill(child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(asset, fit: BoxFit.fill),
-            )),
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(label, maxLines: 1,
-              style: TextStyle(color: foreground, fontSize: 9,
-                fontWeight: FontWeight.w900)),
-          ),
-        ]),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(label, maxLines: 1,
+            style: TextStyle(color: foreground, fontSize: 9,
+              fontWeight: FontWeight.w900)),
+        ),
       ),
     );
   }
