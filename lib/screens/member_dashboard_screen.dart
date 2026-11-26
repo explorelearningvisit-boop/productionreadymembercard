@@ -97,8 +97,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemHeight = constraints.maxHeight / _navigation.length;
-        final iconSize = (itemHeight * 0.36).clamp(11.0, 14.0);
-        final labelSize = (itemHeight * 0.17).clamp(6.0, 7.0);
+        final iconSize = (itemHeight * 0.36).clamp(15.0, 20.0);
+        final labelSize = (itemHeight * 0.18).clamp(8.0, 9.5);
         const verticalMargin = 0.5;
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 1),
@@ -369,14 +369,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       fontSize: compact ? 17 : 20, height: 1,
                       fontWeight: FontWeight.w900)),
                   const SizedBox(height: 6),
-                  Text('▦  \${member.memberId}  |  \${member.age} Yrs  |  ♂ \${member.gender}',
+                  Text('▦  ${member.memberId}  |  ${member.age} Yrs  |  ♂ ${member.gender}',
                     maxLines: 1, overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: Colors.white, fontSize: compact ? 9 : 10,
                       height: 1, fontWeight: FontWeight.w800)),
                   const SizedBox(height: 7),
                   Row(
                     children: [
-                      _statusPill('♙  \${member.plan}', const Color(0xFFFFC629), MemberTheme.ink),
+                      _statusPill('♙  ${member.plan}', const Color(0xFFFFC629), MemberTheme.ink),
                       const SizedBox(width: 5),
                       _statusPill('✓  Active', MemberTheme.green, Colors.white),
                     ],
@@ -421,12 +421,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 9,
                             height: 1, fontWeight: FontWeight.w900)),
                         const SizedBox(height: 3),
-                        Text('\${member.paymentDue} Due', maxLines: 1,
+                        Text('${member.paymentDue} Due', maxLines: 1,
                           style: TextStyle(color: Colors.white,
                             fontSize: compact ? 15 : 18, height: 1,
                             fontWeight: FontWeight.w900)),
                         const SizedBox(height: 3),
-                        Text('\${member.daysRemaining} Days Left', maxLines: 1,
+                        Text('${member.daysRemaining} Days Left', maxLines: 1,
                           style: const TextStyle(color: Colors.white, fontSize: 8,
                             height: 1, fontWeight: FontWeight.w800)),
                       ],
@@ -443,7 +443,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             color: const Color(0xFF6D1AA8),
             borderColor: const Color(0xFFE77CFF),
             radius: 18,
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
             child: Row(
               children: [
                 Image.asset(
@@ -501,7 +501,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           Row(
             children: [
               Expanded(
-                child: Text('Membership \${member.membershipDays} / \${member.membershipTotalDays} Days',
+                child: Text('Membership ${member.membershipDays} / ${member.membershipTotalDays} Days',
                   maxLines: 1, overflow: TextOverflow.ellipsis,
                   style: const TextStyle(color: Colors.white, fontSize: 13,
                     height: 1, fontWeight: FontWeight.w900)),
@@ -513,12 +513,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: const Color(0xFFFFA5B2)),
                 ),
-                child: Text('⚠ \${member.daysRemaining} Days Left', maxLines: 1,
+                child: Text('⚠ ${member.daysRemaining} Days Left', maxLines: 1,
                   style: const TextStyle(color: Colors.white, fontSize: 8,
                     height: 1, fontWeight: FontWeight.w900)),
               ),
               const SizedBox(width: 5),
-              Text('\${(member.membershipProgress * 100).round()}%',
+              Text('${(member.membershipProgress * 100).round()}%',
                 style: const TextStyle(color: Colors.white, fontSize: 19,
                   height: 1, fontWeight: FontWeight.w900)),
             ],
@@ -566,7 +566,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png')),
         const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
-          label: 'PAYMENT', value: '\${member.paymentDue} Due',
+          label: 'PAYMENT', value: '${member.paymentDue} Due',
           note: 'Get 5% OFF  ›', valueColor: const Color(0xFFD71939),
           color: const Color(0xFFD9F1FF),
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/11_sbi_payment_card_cutout.png')),
@@ -592,7 +592,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         child: FittedBox(
           fit: BoxFit.scaleDown,
           child: Text(label, maxLines: 1,
-            style: TextStyle(color: foreground, fontSize: 9,
+            style: TextStyle(color: foreground, fontSize: 10,
               fontWeight: FontWeight.w900)),
         ),
       ),
