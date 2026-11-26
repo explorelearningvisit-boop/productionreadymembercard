@@ -32,6 +32,23 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('navigation rail is narrow and matches attendance panel height', (tester) async {
+    tester.view.physicalSize = const Size(360, 780);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    final rail = tester.getSize(find.byKey(const ValueKey('navigation-rail')));
+    final panel = tester.getSize(find.byKey(const ValueKey('attendance-panel')));
+    expect(rail.width, 42);
+    expect(rail.height, panel.height);
+    expect(panel.height, 290);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('check-in remains safe when tapped repeatedly', (tester) async {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
