@@ -102,7 +102,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         final itemHeight = constraints.maxHeight / _navigation.length;
         final iconSize = (itemHeight * 0.36).clamp(11.0, 14.0);
         final labelSize = (itemHeight * 0.17).clamp(6.0, 7.0);
-        final verticalMargin = 0.5;
+        const verticalMargin = 0.5;
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 1),
           decoration: BoxDecoration(
