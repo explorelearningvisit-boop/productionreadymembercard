@@ -65,6 +65,49 @@ jobs:
           sha256sum "$APK" | tee build/app/outputs/flutter-apk/app-release.apk.sha256
           du -h "$APK"
 
+      - name: Authenticate to Google Cloud for Firebase Test Lab
+        if: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON != '' && secrets.GCP_PROJECT_ID != '' }}
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+
+      - name: Set up Google Cloud SDK
+        if: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON != '' && secrets.GCP_PROJECT_ID != '' }}
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Run Firebase Test Lab on virtual and physical Android devices
+        if: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON != '' && secrets.GCP_PROJECT_ID != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK=build/app/outputs/flutter-apk/app-release.apk
+          # Virtual device lane
+          gcloud firebase test android run \
+            --type robo \
+            --app "$APK" \
+            --device model=Pixel2.arm,version=30,locale=en,orientation=portrait \
+            --timeout 5m \
+            --results-dir="bad-gym-${GITHUB_RUN_NUMBER}-virtual"
+          # Physical device lane
+          gcloud firebase test android run \
+            --type robo \
+            --app "$APK" \
+            --device model=Pixel2,version=30,locale=en,orientation=portrait \
+            --timeout 5m \
+            --results-dir="bad-gym-${GITHUB_RUN_NUMBER}-physical"
+
+      - name: Distribute QA APK with Firebase App Distribution
+        if: ${{ success() && secrets.FIREBASE_APP_ID != '' && secrets.FIREBASE_TOKEN != '' }}
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: bad-gym-qa
+          file: build/app/outputs/flutter-apk/app-release.apk
+          releaseNotes: "BAD GYM QA build ${{ github.run_number }} from ${{ github.sha }}"
+
       - name: Upload installable ARM64 QA APK
         uses: actions/upload-artifact@v4
         with:
