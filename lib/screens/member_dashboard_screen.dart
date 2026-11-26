@@ -185,7 +185,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         const SizedBox(height: 4),
         SizedBox(height: offerHeight, child: _paymentAndOffer(compact: compact)),
         const SizedBox(height: 4),
-        SizedBox(height: progressHeight, child: _membershipProgress()),
+        SizedBox(height: progressHeight, child: _membershipProgress(compact: compact)),
         const SizedBox(height: 4),
         SizedBox(height: metricsHeight, child: _metrics(compact: compact)),
       ],
@@ -488,7 +488,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       ],
     );
   }
-  Widget _membershipProgress() {
+  Widget _membershipProgress({required bool compact}) {
     const member = MemberSample.demo;
     return DashboardPanel(
       color: const Color(0xFF39116D),
