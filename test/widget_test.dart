@@ -20,6 +20,9 @@ void main() {
     expect(find.text('₹500 Due'), findsOneWidget);
     expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
     expect(find.text('Attendance Analytics'), findsOneWidget);
+    expect(find.text('Attend'), findsOneWidget);
+    expect(find.text('Insights'), findsOneWidget);
+    expect(find.text('Goals'), findsOneWidget);
     expect(find.text('October attendance'), findsOneWidget);
     expect(find.text('Present'), findsOneWidget);
     expect(find.text('Absent'), findsOneWidget);
