@@ -83,6 +83,7 @@ void main() {
       const Size(360, 600),
       const Size(360, 700),
       const Size(390, 720),
+      const Size(800, 600),
     ]) {
       tester.view.physicalSize = size;
       tester.view.devicePixelRatio = 1;
@@ -105,6 +106,11 @@ void main() {
   });
 
   testWidgets('repeated mount and dispose stays clean', (tester) async {
+    tester.view.physicalSize = const Size(360, 700);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     for (var cycle = 0; cycle < 5; cycle++) {
       await tester.pumpWidget(const BadGymApp());
       await tester.pumpAndSettle();
