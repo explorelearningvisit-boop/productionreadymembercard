@@ -32,7 +32,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, bounds) {
-            final compact = bounds.maxHeight < 660;
+            final compact = bounds.maxHeight < 760;
             final railWidth = bounds.maxWidth < 350 ? 48.0 : 52.0;
             return Container(
               margin: const EdgeInsets.fromLTRB(5, 4, 5, 5),
@@ -171,11 +171,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _dashboardTop({required bool compact}) {
-    final topHeight = compact ? 54.0 : 58.0;
-    final identityHeight = compact ? 84.0 : 94.0;
-    final offerHeight = compact ? 58.0 : 65.0;
-    final progressHeight = compact ? 46.0 : 51.0;
-    final metricsHeight = compact ? 122.0 : 140.0;
+    final topHeight = compact ? 48.0 : 58.0;
+    final identityHeight = compact ? 66.0 : 94.0;
+    final offerHeight = compact ? 48.0 : 65.0;
+    final progressHeight = compact ? 40.0 : 51.0;
+    final metricsHeight = compact ? 88.0 : 140.0;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

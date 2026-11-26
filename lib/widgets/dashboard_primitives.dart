@@ -176,6 +176,7 @@ class AttendanceLegend extends StatelessWidget {
     required this.label,
     required this.count,
     required this.percent,
+    this.compact = false,
     super.key,
   });
 
@@ -183,12 +184,13 @@ class AttendanceLegend extends StatelessWidget {
   final String label;
   final String count;
   final String percent;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     final value = (double.tryParse(percent.replaceAll('%', '')) ?? 0) / 100;
     return SizedBox(
-      height: 17,
+      height: compact ? 14 : 17,
       child: Row(
         children: [
           Container(
@@ -200,13 +202,13 @@ class AttendanceLegend extends StatelessWidget {
           SizedBox(
             width: 43,
             child: Text(label, maxLines: 1, style: const TextStyle(
-              color: MemberTheme.ink, fontSize: 8, fontWeight: FontWeight.w800,
+              color: MemberTheme.ink, fontSize: compact ? 7 : 8, fontWeight: FontWeight.w800,
             )),
           ),
           SizedBox(
             width: 17,
             child: Text(count, textAlign: TextAlign.end, style: const TextStyle(
-              color: MemberTheme.ink, fontSize: 8, fontWeight: FontWeight.w900,
+              color: MemberTheme.ink, fontSize: compact ? 7 : 8, fontWeight: FontWeight.w900,
             )),
           ),
           const SizedBox(width: 4),
@@ -215,7 +217,7 @@ class AttendanceLegend extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
                 value: value.clamp(0.0, 1.0).toDouble(),
-                minHeight: 7,
+                minHeight: compact ? 5 : 7,
                 backgroundColor: const Color(0xFFE2D7EC),
                 valueColor: AlwaysStoppedAnimation<Color>(color),
               ),
@@ -225,7 +227,7 @@ class AttendanceLegend extends StatelessWidget {
           SizedBox(
             width: 23,
             child: Text(percent, textAlign: TextAlign.end, style: const TextStyle(
-              color: MemberTheme.ink, fontSize: 7, fontWeight: FontWeight.w900,
+              color: MemberTheme.ink, fontSize: compact ? 6 : 7, fontWeight: FontWeight.w900,
             )),
           ),
         ],
@@ -235,15 +237,16 @@ class AttendanceLegend extends StatelessWidget {
 }
 
 class WeekdayLabel extends StatelessWidget {
-  const WeekdayLabel(this.label, {super.key});
+  const WeekdayLabel(this.label, {this.compact = false, super.key});
   final String label;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Center(
         child: Text(label, style: const TextStyle(
-          color: Color(0xFF4B3C5B), fontSize: 8, fontWeight: FontWeight.w800,
+          color: Color(0xFF4B3C5B), fontSize: compact ? 7 : 8, fontWeight: FontWeight.w800,
         )),
       ),
     );
@@ -256,6 +259,8 @@ class AttendanceDayCell extends StatelessWidget {
     this.color = const Color(0xFFD7F8DF),
     this.selected = false,
     this.off = false,
+    this.height = 25,
+    this.compact = false,
     super.key,
   });
 
@@ -263,12 +268,14 @@ class AttendanceDayCell extends StatelessWidget {
   final Color color;
   final bool selected;
   final bool off;
+  final double height;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        height: 25,
+        height: height,
         margin: const EdgeInsets.symmetric(horizontal: 1.5),
         alignment: Alignment.center,
         decoration: BoxDecoration(
@@ -288,7 +295,7 @@ class AttendanceDayCell extends StatelessWidget {
               )),
               if (off)
                 const Text('OFF', style: TextStyle(
-                  color: Color(0xFF635B6B), fontSize: 7, fontWeight: FontWeight.w800,
+                  color: Color(0xFF635B6B), fontSize: compact ? 6 : 7, fontWeight: FontWeight.w800,
                 )),
             ],
           ),
