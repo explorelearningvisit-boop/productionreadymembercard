@@ -13,17 +13,12 @@ class PulseGlow extends StatefulWidget {
 }
 
 class _PulseGlowState extends State<PulseGlow> {
-  bool _bright = false;
-
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: _bright ? 0.34 : 0.9, end: _bright ? 0.9 : 0.34),
+      tween: Tween<double>(begin: 0.25, end: 1.0),
       duration: const Duration(milliseconds: 900),
       curve: Curves.easeInOut,
-      onEnd: () {
-        if (mounted) setState(() => _bright = !_bright);
-      },
       builder: (context, value, child) => DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
@@ -61,7 +56,11 @@ class DashboardPanel extends StatelessWidget {
     return Container(
       padding: padding,
       decoration: BoxDecoration(
-        color: color,
+        gradient: LinearGradient(
+          colors: [Color.lerp(color, Colors.white, 0.10)!, color],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: borderColor, width: 1.2),
         boxShadow: const [
