@@ -1,0 +1,61 @@
+name: BAD GYM guarded AI repair
+
+on:
+  workflow_run:
+    workflows: ["BAD GYM Android APK"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_url:
+        description: Failed GitHub Actions run URL to diagnose
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bad-gym-jules-repair
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    if: >-
+      ${{ secrets.JULES_API_KEY != '' &&
+          ((github.event_name == 'workflow_run' &&
+            github.event.workflow_run.conclusion == 'failure' &&
+            github.event.workflow_run.head_branch == 'grok/purple-neon-member-dashboard' &&
+            github.event.workflow_run.head_repository.full_name == github.repository) ||
+           github.event_name == 'workflow_dispatch') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Invoke Jules for a guarded repair
+        uses: google-labs-code/jules-invoke@v1
+        with:
+          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          starting_branch: ${{ github.event.workflow_run.head_branch || 'grok/purple-neon-member-dashboard' }}
+          include_last_commit: true
+          include_commit_log: true
+          prompt: |
+            You are the guarded BAD GYM Flutter CI repair agent.
+
+            Target repository: explorelearningvisit-boop/productionreadymembercard
+            Target branch: grok/purple-neon-member-dashboard
+            Failed run: ${{ github.event.workflow_run.html_url || inputs.run_url || 'Inspect the latest failed BAD GYM Android APK run on the target branch.' }}
+
+            Read AGENTS.md and docs/BADGYM_FINAL_APPROVED_DASHBOARD_MASTER_PROMPT.md first.
+            Diagnose actual failed job logs and reproduce the failure in your cloud VM.
+            Make one minimal, component-scoped fix and add a regression test.
+            Run flutter pub get, Dart format verification, flutter analyze,
+            flutter test, and an ARM64 release APK build.
+
+            GUARDED PERMISSIONS:
+            - Never merge into main or any protected branch.
+            - Never publish or distribute a production release.
+            - Never change secrets, signing keys, Firebase project settings,
+              repository settings, app ID, or unrelated product behavior.
+            - Do not disable or weaken tests to make CI green.
+            - Create a focused repair branch and a pull request for human review.
+            - Report root cause, exact changes, validation output, and remaining failure.
+            - If the failure cannot be reproduced, do not guess or make speculative edits.
