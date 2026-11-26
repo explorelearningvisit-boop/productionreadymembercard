@@ -82,6 +82,7 @@ class DashboardMetricTile extends StatelessWidget {
     required this.asset,
     this.trend,
     this.valueColor = MemberTheme.ink,
+    this.compact = false,
     super.key,
   });
 
@@ -92,11 +93,14 @@ class DashboardMetricTile extends StatelessWidget {
   final String asset;
   final String? trend;
   final Color valueColor;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(3, 4, 3, 3),
+      padding: compact
+          ? const EdgeInsets.fromLTRB(3, 3, 3, 2)
+          : const EdgeInsets.fromLTRB(3, 4, 3, 3),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [color, Color.lerp(color, Colors.white, 0.22)!],
@@ -111,21 +115,28 @@ class DashboardMetricTile extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _fit(label, 8.5, MemberTheme.ink),
-          const SizedBox(height: 2),
-          _fit(value, 18, valueColor),
+          _fit(label, compact ? 7.5 : 8.5, MemberTheme.ink),
+          SizedBox(height: compact ? 1 : 2),
+          _fit(value, compact ? 15 : 18, valueColor),
           if (trend != null) ...[
-            const SizedBox(height: 2),
+            SizedBox(height: compact ? 1 : 2),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+              padding: EdgeInsets.symmetric(
+                horizontal: compact ? 3 : 5,
+                vertical: compact ? 1 : 2,
+              ),
               decoration: BoxDecoration(
                 color: const Color(0xAAFFFFFF),
                 borderRadius: BorderRadius.circular(9),
               ),
-              child: _fit(trend!, 8, const Color(0xFF078B46)),
+              child: _fit(
+                trend!,
+                compact ? 7 : 8,
+                const Color(0xFF078B46),
+              ),
             ),
           ],
-          const SizedBox(height: 1),
+          SizedBox(height: compact ? 0 : 1),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 1),
@@ -138,13 +149,16 @@ class DashboardMetricTile extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+            padding: EdgeInsets.symmetric(
+              horizontal: 2,
+              vertical: compact ? 1 : 2,
+            ),
             decoration: BoxDecoration(
               color: const Color(0xAAFFFFFF),
               borderRadius: BorderRadius.circular(9),
               border: Border.all(color: const Color(0x66FFFFFF)),
             ),
-            child: _fit(note, 7, MemberTheme.ink),
+            child: _fit(note, compact ? 6 : 7, MemberTheme.ink),
           ),
         ],
       ),
