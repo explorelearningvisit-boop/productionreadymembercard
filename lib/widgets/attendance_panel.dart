@@ -10,7 +10,7 @@ class AttendancePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        const fullHeight = 320.0;
+        const fullHeight = 340.0;
         const compactHeight = 280.0;
         final availableHeight = constraints.maxHeight;
         if (availableHeight < compactHeight) {
