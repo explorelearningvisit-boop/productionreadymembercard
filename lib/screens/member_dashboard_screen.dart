@@ -171,7 +171,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _dashboardTop({required bool compact}) {
-    final topHeight = compact ? 43.0 : 49.0;
+    final topHeight = compact ? 50.0 : 56.0;
     final identityHeight = compact ? 72.0 : 82.0;
     final offerHeight = compact ? 53.0 : 59.0;
     final progressHeight = compact ? 41.0 : 46.0;
@@ -193,86 +193,34 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _topActions() {
-    return Row(
-      children: [
-        Expanded(
-          child: DashboardPanel(
-            borderColor: MemberTheme.gold,
-            radius: 15,
-            child: InkWell(
-              key: const ValueKey('check-in-button'),
-              borderRadius: BorderRadius.circular(15),
-              onTap: () => setState(() => _checkedIn = !_checkedIn),
-              child: Row(
-                children: [
-                  const SizedBox(width: 5),
-                  CircleAvatar(
-                    radius: 15,
-                    backgroundColor: _checkedIn ? MemberTheme.green : const Color(0xFFFFB21C),
-                    child: Icon(_checkedIn ? Icons.check : Icons.login, color: Colors.white, size: 21),
-                  ),
-                  const SizedBox(width: 5),
-                  const Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('CHECK-IN', maxLines: 1,
-                          style: TextStyle(color: Colors.white, fontSize: 11,
-                            height: 1, fontWeight: FontWeight.w900)),
-                        SizedBox(height: 3),
-                        Text('07:12 AM', maxLines: 1,
-                          style: TextStyle(color: Colors.white, fontSize: 9,
-                            height: 1, fontWeight: FontWeight.w800)),
-                      ],
-                    ),
-                  ),
-                  Image.asset('reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
-                    width: 34, height: 36, fit: BoxFit.contain),
-                  const SizedBox(width: 2),
-                ],
+    return Semantics(
+      label: 'BAD GYM check-in and freeze status',
+      child: InkWell(
+        key: const ValueKey('check-in-button'),
+        borderRadius: BorderRadius.circular(15),
+        onTap: () => setState(() => _checkedIn = !_checkedIn),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Image.asset(
+            'reference_library/recovered_from_history/assets/material_pack/pulsevault/17_checkin_freeze_header_compact.webp',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.fill,
+            errorBuilder: (context, error, stackTrace) => Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8F3FF),
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: MemberTheme.gold),
+              ),
+              child: Text(
+                _checkedIn ? '✓ CHECK-IN COMPLETED  •  FREEZE' : 'CHECK-IN  •  FREEZE',
+                style: const TextStyle(color: MemberTheme.ink, fontWeight: FontWeight.w900),
               ),
             ),
           ),
         ),
-        const SizedBox(width: 4),
-        Expanded(
-          child: DashboardPanel(
-            color: const Color(0xFFF8F3FF),
-            borderColor: const Color(0xFFB5A7FF),
-            radius: 15,
-            child: Row(
-              children: [
-                const SizedBox(width: 4),
-                Image.asset('assets/member_card/23_freeze_snowflake_graphic.webp',
-                  width: 27, height: 29, fit: BoxFit.contain),
-                const SizedBox(width: 3),
-                const Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('FREEZE', maxLines: 1,
-                        style: TextStyle(color: MemberTheme.ink, fontSize: 14,
-                          height: 1, fontWeight: FontWeight.w900)),
-                      Text('Stay Cool • Pause Plan', maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: MemberTheme.ink, fontSize: 7,
-                          fontWeight: FontWeight.w700)),
-                      Text('UP TO 20% OFF', maxLines: 1,
-                        style: TextStyle(color: Color(0xFFD20F45), fontSize: 8,
-                          fontWeight: FontWeight.w900)),
-                    ],
-                  ),
-                ),
-                Image.asset('reference_library/recovered_from_history/assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png',
-                  width: 24, height: 38, fit: BoxFit.contain),
-                const SizedBox(width: 2),
-              ],
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -290,18 +238,17 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             margin: const EdgeInsets.only(left: 4),
             decoration: BoxDecoration(
               color: const Color(0xFFFFD76B),
-              image: const DecorationImage(
-                image: AssetImage('assets/member_card/10_gold_photo_backplate.webp'),
-                fit: BoxFit.cover,
-              ),
               borderRadius: BorderRadius.circular(15),
               border: Border.all(color: MemberTheme.gold, width: 1.5),
               boxShadow: const [BoxShadow(color: Color(0xAAFFCA3A), blurRadius: 7)],
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(13),
-              child: Image.asset('reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
-                fit: BoxFit.contain),
+              child: Image.asset(
+                'reference_library/recovered_from_history/assets/material_pack/pulsevault/16_member_identity_card.webp',
+                fit: BoxFit.cover,
+                alignment: Alignment.centerLeft,
+              ),
             ),
           ),
           const SizedBox(width: 7),
