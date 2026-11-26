@@ -588,24 +588,28 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return Row(
       children: [
         Expanded(child: DashboardMetricTile(
-          label: '▦ ATTENDA. +6%', value: member.attendance,
+          label: '▦ ATTENDA. +6%',
+          compact: compact, value: member.attendance,
           note: 'Protein 10% OFF',
           color: const Color(0xFFFFE96A),
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png')),
         const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
-          label: 'WORKOUT', value: member.workout, trend: '↑ +12%',
+          label: 'WORKOUT',
+          compact: compact, value: member.workout, trend: '↑ +12%',
           note: 'Creatine 15% OFF', color: const Color(0xFFF2D7FF),
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png')),
         const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
-          label: 'PAYMENT', value: '${member.paymentDue} Due',
+          label: 'PAYMENT',
+          compact: compact, value: '${member.paymentDue} Due',
           note: 'Get 5% OFF  ›', valueColor: const Color(0xFFD71939),
           color: const Color(0xFFD9F1FF),
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/11_sbi_payment_card_cutout.png')),
         const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
-          label: '▣ BODY', value: member.bodyWeight, trend: '↓ -0.8 kg',
+          label: '▣ BODY',
+          compact: compact, value: member.bodyWeight, trend: '↓ -0.8 kg',
           note: 'Fat Loss 20% OFF', color: const Color(0xFFD8FFE2),
           asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png')),
       ],
