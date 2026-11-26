@@ -175,7 +175,7 @@ class AttendancePanel extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               border: Border.all(color: Colors.redAccent),
             ),
-            child: const Text('● LIVE', style: TextStyle(
+            child: const Text('● DEMO', style: TextStyle(
               color: Colors.red, fontSize: 8, fontWeight: FontWeight.w900,
             )),
           ),
