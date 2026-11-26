@@ -13,8 +13,8 @@ void main() {
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    expect(find.text('CHECK-IN'), findsOneWidget);
-    expect(find.text('FREEZE'), findsOneWidget);
+    expect(find.byKey(const ValueKey('check-in-button')), findsOneWidget);
+    expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.textContaining('Gold Plan'), findsOneWidget);
     expect(find.text('₹500 Due'), findsOneWidget);
@@ -63,7 +63,7 @@ void main() {
     await tester.pump();
     await tester.tap(checkIn);
     await tester.pump();
-    expect(find.text('CHECK-IN'), findsOneWidget);
+    expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

@@ -202,6 +202,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(15),
           child: Image.asset(
+            key: const ValueKey('check-in-freeze-header-image'),
             'reference_library/recovered_from_history/assets/material_pack/pulsevault/17_checkin_freeze_header_compact.webp',
             width: double.infinity,
             height: double.infinity,
