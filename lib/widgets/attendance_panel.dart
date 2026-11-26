@@ -194,7 +194,7 @@ class AttendancePanel extends StatelessWidget {
 
   Widget _offerBanner() {
     return _smallBanner(
-      asset: 'assets/member_card/05_blinkit_grocery_bag.webp',
+      asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png',
       assetWidth: 34,
       title: 'Healthy Snacks & Gym Essentials',
       subtitle: 'Member partner offer • Up to 30% OFF',
@@ -204,7 +204,7 @@ class AttendancePanel extends StatelessWidget {
 
   Widget _recoveryBanner() {
     return _smallBanner(
-      asset: 'assets/member_card/03_whey_protein_tub.webp',
+      asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png',
       assetWidth: 23,
       title: 'Recovery Combo',
       subtitle: 'Up to 30% OFF',
