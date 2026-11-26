@@ -38,12 +38,12 @@ class AttendancePanel extends StatelessWidget {
 
   Widget _panel({bool compact = false}) {
     final headerHeight = compact ? 20.0 : 24.0;
-    final offerHeight = compact ? 25.0 : 30.0;
-    final chartHeight = compact ? 60.0 : 68.0;
+    final offerHeight = compact ? 23.0 : 30.0;
+    final chartHeight = compact ? 58.0 : 68.0;
     final ringSize = compact ? 56.0 : 62.0;
     final ringWidth = compact ? 8.0 : 9.0;
-    final recoveryHeight = compact ? 25.0 : 30.0;
-    final calendarTitleHeight = compact ? 21.0 : 24.0;
+    final recoveryHeight = compact ? 23.0 : 30.0;
+    final calendarTitleHeight = compact ? 20.0 : 24.0;
     final cellHeight = compact ? 26.0 : 30.0;
     final summaryHeight = compact ? 14.0 : 16.0;
 
