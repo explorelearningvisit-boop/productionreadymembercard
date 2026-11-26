@@ -294,7 +294,7 @@ class AttendanceDayCell extends StatelessWidget {
                 color: MemberTheme.ink, fontSize: 9, fontWeight: FontWeight.w900,
               )),
               if (off)
-                const Text('OFF', style: TextStyle(
+                Text('OFF', style: TextStyle(
                   color: Color(0xFF635B6B), fontSize: compact ? 6 : 7, fontWeight: FontWeight.w800,
                 )),
             ],
