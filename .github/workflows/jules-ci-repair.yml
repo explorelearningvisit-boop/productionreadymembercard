@@ -29,13 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
-      JULES_API_KEY: ${{ secrets.JULES_API_KEY }}
+      CODE_AGENT_BRIDGE_KEY: ${{ secrets.CODE_AGENT_BRIDGE_KEY }}
     steps:
       - name: Invoke Jules for a guarded repair
-        if: ${{ env.JULES_API_KEY != '' }}
+        if: ${{ env.CODE_AGENT_BRIDGE_KEY != '' }}
         uses: google-labs-code/jules-invoke@v1
         with:
-          jules_api_key: ${{ secrets.JULES_API_KEY }}
+          jules_api_key: ${{ env.CODE_AGENT_BRIDGE_KEY }}
           starting_branch: ${{ github.event.workflow_run.head_branch || 'grok/purple-neon-member-dashboard' }}
           include_last_commit: true
           include_commit_log: true
