@@ -220,6 +220,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     ],
                   ),
                 ),
+                Image.asset('assets/member_card/04_purple_shaker.webp',
+                  width: 24, height: 38, fit: BoxFit.contain),
                 const SizedBox(width: 2),
               ],
             ),
@@ -293,34 +295,37 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return Row(
       children: [
         Expanded(
-          child: DashboardPanel(
-            color: const Color(0xFFB80928),
-            borderColor: const Color(0xFFFF5368),
-            radius: 15,
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            child: Row(
-              children: [
-                Icon(Icons.account_balance_wallet_rounded,
-                  color: Colors.white, size: compact ? 23 : 26),
-                const SizedBox(width: 4),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('PAYMENT DUE  ⚠', maxLines: 1,
-                        style: TextStyle(color: Colors.white, fontSize: 8,
-                          fontWeight: FontWeight.w900)),
-                      Text('${member.paymentDue} Due', maxLines: 1,
-                        style: TextStyle(color: Colors.white,
-                          fontSize: compact ? 14 : 16, fontWeight: FontWeight.w900)),
-                      Text('${member.daysRemaining} Days Left', maxLines: 1,
-                        style: const TextStyle(color: Colors.white, fontSize: 7,
-                          fontWeight: FontWeight.w700)),
-                    ],
+          child: PulseGlow(
+            glowColor: const Color(0xFFFF415D),
+            child: DashboardPanel(
+              color: const Color(0xFFB80928),
+              borderColor: const Color(0xFFFF5368),
+              radius: 15,
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              child: Row(
+                children: [
+                  Icon(Icons.account_balance_wallet_rounded,
+                    color: Colors.white, size: compact ? 23 : 26),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('PAYMENT DUE  ⚠', maxLines: 1,
+                          style: TextStyle(color: Colors.white, fontSize: 8,
+                            fontWeight: FontWeight.w900)),
+                        Text('${member.paymentDue} Due', maxLines: 1,
+                          style: TextStyle(color: Colors.white,
+                            fontSize: compact ? 14 : 16, fontWeight: FontWeight.w900)),
+                        Text('${member.daysRemaining} Days Left', maxLines: 1,
+                          style: const TextStyle(color: Colors.white, fontSize: 7,
+                            fontWeight: FontWeight.w700)),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -414,7 +419,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           asset: 'assets/member_card/01_member_bodybuilder.webp')),
         const SizedBox(width: 3),
         Expanded(child: DashboardMetricTile(
-          label: 'WORKOUT', value: member.workout, note: 'Creatine 15% OFF',
+          label: 'WORKOUT', value: member.workout, note: 'Creatine 50% OFF',
           color: const Color(0xFFF2D7FF),
           asset: 'assets/member_card/06_creatine_tub.webp')),
         const SizedBox(width: 3),
@@ -426,7 +431,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(child: DashboardMetricTile(
           label: '▣ BODY', value: member.bodyWeight, note: 'Fat Loss 20% OFF',
           color: const Color(0xFFD8FFE2),
-          asset: 'assets/member_card/27_dumbbell_promo_graphic.webp')),
+          asset: 'assets/member_card/28_protinex_tub.webp')),
       ],
     );
   }
