@@ -10,7 +10,7 @@ class AttendancePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        const designHeight = 290.0;
+        const designHeight = 350.0;
         return FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.topCenter,
