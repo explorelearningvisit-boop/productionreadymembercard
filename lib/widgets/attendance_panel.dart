@@ -244,6 +244,8 @@ class AttendancePanel extends StatelessWidget {
       height: 17,
       child: Row(
         children: [
+          Image.asset('assets/member_card/25_calendar_graphic.webp', width: 18, height: 18, fit: BoxFit.contain),
+          const SizedBox(width: 3),
           const Expanded(
             child: Text('October attendance', maxLines: 1, style: TextStyle(
               color: MemberTheme.ink, fontSize: 12, fontWeight: FontWeight.w900,
