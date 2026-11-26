@@ -201,13 +201,13 @@ class AttendanceLegend extends StatelessWidget {
           const SizedBox(width: 4),
           SizedBox(
             width: 43,
-            child: Text(label, maxLines: 1, style: const TextStyle(
+            child: Text(label, maxLines: 1, style: TextStyle(
               color: MemberTheme.ink, fontSize: compact ? 7 : 8, fontWeight: FontWeight.w800,
             )),
           ),
           SizedBox(
             width: 17,
-            child: Text(count, textAlign: TextAlign.end, style: const TextStyle(
+            child: Text(count, textAlign: TextAlign.end, style: TextStyle(
               color: MemberTheme.ink, fontSize: compact ? 7 : 8, fontWeight: FontWeight.w900,
             )),
           ),
@@ -226,7 +226,7 @@ class AttendanceLegend extends StatelessWidget {
           const SizedBox(width: 4),
           SizedBox(
             width: 23,
-            child: Text(percent, textAlign: TextAlign.end, style: const TextStyle(
+            child: Text(percent, textAlign: TextAlign.end, style: TextStyle(
               color: MemberTheme.ink, fontSize: compact ? 6 : 7, fontWeight: FontWeight.w900,
             )),
           ),
@@ -245,7 +245,7 @@ class WeekdayLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Center(
-        child: Text(label, style: const TextStyle(
+        child: Text(label, style: TextStyle(
           color: Color(0xFF4B3C5B), fontSize: compact ? 7 : 8, fontWeight: FontWeight.w800,
         )),
       ),
