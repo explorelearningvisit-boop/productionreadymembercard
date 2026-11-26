@@ -57,19 +57,29 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   Expanded(
                     child: LayoutBuilder(
                       builder: (context, contentBounds) {
-                        final contentHeight = contentBounds.maxHeight < 350
+                        final contentHeight = contentBounds.maxHeight < 290
                             ? contentBounds.maxHeight
-                            : 350.0;
+                            : 290.0;
                         return Align(
                           alignment: Alignment.topCenter,
                           child: SizedBox(
                             height: contentHeight,
                             child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(width: railWidth, child: _navigationRail()),
+                                SizedBox(
+                                  key: const ValueKey('navigation-rail'),
+                                  width: railWidth,
+                                  height: contentHeight,
+                                  child: _navigationRail(),
+                                ),
                                 const SizedBox(width: 3),
-                                const Expanded(child: AttendancePanel()),
+                                const Expanded(
+                                  child: SizedBox(
+                                    height: 290,
+                                    child: AttendancePanel(),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
