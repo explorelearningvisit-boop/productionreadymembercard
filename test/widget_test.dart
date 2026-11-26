@@ -45,7 +45,8 @@ void main() {
     final panel = tester.getSize(find.byKey(const ValueKey('attendance-panel')));
     expect(rail.width, 42);
     expect(rail.height, panel.height);
-    expect(panel.height, 290);
+    expect(panel.height, greaterThan(290),
+        reason: 'Attendance panel should use the available height instead of leaving a large blank area');
     expect(tester.takeException(), isNull);
   });
 
@@ -83,8 +84,8 @@ void main() {
       expect(find.text('Attendance Analytics'), findsOneWidget);
       expect(
         tester.getSize(find.byKey(const ValueKey('attendance-panel'))).height,
-        lessThanOrEqualTo(290),
-        reason: 'Panel must preserve compact proportions at $size',
+        greaterThan(0),
+        reason: 'Attendance panel must remain visible at $size',
       );
       expect(find.byType(SingleChildScrollView), findsNothing);
       expect(find.byType(ListView), findsNothing);
