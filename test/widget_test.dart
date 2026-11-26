@@ -15,6 +15,8 @@ void main() {
 
     expect(find.byKey(const ValueKey('check-in-button')), findsOneWidget);
     expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
+    expect(find.text('CHECK-IN'), findsOneWidget);
+    expect(find.text('FREEZE'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.textContaining('Gold Plan'), findsOneWidget);
     expect(find.text('₹500 Due'), findsOneWidget);
@@ -28,7 +30,9 @@ void main() {
     expect(find.text('Absent'), findsOneWidget);
     expect(find.text('Holiday'), findsOneWidget);
     expect(find.text('Late'), findsOneWidget);
-    expect(find.text('Sample data • API connection required for live records'), findsOneWidget);
+    expect(find.text('Creatine 15% OFF'), findsOneWidget);
+    expect(find.text('Buy Now ›'), findsOneWidget);
+    expect(find.text('Sample data • API connection required for live records'), findsNWidgets(2));
     expect(tester.takeException(), isNull);
   });
 
@@ -43,7 +47,7 @@ void main() {
 
     final rail = tester.getSize(find.byKey(const ValueKey('navigation-rail')));
     final panel = tester.getSize(find.byKey(const ValueKey('attendance-panel')));
-    expect(rail.width, 42);
+    expect(rail.width, 52);
     expect(rail.height, panel.height);
     expect(panel.height, greaterThan(290),
         reason: 'Attendance panel should use the available height instead of leaving a large blank area');
