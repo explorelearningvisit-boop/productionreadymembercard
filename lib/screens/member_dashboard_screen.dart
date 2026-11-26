@@ -172,10 +172,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
 
   Widget _dashboardTop({required bool compact}) {
     final topHeight = compact ? 48.0 : 58.0;
-    final identityHeight = compact ? 66.0 : 94.0;
+    final identityHeight = compact ? 84.0 : 94.0;
     final offerHeight = compact ? 48.0 : 65.0;
-    final progressHeight = compact ? 40.0 : 51.0;
-    final metricsHeight = compact ? 88.0 : 140.0;
+    final progressHeight = compact ? 44.0 : 51.0;
+    final metricsHeight = compact ? 104.0 : 140.0;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -443,38 +443,38 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             color: const Color(0xFF6D1AA8),
             borderColor: const Color(0xFFE77CFF),
             radius: 18,
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: compact ? 2 : 5),
             child: Row(
               children: [
                 Image.asset(
                   'reference_library/recovered_from_history/assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
-                  width: compact ? 38 : 43,
-                  height: 44,
+                  width: compact ? 34 : 43,
+                  height: compact ? 34 : 44,
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(width: 3),
-                const Expanded(
+                Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Whey Protein', maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: MemberTheme.gold, fontSize: 9,
+                        style: TextStyle(color: MemberTheme.gold, fontSize: compact ? 7 : 9,
                           fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
-                      SizedBox(height: 2),
+                      SizedBox(height: compact ? 1 : 2),
                       Text('25% OFF', maxLines: 1,
-                        style: TextStyle(color: Colors.white, fontSize: 15,
+                        style: TextStyle(color: Colors.white, fontSize: compact ? 13 : 15,
                           height: 1, fontWeight: FontWeight.w900)),
-                      SizedBox(height: 4),
+                      SizedBox(height: compact ? 1 : 4),
                       DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(colors: [Color(0xFFFF53B5), Color(0xFFD20A85)]),
                           borderRadius: BorderRadius.all(Radius.circular(13)),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                          padding: EdgeInsets.symmetric(horizontal: 7, vertical: compact ? 1 : 2),
                           child: Text('Buy Now ›', maxLines: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 7,
+                            style: TextStyle(color: Colors.white, fontSize: compact ? 6 : 7,
                               height: 1, fontWeight: FontWeight.w900)),
                         ),
                       ),
@@ -494,7 +494,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       color: const Color(0xFF39116D),
       borderColor: const Color(0xFFE4C5FF),
       radius: 16,
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: compact ? 2 : 4),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -503,31 +503,31 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               Expanded(
                 child: Text('Membership ${member.membershipDays} / ${member.membershipTotalDays} Days',
                   maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(color: Colors.white, fontSize: 13,
+                  style: TextStyle(color: Colors.white, fontSize: compact ? 10 : 13,
                     height: 1, fontWeight: FontWeight.w900)),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                padding: EdgeInsets.symmetric(horizontal: 6, vertical: compact ? 2 : 3),
                 decoration: BoxDecoration(
                   color: const Color(0xFFD71939),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: const Color(0xFFFFA5B2)),
                 ),
                 child: Text('⚠ ${member.daysRemaining} Days Left', maxLines: 1,
-                  style: const TextStyle(color: Colors.white, fontSize: 8,
+                  style: TextStyle(color: Colors.white, fontSize: compact ? 6 : 8,
                     height: 1, fontWeight: FontWeight.w900)),
               ),
               const SizedBox(width: 5),
               Text('${(member.membershipProgress * 100).round()}%',
-                style: const TextStyle(color: Colors.white, fontSize: 19,
+                style: TextStyle(color: Colors.white, fontSize: compact ? 15 : 19,
                   height: 1, fontWeight: FontWeight.w900)),
             ],
           ),
-          const SizedBox(height: 5),
+          SizedBox(height: compact ? 2 : 5),
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: SizedBox(
-              height: 11,
+              height: compact ? 8 : 11,
               width: double.infinity,
               child: Stack(fit: StackFit.expand, children: [
                 const ColoredBox(color: Color(0xFFDCCDF0)),
