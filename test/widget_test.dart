@@ -19,7 +19,7 @@ void main() {
     expect(find.text('FREEZE'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.textContaining('Gold Plan'), findsOneWidget);
-    expect(find.text('₹500 Due'), findsOneWidget);
+    expect(find.text('₹500 Due'), findsNWidgets(2));
     expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
     expect(find.text('Attendance Analytics'), findsOneWidget);
     expect(find.text('Attend'), findsOneWidget);

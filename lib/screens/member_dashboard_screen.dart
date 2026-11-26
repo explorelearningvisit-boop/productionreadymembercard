@@ -171,8 +171,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _dashboardTop({required bool compact}) {
-    final topHeight = compact ? 52.0 : 56.0;
-    final identityHeight = compact ? 82.0 : 92.0;
+    final topHeight = compact ? 54.0 : 58.0;
+    final identityHeight = compact ? 84.0 : 94.0;
     final offerHeight = compact ? 58.0 : 65.0;
     final progressHeight = compact ? 46.0 : 51.0;
     final metricsHeight = compact ? 122.0 : 140.0;
@@ -202,7 +202,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             onTap: () => setState(() => _checkedIn = !_checkedIn),
             child: Container(
               key: const ValueKey('check-in-freeze-header-image'),
-              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                   colors: [Color(0xFF290052), Color(0xFF6D16B5), Color(0xFF28004F)],
@@ -269,7 +269,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         const SizedBox(width: 5),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
                 colors: [Color(0xFFF9F5FF), Color(0xFFE6D7FF), Color(0xFFFDFBFF)],
@@ -290,23 +290,23 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('FREEZE', maxLines: 1,
-                        style: TextStyle(color: MemberTheme.ink, fontSize: 14,
+                        style: TextStyle(color: MemberTheme.ink, fontSize: 13,
                           height: 1, fontWeight: FontWeight.w900)),
-                      SizedBox(height: 2),
+                      SizedBox(height: 1),
                       Text('Stay Cool • Pause Plan', maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: MemberTheme.ink, fontSize: 7,
+                        style: TextStyle(color: MemberTheme.ink, fontSize: 6,
                           height: 1, fontWeight: FontWeight.w800)),
-                      SizedBox(height: 3),
+                      SizedBox(height: 2),
                       DecoratedBox(
                         decoration: BoxDecoration(
                           color: Color(0xFFD71939),
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
                           child: Text('UP TO 20% OFF',
-                            style: TextStyle(color: Colors.white, fontSize: 7,
+                            style: TextStyle(color: Colors.white, fontSize: 6,
                               height: 1, fontWeight: FontWeight.w900)),
                         ),
                       ),
@@ -316,8 +316,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 const SizedBox(width: 2),
                 Image.asset(
                   'reference_library/recovered_from_history/assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png',
-                  width: 31,
-                  height: 42,
+                  width: 28,
+                  height: 38,
                   fit: BoxFit.contain,
                 ),
               ],
@@ -418,16 +418,16 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text('PAYMENT DUE  ⚠', maxLines: 1,
-                          style: TextStyle(color: Colors.white, fontSize: 9,
+                          style: TextStyle(color: Colors.white, fontSize: 8,
                             height: 1, fontWeight: FontWeight.w900)),
-                        const SizedBox(height: 3),
+                        const SizedBox(height: 1),
                         Text('${member.paymentDue} Due', maxLines: 1,
                           style: TextStyle(color: Colors.white,
-                            fontSize: compact ? 15 : 18, height: 1,
+                            fontSize: compact ? 14 : 17, height: 1,
                             fontWeight: FontWeight.w900)),
                         const SizedBox(height: 3),
                         Text('${member.daysRemaining} Days Left', maxLines: 1,
-                          style: const TextStyle(color: Colors.white, fontSize: 8,
+                          style: const TextStyle(color: Colors.white, fontSize: 7,
                             height: 1, fontWeight: FontWeight.w800)),
                       ],
                     ),
@@ -448,8 +448,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               children: [
                 Image.asset(
                   'reference_library/recovered_from_history/assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
-                  width: compact ? 40 : 47,
-                  height: 51,
+                  width: compact ? 38 : 43,
+                  height: 44,
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(width: 3),
@@ -459,11 +459,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Whey Protein', maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: MemberTheme.gold, fontSize: 10,
+                        style: TextStyle(color: MemberTheme.gold, fontSize: 9,
                           fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
                       SizedBox(height: 2),
                       Text('25% OFF', maxLines: 1,
-                        style: TextStyle(color: Colors.white, fontSize: 16,
+                        style: TextStyle(color: Colors.white, fontSize: 15,
                           height: 1, fontWeight: FontWeight.w900)),
                       SizedBox(height: 4),
                       DecoratedBox(
@@ -472,9 +472,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           borderRadius: BorderRadius.all(Radius.circular(13)),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                          padding: EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                           child: Text('Buy Now ›', maxLines: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 8,
+                            style: TextStyle(color: Colors.white, fontSize: 7,
                               height: 1, fontWeight: FontWeight.w900)),
                         ),
                       ),
