@@ -92,14 +92,14 @@ jobs:
           gcloud firebase test android run \
             --type robo \
             --app "$APK" \
-            --device model=Pixel2.arm,version=30,locale=en,orientation=portrait \
+            --device model=MediumPhone.arm,version=34,locale=en,orientation=portrait \
             --timeout 5m \
             --results-dir="bad-gym-${GITHUB_RUN_NUMBER}-virtual"
           # Physical device lane
           gcloud firebase test android run \
             --type robo \
             --app "$APK" \
-            --device model=Pixel2,version=30,locale=en,orientation=portrait \
+            --device model=redfin,version=30,locale=en,orientation=portrait \
             --timeout 5m \
             --results-dir="bad-gym-${GITHUB_RUN_NUMBER}-physical"
 
