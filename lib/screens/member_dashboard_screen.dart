@@ -448,7 +448,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(child: DashboardMetricTile(
           label: '▣ BODY', value: member.bodyWeight, note: 'Fat Loss 20% OFF',
           color: const Color(0xFFD8FFE2),
-          asset: 'assets/member_card/27_dumbbell_promo_graphic.webp')),
+          asset: 'assets/member_card/fat_loss_support_tub.png')),
       ],
     );
   }
