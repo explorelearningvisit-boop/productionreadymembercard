@@ -1,0 +1,63 @@
+name: BAD GYM hybrid agent bridge monitor
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bad-gym-agent-bridge-monitor
+  cancel-in-progress: true
+
+jobs:
+  jules-readonly-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CODE_AGENT_BRIDGE_KEY: ${{ secrets.CODE_AGENT_BRIDGE_KEY }}
+    steps:
+      - name: Check Jules API read-only endpoints
+        id: probe
+        shell: bash
+        run: |
+          set +x
+          if [ -z "$CODE_AGENT_BRIDGE_KEY" ]; then
+            echo "result=missing_secret" >> "$GITHUB_OUTPUT"
+            echo "## Jules bridge probe" >> "$GITHUB_STEP_SUMMARY"
+            echo "Blocked: repository secret CODE_AGENT_BRIDGE_KEY is not configured." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          sources_code=$(curl --silent --show-error --output /tmp/jules-sources.json --write-out "%{http_code}" \
+            -H "x-goog-api-key: $CODE_AGENT_BRIDGE_KEY" \
+            "https://jules.googleapis.com/v1alpha/sources" || true)
+          sessions_code=$(curl --silent --show-error --output /tmp/jules-sessions.json --write-out "%{http_code}" \
+            -H "x-goog-api-key: $CODE_AGENT_BRIDGE_KEY" \
+            "https://jules.googleapis.com/v1alpha/sessions?pageSize=10" || true)
+
+          echo "sources_http=$sources_code" >> "$GITHUB_OUTPUT"
+          echo "sessions_http=$sessions_code" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## Jules bridge probe"
+            echo "- Sources endpoint HTTP: $sources_code"
+            echo "- Sessions endpoint HTTP: $sessions_code"
+            echo "- Credential values are never printed."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$sources_code" = "200" ] && [ "$sessions_code" = "200" ]; then
+            echo "result=read_api_available" >> "$GITHUB_OUTPUT"
+            echo "Read access is available. This does not prove task creation or messaging is enabled." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$sources_code" = "401" ] || [ "$sessions_code" = "401" ]; then
+            echo "result=auth_failed" >> "$GITHUB_OUTPUT"
+            echo "Authentication failed. Verify the GitHub Actions secret without printing its value." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$sources_code" = "403" ] || [ "$sessions_code" = "403" ]; then
+            echo "result=access_restricted" >> "$GITHUB_OUTPUT"
+            echo "Jules API access is restricted/read-only for this account." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "result=api_unavailable" >> "$GITHUB_OUTPUT"
+            echo "Jules API did not return successful read responses. Inspect HTTP status only; do not expose response bodies or credentials." >> "$GITHUB_STEP_SUMMARY"
+          fi
