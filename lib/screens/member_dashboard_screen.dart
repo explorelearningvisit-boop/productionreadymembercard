@@ -227,7 +227,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       ],
                     ),
                   ),
-                  Image.asset('assets/member_card/01_member_bodybuilder.webp',
+                  Image.asset('reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
                     width: 34, height: 36, fit: BoxFit.contain),
                   const SizedBox(width: 2),
                 ],
@@ -265,7 +265,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     ],
                   ),
                 ),
-                Image.asset('assets/member_card/04_purple_shaker.webp',
+                Image.asset('reference_library/recovered_from_history/assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png',
                   width: 24, height: 38, fit: BoxFit.contain),
                 const SizedBox(width: 2),
               ],
@@ -300,7 +300,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(13),
-              child: Image.asset('assets/member_card/01_member_bodybuilder.webp',
+              child: Image.asset('reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
                 fit: BoxFit.contain),
             ),
           ),
@@ -387,7 +387,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             child: Row(
               children: [
                 const SizedBox(width: 2),
-                Image.asset('assets/member_card/03_whey_protein_tub.webp',
+                Image.asset('reference_library/recovered_from_history/assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
                   width: compact ? 34 : 39, height: 46, fit: BoxFit.contain),
                 const SizedBox(width: 2),
                 const Expanded(
@@ -471,22 +471,22 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(child: DashboardMetricTile(
           label: '▦ ATTENDA. +6%', value: member.attendance,
           note: 'Protein 10% OFF', color: const Color(0xFFFFE96A),
-          asset: 'assets/member_card/01_member_bodybuilder.webp')),
+          asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png')),
         const SizedBox(width: 3),
         Expanded(child: DashboardMetricTile(
           label: 'WORKOUT', value: member.workout, note: 'Creatine 50% OFF',
           color: const Color(0xFFF2D7FF),
-          asset: 'assets/member_card/06_creatine_tub.webp')),
+          asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png')),
         const SizedBox(width: 3),
         Expanded(child: DashboardMetricTile(
           label: 'PAYMENT', value: member.paymentDue, note: 'SBI • 5% OFF',
           color: const Color(0xFFD9F1FF),
-          asset: 'assets/member_card/29_sbi_payment_card_graphic.webp')),
+          asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/11_sbi_payment_card_cutout.png')),
         const SizedBox(width: 3),
         Expanded(child: DashboardMetricTile(
           label: '▣ BODY', value: member.bodyWeight, note: 'Fat Loss 20% OFF',
           color: const Color(0xFFD8FFE2),
-          asset: 'assets/member_card/fat_loss_support_tub.png')),
+          asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png')),
       ],
     );
   }
