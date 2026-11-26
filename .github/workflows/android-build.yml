@@ -15,7 +15,12 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
+    env:
+      GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 
@@ -66,19 +71,19 @@ jobs:
           du -h "$APK"
 
       - name: Authenticate to Google Cloud for Firebase Test Lab
-        if: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON != '' && secrets.GCP_PROJECT_ID != '' }}
+        if: ${{ env.GCP_SERVICE_ACCOUNT_JSON != '' && env.GCP_PROJECT_ID != '' }}
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
 
       - name: Set up Google Cloud SDK
-        if: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON != '' && secrets.GCP_PROJECT_ID != '' }}
+        if: ${{ env.GCP_SERVICE_ACCOUNT_JSON != '' && env.GCP_PROJECT_ID != '' }}
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
 
       - name: Run Firebase Test Lab on virtual and physical Android devices
-        if: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON != '' && secrets.GCP_PROJECT_ID != '' }}
+        if: ${{ env.GCP_SERVICE_ACCOUNT_JSON != '' && env.GCP_PROJECT_ID != '' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -99,7 +104,7 @@ jobs:
             --results-dir="bad-gym-${GITHUB_RUN_NUMBER}-physical"
 
       - name: Distribute QA APK with Firebase App Distribution
-        if: ${{ success() && secrets.FIREBASE_APP_ID != '' && secrets.FIREBASE_TOKEN != '' }}
+        if: ${{ success() && env.FIREBASE_APP_ID != '' && env.FIREBASE_TOKEN != '' }}
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
