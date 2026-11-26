@@ -2,6 +2,44 @@ import 'package:flutter/material.dart';
 
 import '../theme/member_theme.dart';
 
+
+class PulseGlow extends StatefulWidget {
+  const PulseGlow({required this.child, this.glowColor = const Color(0xFFFFD34E), super.key});
+  final Widget child;
+  final Color glowColor;
+
+  @override
+  State<PulseGlow> createState() => _PulseGlowState();
+}
+
+class _PulseGlowState extends State<PulseGlow> {
+  bool _bright = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: _bright ? 0.34 : 0.9, end: _bright ? 0.9 : 0.34),
+      duration: const Duration(milliseconds: 900),
+      curve: Curves.easeInOut,
+      onEnd: () {
+        if (mounted) setState(() => _bright = !_bright);
+      },
+      builder: (context, value, child) => DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [BoxShadow(
+            color: widget.glowColor.withOpacity(value * 0.55),
+            blurRadius: 5 + value * 10,
+            spreadRadius: value * 1.2,
+          )],
+        ),
+        child: child,
+      ),
+      child: widget.child,
+    );
+  }
+}
+
 class DashboardPanel extends StatelessWidget {
   const DashboardPanel({
     required this.child,
