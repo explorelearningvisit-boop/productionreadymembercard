@@ -13,7 +13,9 @@ class AttendancePanel extends StatelessWidget {
         const designHeight = 290.0;
         return FittedBox(
           key: const ValueKey('attendance-panel'),
-          fit: BoxFit.scaleDown,
+          // Stretch the compact design canvas into the height allocated
+          // by the parent so the analytics/calendar use the available screen.
+          fit: BoxFit.fill,
           alignment: Alignment.topCenter,
           child: SizedBox(
             width: constraints.maxWidth,
