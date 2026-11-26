@@ -33,7 +33,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         child: LayoutBuilder(
           builder: (context, bounds) {
             final compact = bounds.maxHeight < 660;
-            final railWidth = bounds.maxWidth < 350 ? 43.0 : 49.0;
+            final railWidth = bounds.maxWidth < 350 ? 47.0 : 54.0;
             return Container(
               margin: const EdgeInsets.fromLTRB(5, 4, 5, 5),
               padding: const EdgeInsets.all(4),
@@ -50,12 +50,20 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   BoxShadow(color: Color(0x887A38FF), blurRadius: 7),
                 ],
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: Column(
                 children: [
-                  SizedBox(width: railWidth, child: _navigationRail()),
-                  const SizedBox(width: 4),
-                  Expanded(child: _dashboardContent(compact: compact)),
+                  _dashboardTop(compact: compact),
+                  const SizedBox(height: 5),
+                  Expanded(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(width: railWidth, child: _navigationRail()),
+                        const SizedBox(width: 4),
+                        const Expanded(child: AttendancePanel()),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             );
@@ -124,13 +132,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     );
   }
 
-  Widget _dashboardContent({required bool compact}) {
+  Widget _dashboardTop({required bool compact}) {
     final topHeight = compact ? 43.0 : 49.0;
     final identityHeight = compact ? 72.0 : 82.0;
     final offerHeight = compact ? 53.0 : 59.0;
     final progressHeight = compact ? 41.0 : 46.0;
     final metricsHeight = compact ? 99.0 : 111.0;
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(height: topHeight, child: _topActions()),
         const SizedBox(height: 4),
@@ -141,8 +150,6 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         SizedBox(height: progressHeight, child: _membershipProgress()),
         const SizedBox(height: 4),
         SizedBox(height: metricsHeight, child: _metrics(compact: compact)),
-        const SizedBox(height: 4),
-        const Expanded(child: AttendancePanel()),
       ],
     );
   }
@@ -441,7 +448,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(child: DashboardMetricTile(
           label: '▣ BODY', value: member.bodyWeight, note: 'Fat Loss 20% OFF',
           color: const Color(0xFFD8FFE2),
-          asset: 'assets/member_card/28_protinex_tub.webp')),
+          asset: 'assets/member_card/27_dumbbell_promo_graphic.webp')),
       ],
     );
   }
