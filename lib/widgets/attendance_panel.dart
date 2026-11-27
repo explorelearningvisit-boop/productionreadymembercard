@@ -2,12 +2,20 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../data/sample_member.dart';
 import '../theme/member_theme.dart';
 import 'ad_motion.dart';
 import 'dashboard_primitives.dart';
 
 class AttendancePanel extends StatelessWidget {
-  const AttendancePanel({super.key});
+  const AttendancePanel({
+    required this.sectionIndex,
+    required this.member,
+    super.key,
+  });
+
+  final int sectionIndex;
+  final MemberSample member;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +36,7 @@ class AttendancePanel extends StatelessWidget {
               // fills the rail's available content width on short screens.
               width: constraints.maxWidth / scale,
               height: compactHeight,
-              child: _panel(compact: true, palette: palette),
+              child: _panel(compact: true, palette: palette, sectionIndex: sectionIndex, member: member),
             ),
           );
         }
@@ -37,13 +45,26 @@ class AttendancePanel extends StatelessWidget {
           key: const ValueKey('attendance-panel'),
           width: constraints.maxWidth,
           height: availableHeight,
-          child: _panel(compact: compact, palette: palette),
+          child: _panel(compact: compact, palette: palette, sectionIndex: sectionIndex, member: member),
         );
       },
     );
   }
 
-  Widget _panel({bool compact = false, required MemberPlanPalette palette}) {
+  Widget _panel({
+    bool compact = false,
+    required MemberPlanPalette palette,
+    required int sectionIndex,
+    required MemberSample member,
+  }) {
+    if (sectionIndex != 0) {
+      return _alternatePanel(
+        sectionIndex: sectionIndex,
+        compact: compact,
+        palette: palette,
+        member: member,
+      );
+    }
     final headerHeight = compact ? 22.0 : 26.0;
     final offerHeight = compact ? 24.0 : 30.0;
     final chartHeight = compact ? 70.0 : 82.0;
@@ -276,6 +297,860 @@ class AttendancePanel extends StatelessWidget {
     );
   }
 
+
+  Widget _alternatePanel({
+    required int sectionIndex,
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    const titles = [
+      'Attendance Analytics',
+      'Member Insights',
+      'Attendance Calendar',
+      'Recent History',
+      'Workout & Attendance Trend',
+      'Goals & Achievements',
+    ];
+    const icons = [
+      Icons.calendar_month_rounded,
+      Icons.insights_rounded,
+      Icons.date_range_rounded,
+      Icons.history_rounded,
+      Icons.show_chart_rounded,
+      Icons.emoji_events_rounded,
+    ];
+    final title = titles[sectionIndex.clamp(0, titles.length - 1)];
+    final icon = icons[sectionIndex.clamp(0, icons.length - 1)];
+
+    return Container(
+      key: ValueKey('member-detail-${sectionIndex}'),
+      padding: EdgeInsets.fromLTRB(7, compact ? 4 : 6, 7, compact ? 4 : 6),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.white, palette.accentSoft, palette.surface],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(19),
+        border: Border.all(color: palette.panelEdge, width: 1.35),
+        boxShadow: [
+          BoxShadow(
+            color: palette.accent.withOpacity(0.13),
+            blurRadius: 6,
+            offset: const Offset(0, 1),
+          ),
+          const BoxShadow(color: Color(0x66FFFFFF), blurRadius: 2),
+        ],
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: compact ? 23 : 28,
+            child: Row(
+              children: [
+                Container(
+                  width: compact ? 21 : 24,
+                  height: compact ? 21 : 24,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [palette.accent, palette.railGradient.last],
+                    ),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: Colors.white, size: compact ? 14 : 17),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: MemberTheme.ink,
+                      fontSize: compact ? 13 : 15,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFE6E8),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: const Color(0xFFE98B9A)),
+                  ),
+                  child: const Text(
+                    'DEMO',
+                    style: TextStyle(
+                      color: Color(0xFFC43E55),
+                      fontSize: 7.5,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: compact ? 3 : 5),
+          _smallBanner(
+            compact: compact,
+            height: compact ? 26 : 31,
+            asset: 'assets/member_card/05_blinkit_grocery_bag.webp',
+            assetWidth: compact ? 32 : 40,
+            motion: 3,
+            title: 'Member-only partner offers',
+            subtitle: 'Rotating deals • special member pricing',
+            colors: [palette.accentSoft, Colors.white],
+          ),
+          SizedBox(height: compact ? 4 : 7),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 280),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              transitionBuilder: (child, animation) => FadeTransition(
+                opacity: animation,
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0.025, 0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                ),
+              ),
+              child: KeyedSubtree(
+                key: ValueKey(sectionIndex),
+                child: _sectionContent(
+                  sectionIndex: sectionIndex,
+                  compact: compact,
+                  palette: palette,
+                  member: member,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: compact ? 2 : 4),
+          Text(
+            'Sample member data • Live sync not connected',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: MemberTheme.muted,
+              fontSize: compact ? 6.5 : 7.2,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _sectionContent({
+    required int sectionIndex,
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    switch (sectionIndex) {
+      case 1:
+        return _insightsContent(compact: compact, palette: palette, member: member);
+      case 2:
+        return _calendarContent(compact: compact, palette: palette);
+      case 3:
+        return _historyContent(compact: compact, palette: palette, member: member);
+      case 4:
+        return _trendContent(compact: compact, palette: palette, member: member);
+      case 5:
+        return _goalsContent(compact: compact, palette: palette);
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  Widget _insightsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _dataCard(
+                title: 'Attendance',
+                value: member.attendance,
+                caption: 'This month',
+                icon: Icons.event_available_rounded,
+                color: const Color(0xFF0C9D5A),
+                compact: compact,
+              ),
+            ),
+            const SizedBox(width: 5),
+            Expanded(
+              child: _dataCard(
+                title: 'Workout',
+                value: member.workout,
+                caption: 'Daily average',
+                icon: Icons.fitness_center_rounded,
+                color: palette.accent,
+                compact: compact,
+              ),
+            ),
+            const SizedBox(width: 5),
+            Expanded(
+              child: _dataCard(
+                title: 'Body weight',
+                value: member.bodyWeight,
+                caption: 'Latest update',
+                icon: Icons.monitor_weight_outlined,
+                color: const Color(0xFF0A8A9E),
+                compact: compact,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: compact ? 6 : 10),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'WEEKLY ACTIVITY',
+            style: TextStyle(
+              color: palette.accent,
+              fontSize: compact ? 9 : 10,
+              fontWeight: FontWeight.w900,
+              letterSpacing: 0.35,
+            ),
+          ),
+        ),
+        SizedBox(height: compact ? 4 : 7),
+        Expanded(
+          child: _weeklyBars(
+            values: const [32, 48, 40, 68, 54, 88, 72],
+            labels: const ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+            palette: palette,
+            compact: compact,
+          ),
+        ),
+        SizedBox(height: compact ? 4 : 6),
+        _highlightStrip(
+          icon: Icons.local_fire_department_rounded,
+          title: '5-day streak',
+          subtitle: 'You are building a consistent routine',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _calendarContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+  }) {
+    const weekdays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    const days = <int>[
+      0, 0, 0, 1, 2, 3, 4,
+      5, 6, 7, 8, 9, 10, 11,
+      12, 13, 14, 15, 16, 17, 18,
+      19, 20, 21, 22, 23, 24, 25,
+      26, 27, 28, 29, 30, 31, 0,
+    ];
+    const present = Color(0xFFD9F8E4);
+    const absent = Color(0xFFFFE3E7);
+    const late = Color(0xFFFFEAC6);
+    const off = Color(0xFFE7E3EA);
+    const colors = <int, Color>{
+      1: present, 2: present, 3: absent, 4: present,
+      5: present, 6: off, 7: present, 8: present,
+      9: late, 10: present, 11: present, 12: present,
+      13: present, 14: present, 15: present, 16: present,
+      17: absent, 18: off, 19: present, 20: present,
+      21: late, 22: present, 23: absent, 24: present,
+      25: off, 26: present, 27: present, 28: present,
+      29: present, 30: present, 31: present,
+    };
+    return Column(
+      children: [
+        Row(
+          children: [
+            const Expanded(
+              child: Text(
+                'October 2026',
+                style: TextStyle(
+                  color: MemberTheme.ink,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+            _calendarLegend(const Color(0xFF19B66A), 'Present', compact),
+            _calendarLegend(const Color(0xFFE55268), 'Absent', compact),
+            _calendarLegend(const Color(0xFFFFB52B), 'Late', compact),
+          ],
+        ),
+        SizedBox(height: compact ? 5 : 8),
+        Row(
+          children: [
+            for (final day in weekdays)
+              Expanded(
+                child: Center(
+                  child: Text(
+                    day,
+                    style: TextStyle(
+                      color: palette.accent,
+                      fontSize: compact ? 8.5 : 10,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+        SizedBox(height: compact ? 3 : 5),
+        Expanded(
+          child: Column(
+            children: [
+              for (var row = 0; row < 5; row++)
+                Expanded(
+                  child: Row(
+                    children: [
+                      for (var col = 0; col < 7; col++)
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.all(1.5),
+                            decoration: BoxDecoration(
+                              color: days[row * 7 + col] == 0
+                                  ? Colors.transparent
+                                  : colors[days[row * 7 + col]] ?? present,
+                              borderRadius: BorderRadius.circular(8),
+                              border: days[row * 7 + col] == 16
+                                  ? Border.all(color: palette.accent, width: 1.8)
+                                  : Border.all(color: Colors.white.withOpacity(0.85)),
+                            ),
+                            child: Center(
+                              child: Text(
+                                days[row * 7 + col] == 0
+                                    ? ''
+                                    : '${days[row * 7 + col]}',
+                                style: TextStyle(
+                                  color: MemberTheme.ink,
+                                  fontSize: compact ? 10 : 12,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _historyContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        _historyRow(
+          icon: Icons.login_rounded,
+          title: 'Gym check-in',
+          subtitle: 'Today • 07:12 AM',
+          value: 'Present',
+          tint: const Color(0xFF0AA969),
+          compact: compact,
+        ),
+        _historyRow(
+          icon: Icons.payments_rounded,
+          title: 'Membership payment',
+          subtitle: 'Due in ${member.daysRemaining} days',
+          value: member.paymentDue,
+          tint: const Color(0xFFD92348),
+          compact: compact,
+        ),
+        _historyRow(
+          icon: Icons.fitness_center_rounded,
+          title: 'Workout completed',
+          subtitle: 'Yesterday • 58 minutes',
+          value: 'Done',
+          tint: palette.accent,
+          compact: compact,
+        ),
+        _historyRow(
+          icon: Icons.monitor_weight_outlined,
+          title: 'Body measurement',
+          subtitle: 'Last updated • 2 days ago',
+          value: member.bodyWeight,
+          tint: const Color(0xFF118D9A),
+          compact: compact,
+        ),
+        const Spacer(),
+        _highlightStrip(
+          icon: Icons.verified_rounded,
+          title: 'Account is up to date',
+          subtitle: 'Your recent activity is listed above',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _trendContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _dataCard(
+                title: 'Workout avg.',
+                value: member.workout,
+                caption: 'Per session',
+                icon: Icons.timer_outlined,
+                color: palette.accent,
+                compact: compact,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: _dataCard(
+                title: 'Attendance',
+                value: member.attendance,
+                caption: 'Monthly',
+                icon: Icons.event_available_rounded,
+                color: const Color(0xFF0C9D5A),
+                compact: compact,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: compact ? 7 : 10),
+        Text(
+          'WORKOUT MINUTES • LAST 7 DAYS',
+          style: TextStyle(
+            color: palette.accent,
+            fontSize: compact ? 9 : 10,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        SizedBox(height: compact ? 4 : 7),
+        Expanded(
+          child: _weeklyBars(
+            values: const [26, 42, 35, 61, 48, 78, 58],
+            labels: const ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+            palette: palette,
+            compact: compact,
+          ),
+        ),
+        _highlightStrip(
+          icon: Icons.trending_up_rounded,
+          title: '+12% workout consistency',
+          subtitle: 'Compared with the previous week',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _goalsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+  }) {
+    return Column(
+      children: [
+        _goalProgress(
+          title: 'Monthly attendance',
+          subtitle: 'Target: 24 visits',
+          value: 0.81,
+          color: const Color(0xFF0AA969),
+          compact: compact,
+        ),
+        _goalProgress(
+          title: 'Workout consistency',
+          subtitle: 'Target: 5 sessions / week',
+          value: 0.72,
+          color: palette.accent,
+          compact: compact,
+        ),
+        _goalProgress(
+          title: 'Body progress',
+          subtitle: 'Target: 2 kg milestone',
+          value: 0.64,
+          color: const Color(0xFF0D8B98),
+          compact: compact,
+        ),
+        const Spacer(),
+        _highlightStrip(
+          icon: Icons.emoji_events_rounded,
+          title: 'Next milestone is close',
+          subtitle: 'Two more visits to reach your monthly target',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _dataCard({
+    required String title,
+    required String value,
+    required String caption,
+    required IconData icon,
+    required Color color,
+    required bool compact,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(compact ? 5 : 8),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.09),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.25)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(icon, color: color, size: compact ? 14 : 17),
+          SizedBox(height: compact ? 2 : 4),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              style: TextStyle(
+                color: MemberTheme.ink,
+                fontSize: compact ? 13 : 16,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ),
+          Text(
+            title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: color,
+              fontSize: compact ? 7.5 : 8.5,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          Text(
+            caption,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: MemberTheme.muted,
+              fontSize: compact ? 6.5 : 7.5,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _weeklyBars({
+    required List<double> values,
+    required List<String> labels,
+    required MemberPlanPalette palette,
+    required bool compact,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < values.length; i++)
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 3),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    values[i].round().toString(),
+                    style: TextStyle(
+                      color: MemberTheme.muted,
+                      fontSize: compact ? 6.5 : 8,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FractionallySizedBox(
+                        heightFactor: (values[i] / 100).clamp(0.1, 1.0),
+                        widthFactor: 0.74,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                palette.accent.withOpacity(0.65),
+                                palette.accent,
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(7),
+                            boxShadow: [
+                              BoxShadow(
+                                color: palette.accent.withOpacity(0.16),
+                                blurRadius: 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: compact ? 3 : 5),
+                  Text(
+                    labels[i],
+                    style: TextStyle(
+                      color: MemberTheme.ink,
+                      fontSize: compact ? 7.5 : 9,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _historyRow({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required String value,
+    required Color tint,
+    required bool compact,
+  }) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: compact ? 4 : 6),
+      child: Row(
+        children: [
+          Container(
+            width: compact ? 29 : 34,
+            height: compact ? 29 : 34,
+            decoration: BoxDecoration(
+              color: tint.withOpacity(0.10),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: tint, size: compact ? 16 : 19),
+          ),
+          const SizedBox(width: 7),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RotatingAdMessage(
+                  messages: title == 'Healthy Snacks & Gym Essentials'
+                      ? const [
+                          'Healthy snacks & gym essentials',
+                          'Fresh member-only grocery deals',
+                          'Everyday wellness picks',
+                        ]
+                      : const [
+                          'Recovery combo',
+                          'Protein & creatine essentials',
+                          'Post-workout member offer',
+                        ],
+                  style: TextStyle(
+                    color: MemberTheme.ink,
+                    fontSize: compact ? 9.5 : 11,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                RotatingAdMessage(
+                  messages: subtitle == 'Member partner offer • Up to 30% OFF'
+                      ? const [
+                          'Member price • up to 30% off',
+                          'Selected items • special prices',
+                          'Offers rotate for members',
+                        ]
+                      : const [
+                          'Up to 30% OFF',
+                          'Save more on recovery',
+                          'Member-only prices',
+                        ],
+                  style: TextStyle(
+                    color: MemberTheme.muted,
+                    fontSize: compact ? 7.5 : 8.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 4),
+          Text(
+            value,
+            style: TextStyle(
+              color: tint,
+              fontSize: compact ? 8.5 : 10,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _goalProgress({
+    required String title,
+    required String subtitle,
+    required double value,
+    required Color color,
+    required bool compact,
+  }) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: compact ? 4 : 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    color: MemberTheme.ink,
+                    fontSize: compact ? 9.5 : 11,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+              Text(
+                '${(value * 100).round()}%',
+                style: TextStyle(
+                  color: color,
+                  fontSize: compact ? 10 : 12,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            subtitle,
+            style: TextStyle(
+              color: MemberTheme.muted,
+              fontSize: compact ? 7 : 8,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: compact ? 3 : 4),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: LinearProgressIndicator(
+              value: value,
+              minHeight: compact ? 6 : 8,
+              backgroundColor: color.withOpacity(0.12),
+              valueColor: AlwaysStoppedAnimation<Color>(color),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _highlightStrip({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required MemberPlanPalette palette,
+    required bool compact,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: compact ? 7 : 9,
+        vertical: compact ? 5 : 7,
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [palette.accentSoft, Colors.white],
+        ),
+        borderRadius: BorderRadius.circular(11),
+        border: Border.all(color: palette.panelEdge),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: palette.accent, size: compact ? 15 : 18),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: MemberTheme.ink,
+                    fontSize: compact ? 8.5 : 10,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: MemberTheme.muted,
+                    fontSize: compact ? 6.8 : 7.8,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _calendarLegend(Color color, String label, bool compact) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 6,
+            height: 6,
+            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+          ),
+          const SizedBox(width: 2),
+          Text(
+            label,
+            style: TextStyle(
+              color: MemberTheme.muted,
+              fontSize: compact ? 6.5 : 7.5,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _header({required bool compact, required double height, required MemberPlanPalette palette}) {
     return SizedBox(
       height: height,
@@ -385,14 +1260,14 @@ class AttendancePanel extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ArtworkEntrance(
-            motion: motion,
-            child: Image.asset(
-              asset,
-              width: assetWidth,
-              height: height - 3,
-              fit: BoxFit.contain,
-            ),
+          RotatingAdArtwork(
+            assets: const [
+              'assets/member_card/05_blinkit_grocery_bag.webp',
+              'assets/member_card/03_whey_protein_tub.webp',
+              'assets/member_card/06_creatine_tub.webp',
+            ],
+            width: assetWidth,
+            height: height - 3,
           ),
           const SizedBox(width: 5),
           Expanded(
