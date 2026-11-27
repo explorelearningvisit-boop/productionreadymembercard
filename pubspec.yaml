@@ -18,23 +18,12 @@ dev_dependencies:
 flutter:
   uses-material-design: false
   assets:
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/11_sbi_payment_card_cutout.png
-    - reference_library/recovered_from_history/assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png
     - assets/member_card/01_member_bodybuilder.webp
     - assets/member_card/03_whey_protein_tub.webp
     - assets/member_card/04_purple_shaker.webp
     - assets/member_card/05_blinkit_grocery_bag.webp
     - assets/member_card/06_creatine_tub.webp
     - assets/member_card/10_gold_photo_backplate.webp
-    - assets/member_card/15_purple_progress_bar.webp
-    - assets/member_card/21_gold_plan_badge_background.webp
-    - assets/member_card/22_green_active_badge_background.webp
     - assets/member_card/23_freeze_snowflake_graphic.webp
     - assets/member_card/25_calendar_graphic.webp
     - assets/member_card/28_protinex_tub.webp
