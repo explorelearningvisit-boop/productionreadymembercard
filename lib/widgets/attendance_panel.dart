@@ -52,15 +52,15 @@ class AttendancePanel extends StatelessWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(7, compact ? 4 : 6, 7, compact ? 4 : 6),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [Color(0xFFFFFFFF), palette.accentSoft, palette.surface],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(19),
         border: Border.all(color: palette.panelEdge, width: 1.35),
-        boxShadow: const [
-          BoxShadow(color: palette.accent.withOpacity(0.12), blurRadius: 5, offset: Offset(0, 1)),
+        boxShadow: [
+          BoxShadow(color: palette.accent.withOpacity(0.12), blurRadius: 5, offset: const Offset(0, 1)),
           BoxShadow(color: Color(0x88FFFFFF), blurRadius: 2),
         ],
       ),
@@ -95,7 +95,7 @@ class AttendancePanel extends StatelessWidget {
                                   '81%',
                                   style: TextStyle(
                                     color: MemberTheme.ink,
-                                    fontSize: compact ? 17 : 20,
+                                    fontSize: compact ? 18 : 21,
                                     height: 1,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -104,7 +104,7 @@ class AttendancePanel extends StatelessWidget {
                                   '25/31',
                                   style: TextStyle(
                                     color: MemberTheme.ink,
-                                    fontSize: compact ? 8 : 9,
+                                    fontSize: compact ? 9 : 10,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
@@ -179,7 +179,7 @@ class AttendancePanel extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: MemberTheme.ink,
-                  fontSize: compact ? 8 : 9,
+                  fontSize: compact ? 9 : 10,
                   height: 1,
                   fontWeight: FontWeight.w900,
                 ),
@@ -210,6 +210,7 @@ class AttendancePanel extends StatelessWidget {
               AttendanceDayCell(
                 '16',
                 selected: true,
+                selectedColor: palette.accent,
                 height: cellHeight,
                 compact: compact,
               ),
@@ -262,7 +263,7 @@ class AttendancePanel extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: MemberTheme.muted,
-              fontSize: compact ? 5.5 : 6,
+              fontSize: compact ? 6.5 : 7.2,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -429,8 +430,8 @@ class AttendancePanel extends StatelessWidget {
         children: [
           Image.asset(
             'assets/member_card/25_calendar_graphic.webp',
-            width: compact ? 18 : 21,
-            height: compact ? 18 : 21,
+            width: compact ? 20 : 23,
+            height: compact ? 20 : 23,
             fit: BoxFit.contain,
           ),
           const SizedBox(width: 4),
@@ -451,7 +452,7 @@ class AttendancePanel extends StatelessWidget {
               vertical: compact ? 2 : 3,
             ),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 colors: [palette.accent, palette.railGradient.last],
               ),
               borderRadius: BorderRadius.circular(12),
@@ -504,13 +505,13 @@ class _MiniStat extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(icon, style: TextStyle(fontSize: compact ? 9 : 11)),
+            Text(icon, style: TextStyle(fontSize: compact ? 10 : 12)),
             const SizedBox(width: 3),
             Text(
               value,
               style: TextStyle(
                 color: MemberTheme.purple,
-                fontSize: compact ? 9 : 11,
+                fontSize: compact ? 10 : 12,
                 fontWeight: FontWeight.w900,
               ),
             ),
