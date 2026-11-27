@@ -832,6 +832,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             color: const Color(0xFF6310AE),
             borderColor: const Color(0xFFE47AFF),
             radius: 17,
+            onTap: () => _showOfferDetails(context),
             padding: EdgeInsets.symmetric(
               horizontal: 5,
               vertical: compact ? 2 : 5,
@@ -1130,7 +1131,63 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     );
   }
 
-    Widget _statusPill(
+  
+  void _showOfferDetails(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        final palette = MemberPlanPalette.forPlan(widget.member.plan);
+        return Container(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          decoration: BoxDecoration(
+            color: palette.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            border: Border.all(color: palette.panelEdge),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Member offer',
+                style: TextStyle(
+                  color: palette.accent,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Whey Protein · 25% OFF',
+                style: TextStyle(
+                  color: MemberTheme.ink,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Sample campaign preview. A live purchase destination has not been connected yet.',
+                style: TextStyle(color: MemberTheme.muted, fontSize: 13),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () => Navigator.of(sheetContext).pop(),
+                  child: const Text('Close offer'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _statusPill(
     String label,
     Color color,
     Color foreground, {
