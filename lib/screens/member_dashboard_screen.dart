@@ -636,7 +636,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       const Icon(
                         Icons.badge_outlined,
                         size: 12,
-                        color: Color(0xFF6B388B),
+                        color: palette.accent,
                       ),
                       const SizedBox(width: 3),
                       Flexible(
@@ -644,7 +644,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           member.memberId,
                           maxLines: 1,
                           style: TextStyle(
-                            color: const Color(0xFF573274),
+                            color: MemberTheme.ink,
                             fontSize: compact ? 9 : 10.5,
                             height: 1,
                             fontWeight: FontWeight.w900,
@@ -713,32 +713,21 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               palette.planBadgeText,
                               icon: Icons.workspace_premium_rounded,
                               gradient: palette.planBadgeGradient,
+                              backgroundAsset: palette.planName == 'Gold'
+                                  ? 'assets/material_pack/inbox/PulseVault/21_gold_plan_badge_background.webp'
+                                  : null,
                               compact: compact,
                             ),
                             SizedBox(height: compact ? 1 : 2),
-                            RotatingAdMessage(
-                              messages: palette.planName == 'Gold'
-                                  ? const [
-                                      'Gold member perk • ₹100 off',
-                                      'Priority offer • save 15%',
-                                      'Premium member pricing',
-                                    ]
-                                  : palette.planName == 'Spark'
-                                      ? const [
-                                          'Spark member deal • save 10%',
-                                          'Daily essentials • member price',
-                                          'Fresh-start reward',
-                                        ]
-                                      : const [
-                                          'Silver member deal • save 8%',
-                                          'Member pricing on essentials',
-                                          'Wellness reward unlocked',
-                                        ],
+                            Text(
+                              '${palette.planName} member perks · Demo',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: palette.accent,
-                                fontSize: compact ? 6.8 : 7.8,
+                                fontSize: compact ? 7.6 : 8.2,
                                 height: 1,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -758,20 +747,19 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 Color(0xFF2BE184),
                                 Color(0xFF08B962),
                               ],
+                              backgroundAsset: 'assets/material_pack/inbox/PulseVault/22_green_active_badge_background.webp',
                               compact: compact,
                             ),
                             SizedBox(height: compact ? 1 : 2),
-                            RotatingAdMessage(
-                              messages: const [
-                                'Active reward • 5% cashback',
-                                'Training gear • member rate',
-                                'Partner rewards • unlocked',
-                              ],
+                            Text(
+                              'Member rewards · Demo',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: const Color(0xFF23694E),
-                                fontSize: compact ? 6.8 : 7.8,
+                                fontSize: compact ? 7.6 : 8.2,
                                 height: 1,
-                                fontWeight: FontWeight.w900,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -1198,6 +1186,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     Color foreground, {
     IconData? icon,
     List<Color>? gradient,
+    String? backgroundAsset,
     bool compact = false,
   }) {
     return Container(
@@ -1206,19 +1195,27 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: gradient ??
-              [Color.lerp(color, Colors.white, 0.22)!, color],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        gradient: backgroundAsset == null
+            ? LinearGradient(
+                colors: gradient ??
+                    [Color.lerp(color, Colors.white, 0.22)!, color],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : null,
+        image: backgroundAsset == null
+            ? null
+            : DecorationImage(
+                image: AssetImage(backgroundAsset),
+                fit: BoxFit.fill,
+              ),
         borderRadius: BorderRadius.circular(13),
-        border: Border.all(color: Colors.white.withOpacity(0.92), width: 1),
-        boxShadow: [
+        border: Border.all(color: Colors.white.withOpacity(0.82), width: 1),
+        boxShadow: const [
           BoxShadow(
-            color: color.withOpacity(0.20),
-            blurRadius: 3,
-            offset: const Offset(0, 1),
+            color: Color(0x160C0905),
+            blurRadius: 2,
+            offset: Offset(0, 1),
           ),
         ],
       ),
