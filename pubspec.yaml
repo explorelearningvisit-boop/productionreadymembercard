@@ -1,7 +1,7 @@
 name: bad_gym_member_intelligence
-description: BAD GYM compact purple neon Member Intelligence dashboard
+description: BAD GYM adaptive Gold, Spark and Silver member intelligence dashboard
 publish_to: none
-version: 1.0.0+5
+version: 1.0.1+6
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
