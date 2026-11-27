@@ -271,83 +271,105 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     required bool compact,
     required double compactProgress,
   }) {
-    // Interpolate compact proportions so short phones do not hit an abrupt
-    // breakpoint or squeeze text-heavy modules.
-    final topHeight = compact
-        ? 48.0 + 4.0 * compactProgress
-        : 60.0;
-    final identityHeight = compact
-        ? 70.0 + 10.0 * compactProgress
-        : 98.0;
-    final offerHeight = compact
-        ? 44.0 + 10.0 * compactProgress
-        : 68.0;
-    final progressHeight = compact
-        ? 38.0 + 7.0 * compactProgress
-        : 54.0;
-    final metricsHeight = compact
-        ? 72.0 + 44.0 * compactProgress
-        : 150.0;
-    final sectionGap = compact ? 2.0 + compactProgress : 5.0;
+    final topHeight = compact ? 51.0 + 3.0 * compactProgress : 62.0;
+    final identityHeight = compact ? 84.0 + 10.0 * compactProgress : 108.0;
+    final offerHeight = compact ? 48.0 + 5.0 * compactProgress : 70.0;
+    final progressHeight = compact ? 45.0 + 5.0 * compactProgress : 58.0;
+    final metricsHeight = compact ? 106.0 + 10.0 * compactProgress : 148.0;
+    final sectionGap = compact ? 2.5 : 5.0;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(height: topHeight, child: _topActions()),
-        SizedBox(height: sectionGap),
         SizedBox(
-          height: identityHeight,
-          child: _memberIdentity(
-            compact: compact,
-            compactProgress: compactProgress,
+          height: topHeight,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            child: _topActions(),
           ),
         ),
         SizedBox(height: sectionGap),
-        SizedBox(height: offerHeight, child: _paymentAndOffer(compact: compact)),
+        SizedBox(
+          height: identityHeight,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            child: _memberIdentity(
+              compact: compact,
+              compactProgress: compactProgress,
+            ),
+          ),
+        ),
         SizedBox(height: sectionGap),
-        SizedBox(height: progressHeight, child: _membershipProgress(compact: compact)),
+        SizedBox(
+          height: offerHeight,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3),
+            child: _paymentAndOffer(compact: compact),
+          ),
+        ),
         SizedBox(height: sectionGap),
-        SizedBox(height: metricsHeight, child: _metrics(compact: compact)),
+        SizedBox(
+          height: progressHeight,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: _membershipProgress(compact: compact),
+          ),
+        ),
+        SizedBox(height: sectionGap),
+        SizedBox(
+          height: metricsHeight,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: _metrics(compact: compact),
+          ),
+        ),
       ],
     );
   }
 
   Widget _topActions() {
+    final palette = MemberPlanTheme.of(context);
     return Row(
       children: [
         Expanded(
           child: InkWell(
             key: const ValueKey('check-in-button'),
-            borderRadius: BorderRadius.circular(17),
+            borderRadius: BorderRadius.circular(16),
             onTap: () => setState(() => _checkedIn = !_checkedIn),
             child: Container(
               key: const ValueKey('check-in-freeze-header-image'),
-              padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF290052), Color(0xFF6D16B5), Color(0xFF28004F)],
+                gradient: LinearGradient(
+                  colors: palette.checkInGradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
                 ),
-                borderRadius: BorderRadius.circular(17),
-                border: Border.all(color: const Color(0xFFE05BFF), width: 1.5),
-                boxShadow: const [
-                  BoxShadow(color: Color(0xB5AD4BFF), blurRadius: 10, spreadRadius: 0.5),
-                  BoxShadow(color: Color(0x55FF67D8), blurRadius: 3),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: palette.frameRim, width: 1.35),
+                boxShadow: [
+                  BoxShadow(
+                    color: palette.accent.withOpacity(0.18),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
                 ],
               ),
               child: Row(
                 children: [
                   Container(
-                    width: 31,
-                    height: 31,
+                    width: 30,
+                    height: 30,
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
-                        colors: [Color(0xFF20F17A), Color(0xFF00B95A)],
+                        colors: [Color(0xFF29EF83), Color(0xFF00B85D)],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xAAFFFFFF)),
+                      border: Border.all(color: const Color(0xCCFFFFFF)),
                       boxShadow: const [
-                        BoxShadow(color: Color(0x8847FF9B), blurRadius: 8),
+                        BoxShadow(color: Color(0x6647FF9B), blurRadius: 5),
                       ],
                     ),
                     child: Icon(
@@ -362,31 +384,52 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.centerLeft,
-                          child: Text('CHECK-IN', maxLines: 1,
-                            style: TextStyle(color: Colors.white, fontSize: 14,
-                              height: 1, fontWeight: FontWeight.w900)),
+                        const Text(
+                          'CHECK-IN',
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            height: 1,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                         const SizedBox(height: 3),
-                        FittedBox(
-                          fit: BoxFit.scaleDown,
-                          alignment: Alignment.centerLeft,
-                          child: Text(_checkedIn ? '07:12 AM' : 'TAP TO CHECK-IN',
-                            maxLines: 1,
-                            style: const TextStyle(color: Colors.white, fontSize: 10,
-                              height: 1, fontWeight: FontWeight.w800)),
+                        Text(
+                          _checkedIn ? '07:12 AM' : 'TAP TO CHECK-IN',
+                          maxLines: 1,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10.5,
+                            height: 1,
+                            fontWeight: FontWeight.w800,
+                          ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 2),
-                  Image.asset(
-                    'assets/member_card/01_member_bodybuilder.webp',
-                    width: 37,
-                    height: 40,
-                    fit: BoxFit.contain,
+                  ArtworkEntrance(
+                    motion: 3,
+                    child: Image.asset(
+                      'assets/member_card/05_blinkit_grocery_bag.webp',
+                      width: 25,
+                      height: 31,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const SizedBox(width: 2),
+                  SizedBox(
+                    width: 34,
+                    child: RotatingAdMessage(
+                      messages: const ['BLINKIT', 'MEMBER DEAL', '30% OFF'],
+                      style: const TextStyle(
+                        color: Color(0xFFFFF1A8),
+                        fontSize: 7.8,
+                        height: 1.05,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -396,61 +439,99 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         const SizedBox(width: 5),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFFFFFFFF), Color(0xFFE8F2FF), Color(0xFFF3E7FF)],
+                colors: [Color(0xFFFFFFFF), Color(0xFFE8F2FF), Color(0xFFF7F1FF)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
-              borderRadius: BorderRadius.circular(17),
-              border: Border.all(color: const Color(0xFFC8B8F1), width: 1.5),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: const Color(0xFFC8B8F1), width: 1.3),
               boxShadow: const [
-                BoxShadow(color: Color(0x887E30D7), blurRadius: 8),
+                BoxShadow(
+                  color: Color(0x337E30D7),
+                  blurRadius: 5,
+                  offset: Offset(0, 2),
+                ),
               ],
             ),
             child: Row(
               children: [
-                Image.asset(
-                  'assets/member_card/23_freeze_snowflake_graphic.webp',
-                  width: 29,
-                  height: 31,
-                  fit: BoxFit.contain,
+                ArtworkEntrance(
+                  motion: 1,
+                  child: Image.asset(
+                    'assets/member_card/23_freeze_snowflake_graphic.webp',
+                    width: 24,
+                    height: 28,
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 const SizedBox(width: 4),
-                const Expanded(
+                Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('FREEZE', maxLines: 1,
-                        style: TextStyle(color: MemberTheme.ink, fontSize: 13,
-                          height: 1, fontWeight: FontWeight.w900)),
-                      SizedBox(height: 1),
-                      Text('Stay Cool • Pause Plan', maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: MemberTheme.ink, fontSize: 6,
-                          height: 1, fontWeight: FontWeight.w800)),
-                      SizedBox(height: 2),
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFD71939),
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                      const Text(
+                        'FREEZE',
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: MemberTheme.ink,
+                          fontSize: 14,
+                          height: 1,
+                          fontWeight: FontWeight.w900,
                         ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                          child: Text('UP TO 20% OFF',
-                            style: TextStyle(color: Colors.white, fontSize: 6,
-                              height: 1, fontWeight: FontWeight.w900)),
+                      ),
+                      const SizedBox(height: 3),
+                      RotatingAdMessage(
+                        messages: const [
+                          'Stay Cool • Pause Plan',
+                          'Pause now • Return stronger',
+                          'Member offer • Save 20%',
+                        ],
+                        style: const TextStyle(
+                          color: Color(0xFF45305D),
+                          fontSize: 8,
+                          height: 1,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFE52B52), Color(0xFFB71648)],
+                          ),
+                          borderRadius: BorderRadius.circular(9),
+                        ),
+                        child: const Text(
+                          'MEMBER DEAL • 20% OFF',
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 7.2,
+                            height: 1,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(width: 2),
-                Image.asset(
-                  'assets/member_card/04_purple_shaker.webp',
-                  width: 28,
-                  height: 38,
-                  fit: BoxFit.contain,
+                ArtworkEntrance(
+                  motion: 2,
+                  child: Image.asset(
+                    'assets/member_card/04_purple_shaker.webp',
+                    width: 22,
+                    height: 34,
+                    fit: BoxFit.contain,
+                  ),
                 ),
               ],
             ),
@@ -459,7 +540,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       ],
     );
   }
-  Widget _memberIdentity({
+
+    Widget _memberIdentity({
     required bool compact,
     required double compactProgress,
   }) {
