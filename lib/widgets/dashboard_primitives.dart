@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/member_theme.dart';
+import 'ad_motion.dart';
 
 
 class PulseGlow extends StatefulWidget {
@@ -94,6 +95,7 @@ class DashboardMetricTile extends StatelessWidget {
     this.compact = false,
     this.noteColor = const Color(0xCCFFFFFF),
     this.noteTextColor = MemberTheme.ink,
+    this.motion = 0,
     super.key,
   });
 
@@ -107,6 +109,7 @@ class DashboardMetricTile extends StatelessWidget {
   final bool compact;
   final Color noteColor;
   final Color noteTextColor;
+  final int motion;
 
   @override
   Widget build(BuildContext context) {
@@ -139,15 +142,15 @@ class DashboardMetricTile extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _fit(label, compact ? 7.5 : 8.5, MemberTheme.ink),
-          SizedBox(height: compact ? 1 : 2),
-          _fit(value, compact ? 15 : 18, valueColor),
+          _fit(label, compact ? 9.2 : 10.5, MemberTheme.ink),
+          SizedBox(height: compact ? 2 : 3),
+          _fit(value, compact ? 17 : 20, valueColor),
           if (trend != null) ...[
-            SizedBox(height: compact ? 1 : 2),
+            SizedBox(height: compact ? 2 : 3),
             Container(
               padding: EdgeInsets.symmetric(
-                horizontal: compact ? 3 : 5,
-                vertical: compact ? 1 : 2,
+                horizontal: compact ? 4 : 6,
+                vertical: compact ? 2 : 3,
               ),
               decoration: BoxDecoration(
                 color: const Color(0xAAFFFFFF),
@@ -155,7 +158,7 @@ class DashboardMetricTile extends StatelessWidget {
               ),
               child: _fit(
                 trend!,
-                compact ? 7 : 8,
+                compact ? 8 : 9,
                 const Color(0xFF078B46),
               ),
             ),
@@ -164,10 +167,13 @@ class DashboardMetricTile extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 1),
-              child: Image.asset(
-                asset,
-                fit: BoxFit.contain,
-                filterQuality: FilterQuality.high,
+              child: ArtworkEntrance(
+                motion: motion,
+                child: Image.asset(
+                  asset,
+                  fit: BoxFit.contain,
+                  filterQuality: FilterQuality.high,
+                ),
               ),
             ),
           ),
@@ -175,14 +181,14 @@ class DashboardMetricTile extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.symmetric(
               horizontal: 2,
-              vertical: compact ? 1 : 2,
+              vertical: compact ? 2 : 3,
             ),
             decoration: BoxDecoration(
               color: noteColor,
               borderRadius: BorderRadius.circular(9),
               border: Border.all(color: Colors.white.withOpacity(0.72)),
             ),
-            child: _fit(note, compact ? 6.5 : 7.5, noteTextColor),
+            child: _fit(note, compact ? 8.2 : 9.2, noteTextColor),
           ),
         ],
       ),
@@ -228,7 +234,7 @@ class AttendanceLegend extends StatelessWidget {
   Widget build(BuildContext context) {
     final value = (double.tryParse(percent.replaceAll('%', '')) ?? 0) / 100;
     return SizedBox(
-      height: compact ? 14 : 18,
+      height: compact ? 17 : 20,
       child: Row(
         children: [
           Container(
@@ -238,15 +244,15 @@ class AttendanceLegend extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           SizedBox(
-            width: 43,
+            width: 45,
             child: Text(label, maxLines: 1, style: TextStyle(
-              color: MemberTheme.ink, fontSize: compact ? 7.5 : 9, fontWeight: FontWeight.w800,
+              color: MemberTheme.ink, fontSize: compact ? 9 : 10.5, fontWeight: FontWeight.w800,
             )),
           ),
           SizedBox(
-            width: 17,
+            width: 19,
             child: Text(count, textAlign: TextAlign.end, style: TextStyle(
-              color: MemberTheme.ink, fontSize: compact ? 8 : 9, fontWeight: FontWeight.w900,
+              color: MemberTheme.ink, fontSize: compact ? 9 : 10, fontWeight: FontWeight.w900,
             )),
           ),
           const SizedBox(width: 4),
@@ -255,7 +261,7 @@ class AttendanceLegend extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               child: LinearProgressIndicator(
                 value: value.clamp(0.0, 1.0).toDouble(),
-                minHeight: compact ? 5 : 7,
+                minHeight: compact ? 6 : 8,
                 backgroundColor: const Color(0xFFE2D7EC),
                 valueColor: AlwaysStoppedAnimation<Color>(color),
               ),
@@ -263,9 +269,9 @@ class AttendanceLegend extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           SizedBox(
-            width: 23,
+            width: 26,
             child: Text(percent, textAlign: TextAlign.end, style: TextStyle(
-              color: MemberTheme.ink, fontSize: compact ? 7 : 8, fontWeight: FontWeight.w900,
+              color: MemberTheme.ink, fontSize: compact ? 8.5 : 9.5, fontWeight: FontWeight.w900,
             )),
           ),
         ],
@@ -284,7 +290,7 @@ class WeekdayLabel extends StatelessWidget {
     return Expanded(
       child: Center(
         child: Text(label, style: TextStyle(
-          color: Color(0xFF4B3C5B), fontSize: compact ? 8 : 9, fontWeight: FontWeight.w900,
+          color: Color(0xFF4B3C5B), fontSize: compact ? 9 : 10, fontWeight: FontWeight.w900,
         )),
       ),
     );
@@ -346,14 +352,14 @@ class AttendanceDayCell extends StatelessWidget {
                 day,
                 style: TextStyle(
                   color: MemberTheme.ink,
-                  fontSize: compact ? 10 : 12,
+                  fontSize: compact ? 12 : 13,
                   height: 1,
                   fontWeight: FontWeight.w900,
                 ),
               ),
               if (off)
                 Text('OFF', style: TextStyle(
-                  color: Color(0xFF635B6B), fontSize: compact ? 6 : 7, fontWeight: FontWeight.w800,
+                  color: Color(0xFF635B6B), fontSize: compact ? 7.5 : 8.5, fontWeight: FontWeight.w800,
                 )),
             ],
           ),
