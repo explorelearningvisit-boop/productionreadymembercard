@@ -49,3 +49,7 @@
 ## Unslop attribution
 
 Adaptation retains the Unslop by Damir Sokolovsky attribution under CC BY 4.0, as required by the bundled project skill.
+
+## Transparency inspection
+
+All ten newly supplied reference files were inspected. Nine are RGB flattened reference boards. The sole RGBA board (`1000315582.png`) contains only a small transparent fringe (about 4.1% fully transparent pixels and about 89.9% fully opaque pixels); its checkerboard-like areas are not a reliable clean alpha backing for extracting every object. The board is therefore not split into pseudo-transparent runtime assets. The canonical PulseVault WebP / PNG objects remain the app's reusable source artwork.
