@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/sample_member.dart';
 import '../theme/member_theme.dart';
+import '../widgets/ad_motion.dart';
 import '../widgets/attendance_panel.dart';
 import '../widgets/dashboard_primitives.dart';
 
@@ -27,72 +28,68 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MemberTheme.canvas,
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, bounds) {
-            final compact = bounds.maxHeight < 760;
-            final compactProgress =
-                ((bounds.maxHeight - 600.0) / 100.0).clamp(0.0, 1.0);
-            final railWidth = bounds.maxWidth < 340
-                ? 46.0
-                : bounds.maxWidth < 380
-                    ? 48.0
-                    : 50.0;
-            return Container(
-              margin: const EdgeInsets.fromLTRB(5, 4, 5, 5),
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF25004D), Color(0xFF6415B4), Color(0xFF26004F)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(27),
-                border: Border.all(color: MemberTheme.gold, width: 2),
-                boxShadow: const [
-                  BoxShadow(color: Color(0xBFAE37FF), blurRadius: 18, spreadRadius: 1),
-                  BoxShadow(color: Color(0x66FF67D8), blurRadius: 8),
-                  BoxShadow(color: Color(0x667A38FF), blurRadius: 3),
-                ],
-              ),
-              child: Container(
+    const member = MemberSample.demo;
+    final palette = MemberPlanPalette.forPlan(member.plan);
+
+    return MemberPlanTheme(
+      palette: palette,
+      child: Scaffold(
+        // Keep the narrow area outside the rounded frame in the same deep
+        // plan color. All gradients and highlights are clipped inside the rim.
+        backgroundColor: palette.frameGradient.first,
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, bounds) {
+              final compact = bounds.maxHeight < 760;
+              final compactProgress =
+                  ((bounds.maxHeight - 600.0) / 100.0).clamp(0.0, 1.0);
+              final railWidth = bounds.maxWidth < 340
+                  ? 46.0
+                  : bounds.maxWidth < 380
+                      ? 48.0
+                      : 50.0;
+
+              return Container(
+                margin: const EdgeInsets.all(2),
+                padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22),
-                  border: Border.all(color: const Color(0x66FFFFFF), width: 1),
+                  gradient: LinearGradient(
+                    colors: palette.frameGradient,
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(color: palette.frameRim, width: 2),
+                  // No outward glow: the shell and its plan-colored canvas
+                  // remain within the visible frame.
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(22),
+                  borderRadius: BorderRadius.circular(19),
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      const DecoratedBox(
+                      DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
-                            colors: [
-                              Color(0xFFFFFDFF),
-                              Color(0xFFF7F0FF),
-                              Color(0xFFEBDDFF),
-                            ],
+                            colors: palette.canvasGradient,
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
                         ),
                       ),
                       Positioned(
-                        top: -90,
-                        left: -70,
+                        top: -78,
+                        left: -62,
                         child: IgnorePointer(
                           child: SizedBox(
-                            width: 260,
-                            height: 260,
+                            width: 228,
+                            height: 228,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 gradient: RadialGradient(
                                   colors: [
-                                    Color(0x3DFFFFFF),
-                                    Color(0x00FFFFFF),
+                                    Colors.white.withOpacity(0.45),
+                                    Colors.white.withOpacity(0),
                                   ],
                                 ),
                               ),
@@ -101,18 +98,18 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         ),
                       ),
                       Positioned(
-                        right: -85,
-                        bottom: -110,
+                        right: -78,
+                        bottom: -92,
                         child: IgnorePointer(
                           child: SizedBox(
-                            width: 270,
-                            height: 270,
+                            width: 230,
+                            height: 230,
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 gradient: RadialGradient(
                                   colors: [
-                                    Color(0x248A2DD0),
-                                    Color(0x008A2DD0),
+                                    palette.accent.withOpacity(0.10),
+                                    palette.accent.withOpacity(0),
                                   ],
                                 ),
                               ),
@@ -126,67 +123,72 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                             compact: compact,
                             compactProgress: compactProgress,
                           ),
-                  const SizedBox(height: 5),
-                  Expanded(
-                    child: LayoutBuilder(
-                      builder: (context, contentBounds) {
-                        // Keep the approved compact card proportions; scale down
-                        // only when the available phone height is smaller.
-                        final contentHeight = contentBounds.maxHeight;
-                        return Align(
-                          alignment: Alignment.topCenter,
-                          child: SizedBox(
-                            height: contentHeight,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  key: const ValueKey('navigation-rail'),
-                                  width: railWidth,
-                                  height: contentHeight,
-                                  child: _navigationRail(),
-                                ),
-                                const SizedBox(width: 3),
-                                const Expanded(
-                                  child: AttendancePanel(),
-                                ),
-                              ],
+                          const SizedBox(height: 4),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(3, 0, 3, 2),
+                              child: LayoutBuilder(
+                                builder: (context, contentBounds) {
+                                  final contentHeight = contentBounds.maxHeight;
+                                  return SizedBox(
+                                    height: contentHeight,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          key: const ValueKey('navigation-rail'),
+                                          width: railWidth,
+                                          height: contentHeight,
+                                          child: _navigationRail(),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        const Expanded(
+                                          child: AttendancePanel(),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
                         ],
                       ),
                     ],
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
-  Widget _navigationRail() {
+    Widget _navigationRail() {
+    final palette = MemberPlanTheme.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemHeight = constraints.maxHeight / _navigation.length;
-        final iconSize = (itemHeight * 0.36).clamp(15.0, 20.0);
-        final labelSize = (itemHeight * 0.18).clamp(8.0, 9.5);
-        const verticalMargin = 0.5;
+        final iconSize = (itemHeight * 0.36).clamp(16.0, 21.0);
+        final labelSize = (itemHeight * 0.18).clamp(9.0, 10.0);
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 1),
+          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 2),
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF4B087F), Color(0xFF280052)],
+            gradient: LinearGradient(
+              colors: palette.railGradient,
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
-            borderRadius: BorderRadius.circular(19),
-            border: Border.all(color: MemberTheme.gold, width: 1.2),
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: palette.frameRim, width: 1.2),
+            boxShadow: [
+              BoxShadow(
+                color: palette.accent.withOpacity(0.15),
+                blurRadius: 5,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
           child: Column(
             children: [
@@ -197,15 +199,33 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     borderRadius: BorderRadius.circular(11),
                     onTap: () => setState(() => _selectedNavigation = i),
                     child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 160),
-                      margin: EdgeInsets.symmetric(vertical: verticalMargin),
+                      duration: const Duration(milliseconds: 220),
+                      curve: Curves.easeOutCubic,
+                      margin: const EdgeInsets.symmetric(vertical: 1),
+                      padding: const EdgeInsets.symmetric(horizontal: 1),
                       decoration: BoxDecoration(
-                        color: _selectedNavigation == i
-                            ? const Color(0xFFFFE77A)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(11),
+                        gradient: _selectedNavigation == i
+                            ? LinearGradient(
+                                colors: [
+                                  Color.lerp(palette.railSelected, Colors.white, 0.22)!,
+                                  palette.railSelected,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              )
+                            : null,
+                        borderRadius: BorderRadius.circular(10),
                         border: _selectedNavigation == i
                             ? Border.all(color: Colors.white, width: 1)
+                            : null,
+                        boxShadow: _selectedNavigation == i
+                            ? [
+                                BoxShadow(
+                                  color: palette.railSelected.withOpacity(0.24),
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 1),
+                                ),
+                              ]
                             : null,
                       ),
                       child: Column(
@@ -219,7 +239,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 : Colors.white,
                             size: iconSize,
                           ),
-                          SizedBox(height: itemHeight < 34 ? 0 : 1),
+                          const SizedBox(height: 2),
                           FittedBox(
                             fit: BoxFit.scaleDown,
                             child: Text(
@@ -230,7 +250,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                     ? MemberTheme.ink
                                     : Colors.white,
                                 fontSize: labelSize,
-                                height: 1,
+                                height: 1.05,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -247,7 +267,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     );
   }
 
-  Widget _dashboardTop({
+    Widget _dashboardTop({
     required bool compact,
     required double compactProgress,
   }) {
