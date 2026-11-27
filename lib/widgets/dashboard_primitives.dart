@@ -38,8 +38,8 @@ class _PulseGlowState extends State<PulseGlow> {
 class DashboardPanel extends StatelessWidget {
   const DashboardPanel({
     required this.child,
-    this.color = const Color(0xFF431078),
-    this.borderColor = const Color(0xFFB56AFF),
+    this.color = MemberTheme.glass,
+    this.borderColor = MemberTheme.glassEdge,
     this.radius = 14,
     this.padding = EdgeInsets.zero,
     super.key,
@@ -57,15 +57,24 @@ class DashboardPanel extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color.lerp(color, Colors.white, 0.10)!, color],
+          colors: [Color.lerp(color, Colors.white, 0.24)!, color],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: borderColor, width: 1.2),
-        boxShadow: const [
-          BoxShadow(color: Color(0x887D26D9), blurRadius: 7, spreadRadius: 0.5),
-          BoxShadow(color: Color(0x33FFFFFF), blurRadius: 2),
+        boxShadow: [
+          BoxShadow(
+            color: borderColor.withOpacity(0.34),
+            blurRadius: 7,
+            spreadRadius: 0.3,
+            offset: const Offset(0, 2),
+          ),
+          BoxShadow(
+            color: Colors.white.withOpacity(0.65),
+            blurRadius: 2,
+            offset: const Offset(0, -1),
+          ),
         ],
       ),
       child: child,
@@ -83,6 +92,8 @@ class DashboardMetricTile extends StatelessWidget {
     this.trend,
     this.valueColor = MemberTheme.ink,
     this.compact = false,
+    this.noteColor = const Color(0xCCFFFFFF),
+    this.noteTextColor = MemberTheme.ink,
     super.key,
   });
 
@@ -94,6 +105,8 @@ class DashboardMetricTile extends StatelessWidget {
   final String? trend;
   final Color valueColor;
   final bool compact;
+  final Color noteColor;
+  final Color noteTextColor;
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +122,19 @@ class DashboardMetricTile extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: Colors.white, width: 1.3),
-        boxShadow: const [
-          BoxShadow(color: Color(0x887C31FF), blurRadius: 7, spreadRadius: 0.5),
+        boxShadow: [
+          BoxShadow(
+            color: Color.lerp(color, MemberTheme.purple, 0.28)!
+                .withOpacity(0.24),
+            blurRadius: 7,
+            spreadRadius: 0.35,
+            offset: const Offset(0, 2),
+          ),
+          BoxShadow(
+            color: Colors.white.withOpacity(0.7),
+            blurRadius: 2,
+            offset: const Offset(0, -1),
+          ),
         ],
       ),
       child: Column(
@@ -154,11 +178,11 @@ class DashboardMetricTile extends StatelessWidget {
               vertical: compact ? 1 : 2,
             ),
             decoration: BoxDecoration(
-              color: const Color(0xAAFFFFFF),
+              color: noteColor,
               borderRadius: BorderRadius.circular(9),
-              border: Border.all(color: const Color(0x66FFFFFF)),
+              border: Border.all(color: Colors.white.withOpacity(0.72)),
             ),
-            child: _fit(note, compact ? 6 : 7, MemberTheme.ink),
+            child: _fit(note, compact ? 6.5 : 7.5, noteTextColor),
           ),
         ],
       ),
