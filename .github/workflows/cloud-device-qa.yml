@@ -1,6 +1,12 @@
 name: BAD GYM Cloud Device QA
 
 on:
+  push:
+    branches: [feat/cloud-xiaomi-companion]
+    paths:
+      - ".github/workflows/cloud-device-qa.yml"
+      - "docs/CLOUD_DEVICE_QA_SETUP.md"
+      - "docs/CLOUD_XIAOMI_COMPANION_ARCHITECTURE.md"
   workflow_dispatch:
     inputs:
       run_firebase_test_lab:
@@ -14,7 +20,7 @@ on:
         required: true
         default: true
   pull_request:
-    branches: [grok/purple-neon-member-dashboard]
+    branches: [grok/purple-neon-member-dashboard, grok/reference-glass-layered-dashboard]
     paths:
       - "lib/**"
       - "test/**"
