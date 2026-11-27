@@ -88,11 +88,9 @@ jobs:
           tags: tag:ci
           ping: ${{ vars.TS_DEVICE_IP }}
 
-      - name: Install Android platform tools
+      - name: Set up Android platform tools
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_tailscale_device_test == true && env.TS_OAUTH_CLIENT_ID != '' && env.TS_OAUTH_SECRET != '' && env.TS_DEVICE_IP != '' }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y android-sdk-platform-tools
+        uses: android-actions/setup-android@v3
 
       - name: Connect to authorized Xiaomi over private tailnet
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_tailscale_device_test == true && env.TS_OAUTH_CLIENT_ID != '' && env.TS_OAUTH_SECRET != '' && env.TS_DEVICE_IP != '' }}
