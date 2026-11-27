@@ -82,16 +82,15 @@ class AttendancePanel extends StatelessWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(7, compact ? 4 : 6, 7, compact ? 4 : 6),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFFFFFFFF), palette.accentSoft, palette.surface],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(19),
-        border: Border.all(color: palette.panelEdge, width: 1.35),
-        boxShadow: [
-          BoxShadow(color: palette.accent.withOpacity(0.12), blurRadius: 5, offset: const Offset(0, 1)),
-          BoxShadow(color: Color(0x88FFFFFF), blurRadius: 2),
+        color: palette.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: palette.panelEdge, width: 1),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x120F0B07),
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
         ],
       ),
       child: Column(
@@ -392,14 +391,14 @@ class AttendancePanel extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF4F0E8),
+                    color: palette.accentSoft,
                     borderRadius: BorderRadius.circular(7),
                     border: Border.all(color: palette.panelEdge),
                   ),
                   child: Text(
                     'Demo',
                     style: TextStyle(
-                      color: MemberTheme.muted,
+                      color: palette.accent,
                       fontSize: compact ? 7 : 8,
                       fontWeight: FontWeight.w600,
                     ),
@@ -1514,14 +1513,7 @@ class AttendancePanel extends StatelessWidget {
                         widthFactor: 0.74,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                palette.accent.withOpacity(0.65),
-                                palette.accent,
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
+                            color: palette.accent,
                             borderRadius: BorderRadius.circular(7),
                             boxShadow: [
                               BoxShadow(
@@ -1686,9 +1678,7 @@ class AttendancePanel extends StatelessWidget {
         vertical: compact ? 5 : 7,
       ),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [palette.accentSoft, Colors.white],
-        ),
+        color: palette.accentSoft,
         borderRadius: BorderRadius.circular(11),
         border: Border.all(color: palette.panelEdge),
       ),
@@ -1762,9 +1752,7 @@ class AttendancePanel extends StatelessWidget {
             width: compact ? 20 : 23,
             height: compact ? 20 : 23,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [palette.accent, palette.accent.withOpacity(0.78)],
-              ),
+              color: palette.accent,
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -1797,14 +1785,14 @@ class AttendancePanel extends StatelessWidget {
               vertical: compact ? 2 : 3,
             ),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFE5E8),
+              color: palette.accentSoft,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.redAccent),
+              border: Border.all(color: palette.panelEdge),
             ),
             child: Text(
-              '● DEMO',
+              'Demo',
               style: TextStyle(
-                color: Colors.red,
+                color: palette.accent,
                 fontSize: compact ? 8 : 9,
                 fontWeight: FontWeight.w900,
               ),
@@ -1824,7 +1812,7 @@ class AttendancePanel extends StatelessWidget {
       motion: 3,
       title: 'Healthy Snacks & Gym Essentials',
       subtitle: 'Member partner offer • Up to 30% OFF',
-      colors: const [Color(0xFFFFF3C7), Color(0xFFF4D9FF)],
+      colors: const [Color(0xFFFFF8E8), Color(0xFFFFFEFC)],
     );
   }
 
@@ -1837,7 +1825,7 @@ class AttendancePanel extends StatelessWidget {
       motion: 2,
       title: 'Recovery Combo',
       subtitle: 'Up to 30% OFF',
-      colors: const [Color(0xFFF9E9FF), Color(0xFFE5C4FF)],
+      colors: const [Color(0xFFF5F0E8), Color(0xFFFFFEFC)],
     );
   }
 
