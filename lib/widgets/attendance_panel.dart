@@ -15,15 +15,18 @@ class AttendancePanel extends StatelessWidget {
       builder: (context, constraints) {
         final palette = MemberPlanTheme.of(context);
         const fullHeight = 370.0;
-        const compactHeight = 286.0;
+        const compactHeight = 310.0;
         final availableHeight = constraints.maxHeight;
         if (availableHeight < compactHeight) {
+          final scale = (availableHeight / compactHeight).clamp(0.01, 1.0);
           return FittedBox(
             key: const ValueKey('attendance-panel'),
             fit: BoxFit.scaleDown,
             alignment: Alignment.topCenter,
             child: SizedBox(
-              width: constraints.maxWidth,
+              // Compensate for FittedBox's uniform scale so the panel still
+              // fills the rail's available content width on short screens.
+              width: constraints.maxWidth / scale,
               height: compactHeight,
               child: _panel(compact: true, palette: palette),
             ),
