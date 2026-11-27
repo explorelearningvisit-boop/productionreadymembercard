@@ -189,9 +189,30 @@ class AttendancePanel extends StatelessWidget {
           SizedBox(height: compact ? 1 : 2),
           Row(
             children: [
-              Expanded(child: _MiniStat(icon: '🔥', value: '5d', label: 'Streak', compact: compact)),
-              Expanded(child: _MiniStat(icon: '🏆', value: '14d', label: 'Best', compact: compact)),
-              Expanded(child: _MiniStat(icon: '↗', value: '+6%', label: 'This Month', compact: compact)),
+              Expanded(
+                child: _MiniStat(
+                  icon: Icons.local_fire_department_rounded,
+                  value: '5d',
+                  label: 'Streak',
+                  compact: compact,
+                ),
+              ),
+              Expanded(
+                child: _MiniStat(
+                  icon: Icons.emoji_events_rounded,
+                  value: '14d',
+                  label: 'Best',
+                  compact: compact,
+                ),
+              ),
+              Expanded(
+                child: _MiniStat(
+                  icon: Icons.trending_up_rounded,
+                  value: '+6%',
+                  label: 'This Month',
+                  compact: compact,
+                ),
+              ),
             ],
           ),
           SizedBox(height: compact ? 1 : 2),
@@ -1977,37 +1998,40 @@ class _MiniStat extends StatelessWidget {
     required this.compact,
   });
 
-  final String icon;
+  final IconData icon;
   final String value;
   final String label;
   final bool compact;
 
   @override
   Widget build(BuildContext context) {
+    final palette = MemberPlanTheme.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(icon, style: TextStyle(fontSize: compact ? 10 : 12)),
+            Icon(icon, color: palette.accent, size: compact ? 12 : 14),
             const SizedBox(width: 3),
             Text(
               value,
               style: TextStyle(
-                color: MemberTheme.purple,
-                fontSize: compact ? 10 : 12,
-                fontWeight: FontWeight.w900,
+                color: palette.accent,
+                fontSize: compact ? 11 : 12.5,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ],
         ),
         Text(
           label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             color: MemberTheme.muted,
-            fontSize: compact ? 5.5 : 6.5,
-            fontWeight: FontWeight.w800,
+            fontSize: compact ? 8.5 : 9.5,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ],

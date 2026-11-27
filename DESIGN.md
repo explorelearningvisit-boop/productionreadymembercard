@@ -1,38 +1,54 @@
 # BAD GYM — Current product design direction
 
-**Product.** A mobile-first gym member dashboard for members and gym staff to understand check-in, plan status, dues, attendance, workout activity, body progress and goals at a glance.
+**Product.** A phone-first gym member dashboard for members and gym staff to understand plan status, check-in, dues, attendance, workout activity, body progress and goals at a glance.
 
 **Character.** Athletic, assured, warm and precise. It should feel like a considered fitness-club product, not a generic AI dashboard or a neon gaming interface.
 
-**World.** A premium training club: forest emerald check-in and shell, champagne metal edging, warm pearl information surfaces and a deep wine navigation rail. Use matte materials and restrained soft depth. The overall dashboard shell belongs to one coherent member-plan palette; the data workspace is calm, bright and neutral.
+**World.** A premium training club with a plan-specific member shell and a quiet pearl information workspace. The shell follows the member's purchased tier; ads and campaign artwork retain their own brand palettes.
 
-**Moments.** (1) The member identity and check-in/plan controls, where a contained emerald-and-champagne treatment carries the dashboard's identity. (2) The wine vertical rail and gold active destination, which make module context immediately recognisable. (3) The white/pearl analytics workspace, where charts, product artwork and meaningful status colours carry the visual richness.
+## Member-plan colour contract
 
-**Signature.** A restrained champagne outer edge, forest-emerald action colour, and a deep wine vertical rail with a warm-gold selected item. Check-in, Freeze, identity, horizontal KPI cards and rail must read as one coordinated shell. For other plans, shift this shared shell together as one palette rather than recolouring isolated components.
+| Plan | Shell and rail | Inner canvas | Active accent |
+|---|---|---|---|
+| Gold | Metallic gold / amber, dark bronze rail, champagne rim | Warm pearl and cream | Deep gold with a pale-gold selected state |
+| Silver | Cool steel and silver rail | White and cool mist | Steel blue / silver |
+| Diamond | Ice blue, silver-blue rail and icy rim | Pearl white and pale blue | Cyan / ice blue |
+| Spark | Forest green and emerald rail | White, mint and pale green | Emerald / lime |
+
+Plan identity is derived from the member's plan record. A tier changes the full member shell coherently; it must not change operational status semantics. Present remains green, absent rose, holiday violet and late amber. Payment due remains rose. Advertising is not recoloured to match a plan.
 
 ## Visual hierarchy
 
-- **Member shell:** Check-in, Freeze, identity card and horizontal KPI card edges use the member's plan-derived shell. Current Gold: forest emerald + champagne edge + deep wine rail + warm-gold selected item. Spark: forest/emerald shell with a deep forest rail and pale-lime selected item. Silver: slate/steel-blue shell and rail with a cool-silver selected item. A member's plan changes the whole shell, not just the plan badge. Keep rail selected state warm/gold and highly legible.
-- **Data workspace:** Keep the large detail panel pearl-white or warm white with quiet neutral borders and restrained neutral shadows. Its surface must read as a distinct information area inside the member shell.
-- **Semantic data colour:** Colour is meaningful, not decorative. Attendance statuses retain consistent meanings (present, absent, holiday, late); payment due, workout and body metrics may use distinct, readable supporting accents. Do not tint every surface with the same accent.
-- **KPI cards:** Labels stay compact; values and trends remain prominent and aligned. Put the trend beside the value where space allows, then use a fine divider to separate data from the product artwork/offer. Preserve enough height for large, undistorted artwork.
-- **Member identity:** The member name, ID and plan state remain the first-read identity. Keep portrait and details balanced, with visible plan and active states.
-- **Navigation:** Horizontal KPI cards are the four primary modules: Attendance, Workout, Payment and Body. Selecting one changes the five-item contextual vertical rail. Every rail item opens a module-specific data view. Both horizontal and vertical selection share the same state; never show a Payment submenu under Attendance or vice versa.
-- **Surface treatment:** Use soft neumorphic depth sparingly. Most content surfaces stay calm and matte; use one or two deliberate raised/focused moments. Avoid purple as the default dashboard colour, hue gradients on every card, outer glow, heavy shadows everywhere and gratuitous glass blur.
-- **Typography:** Prefer clear, readable sans-serif text. Main member name, KPI values, payment amounts and calendar dates take priority over captions. Do not shrink important text to force a fixed layout.
-- **Graphics:** Prefer the supplied PulseVault product/person assets. Keep aspect ratio and transparent edges. An asset must support the information or the campaign it appears in.
-- **Advertising:** Treat each advert as one campaign unit with matching creative, offer copy, audience and action. Keep image and offer stable together; do not rotate an unrelated product into a campaign. Labels must read like member offers, not internal placeholders such as “AD SPACE”. Mark sample campaigns as Demo until an actual advertiser and offer are configured.
-- **Motion:** Use brief, purposeful transitions for selection and campaign changes. Avoid endless pulses, flashing or motion that competes with the data; respect reduced-motion preferences.
+- **Member shell:** Check-in, Freeze, identity, membership progress, KPI module cards and the vertical rail share the active member-plan palette.
+- **Data workspace:** Keep the analytics/detail workspace pearl-white or warm white with quiet borders and restrained shadows.
+- **Member identity:** Name, member ID, plan and active state remain the first-read identity. Portrait proportions and the name baseline must not be compressed by decorative backplates.
+- **KPI cards:** Attendance, Workout, Payment and Body are the four primary modules. Values lead; captions and product campaign strips remain secondary.
+- **Navigation:** Selecting a KPI changes the six-item contextual rail. Each rail item opens the matching module-specific panel. Module changes reset the submenu to that module's overview. Both navigation surfaces share one state.
+- **Campaigns:** Keep each advert as one paired creative, offer and action. Demo campaign cards must disclose that purchase/merchant destinations are not connected. Never invent advertiser relationships or live discounts.
+- **Surface treatment:** Use soft raised surfaces sparingly. Use a contained outer rim and one or two deliberate depth moments. Avoid universal glow, excessive blur and rainbow gradients.
+- **Typography:** Main member name, payment amount, KPI values, attendance percentage and calendar dates take priority. Do not shrink primary text to hide an overflow.
+- **Graphics:** Use the supplied PulseVault assets, preserve aspect ratio and transparent edges, and do not hot-link arbitrary artwork at runtime.
+
+## Motion and interaction
+
+- Use 160–220 ms ease-out transitions for hover, focus and selection, and a short fade/slide transition when the detail panel changes.
+- Product cut-outs may use a one-shot entrance plus subtle perspective tilt on hover and a tiny pressed response on touch.
+- Do not continuously spin product bottles, rotate text or animate whole cards indefinitely.
+- Honor Android's reduced-animation preference. Motion must never carry information needed to complete an action.
+- Hover is progressive enhancement for pointer devices; every action must remain usable by touch and keyboard/focus.
 
 ## Layout and behaviour
 
-- Primary target is 360 dp wide; verify 320 dp and 390 dp, plus compact heights starting at 560 dp.
-- Preserve the compact member-card composition and avoid unnecessary vertical scrolling.
-- Recover vertical space from duplicated captions, oversized gaps and low-priority padding before reducing primary text or artwork.
-- Navigation and KPI cards must use shared selection state and open the correct, focused data section.
-- History must show actual event types and chronology, not repeated advertising copy. Calendar dates and period labels must match the displayed month. Charts must describe the metric they actually plot.
-- Until live services are connected, mark sample member and analytics values clearly as demo/sample data. Never describe sample data as live.
+- Primary target is 360 dp width. Verify 320, 360 and 390 dp widths and usable heights from 560–800 dp.
+- Preserve the compact, no-unnecessary-scroll composition. Recover space from duplicated captions and low-priority padding before reducing primary text or artwork.
+- Keep six clearly tappable contextual rail destinations; every one must open a unique content view.
+- Calendar dates and labels must agree with the displayed period. Charts must describe the metric they actually plot.
+- Until live services are connected, mark sample member, analytics, goals and campaign values as sample/demo. Never describe sample data as live.
 
-## Authority
+## Direction summary
 
-This file captures the owner's latest Emerald + Champagne / pearl workspace direction. Where older project specifications still describe a purple-led shell, follow this file for new work and update conflicting legacy documentation when the related implementation is reviewed.
+- **Product:** A member intelligence card for a gym member and their club team.
+- **Character:** Athletic, calm, premium and trustworthy.
+- **World:** A plan-coloured membership shell around a bright pearl data workspace.
+- **Moments:** Member identity, four KPI modules, contextual rail, and the attendance analytics calendar.
+- **Signature:** Plan-tier metal colour, clear operational status colours, supplied fitness artwork and restrained tactile depth.

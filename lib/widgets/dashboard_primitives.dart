@@ -52,6 +52,9 @@ class DashboardPanel extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(radius),
+        mouseCursor: SystemMouseCursors.click,
+        hoverColor: Colors.white.withOpacity(0.10),
+        focusColor: Colors.white.withOpacity(0.14),
         child: panel,
       ),
     );
@@ -101,6 +104,9 @@ class DashboardMetricTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         borderRadius: radius,
+        mouseCursor: SystemMouseCursors.click,
+        hoverColor: Colors.white.withOpacity(0.16),
+        focusColor: Colors.white.withOpacity(0.20),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 220),
           curve: Curves.easeOutCubic,
@@ -180,6 +186,7 @@ class DashboardMetricTile extends StatelessWidget {
                     horizontal: 1,
                   ),
                   child: ArtworkEntrance(
+                    key: ValueKey('artwork-$label'),
                     motion: motion,
                     child: Image.asset(
                       asset,

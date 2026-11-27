@@ -38,9 +38,19 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     final member = widget.member;
     final palette = MemberPlanPalette.forPlan(member.plan);
 
+    final appTheme = Theme.of(context);
+    final planTheme = appTheme.copyWith(
+      colorScheme: appTheme.colorScheme.copyWith(
+        primary: palette.accent,
+        secondary: palette.railSelected,
+      ),
+    );
+
     return MemberPlanTheme(
       palette: palette,
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
+      child: Theme(
+        data: planTheme,
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle(
           statusBarColor: palette.frameGradient.first,
           statusBarIconBrightness: Brightness.light,
@@ -118,10 +128,34 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                         ),
                                         const SizedBox(width: 4),
                                         Expanded(
-                                          child: AttendancePanel(
-                                            module: _activeModule,
-                                            sectionIndex: _selectedSubmenu,
-                                            member: widget.member,
+                                          child: AnimatedSwitcher(
+                                            duration: MediaQuery.of(context)
+                                                    .disableAnimations
+                                                ? Duration.zero
+                                                : const Duration(milliseconds: 240),
+                                            switchInCurve: Curves.easeOutCubic,
+                                            switchOutCurve: Curves.easeInCubic,
+                                            transitionBuilder: (child, animation) {
+                                              final position = Tween<Offset>(
+                                                begin: const Offset(0, 0.025),
+                                                end: Offset.zero,
+                                              ).animate(animation);
+                                              return FadeTransition(
+                                                opacity: animation,
+                                                child: SlideTransition(
+                                                  position: position,
+                                                  child: child,
+                                                ),
+                                              );
+                                            },
+                                            child: AttendancePanel(
+                                              key: ValueKey(
+                                                'detail-${_activeModule.name}-$_selectedSubmenu',
+                                              ),
+                                              module: _activeModule,
+                                              sectionIndex: _selectedSubmenu,
+                                              member: widget.member,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -139,6 +173,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               );
             },
           ),
+        ),
         ),
         ),
       ),
@@ -184,6 +219,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         DashboardNavigation.keyFor(_activeModule, i),
                       ),
                       borderRadius: BorderRadius.circular(10),
+                      mouseCursor: SystemMouseCursors.click,
+                      hoverColor: Colors.white.withOpacity(0.12),
+                      focusColor: Colors.white.withOpacity(0.16),
                       onTap: () => setState(() => _selectedSubmenu = i),
                       child: AnimatedContainer(
                         duration: const Duration(milliseconds: 180),
@@ -390,7 +428,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            _checkedIn ? '07:12 AM' : 'TAP TO CHECK-IN',
+                            _checkedIn
+                                ? 'PREVIEW · CHECKED IN'
+                                : 'TAP TO PREVIEW',
                             maxLines: 1,
                             style: const TextStyle(
                               color: Colors.white,
@@ -421,8 +461,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         ),
         const SizedBox(width: 4),
         Expanded(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+          child: InkWell(
+            key: const ValueKey('freeze-preview-button'),
+            onTap: () => _showFreezeDetails(context),
+            borderRadius: BorderRadius.circular(16),
+            mouseCursor: SystemMouseCursors.click,
+            hoverColor: palette.accent.withOpacity(0.06),
+            focusColor: palette.accent.withOpacity(0.10),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
             decoration: BoxDecoration(
               color: const Color(0xFFFFFEFC),
               borderRadius: BorderRadius.circular(16),
@@ -485,7 +532,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           border: Border.all(color: palette.frameRim, width: 0.7),
                         ),
                         child: Text(
-                          '20% OFF • PAUSE PLAN',
+                          'DEMO • REQUEST PREVIEW',
                           maxLines: 1,
                           style: TextStyle(
                             color: palette.planBadgeText,
@@ -509,6 +556,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   ),
                 ),
               ],
+            ),
             ),
           ),
         ),
@@ -728,12 +776,13 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
 
     Widget _paymentAndOffer({required bool compact}) {
     final member = widget.member;
+    final palette = MemberPlanPalette.forPlan(member.plan);
     return Row(
       children: [
         Expanded(
           child: DashboardPanel(
-            color: const Color(0xFFFFFBFD),
-            borderColor: const Color(0xFFE9C7D7),
+            color: palette.surface,
+            borderColor: palette.panelEdge,
             radius: 17,
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
             child: Row(
@@ -742,22 +791,22 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   width: compact ? 35 : 43,
                   height: compact ? 34 : 43,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [palette.accentSoft, palette.panelEdge],
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: palette.panelEdge),
                     boxShadow: const [
                       BoxShadow(
-                        color: Color(0x22A06ACA),
+                        color: Color(0x180B0905),
                         blurRadius: 4,
                         offset: Offset(0, 1),
                       ),
                     ],
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.account_balance_wallet_rounded,
-                    color: Color(0xFF7130A8),
+                    color: palette.accent,
                     size: 25,
                   ),
                 ),
@@ -829,6 +878,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         const SizedBox(width: 5),
         Expanded(
           child: DashboardPanel(
+            key: const ValueKey('whey-offer-preview'),
             color: const Color(0xFF6310AE),
             borderColor: const Color(0xFFE47AFF),
             radius: 17,
@@ -898,7 +948,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  'BUY NOW ›',
+                                  'VIEW OFFER',
                                   maxLines: 1,
                                   style: TextStyle(
                                     color: MemberTheme.ink,
@@ -1132,6 +1182,66 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   
+  void _showFreezeDetails(BuildContext context) {
+    final palette = MemberPlanPalette.forPlan(widget.member.plan);
+    showModalBottomSheet<void>(
+      context: context,
+      useSafeArea: true,
+      showDragHandle: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetContext) {
+        return Container(
+          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          decoration: BoxDecoration(
+            color: palette.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            border: Border.all(color: palette.panelEdge),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Plan freeze',
+                style: TextStyle(
+                  color: palette.accent,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Freeze request preview',
+                style: TextStyle(
+                  color: MemberTheme.ink,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Demo preview only. No freeze request has been submitted and no membership dates have changed.',
+                style: TextStyle(color: MemberTheme.muted, fontSize: 13),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: palette.accent,
+                    foregroundColor: Colors.white,
+                  ),
+                  onPressed: () => Navigator.of(sheetContext).pop(),
+                  child: const Text('Close preview'),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   void _showOfferDetails(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
@@ -1176,6 +1286,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: palette.accent,
+                    foregroundColor: Colors.white,
+                  ),
                   onPressed: () => Navigator.of(sheetContext).pop(),
                   child: const Text('Close offer'),
                 ),

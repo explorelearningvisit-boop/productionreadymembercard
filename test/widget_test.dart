@@ -6,6 +6,7 @@ import 'package:bad_gym_member_intelligence/data/sample_member.dart';
 import 'package:bad_gym_member_intelligence/main.dart';
 import 'package:bad_gym_member_intelligence/screens/member_dashboard_screen.dart';
 import 'package:bad_gym_member_intelligence/theme/member_theme.dart';
+import 'package:bad_gym_member_intelligence/widgets/ad_motion.dart';
 
 void setPhoneViewport(WidgetTester tester, Size size) {
   tester.view.physicalSize = size;
@@ -144,6 +145,68 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('Freeze and whey campaign actions open honest preview sheets', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('freeze-preview-button')));
+    await tester.pumpAndSettle();
+    expect(find.text('Freeze request preview'), findsOneWidget);
+    expect(
+      find.text(
+        'Demo preview only. No freeze request has been submitted and no membership dates have changed.',
+      ),
+      findsOneWidget,
+    );
+    await tester.tap(find.text('Close preview'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('whey-offer-preview')));
+    await tester.pumpAndSettle();
+    expect(find.text('Whey Protein · 25% OFF'), findsOneWidget);
+    expect(
+      find.text(
+        'Sample campaign preview. A live purchase destination has not been connected yet.',
+      ),
+      findsOneWidget,
+    );
+    await tester.tap(find.text('Close offer'));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('product artwork responds to hover and reduced motion', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    final artwork = find.byKey(const ValueKey('artwork-Attendance'));
+    expect(artwork, findsOneWidget);
+    await tester.sendMouseMoveTo(tester.getCenter(artwork));
+    await tester.pump(const Duration(milliseconds: 180));
+    expect(tester.takeException(), isNull);
+
+    await tester.pumpWidget(
+      MediaQuery(
+        data: const MediaQueryData(disableAnimations: true),
+        child: MaterialApp(
+          theme: MemberTheme.light,
+          home: const Scaffold(
+            body: Center(
+              child: ArtworkEntrance(child: Icon(Icons.fitness_center)),
+            ),
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byIcon(Icons.fitness_center), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('rail layout remains inside compact and primary viewports', (tester) async {
     for (final size in <Size>[
       const Size(320, 560),
@@ -173,6 +236,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(checkIn);
     await tester.pumpAndSettle();
+    expect(find.text('PREVIEW · CHECKED IN'), findsOneWidget);
     expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
