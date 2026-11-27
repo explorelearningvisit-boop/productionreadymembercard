@@ -280,7 +280,7 @@ class AttendancePanel extends StatelessWidget {
           Container(
             width: compact ? 20 : 23,
             height: compact ? 20 : 23,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [palette.accent, palette.accent.withOpacity(0.78)],
               ),
