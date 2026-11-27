@@ -41,20 +41,23 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  test('Gold, Silver, Diamond and Spark use distinct member palettes', () {
+  test('all plans share the lilac glass shell while retaining tier badges', () {
     final gold = MemberPlanPalette.forPlan('Gold Plan');
     final spark = MemberPlanPalette.forPlan('Spark Plan');
     final silver = MemberPlanPalette.forPlan('Silver Plan');
     final diamond = MemberPlanPalette.forPlan('Diamond Plan');
     expect(gold.planName, 'Gold');
-    expect(gold.frameGradient.first, const Color(0xFF3B2500));
-    expect(gold.railGradient.first, const Color(0xFF765000));
-    expect(gold.railSelected, const Color(0xFFFFE7A1));
-    expect(gold.canvasGradient.first, const Color(0xFFFFFEF8));
-    expect(spark.frameGradient.first, const Color(0xFF06452F));
-    expect(silver.frameGradient.first, const Color(0xFF23334C));
+    expect(gold.frameGradient.first, const Color(0xFF6B19B5));
+    expect(gold.railGradient.first, const Color(0xFF5C159D));
+    expect(gold.railSelected, const Color(0xFFE8D2FF));
+    expect(gold.canvasGradient.first, const Color(0xFFF4E9FF));
+    expect(spark.frameGradient, gold.frameGradient);
+    expect(silver.frameGradient, gold.frameGradient);
     expect(diamond.planName, 'Diamond');
-    expect(diamond.frameGradient.first, const Color(0xFF18364B));
+    expect(diamond.frameGradient, gold.frameGradient);
+    expect(spark.planBadgeGradient, isNot(gold.planBadgeGradient));
+    expect(silver.planBadgeGradient, isNot(gold.planBadgeGradient));
+    expect(diamond.planBadgeGradient, isNot(gold.planBadgeGradient));
   });
 
   test('each module has six destinations in the screenshot rail contract', () {
@@ -79,7 +82,7 @@ void main() {
     );
   });
 
-  testWidgets('Spark member receives the green shell', (tester) async {
+  testWidgets('Spark member receives the shared lilac glass shell and Spark badge', (tester) async {
     setPhoneViewport(tester, const Size(360, 780));
     addViewportReset(tester);
     const sparkMember = MemberSample(
