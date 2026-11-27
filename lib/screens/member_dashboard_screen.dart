@@ -666,7 +666,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         color: palette.panelEdge,
                       ),
                       const SizedBox(width: 7),
-                      const Icon(
+                      Icon(
                         Icons.cake_outlined,
                         size: 12,
                         color: palette.accent,
@@ -688,7 +688,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         color: palette.panelEdge,
                       ),
                       const SizedBox(width: 7),
-                      const Icon(
+                      Icon(
                         Icons.person_outline_rounded,
                         size: 13,
                         color: palette.accent,
