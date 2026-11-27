@@ -1578,40 +1578,24 @@ class AttendancePanel extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RotatingAdMessage(
-                  messages: title == 'Healthy Snacks & Gym Essentials'
-                      ? const [
-                          'Healthy snacks & gym essentials',
-                          'Fresh member-only grocery deals',
-                          'Everyday wellness picks',
-                        ]
-                      : const [
-                          'Recovery combo',
-                          'Protein & creatine essentials',
-                          'Post-workout member offer',
-                        ],
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: MemberTheme.ink,
                     fontSize: compact ? 9.5 : 11,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                RotatingAdMessage(
-                  messages: subtitle == 'Member partner offer • Up to 30% OFF'
-                      ? const [
-                          'Member price • up to 30% off',
-                          'Selected items • special prices',
-                          'Offers rotate for members',
-                        ]
-                      : const [
-                          'Up to 30% OFF',
-                          'Save more on recovery',
-                          'Member-only prices',
-                        ],
+                Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: MemberTheme.muted,
-                    fontSize: compact ? 7.5 : 8.5,
-                    fontWeight: FontWeight.w700,
+                    fontSize: compact ? 8 : 9,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
@@ -1869,82 +1853,61 @@ class AttendancePanel extends StatelessWidget {
   }) {
     return Container(
       height: height,
-      padding: const EdgeInsets.symmetric(horizontal: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 7),
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: colors),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFD8B3F3)),
-        boxShadow: const [BoxShadow(color: Color(0x448B40C4), blurRadius: 4)],
+        color: colors.first,
+        borderRadius: BorderRadius.circular(11),
+        border: Border.all(color: const Color(0xFFE4D9C9), width: 1),
       ),
       child: Row(
         children: [
-          RotatingAdArtwork(
-            assets: const [
-              'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp',
-              'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
-              'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp',
-            ],
-            width: assetWidth,
-            height: height - 3,
+          ArtworkEntrance(
+            motion: motion,
+            child: Image.asset(
+              asset,
+              width: assetWidth,
+              height: height - 4,
+              fit: BoxFit.contain,
+              filterQuality: FilterQuality.high,
+            ),
           ),
-          const SizedBox(width: 5),
+          const SizedBox(width: 6),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RotatingAdMessage(
-                  messages: title == 'Healthy Snacks & Gym Essentials'
-                      ? const [
-                          'Healthy snacks & gym essentials',
-                          'Fresh member-only grocery deals',
-                          'Everyday wellness picks',
-                        ]
-                      : title == 'Recovery Combo'
-                          ? const [
-                              'Recovery combo',
-                              'Protein & creatine essentials',
-                              'Post-workout member offer',
-                            ]
-                          : const [
-                              'Member-only partner offers',
-                              'Member deals updated regularly',
-                              'Wellness perks for members',
-                            ],
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: MemberTheme.ink,
                     fontSize: compact ? 9 : 10,
-                    height: 1,
-                    fontWeight: FontWeight.w900,
+                    height: 1.05,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                RotatingAdMessage(
-                  messages: subtitle == 'Member partner offer • Up to 30% OFF'
-                      ? const [
-                          'Member price • up to 30% off',
-                          'Selected items • special prices',
-                          'Offers rotate for members',
-                        ]
-                      : const [
-                          'Up to 30% OFF',
-                          'Save more on recovery',
-                          'Member-only prices',
-                        ],
+                const SizedBox(height: 2),
+                Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: const Color(0xFF6E258F),
+                    color: MemberTheme.muted,
                     fontSize: compact ? 7.5 : 8.5,
-                    height: 1,
-                    fontWeight: FontWeight.w700,
+                    height: 1.05,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ],
             ),
           ),
+          const SizedBox(width: 3),
           Icon(
-            Icons.chevron_right,
-            color: MemberTheme.ink,
-            size: compact ? 16 : 20,
+            Icons.chevron_right_rounded,
+            color: MemberTheme.muted,
+            size: compact ? 16 : 18,
           ),
         ],
       ),
