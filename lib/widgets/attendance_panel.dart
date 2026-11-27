@@ -397,7 +397,7 @@ class AttendancePanel extends StatelessWidget {
           _smallBanner(
             compact: compact,
             height: compact ? 26 : 31,
-            asset: 'assets/member_card/05_blinkit_grocery_bag.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp',
             assetWidth: compact ? 32 : 40,
             motion: 3,
             title: 'Member-only partner offers',
@@ -1218,7 +1218,7 @@ class AttendancePanel extends StatelessWidget {
     return _smallBanner(
       compact: compact,
       height: height,
-      asset: 'assets/member_card/05_blinkit_grocery_bag.webp',
+      asset: 'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp',
       assetWidth: compact ? 31 : 40,
       motion: 3,
       title: 'Healthy Snacks & Gym Essentials',
@@ -1231,7 +1231,7 @@ class AttendancePanel extends StatelessWidget {
     return _smallBanner(
       compact: compact,
       height: height,
-      asset: 'assets/member_card/03_whey_protein_tub.webp',
+      asset: 'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
       assetWidth: compact ? 25 : 31,
       motion: 2,
       title: 'Recovery Combo',
@@ -1263,9 +1263,9 @@ class AttendancePanel extends StatelessWidget {
         children: [
           RotatingAdArtwork(
             assets: const [
-              'assets/member_card/05_blinkit_grocery_bag.webp',
-              'assets/member_card/03_whey_protein_tub.webp',
-              'assets/member_card/06_creatine_tub.webp',
+              'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp',
+              'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
+              'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp',
             ],
             width: assetWidth,
             height: height - 3,
@@ -1342,7 +1342,7 @@ class AttendancePanel extends StatelessWidget {
           ArtworkEntrance(
             motion: 1,
             child: Image.asset(
-              'assets/member_card/25_calendar_graphic.webp',
+              'assets/material_pack/inbox/PulseVault/25_calendar_graphic.webp',
               width: compact ? 20 : 23,
               height: compact ? 20 : 23,
               fit: BoxFit.contain,
@@ -1377,7 +1377,7 @@ class AttendancePanel extends StatelessWidget {
                 ArtworkEntrance(
                   motion: 2,
                   child: Image.asset(
-                    'assets/member_card/27_dumbbell_promo_graphic.webp',
+                    'assets/material_pack/inbox/PulseVault/27_dumbbell_promo_graphic.webp',
                     width: compact ? 18 : 22,
                     height: compact ? 18 : 22,
                     fit: BoxFit.contain,
