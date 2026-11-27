@@ -41,3 +41,8 @@ Current demo member: Ashwani Kumar Singh, BG215, 28 yrs, Male, Gold Plan, Active
 - Use a single stable widget tree; check-in state is local and must not create routes or overlays.
 - Keep reference archive outside pubspec assets. Only register the selected optimized runtime assets.
 - Build a signed ARM64 QA APK and verify format, analysis, widget tests, emulator launch, APK signature and exact size. Real-device verification must be reported separately.
+
+
+## 2026-11-27 member-plan correction
+
+The member's purchased plan controls the entire card identity. Gold uses a champagne / bronze / espresso frame, Spark uses forest / emerald / mint, and Silver uses slate / steel-blue. Never apply one universal purple palette to all members. Keep the glass content field bright and clipped inside the outer rim; do not draw a large external glow outside the card. The navigation rail must use real bundled icons (`uses-material-design: true`), and the wallet/payment glyph must never be a text square. Plan and Active badges are 30 dp high with sponsor-preview captions underneath. Analytics labels and calendar dates must meet the readability sizes in `docs/MEMBER_PLAN_ADAPTIVE_VISUAL_SYSTEM.md`. Sponsor messages rotate with finite fade/slide transitions; product art uses short one-shot entrances rather than battery-draining forever loops.
