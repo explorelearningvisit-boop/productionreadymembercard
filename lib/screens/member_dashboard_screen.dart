@@ -1101,6 +1101,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(
           child: DashboardMetricTile(
             label: 'ATTENDANCE',
+            key: const ValueKey('metric-attendance'),
             compact: compact,
             value: member.attendance,
             trend: '↑ +6%',
@@ -1120,6 +1121,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(
           child: DashboardMetricTile(
             label: 'WORKOUT',
+            key: const ValueKey('metric-workout'),
             compact: compact,
             value: member.workout,
             trend: '↑ +12%',
@@ -1138,6 +1140,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(
           child: DashboardMetricTile(
             label: 'PAYMENT',
+            key: const ValueKey('metric-payment'),
             compact: compact,
             value: '${member.paymentDue} Due',
             note: 'SBI 5% OFF',
@@ -1156,6 +1159,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(
           child: DashboardMetricTile(
             label: 'BODY',
+            key: const ValueKey('metric-body'),
             compact: compact,
             value: member.bodyWeight,
             trend: '↓ -0.8 kg',
