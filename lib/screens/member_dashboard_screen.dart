@@ -616,8 +616,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return Row(
       children: [
         Expanded(child: DashboardMetricTile(
-          label: '▦ ATTENDA. +6%',
+          label: 'ATTENDANCE',
           compact: compact, value: member.attendance,
+          trend: '↑ +6%', valueColor: const Color(0xFF0A8742),
           note: 'Protein 10% OFF',
           color: const Color(0xFFFFE96A),
           asset: 'assets/member_card/01_member_bodybuilder.webp',
