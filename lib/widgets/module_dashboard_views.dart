@@ -158,7 +158,7 @@ class ModuleDashboardView extends StatelessWidget {
             _LegendRow(color:Color(0xFF3298D4),label:'Early',value:'Demo'),
             _LegendRow(color:MemberTheme.amber,label:'Late',value:'Demo'),
           ])),
-         ])),
+         ]))),
       _note('Payment insights not connected','Dated transactions are required to calculate payment reliability',Icons.insights_rounded),
     ]),
     2 => _page([
@@ -238,7 +238,7 @@ class ModuleDashboardView extends StatelessWidget {
       _note('Measurements','Add dated measurements to unlock comparisons',Icons.straighten_rounded),
     ]),
     4 => _page([
-         Row(children:[
+      Expanded(child:Row(children:[
         Expanded(child:Image.asset('assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',fit:BoxFit.contain)),
         Expanded(child:Image.asset('assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',fit:BoxFit.contain)),
       ])),
