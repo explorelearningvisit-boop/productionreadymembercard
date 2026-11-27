@@ -575,10 +575,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              image: const DecorationImage(
-                image: AssetImage('assets/member_card/10_gold_photo_backplate.webp'),
-                fit: BoxFit.cover,
-              ),
+              image: palette.planName == 'Gold'
+                  ? const DecorationImage(
+                      image: AssetImage(
+                        'assets/member_card/10_gold_photo_backplate.webp',
+                      ),
+                      fit: BoxFit.cover,
+                    )
+                  : null,
               borderRadius: BorderRadius.circular(17),
               border: Border.all(color: palette.frameRim, width: 1.5),
               boxShadow: [
