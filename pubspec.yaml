@@ -18,15 +18,15 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/member_card/01_member_bodybuilder.webp
-    - assets/member_card/03_whey_protein_tub.webp
-    - assets/member_card/04_purple_shaker.webp
-    - assets/member_card/05_blinkit_grocery_bag.webp
-    - assets/member_card/06_creatine_tub.webp
-    - assets/member_card/10_gold_photo_backplate.webp
-    - assets/member_card/23_freeze_snowflake_graphic.webp
-    - assets/member_card/25_calendar_graphic.webp
-    - assets/member_card/27_dumbbell_promo_graphic.webp
-    - assets/member_card/28_protinex_tub.webp
-    - assets/member_card/29_sbi_payment_card_graphic.webp
-    - assets/member_card/fat_loss_support_tub.png
+    - assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp
+    - assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp
+    - assets/material_pack/inbox/PulseVault/04_purple_shaker.webp
+    - assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp
+    - assets/material_pack/inbox/PulseVault/06_creatine_tub.webp
+    - assets/material_pack/inbox/PulseVault/10_gold_photo_backplate.webp
+    - assets/material_pack/inbox/PulseVault/23_freeze_snowflake_graphic.webp
+    - assets/material_pack/inbox/PulseVault/25_calendar_graphic.webp
+    - assets/material_pack/inbox/PulseVault/27_dumbbell_promo_graphic.webp
+    - assets/material_pack/inbox/PulseVault/28_protinex_tub.webp
+    - assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp
+    - assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png
