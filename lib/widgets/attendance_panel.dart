@@ -304,94 +304,104 @@ class AttendancePanel extends StatelessWidget {
 
 
   Widget _alternatePanel({
+    required DashboardModule module,
     required int sectionIndex,
     required bool compact,
     required MemberPlanPalette palette,
     required MemberSample member,
   }) {
-    const titles = [
-      'Attendance Analytics',
-      'Member Insights',
-      'Attendance Calendar',
-      'Recent History',
-      'Workout & Attendance Trend',
-      'Goals & Achievements',
-    ];
-    const icons = [
-      Icons.calendar_month_rounded,
-      Icons.insights_rounded,
-      Icons.date_range_rounded,
-      Icons.history_rounded,
-      Icons.show_chart_rounded,
-      Icons.emoji_events_rounded,
-    ];
-    final safeIndex = sectionIndex.clamp(0, titles.length - 1).toInt();
-    final title = titles[safeIndex];
-    final icon = icons[safeIndex];
+    final items = DashboardNavigation.itemsFor(module);
+    final safeIndex = sectionIndex.clamp(0, items.length - 1).toInt();
+    final item = items[safeIndex];
+
+    late final String offerAsset;
+    late final String offerTitle;
+    late final String offerSubtitle;
+    late final Color offerSurface;
+    switch (module) {
+      case DashboardModule.attendance:
+        offerAsset = 'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp';
+        offerTitle = 'Healthy snacks & gym essentials';
+        offerSubtitle = 'Sample member offer · Up to 30% off';
+        offerSurface = const Color(0xFFFFF8E8);
+      case DashboardModule.workout:
+        offerAsset = 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp';
+        offerTitle = 'Creatine & training essentials';
+        offerSubtitle = 'Sample workout offer · 15% off';
+        offerSurface = const Color(0xFFF5F0FA);
+      case DashboardModule.payment:
+        offerAsset = 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp';
+        offerTitle = 'Member payment rewards';
+        offerSubtitle = 'Sample reward preview · 5% off';
+        offerSurface = const Color(0xFFEFF6FC);
+      case DashboardModule.body:
+        offerAsset = 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png';
+        offerTitle = 'Body & nutrition support';
+        offerSubtitle = 'Sample wellness offer · 20% off';
+        offerSurface = const Color(0xFFEDF7EF);
+    }
 
     return Container(
-      key: ValueKey('member-detail-$sectionIndex'),
-      padding: EdgeInsets.fromLTRB(7, compact ? 4 : 6, 7, compact ? 4 : 6),
+      key: ValueKey('member-detail-${module.name}-$sectionIndex'),
+      padding: EdgeInsets.fromLTRB(8, compact ? 4 : 6, 8, compact ? 4 : 6),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.white, palette.accentSoft, palette.surface],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(19),
-        border: Border.all(color: palette.panelEdge, width: 1.35),
-        boxShadow: [
+        color: palette.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: palette.panelEdge, width: 1),
+        boxShadow: const [
           BoxShadow(
-            color: palette.accent.withOpacity(0.13),
-            blurRadius: 6,
-            offset: const Offset(0, 1),
+            color: Color(0x100D0905),
+            blurRadius: 5,
+            offset: Offset(0, 1),
           ),
-          const BoxShadow(color: Color(0x66FFFFFF), blurRadius: 2),
         ],
       ),
       child: Column(
         children: [
           SizedBox(
-            height: compact ? 23 : 28,
+            height: compact ? 24 : 28,
             child: Row(
               children: [
                 Container(
-                  width: compact ? 21 : 24,
-                  height: compact ? 21 : 24,
+                  width: compact ? 22 : 24,
+                  height: compact ? 22 : 24,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [palette.accent, palette.railGradient.last],
-                    ),
-                    shape: BoxShape.circle,
+                    color: palette.accentSoft,
+                    borderRadius: BorderRadius.circular(7),
+                    border: Border.all(color: palette.panelEdge),
                   ),
-                  child: Icon(icon, color: Colors.white, size: compact ? 14 : 17),
+                  child: Icon(
+                    item.icon,
+                    color: palette.accent,
+                    size: compact ? 14 : 16,
+                  ),
                 ),
-                const SizedBox(width: 5),
+                const SizedBox(width: 6),
                 Expanded(
                   child: Text(
-                    title,
+                    item.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: MemberTheme.ink,
                       fontSize: compact ? 13 : 15,
-                      fontWeight: FontWeight.w900,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFE6E8),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: const Color(0xFFE98B9A)),
+                    color: const Color(0xFFF4F0E8),
+                    borderRadius: BorderRadius.circular(7),
+                    border: Border.all(color: palette.panelEdge),
                   ),
-                  child: const Text(
-                    'DEMO',
+                  child: Text(
+                    'Demo',
                     style: TextStyle(
-                      color: Color(0xFFC43E55),
-                      fontSize: 7.5,
-                      fontWeight: FontWeight.w900,
+                      color: MemberTheme.muted,
+                      fontSize: compact ? 7 : 8,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -401,33 +411,34 @@ class AttendancePanel extends StatelessWidget {
           SizedBox(height: compact ? 3 : 5),
           _smallBanner(
             compact: compact,
-            height: compact ? 26 : 31,
-            asset: 'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp',
-            assetWidth: compact ? 32 : 40,
-            motion: 3,
-            title: 'Member-only partner offers',
-            subtitle: 'Rotating deals • special member pricing',
-            colors: [palette.accentSoft, Colors.white],
+            height: compact ? 30 : 36,
+            asset: offerAsset,
+            assetWidth: compact ? 38 : 48,
+            motion: 1,
+            title: offerTitle,
+            subtitle: offerSubtitle,
+            colors: [offerSurface, Colors.white],
           ),
           SizedBox(height: compact ? 4 : 7),
           Expanded(
             child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 280),
+              duration: const Duration(milliseconds: 220),
               switchInCurve: Curves.easeOutCubic,
               switchOutCurve: Curves.easeInCubic,
               transitionBuilder: (child, animation) => FadeTransition(
                 opacity: animation,
                 child: SlideTransition(
                   position: Tween<Offset>(
-                    begin: const Offset(0.025, 0),
+                    begin: const Offset(0.015, 0),
                     end: Offset.zero,
                   ).animate(animation),
                   child: child,
                 ),
               ),
               child: KeyedSubtree(
-                key: ValueKey(sectionIndex),
+                key: ValueKey('${module.name}-$sectionIndex'),
                 child: _sectionContent(
+                  module: module,
                   sectionIndex: sectionIndex,
                   compact: compact,
                   palette: palette,
@@ -438,13 +449,13 @@ class AttendancePanel extends StatelessWidget {
           ),
           SizedBox(height: compact ? 2 : 4),
           Text(
-            'Sample member data • Live sync not connected',
+            'Sample member data · Live sync not connected',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: MemberTheme.muted,
-              fontSize: compact ? 6.5 : 7.2,
-              fontWeight: FontWeight.w600,
+              fontSize: compact ? 7 : 8,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],
@@ -453,25 +464,67 @@ class AttendancePanel extends StatelessWidget {
   }
 
   Widget _sectionContent({
+    required DashboardModule module,
     required int sectionIndex,
     required bool compact,
     required MemberPlanPalette palette,
     required MemberSample member,
   }) {
-    switch (sectionIndex) {
-      case 1:
-        return _insightsContent(compact: compact, palette: palette, member: member);
-      case 2:
-        return _calendarContent(compact: compact, palette: palette);
-      case 3:
-        return _historyContent(compact: compact, palette: palette, member: member);
-      case 4:
-        return _trendContent(compact: compact, palette: palette, member: member);
-      case 5:
-        return _goalsContent(compact: compact, palette: palette);
-      default:
-        return const SizedBox.shrink();
+    switch (module) {
+      case DashboardModule.attendance:
+        switch (sectionIndex) {
+          case 1:
+            return _calendarContent(compact: compact, palette: palette);
+          case 2:
+            return _historyContent(compact: compact, palette: palette, member: member);
+          case 3:
+            return _insightsContent(compact: compact, palette: palette, member: member);
+          case 4:
+            return _goalsContent(compact: compact, palette: palette);
+          default:
+            return const SizedBox.shrink();
+        }
+      case DashboardModule.workout:
+        switch (sectionIndex) {
+          case 0:
+            return _workoutOverviewContent(compact: compact, palette: palette, member: member);
+          case 1:
+            return _workoutLogContent(compact: compact, palette: palette, member: member);
+          case 2:
+            return _trendContent(compact: compact, palette: palette, member: member);
+          case 3:
+            return _recoveryContent(compact: compact, palette: palette);
+          case 4:
+            return _workoutGoalsContent(compact: compact, palette: palette);
+        }
+      case DashboardModule.payment:
+        switch (sectionIndex) {
+          case 0:
+            return _paymentOverviewContent(compact: compact, palette: palette, member: member);
+          case 1:
+            return _invoicesContent(compact: compact, palette: palette, member: member);
+          case 2:
+            return _paymentHistoryContent(compact: compact, palette: palette, member: member);
+          case 3:
+            return _paymentMethodsContent(compact: compact, palette: palette);
+          case 4:
+            return _paymentRewardsContent(compact: compact, palette: palette);
+        }
+      case DashboardModule.body:
+        switch (sectionIndex) {
+          case 0:
+            return _bodyOverviewContent(compact: compact, palette: palette, member: member);
+          case 1:
+            return _weightTrendContent(compact: compact, palette: palette, member: member);
+          case 2:
+            return _measurementsContent(compact: compact, palette: palette, member: member);
+          case 3:
+            return _nutritionContent(compact: compact, palette: palette);
+          case 4:
+            return _bodyGoalsContent(compact: compact, palette: palette);
+        }
     }
+    return const SizedBox.shrink();
   }
 
   Widget _insightsContent({
