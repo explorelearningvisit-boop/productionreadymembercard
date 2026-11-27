@@ -442,7 +442,9 @@ class AttendancePanel extends StatelessWidget {
           SizedBox(height: compact ? 4 : 7),
           Expanded(
             child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 220),
+              duration: MediaQuery.maybeOf(context)?.disableAnimations == true
+                  ? Duration.zero
+                  : const Duration(milliseconds: 220),
               switchInCurve: Curves.easeOutCubic,
               switchOutCurve: Curves.easeInCubic,
               transitionBuilder: (child, animation) => FadeTransition(
@@ -494,12 +496,14 @@ class AttendancePanel extends StatelessWidget {
       case DashboardModule.attendance:
         switch (sectionIndex) {
           case 1:
-            return _calendarContent(compact: compact, palette: palette);
-          case 2:
-            return _historyContent(compact: compact, palette: palette, member: member);
-          case 3:
             return _insightsContent(compact: compact, palette: palette, member: member);
+          case 2:
+            return _calendarContent(compact: compact, palette: palette);
+          case 3:
+            return _historyContent(compact: compact, palette: palette, member: member);
           case 4:
+            return _attendanceTrendContent(compact: compact, palette: palette, member: member);
+          case 5:
             return _goalsContent(compact: compact, palette: palette);
           default:
             return const SizedBox.shrink();
@@ -509,39 +513,51 @@ class AttendancePanel extends StatelessWidget {
           case 0:
             return _workoutOverviewContent(compact: compact, palette: palette, member: member);
           case 1:
-            return _workoutLogContent(compact: compact, palette: palette, member: member);
+            return _workoutInsightsContent(compact: compact, palette: palette, member: member);
           case 2:
-            return _trendContent(compact: compact, palette: palette, member: member);
+            return _workoutLogContent(compact: compact, palette: palette, member: member);
           case 3:
-            return _recoveryContent(compact: compact, palette: palette);
+            return _trendContent(compact: compact, palette: palette, member: member);
           case 4:
+            return _recoveryContent(compact: compact, palette: palette);
+          case 5:
             return _workoutGoalsContent(compact: compact, palette: palette);
+          default:
+            return const SizedBox.shrink();
         }
       case DashboardModule.payment:
         switch (sectionIndex) {
           case 0:
             return _paymentOverviewContent(compact: compact, palette: palette, member: member);
           case 1:
-            return _invoicesContent(compact: compact, palette: palette, member: member);
+            return _paymentInsightsContent(compact: compact, palette: palette, member: member);
           case 2:
-            return _paymentHistoryContent(compact: compact, palette: palette, member: member);
+            return _invoicesContent(compact: compact, palette: palette, member: member);
           case 3:
-            return _paymentMethodsContent(compact: compact, palette: palette);
+            return _paymentHistoryContent(compact: compact, palette: palette, member: member);
           case 4:
+            return _paymentMethodsContent(compact: compact, palette: palette);
+          case 5:
             return _paymentRewardsContent(compact: compact, palette: palette);
+          default:
+            return const SizedBox.shrink();
         }
       case DashboardModule.body:
         switch (sectionIndex) {
           case 0:
             return _bodyOverviewContent(compact: compact, palette: palette, member: member);
           case 1:
-            return _weightTrendContent(compact: compact, palette: palette, member: member);
+            return _bodyInsightsContent(compact: compact, palette: palette, member: member);
           case 2:
-            return _measurementsContent(compact: compact, palette: palette, member: member);
+            return _weightTrendContent(compact: compact, palette: palette, member: member);
           case 3:
-            return _nutritionContent(compact: compact, palette: palette);
+            return _measurementsContent(compact: compact, palette: palette, member: member);
           case 4:
+            return _nutritionContent(compact: compact, palette: palette);
+          case 5:
             return _bodyGoalsContent(compact: compact, palette: palette);
+          default:
+            return const SizedBox.shrink();
         }
     }
     return const SizedBox.shrink();
@@ -1176,6 +1192,165 @@ class AttendancePanel extends StatelessWidget {
           icon: Icons.local_fire_department_rounded,
           title: '5-day streak',
           subtitle: 'You are building a consistent routine',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _attendanceTrendContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        _dataCard(
+          title: 'Attendance rate',
+          value: member.attendance,
+          caption: 'Member sample',
+          icon: Icons.event_available_rounded,
+          color: const Color(0xFF0C9D5A),
+          compact: compact,
+        ),
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.show_chart_rounded,
+          title: 'Attendance trend is not connected',
+          subtitle: 'Dated attendance records are needed to calculate a real trend',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _workoutInsightsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _dataCard(
+                title: 'Workout average',
+                value: member.workout,
+                caption: 'Member sample',
+                icon: Icons.timer_outlined,
+                color: palette.accent,
+                compact: compact,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: _dataCard(
+                title: 'Workout log',
+                value: 'Not linked',
+                caption: 'Session records',
+                icon: Icons.fitness_center_rounded,
+                color: const Color(0xFF4D8775),
+                compact: compact,
+              ),
+            ),
+          ],
+        ),
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.insights_rounded,
+          title: 'Workout insights not connected',
+          subtitle: 'Session history is required for reliable training insights',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _paymentInsightsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _dataCard(
+                title: 'Payment due',
+                value: member.paymentDue,
+                caption: 'Member sample',
+                icon: Icons.account_balance_wallet_rounded,
+                color: MemberTheme.rose,
+                compact: compact,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: _dataCard(
+                title: 'Days remaining',
+                value: '${member.daysRemaining}',
+                caption: 'Membership period',
+                icon: Icons.calendar_today_rounded,
+                color: palette.accent,
+                compact: compact,
+              ),
+            ),
+          ],
+        ),
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.insights_rounded,
+          title: 'Payment insights not connected',
+          subtitle: 'A dated transaction ledger is required for payment trends',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _bodyInsightsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _dataCard(
+                title: 'Current weight',
+                value: member.bodyWeight,
+                caption: 'Member sample',
+                icon: Icons.monitor_weight_outlined,
+                color: const Color(0xFF168A79),
+                compact: compact,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: _dataCard(
+                title: 'Goal',
+                value: 'Not set',
+                caption: 'No target recorded',
+                icon: Icons.flag_outlined,
+                color: palette.accent,
+                compact: compact,
+              ),
+            ),
+          ],
+        ),
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.insights_rounded,
+          title: 'Body insights not connected',
+          subtitle: 'Dated body measurements are needed for progress analysis',
           palette: palette,
           compact: compact,
         ),
