@@ -338,7 +338,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _topActions() {
-    final palette = MemberPlanTheme.of(context);
+    final palette = MemberPlanPalette.forPlan(MemberSample.demo.plan);
     return Row(
       children: [
         Expanded(
@@ -435,7 +435,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       messages: const ['BLINKIT', 'MEMBER DEAL', '30% OFF'],
                       style: const TextStyle(
                         color: Color(0xFFFFF1A8),
-                        fontSize: 7.8,
+                        fontSize: 8.2,
                         height: 1.05,
                         fontWeight: FontWeight.w900,
                       ),
@@ -556,7 +556,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     required double compactProgress,
   }) {
     const member = MemberSample.demo;
-    final palette = MemberPlanTheme.of(context);
+    final palette = MemberPlanPalette.forPlan(MemberSample.demo.plan);
     final portrait = compact ? 63.0 + 8.0 * compactProgress : 88.0;
 
     return DashboardPanel(
@@ -671,7 +671,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       ),
                       const SizedBox(width: 7),
                       const Icon(
-                        Icons.male_rounded,
+                        Icons.person_outline_rounded,
                         size: 13,
                         color: Color(0xFF6B388B),
                       ),
@@ -934,7 +934,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
 
   Widget _membershipProgress({required bool compact}) {
     const member = MemberSample.demo;
-    final palette = MemberPlanTheme.of(context);
+    final palette = MemberPlanPalette.forPlan(MemberSample.demo.plan);
     return DashboardPanel(
       color: palette.accentSoft,
       borderColor: palette.panelEdge,
@@ -1114,7 +1114,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     List<Color>? gradient,
   }) {
     return Container(
-      height: 28,
+      height: 30,
       width: double.infinity,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
