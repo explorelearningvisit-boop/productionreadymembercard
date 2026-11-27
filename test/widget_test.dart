@@ -129,8 +129,9 @@ void main() {
       for (var i = 0; i < destinations.length; i++) {
         expect(find.byKey(ValueKey(DashboardNavigation.keyFor(module, i))), findsOneWidget);
       }
+      expect(tester.takeException(), isNull,
+          reason: 'KPI selection overflow for ${module.name}');
     }
-    expect(tester.takeException(), isNull);
   });
 
   testWidgets('every contextual destination opens its own detail panel', (tester) async {

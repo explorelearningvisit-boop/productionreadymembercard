@@ -71,9 +71,9 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
               const [MemberTheme.green, MemberTheme.amber, MemberTheme.rose, MemberTheme.purple],
               const [['Present', '23'], ['Late', '2'], ['Absent', '2'], ['Holiday', '4']],
             ),
-            _note('Attendance insight',
-                'Streaks and personal patterns require a dated check-in history',
-                Icons.insights_rounded),
+            _note('WEEKLY ACTIVITY',
+                'Visit consistency · illustrative sample',
+                Icons.show_chart_rounded),
           ]),
         2 => _calendar(),
         3 => _page([
