@@ -185,8 +185,11 @@ void main() {
 
     final artwork = find.byKey(const ValueKey('artwork-Attendance'));
     expect(artwork, findsOneWidget);
-    await tester.sendMouseMoveTo(tester.getCenter(artwork));
+    final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    await mouse.addPointer(location: tester.getCenter(artwork));
+    await mouse.moveTo(tester.getCenter(artwork));
     await tester.pump(const Duration(milliseconds: 180));
+    await mouse.removePointer();
     expect(tester.takeException(), isNull);
 
     await tester.pumpWidget(
