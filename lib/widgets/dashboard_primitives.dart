@@ -96,6 +96,9 @@ class DashboardMetricTile extends StatelessWidget {
     this.noteColor = const Color(0xCCFFFFFF),
     this.noteTextColor = MemberTheme.ink,
     this.motion = 0,
+    this.selected = false,
+    this.selectionColor = MemberTheme.purple,
+    this.onTap,
     super.key,
   });
 
@@ -110,87 +113,135 @@ class DashboardMetricTile extends StatelessWidget {
   final Color noteColor;
   final Color noteTextColor;
   final int motion;
+  final bool selected;
+  final Color selectionColor;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: compact
-          ? const EdgeInsets.fromLTRB(3, 3, 3, 2)
-          : const EdgeInsets.fromLTRB(3, 4, 3, 3),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [color, Color.lerp(color, Colors.white, 0.22)!],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.white, width: 1.3),
-        boxShadow: [
-          BoxShadow(
-            color: Color.lerp(color, MemberTheme.purple, 0.28)!
-                .withOpacity(0.24),
-            blurRadius: 7,
-            spreadRadius: 0.35,
-            offset: const Offset(0, 2),
-          ),
-          BoxShadow(
-            color: Colors.white.withOpacity(0.7),
-            blurRadius: 2,
-            offset: const Offset(0, -1),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          _fit(label, compact ? 9.2 : 10.5, MemberTheme.ink),
-          SizedBox(height: compact ? 2 : 3),
-          _fit(value, compact ? 17 : 20, valueColor),
-          if (trend != null) ...[
-            SizedBox(height: compact ? 2 : 3),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: compact ? 4 : 6,
-                vertical: compact ? 2 : 3,
-              ),
-              decoration: BoxDecoration(
-                color: const Color(0xAAFFFFFF),
-                borderRadius: BorderRadius.circular(9),
-              ),
-              child: _fit(
-                trend!,
-                compact ? 8 : 9,
-                const Color(0xFF078B46),
-              ),
+    final radius = BorderRadius.circular(14);
+    return Material(
+      color: Colors.transparent,
+      borderRadius: radius,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: radius,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 220),
+          curve: Curves.easeOutCubic,
+          clipBehavior: Clip.antiAlias,
+          padding: compact
+              ? const EdgeInsets.fromLTRB(3, 3, 3, 2)
+              : const EdgeInsets.fromLTRB(3, 4, 3, 3),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [color, Color.lerp(color, Colors.white, 0.22)!],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
-          ],
-          SizedBox(height: compact ? 0 : 1),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 1),
-              child: ArtworkEntrance(
-                motion: motion,
-                child: Image.asset(
-                  asset,
-                  fit: BoxFit.contain,
-                  filterQuality: FilterQuality.high,
+            borderRadius: radius,
+            border: Border.all(
+              color: selected ? selectionColor : Colors.white,
+              width: selected ? 1.8 : 1.3,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Color.lerp(color, selectionColor, 0.24)!.withOpacity(
+                  selected ? 0.28 : 0.18,
+                ),
+                blurRadius: selected ? 8 : 5,
+                spreadRadius: selected ? 0.5 : 0,
+                offset: const Offset(0, 2),
+              ),
+              BoxShadow(
+                color: Colors.white.withOpacity(0.72),
+                blurRadius: 2,
+                offset: const Offset(0, -1),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              _fit(label, compact ? 8.4 : 9.2, MemberTheme.ink),
+              SizedBox(height: compact ? 1 : 2),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: _fit(
+                      value,
+                      compact ? 16.5 : 19,
+                      valueColor,
+                    ),
+                  ),
+                  if (trend != null) ...[
+                    const SizedBox(width: 2),
+                    Flexible(
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: compact ? 3 : 4,
+                          vertical: compact ? 2 : 2.5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.78),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: _fit(
+                          trend!,
+                          compact ? 7.2 : 8.2,
+                          const Color(0xFF087E40),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+              SizedBox(height: compact ? 2 : 3),
+              Container(
+                height: 1,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white.withOpacity(0.15),
+                      Colors.white.withOpacity(0.95),
+                      Colors.white.withOpacity(0.15),
+                    ],
+                  ),
                 ),
               ),
-            ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: compact ? 0 : 1,
+                    horizontal: 1,
+                  ),
+                  child: ArtworkEntrance(
+                    motion: motion,
+                    child: Image.asset(
+                      asset,
+                      fit: BoxFit.contain,
+                      filterQuality: FilterQuality.high,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 2,
+                  vertical: compact ? 2 : 3,
+                ),
+                decoration: BoxDecoration(
+                  color: noteColor,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.white.withOpacity(0.76)),
+                ),
+                child: _fit(note, compact ? 7.6 : 8.5, noteTextColor),
+              ),
+            ],
           ),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(
-              horizontal: 2,
-              vertical: compact ? 2 : 3,
-            ),
-            decoration: BoxDecoration(
-              color: noteColor,
-              borderRadius: BorderRadius.circular(9),
-              border: Border.all(color: Colors.white.withOpacity(0.72)),
-            ),
-            child: _fit(note, compact ? 8.2 : 9.2, noteTextColor),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -206,6 +257,7 @@ class DashboardMetricTile extends StatelessWidget {
           style: TextStyle(
             color: color,
             fontSize: size,
+            height: 1,
             fontWeight: FontWeight.w900,
           ),
         ),
