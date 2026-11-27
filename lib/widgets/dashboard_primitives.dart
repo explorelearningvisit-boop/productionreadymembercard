@@ -11,6 +11,7 @@ class DashboardPanel extends StatelessWidget {
     this.borderColor = MemberTheme.glassEdge,
     this.radius = 14,
     this.padding = EdgeInsets.zero,
+    this.onTap,
     super.key,
   });
 
@@ -19,10 +20,11 @@ class DashboardPanel extends StatelessWidget {
   final Color borderColor;
   final double radius;
   final EdgeInsetsGeometry padding;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final panel = Container(
       padding: padding,
       decoration: BoxDecoration(
         color: color,
@@ -42,6 +44,16 @@ class DashboardPanel extends StatelessWidget {
         ],
       ),
       child: child,
+    );
+    if (onTap == null) return panel;
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(radius),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(radius),
+        child: panel,
+      ),
     );
   }
 }
