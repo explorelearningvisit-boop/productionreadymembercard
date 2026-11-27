@@ -113,7 +113,7 @@ class DashboardMetricTile extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _fit(label, compact ? 10.5 : 11.5, MemberTheme.ink),
+              _fit(label, compact ? 12 : 13, MemberTheme.ink),
               SizedBox(height: compact ? 1 : 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -121,11 +121,11 @@ class DashboardMetricTile extends StatelessWidget {
                   Expanded(
                     child: _fit(
                       value,
-                      compact ? 21 : 23,
+                      compact ? 23 : 25,
                       valueColor,
                     ),
                   ),
-                  if (trend != null && !compact) ...[
+                  if (trend != null) ...[
                     const SizedBox(width: 2),
                     Flexible(
                       child: Container(
@@ -139,7 +139,7 @@ class DashboardMetricTile extends StatelessWidget {
                         ),
                         child: _fit(
                           trend!,
-                          compact ? 9.5 : 10.5,
+                          compact ? 10.5 : 11.5,
                           const Color(0xFF087E40),
                         ),
                       ),
@@ -188,7 +188,7 @@ class DashboardMetricTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.white.withOpacity(0.76)),
                 ),
-                child: _fit(note, compact ? 9.5 : 10.5, noteTextColor),
+                child: _fit(note, compact ? 10.5 : 11.5, noteTextColor),
               ),
             ],
           ),
