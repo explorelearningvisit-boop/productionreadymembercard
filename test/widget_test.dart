@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bad_gym_member_intelligence/main.dart';
+import 'package:bad_gym_member_intelligence/theme/member_theme.dart';
 
 void main() {
-  testWidgets('purple dashboard renders all approved sections', (tester) async {
+  testWidgets('pearl glass dashboard renders all approved sections', (tester) async {
     tester.view.physicalSize = const Size(360, 780);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -18,6 +19,12 @@ void main() {
     expect(find.text('CHECK-IN'), findsOneWidget);
     expect(find.text('FREEZE'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
+    final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+    expect(scaffold.backgroundColor, MemberTheme.canvas);
+    final memberName = tester.widget<Text>(find.text('Ashwani Kumar Singh'));
+    expect(memberName.style?.color, MemberTheme.ink);
+    expect(find.text('ATTENDANCE'), findsOneWidget);
+    expect(find.byType(CustomPaint), findsWidgets);
     expect(find.textContaining('Gold Plan'), findsOneWidget);
     expect(find.text('₹500 Due'), findsNWidgets(2));
     expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
