@@ -212,7 +212,7 @@ void main() {
 
     await tester.tap(find.byKey(const ValueKey('whey-offer-preview')));
     await tester.pumpAndSettle();
-    expect(find.text('Whey Protein · 25% OFF'), findsOneWidget);
+    expect(find.text('Whey Protein · Demo preview'), findsOneWidget);
     expect(
       find.text(
         'Sample campaign preview. A live purchase destination has not been connected yet.',
@@ -323,5 +323,42 @@ void main() {
     }
     addViewportReset(tester);
   });
+
+
+  testWidgets('calendar month controls and analytics range filters respond', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('metric-attendance')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('navigation-attendance-calendar')));
+    await tester.pumpAndSettle();
+    expect(find.text('October 2026'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('calendar-next')));
+    await tester.pumpAndSettle();
+    expect(find.text('November 2026'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('calendar-prev')));
+    await tester.pumpAndSettle();
+    expect(find.text('October 2026'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('metric-workout')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('navigation-workout-trend')));
+    await tester.pumpAndSettle();
+    final sevenDayFilter = find.byKey(const ValueKey('7D'));
+    expect(sevenDayFilter, findsOneWidget);
+    await tester.tap(sevenDayFilter);
+    await tester.pumpAndSettle();
+    expect(tester.widget<ChoiceChip>(sevenDayFilter).selected, isTrue);
+    final annualFilter = find.byKey(const ValueKey('12M'));
+    await tester.tap(annualFilter);
+    await tester.pumpAndSettle();
+    expect(tester.widget<ChoiceChip>(annualFilter).selected, isTrue);
+    expect(tester.takeException(), isNull);
+  });
+
 
 }

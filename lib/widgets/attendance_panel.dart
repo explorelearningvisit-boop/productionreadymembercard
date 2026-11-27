@@ -349,22 +349,22 @@ class AttendancePanel extends StatelessWidget {
       case DashboardModule.attendance:
         offerAsset = 'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp';
         offerTitle = 'Healthy snacks & gym essentials';
-        offerSubtitle = 'Sample member offer · Up to 30% off';
+        offerSubtitle = 'Campaign creative · Preview only';
         offerSurface = const Color(0xFFFFF8E8);
       case DashboardModule.workout:
         offerAsset = 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp';
         offerTitle = 'Creatine & training essentials';
-        offerSubtitle = 'Sample workout offer · 15% off';
+        offerSubtitle = 'Campaign creative · Preview only';
         offerSurface = const Color(0xFFF5F0FA);
       case DashboardModule.payment:
         offerAsset = 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp';
         offerTitle = 'Member payment rewards';
-        offerSubtitle = 'Sample reward preview · 5% off';
+        offerSubtitle = 'Campaign creative · Preview only';
         offerSurface = const Color(0xFFEFF6FC);
       case DashboardModule.body:
         offerAsset = 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png';
         offerTitle = 'Body & nutrition support';
-        offerSubtitle = 'Sample wellness offer · 20% off';
+        offerSubtitle = 'Campaign creative · Preview only';
         offerSurface = const Color(0xFFEDF7EF);
     }
 
@@ -573,7 +573,7 @@ class AttendancePanel extends StatelessWidget {
       assetWidth: compact ? 31 : 40,
       motion: 3,
       title: 'Healthy Snacks & Gym Essentials',
-      subtitle: 'Member partner offer • Up to 30% OFF',
+      subtitle: 'Campaign creative · Preview only',
       colors: const [Color(0xFFFFF8E8), Color(0xFFFFFEFC)],
     );
   }
@@ -585,8 +585,8 @@ class AttendancePanel extends StatelessWidget {
       asset: 'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
       assetWidth: compact ? 25 : 31,
       motion: 2,
-      title: 'Recovery Combo',
-      subtitle: 'Up to 30% OFF',
+      title: 'Recovery products',
+      subtitle: 'Product preview · No live offer',
       colors: const [Color(0xFFF5F0E8), Color(0xFFFFFEFC)],
     );
   }
@@ -711,7 +711,7 @@ class AttendancePanel extends StatelessWidget {
                 ),
                 const SizedBox(width: 3),
                 Text(
-                  '15% OFF',
+                  'Sample',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

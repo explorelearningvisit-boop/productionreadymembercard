@@ -507,7 +507,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
         children: [
           for (final range in _PreviewRange.values)
             ChoiceChip(
-              key: ValueKey('range-\${_rangeKey(range)}'),
+              key: ValueKey(_rangeKey(range)),
               label: Text(_rangeKey(range)),
               selected: _range == range,
               onSelected: (_) => setState(() => _range = range),
