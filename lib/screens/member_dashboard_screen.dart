@@ -422,7 +422,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         const SizedBox(width: 4),
         Expanded(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
             decoration: BoxDecoration(
               color: const Color(0xFFFFFEFC),
               borderRadius: BorderRadius.circular(16),
