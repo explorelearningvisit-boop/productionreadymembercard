@@ -584,7 +584,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       color: palette.surface,
       borderColor: palette.panelEdge,
       radius: 19,
-      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+      padding: EdgeInsets.symmetric(
+        vertical: compact ? 2 : 3,
+        horizontal: 5,
+      ),
       child: Row(
         children: [
           Container(
@@ -1331,7 +1334,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     bool compact = false,
   }) {
     return Container(
-      height: compact ? 25 : 30,
+      height: compact ? 22 : 30,
       width: double.infinity,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
