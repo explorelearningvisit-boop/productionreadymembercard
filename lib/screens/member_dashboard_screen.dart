@@ -1032,60 +1032,119 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     const member = MemberSample.demo;
     return Row(
       children: [
-        Expanded(child: DashboardMetricTile(
-          label: 'ATTENDANCE',
-          compact: compact, value: member.attendance,
-          trend: '↑ +6%', valueColor: const Color(0xFF0A8742),
-          note: 'Protein 10% OFF',
-          color: const Color(0xFFFFE96A),
-          asset: 'assets/member_card/28_protinex_tub.webp',
-          noteColor: const Color(0xFFE52B52), noteTextColor: Colors.white)),
+        Expanded(
+          child: DashboardMetricTile(
+            label: 'ATTENDANCE',
+            compact: compact,
+            value: member.attendance,
+            trend: '↑ +6%',
+            valueColor: const Color(0xFF087E40),
+            note: 'PROTEIN 10% OFF',
+            color: const Color(0xFFFFE96A),
+            asset: 'assets/member_card/28_protinex_tub.webp',
+            noteColor: const Color(0xFFE52B52),
+            noteTextColor: Colors.white,
+          ),
+        ),
         const SizedBox(width: 4),
-        Expanded(child: DashboardMetricTile(
-          label: 'WORKOUT',
-          compact: compact, value: member.workout, trend: '↑ +12%',
-          note: 'Creatine 15% OFF', color: const Color(0xFFF2D7FF),
-          asset: 'assets/member_card/06_creatine_tub.webp',
-          noteColor: const Color(0xFFB20BE4), noteTextColor: Colors.white)),
+        Expanded(
+          child: DashboardMetricTile(
+            label: 'WORKOUT',
+            compact: compact,
+            value: member.workout,
+            trend: '↑ +12%',
+            note: 'CREATINE 15% OFF',
+            color: const Color(0xFFF2D7FF),
+            asset: 'assets/member_card/06_creatine_tub.webp',
+            noteColor: const Color(0xFFB20BE4),
+            noteTextColor: Colors.white,
+          ),
+        ),
         const SizedBox(width: 4),
-        Expanded(child: DashboardMetricTile(
-          label: 'PAYMENT',
-          compact: compact, value: '${member.paymentDue} Due',
-          note: 'Get 5% OFF  ›', valueColor: const Color(0xFFD71939),
-          color: const Color(0xFFD9F1FF),
-          asset: 'assets/member_card/29_sbi_payment_card_graphic.webp',
-          noteColor: const Color(0xFF1269DB), noteTextColor: Colors.white)),
+        Expanded(
+          child: DashboardMetricTile(
+            label: 'PAYMENT',
+            compact: compact,
+            value: '${member.paymentDue} Due',
+            note: 'SBI 5% OFF',
+            valueColor: const Color(0xFFD71939),
+            color: const Color(0xFFD9F1FF),
+            asset: 'assets/member_card/29_sbi_payment_card_graphic.webp',
+            noteColor: const Color(0xFF1269DB),
+            noteTextColor: Colors.white,
+          ),
+        ),
         const SizedBox(width: 4),
-        Expanded(child: DashboardMetricTile(
-          label: '▣ BODY',
-          compact: compact, value: member.bodyWeight, trend: '↓ -0.8 kg',
-          note: 'Fat Loss 20% OFF', color: const Color(0xFFD8FFE2),
-          asset: 'assets/member_card/fat_loss_support_tub.png',
-          noteColor: const Color(0xFF0B9C4C), noteTextColor: Colors.white)),
+        Expanded(
+          child: DashboardMetricTile(
+            label: 'BODY',
+            compact: compact,
+            value: member.bodyWeight,
+            trend: '↓ -0.8 kg',
+            note: 'FAT LOSS 20% OFF',
+            color: const Color(0xFFD8FFE2),
+            asset: 'assets/member_card/fat_loss_support_tub.png',
+            noteColor: const Color(0xFF0B9C4C),
+            noteTextColor: Colors.white,
+          ),
+        ),
       ],
     );
   }
-  Widget _statusPill(String label, Color color, Color foreground) {
-    return Expanded(
-      child: Container(
-        alignment: Alignment.center,
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color.lerp(color, Colors.white, 0.22)!, color],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+
+  Widget _statusPill(
+    String label,
+    Color color,
+    Color foreground, {
+    IconData? icon,
+    List<Color>? gradient,
+  }) {
+    return Container(
+      height: 28,
+      width: double.infinity,
+      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: gradient ??
+              [Color.lerp(color, Colors.white, 0.22)!, color],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(13),
+        border: Border.all(color: Colors.white.withOpacity(0.92), width: 1),
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.20),
+            blurRadius: 3,
+            offset: const Offset(0, 1),
           ),
-          borderRadius: BorderRadius.circular(13),
-          border: Border.all(color: Colors.white70, width: 0.8),
-          boxShadow: const [BoxShadow(color: Color(0x668F4DFF), blurRadius: 4)],
-        ),
-        child: FittedBox(
-          fit: BoxFit.scaleDown,
-          child: Text(label, maxLines: 1,
-            style: TextStyle(color: foreground, fontSize: 10,
-              fontWeight: FontWeight.w900)),
-        ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null) ...[
+            Icon(icon, color: foreground, size: 13),
+            const SizedBox(width: 3),
+          ],
+          Flexible(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                label,
+                maxLines: 1,
+                style: TextStyle(
+                  color: foreground,
+                  fontSize: 11,
+                  height: 1,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
