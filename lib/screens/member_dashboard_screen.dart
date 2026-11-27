@@ -566,8 +566,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   motion: 2,
                   child: Image.asset(
                     'assets/member_card/04_purple_shaker.webp',
-                    width: 32,
-                    height: 40,
+                    width: compact ? 30 : 32,
+                    height: compact ? 34 : 40,
                     fit: BoxFit.contain,
                   ),
                 ),
