@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../data/sample_member.dart';
 import '../theme/member_theme.dart';
@@ -33,7 +34,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
 
     return MemberPlanTheme(
       palette: palette,
-      child: Scaffold(
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle(
+          statusBarColor: palette.frameGradient.first,
+          statusBarIconBrightness: Brightness.light,
+          systemNavigationBarColor: palette.canvasGradient.last,
+          systemNavigationBarIconBrightness: Brightness.dark,
+          systemNavigationBarDividerColor: palette.panelEdge,
+        ),
+        child: Scaffold(
         // Keep the narrow area outside the rounded frame in the same deep
         // plan color. All gradients and highlights are clipped inside the rim.
         backgroundColor: palette.frameGradient.first,
@@ -161,11 +170,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             },
           ),
         ),
+        ),
       ),
     );
   }
 
-    Widget _navigationRail() {
+  Widget _navigationRail() {
     final palette = MemberPlanPalette.forPlan(MemberSample.demo.plan);
     return LayoutBuilder(
       builder: (context, constraints) {
