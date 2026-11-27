@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show debugDumpRenderTree;
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bad_gym_member_intelligence/data/dashboard_navigation.dart';
@@ -267,7 +268,12 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(const ValueKey('navigation-rail')), findsOneWidget);
       expect(tester.getSize(find.byKey(const ValueKey('navigation-rail'))).height, greaterThan(0));
-      expect(tester.takeException(), isNull, reason: 'Viewport $size');
+      final layoutException = tester.takeException();
+      if (layoutException != null) {
+        debugPrint('Layout exception at $size: $layoutException');
+        debugDumpRenderTree();
+      }
+      expect(layoutException, isNull, reason: 'Viewport $size');
     }
     addViewportReset(tester);
   });
