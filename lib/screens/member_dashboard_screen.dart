@@ -848,51 +848,59 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ),
                 const SizedBox(width: 7),
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'PAYMENT DUE',
-                        maxLines: 1,
-                        style: TextStyle(
-                          color: MemberTheme.ink,
-                          fontSize: compact ? 8.5 : 9.2,
-                          height: 1,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 0.15,
-                        ),
-                      ),
-                      SizedBox(height: compact ? 1 : 3),
-                      FittedBox(
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return FittedBox(
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          '${member.paymentDue} Due',
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: MemberTheme.rose,
-                            fontSize: compact ? 15 : 20,
-                            height: 1,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: -0.35,
+                        child: SizedBox(
+                          width: constraints.maxWidth,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'PAYMENT DUE',
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: MemberTheme.ink,
+                                  fontSize: compact ? 8.5 : 9.2,
+                                  height: 1,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 0.15,
+                                ),
+                              ),
+                              SizedBox(height: compact ? 1 : 3),
+                              Text(
+                                '${member.paymentDue} Due',
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: MemberTheme.rose,
+                                  fontSize: compact ? 16 : 20,
+                                  height: 1,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: -0.35,
+                                ),
+                              ),
+                              SizedBox(height: compact ? 1 : 3),
+                              Text(
+                                '${member.daysRemaining} Days Left',
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: MemberTheme.muted,
+                                  fontSize: compact ? 7.5 : 8.5,
+                                  height: 1,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      SizedBox(height: compact ? 1 : 3),
-                      Text(
-                        '${member.daysRemaining} Days Left',
-                        maxLines: 1,
-                        style: TextStyle(
-                          color: MemberTheme.muted,
-                          fontSize: compact ? 7.5 : 8.5,
-                          height: 1,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
+                ),
                 ),
                 const SizedBox(width: 2),
                 const Icon(
