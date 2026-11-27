@@ -546,13 +546,13 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     required double compactProgress,
   }) {
     const member = MemberSample.demo;
-    final portrait = compact
-        ? 56.0 + 12.0 * compactProgress
-        : 84.0;
+    final palette = MemberPlanTheme.of(context);
+    final portrait = compact ? 63.0 + 8.0 * compactProgress : 88.0;
+
     return DashboardPanel(
-      color: const Color(0xFFFCF9FF),
-      borderColor: const Color(0xFFFFD56A),
-      radius: 20,
+      color: palette.surface,
+      borderColor: palette.panelEdge,
+      radius: 19,
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
       child: Row(
         children: [
@@ -560,61 +560,197 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             width: portrait,
             height: portrait,
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFFFFE46E), Color(0xFFFFB51D), Color(0xFFFFF7C8)],
+              gradient: LinearGradient(
+                colors: palette.planBadgeGradient,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
               image: const DecorationImage(
                 image: AssetImage('assets/member_card/10_gold_photo_backplate.webp'),
                 fit: BoxFit.cover,
               ),
-              borderRadius: BorderRadius.circular(19),
-              border: Border.all(color: MemberTheme.gold, width: 1.8),
-              boxShadow: const [BoxShadow(color: Color(0xAAFFCA3A), blurRadius: 8)],
+              borderRadius: BorderRadius.circular(17),
+              border: Border.all(color: palette.frameRim, width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: palette.frameRim.withOpacity(0.28),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(17),
-              child: Image.asset(
-                'assets/member_card/01_member_bodybuilder.webp',
-                fit: BoxFit.contain,
-                alignment: Alignment.bottomCenter,
+              borderRadius: BorderRadius.circular(15),
+              child: ArtworkEntrance(
+                motion: 0,
+                child: Image.asset(
+                  'assets/member_card/01_member_bodybuilder.webp',
+                  fit: BoxFit.contain,
+                  alignment: Alignment.bottomCenter,
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 9),
+          const SizedBox(width: 8),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 2),
+              padding: const EdgeInsets.symmetric(vertical: 1),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(member.name, maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: MemberTheme.ink,
-                      fontSize: compact ? 17 : 20, height: 1,
-                      fontWeight: FontWeight.w900)),
-                  SizedBox(height: compact ? 3 : 6),
-                  Text('▦  ${member.memberId}  |  ${member.age} Yrs  |  ♂ ${member.gender}',
-                    maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: const Color(0xFF5E2C87), fontSize: compact ? 9 : 10,
-                      height: 1, fontWeight: FontWeight.w800)),
-                  SizedBox(height: compact ? 4 : 7),
+                  Text(
+                    member.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: MemberTheme.ink,
+                      fontSize: compact ? 17.5 : 21,
+                      height: 1.03,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: -0.25,
+                    ),
+                  ),
+                  SizedBox(height: compact ? 3 : 5),
                   Row(
                     children: [
-                      _statusPill('♙  ${member.plan}', const Color(0xFFFFC629), MemberTheme.ink),
+                      const Icon(
+                        Icons.badge_outlined,
+                        size: 12,
+                        color: Color(0xFF6B388B),
+                      ),
+                      const SizedBox(width: 3),
+                      Flexible(
+                        child: Text(
+                          member.memberId,
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: const Color(0xFF573274),
+                            fontSize: compact ? 9.5 : 10.5,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 7),
+                      Container(
+                        width: 1,
+                        height: 12,
+                        color: palette.panelEdge,
+                      ),
+                      const SizedBox(width: 7),
+                      const Icon(
+                        Icons.cake_outlined,
+                        size: 12,
+                        color: Color(0xFF6B388B),
+                      ),
+                      const SizedBox(width: 3),
+                      Text(
+                        member.age,
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: const Color(0xFF573274),
+                          fontSize: compact ? 9.5 : 10.5,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(width: 7),
+                      Container(
+                        width: 1,
+                        height: 12,
+                        color: palette.panelEdge,
+                      ),
+                      const SizedBox(width: 7),
+                      const Icon(
+                        Icons.male_rounded,
+                        size: 13,
+                        color: Color(0xFF6B388B),
+                      ),
+                      const SizedBox(width: 2),
+                      Flexible(
+                        child: Text(
+                          member.gender,
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: const Color(0xFF573274),
+                            fontSize: compact ? 9.5 : 10.5,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: compact ? 4 : 6),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _statusPill(
+                              member.plan,
+                              palette.planBadgeGradient.first,
+                              palette.planBadgeText,
+                              icon: Icons.workspace_premium_rounded,
+                              gradient: palette.planBadgeGradient,
+                            ),
+                            const SizedBox(height: 2),
+                            const Text(
+                              'AD SPACE • BLINKIT',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Color(0xFF80531B),
+                                fontSize: 7.8,
+                                height: 1,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                       const SizedBox(width: 5),
-                      _statusPill('✓  Active', MemberTheme.green, Colors.white),
+                      Expanded(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _statusPill(
+                              'Active',
+                              MemberTheme.green,
+                              Colors.white,
+                              icon: Icons.check_circle_rounded,
+                              gradient: const [
+                                Color(0xFF2BE184),
+                                Color(0xFF08B962),
+                              ],
+                            ),
+                            const SizedBox(height: 2),
+                            const Text(
+                              'AD SPACE • SBI REWARDS',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Color(0xFF3D668A),
+                                fontSize: 7.8,
+                                height: 1,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(width: 2),
         ],
       ),
     );
   }
-  Widget _paymentAndOffer({required bool compact}) {
+
+    Widget _paymentAndOffer({required bool compact}) {
     const member = MemberSample.demo;
     return Row(
       children: [
