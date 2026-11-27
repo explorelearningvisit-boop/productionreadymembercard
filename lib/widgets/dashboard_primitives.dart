@@ -43,7 +43,8 @@ class DashboardPanel extends StatelessWidget {
       ),
       child: child,
     );
-  }}
+  }
+}
 
 class DashboardMetricTile extends StatelessWidget {
   const DashboardMetricTile({
@@ -120,7 +121,7 @@ class DashboardMetricTile extends StatelessWidget {
                   Expanded(
                     child: _fit(
                       value,
-                      compact ? 16.5 : 19,
+                      compact ? 17 : 20,
                       valueColor,
                     ),
                   ),
@@ -138,7 +139,7 @@ class DashboardMetricTile extends StatelessWidget {
                         ),
                         child: _fit(
                           trend!,
-                          compact ? 7.2 : 8.2,
+                          compact ? 8.4 : 9,
                           const Color(0xFF087E40),
                         ),
                       ),
@@ -187,7 +188,7 @@ class DashboardMetricTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.white.withOpacity(0.76)),
                 ),
-                child: _fit(note, compact ? 7.6 : 8.5, noteTextColor),
+                child: _fit(note, compact ? 8.6 : 9.5, noteTextColor),
               ),
             ],
           ),
@@ -254,7 +255,7 @@ class AttendanceLegend extends StatelessWidget {
           SizedBox(
             width: 19,
             child: Text(count, textAlign: TextAlign.end, style: TextStyle(
-              color: MemberTheme.ink, fontSize: compact ? 9 : 10, fontWeight: FontWeight.w900,
+              color: MemberTheme.ink, fontSize: compact ? 9 : 10, fontWeight: FontWeight.w600,
             )),
           ),
           const SizedBox(width: 4),
@@ -292,7 +293,7 @@ class WeekdayLabel extends StatelessWidget {
     return Expanded(
       child: Center(
         child: Text(label, style: TextStyle(
-          color: Color(0xFF4B3C5B), fontSize: compact ? 9 : 10, fontWeight: FontWeight.w900,
+          color: MemberTheme.muted, fontSize: compact ? 9 : 10, fontWeight: FontWeight.w900,
         )),
       ),
     );
@@ -327,23 +328,16 @@ class AttendanceDayCell extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 1.5),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.lerp(color, Colors.white, 0.24)!,
-              color,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: color,
           borderRadius: BorderRadius.circular(8),
           border: selected
               ? Border.all(color: selectedColor, width: 1.7)
-              : Border.all(color: Colors.white.withOpacity(0.76), width: 0.7),
-          boxShadow: [
+              : Border.all(color: const Color(0xFFD7D0C6), width: 0.7),
+          boxShadow: const [
             BoxShadow(
-              color: color.withOpacity(0.25),
+              color: Color(0x120D0905),
               blurRadius: 2,
-              offset: const Offset(0, 1),
+              offset: Offset(0, 1),
             ),
           ],
         ),
@@ -363,7 +357,7 @@ class AttendanceDayCell extends StatelessWidget {
               ),
               if (off)
                 Text('OFF', style: TextStyle(
-                  color: Color(0xFF635B6B), fontSize: compact ? 7.5 : 8.5, fontWeight: FontWeight.w800,
+                  color: Color(0xFF635B6B), fontSize: compact ? 7.5 : 8.5, fontWeight: FontWeight.w600,
                 )),
             ],
           ),
