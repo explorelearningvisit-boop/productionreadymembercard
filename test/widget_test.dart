@@ -171,30 +171,53 @@ void main() {
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    final destinations = <(String, String, String, String)>[
-      ('metric-attendance', 'navigation-attendance-calendar', 'Attendance Calendar', 'October 2026'),
-      ('metric-attendance', 'navigation-attendance-history', 'Attendance History', 'Gym check-in'),
-      ('metric-workout', 'navigation-workout-log', 'Workout Log', 'Latest workout summary'),
-      ('metric-workout', 'navigation-workout-trend', 'Workout Trend', 'WORKOUT MINUTES'),
-      ('metric-workout', 'navigation-workout-recovery', 'Recovery & Wellness', 'Recovery information'),
-      ('metric-workout', 'navigation-workout-goals', 'Workout Goals', 'Workout consistency'),
-      ('metric-payment', 'navigation-payment-invoices', 'Due & Invoices', 'Membership balance'),
-      ('metric-payment', 'navigation-payment-history', 'Payment History', 'No completed payments loaded'),
-      ('metric-payment', 'navigation-payment-methods', 'Payment Methods', 'Payment method preview'),
-      ('metric-payment', 'navigation-payment-rewards', 'Payment Rewards', 'No active reward campaign'),
-      ('metric-body', 'navigation-body-weight', 'Weight Trend', 'Weight trend is not available'),
-      ('metric-body', 'navigation-body-measurements', 'Body Measurements', 'Other measurements not loaded'),
-      ('metric-body', 'navigation-body-nutrition', 'Nutrition & Wellness', 'Nutrition offer preview'),
-      ('metric-body', 'navigation-body-goals', 'Body Goals', 'Set a body goal'),
+    final destinations = <(String, int, String, String, String)>[
+      ('attendance', 1, 'Attendance Calendar', 'October 2026', 'calendar'),
+      ('attendance', 2, 'Attendance History', 'Gym check-in', 'history'),
+      ('workout', 1, 'Workout Log', 'Latest workout summary', 'log'),
+      ('workout', 2, 'Workout Trend', 'WORKOUT MINUTES', 'trend'),
+      ('workout', 3, 'Recovery & Wellness', 'Recovery information', 'recovery'),
+      ('workout', 4, 'Workout Goals', 'Workout consistency', 'goals'),
+      ('payment', 1, 'Due & Invoices', 'Membership balance', 'invoices'),
+      ('payment', 2, 'Payment History', 'No completed payments loaded', 'history'),
+      ('payment', 3, 'Payment Methods', 'Payment method preview', 'methods'),
+      ('payment', 4, 'Payment Rewards', 'No active reward campaign', 'rewards'),
+      ('body', 1, 'Weight Trend', 'Weight trend is not available', 'weight'),
+      ('body', 2, 'Body Measurements', 'Other measurements not loaded', 'measurements'),
+      ('body', 3, 'Nutrition & Wellness', 'Nutrition offer preview', 'nutrition'),
+      ('body', 4, 'Body Goals', 'Set a body goal', 'goals'),
     ];
 
     for (final destination in destinations) {
-      await tester.tap(find.byKey(ValueKey(destination.$1)));
+      await tester.tap(
+        find.byKey(ValueKey('metric-${destination.$1}')),
+      );
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(ValueKey(destination.$2)));
+      await tester.tap(
+        find.byKey(
+          ValueKey('navigation-${destination.$1}-${destination.$5}'),
+        ),
+      );
       await tester.pumpAndSettle();
-      expect(find.text(destination.$3), findsOneWidget);
-      expect(find.textContaining(destination.$4), findsWidgets);
+
+      final detailKey = ValueKey(
+        'member-detail-${destination.$1}-${destination.$2}',
+      );
+      expect(find.byKey(detailKey), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byKey(detailKey),
+          matching: find.text(destination.$3),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.descendant(
+          of: find.byKey(detailKey),
+          matching: find.textContaining(destination.$4),
+        ),
+        findsWidgets,
+      );
       expect(tester.takeException(), isNull);
     }
   });
