@@ -356,7 +356,6 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
 
     Widget _topActions({required bool compact}) {
     final palette = MemberPlanPalette.forPlan(widget.member.plan);
-    final isGold = palette.planName == 'Gold';
     return Row(
       children: [
         Expanded(
@@ -376,10 +375,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: palette.frameRim, width: 1.25),
                 boxShadow: [
-                  BoxShadow(
-                    color: palette.accent.withOpacity(0.16),
-                    blurRadius: 5,
-                    offset: const Offset(0, 1),
+                  const BoxShadow(
+                    color: Color(0x180B0905),
+                    blurRadius: 4,
+                    offset: Offset(0, 1),
                   ),
                 ],
               ),
@@ -389,15 +388,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     width: 29,
                     height: 29,
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF29EF83), Color(0xFF00B85D)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
+                      color: const Color(0xFF0EA86A),
                       shape: BoxShape.circle,
-                      border: Border.all(color: const Color(0xCCFFFFFF)),
+                      border: Border.all(color: Colors.white, width: 1.2),
                       boxShadow: const [
-                        BoxShadow(color: Color(0x5547FF9B), blurRadius: 4),
+                        BoxShadow(
+                          color: Color(0x220B0905),
+                          blurRadius: 2,
+                          offset: Offset(0, 1),
+                        ),
                       ],
                     ),
                     child: Icon(
@@ -445,34 +444,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     ),
                   ),
                   const SizedBox(width: 3),
-                  SizedBox(
-                    width: 38,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ArtworkEntrance(
-                          motion: 3,
-                          child: Image.asset(
-                            'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp',
-                            width: 35,
-                            height: 27,
-                            fit: BoxFit.contain,
-                          ),
-                        ),
-                        RotatingAdMessage(
-                          messages: isGold
-                              ? const ['₹100 OFF', 'GOLD PERK', 'FREE DELIVERY']
-                              : const ['MEMBER DEAL', 'SAVE 15%', 'GYM REWARD'],
-                          alignment: Alignment.center,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Color(0xFFFFF1A8),
-                            fontSize: 7.2,
-                            height: 1,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ],
+                  ArtworkEntrance(
+                    motion: 3,
+                    child: Image.asset(
+                      'assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp',
+                      width: compact ? 34 : 42,
+                      height: compact ? 38 : 44,
+                      fit: BoxFit.contain,
+                      alignment: Alignment.bottomCenter,
                     ),
                   ),
                 ],
@@ -485,16 +464,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFFFFFFFF), Color(0xFFE8F2FF), Color(0xFFF7F1FF)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
+              color: const Color(0xFFFFFEFC),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFC8B8F1), width: 1.2),
+              border: Border.all(color: palette.panelEdge, width: 1.2),
               boxShadow: const [
                 BoxShadow(
-                  color: Color(0x227E30D7),
+                  color: Color(0x160B0905),
                   blurRadius: 4,
                   offset: Offset(0, 1),
                 ),
@@ -528,17 +503,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         ),
                       ),
                       const SizedBox(height: 2),
-                      RotatingAdMessage(
-                        messages: const [
-                          'Pause plan • Stay flexible',
-                          'Member offer • Save 20%',
-                          'Freeze now • Train later',
-                        ],
-                        style: const TextStyle(
-                          color: Color(0xFF45305D),
-                          fontSize: 7.6,
+                      const Text(
+                        'Pause plan · Stay flexible',
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: MemberTheme.muted,
+                          fontSize: 8,
                           height: 1,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -548,17 +520,16 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFE52B52), Color(0xFFB71648)],
-                          ),
+                          color: palette.railSelected,
                           borderRadius: BorderRadius.circular(9),
+                          border: Border.all(color: palette.frameRim, width: 0.7),
                         ),
                         child: const Text(
                           '20% OFF • PAUSE PLAN',
                           maxLines: 1,
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 6.8,
+                            color: palette.planBadgeText,
+                            fontSize: 7,
                             height: 1,
                             fontWeight: FontWeight.w900,
                           ),
@@ -572,8 +543,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   motion: 2,
                   child: Image.asset(
                     'assets/material_pack/inbox/PulseVault/04_purple_shaker.webp',
-                    width: compact ? 30 : 32,
-                    height: compact ? 34 : 40,
+                    width: compact ? 34 : 38,
+                    height: compact ? 38 : 44,
                     fit: BoxFit.contain,
                   ),
                 ),
