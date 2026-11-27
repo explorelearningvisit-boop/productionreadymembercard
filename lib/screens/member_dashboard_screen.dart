@@ -669,7 +669,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       const Icon(
                         Icons.cake_outlined,
                         size: 12,
-                        color: Color(0xFF6B388B),
+                        color: palette.accent,
                       ),
                       const SizedBox(width: 3),
                       Text(
@@ -691,7 +691,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       const Icon(
                         Icons.person_outline_rounded,
                         size: 13,
-                        color: Color(0xFF6B388B),
+                        color: palette.accent,
                       ),
                       const SizedBox(width: 2),
                       Flexible(
@@ -785,6 +785,16 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     Widget _paymentAndOffer({required bool compact}) {
     final member = widget.member;
     final palette = MemberPlanPalette.forPlan(member.plan);
+    final dueValue = double.tryParse(
+      member.paymentDue.replaceAll(RegExp(r'[^0-9.]'), ''),
+    );
+    final paymentIsDue = dueValue == null || dueValue > 0;
+    final paymentLabel = paymentIsDue ? 'PAYMENT DUE' : 'PAYMENT STATUS';
+    final paymentValue = paymentIsDue ? '${member.paymentDue} Due' : 'Paid';
+    final paymentColor = paymentIsDue ? MemberTheme.rose : MemberTheme.green;
+    final paymentIcon = paymentIsDue
+        ? Icons.error_rounded
+        : Icons.check_circle_rounded;
     return Row(
       children: [
         Expanded(
@@ -833,7 +843,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'PAYMENT DUE',
+                                paymentLabel,
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: MemberTheme.ink,
@@ -845,10 +855,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               ),
                               SizedBox(height: compact ? 1 : 3),
                               Text(
-                                '${member.paymentDue} Due',
+                                paymentValue,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  color: MemberTheme.rose,
+                                  color: paymentColor,
                                   fontSize: compact ? 18 : 22,
                                   height: 1,
                                   fontWeight: FontWeight.w900,
@@ -874,9 +884,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   ),
                 ),
                 const SizedBox(width: 2),
-                const Icon(
-                  Icons.error_rounded,
-                  color: Color(0xFFFFB629),
+                Icon(
+                  paymentIcon,
+                  color: paymentIsDue
+                      ? const Color(0xFFFFB629)
+                      : MemberTheme.green,
                   size: 15,
                 ),
               ],
