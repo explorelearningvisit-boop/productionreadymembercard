@@ -41,7 +41,7 @@ abstract final class DashboardNavigation {
       DashboardMenuItem(id: 'goals', label: 'Goals', title: 'Attendance Goals', icon: Icons.emoji_events_rounded),
     ],
     DashboardModule.workout: [
-      DashboardMenuItem(id: 'overview', label: 'Attend', title: 'Workout Overview', icon: Icons.fitness_center_rounded),
+      DashboardMenuItem(id: 'overview', label: 'Workout', title: 'Workout Overview', icon: Icons.fitness_center_rounded),
       DashboardMenuItem(id: 'insights', label: 'Insights', title: 'Workout Insights', icon: Icons.insights_rounded),
       DashboardMenuItem(id: 'log', label: 'Log', title: 'Workout Log', icon: Icons.receipt_long_rounded),
       DashboardMenuItem(id: 'trend', label: 'Trend', title: 'Workout Trend', icon: Icons.show_chart_rounded),
@@ -49,19 +49,19 @@ abstract final class DashboardNavigation {
       DashboardMenuItem(id: 'goals', label: 'Goals', title: 'Workout Goals', icon: Icons.emoji_events_rounded),
     ],
     DashboardModule.payment: [
-      DashboardMenuItem(id: 'overview', label: 'Attend', title: 'Payment Overview', icon: Icons.account_balance_wallet_rounded),
+      DashboardMenuItem(id: 'overview', label: 'Payment', title: 'Payment Overview', icon: Icons.account_balance_wallet_rounded),
       DashboardMenuItem(id: 'insights', label: 'Insights', title: 'Payment Insights', icon: Icons.insights_rounded),
       DashboardMenuItem(id: 'invoices', label: 'Invoices', title: 'Due & Invoices', icon: Icons.request_quote_rounded),
       DashboardMenuItem(id: 'history', label: 'History', title: 'Payment History', icon: Icons.history_rounded),
       DashboardMenuItem(id: 'methods', label: 'Methods', title: 'Payment Methods', icon: Icons.credit_card_rounded),
-      DashboardMenuItem(id: 'rewards', label: 'Goals', title: 'Payment Rewards', icon: Icons.card_giftcard_rounded),
+      DashboardMenuItem(id: 'rewards', label: 'Rewards', title: 'Payment Rewards', icon: Icons.card_giftcard_rounded),
     ],
     DashboardModule.body: [
-      DashboardMenuItem(id: 'overview', label: 'Attend', title: 'Body Overview', icon: Icons.monitor_weight_outlined),
+      DashboardMenuItem(id: 'overview', label: 'Body', title: 'Body Overview', icon: Icons.monitor_weight_outlined),
       DashboardMenuItem(id: 'insights', label: 'Insights', title: 'Body Insights', icon: Icons.insights_rounded),
       DashboardMenuItem(id: 'weight', label: 'Weight', title: 'Weight Trend', icon: Icons.scale_rounded),
       DashboardMenuItem(id: 'measurements', label: 'Measures', title: 'Body Measurements', icon: Icons.straighten_rounded),
-      DashboardMenuItem(id: 'nutrition', label: 'Trend', title: 'Nutrition & Wellness', icon: Icons.restaurant_rounded),
+      DashboardMenuItem(id: 'nutrition', label: 'Nutrition', title: 'Nutrition & Wellness', icon: Icons.restaurant_rounded),
       DashboardMenuItem(id: 'goals', label: 'Goals', title: 'Body Goals', icon: Icons.flag_rounded),
     ],
   };
