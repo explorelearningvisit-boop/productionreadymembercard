@@ -20,11 +20,16 @@ void main() {
     expect(find.text('FREEZE'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
-    expect(scaffold.backgroundColor, MemberTheme.canvas);
+    expect(scaffold.backgroundColor, MemberPlanPalette.forPlan('Gold Plan').frameGradient.first);
     final memberName = tester.widget<Text>(find.text('Ashwani Kumar Singh'));
     expect(memberName.style?.color, MemberTheme.ink);
     expect(find.text('ATTENDANCE'), findsOneWidget);
     expect(find.byType(CustomPaint), findsWidgets);
+    expect(find.byIcon(Icons.account_balance_wallet_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.calendar_month_rounded), findsOneWidget);
+    expect(find.text('AD SPACE • BLINKIT'), findsOneWidget);
+    expect(find.text('AD SPACE • SBI REWARDS'), findsOneWidget);
+    expect(find.text('28 yrs Yrs'), findsNothing);
     expect(find.textContaining('Gold Plan'), findsOneWidget);
     expect(find.text('₹500 Due'), findsNWidgets(2));
     expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
@@ -37,10 +42,20 @@ void main() {
     expect(find.text('Absent'), findsOneWidget);
     expect(find.text('Holiday'), findsOneWidget);
     expect(find.text('Late'), findsOneWidget);
-    expect(find.text('Creatine 15% OFF'), findsOneWidget);
-    expect(find.text('Buy Now ›'), findsOneWidget);
+    expect(find.text('CREATINE 15% OFF'), findsOneWidget);
+    expect(find.text('BUY NOW ›'), findsOneWidget);
     expect(find.text('Sample data • API connection required for live records'), findsOneWidget);
     expect(tester.takeException(), isNull);
+  });
+
+  test('plan palettes switch the full card identity', () {
+    final gold = MemberPlanPalette.forPlan('Gold Plan');
+    final spark = MemberPlanPalette.forPlan('Spark Plan');
+    expect(gold.planName, 'Gold');
+    expect(spark.planName, 'Spark');
+    expect(spark.accent, const Color(0xFF078552));
+    expect(spark.frameGradient.first, const Color(0xFF06452F));
+    expect(spark.canvasGradient.last, const Color(0xFFDDF8E8));
   });
 
   testWidgets('navigation rail is narrow and matches attendance panel height', (tester) async {
@@ -59,10 +74,12 @@ void main() {
     expect(panel.height, greaterThan(290),
         reason: 'Attendance panel should use the available height instead of leaving a large blank area');
     final dateCell = tester.getSize(find.byKey(const ValueKey('attendance-day-13')));
-    expect(dateCell.height, greaterThanOrEqualTo(25),
+    expect(dateCell.height, greaterThanOrEqualTo(28),
         reason: 'Calendar dates must remain readable at 360dp width');
     final monthTitle = tester.widget<Text>(find.text('October attendance'));
-    expect(monthTitle.style?.fontSize, greaterThanOrEqualTo(13));
+    expect(monthTitle.style?.fontSize, greaterThanOrEqualTo(14));
+    final presentLabel = tester.widget<Text>(find.text('Present'));
+    expect(presentLabel.style?.fontSize, greaterThanOrEqualTo(9));
     expect(tester.takeException(), isNull);
   });
 
