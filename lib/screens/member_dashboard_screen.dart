@@ -680,7 +680,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           trend: '↑ +6%', valueColor: const Color(0xFF0A8742),
           note: 'Protein 10% OFF',
           color: const Color(0xFFFFE96A),
-          asset: 'assets/member_card/01_member_bodybuilder.webp',
+          asset: 'assets/member_card/28_protinex_tub.webp',
           noteColor: const Color(0xFFE52B52), noteTextColor: Colors.white)),
         const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
