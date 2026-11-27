@@ -43,7 +43,7 @@ class AttendancePanel extends StatelessWidget {
   Widget _panel({bool compact = false, required MemberPlanPalette palette}) {
     final headerHeight = compact ? 22.0 : 26.0;
     final offerHeight = compact ? 24.0 : 30.0;
-    final chartHeight = compact ? 66.0 : 82.0;
+    final chartHeight = compact ? 70.0 : 82.0;
     final ringSize = compact ? 62.0 : 74.0;
     final recoveryHeight = compact ? 23.0 : 30.0;
     final calendarTitleHeight = compact ? 23.0 : 27.0;
@@ -395,6 +395,7 @@ class AttendancePanel extends StatelessWidget {
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -404,6 +405,7 @@ class AttendancePanel extends StatelessWidget {
                   style: TextStyle(
                     color: MemberTheme.ink,
                     fontSize: compact ? 9 : 10,
+                    height: 1,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -414,6 +416,7 @@ class AttendancePanel extends StatelessWidget {
                   style: TextStyle(
                     color: const Color(0xFF6E258F),
                     fontSize: compact ? 7.5 : 8.5,
+                    height: 1,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
