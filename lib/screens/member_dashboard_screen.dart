@@ -560,8 +560,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         const SizedBox(width: 5),
         Expanded(
           child: DashboardPanel(
-            color: const Color(0xFFF4E7FF),
-            borderColor: const Color(0xFFD7AEF7),
+            color: const Color(0xFF6310AE),
+            borderColor: const Color(0xFFE47AFF),
             radius: 18,
             padding: EdgeInsets.symmetric(horizontal: 5, vertical: compact ? 2 : 5),
             child: Row(
@@ -579,22 +579,22 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Whey Protein', maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: const Color(0xFF5C198C), fontSize: compact ? 7 : 9,
+                        style: TextStyle(color: MemberTheme.gold, fontSize: compact ? 7 : 9,
                           fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
                       SizedBox(height: compact ? 1 : 2),
                       Text('25% OFF', maxLines: 1,
-                        style: TextStyle(color: MemberTheme.purple, fontSize: compact ? 13 : 15,
+                        style: TextStyle(color: Colors.white, fontSize: compact ? 13 : 15,
                           height: 1, fontWeight: FontWeight.w900)),
                       SizedBox(height: compact ? 1 : 4),
                       DecoratedBox(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(colors: [Color(0xFFFF53B5), Color(0xFFD20A85)]),
+                          gradient: LinearGradient(colors: [Color(0xFFFFE56A), Color(0xFFFFBA22)]),
                           borderRadius: BorderRadius.all(Radius.circular(13)),
                         ),
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 7, vertical: compact ? 1 : 2),
                           child: Text('Buy Now ›', maxLines: 1,
-                            style: TextStyle(color: Colors.white, fontSize: compact ? 6 : 7,
+                            style: TextStyle(color: MemberTheme.ink, fontSize: compact ? 6 : 7,
                               height: 1, fontWeight: FontWeight.w900)),
                         ),
                       ),
@@ -713,7 +713,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 3),
         decoration: BoxDecoration(
-          color: color,
+          gradient: LinearGradient(
+            colors: [Color.lerp(color, Colors.white, 0.22)!, color],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderRadius: BorderRadius.circular(13),
           border: Border.all(color: Colors.white70, width: 0.8),
           boxShadow: const [BoxShadow(color: Color(0x668F4DFF), blurRadius: 4)],
