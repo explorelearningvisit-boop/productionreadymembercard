@@ -8,7 +8,12 @@ import '../widgets/attendance_panel.dart';
 import '../widgets/dashboard_primitives.dart';
 
 class MemberDashboardScreen extends StatefulWidget {
-  const MemberDashboardScreen({super.key});
+  const MemberDashboardScreen({
+    this.member = MemberSample.demo,
+    super.key,
+  });
+
+  final MemberSample member;
 
   @override
   State<MemberDashboardScreen> createState() => _MemberDashboardScreenState();
@@ -29,7 +34,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const member = MemberSample.demo;
+    final member = widget.member;
     final palette = MemberPlanPalette.forPlan(member.plan);
 
     return MemberPlanTheme(
@@ -176,7 +181,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _navigationRail() {
-    final palette = MemberPlanPalette.forPlan(MemberSample.demo.plan);
+    final palette = MemberPlanPalette.forPlan(widget.member.plan);
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemHeight = constraints.maxHeight / _navigation.length;
@@ -338,7 +343,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _topActions() {
-    final palette = MemberPlanPalette.forPlan(MemberSample.demo.plan);
+    final palette = MemberPlanPalette.forPlan(widget.member.plan);
     return Row(
       children: [
         Expanded(
@@ -563,8 +568,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     required bool compact,
     required double compactProgress,
   }) {
-    const member = MemberSample.demo;
-    final palette = MemberPlanPalette.forPlan(MemberSample.demo.plan);
+    final member = widget.member;
+    final palette = MemberPlanPalette.forPlan(widget.member.plan);
     final portrait = compact ? 63.0 + 8.0 * compactProgress : 88.0;
 
     return DashboardPanel(
@@ -773,7 +778,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
     Widget _paymentAndOffer({required bool compact}) {
-    const member = MemberSample.demo;
+    final member = widget.member;
     return Row(
       children: [
         Expanded(
@@ -949,8 +954,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   Widget _membershipProgress({required bool compact}) {
-    const member = MemberSample.demo;
-    final palette = MemberPlanPalette.forPlan(MemberSample.demo.plan);
+    final member = widget.member;
+    final palette = MemberPlanPalette.forPlan(widget.member.plan);
     return DashboardPanel(
       color: palette.accentSoft,
       borderColor: palette.panelEdge,
@@ -1055,7 +1060,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
     Widget _metrics({required bool compact}) {
-    const member = MemberSample.demo;
+    final member = widget.member;
     return Row(
       children: [
         Expanded(
