@@ -12,8 +12,9 @@ class AttendancePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        final palette = MemberPlanTheme.of(context);
         const fullHeight = 370.0;
-        const compactHeight = 300.0;
+        const compactHeight = 286.0;
         final availableHeight = constraints.maxHeight;
         if (availableHeight < compactHeight) {
           return FittedBox(
@@ -23,7 +24,7 @@ class AttendancePanel extends StatelessWidget {
             child: SizedBox(
               width: constraints.maxWidth,
               height: compactHeight,
-              child: _panel(compact: true),
+              child: _panel(compact: true, palette: palette),
             ),
           );
         }
@@ -32,34 +33,34 @@ class AttendancePanel extends StatelessWidget {
           key: const ValueKey('attendance-panel'),
           width: constraints.maxWidth,
           height: availableHeight,
-          child: _panel(compact: compact),
+          child: _panel(compact: compact, palette: palette),
         );
       },
     );
   }
 
-  Widget _panel({bool compact = false}) {
-    final headerHeight = compact ? 20.0 : 24.0;
-    final offerHeight = compact ? 23.0 : 30.0;
-    final chartHeight = compact ? 62.0 : 78.0;
-    final ringSize = compact ? 58.0 : 70.0;
-    final recoveryHeight = compact ? 24.0 : 31.0;
-    final calendarTitleHeight = compact ? 21.0 : 26.0;
-    final cellHeight = compact ? 29.0 : 36.0;
+  Widget _panel({bool compact = false, required MemberPlanPalette palette}) {
+    final headerHeight = compact ? 22.0 : 26.0;
+    final offerHeight = compact ? 24.0 : 30.0;
+    final chartHeight = compact ? 70.0 : 82.0;
+    final ringSize = compact ? 62.0 : 74.0;
+    final recoveryHeight = compact ? 23.0 : 30.0;
+    final calendarTitleHeight = compact ? 23.0 : 27.0;
+    final cellHeight = compact ? 28.0 : 34.0;
     final summaryHeight = compact ? 15.0 : 18.0;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(7, compact ? 4 : 5, 7, compact ? 4 : 5),
+      padding: EdgeInsets.fromLTRB(7, compact ? 4 : 6, 7, compact ? 4 : 6),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFFFFFFFF), Color(0xFFF1E6FF), Color(0xFFFCF8FF)],
+          colors: [Color(0xFFFFFFFF), palette.accentSoft, palette.surface],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(19),
-        border: Border.all(color: const Color(0xFFD8B6F2), width: 1.5),
+        border: Border.all(color: palette.panelEdge, width: 1.35),
         boxShadow: const [
-          BoxShadow(color: Color(0x557D39B5), blurRadius: 8, offset: Offset(0, 2)),
+          BoxShadow(color: palette.accent.withOpacity(0.12), blurRadius: 5, offset: Offset(0, 1)),
           BoxShadow(color: Color(0x88FFFFFF), blurRadius: 2),
         ],
       ),
@@ -68,7 +69,7 @@ class AttendancePanel extends StatelessWidget {
         // This avoids the large dead zone below the calendar in tall layouts.
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _header(compact: compact, height: headerHeight),
+          _header(compact: compact, height: headerHeight, palette: palette),
           SizedBox(height: compact ? 2 : 3),
           _offerBanner(compact: compact, height: offerHeight),
           SizedBox(height: compact ? 2 : 3),
@@ -167,7 +168,7 @@ class AttendancePanel extends StatelessWidget {
           SizedBox(height: compact ? 1 : 2),
           _recoveryBanner(compact: compact, height: recoveryHeight),
           SizedBox(height: compact ? 1 : 2),
-          _calendarTitle(compact: compact, height: calendarTitleHeight),
+          _calendarTitle(compact: compact, height: calendarTitleHeight, palette: palette),
           SizedBox(
             height: summaryHeight,
             child: Align(
@@ -270,24 +271,24 @@ class AttendancePanel extends StatelessWidget {
     );
   }
 
-  Widget _header({required bool compact, required double height}) {
+  Widget _header({required bool compact, required double height, required MemberPlanPalette palette}) {
     return SizedBox(
       height: height,
       child: Row(
         children: [
           Container(
-            width: compact ? 18 : 21,
-            height: compact ? 18 : 21,
+            width: compact ? 20 : 23,
+            height: compact ? 20 : 23,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF8D27DC), Color(0xFF4B0A91)],
+                colors: [palette.accent, palette.accent.withOpacity(0.78)],
               ),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.trending_up_rounded,
               color: Colors.white,
-              size: compact ? 13 : 15,
+              size: compact ? 14 : 16,
             ),
           ),
           const SizedBox(width: 5),
@@ -297,15 +298,15 @@ class AttendancePanel extends StatelessWidget {
               maxLines: 1,
               style: TextStyle(
                 color: MemberTheme.ink,
-                fontSize: compact ? 13 : 15,
+                fontSize: compact ? 14.2 : 16,
                 fontWeight: FontWeight.w900,
               ),
             ),
           ),
           Icon(
             Icons.notifications_active,
-            color: MemberTheme.purple,
-            size: compact ? 14 : 17,
+            color: palette.accent,
+            size: compact ? 16 : 18,
           ),
           const SizedBox(width: 4),
           Container(
@@ -322,7 +323,7 @@ class AttendancePanel extends StatelessWidget {
               '● DEMO',
               style: TextStyle(
                 color: Colors.red,
-                fontSize: compact ? 7 : 8,
+                fontSize: compact ? 8 : 9,
                 fontWeight: FontWeight.w900,
               ),
             ),
@@ -337,7 +338,7 @@ class AttendancePanel extends StatelessWidget {
       compact: compact,
       height: height,
       asset: 'assets/member_card/05_blinkit_grocery_bag.webp',
-      assetWidth: compact ? 30 : 39,
+      assetWidth: compact ? 31 : 40,
       title: 'Healthy Snacks & Gym Essentials',
       subtitle: 'Member partner offer • Up to 30% OFF',
       colors: const [Color(0xFFFFF3C7), Color(0xFFF4D9FF)],
@@ -349,7 +350,7 @@ class AttendancePanel extends StatelessWidget {
       compact: compact,
       height: height,
       asset: 'assets/member_card/03_whey_protein_tub.webp',
-      assetWidth: compact ? 23 : 29,
+      assetWidth: compact ? 25 : 31,
       title: 'Recovery Combo',
       subtitle: 'Up to 30% OFF',
       colors: const [Color(0xFFF9E9FF), Color(0xFFE5C4FF)],
@@ -394,7 +395,7 @@ class AttendancePanel extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: MemberTheme.ink,
-                    fontSize: compact ? 7.5 : 9,
+                    fontSize: compact ? 9 : 10,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -404,7 +405,7 @@ class AttendancePanel extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: const Color(0xFF6E258F),
-                    fontSize: compact ? 6 : 7,
+                    fontSize: compact ? 7.5 : 8.5,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -421,7 +422,7 @@ class AttendancePanel extends StatelessWidget {
     );
   }
 
-  Widget _calendarTitle({required bool compact, required double height}) {
+  Widget _calendarTitle({required bool compact, required double height, required MemberPlanPalette palette}) {
     return SizedBox(
       height: height,
       child: Row(
@@ -439,7 +440,7 @@ class AttendancePanel extends StatelessWidget {
               maxLines: 1,
               style: TextStyle(
                 color: MemberTheme.ink,
-                fontSize: compact ? 13.5 : 15.5,
+                fontSize: compact ? 14.3 : 16,
                 fontWeight: FontWeight.w900,
               ),
             ),
@@ -451,7 +452,7 @@ class AttendancePanel extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFF7D16B9), Color(0xFF3B0878)],
+                colors: [palette.accent, palette.railGradient.last],
               ),
               borderRadius: BorderRadius.circular(12),
             ),
@@ -460,8 +461,8 @@ class AttendancePanel extends StatelessWidget {
               children: [
                 Image.asset(
                   'assets/member_card/27_dumbbell_promo_graphic.webp',
-                  width: compact ? 15 : 20,
-                  height: compact ? 15 : 20,
+                  width: compact ? 18 : 22,
+                  height: compact ? 18 : 22,
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(width: 2),
@@ -469,7 +470,7 @@ class AttendancePanel extends StatelessWidget {
                   'Train More • 15% OFF',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: compact ? 5.5 : 7,
+                    fontSize: compact ? 7 : 8,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
