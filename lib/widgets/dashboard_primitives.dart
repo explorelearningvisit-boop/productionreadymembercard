@@ -303,6 +303,7 @@ class AttendanceDayCell extends StatelessWidget {
     this.color = const Color(0xFFD7F8DF),
     this.selected = false,
     this.off = false,
+    this.selectedColor = MemberTheme.purple,
     this.height = 25,
     this.compact = false,
     super.key,
@@ -312,6 +313,7 @@ class AttendanceDayCell extends StatelessWidget {
   final Color color;
   final bool selected;
   final bool off;
+  final Color selectedColor;
   final double height;
   final bool compact;
 
@@ -333,7 +335,7 @@ class AttendanceDayCell extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(8),
           border: selected
-              ? Border.all(color: MemberTheme.purple, width: 1.5)
+              ? Border.all(color: selectedColor, width: 1.7)
               : Border.all(color: Colors.white.withOpacity(0.76), width: 0.7),
           boxShadow: [
             BoxShadow(
