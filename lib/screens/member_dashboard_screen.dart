@@ -850,20 +850,21 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'PAYMENT DUE',
                         maxLines: 1,
                         style: TextStyle(
                           color: MemberTheme.ink,
-                          fontSize: 9.2,
+                          fontSize: compact ? 8.5 : 9.2,
                           height: 1,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 0.15,
                         ),
                       ),
-                      SizedBox(height: compact ? 2 : 3),
+                      SizedBox(height: compact ? 1 : 3),
                       FittedBox(
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
@@ -872,14 +873,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           maxLines: 1,
                           style: TextStyle(
                             color: MemberTheme.rose,
-                            fontSize: compact ? 16 : 20,
+                            fontSize: compact ? 15 : 20,
                             height: 1,
                             fontWeight: FontWeight.w900,
                             letterSpacing: -0.35,
                           ),
                         ),
                       ),
-                      SizedBox(height: compact ? 2 : 3),
+                      SizedBox(height: compact ? 1 : 3),
                       Text(
                         '${member.daysRemaining} Days Left',
                         maxLines: 1,
