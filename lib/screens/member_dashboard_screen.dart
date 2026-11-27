@@ -306,7 +306,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           height: topHeight,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 2),
-            child: _topActions(),
+            child: _topActions(compact: compact),
           ),
         ),
         SizedBox(height: sectionGap),
@@ -348,7 +348,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     );
   }
 
-    Widget _topActions() {
+    Widget _topActions({required bool compact}) {
     final palette = MemberPlanPalette.forPlan(widget.member.plan);
     final isGold = palette.planName == 'Gold';
     return Row(
