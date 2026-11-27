@@ -527,6 +527,565 @@ class AttendancePanel extends StatelessWidget {
     return const SizedBox.shrink();
   }
 
+  Widget _workoutOverviewContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _dataCard(
+                title: 'Workout average',
+                value: member.workout,
+                caption: 'Member sample',
+                icon: Icons.timer_outlined,
+                color: palette.accent,
+                compact: compact,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: _dataCard(
+                title: 'Monthly attendance',
+                value: member.attendance,
+                caption: 'Member sample',
+                icon: Icons.event_available_rounded,
+                color: const Color(0xFF13845A),
+                compact: compact,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: compact ? 7 : 10),
+        Text(
+          'Workout minutes · Sample week',
+          style: TextStyle(
+            color: MemberTheme.ink,
+            fontSize: compact ? 10 : 12,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        SizedBox(height: compact ? 4 : 7),
+        Expanded(
+          child: _weeklyBars(
+            values: const [26, 42, 35, 61, 48, 78, 58],
+            labels: const ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+            palette: palette,
+            compact: compact,
+          ),
+        ),
+        SizedBox(height: compact ? 4 : 6),
+        _highlightStrip(
+          icon: Icons.fitness_center_rounded,
+          title: 'Workout summary',
+          subtitle: 'Sample records · Live workout sync not connected',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _workoutLogContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        _historyRow(
+          icon: Icons.fitness_center_rounded,
+          title: 'Latest workout summary',
+          subtitle: 'Member sample · Workout log not connected',
+          value: member.workout,
+          tint: palette.accent,
+          compact: compact,
+        ),
+        _historyRow(
+          icon: Icons.list_alt_rounded,
+          title: 'Exercise sets and reps',
+          subtitle: 'No exercise records loaded',
+          value: '—',
+          tint: const Color(0xFF607D8B),
+          compact: compact,
+        ),
+        _historyRow(
+          icon: Icons.timer_outlined,
+          title: 'Session duration',
+          subtitle: 'Connect workout tracking to see history',
+          value: member.workout,
+          tint: const Color(0xFF9B6D27),
+          compact: compact,
+        ),
+        const Spacer(),
+        _highlightStrip(
+          icon: Icons.info_outline_rounded,
+          title: 'Workout log source not connected',
+          subtitle: 'This preview uses the member sample record only',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _recoveryContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+  }) {
+    return Column(
+      children: [
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(
+                child: _dataCard(
+                  title: 'Recovery products',
+                  value: 'Sample',
+                  caption: 'Offer preview',
+                  icon: Icons.local_drink_outlined,
+                  color: const Color(0xFF8B5AA5),
+                  compact: compact,
+                ),
+              ),
+              const SizedBox(width: 6),
+              Expanded(
+                child: _dataCard(
+                  title: 'Rest planning',
+                  value: 'Connect',
+                  caption: 'Recovery log',
+                  icon: Icons.spa_outlined,
+                  color: const Color(0xFF4D8775),
+                  compact: compact,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: compact ? 6 : 9),
+        _smallBanner(
+          compact: compact,
+          height: compact ? 38 : 48,
+          asset: 'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
+          assetWidth: compact ? 40 : 52,
+          motion: 2,
+          title: 'Recovery combo',
+          subtitle: 'Sample supplement offer · Demo',
+          colors: [palette.accentSoft, Colors.white],
+        ),
+        SizedBox(height: compact ? 6 : 9),
+        _highlightStrip(
+          icon: Icons.health_and_safety_outlined,
+          title: 'Recovery information',
+          subtitle: 'Sleep, hydration and rest data are not connected',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _workoutGoalsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+  }) {
+    return Column(
+      children: [
+        _goalProgress(
+          title: 'Workout consistency',
+          subtitle: 'Weekly training target · Sample',
+          value: 0.72,
+          color: palette.accent,
+          compact: compact,
+        ),
+        _goalProgress(
+          title: 'Session completion',
+          subtitle: 'Workout plan target · Sample',
+          value: 0.68,
+          color: const Color(0xFF14845C),
+          compact: compact,
+        ),
+        const Spacer(),
+        _highlightStrip(
+          icon: Icons.emoji_events_outlined,
+          title: 'Workout goals',
+          subtitle: 'Connect a workout plan to set personal targets',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _paymentOverviewContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _dataCard(
+                title: 'Payment due',
+                value: member.paymentDue,
+                caption: 'Current member record',
+                icon: Icons.account_balance_wallet_rounded,
+                color: MemberTheme.rose,
+                compact: compact,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: _dataCard(
+                title: 'Days remaining',
+                value: '${member.daysRemaining}',
+                caption: 'Membership period',
+                icon: Icons.calendar_today_rounded,
+                color: palette.accent,
+                compact: compact,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: compact ? 8 : 11),
+        _goalProgress(
+          title: 'Membership period used',
+          subtitle: '${member.membershipDays} of ${member.membershipTotalDays} days',
+          value: member.membershipProgress.clamp(0.0, 1.0).toDouble(),
+          color: palette.accent,
+          compact: compact,
+        ),
+        const Spacer(),
+        _highlightStrip(
+          icon: Icons.info_outline_rounded,
+          title: 'Payment data preview',
+          subtitle: 'Transactions and receipts require a connected payment service',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _invoicesContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        _historyRow(
+          icon: Icons.receipt_long_rounded,
+          title: 'Membership balance',
+          subtitle: 'Due in ${member.daysRemaining} days',
+          value: '${member.paymentDue} due',
+          tint: MemberTheme.rose,
+          compact: compact,
+        ),
+        _historyRow(
+          icon: Icons.calendar_month_rounded,
+          title: 'Membership period',
+          subtitle: '${member.membershipDays} / ${member.membershipTotalDays} days used',
+          value: '${(member.membershipProgress * 100).round()}%',
+          tint: palette.accent,
+          compact: compact,
+        ),
+        const Spacer(),
+        _highlightStrip(
+          icon: Icons.description_outlined,
+          title: 'Invoice documents not connected',
+          subtitle: 'Invoice numbers and downloadable receipts will appear here',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _paymentHistoryContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        _historyRow(
+          icon: Icons.pending_actions_rounded,
+          title: 'Outstanding membership amount',
+          subtitle: 'Current sample member balance',
+          value: member.paymentDue,
+          tint: MemberTheme.rose,
+          compact: compact,
+        ),
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.receipt_long_outlined,
+          title: 'No completed payments loaded',
+          subtitle: 'Connect payment history to show transaction dates, amounts and receipts',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _paymentMethodsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+  }) {
+    return Column(
+      children: [
+        Expanded(
+          child: Center(
+            child: Image.asset(
+              'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',
+              fit: BoxFit.contain,
+              width: compact ? 150 : 210,
+            ),
+          ),
+        ),
+        _highlightStrip(
+          icon: Icons.credit_card_rounded,
+          title: 'Payment method preview',
+          subtitle: 'No saved payment method is available in this sample',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _paymentRewardsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+  }) {
+    return Column(
+      children: [
+        _smallBanner(
+          compact: compact,
+          height: compact ? 40 : 50,
+          asset: 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',
+          assetWidth: compact ? 48 : 64,
+          motion: 1,
+          title: 'Member reward preview',
+          subtitle: 'Sample campaign · Not a live bank offer',
+          colors: [const Color(0xFFEAF2FA), Colors.white],
+        ),
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.card_giftcard_rounded,
+          title: 'No active reward campaign',
+          subtitle: 'Eligible offers will appear when a real campaign is configured',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _bodyOverviewContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _dataCard(
+                title: 'Current weight',
+                value: member.bodyWeight,
+                caption: 'Member sample',
+                icon: Icons.monitor_weight_outlined,
+                color: const Color(0xFF168A79),
+                compact: compact,
+              ),
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: _dataCard(
+                title: 'Target weight',
+                value: 'Not set',
+                caption: 'Add a personal target',
+                icon: Icons.flag_outlined,
+                color: palette.accent,
+                compact: compact,
+              ),
+            ),
+          ],
+        ),
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.monitor_weight_outlined,
+          title: 'Body tracking overview',
+          subtitle: 'Add measurements to build a personal progress view',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _weightTrendContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        _dataCard(
+          title: 'Latest recorded weight',
+          value: member.bodyWeight,
+          caption: 'Member sample',
+          icon: Icons.scale_rounded,
+          color: const Color(0xFF168A79),
+          compact: compact,
+        ),
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.show_chart_rounded,
+          title: 'Weight trend is not available',
+          subtitle: 'Add dated body measurements to display a real trend',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _measurementsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    return Column(
+      children: [
+        _historyRow(
+          icon: Icons.monitor_weight_outlined,
+          title: 'Body weight',
+          subtitle: 'Latest member sample',
+          value: member.bodyWeight,
+          tint: const Color(0xFF168A79),
+          compact: compact,
+        ),
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.straighten_rounded,
+          title: 'Other measurements not loaded',
+          subtitle: 'Measurements such as waist and body fat need member records',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _nutritionContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+  }) {
+    return Column(
+      children: [
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(
+                child: Image.asset(
+                  'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
+                  fit: BoxFit.contain,
+                ),
+              ),
+              Expanded(
+                child: Image.asset(
+                  'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ],
+          ),
+        ),
+        _highlightStrip(
+          icon: Icons.restaurant_outlined,
+          title: 'Nutrition offer preview',
+          subtitle: 'Personal nutrition logs are not connected',
+          palette: palette,
+          compact: compact,
+        ),
+      ],
+    );
+  }
+
+  Widget _bodyGoalsContent({
+    required bool compact,
+    required MemberPlanPalette palette,
+  }) {
+    return Column(
+      children: [
+        const Spacer(),
+        _emptyDetail(
+          icon: Icons.flag_outlined,
+          title: 'Set a body goal',
+          subtitle: 'A target weight or measurement is needed before progress can be calculated',
+          palette: palette,
+          compact: compact,
+        ),
+        const Spacer(),
+      ],
+    );
+  }
+
+  Widget _emptyDetail({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required MemberPlanPalette palette,
+    required bool compact,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(compact ? 9 : 13),
+      decoration: BoxDecoration(
+        color: palette.surface,
+        borderRadius: BorderRadius.circular(13),
+        border: Border.all(color: palette.panelEdge),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: palette.accent, size: compact ? 22 : 27),
+          SizedBox(height: compact ? 4 : 6),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: MemberTheme.ink,
+              fontSize: compact ? 10 : 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: compact ? 2 : 4),
+          Text(
+            subtitle,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: MemberTheme.muted,
+              fontSize: compact ? 8 : 9,
+              height: 1.2,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _insightsContent({
     required bool compact,
     required MemberPlanPalette palette,
