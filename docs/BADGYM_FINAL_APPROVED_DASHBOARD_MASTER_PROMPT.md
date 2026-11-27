@@ -1,4 +1,4 @@
-# BAD GYM — Purple Neon Member Intelligence Dashboard
+# BAD GYM — Pearl Glass / Purple Neon Member Intelligence Dashboard
 
 **Status:** Current approved visual reference supplied by the product owner on 2026-11-25. This document supersedes the earlier minimal-card-only scope.
 
