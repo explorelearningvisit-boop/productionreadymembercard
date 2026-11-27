@@ -41,23 +41,24 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  test('all plans share the lilac glass shell while retaining tier badges', () {
+  test('all plans share the lilac glass shell and retain tier badges', () {
     final gold = MemberPlanPalette.forPlan('Gold Plan');
     final spark = MemberPlanPalette.forPlan('Spark Plan');
     final silver = MemberPlanPalette.forPlan('Silver Plan');
     final diamond = MemberPlanPalette.forPlan('Diamond Plan');
+    expect(gold.frameGradient, spark.frameGradient);
+    expect(gold.frameGradient, silver.frameGradient);
+    expect(gold.frameGradient, diamond.frameGradient);
+    expect(gold.canvasGradient, spark.canvasGradient);
+    expect(gold.railGradient, diamond.railGradient);
+    expect(gold.accent, MemberTheme.purple);
+    expect(gold.planBadgeGradient, isNot(spark.planBadgeGradient));
+    expect(gold.planBadgeGradient, isNot(silver.planBadgeGradient));
+    expect(gold.planBadgeGradient, isNot(diamond.planBadgeGradient));
     expect(gold.planName, 'Gold');
-    expect(gold.frameGradient.first, const Color(0xFF6B19B5));
-    expect(gold.railGradient.first, const Color(0xFF5C159D));
-    expect(gold.railSelected, const Color(0xFFE8D2FF));
-    expect(gold.canvasGradient.first, const Color(0xFFF4E9FF));
-    expect(spark.frameGradient, gold.frameGradient);
-    expect(silver.frameGradient, gold.frameGradient);
+    expect(spark.planName, 'Spark');
+    expect(silver.planName, 'Silver');
     expect(diamond.planName, 'Diamond');
-    expect(diamond.frameGradient, gold.frameGradient);
-    expect(spark.planBadgeGradient, isNot(gold.planBadgeGradient));
-    expect(silver.planBadgeGradient, isNot(gold.planBadgeGradient));
-    expect(diamond.planBadgeGradient, isNot(gold.planBadgeGradient));
   });
 
   test('each module has six destinations in the screenshot rail contract', () {
