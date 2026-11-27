@@ -149,16 +149,16 @@ class ModuleDashboardView extends StatelessWidget {
     ]),
     1 => _page([
       _stats('Payment due',member.paymentDue,'Renewal in','${member.daysRemaining} days',MemberTheme.rose,palette.accent),
-      Expanded(child: GlassChartFrame(title:'Payment behaviour',subtitle:'Illustrative distribution · replace with ledger data',
+       SizedBox(height: compact ? 132 : 148, child: GlassChartFrame(title:'Payment behaviour',subtitle:'Illustrative distribution · replace with ledger data',
         child: Row(children:[
           SizedBox(width:compact?82:100,child:const GlassDonutChart(values:[64,22,14],colors:[MemberTheme.green,Color(0xFF3298D4),MemberTheme.amber],centerValue:'Demo',centerLabel:'behaviour')),
           const SizedBox(width:5),
-          const Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
+           Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
             _LegendRow(color:MemberTheme.green,label:'On time',value:'Demo'),
             _LegendRow(color:Color(0xFF3298D4),label:'Early',value:'Demo'),
             _LegendRow(color:MemberTheme.amber,label:'Late',value:'Demo'),
           ])),
-        ]))),
+         ])),
       _note('Payment insights not connected','Dated transactions are required to calculate payment reliability',Icons.insights_rounded),
     ]),
     2 => _page([
@@ -201,7 +201,7 @@ class ModuleDashboardView extends StatelessWidget {
           Expanded(child:Center(child:Image.asset('assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp',fit:BoxFit.contain,width:compact?82:105))),
           SizedBox(width:compact?80:100,child:GlassDonutChart(values:const [1.0],colors:const [MemberTheme.green],centerValue:'69.5',centerLabel:'kg now')),
           const SizedBox(width:4),
-          const Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
+           Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
             _LegendRow(color:MemberTheme.green,label:'Latest weight',value:'Member data'),
             _LegendRow(color:MemberTheme.lavender,label:'Goal target',value:'Not set'),
           ])),
@@ -238,7 +238,7 @@ class ModuleDashboardView extends StatelessWidget {
       _note('Measurements','Add dated measurements to unlock comparisons',Icons.straighten_rounded),
     ]),
     4 => _page([
-      Expanded(child:Row(children:[
+         Row(children:[
         Expanded(child:Image.asset('assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',fit:BoxFit.contain)),
         Expanded(child:Image.asset('assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',fit:BoxFit.contain)),
       ])),

@@ -41,3 +41,11 @@
 ## Release decision
 
 Keep PR #12 open and Draft. Do not merge or publish while any production gate above is open. A successful ARM64 QA APK is not a Play Store production release.
+
+## Follow-up implementation batch — compact Payment QA
+
+- Payment behaviour chart receives an explicit compact/tall height budget so its donut and three legend rows retain usable space inside the available detail panel.
+- Added a focused widget regression test for Payment Overview and Payment Insights at 320×560, 360×600 and 360×700. It asserts the distinct panel heading, all three behaviour legend labels and absence of render/layout exceptions.
+- This change does not claim live financial data: the chart remains illustrative and is labelled as such.
+- Full Flutter formatting, analyzer, widget suite, ARM64 APK build and signature checks must pass on this new commit before calling the QA build verified.
+- Physical Xiaomi 11i screenshot comparison remains an external device gate; CI cannot substitute for it.

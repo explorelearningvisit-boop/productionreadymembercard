@@ -295,4 +295,33 @@ void main() {
     expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('payment charts and legends stay within compact phone viewports', (tester) async {
+    for (final size in <Size>[
+      const Size(320, 560),
+      const Size(360, 600),
+      const Size(360, 700),
+    ]) {
+      setPhoneViewport(tester, size);
+      await tester.pumpWidget(const BadGymApp());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byKey(const ValueKey('metric-payment')));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('navigation-payment-overview')));
+      await tester.pumpAndSettle();
+      expect(find.text('Payment Overview'), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: 'Payment overview at $size');
+
+      await tester.tap(find.byKey(const ValueKey('navigation-payment-insights')));
+      await tester.pumpAndSettle();
+      expect(find.text('Payment Insights'), findsOneWidget);
+      expect(find.text('On time'), findsOneWidget);
+      expect(find.text('Early'), findsOneWidget);
+      expect(find.text('Late'), findsOneWidget);
+      expect(tester.takeException(), isNull, reason: 'Payment insights at $size');
+    }
+    addViewportReset(tester);
+  });
+
 }
