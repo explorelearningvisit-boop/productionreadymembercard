@@ -325,7 +325,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             onTap: () => setState(() => _checkedIn = !_checkedIn),
             child: Container(
               key: const ValueKey('check-in-freeze-header-image'),
-              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: palette.checkInGradient,
