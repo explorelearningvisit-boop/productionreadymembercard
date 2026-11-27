@@ -364,7 +364,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
                 Icons.description_rounded),
           ]),
         3 => _page([
-            _pairStats('Outstanding amount', member.paymentDue, 'Settled transactions',
+            _pairStats('Outstanding membership amount', member.paymentDue, 'Settled transactions',
                 'Not synced', MemberTheme.rose, MemberTheme.green),
             _historyCard('Payment history',
                 'No verified transactions have been returned by the gym billing service',
