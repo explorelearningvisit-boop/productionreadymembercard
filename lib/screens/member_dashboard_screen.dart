@@ -59,10 +59,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               final compactProgress =
                   ((bounds.maxHeight - 600.0) / 100.0).clamp(0.0, 1.0);
               final railWidth = bounds.maxWidth < 340
-                  ? 54.0
+                  ? 58.0
                   : bounds.maxWidth < 380
-                      ? 58.0
-                      : 62.0;
+                      ? 62.0
+                      : 66.0;
 
               return Container(
                 margin: const EdgeInsets.all(2),
@@ -151,8 +151,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemHeight = constraints.maxHeight / items.length;
-        final iconSize = (itemHeight * 0.30).clamp(18.0, 22.0);
-        final labelSize = (itemHeight * 0.17).clamp(10.5, 12.0);
+        final iconSize = (itemHeight * 0.32).clamp(20.0, 24.0);
+        final labelSize = (itemHeight * 0.19).clamp(12.0, 13.5);
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 2),
           decoration: BoxDecoration(
@@ -540,14 +540,6 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              image: palette.planName == 'Gold'
-                  ? const DecorationImage(
-                      image: AssetImage(
-                        'assets/material_pack/inbox/PulseVault/10_gold_photo_backplate.webp',
-                      ),
-                      fit: BoxFit.cover,
-                    )
-                  : null,
               borderRadius: BorderRadius.circular(17),
               border: Border.all(color: palette.frameRim, width: 1.5),
               boxShadow: [
@@ -584,7 +576,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: MemberTheme.ink,
-                      fontSize: compact ? 17 : 21,
+                      fontSize: compact ? 18.5 : 22,
                       height: 1.03,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -0.25,
@@ -683,7 +675,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: palette.accent,
-                                fontSize: compact ? 7.6 : 8.2,
+                                fontSize: compact ? 9 : 9.5,
                                 height: 1,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -715,7 +707,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: const Color(0xFF23694E),
-                                fontSize: compact ? 7.6 : 8.2,
+                                fontSize: compact ? 9 : 9.5,
                                 height: 1,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -788,7 +780,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: MemberTheme.ink,
-                                  fontSize: compact ? 10 : 11,
+                                  fontSize: compact ? 11.5 : 12.5,
                                   height: 1,
                                   fontWeight: FontWeight.w900,
                                   letterSpacing: 0.15,
@@ -800,7 +792,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: MemberTheme.rose,
-                                  fontSize: compact ? 16 : 20,
+                                  fontSize: compact ? 18 : 22,
                                   height: 1,
                                   fontWeight: FontWeight.w900,
                                   letterSpacing: -0.35,
@@ -812,7 +804,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: MemberTheme.muted,
-                                  fontSize: compact ? 10 : 11,
+                                  fontSize: compact ? 11.5 : 12.5,
                                   height: 1,
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -875,7 +867,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: MemberTheme.gold,
-                                  fontSize: compact ? 8.5 : 9.5,
+                                  fontSize: compact ? 10 : 11,
                                   height: 1,
                                   fontWeight: FontWeight.w900,
                                   fontStyle: FontStyle.italic,
@@ -909,7 +901,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                   maxLines: 1,
                                   style: TextStyle(
                                     color: MemberTheme.ink,
-                                    fontSize: compact ? 7 : 7.8,
+                                    fontSize: compact ? 8.5 : 9.5,
                                     height: 1,
                                     fontWeight: FontWeight.w900,
                                   ),
