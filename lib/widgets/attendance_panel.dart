@@ -325,7 +325,7 @@ class AttendancePanel extends StatelessWidget {
     final icon = icons[safeIndex];
 
     return Container(
-      key: ValueKey('member-detail-${sectionIndex}'),
+      key: ValueKey('member-detail-$sectionIndex'),
       padding: EdgeInsets.fromLTRB(7, compact ? 4 : 6, 7, compact ? 4 : 6),
       decoration: BoxDecoration(
         gradient: LinearGradient(
