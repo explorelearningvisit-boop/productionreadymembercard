@@ -42,7 +42,7 @@ class AttendancePanel extends StatelessWidget {
   Widget _panel({bool compact = false, required MemberPlanPalette palette}) {
     final headerHeight = compact ? 22.0 : 26.0;
     final offerHeight = compact ? 24.0 : 30.0;
-    final chartHeight = compact ? 70.0 : 82.0;
+    final chartHeight = compact ? 66.0 : 82.0;
     final ringSize = compact ? 62.0 : 74.0;
     final recoveryHeight = compact ? 23.0 : 30.0;
     final calendarTitleHeight = compact ? 23.0 : 27.0;
@@ -340,6 +340,7 @@ class AttendancePanel extends StatelessWidget {
       height: height,
       asset: 'assets/member_card/05_blinkit_grocery_bag.webp',
       assetWidth: compact ? 31 : 40,
+      motion: 3,
       title: 'Healthy Snacks & Gym Essentials',
       subtitle: 'Member partner offer • Up to 30% OFF',
       colors: const [Color(0xFFFFF3C7), Color(0xFFF4D9FF)],
@@ -352,6 +353,7 @@ class AttendancePanel extends StatelessWidget {
       height: height,
       asset: 'assets/member_card/03_whey_protein_tub.webp',
       assetWidth: compact ? 25 : 31,
+      motion: 2,
       title: 'Recovery Combo',
       subtitle: 'Up to 30% OFF',
       colors: const [Color(0xFFF9E9FF), Color(0xFFE5C4FF)],
@@ -363,6 +365,7 @@ class AttendancePanel extends StatelessWidget {
     required double height,
     required String asset,
     required double assetWidth,
+    required int motion,
     required String title,
     required String subtitle,
     required List<Color> colors,
@@ -378,11 +381,14 @@ class AttendancePanel extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
-            asset,
-            width: assetWidth,
-            height: height - 3,
-            fit: BoxFit.contain,
+          ArtworkEntrance(
+            motion: motion,
+            child: Image.asset(
+              asset,
+              width: assetWidth,
+              height: height - 3,
+              fit: BoxFit.contain,
+            ),
           ),
           const SizedBox(width: 5),
           Expanded(
@@ -428,11 +434,14 @@ class AttendancePanel extends StatelessWidget {
       height: height,
       child: Row(
         children: [
-          Image.asset(
-            'assets/member_card/25_calendar_graphic.webp',
-            width: compact ? 20 : 23,
-            height: compact ? 20 : 23,
-            fit: BoxFit.contain,
+          ArtworkEntrance(
+            motion: 1,
+            child: Image.asset(
+              'assets/member_card/25_calendar_graphic.webp',
+              width: compact ? 20 : 23,
+              height: compact ? 20 : 23,
+              fit: BoxFit.contain,
+            ),
           ),
           const SizedBox(width: 4),
           Expanded(
@@ -460,11 +469,14 @@ class AttendancePanel extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.asset(
-                  'assets/member_card/27_dumbbell_promo_graphic.webp',
-                  width: compact ? 18 : 22,
-                  height: compact ? 18 : 22,
-                  fit: BoxFit.contain,
+                ArtworkEntrance(
+                  motion: 2,
+                  child: Image.asset(
+                    'assets/member_card/27_dumbbell_promo_graphic.webp',
+                    width: compact ? 18 : 22,
+                    height: compact ? 18 : 22,
+                    fit: BoxFit.contain,
+                  ),
                 ),
                 const SizedBox(width: 2),
                 Text(
