@@ -749,8 +749,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             child: Row(
               children: [
                 Container(
-                  width: compact ? 37 : 43,
-                  height: compact ? 37 : 43,
+                  width: compact ? 35 : 43,
+                  height: compact ? 34 : 43,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [Color(0xFFF6E9FF), Color(0xFFE5D2FB)],
