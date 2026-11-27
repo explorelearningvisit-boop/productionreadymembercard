@@ -1,0 +1,115 @@
+name: BAD GYM Cloud Device QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_firebase_test_lab:
+        description: Run Firebase Test Lab when credentials are configured
+        type: boolean
+        required: true
+        default: true
+      distribute_apk:
+        description: Publish to Firebase App Distribution when configured
+        type: boolean
+        required: true
+        default: true
+  pull_request:
+    branches: [grok/purple-neon-member-dashboard]
+    paths:
+      - "lib/**"
+      - "test/**"
+      - "assets/**"
+      - "pubspec.yaml"
+      - "pubspec.lock"
+      - "android/**"
+      - ".github/workflows/cloud-device-qa.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bad-gym-cloud-device-qa-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+      GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.50.1"
+          channel: stable
+          cache: true
+      - name: Resolve dependencies
+        run: flutter pub get
+      - name: Format check
+        run: dart format --output=none --set-exit-if-changed lib test
+      - name: Static analysis
+        run: flutter analyze
+      - name: Widget tests
+        run: flutter test --reporter expanded
+      - name: Build ARM64 QA APK
+        run: flutter build apk --release --target-platform android-arm64
+      - name: Verify APK and checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK=build/app/outputs/flutter-apk/app-release.apk
+          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -n 1)
+          test -s "$APK"
+          "$APKSIGNER" verify --verbose --print-certs "$APK"
+          sha256sum "$APK" | tee build/app/outputs/flutter-apk/app-release.apk.sha256
+      - name: Upload installable APK fallback
+        uses: actions/upload-artifact@v4
+        with:
+          name: bad-gym-cloud-qa-${{ github.run_number }}
+          path: |
+            build/app/outputs/flutter-apk/app-release.apk
+            build/app/outputs/flutter-apk/app-release.apk.sha256
+          if-no-files-found: error
+          retention-days: 14
+      - name: Authenticate to Google Cloud
+        if: ${{ inputs.run_firebase_test_lab != false && env.GCP_SERVICE_ACCOUNT_JSON != '' && env.GCP_PROJECT_ID != '' }}
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
+      - name: Set up gcloud
+        if: ${{ inputs.run_firebase_test_lab != false && env.GCP_SERVICE_ACCOUNT_JSON != '' && env.GCP_PROJECT_ID != '' }}
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      - name: Firebase Test Lab virtual Android smoke
+        if: ${{ inputs.run_firebase_test_lab != false && env.GCP_SERVICE_ACCOUNT_JSON != '' && env.GCP_PROJECT_ID != '' }}
+        run: |
+          gcloud firebase test android run \
+            --type robo \
+            --app build/app/outputs/flutter-apk/app-release.apk \
+            --device model=MediumPhone.arm,version=34,locale=en,orientation=portrait \
+            --timeout 5m \
+            --results-dir="bad-gym-${GITHUB_RUN_NUMBER}-virtual"
+      - name: Firebase App Distribution
+        if: ${{ success() && inputs.distribute_apk != false && env.FIREBASE_APP_ID != '' && env.FIREBASE_TOKEN != '' }}
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID }}
+          token: ${{ secrets.FIREBASE_TOKEN }}
+          groups: bad-gym-qa
+          file: build/app/outputs/flutter-apk/app-release.apk
+          releaseNotes: "Cloud QA build ${{ github.run_number }} — ${{ github.sha }}"
+      - name: Explain Firebase skips
+        if: always()
+        shell: bash
+        run: |
+          if [ -z "$GCP_SERVICE_ACCOUNT_JSON" ] || [ -z "$GCP_PROJECT_ID" ]; then
+            echo "::notice::Firebase Test Lab skipped: configure GCP_SERVICE_ACCOUNT_JSON and GCP_PROJECT_ID."
+          fi
+          if [ -z "$FIREBASE_APP_ID" ] || [ -z "$FIREBASE_TOKEN" ]; then
+            echo "::notice::App Distribution skipped: configure FIREBASE_APP_ID and FIREBASE_TOKEN."
+          fi
