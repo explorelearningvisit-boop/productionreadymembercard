@@ -106,6 +106,9 @@ void main() {
       MemberPlanPalette.forPlan('Spark Plan').frameGradient.first,
     );
     expect(find.text('Spark Member'), findsOneWidget);
+    expect(find.text('PAYMENT STATUS'), findsOneWidget);
+    expect(find.text('Paid'), findsOneWidget);
+    expect(find.text('PAYMENT DUE'), findsNothing);
     expect(tester.takeException(), isNull);
   });
 
