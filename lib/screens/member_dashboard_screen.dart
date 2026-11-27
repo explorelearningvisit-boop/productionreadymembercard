@@ -307,9 +307,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   colors: [Color(0xFF290052), Color(0xFF6D16B5), Color(0xFF28004F)],
                 ),
                 borderRadius: BorderRadius.circular(17),
-                border: Border.all(color: MemberTheme.gold, width: 1.5),
+                border: Border.all(color: const Color(0xFFE05BFF), width: 1.5),
                 boxShadow: const [
-                  BoxShadow(color: Color(0xAAAD4BFF), blurRadius: 9, spreadRadius: 0.5),
+                  BoxShadow(color: Color(0xB5AD4BFF), blurRadius: 10, spreadRadius: 0.5),
+                  BoxShadow(color: Color(0x55FF67D8), blurRadius: 3),
                 ],
               ),
               child: Row(
@@ -317,10 +318,17 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   Container(
                     width: 31,
                     height: 31,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF0AD66B),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF20F17A), Color(0xFF00B95A)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                       shape: BoxShape.circle,
-                      boxShadow: [BoxShadow(color: Color(0x8847FF9B), blurRadius: 7)],
+                      border: Border.all(color: const Color(0xAAFFFFFF)),
+                      boxShadow: const [
+                        BoxShadow(color: Color(0x8847FF9B), blurRadius: 8),
+                      ],
                     ),
                     child: Icon(
                       _checkedIn ? Icons.check_rounded : Icons.login_rounded,
@@ -371,10 +379,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFFF9F5FF), Color(0xFFE6D7FF), Color(0xFFFDFBFF)],
+                colors: [Color(0xFFFFFFFF), Color(0xFFE8F2FF), Color(0xFFF3E7FF)],
               ),
               borderRadius: BorderRadius.circular(17),
-              border: Border.all(color: const Color(0xFFE5BFFF), width: 1.5),
+              border: Border.all(color: const Color(0xFFC8B8F1), width: 1.5),
               boxShadow: const [
                 BoxShadow(color: Color(0x887E30D7), blurRadius: 8),
               ],
