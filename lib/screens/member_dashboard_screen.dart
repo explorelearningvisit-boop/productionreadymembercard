@@ -628,7 +628,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         member.age,
                         maxLines: 1,
                         style: TextStyle(
-                          color: const Color(0xFF573274),
+                          color: palette.accent,
                           fontSize: compact ? 10.5 : 11.5,
                           fontWeight: FontWeight.w700,
                         ),
@@ -651,7 +651,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           member.gender,
                           maxLines: 1,
                           style: TextStyle(
-                            color: const Color(0xFF573274),
+                            color: palette.accent,
                             fontSize: compact ? 10.5 : 11.5,
                             fontWeight: FontWeight.w800,
                           ),
@@ -751,10 +751,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   height: compact ? 34 : 43,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
-                      colors: [Color(0xFFF6E9FF), Color(0xFFE5D2FB)],
+                      colors: [palette.accentSoft, palette.panelEdge],
                     ),
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFFD8BCEB)),
+                    border: Border.all(color: palette.panelEdge),
                     boxShadow: const [
                       BoxShadow(
                         color: Color(0x22A06ACA),
