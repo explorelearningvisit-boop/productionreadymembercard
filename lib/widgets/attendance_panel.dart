@@ -320,8 +320,9 @@ class AttendancePanel extends StatelessWidget {
       Icons.show_chart_rounded,
       Icons.emoji_events_rounded,
     ];
-    final title = titles[sectionIndex.clamp(0, titles.length - 1)];
-    final icon = icons[sectionIndex.clamp(0, icons.length - 1)];
+    final safeIndex = sectionIndex.clamp(0, titles.length - 1).toInt();
+    final title = titles[safeIndex];
+    final icon = icons[safeIndex];
 
     return Container(
       key: ValueKey('member-detail-${sectionIndex}'),
@@ -892,7 +893,7 @@ class AttendancePanel extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: FractionallySizedBox(
-                        heightFactor: (values[i] / 100).clamp(0.1, 1.0),
+                        heightFactor: (values[i] / 100).clamp(0.1, 1.0).toDouble(),
                         widthFactor: 0.74,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -1276,10 +1277,24 @@ class AttendancePanel extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                RotatingAdMessage(
+                  messages: title == 'Healthy Snacks & Gym Essentials'
+                      ? const [
+                          'Healthy snacks & gym essentials',
+                          'Fresh member-only grocery deals',
+                          'Everyday wellness picks',
+                        ]
+                      : title == 'Recovery Combo'
+                          ? const [
+                              'Recovery combo',
+                              'Protein & creatine essentials',
+                              'Post-workout member offer',
+                            ]
+                          : const [
+                              'Member-only partner offers',
+                              'Member deals updated regularly',
+                              'Wellness perks for members',
+                            ],
                   style: TextStyle(
                     color: MemberTheme.ink,
                     fontSize: compact ? 9 : 10,
@@ -1287,10 +1302,18 @@ class AttendancePanel extends StatelessWidget {
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                Text(
-                  subtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                RotatingAdMessage(
+                  messages: subtitle == 'Member partner offer • Up to 30% OFF'
+                      ? const [
+                          'Member price • up to 30% off',
+                          'Selected items • special prices',
+                          'Offers rotate for members',
+                        ]
+                      : const [
+                          'Up to 30% OFF',
+                          'Save more on recovery',
+                          'Member-only prices',
+                        ],
                   style: TextStyle(
                     color: const Color(0xFF6E258F),
                     fontSize: compact ? 7.5 : 8.5,
