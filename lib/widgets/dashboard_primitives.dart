@@ -256,7 +256,7 @@ class AttendanceLegend extends StatelessWidget {
   Widget build(BuildContext context) {
     final value = (double.tryParse(percent.replaceAll('%', '')) ?? 0) / 100;
     return SizedBox(
-      height: compact ? 21 : 23,
+      height: compact ? 17 : 20,
       child: Row(
         children: [
           Container(
