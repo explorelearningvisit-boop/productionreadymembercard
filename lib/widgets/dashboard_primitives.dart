@@ -317,11 +317,25 @@ class AttendanceDayCell extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 1.5),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: color,
+          gradient: LinearGradient(
+            colors: [
+              Color.lerp(color, Colors.white, 0.24)!,
+              color,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
           borderRadius: BorderRadius.circular(8),
           border: selected
               ? Border.all(color: MemberTheme.purple, width: 1.5)
-              : null,
+              : Border.all(color: Colors.white.withOpacity(0.76), width: 0.7),
+          boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(0.25),
+              blurRadius: 2,
+              offset: const Offset(0, 1),
+            ),
+          ],
         ),
         child: FittedBox(
           fit: BoxFit.scaleDown,
