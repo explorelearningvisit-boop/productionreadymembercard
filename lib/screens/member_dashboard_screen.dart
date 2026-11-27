@@ -394,25 +394,33 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'CHECK-IN',
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            height: 1,
-                            fontWeight: FontWeight.w900,
+                        const FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'CHECK-IN',
+                            maxLines: 1,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 14.5,
+                              height: 1,
+                              fontWeight: FontWeight.w900,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 3),
-                        Text(
-                          _checkedIn ? '07:12 AM' : 'TAP TO CHECK-IN',
-                          maxLines: 1,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 10.5,
-                            height: 1,
-                            fontWeight: FontWeight.w800,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            _checkedIn ? '07:12 AM' : 'TAP TO CHECK-IN',
+                            maxLines: 1,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 10.5,
+                              height: 1,
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                         ),
                       ],
@@ -520,7 +528,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           borderRadius: BorderRadius.circular(9),
                         ),
                         child: const Text(
-                          'MEMBER DEAL • 20% OFF',
+                          '20% OFF • PAUSE PLAN',
                           maxLines: 1,
                           style: TextStyle(
                             color: Colors.white,
@@ -817,15 +825,19 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         ),
                       ),
                       const SizedBox(height: 3),
-                      Text(
-                        '${member.paymentDue} Due',
-                        maxLines: 1,
-                        style: TextStyle(
-                          color: MemberTheme.rose,
-                          fontSize: compact ? 17 : 20,
-                          height: 1,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: -0.35,
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '${member.paymentDue} Due',
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: MemberTheme.rose,
+                            fontSize: compact ? 18 : 20,
+                            height: 1,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: -0.35,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 3),
