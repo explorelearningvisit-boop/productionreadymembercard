@@ -4,38 +4,6 @@ import '../theme/member_theme.dart';
 import 'ad_motion.dart';
 
 
-class PulseGlow extends StatefulWidget {
-  const PulseGlow({required this.child, this.glowColor = const Color(0xFFFFD34E), super.key});
-  final Widget child;
-  final Color glowColor;
-
-  @override
-  State<PulseGlow> createState() => _PulseGlowState();
-}
-
-class _PulseGlowState extends State<PulseGlow> {
-  @override
-  Widget build(BuildContext context) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween<double>(begin: 0.25, end: 1.0),
-      duration: const Duration(milliseconds: 900),
-      curve: Curves.easeInOut,
-      builder: (context, value, child) => DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [BoxShadow(
-            color: widget.glowColor.withOpacity(value * 0.55),
-            blurRadius: 5 + value * 10,
-            spreadRadius: value * 1.2,
-          )],
-        ),
-        child: child,
-      ),
-      child: widget.child,
-    );
-  }
-}
-
 class DashboardPanel extends StatelessWidget {
   const DashboardPanel({
     required this.child,
@@ -57,31 +25,25 @@ class DashboardPanel extends StatelessWidget {
     return Container(
       padding: padding,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color.lerp(color, Colors.white, 0.24)!, color],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: color,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: borderColor, width: 1.2),
-        boxShadow: [
+        border: Border.all(color: borderColor.withOpacity(0.9), width: 1),
+        boxShadow: const [
           BoxShadow(
-            color: borderColor.withOpacity(0.34),
-            blurRadius: 7,
-            spreadRadius: 0.3,
-            offset: const Offset(0, 2),
+            color: Color(0x120F0B07),
+            blurRadius: 4,
+            offset: Offset(0, 2),
           ),
           BoxShadow(
-            color: Colors.white.withOpacity(0.65),
-            blurRadius: 2,
-            offset: const Offset(0, -1),
+            color: Color(0xBFFFFFFF),
+            blurRadius: 1,
+            offset: Offset(0, -1),
           ),
         ],
       ),
       child: child,
     );
-  }
-}
+  }}
 
 class DashboardMetricTile extends StatelessWidget {
   const DashboardMetricTile({
@@ -134,11 +96,7 @@ class DashboardMetricTile extends StatelessWidget {
               ? const EdgeInsets.fromLTRB(3, 3, 3, 2)
               : const EdgeInsets.fromLTRB(3, 4, 3, 3),
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [color, Color.lerp(color, Colors.white, 0.22)!],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: color,
             borderRadius: radius,
             border: Border.all(
               color: selected ? selectionColor : Colors.white,
@@ -146,17 +104,9 @@ class DashboardMetricTile extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: Color.lerp(color, selectionColor, 0.24)!.withOpacity(
-                  selected ? 0.28 : 0.18,
-                ),
-                blurRadius: selected ? 8 : 5,
-                spreadRadius: selected ? 0.5 : 0,
-                offset: const Offset(0, 2),
-              ),
-              BoxShadow(
-                color: Colors.white.withOpacity(0.72),
-                blurRadius: 2,
-                offset: const Offset(0, -1),
+                color: const Color(0x160D0905),
+                blurRadius: selected ? 5 : 3,
+                offset: const Offset(0, 1),
               ),
             ],
           ),
@@ -258,7 +208,7 @@ class DashboardMetricTile extends StatelessWidget {
             color: color,
             fontSize: size,
             height: 1,
-            fontWeight: FontWeight.w900,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
@@ -298,7 +248,7 @@ class AttendanceLegend extends StatelessWidget {
           SizedBox(
             width: 45,
             child: Text(label, maxLines: 1, style: TextStyle(
-              color: MemberTheme.ink, fontSize: compact ? 9 : 10.5, fontWeight: FontWeight.w800,
+              color: MemberTheme.ink, fontSize: compact ? 9 : 10.5, fontWeight: FontWeight.w600,
             )),
           ),
           SizedBox(
