@@ -455,13 +455,25 @@ class AttendancePanel extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(
-              '🏋 Train More • 15% OFF',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: compact ? 5.5 : 7,
-                fontWeight: FontWeight.w900,
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(
+                  'assets/member_card/27_dumbbell_promo_graphic.webp',
+                  width: compact ? 15 : 20,
+                  height: compact ? 15 : 20,
+                  fit: BoxFit.contain,
+                ),
+                const SizedBox(width: 2),
+                Text(
+                  'Train More • 15% OFF',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: compact ? 5.5 : 7,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
