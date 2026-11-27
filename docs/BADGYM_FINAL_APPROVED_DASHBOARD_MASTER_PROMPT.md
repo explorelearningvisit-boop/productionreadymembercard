@@ -6,7 +6,7 @@
 One compact Android member dashboard card for the gym check-in flow. The app's own top menu, bottom navigation and Android system navigation are outside this component and must not be implemented here. The supplied full screenshot includes a six-item vertical navigation rail (Attend, Insights, Cal, History, Trend, Goals); reproduce it inside this dashboard.
 
 ## Master visual reference
-Use the owner's uploaded purple neon / gold dashboard screenshot. Reproduce its component order, color language, dense card hierarchy, glow, rounded outlines and asset placements. Do not invent a different visual direction.
+Use the owner's second uploaded screenshot as the visual authority. Reproduce its component order, pearl/lilac frosted-glass canvas, dark grape outer shell, selective gold/violet edging, distinct yellow/lavender/sky/mint KPI surfaces, localized glow, typography hierarchy and transparent product-art placements. Do not flatten all cards into one purple treatment. See `docs/REFERENCE_GLASS_VISUAL_SPEC.md` for the complete implementation specification.
 
 ## Component order
 1. Top row: Check-in action/status and Freeze promo.
