@@ -2,7 +2,7 @@ name: BAD GYM Android APK
 
 on:
   push:
-    branches: ['grok/purple-neon-member-dashboard']
+    branches: ['grok/purple-neon-member-dashboard', 'grok/reference-glass-layered-dashboard']
   workflow_dispatch:
 
 permissions:
