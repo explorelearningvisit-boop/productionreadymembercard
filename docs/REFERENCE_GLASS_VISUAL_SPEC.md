@@ -1,10 +1,10 @@
-# BAD GYM — Pearl Glass / Purple Neon Dashboard Specification
+# BAD GYM — Pearl Glass / Adaptive Member Plan Dashboard Specification
 
 **Visual authority:** Owner's second uploaded reference screenshot (2026-11-27). The first screenshot is the implementation under review, not the design authority.
 
 ## Art direction
 
-Build a premium mobile gym dashboard with layered materials and distinct semantic color zones. Purple is a brand frame/accent, not a full-screen fill. Avoid the generic single-purple AI-template appearance. The interface should combine pearl glass, pale lavender transparency, selective neon purple, warm gold, emerald, cyan, red and mint.
+Build a premium mobile gym dashboard with layered materials and distinct semantic color zones. No single color is hard-coded for every member. The member's plan selects the frame, canvas, navigation rail, membership progress and selected accents. Gold uses espresso/bronze/champagne; Spark uses forest/emerald/mint; Silver uses slate/steel-blue. Keep semantic status colors (present, absent, late, payment) stable across plans. Avoid a generic single-purple AI-template appearance.
 
 The reference screenshot itself must never be placed behind the UI. All dynamic labels, amounts, status, dates, values and controls remain native Flutter widgets.
 
@@ -12,10 +12,12 @@ The reference screenshot itself must never be placed behind the UI. All dynamic 
 
 | Token | Value | Use |
 |---|---|---|
-| Page lavender | `#E9D8FF` | Outside the outer frame |
-| Frame grape | `#270044` | Outer shell |
-| Frame violet | `#6410B5` | Outer frame highlight and rail |
-| Accent purple | `#6B12C9` | Buttons, progress, selected controls |
+| Gold frame | `#2D1B0B` / `#74521E` | Gold Plan outer shell |
+| Gold canvas | `#FFFFFF` / `#FFF9EC` / `#F9F1E4` | Gold Plan inner surface |
+| Spark frame | `#06452F` / `#0A9560` | Spark Plan outer shell |
+| Spark canvas | `#FFFFFF` / `#E9FFF1` / `#DDF8E8` | Spark Plan inner surface |
+| Silver frame | `#23334C` / `#58789B` | Silver Plan outer shell |
+| Plan accent | `#8B5B17` Gold / `#078552` Spark / `#2B659D` Silver | Buttons, progress, selected controls |
 | Ink plum | `#220B3B` | Text on light surfaces |
 | Pearl | `#FFFCFF` | Main glass panel |
 | Lilac glass | `#F8F2FF` | Cards / inner canvas |
@@ -27,8 +29,8 @@ The reference screenshot itself must never be placed behind the UI. All dynamic 
 | Mint | `#D8FFE2` | Body KPI tile |
 
 Material treatment:
-- Outer shell: grape-to-violet gradient, gold 1.5–2 dp inner rim, fine lavender highlight and controlled violet/pink bloom outside the edge.
-- Inner canvas: pearl-to-pale-lilac gradient with a few very low-opacity radial light blooms. It must stay bright behind all content.
+- Outer shell: member-plan gradient with a 1.5–2 dp plan rim. No large external bloom is allowed outside the card edge.
+- Inner canvas: pearl-to-plan-tint gradient with subtle radial light blooms clipped inside the rounded card.
 - Glass surfaces: translucent pearl/lilac gradients, 1–1.5 dp light-violet border, small white highlight, soft shadow tinted to the card's accent. No heavy purple shadow under every element.
 - Product cutouts: preserve transparent edges and original aspect ratio using `BoxFit.contain`; never stretch or hard-crop them.
 
@@ -68,15 +70,15 @@ Material treatment:
 
 7. **Navigation rail**
    - Keep the six approved destinations: Attend, Insights, Cal, History, Trend, Goals.
-   - Rail remains deep grape-purple with gold outer edge. Selected destination gets a warm-yellow glass tile; inactive icons/labels remain white.
+   - Rail follows the active plan: bronze for Gold, forest green for Spark, slate for Silver. Selected destination uses the plan's light highlight; inactive icons/labels remain high contrast.
 
 ## Typography
 
 - Use the existing Flutter/system sans-serif stack; do not add a font dependency.
 - Member name and major section headings: 20–22 sp normal scale, weight 800–900.
 - KPI values: 18–22 sp normal scale, weight 900.
-- Supporting labels: 10–12 sp normal scale, weight 600–800.
-- Dense metadata / CTA labels: 8–10 sp only where necessary; keep them high contrast.
+- Supporting labels: 9–12 sp normal scale, weight 600–900.
+- KPI offer strips and sponsor captions: target 8–9 sp at 360 dp; dense footer notes may remain smaller.
 - Keep line height tight on compact labels, but do not shrink primary names, values or calendar dates to fit.
 
 ## Layout and responsive contract
@@ -94,6 +96,14 @@ Use the PulseVault assets already in the repository. Prefer optimized `assets/me
 ## Data / behavior
 
 Retain demo member Ashwani Kumar Singh, BG215, 28 yrs, Male, Gold Plan, Active, 22/30 membership days, ₹500 due, 81% attendance, 58 min workout and 69.5 kg. Continue to mark sample analytics as DEMO / sample data until a real API is connected. Keep the check-in interaction local and safe; do not invent backend behavior.
+
+## Material icon font
+
+The Flutter Material icon font must be bundled with `uses-material-design: true` because the rail, wallet and member metadata use `Icons.*`. Without it, Android renders missing-glyph boxes/crosses.
+
+## Plan palette and motion
+
+See `docs/MEMBER_PLAN_ADAPTIVE_VISUAL_SYSTEM.md` for the Gold/Spark/Silver palette contract, sponsor-slot rules, ad rotation timing and one-shot per-product entrance motion.
 
 ## QA gates
 
