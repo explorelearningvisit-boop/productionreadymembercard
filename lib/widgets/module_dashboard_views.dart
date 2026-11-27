@@ -52,6 +52,7 @@ class ModuleDashboardView extends StatelessWidget {
       _stats('Attendance average', member.attendance, 'Next goal', '90%', MemberTheme.green, palette.accent),
       _line('Attendance trend', '12-month illustrative trend · not member history', const [[61,68,74,70,58,81,76,86,78,83,75,81]], [palette.accent]),
       _stats('Best month', '—', 'Tracked months', '0 / 12', MemberTheme.amber, palette.accent),
+      _note('Attendance trend is not connected', 'Dated monthly check-ins are required for an accurate trend', Icons.show_chart_rounded),
     ]),
     5 => _page([
       _goal('Monthly attendance target', 'Goal: 24 visits · sample', 0.81, MemberTheme.green),
