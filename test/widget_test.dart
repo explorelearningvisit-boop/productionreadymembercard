@@ -278,7 +278,14 @@ void main() {
       );
       expect(find.byType(SingleChildScrollView), findsNothing);
       expect(find.byType(ListView), findsNothing);
-      expect(tester.takeException(), isNull, reason: 'Failed at $size');
+      final renderError = tester.takeException();
+      if (renderError is FlutterError) {
+        debugPrint(
+          'RESPONSIVE RENDER DIAGNOSTICS @ $size\\n'
+          '${renderError.diagnostics.map((node) => node.toString()).join('\\n')}',
+        );
+      }
+      expect(renderError, isNull, reason: 'Failed at $size');
     }
     addViewportReset(tester);
   });
