@@ -29,14 +29,14 @@ void main() {
     expect(find.byType(CustomPaint), findsWidgets);
     expect(find.byIcon(Icons.account_balance_wallet_rounded), findsOneWidget);
     expect(find.byIcon(Icons.calendar_month_rounded), findsOneWidget);
-    expect(find.text('AD SPACE • BLINKIT'), findsOneWidget);
-    expect(find.text('AD SPACE • SBI REWARDS'), findsOneWidget);
+    expect(find.text('Gold member perk • ₹100 off'), findsOneWidget);
+    expect(find.text('Active reward • 5% cashback'), findsOneWidget);
     expect(find.text('28 yrs Yrs'), findsNothing);
     expect(find.textContaining('Gold Plan'), findsOneWidget);
     expect(find.text('₹500 Due'), findsNWidgets(2));
     expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
     expect(find.text('Attendance Analytics'), findsOneWidget);
-    expect(find.text('Attend'), findsOneWidget);
+    expect(find.text('Attendance'), findsOneWidget);
     expect(find.text('Insights'), findsOneWidget);
     expect(find.text('Goals'), findsOneWidget);
     expect(find.text('October attendance'), findsOneWidget);
@@ -110,7 +110,7 @@ void main() {
 
     final rail = tester.getSize(find.byKey(const ValueKey('navigation-rail')));
     final panel = tester.getSize(find.byKey(const ValueKey('attendance-panel')));
-    expect(rail.width, 48);
+    expect(rail.width, 50);
     expect(rail.height, closeTo(panel.height, 0.1));
     expect(panel.height, greaterThan(290),
         reason: 'Attendance panel should use the available height instead of leaving a large blank area');
@@ -121,6 +121,59 @@ void main() {
     expect(monthTitle.style?.fontSize, greaterThanOrEqualTo(14));
     final presentLabel = tester.widget<Text>(find.text('Present'));
     expect(presentLabel.style?.fontSize, greaterThanOrEqualTo(9));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('vertical navigation changes the active data view', (tester) async {
+    tester.view.physicalSize = const Size(360, 780);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    final routes = <(String, String)>[
+      ('navigation-insights', 'Member Insights'),
+      ('navigation-calendar', 'Attendance Calendar'),
+      ('navigation-history', 'Recent History'),
+      ('navigation-trend', 'Workout & Attendance Trend'),
+      ('navigation-goals', 'Goals & Achievements'),
+    ];
+
+    for (final route in routes) {
+      await tester.tap(find.byKey(ValueKey(route.$1)));
+      await tester.pumpAndSettle();
+      expect(find.text(route.$2), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    }
+
+    await tester.tap(find.byKey(const ValueKey('navigation-attendance')));
+    await tester.pumpAndSettle();
+    expect(find.text('Attendance Analytics'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('horizontal KPI cards open their matching data views', (tester) async {
+    tester.view.physicalSize = const Size(360, 780);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('metric-workout')));
+    await tester.pumpAndSettle();
+    expect(find.text('Workout & Attendance Trend'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('metric-payment')));
+    await tester.pumpAndSettle();
+    expect(find.text('Recent History'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('metric-body')));
+    await tester.pumpAndSettle();
+    expect(find.text('Goals & Achievements'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
