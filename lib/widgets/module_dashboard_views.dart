@@ -38,7 +38,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
   bool get compact => widget.compact;
   MemberPlanPalette get palette => widget.palette;
   MemberSample get member => widget.member;
-  double get gap => compact ? 4 : 6;
+  double get gap => compact ? 3 : 6;
 
   @override
   Widget build(BuildContext context) => switch (widget.module) {
@@ -320,7 +320,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
             _goal('Weekly sessions', 'Suggested goal · not saved', 0, palette.accent),
             _goal('Workout consistency', 'Coach-defined programme required', 0, MemberTheme.green),
             _goal('Recovery routine', 'Sleep and mobility data not connected', 0, MemberTheme.amber),
-            _note('Workout consistency',
+            _note('Coaching goal guidance',
                 'Training targets become personal after a coach saves the programme',
                 Icons.flag_rounded),
           ]),
