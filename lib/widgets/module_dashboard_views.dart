@@ -132,7 +132,7 @@ class ModuleDashboardView extends StatelessWidget {
       _goal('Workout consistency','Target: 4 sessions · suggested',0.72,palette.accent),
       _goal('Session completion','Workout plan needed',0,MemberTheme.green),
       _goal('Recovery routine','Recovery plan needed',0,MemberTheme.amber),
-      _line('Workout consistency','Illustrative goal progress',const [[32,42,48,57,62,69,72]],[palette.accent]),
+      _line('Weekly goal trend','Illustrative goal progress',const [[32,42,48,57,62,69,72]],[palette.accent]),
       _note('Workout consistency','A coach-defined workout plan is needed for personal goals',Icons.flag_rounded),
     ]),
     _ => const SizedBox.shrink(),
