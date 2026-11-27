@@ -852,7 +852,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       Text(
                         '${member.daysRemaining} Days Left',
                         maxLines: 1,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: MemberTheme.muted,
                           fontSize: compact ? 7.5 : 8.5,
                           height: 1,
@@ -899,7 +899,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Whey Protein',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -934,7 +934,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: const Text(
+                        child: Text(
                           'BUY NOW ›',
                           maxLines: 1,
                           style: TextStyle(
