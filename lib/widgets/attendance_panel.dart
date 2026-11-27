@@ -3,17 +3,20 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../data/sample_member.dart';
+import '../data/dashboard_navigation.dart';
 import '../theme/member_theme.dart';
 import 'ad_motion.dart';
 import 'dashboard_primitives.dart';
 
 class AttendancePanel extends StatelessWidget {
   const AttendancePanel({
+    required this.module,
     required this.sectionIndex,
     required this.member,
     super.key,
   });
 
+  final DashboardModule module;
   final int sectionIndex;
   final MemberSample member;
 
@@ -36,7 +39,7 @@ class AttendancePanel extends StatelessWidget {
               // fills the rail's available content width on short screens.
               width: constraints.maxWidth / scale,
               height: compactHeight,
-              child: _panel(compact: true, palette: palette, sectionIndex: sectionIndex, member: member),
+              child: _panel(compact: true, palette: palette, module: module, sectionIndex: sectionIndex, member: member),
             ),
           );
         }
@@ -45,7 +48,7 @@ class AttendancePanel extends StatelessWidget {
           key: const ValueKey('attendance-panel'),
           width: constraints.maxWidth,
           height: availableHeight,
-          child: _panel(compact: compact, palette: palette, sectionIndex: sectionIndex, member: member),
+          child: _panel(compact: compact, palette: palette, module: module, sectionIndex: sectionIndex, member: member),
         );
       },
     );
@@ -54,11 +57,13 @@ class AttendancePanel extends StatelessWidget {
   Widget _panel({
     bool compact = false,
     required MemberPlanPalette palette,
+    required DashboardModule module,
     required int sectionIndex,
     required MemberSample member,
   }) {
-    if (sectionIndex != 0) {
+    if (module != DashboardModule.attendance || sectionIndex != 0) {
       return _alternatePanel(
+        module: module,
         sectionIndex: sectionIndex,
         compact: compact,
         palette: palette,
