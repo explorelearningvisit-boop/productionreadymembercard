@@ -102,7 +102,7 @@ class ArtworkEntrance extends StatelessWidget {
       curve: motion == 2 ? Curves.easeOutBack : Curves.easeOutCubic,
       child: child,
       builder: (context, value, child) {
-        final eased = value.clamp(0.0, 1.0);
+        final eased = value.clamp(0.0, 1.0).toDouble();
         final offset = switch (motion) {
           1 => Offset(0, (1 - eased) * -5),
           2 => Offset(0, (1 - eased) * 7),
