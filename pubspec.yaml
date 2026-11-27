@@ -16,7 +16,7 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
 flutter:
-  uses-material-design: false
+  uses-material-design: true
   assets:
     - assets/member_card/01_member_bodybuilder.webp
     - assets/member_card/03_whey_protein_tub.webp
