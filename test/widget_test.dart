@@ -140,6 +140,45 @@ void main() {
         await tester.pumpAndSettle();
         expect(find.text(items[i].title), findsOneWidget,
             reason: '${module.name} / ${items[i].id}');
+        final expectedContent = switch (module) {
+          DashboardModule.attendance => const [
+              'Attendance Analytics',
+              'WEEKLY ACTIVITY',
+              'October 2026',
+              'Gym check-in',
+              'Attendance trend is not connected',
+              'Monthly attendance',
+            ],
+          DashboardModule.workout => const [
+              'Workout average',
+              'Workout insights not connected',
+              'Latest workout summary',
+              'WORKOUT MINUTES • LAST 7 DAYS',
+              'Recovery products',
+              'Workout consistency',
+            ],
+          DashboardModule.payment => const [
+              'Payment due',
+              'Payment insights not connected',
+              'Membership balance',
+              'Outstanding membership amount',
+              'Payment method preview',
+              'Member reward preview',
+            ],
+          DashboardModule.body => const [
+              'Current weight',
+              'Body insights not connected',
+              'Latest recorded weight',
+              'Body weight',
+              'Nutrition offer preview',
+              'Set a body goal',
+            ],
+        };
+        expect(
+          find.text(expectedContent[i]),
+          findsOneWidget,
+          reason: 'Expected panel body for ${module.name} / ${items[i].id}',
+        );
       }
     }
     expect(tester.takeException(), isNull);
