@@ -2140,21 +2140,19 @@ class AttendancePanel extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                ArtworkEntrance(
-                  motion: 2,
-                  child: Image.asset(
-                    'assets/material_pack/inbox/PulseVault/27_dumbbell_promo_graphic.webp',
-                    width: compact ? 18 : 22,
-                    height: compact ? 18 : 22,
-                    fit: BoxFit.contain,
-                  ),
+                Icon(
+                  Icons.fitness_center_rounded,
+                  color: Colors.white,
+                  size: compact ? 12 : 14,
                 ),
-                const SizedBox(width: 2),
+                const SizedBox(width: 3),
                 Text(
-                  'Train More • 15% OFF',
+                  '15% OFF',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: compact ? 10.5 : 11.5,
+                    fontSize: compact ? 9 : 10,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
