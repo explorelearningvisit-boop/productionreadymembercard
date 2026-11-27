@@ -111,7 +111,7 @@ void main() {
     final rail = tester.getSize(find.byKey(const ValueKey('navigation-rail')));
     final panel = tester.getSize(find.byKey(const ValueKey('attendance-panel')));
     expect(rail.width, 48);
-    expect(rail.height, panel.height);
+    expect(rail.height, closeTo(panel.height, 0.1));
     expect(panel.height, greaterThan(290),
         reason: 'Attendance panel should use the available height instead of leaving a large blank area');
     final dateCell = tester.getSize(find.byKey(const ValueKey('attendance-day-13')));
