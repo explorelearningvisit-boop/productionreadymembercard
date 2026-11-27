@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
-/// Neutral and semantic tokens shared by every member plan.
+/// Shared semantic tokens for the BAD GYM member workspace.
 abstract final class MemberTheme {
-  static const canvas = Color(0xFFE9D8FF);
-  static const purple = Color(0xFF6B12C9);
-  static const deepPurple = Color(0xFF2D0454);
-  static const framePurple = Color(0xFF270044);
-  static const gold = Color(0xFFFFD34E);
-  static const green = Color(0xFF12D56A);
-  static const rose = Color(0xFFE52B52);
-  static const ink = Color(0xFF220B3B);
-  static const muted = Color(0xFF746583);
-  static const surface = Color(0xFFFFFCFF);
-  static const glass = Color(0xFFF8F2FF);
-  static const glassEdge = Color(0xFFDCC5F3);
-  static const sky = Color(0xFFD9F1FF);
-  static const mint = Color(0xFFD8FFE2);
+  static const canvas = Color(0xFFF7F4EE);
+  static const purple = Color(0xFF0B6743);
+  static const deepPurple = Color(0xFF063A29);
+  static const framePurple = Color(0xFF06432D);
+  static const gold = Color(0xFFFDE870);
+  static const green = Color(0xFF12A66A);
+  static const rose = Color(0xFFC94A54);
+  static const ink = Color(0xFF241D17);
+  static const muted = Color(0xFF71685F);
+  static const surface = Color(0xFFFFFCF7);
+  static const glass = Color(0xFFFCF9F3);
+  static const glassEdge = Color(0xFFE6D8C5);
+  static const sky = Color(0xFFDDEEFF);
+  static const mint = Color(0xFFE2F4E7);
 
   static ThemeData get light {
     final scheme = ColorScheme.fromSeed(
@@ -42,8 +42,7 @@ abstract final class MemberTheme {
   }
 }
 
-/// A plan controls the outer frame, canvas, rail, progress and plan accents.
-/// Product/finance status colors remain semantic and consistent across plans.
+/// A member plan drives the shared shell; content status colours remain semantic.
 @immutable
 class MemberPlanPalette {
   const MemberPlanPalette({
@@ -84,34 +83,66 @@ class MemberPlanPalette {
     if (normalized.contains('spark')) {
       return const MemberPlanPalette(
         planName: 'Spark',
-        frameGradient: [Color(0xFF06452F), Color(0xFF0A9560), Color(0xFF063D2C)],
-        canvasGradient: [Color(0xFFFFFFFF), Color(0xFFE9FFF1), Color(0xFFDDF8E8)],
-        railGradient: [Color(0xFF08734B), Color(0xFF03432F)],
-        checkInGradient: [Color(0xFF137A50), Color(0xFF20B978), Color(0xFF07583B)],
-        progressGradient: [Color(0xFF35D987), Color(0xFF0DAD67), Color(0xFF078552)],
-        frameRim: Color(0xFFB7F18A),
-        panelEdge: Color(0xFFB8E8CC),
-        accent: Color(0xFF078552),
-        accentSoft: Color(0xFFE2F8EA),
-        railSelected: Color(0xFFD7FF9C),
+        frameGradient: [
+          Color(0xFF06452F),
+          Color(0xFF0A9560),
+          Color(0xFF063D2C),
+        ],
+        canvasGradient: [
+          Color(0xFFFFFEFC),
+          Color(0xFFF4FBF5),
+          Color(0xFFEAF5EC),
+        ],
+        railGradient: [Color(0xFF07563A), Color(0xFF033523)],
+        checkInGradient: [
+          Color(0xFF07563A),
+          Color(0xFF0A8A58),
+          Color(0xFF03432D),
+        ],
+        progressGradient: [
+          Color(0xFFB9E77C),
+          Color(0xFF72C75B),
+          Color(0xFFD8F1A7),
+        ],
+        frameRim: Color(0xFFC9EA91),
+        panelEdge: Color(0xFFCFE3D3),
+        accent: Color(0xFF08784C),
+        accentSoft: Color(0xFFE6F4E9),
+        railSelected: Color(0xFFDDF39B),
         planBadgeGradient: [Color(0xFFB7F18A), Color(0xFF5AD68B)],
         planBadgeText: Color(0xFF063D2C),
-        surface: Color(0xFFF8FFFA),
+        surface: Color(0xFFFFFCF7),
       );
     }
 
     if (normalized.contains('silver')) {
       return const MemberPlanPalette(
         planName: 'Silver',
-        frameGradient: [Color(0xFF23334C), Color(0xFF58789B), Color(0xFF273B54)],
-        canvasGradient: [Color(0xFFFFFFFF), Color(0xFFF0F6FF), Color(0xFFE1EDFA)],
-        railGradient: [Color(0xFF3B5878), Color(0xFF1F3149)],
-        checkInGradient: [Color(0xFF315C89), Color(0xFF527EAE), Color(0xFF294566)],
-        progressGradient: [Color(0xFF73B6FF), Color(0xFF367FC5), Color(0xFF245C9C)],
+        frameGradient: [
+          Color(0xFF23334C),
+          Color(0xFF58789B),
+          Color(0xFF273B54),
+        ],
+        canvasGradient: [
+          Color(0xFFFFFEFC),
+          Color(0xFFF5F7FA),
+          Color(0xFFEAF0F6),
+        ],
+        railGradient: [Color(0xFF243B56), Color(0xFF14263B)],
+        checkInGradient: [
+          Color(0xFF315C89),
+          Color(0xFF527EAE),
+          Color(0xFF294566),
+        ],
+        progressGradient: [
+          Color(0xFFB9D5ED),
+          Color(0xFF6C9CC7),
+          Color(0xFFD6E7F4),
+        ],
         frameRim: Color(0xFFD4E3F5),
         panelEdge: Color(0xFFC6D7E9),
         accent: Color(0xFF2B659D),
-        accentSoft: Color(0xFFE5F1FF),
+        accentSoft: Color(0xFFE8F1F8),
         railSelected: Color(0xFFDCEBFF),
         planBadgeGradient: [Color(0xFFEAF1F9), Color(0xFFB8C9DD)],
         planBadgeText: Color(0xFF203A56),
@@ -119,30 +150,45 @@ class MemberPlanPalette {
       );
     }
 
-    // Gold is the approved reference treatment and the safe fallback.
+    // Gold follows reference 1: forest check-in shell, champagne edge,
+    // pearl information surface and the wine rail / gold selected state
+    // sampled from reference 2.
     return const MemberPlanPalette(
       planName: 'Gold',
-      // Espresso / antique-gold chrome deliberately avoids a one-note purple
-      // look while retaining the same premium glass and gold member badge.
-      frameGradient: [Color(0xFF2D1B0B), Color(0xFF74521E), Color(0xFF2B1A0A)],
-      canvasGradient: [Color(0xFFFFFFFF), Color(0xFFFFF9EC), Color(0xFFF9F1E4)],
-      railGradient: [Color(0xFF4A3313), Color(0xFF261B0B)],
-      checkInGradient: [Color(0xFF59401B), Color(0xFF8A6425), Color(0xFF402B0F)],
-      progressGradient: [Color(0xFFF3C75A), Color(0xFFD79A2D), Color(0xFFFFE48C)],
-      frameRim: Color(0xFFF5C65E),
-      panelEdge: Color(0xFFE7D2AD),
-      accent: Color(0xFF8B5B17),
-      accentSoft: Color(0xFFFFF5DE),
-      railSelected: Color(0xFFF8DE8C),
-      planBadgeGradient: [Color(0xFFFFE36A), Color(0xFFFFB91E)],
-      planBadgeText: Color(0xFF3B2600),
+      frameGradient: [
+        Color(0xFF063D2B),
+        Color(0xFF0A6846),
+        Color(0xFF042F21),
+      ],
+      canvasGradient: [
+        Color(0xFFFFFEFC),
+        Color(0xFFF9F7F2),
+        Color(0xFFF4F0E8),
+      ],
+      railGradient: [Color(0xFF6D0201), Color(0xFF3A080D)],
+      checkInGradient: [
+        Color(0xFF003D26),
+        Color(0xFF087D48),
+        Color(0xFF03452E),
+      ],
+      progressGradient: [
+        Color(0xFFF8D86A),
+        Color(0xFFD4A02C),
+        Color(0xFFF8E7A6),
+      ],
+      frameRim: Color(0xFFF6D16E),
+      panelEdge: Color(0xFFE6D8C5),
+      accent: Color(0xFF0B6743),
+      accentSoft: Color(0xFFEAF3EC),
+      railSelected: Color(0xFFFDE870),
+      planBadgeGradient: [Color(0xFFFDE870), Color(0xFFDDAE29)],
+      planBadgeText: Color(0xFF35240A),
       surface: Color(0xFFFFFCF7),
     );
   }
 }
 
-/// Injected above the member dashboard so each member renders with their
-/// own plan-specific visual identity instead of a single global purple theme.
+/// Injected above a member card so frame, rail and progress use one plan.
 class MemberPlanTheme extends InheritedWidget {
   const MemberPlanTheme({
     required this.palette,
