@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../data/sample_member.dart';
+import '../data/dashboard_navigation.dart';
 import '../theme/member_theme.dart';
 import '../widgets/ad_motion.dart';
 import '../widgets/attendance_panel.dart';
@@ -21,16 +22,16 @@ class MemberDashboardScreen extends StatefulWidget {
 
 class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   bool _checkedIn = true;
-  int _selectedNavigation = 0;
+  DashboardModule _activeModule = DashboardModule.attendance;
+  int _selectedSubmenu = 0;
 
-  static const _navigation = <(IconData, String)>[
-    (Icons.calendar_month_rounded, 'Attendance'),
-    (Icons.insights_rounded, 'Insights'),
-    (Icons.date_range_rounded, 'Calendar'),
-    (Icons.history_rounded, 'History'),
-    (Icons.show_chart_rounded, 'Trend'),
-    (Icons.emoji_events_rounded, 'Goals'),
-  ];
+  void _selectModule(DashboardModule module) {
+    if (_activeModule == module && _selectedSubmenu == 0) return;
+    setState(() {
+      _activeModule = module;
+      _selectedSubmenu = 0;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +159,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                         const SizedBox(width: 4),
                                         Expanded(
                                           child: AttendancePanel(
-                                            sectionIndex: _selectedNavigation,
+                                            module: _activeModule,
+                                            sectionIndex: _selectedSubmenu,
                                             member: widget.member,
                                           ),
                                         ),
@@ -185,96 +187,100 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
 
   Widget _navigationRail() {
     final palette = MemberPlanPalette.forPlan(widget.member.plan);
+    final items = DashboardNavigation.itemsFor(_activeModule);
     return LayoutBuilder(
       builder: (context, constraints) {
-        final itemHeight = constraints.maxHeight / _navigation.length;
-        final iconSize = (itemHeight * 0.30).clamp(15.0, 19.0);
-        final labelSize = (itemHeight * 0.15).clamp(7.2, 9.0);
+        final itemHeight = constraints.maxHeight / items.length;
+        final iconSize = (itemHeight * 0.28).clamp(14.0, 18.0);
+        final labelSize = (itemHeight * 0.15).clamp(8.0, 9.5);
         return Container(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 2),
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: palette.railGradient,
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
-            borderRadius: BorderRadius.circular(18),
-            border: Border.all(color: palette.frameRim, width: 1.2),
-            boxShadow: [
+            borderRadius: BorderRadius.circular(17),
+            border: Border.all(color: palette.frameRim, width: 1.1),
+            boxShadow: const [
               BoxShadow(
-                color: palette.accent.withOpacity(0.15),
-                blurRadius: 5,
-                offset: const Offset(0, 2),
+                color: Color(0x180E0906),
+                blurRadius: 4,
+                offset: Offset(0, 2),
               ),
             ],
           ),
           child: Column(
             children: [
-              for (var i = 0; i < _navigation.length; i++)
+              for (var i = 0; i < items.length; i++)
                 Expanded(
-                  child: InkWell(
-                    key: ValueKey('navigation-${_navigation[i].$2.toLowerCase()}'),
-                    borderRadius: BorderRadius.circular(11),
-                    onTap: () => setState(() => _selectedNavigation = i),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 220),
-                      curve: Curves.easeOutCubic,
-                      margin: const EdgeInsets.symmetric(vertical: 0.5),
-                      padding: const EdgeInsets.symmetric(horizontal: 1),
-                      decoration: BoxDecoration(
-                        gradient: _selectedNavigation == i
-                            ? LinearGradient(
-                                colors: [
-                                  Color.lerp(palette.railSelected, Colors.white, 0.22)!,
-                                  palette.railSelected,
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              )
-                            : null,
-                        borderRadius: BorderRadius.circular(10),
-                        border: _selectedNavigation == i
-                            ? Border.all(color: Colors.white, width: 1)
-                            : null,
-                        boxShadow: _selectedNavigation == i
-                            ? [
-                                BoxShadow(
-                                  color: palette.railSelected.withOpacity(0.24),
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 1),
-                                ),
-                              ]
-                            : null,
+                  child: Semantics(
+                    button: true,
+                    selected: _selectedSubmenu == i,
+                    label: '${DashboardNavigation.moduleLabels[_activeModule]} ${items[i].label}',
+                    child: InkWell(
+                      key: ValueKey(
+                        DashboardNavigation.keyFor(_activeModule, i),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            _navigation[i].$1,
-                            color: _selectedNavigation == i
-                                ? MemberTheme.ink
-                                : Colors.white,
-                            size: iconSize,
-                          ),
-                          const SizedBox(height: 2),
-                          FittedBox(
-                            fit: BoxFit.scaleDown,
-                            child: Text(
-                              _navigation[i].$2,
-                              maxLines: 1,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: _selectedNavigation == i
-                                    ? MemberTheme.ink
-                                    : Colors.white,
-                                fontSize: labelSize,
-                                height: 1.05,
-                                fontWeight: FontWeight.w900,
+                      borderRadius: BorderRadius.circular(10),
+                      onTap: () => setState(() => _selectedSubmenu = i),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 180),
+                        curve: Curves.easeOutCubic,
+                        margin: const EdgeInsets.symmetric(vertical: 1),
+                        padding: const EdgeInsets.symmetric(horizontal: 1),
+                        decoration: BoxDecoration(
+                          color: _selectedSubmenu == i
+                              ? palette.railSelected
+                              : Colors.transparent,
+                          borderRadius: BorderRadius.circular(10),
+                          border: _selectedSubmenu == i
+                              ? Border.all(
+                                  color: const Color(0xFFFFF7D9),
+                                  width: 1,
+                                )
+                              : null,
+                          boxShadow: _selectedSubmenu == i
+                              ? const [
+                                  BoxShadow(
+                                    color: Color(0x260F0904),
+                                    blurRadius: 3,
+                                    offset: Offset(0, 1),
+                                  ),
+                                ]
+                              : null,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              items[i].icon,
+                              color: _selectedSubmenu == i
+                                  ? palette.planBadgeText
+                                  : const Color(0xFFFFF8E9),
+                              size: iconSize,
+                            ),
+                            const SizedBox(height: 3),
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                items[i].label,
+                                maxLines: 1,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: _selectedSubmenu == i
+                                      ? palette.planBadgeText
+                                      : const Color(0xFFFFF8E9),
+                                  fontSize: labelSize,
+                                  height: 1.05,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -1137,8 +1143,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       children: [
         Expanded(
           child: DashboardMetricTile(
-            label: 'ATTENDANCE',
             key: const ValueKey('metric-attendance'),
+            label: 'ATTENDANCE',
             compact: compact,
             value: member.attendance,
             trend: '↑ +6%',
@@ -1150,15 +1156,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             noteColor: const Color(0xFFE52B52),
             noteTextColor: Colors.white,
             selectionColor: palette.accent,
-            selected: _selectedNavigation == 0,
-            onTap: () => setState(() => _selectedNavigation = 0),
+            selected: _activeModule == DashboardModule.attendance,
+            onTap: () => _selectModule(DashboardModule.attendance),
           ),
         ),
         const SizedBox(width: 3),
         Expanded(
           child: DashboardMetricTile(
-            label: 'WORKOUT',
             key: const ValueKey('metric-workout'),
+            label: 'WORKOUT',
             compact: compact,
             value: member.workout,
             trend: '↑ +12%',
@@ -1169,15 +1175,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             noteColor: const Color(0xFFB20BE4),
             noteTextColor: Colors.white,
             selectionColor: palette.accent,
-            selected: _selectedNavigation == 4,
-            onTap: () => setState(() => _selectedNavigation = 4),
+            selected: _activeModule == DashboardModule.workout,
+            onTap: () => _selectModule(DashboardModule.workout),
           ),
         ),
         const SizedBox(width: 3),
         Expanded(
           child: DashboardMetricTile(
-            label: 'PAYMENT',
             key: const ValueKey('metric-payment'),
+            label: 'PAYMENT',
             compact: compact,
             value: '${member.paymentDue} Due',
             note: 'SBI 5% OFF',
@@ -1188,15 +1194,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             noteColor: const Color(0xFF1269DB),
             noteTextColor: Colors.white,
             selectionColor: palette.accent,
-            selected: _selectedNavigation == 3,
-            onTap: () => setState(() => _selectedNavigation = 3),
+            selected: _activeModule == DashboardModule.payment,
+            onTap: () => _selectModule(DashboardModule.payment),
           ),
         ),
         const SizedBox(width: 3),
         Expanded(
           child: DashboardMetricTile(
-            label: 'BODY',
             key: const ValueKey('metric-body'),
+            label: 'BODY',
             compact: compact,
             value: member.bodyWeight,
             trend: '↓ -0.8 kg',
@@ -1207,8 +1213,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             noteColor: const Color(0xFF0B9C4C),
             noteTextColor: Colors.white,
             selectionColor: palette.accent,
-            selected: _selectedNavigation == 5,
-            onTap: () => setState(() => _selectedNavigation = 5),
+            selected: _activeModule == DashboardModule.body,
+            onTap: () => _selectModule(DashboardModule.body),
           ),
         ),
       ],
