@@ -59,17 +59,73 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               ),
               child: Container(
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFFFFDFF), Color(0xFFF7F0FF), Color(0xFFEBDDFF)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
                   borderRadius: BorderRadius.circular(22),
                   border: Border.all(color: const Color(0x66FFFFFF), width: 1),
                 ),
-                child: Column(
-                children: [
-                  _dashboardTop(compact: compact, compactProgress: compactProgress),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(22),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      const DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xFFFFFDFF),
+                              Color(0xFFF7F0FF),
+                              Color(0xFFEBDDFF),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: -90,
+                        left: -70,
+                        child: IgnorePointer(
+                          child: SizedBox(
+                            width: 260,
+                            height: 260,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: RadialGradient(
+                                  colors: [
+                                    Color(0x3DFFFFFF),
+                                    Color(0x00FFFFFF),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        right: -85,
+                        bottom: -110,
+                        child: IgnorePointer(
+                          child: SizedBox(
+                            width: 270,
+                            height: 270,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: RadialGradient(
+                                  colors: [
+                                    Color(0x248A2DD0),
+                                    Color(0x008A2DD0),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          _dashboardTop(
+                            compact: compact,
+                            compactProgress: compactProgress,
+                          ),
                   const SizedBox(height: 5),
                   Expanded(
                     child: LayoutBuilder(
@@ -101,7 +157,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       },
                     ),
                   ),
-                ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
