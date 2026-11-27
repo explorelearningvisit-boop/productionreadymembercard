@@ -92,7 +92,7 @@ class ModuleDashboardView extends StatelessWidget {
           })),
         ])),
       ])),
-      _note('Attendance Calendar','Sample day states · live dates require the attendance service',Icons.calendar_month_rounded),
+      _note('Sample day status','Live calendar dates require the attendance service',Icons.calendar_month_rounded),
     ]);
   }
 
