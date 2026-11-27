@@ -926,57 +926,69 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ),
                 const SizedBox(width: 4),
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Whey Protein',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: MemberTheme.gold,
-                          fontSize: compact ? 8.5 : 9.5,
-                          height: 1,
-                          fontWeight: FontWeight.w900,
-                          fontStyle: FontStyle.italic,
-                        ),
-                      ),
-                      SizedBox(height: compact ? 1 : 3),
-                      Text(
-                        '25% OFF',
-                        maxLines: 1,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: compact ? 14.5 : 19,
-                          height: 1,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      SizedBox(height: compact ? 1 : 4),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: compact ? 6 : 8,
-                          vertical: compact ? 0.5 : 3,
-                        ),
-                        decoration: BoxDecoration(
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFFFFE56A), Color(0xFFFFBA22)],
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: SizedBox(
+                          width: constraints.maxWidth,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Whey Protein',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: MemberTheme.gold,
+                                  fontSize: compact ? 8.5 : 9.5,
+                                  height: 1,
+                                  fontWeight: FontWeight.w900,
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
+                              SizedBox(height: compact ? 1 : 3),
+                              Text(
+                                '25% OFF',
+                                maxLines: 1,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: compact ? 14.5 : 19,
+                                  height: 1,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              SizedBox(height: compact ? 1 : 4),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: compact ? 6 : 8,
+                                  vertical: compact ? 0 : 3,
+                                ),
+                                decoration: BoxDecoration(
+                                  gradient: const LinearGradient(
+                                    colors: [Color(0xFFFFE56A), Color(0xFFFFBA22)],
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  'BUY NOW ›',
+                                  maxLines: 1,
+                                  style: TextStyle(
+                                    color: MemberTheme.ink,
+                                    fontSize: compact ? 7 : 7.8,
+                                    height: 1,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Text(
-                          'BUY NOW ›',
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: MemberTheme.ink,
-                            fontSize: compact ? 7 : 7.8,
-                            height: 1,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
               ],
@@ -998,87 +1010,104 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         horizontal: 9,
         vertical: compact ? 3 : 5,
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Membership ${member.membershipDays} / ${member.membershipTotalDays} Days',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: MemberTheme.ink,
-                    fontSize: compact ? 11.5 : 14,
-                    height: 1,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFFE63857), Color(0xFFB91F43)],
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: const Color(0xFFFFA5B2)),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x22D71939),
-                      blurRadius: 3,
-                      offset: Offset(0, 1),
-                    ),
-                  ],
-                ),
-                child: Text(
-                  '⚠ ${member.daysRemaining} Days Left',
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: compact ? 8 : 9,
-                    height: 1,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Text(
-                '${(member.membershipProgress * 100).round()}%',
-                style: TextStyle(
-                  color: palette.accent,
-                  fontSize: compact ? 18 : 22,
-                  height: 1,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: compact ? 3 : 6),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.center,
             child: SizedBox(
-              height: compact ? 8 : 12,
-              width: double.infinity,
-              child: Stack(
-                fit: StackFit.expand,
+              width: constraints.maxWidth,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ColoredBox(color: palette.panelEdge.withOpacity(0.34)),
-                  FractionallySizedBox(
-                    alignment: Alignment.centerLeft,
-                    widthFactor: member.membershipProgress
-                        .clamp(0.0, 1.0)
-                        .toDouble(),
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: palette.progressGradient,
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Membership ${member.membershipDays} / ${member.membershipTotalDays} Days',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: MemberTheme.ink,
+                            fontSize: compact ? 11.5 : 14,
+                            height: 1,
+                            fontWeight: FontWeight.w900,
+                          ),
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: palette.accent.withOpacity(0.28),
-                            blurRadius: 5,
+                      ),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 7,
+                          vertical: compact ? 2 : 3,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFE63857), Color(0xFFB91F43)],
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: const Color(0xFFFFA5B2)),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Color(0x22D71939),
+                              blurRadius: 3,
+                              offset: Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                        child: Text(
+                          '⚠ ${member.daysRemaining} Days Left',
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: compact ? 8 : 9,
+                            height: 1,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '${(member.membershipProgress * 100).round()}%',
+                        style: TextStyle(
+                          color: palette.accent,
+                          fontSize: compact ? 18 : 22,
+                          height: 1,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: compact ? 2 : 6),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: SizedBox(
+                      height: compact ? 7 : 12,
+                      width: double.infinity,
+                      child: Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          ColoredBox(
+                            color: palette.panelEdge.withOpacity(0.34),
+                          ),
+                          FractionallySizedBox(
+                            alignment: Alignment.centerLeft,
+                            widthFactor: member.membershipProgress
+                                .clamp(0.0, 1.0)
+                                .toDouble(),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: palette.progressGradient,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: palette.accent.withOpacity(0.28),
+                                    blurRadius: 5,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -1087,8 +1116,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ],
               ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
