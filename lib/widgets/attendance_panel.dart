@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../theme/member_theme.dart';
+import 'ad_motion.dart';
 import 'dashboard_primitives.dart';
 
 class AttendancePanel extends StatelessWidget {
