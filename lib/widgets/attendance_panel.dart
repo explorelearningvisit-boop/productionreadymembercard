@@ -133,7 +133,7 @@ class AttendancePanel extends StatelessWidget {
                                   '25/31',
                                   style: TextStyle(
                                     color: MemberTheme.ink,
-                                    fontSize: compact ? 9 : 10,
+                                    fontSize: compact ? 10.5 : 11.5,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
@@ -208,7 +208,7 @@ class AttendancePanel extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: MemberTheme.ink,
-                  fontSize: compact ? 9 : 10,
+                  fontSize: compact ? 10.5 : 11.5,
                   height: 1,
                   fontWeight: FontWeight.w900,
                 ),
@@ -292,7 +292,7 @@ class AttendancePanel extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: MemberTheme.muted,
-              fontSize: compact ? 6.5 : 7.2,
+              fontSize: compact ? 8.5 : 9.5,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -383,7 +383,7 @@ class AttendancePanel extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: MemberTheme.ink,
-                      fontSize: compact ? 13 : 15,
+                      fontSize: compact ? 14 : 16,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -399,7 +399,7 @@ class AttendancePanel extends StatelessWidget {
                     'Demo',
                     style: TextStyle(
                       color: palette.accent,
-                      fontSize: compact ? 7 : 8,
+                      fontSize: compact ? 10.5 : 11.5,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -453,7 +453,7 @@ class AttendancePanel extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: MemberTheme.muted,
-              fontSize: compact ? 7 : 8,
+              fontSize: compact ? 10.5 : 11.5,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -1135,7 +1135,7 @@ class AttendancePanel extends StatelessWidget {
             'WEEKLY ACTIVITY',
             style: TextStyle(
               color: palette.accent,
-              fontSize: compact ? 9 : 10,
+              fontSize: compact ? 10.5 : 11.5,
               fontWeight: FontWeight.w900,
               letterSpacing: 0.35,
             ),
@@ -1359,7 +1359,7 @@ class AttendancePanel extends StatelessWidget {
           'WORKOUT MINUTES • LAST 7 DAYS',
           style: TextStyle(
             color: palette.accent,
-            fontSize: compact ? 9 : 10,
+            fontSize: compact ? 10.5 : 11.5,
             fontWeight: FontWeight.w900,
           ),
         ),
@@ -1645,7 +1645,7 @@ class AttendancePanel extends StatelessWidget {
             subtitle,
             style: TextStyle(
               color: MemberTheme.muted,
-              fontSize: compact ? 7 : 8,
+              fontSize: compact ? 10.5 : 11.5,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -1871,7 +1871,7 @@ class AttendancePanel extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: MemberTheme.ink,
-                    fontSize: compact ? 9 : 10,
+                    fontSize: compact ? 10.5 : 11.5,
                     height: 1.05,
                     fontWeight: FontWeight.w700,
                   ),
@@ -1956,7 +1956,7 @@ class AttendancePanel extends StatelessWidget {
                   'Train More • 15% OFF',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: compact ? 7 : 8,
+                    fontSize: compact ? 10.5 : 11.5,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
