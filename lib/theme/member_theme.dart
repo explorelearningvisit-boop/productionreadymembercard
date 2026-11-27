@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Semantic tokens for BAD GYM pearl-glass / purple-neon dashboard.
+/// Semantic tokens for plan-aware pearl-glass BAD GYM dashboard.
 abstract final class MemberTheme {
   static const canvas = Color(0xFFEDE0FF);
   static const purple = Color(0xFF7410D2);
@@ -105,21 +105,39 @@ class MemberPlanPalette {
         surface: Color(0xFFFBFDFF),
       );
     }
+    if (normalized.contains('diamond')) {
+      return const MemberPlanPalette(
+        planName: 'Diamond',
+        frameGradient: [Color(0xFF18364B), Color(0xFF68B8D7), Color(0xFF315D7A), Color(0xFF142E43)],
+        canvasGradient: [Color(0xFFFFFFFF), Color(0xFFF1FAFF), Color(0xFFE2F2FA)],
+        railGradient: [Color(0xFF315F7C), Color(0xFF17394F), Color(0xFF102A3D)],
+        checkInGradient: [Color(0xFF2F6685), Color(0xFF65B8D7), Color(0xFF244D69)],
+        progressGradient: [Color(0xFFE7FAFF), Color(0xFF70C9E8), Color(0xFF3C87B3)],
+        frameRim: Color(0xFFBDEFFF),
+        panelEdge: Color(0xFFC7E3F0),
+        accent: Color(0xFF287CA5),
+        accentSoft: Color(0xFFE5F5FC),
+        railSelected: Color(0xFFDDF6FF),
+        planBadgeGradient: [Color(0xFFEAFBFF), Color(0xFF8FD5EC)],
+        planBadgeText: Color(0xFF17445B),
+        surface: Color(0xFFFFFFFF),
+      );
+    }
     return const MemberPlanPalette(
       planName: 'Gold',
-      frameGradient: [Color(0xFF210047), Color(0xFF6810B8), Color(0xFF31005F), Color(0xFF17002F)],
-      canvasGradient: [Color(0xFFFFFCFF), Color(0xFFF7F0FF), Color(0xFFF0E6FF)],
-      railGradient: [Color(0xFF7410C9), Color(0xFF3B006D), Color(0xFF250045)],
-      checkInGradient: [Color(0xFF3E006F), Color(0xFF8D16E5), Color(0xFF3A006C)],
-      progressGradient: [Color(0xFFFFE56D), Color(0xFF8F22E9), Color(0xFF4E00A4)],
-      frameRim: Color(0xFFFFDE54),
-      panelEdge: Color(0xFFDDBCF6),
-      accent: Color(0xFF7410D2),
-      accentSoft: Color(0xFFF0E3FF),
-      railSelected: Color(0xFFFFE45E),
-      planBadgeGradient: [Color(0xFFFFE45E), Color(0xFFFFB928)],
-      planBadgeText: Color(0xFF3D1764),
-      surface: Color(0xFFFFFCFF),
+      frameGradient: [Color(0xFF3B2500), Color(0xFFB77908), Color(0xFF684300), Color(0xFF2A1900)],
+      canvasGradient: [Color(0xFFFFFEF8), Color(0xFFFFF7DF), Color(0xFFF8EBC5)],
+      railGradient: [Color(0xFF765000), Color(0xFF4B3000), Color(0xFF2D1B00)],
+      checkInGradient: [Color(0xFF765000), Color(0xFFB77B12), Color(0xFF543600)],
+      progressGradient: [Color(0xFFFFE58A), Color(0xFFE0A92E), Color(0xFF9B6500)],
+      frameRim: Color(0xFFFFE08A),
+      panelEdge: Color(0xFFE7D19B),
+      accent: Color(0xFFA66A00),
+      accentSoft: Color(0xFFFFF2CC),
+      railSelected: Color(0xFFFFE7A1),
+      planBadgeGradient: [Color(0xFFFFF0A8), Color(0xFFE7B43B)],
+      planBadgeText: Color(0xFF422800),
+      surface: Color(0xFFFFFEFA),
     );
   }
 }
