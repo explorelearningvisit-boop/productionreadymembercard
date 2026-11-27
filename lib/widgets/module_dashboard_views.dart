@@ -202,7 +202,7 @@ class ModuleDashboardView extends StatelessWidget {
           SizedBox(width:compact?80:100,child:GlassDonutChart(values:const [1.0],colors:const [MemberTheme.green],centerValue:'69.5',centerLabel:'kg now')),
           const SizedBox(width:4),
           const Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
-            _LegendRow(color:MemberTheme.green,label:'Current weight',value:'Member data'),
+            _LegendRow(color:MemberTheme.green,label:'Latest weight',value:'Member data'),
             _LegendRow(color:MemberTheme.lavender,label:'Goal target',value:'Not set'),
           ])),
         ]))),
