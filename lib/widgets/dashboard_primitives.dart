@@ -113,7 +113,7 @@ class DashboardMetricTile extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _fit(label, compact ? 8.4 : 9.2, MemberTheme.ink),
+              _fit(label, compact ? 10.5 : 11.5, MemberTheme.ink),
               SizedBox(height: compact ? 1 : 2),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -121,11 +121,11 @@ class DashboardMetricTile extends StatelessWidget {
                   Expanded(
                     child: _fit(
                       value,
-                      compact ? 17 : 20,
+                      compact ? 21 : 23,
                       valueColor,
                     ),
                   ),
-                  if (trend != null) ...[
+                  if (trend != null && !compact) ...[
                     const SizedBox(width: 2),
                     Flexible(
                       child: Container(
@@ -139,7 +139,7 @@ class DashboardMetricTile extends StatelessWidget {
                         ),
                         child: _fit(
                           trend!,
-                          compact ? 8.4 : 9,
+                          compact ? 9.5 : 10.5,
                           const Color(0xFF087E40),
                         ),
                       ),
@@ -188,7 +188,7 @@ class DashboardMetricTile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.white.withOpacity(0.76)),
                 ),
-                child: _fit(note, compact ? 8.6 : 9.5, noteTextColor),
+                child: _fit(note, compact ? 9.5 : 10.5, noteTextColor),
               ),
             ],
           ),
@@ -237,7 +237,7 @@ class AttendanceLegend extends StatelessWidget {
   Widget build(BuildContext context) {
     final value = (double.tryParse(percent.replaceAll('%', '')) ?? 0) / 100;
     return SizedBox(
-      height: compact ? 17 : 20,
+      height: compact ? 21 : 23,
       child: Row(
         children: [
           Container(
@@ -249,13 +249,13 @@ class AttendanceLegend extends StatelessWidget {
           SizedBox(
             width: 45,
             child: Text(label, maxLines: 1, style: TextStyle(
-              color: MemberTheme.ink, fontSize: compact ? 9 : 10.5, fontWeight: FontWeight.w600,
+              color: MemberTheme.ink, fontSize: compact ? 10.5 : 11.5, fontWeight: FontWeight.w600,
             )),
           ),
           SizedBox(
             width: 19,
             child: Text(count, textAlign: TextAlign.end, style: TextStyle(
-              color: MemberTheme.ink, fontSize: compact ? 9 : 10, fontWeight: FontWeight.w600,
+              color: MemberTheme.ink, fontSize: compact ? 10.5 : 11.5, fontWeight: FontWeight.w600,
             )),
           ),
           const SizedBox(width: 4),
@@ -274,7 +274,7 @@ class AttendanceLegend extends StatelessWidget {
           SizedBox(
             width: 26,
             child: Text(percent, textAlign: TextAlign.end, style: TextStyle(
-              color: MemberTheme.ink, fontSize: compact ? 8.5 : 9.5, fontWeight: FontWeight.w900,
+              color: MemberTheme.ink, fontSize: compact ? 10 : 11, fontWeight: FontWeight.w900,
             )),
           ),
         ],
@@ -293,7 +293,7 @@ class WeekdayLabel extends StatelessWidget {
     return Expanded(
       child: Center(
         child: Text(label, style: TextStyle(
-          color: MemberTheme.muted, fontSize: compact ? 9 : 10, fontWeight: FontWeight.w900,
+          color: MemberTheme.muted, fontSize: compact ? 10.5 : 11.5, fontWeight: FontWeight.w900,
         )),
       ),
     );
