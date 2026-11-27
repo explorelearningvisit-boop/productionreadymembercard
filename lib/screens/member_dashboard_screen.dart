@@ -166,7 +166,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
     Widget _navigationRail() {
-    final palette = MemberPlanTheme.of(context);
+    final palette = MemberPlanPalette.forPlan(MemberSample.demo.plan);
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemHeight = constraints.maxHeight / _navigation.length;
@@ -1042,6 +1042,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             note: 'PROTEIN 10% OFF',
             color: const Color(0xFFFFE96A),
             asset: 'assets/member_card/28_protinex_tub.webp',
+            motion: 0,
             noteColor: const Color(0xFFE52B52),
             noteTextColor: Colors.white,
           ),
@@ -1056,6 +1057,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             note: 'CREATINE 15% OFF',
             color: const Color(0xFFF2D7FF),
             asset: 'assets/member_card/06_creatine_tub.webp',
+            motion: 1,
             noteColor: const Color(0xFFB20BE4),
             noteTextColor: Colors.white,
           ),
@@ -1070,6 +1072,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             valueColor: const Color(0xFFD71939),
             color: const Color(0xFFD9F1FF),
             asset: 'assets/member_card/29_sbi_payment_card_graphic.webp',
+            motion: 2,
             noteColor: const Color(0xFF1269DB),
             noteTextColor: Colors.white,
           ),
@@ -1084,6 +1087,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             note: 'FAT LOSS 20% OFF',
             color: const Color(0xFFD8FFE2),
             asset: 'assets/member_card/fat_loss_support_tub.png',
+            motion: 3,
             noteColor: const Color(0xFF0B9C4C),
             noteTextColor: Colors.white,
           ),
