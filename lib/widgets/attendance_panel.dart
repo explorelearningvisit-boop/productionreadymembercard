@@ -497,77 +497,13 @@ class AttendancePanel extends StatelessWidget {
     required bool compact,
     required MemberPlanPalette palette,
     required MemberSample member,
-  }) {
-    switch (module) {
-      case DashboardModule.attendance:
-        switch (sectionIndex) {
-          case 1:
-            return _insightsContent(compact: compact, palette: palette, member: member);
-          case 2:
-            return _calendarContent(compact: compact, palette: palette);
-          case 3:
-            return _historyContent(compact: compact, palette: palette, member: member);
-          case 4:
-            return _attendanceTrendContent(compact: compact, palette: palette, member: member);
-          case 5:
-            return _goalsContent(compact: compact, palette: palette);
-          default:
-            return const SizedBox.shrink();
-        }
-      case DashboardModule.workout:
-        switch (sectionIndex) {
-          case 0:
-            return _workoutOverviewContent(compact: compact, palette: palette, member: member);
-          case 1:
-            return _workoutInsightsContent(compact: compact, palette: palette, member: member);
-          case 2:
-            return _workoutLogContent(compact: compact, palette: palette, member: member);
-          case 3:
-            return _trendContent(compact: compact, palette: palette, member: member);
-          case 4:
-            return _recoveryContent(compact: compact, palette: palette);
-          case 5:
-            return _workoutGoalsContent(compact: compact, palette: palette);
-          default:
-            return const SizedBox.shrink();
-        }
-      case DashboardModule.payment:
-        switch (sectionIndex) {
-          case 0:
-            return _paymentOverviewContent(compact: compact, palette: palette, member: member);
-          case 1:
-            return _paymentInsightsContent(compact: compact, palette: palette, member: member);
-          case 2:
-            return _invoicesContent(compact: compact, palette: palette, member: member);
-          case 3:
-            return _paymentHistoryContent(compact: compact, palette: palette, member: member);
-          case 4:
-            return _paymentMethodsContent(compact: compact, palette: palette);
-          case 5:
-            return _paymentRewardsContent(compact: compact, palette: palette);
-          default:
-            return const SizedBox.shrink();
-        }
-      case DashboardModule.body:
-        switch (sectionIndex) {
-          case 0:
-            return _bodyOverviewContent(compact: compact, palette: palette, member: member);
-          case 1:
-            return _bodyInsightsContent(compact: compact, palette: palette, member: member);
-          case 2:
-            return _weightTrendContent(compact: compact, palette: palette, member: member);
-          case 3:
-            return _measurementsContent(compact: compact, palette: palette, member: member);
-          case 4:
-            return _nutritionContent(compact: compact, palette: palette);
-          case 5:
-            return _bodyGoalsContent(compact: compact, palette: palette);
-          default:
-            return const SizedBox.shrink();
-        }
-    }
-  }
-
+  }) => ModuleDashboardView(
+    module: module,
+    sectionIndex: sectionIndex,
+    compact: compact,
+    palette: palette,
+    member: member,
+  );
   Widget _workoutOverviewContent({
     required bool compact,
     required MemberPlanPalette palette,

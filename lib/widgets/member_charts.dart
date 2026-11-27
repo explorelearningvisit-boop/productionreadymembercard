@@ -123,7 +123,7 @@ class GlassLineChart extends StatelessWidget {
     super.key,
   });
 
-  final List<List<FlSpot>> series;
+  final List<List<double>> series;
   final List<Color> colors;
   final double minY;
   final double maxY;
@@ -134,7 +134,7 @@ class GlassLineChart extends StatelessWidget {
     final lines = <LineChartBarData>[
       for (var i = 0; i < series.length; i++)
         LineChartBarData(
-          spots: series[i],
+          spots: [for (var x = 0; x < series[i].length; x++) FlSpot(x.toDouble(), series[i][x])],
           isCurved: true,
           curveSmoothness: 0.22,
           color: colors[i % colors.length],
