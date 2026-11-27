@@ -1,7 +1,7 @@
 # BAD GYM — Purple Neon Dashboard implementation plan
 
 ## Authority
-Follow `BADGYM_FINAL_APPROVED_DASHBOARD_MASTER_PROMPT.md` and the owner's 2026-11-25 screenshot. This full compact dashboard request supersedes the earlier minimal-card-only scope.
+Follow `BADGYM_FINAL_APPROVED_DASHBOARD_MASTER_PROMPT.md`, `REFERENCE_GLASS_VISUAL_SPEC.md` and the owner's second screenshot supplied on 2026-11-27. Use a pearl/lilac inner field, dark grape/gold shell and independent semantic KPI surfaces; never use one purple fill for the entire screen.
 
 ## Components in order
 1. Check-in / Freeze header row
