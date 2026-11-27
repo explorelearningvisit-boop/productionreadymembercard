@@ -186,7 +186,9 @@ class _RotatingAdArtworkState extends State<RotatingAdArtwork> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.assets.isEmpty) return SizedBox(width: widget.width, height: widget.height);
+    if (widget.assets.isEmpty) {
+      return SizedBox(width: widget.width, height: widget.height);
+    }
     final asset = widget.assets[_index];
     return SizedBox(
       width: widget.width,
