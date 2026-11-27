@@ -1,110 +1,93 @@
-# BAD GYM — Pearl Glass / Adaptive Member Plan Dashboard Specification
+# BAD GYM — Final Gold Reference / Emerald + Wine Rail Implementation Spec
 
-**Visual authority:** Owner's second uploaded reference screenshot (2026-11-27). The first screenshot is the implementation under review, not the design authority.
+**Design authority:** The owner's FIRST uploaded screenshot in the current reference pair is the final layout and information hierarchy. The SECOND screenshot is a colour-only supporting reference for the deep red/wine vertical rail and warm-gold active item. Do not replace the first screenshot's content or section order with the second screenshot's red full-screen layout.
 
-## Art direction
+## Five-line design direction
 
-Build a premium mobile gym dashboard with layered materials and distinct semantic color zones. No single color is hard-coded for every member. The member's plan selects the frame, canvas, navigation rail, membership progress and selected accents. Gold uses espresso/bronze/champagne; Spark uses forest/emerald/mint; Silver uses slate/steel-blue. Keep semantic status colors (present, absent, late, payment) stable across plans. Avoid a generic single-purple AI-template appearance.
+- **Product:** A compact gym-member dashboard for check-in, plan/payment status, attendance, workouts, body data and goals.
+- **Character:** Athletic, assured, warm, precise.
+- **World:** A premium training club with forest-emerald controls, champagne metal, pearl-white glass and a deep wine navigation rail.
+- **Moments:** Member identity and check-in/Freeze actions; four colour-coded KPI/product cards; a pearl-white analytics workspace with charts and calendar.
+- **Signature:** Champagne outer rim + emerald action + wine rail + gold selected rail tile.
 
-The reference screenshot itself must never be placed behind the UI. All dynamic labels, amounts, status, dates, values and controls remain native Flutter widgets.
+## Palette authority
 
-## Color and material tokens
-
-| Token | Value | Use |
+| UI region | Gold plan treatment | Source |
 |---|---|---|
-| Gold frame | `#2D1B0B` / `#74521E` | Gold Plan outer shell |
-| Gold canvas | `#FFFFFF` / `#FFF9EC` / `#F9F1E4` | Gold Plan inner surface |
-| Spark frame | `#06452F` / `#0A9560` | Spark Plan outer shell |
-| Spark canvas | `#FFFFFF` / `#E9FFF1` / `#DDF8E8` | Spark Plan inner surface |
-| Silver frame | `#23334C` / `#58789B` | Silver Plan outer shell |
-| Plan accent | `#8B5B17` Gold / `#078552` Spark / `#2B659D` Silver | Buttons, progress, selected controls |
-| Ink plum | `#220B3B` | Text on light surfaces |
-| Pearl | `#FFFCFF` | Main glass panel |
-| Lilac glass | `#F8F2FF` | Cards / inner canvas |
-| Glass edge | `#DCC5F3` | Fine lilac strokes |
-| Gold | `#FFD34E` | Frame rim, portrait backplate, plan pill |
-| Emerald | `#12D56A` | Active / present |
-| Rose | `#E52B52` | Payment alert / absence |
-| Cyan | `#D9F1FF` | Payment KPI tile |
-| Mint | `#D8FFE2` | Body KPI tile |
+| Outer shell / Check-in | Forest emerald with restrained tonal shift | First screenshot |
+| Outer rim | Champagne / antique gold | First screenshot |
+| Freeze | Pearl white with warm neutral hairline; purple snowflake artwork is kept only as supplied product art | First screenshot |
+| Member identity | Pearl white, gold portrait plate and plan badge, emerald Active badge | First screenshot |
+| Vertical rail | Deep wine-red `#6D0201` to `#3A080D` | Second screenshot, rail only |
+| Selected rail item | Warm champagne gold `#FDE870` | Second screenshot, active item only |
+| Main data workspace | Warm pearl white `#FFFEFC` / `#F9F7F2` | First screenshot |
+| KPI cards | Attendance warm yellow, Workout lavender, Payment sky, Body mint | First screenshot |
+| Semantic attendance | Present green, Absent rose, Holiday violet, Late amber | First screenshot |
 
-Material treatment:
-- Outer shell: member-plan gradient with a 1.5–2 dp plan rim. No large external bloom is allowed outside the card edge.
-- Inner canvas: pearl-to-plan-tint gradient with subtle radial light blooms clipped inside the rounded card.
-- Glass surfaces: translucent pearl/lilac gradients, 1–1.5 dp light-violet border, small white highlight, soft shadow tinted to the card's accent. No heavy purple shadow under every element.
-- Product cutouts: preserve transparent edges and original aspect ratio using `BoxFit.contain`; never stretch or hard-crop them.
+Other member plans keep the same information hierarchy but receive their own plan-derived shell palettes. Spark remains forest/emerald. Silver remains slate/steel-blue. The Wine + Champagne treatment is a Gold-plan navigation variation, not a universal red background.
 
-## Component-by-component treatment
+## Layout — preserve the first reference
 
-1. **Check-in and Freeze**
-   - Check-in is a deep grape / electric-violet glossy action with white text, emerald check disc, the bodybuilder cutout to the far edge and a localized purple-pink glow.
-   - Freeze is a separate icy-white / blue-lilac glass action with purple snowflake artwork, dark-plum text and the shaker cutout at the far edge. It must not become a second purple card.
+Preserve the first reference's section order and information:
+1. Check-in and Freeze row.
+2. Member portrait, name, ID, age, gender, plan and Active state.
+3. Payment due + Whey Protein offer.
+4. Membership used / total, days remaining and progress.
+5. Four horizontal KPI cards: Attendance, Workout, Payment, Body.
+6. Lower workspace with a vertical contextual rail and one large pearl-white data panel.
+7. Within Attendance: status ring and legend, streak/best/month trend, campaign strips and the monthly calendar.
 
-2. **Member identity**
-   - Pearl-white glass panel with a warm gold edge.
-   - Portrait on a yellow/gold backplate with subtle diagonal light; transparent member cutout contained and bottom-aligned.
-   - Member name is dark plum, heavy rounded sans-serif; metadata is purple/plum semibold.
-   - Gold Plan pill uses gold gradient and dark text. Active pill uses emerald gradient and white text. Both have a fine white keyline and restrained glow.
+The dashboard remains mobile-first, primarily 360 dp wide, and no unnecessary vertical scrolling. Recover space from redundant gaps, padding and labels before shrinking numbers or artwork. Keep key figures and campaign art undistorted.
 
-3. **Payment due and offer**
-   - Payment card is pale pearl/blush glass, not a solid red block. Wallet icon sits on a small lavender tile; label is dark plum; amount uses rose/purple alert emphasis; days-left is muted plum.
-   - Whey promo uses a lilac glass surface. Product cutout, dark-purple product name, prominent purple discount and compact pink/violet CTA remain distinct.
+## Contextual navigation contract
 
-4. **Membership**
-   - Pale lilac glass panel and dark-plum copy.
-   - Days-left warning is a compact rose capsule. Percentage uses brand purple.
-   - Progress track is pale lavender with a glossy purple gradient fill. Do not use the attendance green as its fill.
+Horizontal cards select a primary module. The vertical rail then displays exactly five destinations relevant to that module:
 
-5. **Four KPI tiles**
-   - Attendance = warm yellow; Workout = lavender; Payment = sky-blue; Body = mint. Each tile has its own subtle tonal gradient and edge/shadow, not one shared purple glow.
-   - Labels and values are native text. Use large, contained PulseVault WebP product/person artwork in the centre.
-   - CTA strips use their own semantic accents: protein red, creatine magenta, SBI blue, fat-loss green. Trend chips remain translucent and compact.
+| Horizontal module | Five vertical destinations |
+|---|---|
+| Attendance | Overview, Calendar, History, Insights, Goals |
+| Workout | Overview, Workout Log, Trend, Recovery, Goals |
+| Payment | Overview, Invoices, History, Methods, Rewards |
+| Body | Overview, Weight, Measures, Nutrition, Goals |
 
-6. **Attendance analytics**
-   - A large frosted pearl/lilac panel with a soft violet keyline and bright internal surface.
-   - Header and partner banner sit at the top. Keep DEMO status visible until a real API feeds live data; never label sample data LIVE.
-   - Attendance ring is segmented by Present (emerald), Absent (rose), Holiday (violet) and Late (amber), with 81% and 25/31 centered.
-   - Legend uses matching colored dots and progress bars, with readable counts and percentages.
-   - Streak / best / monthly trend stats sit on a subtle divider. Recovery offer is a separate lilac promo strip.
-   - Calendar heading, count summary, weekdays and rounded day cells must be legible. Present = pale mint, absent = pale rose, late = pale amber, off/holiday = cool grey; selected day has a violet outline.
+One shared selected state drives the KPI highlight, rail list, selected rail item and detail workspace. A Payment submenu must never appear under Attendance. Each destination has its own relevant view and heading. A selected visual state without a working destination is a defect.
 
-7. **Navigation rail**
-   - Keep the six approved destinations: Attend, Insights, Cal, History, Trend, Goals.
-   - Rail follows the active plan: bronze for Gold, forest green for Spark, slate for Silver. Selected destination uses the plan's light highlight; inactive icons/labels remain high contrast.
+## Surfaces and Unslop rules
 
-## Typography
+- The data workspace is pearl white / warm white with quiet hairline borders and small neutral shadows.
+- Use rich colour in the KPI card fills, meaningful chart series, product artwork, plan badge and active nav state; do not tint the whole analytics surface.
+- Avoid purple radial glows, broad blurred washes, neon borders, colored outer shadows, gradient text and gratuitous blur.
+- Use one neutral shadow scale and one border family. Keep nested radii consistent.
+- Use the Flutter Material icon font and one coherent icon language. No missing-glyph boxes, cross placeholders or emoji icons.
+- Use sentence-case UI labels, a few type sizes and weights up to 600. Keep member name, key metrics, payment amount and calendar dates readable.
+- Motion is finite and purposeful: short one-shot artwork entrance and brief menu-content transition. No periodic timers, flashing, pulse loops or movement when a screen is idle.
 
-- Use the existing Flutter/system sans-serif stack; do not add a font dependency.
-- Member name and major section headings: 20–22 sp normal scale, weight 800–900.
-- KPI values: 18–22 sp normal scale, weight 900.
-- Supporting labels: 9–12 sp normal scale, weight 600–900.
-- KPI offer strips and sponsor captions: target 8–9 sp at 360 dp; dense footer notes may remain smaller.
-- Keep line height tight on compact labels, but do not shrink primary names, values or calendar dates to fit.
+## PulseVault asset contract
 
-## Layout and responsive contract
+Canonical runtime folder: `assets/material_pack/inbox/PulseVault/`.
 
-- Primary design width is 360 dp. Verify 320 and 390 dp as well as 600–800 dp heights.
-- Preserve the fixed no-scroll composition and the 6-destination in-card rail.
-- Preserve section order: action row, identity, payment+offer, membership progress, four KPI cards, attendance analytics.
-- Keep the analytics panel using the space left by the header instead of leaving dead space.
-- No clipped labels, distorted images, off-screen controls, nested scroll views or RenderFlex overflows.
+The directory contains the original 16 approved member-card assets (including bodybuilder, whey, shaker, grocery, creatine, Gold/Active badge plates, Freeze snowflake, calendar, dumbbell, ProteinX, SBI and fat-loss artwork). Original source copies in `assets/member_card/` remain retained until a later verified cleanup.
 
-## Asset authority
+Use transparent artwork with `BoxFit.contain`. Never bake member names, data, button labels, prices or advertiser claims into image assets. Use native Flutter text for these. Advert creative, offer copy and CTA must remain one matched campaign; no unrelated randomized artwork. Until a real advertiser is configured, all offer inventory remains labelled Demo/Sample.
 
-Use the PulseVault assets already in the repository. Prefer optimized `assets/member_card/*.webp` variants where they exist: bodybuilder, whey, shaker, creatine, Blinkit, SBI, freeze snowflake and calendar. Use transparent PNG only when no optimized WebP equivalent exists. Keep asset registration explicit in `pubspec.yaml`; never use the full-screen screenshot as a runtime image.
+## Data truth
 
-## Data / behavior
-
-Retain demo member Ashwani Kumar Singh, BG215, 28 yrs, Male, Gold Plan, Active, 22/30 membership days, ₹500 due, 81% attendance, 58 min workout and 69.5 kg. Continue to mark sample analytics as DEMO / sample data until a real API is connected. Keep the check-in interaction local and safe; do not invent backend behavior.
-
-## Material icon font
-
-The Flutter Material icon font must be bundled with `uses-material-design: true` because the rail, wallet and member metadata use `Icons.*`. Without it, Android renders missing-glyph boxes/crosses.
-
-## Plan palette and motion
-
-See `docs/MEMBER_PLAN_ADAPTIVE_VISUAL_SYSTEM.md` for the Gold/Spark/Silver palette contract, sponsor-slot rules, ad rotation timing and one-shot per-product entrance motion.
+- Sample member: Ashwani Kumar Singh / BG215 / 28 yrs / Male / Gold Plan.
+- Sample values remain sample data: ₹500 due, 22/30 membership days, 81% attendance, 58 min workout, 69.5 kg.
+- Do not invent invoice numbers, completed transactions, exact body measurements, advertiser contracts or LIVE status.
+- Where a category has no source data, clearly state that records are not connected or not loaded.
 
 ## QA gates
 
-Run format, static analysis, all widget tests, compact viewport checks, ARM64 release build, APK signature check and artifact checksum. Do not claim pixel-perfect completion from a green build alone; compare a fresh 360 dp screenshot against the reference and report physical-device verification separately.
+1. `flutter pub get`
+2. `dart format --output=none --set-exit-if-changed lib test`
+3. `flutter analyze`
+4. `flutter test --reporter expanded`
+5. ARM64 release build and APK signature verification.
+6. Test 320×560, 320×640, 360×600, 360×700, 390×720 and 800×600 without overflow or unnecessary scrolling.
+7. Verify all runtime PulseVault image references are declared in `pubspec.yaml`.
+8. Passing CI is not proof of pixel-perfect device rendering. Report a fresh 360 dp screenshot comparison separately.
+
+## Skill attribution
+
+This project uses Unslop by Damir Sokolovsky, loaded from `.agents/skills/unslop/`. Its design rules are applied as adapted to Flutter and Android. Unslop is licensed CC BY 4.0; retain attribution in copies and adaptations.
