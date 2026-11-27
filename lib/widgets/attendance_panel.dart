@@ -39,7 +39,7 @@ class AttendancePanel extends StatelessWidget {
               // fills the rail's available content width on short screens.
               width: constraints.maxWidth / scale,
               height: compactHeight,
-              child: _panel(compact: true, palette: palette, module: module, sectionIndex: sectionIndex, member: member),
+              child: _panel(context, compact: true, palette: palette, module: module, sectionIndex: sectionIndex, member: member),
             ),
           );
         }
@@ -48,13 +48,14 @@ class AttendancePanel extends StatelessWidget {
           key: const ValueKey('attendance-panel'),
           width: constraints.maxWidth,
           height: availableHeight,
-          child: _panel(compact: compact, palette: palette, module: module, sectionIndex: sectionIndex, member: member),
+          child: _panel(context, compact: compact, palette: palette, module: module, sectionIndex: sectionIndex, member: member),
         );
       },
     );
   }
 
-  Widget _panel({
+  Widget _panel(
+    BuildContext context, {
     bool compact = false,
     required MemberPlanPalette palette,
     required DashboardModule module,
@@ -63,6 +64,7 @@ class AttendancePanel extends StatelessWidget {
   }) {
     if (module != DashboardModule.attendance || sectionIndex != 0) {
       return _alternatePanel(
+        context: context,
         module: module,
         sectionIndex: sectionIndex,
         compact: compact,
@@ -324,6 +326,7 @@ class AttendancePanel extends StatelessWidget {
 
 
   Widget _alternatePanel({
+    required BuildContext context,
     required DashboardModule module,
     required int sectionIndex,
     required bool compact,
@@ -560,7 +563,6 @@ class AttendancePanel extends StatelessWidget {
             return const SizedBox.shrink();
         }
     }
-    return const SizedBox.shrink();
   }
 
   Widget _workoutOverviewContent({
