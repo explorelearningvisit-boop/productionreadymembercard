@@ -186,8 +186,16 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemHeight = constraints.maxHeight / items.length;
-        final iconSize = (itemHeight * 0.32).clamp(20.0, 24.0);
-        final labelSize = (itemHeight * 0.19).clamp(12.0, 13.5);
+        // Very short phones need a denser rail; keep every label visible rather
+        // than letting the icon/label stack overflow its six equal slots.
+        final tightRail = itemHeight < 39;
+        final iconSize = tightRail
+            ? (itemHeight * 0.46).clamp(15.0, 18.0)
+            : (itemHeight * 0.32).clamp(20.0, 24.0);
+        final labelSize = tightRail
+            ? (itemHeight * 0.29).clamp(9.0, 11.0)
+            : (itemHeight * 0.19).clamp(12.0, 13.5);
+        final iconLabelGap = tightRail ? 2.0 : 3.0;
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 2),
           decoration: BoxDecoration(
@@ -260,7 +268,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                   : const Color(0xFFFFF8E9),
                               size: iconSize,
                             ),
-                            const SizedBox(height: 3),
+                            SizedBox(height: iconLabelGap),
                             FittedBox(
                               fit: BoxFit.scaleDown,
                               child: Text(
