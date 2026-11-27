@@ -484,7 +484,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           borderRadius: BorderRadius.circular(9),
                           border: Border.all(color: palette.frameRim, width: 0.7),
                         ),
-                        child: const Text(
+                        child: Text(
                           '20% OFF • PAUSE PLAN',
                           maxLines: 1,
                           style: TextStyle(
@@ -593,7 +593,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   SizedBox(height: compact ? 1 : 5),
                   Row(
                     children: [
-                      const Icon(
+                      Icon(
                         Icons.badge_outlined,
                         size: 12,
                         color: palette.accent,
