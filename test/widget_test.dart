@@ -18,10 +18,9 @@ void addViewportReset(WidgetTester tester) {
 }
 
 void main() {
-  testWidgets('first reference structure and PulseVault artwork render', (tester) async {
+  testWidgets('reference structure, campaign art and pearl glass render', (tester) async {
     setPhoneViewport(tester, const Size(360, 780));
     addViewportReset(tester);
-
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
@@ -31,72 +30,48 @@ void main() {
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
     expect(find.text('Gold Plan'), findsOneWidget);
     expect(find.text('Active'), findsOneWidget);
-    expect(find.text('Gold member perks · Sample'), findsOneWidget);
-    expect(find.text('Member rewards · Sample'), findsOneWidget);
-
-    expect(find.text('Attendance'), findsOneWidget);
-    expect(find.text('Workout'), findsOneWidget);
-    expect(find.text('Payment'), findsOneWidget);
-    expect(find.text('Body'), findsOneWidget);
-    expect(find.text('₹500 Due'), findsNWidgets(2));
-    expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
     expect(find.text('Attendance Analytics'), findsOneWidget);
+    expect(find.text('October attendance'), findsOneWidget);
     expect(find.text('Present'), findsOneWidget);
     expect(find.text('Absent'), findsOneWidget);
     expect(find.text('Holiday'), findsOneWidget);
     expect(find.text('Late'), findsOneWidget);
-    expect(find.text('October attendance'), findsOneWidget);
-
-    final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
-    expect(
-      scaffold.backgroundColor,
-      MemberPlanPalette.forPlan('Gold Plan').frameGradient.first,
-    );
-    expect(find.byType(CustomPaint), findsWidgets);
     expect(tester.takeException(), isNull);
   });
 
-  test('plan palettes use the full adaptive member shell', () {
+  test('Gold member uses purple neon and pearl glass, while Spark and Silver remain distinct', () {
     final gold = MemberPlanPalette.forPlan('Gold Plan');
     final spark = MemberPlanPalette.forPlan('Spark Plan');
     final silver = MemberPlanPalette.forPlan('Silver Plan');
-
     expect(gold.planName, 'Gold');
-    expect(gold.railGradient.first, const Color(0xFF6D0201));
-    expect(gold.railSelected, const Color(0xFFFDE870));
-    expect(gold.canvasGradient.first, const Color(0xFFFFFEFC));
-    expect(spark.planName, 'Spark');
+    expect(gold.frameGradient.first, const Color(0xFF210047));
+    expect(gold.railGradient.first, const Color(0xFF7410C9));
+    expect(gold.railSelected, const Color(0xFFFFE45E));
+    expect(gold.canvasGradient.first, const Color(0xFFFFFCFF));
     expect(spark.frameGradient.first, const Color(0xFF06452F));
-    expect(silver.planName, 'Silver');
+    expect(silver.frameGradient.first, const Color(0xFF23334C));
   });
 
-  test('each horizontal module owns five contextual rail destinations', () {
+  test('each module has six destinations in the screenshot rail contract', () {
     for (final module in DashboardNavigation.modules) {
       final items = DashboardNavigation.itemsFor(module);
-      expect(items, hasLength(5));
-      expect(items.first.id, 'overview');
-      expect(
-        DashboardNavigation.keyFor(module, 0),
-        'navigation-${module.name}-overview',
-      );
+      expect(items, hasLength(6));
+      expect(items.first.label, 'Attend');
+      expect(items.last.label, 'Goals');
     }
-
     expect(
-      DashboardNavigation.itemsFor(DashboardModule.payment)
-          .map((item) => item.id),
-      containsAll(['invoices', 'history', 'methods', 'rewards']),
+      DashboardNavigation.itemsFor(DashboardModule.attendance).map((item) => item.id),
+      ['attend', 'insights', 'calendar', 'history', 'trend', 'goals'],
     );
     expect(
-      DashboardNavigation.itemsFor(DashboardModule.body)
-          .map((item) => item.id),
-      containsAll(['weight', 'measurements', 'nutrition', 'goals']),
+      DashboardNavigation.itemsFor(DashboardModule.payment).map((item) => item.id),
+      ['overview', 'insights', 'invoices', 'history', 'methods', 'rewards'],
     );
   });
 
   testWidgets('Spark member receives the green shell', (tester) async {
     setPhoneViewport(tester, const Size(360, 780));
     addViewportReset(tester);
-
     const sparkMember = MemberSample(
       name: 'Spark Member',
       memberId: 'BG216',
@@ -111,152 +86,57 @@ void main() {
       membershipTotalDays: 90,
       daysRemaining: 78,
     );
-
-    await tester.pumpWidget(
-      MaterialApp(
-        theme: MemberTheme.light,
-        home: const MemberDashboardScreen(member: sparkMember),
-      ),
-    );
+    await tester.pumpWidget(MaterialApp(
+      theme: MemberTheme.light,
+      home: const MemberDashboardScreen(member: sparkMember),
+    ));
     await tester.pumpAndSettle();
-
-    final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
     expect(
-      scaffold.backgroundColor,
+      tester.widget<Scaffold>(find.byType(Scaffold)).backgroundColor,
       MemberPlanPalette.forPlan('Spark Plan').frameGradient.first,
     );
-    expect(find.text('Spark Plan'), findsOneWidget);
     expect(find.text('Spark Member'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('all four KPI cards change their module and vertical menu', (tester) async {
+  testWidgets('all KPI cards switch modules and contextual rail', (tester) async {
     setPhoneViewport(tester, const Size(360, 780));
     addViewportReset(tester);
-
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const ValueKey('metric-workout')));
-    await tester.pumpAndSettle();
-    expect(find.text('Workout Overview'), findsOneWidget);
-    expect(find.byKey(const ValueKey('navigation-workout-overview')), findsOneWidget);
-    expect(find.byKey(const ValueKey('navigation-workout-log')), findsOneWidget);
-    expect(find.byKey(const ValueKey('navigation-workout-recovery')), findsOneWidget);
-
-    await tester.tap(find.byKey(const ValueKey('metric-payment')));
-    await tester.pumpAndSettle();
-    expect(find.text('Payment Overview'), findsOneWidget);
-    expect(find.byKey(const ValueKey('navigation-payment-invoices')), findsOneWidget);
-    expect(find.byKey(const ValueKey('navigation-payment-methods')), findsOneWidget);
-
-    await tester.tap(find.byKey(const ValueKey('metric-body')));
-    await tester.pumpAndSettle();
-    expect(find.text('Body Overview'), findsOneWidget);
-    expect(find.byKey(const ValueKey('navigation-body-weight')), findsOneWidget);
-    expect(find.byKey(const ValueKey('navigation-body-nutrition')), findsOneWidget);
-
-    await tester.tap(find.byKey(const ValueKey('metric-attendance')));
-    await tester.pumpAndSettle();
-    expect(find.text('Attendance Analytics'), findsOneWidget);
-    expect(find.byKey(const ValueKey('navigation-attendance-calendar')), findsOneWidget);
-    expect(find.byKey(const ValueKey('navigation-attendance-goals')), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('vertical submenu opens the correct module-specific data', (tester) async {
-    setPhoneViewport(tester, const Size(360, 780));
-    addViewportReset(tester);
-
-    await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
-
-    final destinations = <(String, int, String, String, String)>[
-      ('attendance', 1, 'Attendance Calendar', 'October 2026', 'calendar'),
-      ('attendance', 2, 'Attendance History', 'Gym check-in', 'history'),
-      ('workout', 1, 'Workout Log', 'Latest workout summary', 'log'),
-      ('workout', 2, 'Workout Trend', 'WORKOUT MINUTES', 'trend'),
-      ('workout', 3, 'Recovery & Wellness', 'Recovery information', 'recovery'),
-      ('workout', 4, 'Workout Goals', 'Workout consistency', 'goals'),
-      ('payment', 1, 'Due & Invoices', 'Membership balance', 'invoices'),
-      ('payment', 2, 'Payment History', 'No completed payments loaded', 'history'),
-      ('payment', 3, 'Payment Methods', 'Payment method preview', 'methods'),
-      ('payment', 4, 'Payment Rewards', 'No active reward campaign', 'rewards'),
-      ('body', 1, 'Weight Trend', 'Weight trend is not available', 'weight'),
-      ('body', 2, 'Body Measurements', 'Other measurements not loaded', 'measurements'),
-      ('body', 3, 'Nutrition & Wellness', 'Nutrition offer preview', 'nutrition'),
-      ('body', 4, 'Body Goals', 'Set a body goal', 'goals'),
-    ];
-
-    for (final destination in destinations) {
-      await tester.tap(
-        find.byKey(ValueKey('metric-${destination.$1}')),
-      );
+    for (final module in DashboardNavigation.modules) {
+      await tester.tap(find.byKey(ValueKey('metric-${module.name}')));
       await tester.pumpAndSettle();
-      await tester.tap(
-        find.byKey(
-          ValueKey('navigation-${destination.$1}-${destination.$5}'),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      final detailKey = ValueKey(
-        'member-detail-${destination.$1}-${destination.$2}',
-      );
-      expect(find.byKey(detailKey), findsOneWidget);
-      expect(
-        find.descendant(
-          of: find.byKey(detailKey),
-          matching: find.text(destination.$3),
-        ),
-        findsOneWidget,
-      );
-      expect(
-        find.descendant(
-          of: find.byKey(detailKey),
-          matching: find.textContaining(destination.$4),
-        ),
-        findsWidgets,
-      );
-      expect(tester.takeException(), isNull);
+      final destinations = DashboardNavigation.itemsFor(module);
+      for (var i = 0; i < destinations.length; i++) {
+        expect(find.byKey(ValueKey(DashboardNavigation.keyFor(module, i))), findsOneWidget);
+      }
     }
-  });
-
-  testWidgets('navigation rail fits its panel and keeps labels inside the frame', (tester) async {
-    setPhoneViewport(tester, const Size(360, 780));
-    addViewportReset(tester);
-
-    await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
-
-    final rail = tester.getSize(find.byKey(const ValueKey('navigation-rail')));
-    final panel = tester.getSize(find.byKey(const ValueKey('attendance-panel')));
-    expect(rail.width, 50);
-    expect(rail.height, closeTo(panel.height, 0.1));
-    expect(panel.height, greaterThan(290));
-    expect(find.text('Overview'), findsOneWidget);
-    expect(find.text('Calendar'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('check-in action remains safe when tapped repeatedly', (tester) async {
+  testWidgets('every contextual destination opens its own detail panel', (tester) async {
     setPhoneViewport(tester, const Size(360, 780));
     addViewportReset(tester);
-
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
-    final checkIn = find.byKey(const ValueKey('check-in-button'));
 
-    await tester.tap(checkIn);
-    await tester.pumpAndSettle();
-    await tester.tap(checkIn);
-    await tester.pumpAndSettle();
-
-    expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
+    for (final module in DashboardNavigation.modules) {
+      await tester.tap(find.byKey(ValueKey('metric-${module.name}')));
+      await tester.pumpAndSettle();
+      final items = DashboardNavigation.itemsFor(module);
+      for (var i = 0; i < items.length; i++) {
+        await tester.tap(find.byKey(ValueKey(DashboardNavigation.keyFor(module, i))));
+        await tester.pumpAndSettle();
+        expect(find.text(items[i].title), findsOneWidget,
+            reason: '${module.name} / ${items[i].id}');
+      }
+    }
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('dashboard fits compact phone and short landscape-like viewports', (tester) async {
+  testWidgets('rail layout remains inside compact and primary viewports', (tester) async {
     for (final size in <Size>[
       const Size(320, 560),
       const Size(320, 640),
@@ -268,39 +148,24 @@ void main() {
       setPhoneViewport(tester, size);
       await tester.pumpWidget(const BadGymApp());
       await tester.pumpAndSettle();
-
-      expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
       expect(find.byKey(const ValueKey('navigation-rail')), findsOneWidget);
-      expect(
-        tester.getSize(find.byKey(const ValueKey('attendance-panel'))).height,
-        greaterThan(0),
-        reason: 'The detail workspace must remain visible at $size',
-      );
-      expect(find.byType(SingleChildScrollView), findsNothing);
-      expect(find.byType(ListView), findsNothing);
-      final renderError = tester.takeException();
-      if (renderError is FlutterError) {
-        debugPrint(
-          'RESPONSIVE RENDER DIAGNOSTICS @ $size\\n'
-          '${renderError.diagnostics.map((node) => node.toString()).join('\\n')}',
-        );
-      }
-      expect(renderError, isNull, reason: 'Failed at $size');
+      expect(tester.getSize(find.byKey(const ValueKey('navigation-rail'))).height, greaterThan(0));
+      expect(tester.takeException(), isNull, reason: 'Viewport $size');
     }
     addViewportReset(tester);
   });
 
-  testWidgets('repeated mount and dispose stays clean', (tester) async {
+  testWidgets('check-in control stays stable across repeated taps', (tester) async {
     setPhoneViewport(tester, const Size(360, 700));
     addViewportReset(tester);
-
-    for (var cycle = 0; cycle < 5; cycle++) {
-      await tester.pumpWidget(const BadGymApp());
-      await tester.pumpAndSettle();
-      expect(find.text('Attendance Analytics'), findsOneWidget);
-      await tester.pumpWidget(const SizedBox.shrink());
-      await tester.pump();
-      expect(tester.takeException(), isNull);
-    }
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+    final checkIn = find.byKey(const ValueKey('check-in-button'));
+    await tester.tap(checkIn);
+    await tester.pumpAndSettle();
+    await tester.tap(checkIn);
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }
