@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../theme/member_theme.dart';
@@ -10,8 +12,8 @@ class AttendancePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        const fullHeight = 340.0;
-        const compactHeight = 280.0;
+        const fullHeight = 370.0;
+        const compactHeight = 300.0;
         final availableHeight = constraints.maxHeight;
         if (availableHeight < compactHeight) {
           return FittedBox(
@@ -39,27 +41,27 @@ class AttendancePanel extends StatelessWidget {
   Widget _panel({bool compact = false}) {
     final headerHeight = compact ? 20.0 : 24.0;
     final offerHeight = compact ? 23.0 : 30.0;
-    final chartHeight = compact ? 58.0 : 68.0;
-    final ringSize = compact ? 56.0 : 62.0;
+    final chartHeight = compact ? 62.0 : 78.0;
+    final ringSize = compact ? 58.0 : 70.0;
     final ringWidth = compact ? 8.0 : 9.0;
-    final recoveryHeight = compact ? 23.0 : 30.0;
-    final calendarTitleHeight = compact ? 20.0 : 24.0;
-    final cellHeight = compact ? 26.0 : 30.0;
-    final summaryHeight = compact ? 14.0 : 16.0;
+    final recoveryHeight = compact ? 24.0 : 31.0;
+    final calendarTitleHeight = compact ? 21.0 : 26.0;
+    final cellHeight = compact ? 29.0 : 36.0;
+    final summaryHeight = compact ? 15.0 : 18.0;
 
     return Container(
       padding: EdgeInsets.fromLTRB(7, compact ? 4 : 5, 7, compact ? 4 : 5),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFFFFFDFF), Color(0xFFEAD9FF), Color(0xFFF5E9FF)],
+          colors: [Color(0xFFFFFFFF), Color(0xFFF1E6FF), Color(0xFFFCF8FF)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(19),
-        border: Border.all(color: const Color(0xFFEBCFFF), width: 1.6),
+        border: Border.all(color: const Color(0xFFD8B6F2), width: 1.5),
         boxShadow: const [
-          BoxShadow(color: Color(0x669B4CFF), blurRadius: 9),
-          BoxShadow(color: Color(0x44FFFFFF), blurRadius: 2),
+          BoxShadow(color: Color(0x557D39B5), blurRadius: 8, offset: Offset(0, 2)),
+          BoxShadow(color: Color(0x88FFFFFF), blurRadius: 2),
         ],
       ),
       child: Column(
@@ -83,33 +85,33 @@ class AttendancePanel extends StatelessWidget {
                       SizedBox(
                         width: ringSize,
                         height: ringSize,
-                        child: CircularProgressIndicator(
-                          value: 0.81,
-                          strokeWidth: ringWidth,
-                          backgroundColor: const Color(0xFFE3D5F2),
-                          valueColor: const AlwaysStoppedAnimation<Color>(MemberTheme.green),
+                        child: CustomPaint(
+                          painter: const _AttendanceRingPainter(),
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '81%',
+                                  style: TextStyle(
+                                    color: MemberTheme.ink,
+                                    fontSize: compact ? 17 : 20,
+                                    height: 1,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                Text(
+                                  '25/31',
+                                  style: TextStyle(
+                                    color: MemberTheme.ink,
+                                    fontSize: compact ? 8 : 9,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            '81%',
-                            style: TextStyle(
-                              color: MemberTheme.ink,
-                              fontSize: compact ? 17 : 20,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          Text(
-                            '25/31',
-                            style: TextStyle(
-                              color: MemberTheme.ink,
-                              fontSize: compact ? 8 : 9,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
@@ -158,9 +160,9 @@ class AttendancePanel extends StatelessWidget {
           SizedBox(height: compact ? 1 : 2),
           Row(
             children: [
-              Expanded(child: _MiniStat(icon: '🔥', value: '5d', compact: compact)),
-              Expanded(child: _MiniStat(icon: '🏆', value: '14d', compact: compact)),
-              Expanded(child: _MiniStat(icon: '↗', value: '+6%', compact: compact)),
+              Expanded(child: _MiniStat(icon: '🔥', value: '5d', label: 'Streak', compact: compact)),
+              Expanded(child: _MiniStat(icon: '🏆', value: '14d', label: 'Best', compact: compact)),
+              Expanded(child: _MiniStat(icon: '↗', value: '+6%', label: 'This Month', compact: compact)),
             ],
           ),
           SizedBox(height: compact ? 1 : 2),
@@ -335,7 +337,7 @@ class AttendancePanel extends StatelessWidget {
     return _smallBanner(
       compact: compact,
       height: height,
-      asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png',
+      asset: 'assets/member_card/05_blinkit_grocery_bag.webp',
       assetWidth: compact ? 30 : 39,
       title: 'Healthy Snacks & Gym Essentials',
       subtitle: 'Member partner offer • Up to 30% OFF',
@@ -347,7 +349,7 @@ class AttendancePanel extends StatelessWidget {
     return _smallBanner(
       compact: compact,
       height: height,
-      asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png',
+      asset: 'assets/member_card/03_whey_protein_tub.webp',
       assetWidth: compact ? 23 : 29,
       title: 'Recovery Combo',
       subtitle: 'Up to 30% OFF',
@@ -473,29 +475,89 @@ class _MiniStat extends StatelessWidget {
   const _MiniStat({
     required this.icon,
     required this.value,
+    required this.label,
     required this.compact,
   });
 
   final String icon;
   final String value;
+  final String label;
   final bool compact;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(icon, style: TextStyle(fontSize: compact ? 9 : 10)),
-        const SizedBox(width: 3),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(icon, style: TextStyle(fontSize: compact ? 9 : 11)),
+            const SizedBox(width: 3),
+            Text(
+              value,
+              style: TextStyle(
+                color: MemberTheme.purple,
+                fontSize: compact ? 9 : 11,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ],
+        ),
         Text(
-          value,
+          label,
           style: TextStyle(
-            color: MemberTheme.purple,
-            fontSize: compact ? 9 : 11,
-            fontWeight: FontWeight.w900,
+            color: MemberTheme.muted,
+            fontSize: compact ? 5.5 : 6.5,
+            fontWeight: FontWeight.w800,
           ),
         ),
       ],
     );
   }
+}
+
+class _AttendanceRingPainter extends CustomPainter {
+  const _AttendanceRingPainter();
+
+  static const _segments = <(double, Color)>[
+    (23, Color(0xFF13CA69)),
+    (2, Color(0xFFE52B52)),
+    (4, Color(0xFF8A35D5)),
+    (2, Color(0xFFFFB21C)),
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final stroke = size.width < 64 ? 8.0 : 9.5;
+    final rect = Offset(stroke / 2, stroke / 2) &
+        Size(size.width - stroke, size.height - stroke);
+    final track = Paint()
+      ..color = const Color(0xFFE3D7EC)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = stroke;
+    canvas.drawArc(rect, 0, math.pi * 2, false, track);
+
+    var start = -math.pi / 2;
+    const gap = 0.035;
+    for (final segment in _segments) {
+      final sweep = math.pi * 2 * segment.$1 / 31;
+      final paint = Paint()
+        ..color = segment.$2
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = stroke
+        ..strokeCap = StrokeCap.round;
+      canvas.drawArc(
+        rect,
+        start + gap / 2,
+        math.max(0, sweep - gap),
+        false,
+        paint,
+      );
+      start += sweep;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _AttendanceRingPainter oldDelegate) => false;
 }
