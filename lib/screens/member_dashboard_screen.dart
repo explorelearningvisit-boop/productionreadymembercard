@@ -632,13 +632,13 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: MemberTheme.ink,
-                      fontSize: compact ? 17.5 : 21,
+                      fontSize: compact ? 17 : 21,
                       height: 1.03,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -0.25,
                     ),
                   ),
-                  SizedBox(height: compact ? 3 : 5),
+                  SizedBox(height: compact ? 2 : 5),
                   Row(
                     children: [
                       const Icon(
@@ -653,7 +653,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           maxLines: 1,
                           style: TextStyle(
                             color: const Color(0xFF573274),
-                            fontSize: compact ? 9.5 : 10.5,
+                            fontSize: compact ? 9 : 10.5,
+                            height: 1,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
@@ -706,7 +707,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: compact ? 4 : 6),
+                  SizedBox(height: compact ? 3 : 6),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -720,15 +721,16 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               palette.planBadgeText,
                               icon: Icons.workspace_premium_rounded,
                               gradient: palette.planBadgeGradient,
+                              compact: compact,
                             ),
-                            const SizedBox(height: 2),
-                            const Text(
+                            SizedBox(height: compact ? 1 : 2),
+                            Text(
                               'AD SPACE • BLINKIT',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: Color(0xFF80531B),
-                                fontSize: 7.8,
+                                fontSize: compact ? 7 : 8.2,
                                 height: 1,
                                 fontWeight: FontWeight.w900,
                               ),
@@ -750,15 +752,16 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 Color(0xFF2BE184),
                                 Color(0xFF08B962),
                               ],
+                              compact: compact,
                             ),
-                            const SizedBox(height: 2),
-                            const Text(
+                            SizedBox(height: compact ? 1 : 2),
+                            Text(
                               'AD SPACE • SBI REWARDS',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: Color(0xFF3D668A),
-                                fontSize: 7.8,
+                                color: const Color(0xFF3D668A),
+                                fontSize: compact ? 7 : 8.2,
                                 height: 1,
                                 fontWeight: FontWeight.w900,
                               ),
@@ -829,7 +832,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           letterSpacing: 0.15,
                         ),
                       ),
-                      const SizedBox(height: 3),
+                      SizedBox(height: compact ? 2 : 3),
                       FittedBox(
                         fit: BoxFit.scaleDown,
                         alignment: Alignment.centerLeft,
@@ -838,20 +841,20 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           maxLines: 1,
                           style: TextStyle(
                             color: MemberTheme.rose,
-                            fontSize: compact ? 18 : 20,
+                            fontSize: compact ? 16 : 20,
                             height: 1,
                             fontWeight: FontWeight.w900,
                             letterSpacing: -0.35,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 3),
+                      SizedBox(height: compact ? 2 : 3),
                       Text(
                         '${member.daysRemaining} Days Left',
                         maxLines: 1,
                         style: const TextStyle(
                           color: MemberTheme.muted,
-                          fontSize: 8.5,
+                          fontSize: compact ? 7.5 : 8.5,
                           height: 1,
                           fontWeight: FontWeight.w800,
                         ),
@@ -885,8 +888,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   motion: 1,
                   child: Image.asset(
                     'assets/member_card/03_whey_protein_tub.webp',
-                    width: compact ? 36 : 46,
-                    height: compact ? 40 : 49,
+                    width: compact ? 31 : 46,
+                    height: compact ? 33 : 49,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -902,28 +905,28 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                           color: MemberTheme.gold,
-                          fontSize: 9.5,
+                          fontSize: compact ? 8.5 : 9.5,
                           height: 1,
                           fontWeight: FontWeight.w900,
                           fontStyle: FontStyle.italic,
                         ),
                       ),
-                      const SizedBox(height: 3),
+                      SizedBox(height: compact ? 2 : 3),
                       Text(
                         '25% OFF',
                         maxLines: 1,
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: compact ? 16 : 19,
+                          fontSize: compact ? 14 : 19,
                           height: 1,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: compact ? 2 : 4),
                       Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 3,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: compact ? 6 : 8,
+                          vertical: compact ? 1 : 3,
                         ),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
@@ -936,7 +939,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           maxLines: 1,
                           style: TextStyle(
                             color: MemberTheme.ink,
-                            fontSize: 7.8,
+                            fontSize: compact ? 7 : 7.8,
                             height: 1,
                             fontWeight: FontWeight.w900,
                           ),
@@ -1133,9 +1136,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     Color foreground, {
     IconData? icon,
     List<Color>? gradient,
+    bool compact = false,
   }) {
     return Container(
-      height: 30,
+      height: compact ? 25 : 30,
       width: double.infinity,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
@@ -1161,7 +1165,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (icon != null) ...[
-            Icon(icon, color: foreground, size: 13),
+            Icon(icon, color: foreground, size: compact ? 11 : 13),
             const SizedBox(width: 3),
           ],
           Flexible(
@@ -1172,7 +1176,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 maxLines: 1,
                 style: TextStyle(
                   color: foreground,
-                  fontSize: 11,
+                  fontSize: compact ? 10 : 11,
                   height: 1,
                   fontWeight: FontWeight.w900,
                 ),
