@@ -43,7 +43,6 @@ class AttendancePanel extends StatelessWidget {
     final offerHeight = compact ? 23.0 : 30.0;
     final chartHeight = compact ? 62.0 : 78.0;
     final ringSize = compact ? 58.0 : 70.0;
-    final ringWidth = compact ? 8.0 : 9.0;
     final recoveryHeight = compact ? 24.0 : 31.0;
     final calendarTitleHeight = compact ? 21.0 : 26.0;
     final cellHeight = compact ? 29.0 : 36.0;
@@ -550,7 +549,7 @@ class _AttendanceRingPainter extends CustomPainter {
       canvas.drawArc(
         rect,
         start + gap / 2,
-        math.max(0, sweep - gap),
+        math.max(0.0, sweep - gap),
         false,
         paint,
       );
