@@ -1,6 +1,6 @@
 # BAD GYM — Pearl Glass / Purple Neon Member Intelligence Dashboard
 
-**Status:** Current approved visual reference supplied by the product owner on 2026-11-25. This document supersedes the earlier minimal-card-only scope.
+**Status:** Updated 2026-11-27 from the owner's second reference screenshot. The target is a bright pearl-glass content field framed by purple neon and gold—not a full-screen purple surface. The detailed tokens and component treatments are in `docs/REFERENCE_GLASS_VISUAL_SPEC.md`. This document supersedes the 2026-11-25 visual direction where they conflict.
 
 ## Product boundary
 One compact Android member dashboard card for the gym check-in flow. The app's own top menu, bottom navigation and Android system navigation are outside this component and must not be implemented here. The supplied full screenshot includes a six-item vertical navigation rail (Attend, Insights, Cal, History, Trend, Goals); reproduce it inside this dashboard.
