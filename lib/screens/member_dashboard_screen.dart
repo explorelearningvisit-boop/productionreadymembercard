@@ -560,7 +560,6 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       ),
                     ],
                   ),
-                ),
                 const SizedBox(width: 2),
                 ArtworkEntrance(
                   motion: 2,
