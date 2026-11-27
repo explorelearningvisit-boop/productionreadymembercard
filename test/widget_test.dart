@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bad_gym_member_intelligence/main.dart';
+import 'package:bad_gym_member_intelligence/data/sample_member.dart';
+import 'package:bad_gym_member_intelligence/screens/member_dashboard_screen.dart';
 import 'package:bad_gym_member_intelligence/theme/member_theme.dart';
 
 void main() {
@@ -56,6 +58,45 @@ void main() {
     expect(spark.accent, const Color(0xFF078552));
     expect(spark.frameGradient.first, const Color(0xFF06452F));
     expect(spark.canvasGradient.last, const Color(0xFFDDF8E8));
+  });
+
+  testWidgets('Spark member receives a green dashboard theme', (tester) async {
+    tester.view.physicalSize = const Size(360, 780);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    const sparkMember = MemberSample(
+      name: 'Spark Member',
+      memberId: 'BG216',
+      age: '24 yrs',
+      gender: 'Male',
+      plan: 'Spark Plan',
+      attendance: '88%',
+      workout: '42 min',
+      bodyWeight: '67 kg',
+      paymentDue: '₹0',
+      membershipDays: 12,
+      membershipTotalDays: 90,
+      daysRemaining: 78,
+    );
+
+    await tester.pumpWidget(
+      MaterialApp(
+        theme: MemberTheme.light,
+        home: const MemberDashboardScreen(member: sparkMember),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+    expect(
+      scaffold.backgroundColor,
+      MemberPlanPalette.forPlan('Spark Plan').frameGradient.first,
+    );
+    expect(find.text('Spark Plan'), findsOneWidget);
+    expect(find.text('Spark Member'), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 
   testWidgets('navigation rail is narrow and matches attendance panel height', (tester) async {
