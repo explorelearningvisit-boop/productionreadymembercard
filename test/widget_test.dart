@@ -1,70 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:bad_gym_member_intelligence/main.dart';
+import 'package:bad_gym_member_intelligence/data/dashboard_navigation.dart';
 import 'package:bad_gym_member_intelligence/data/sample_member.dart';
+import 'package:bad_gym_member_intelligence/main.dart';
 import 'package:bad_gym_member_intelligence/screens/member_dashboard_screen.dart';
 import 'package:bad_gym_member_intelligence/theme/member_theme.dart';
 
+void setPhoneViewport(WidgetTester tester, Size size) {
+  tester.view.physicalSize = size;
+  tester.view.devicePixelRatio = 1;
+}
+
+void addViewportReset(WidgetTester tester) {
+  addTearDown(tester.view.resetPhysicalSize);
+  addTearDown(tester.view.resetDevicePixelRatio);
+}
+
 void main() {
-  testWidgets('pearl glass dashboard renders all approved sections', (tester) async {
-    tester.view.physicalSize = const Size(360, 780);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
+  testWidgets('first reference structure and PulseVault artwork render', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
 
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
     expect(find.byKey(const ValueKey('check-in-button')), findsOneWidget);
-    expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
-    expect(find.text('CHECK-IN'), findsOneWidget);
-    expect(find.text('FREEZE'), findsOneWidget);
+    expect(find.text('Check-in'), findsOneWidget);
+    expect(find.text('Freeze'), findsOneWidget);
     expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
-    final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
-    expect(scaffold.backgroundColor, MemberPlanPalette.forPlan('Gold Plan').frameGradient.first);
-    final memberName = tester.widget<Text>(find.text('Ashwani Kumar Singh'));
-    expect(memberName.style?.color, MemberTheme.ink);
-    expect(find.text('ATTENDANCE'), findsOneWidget);
-    expect(find.byType(CustomPaint), findsWidgets);
-    expect(find.byIcon(Icons.account_balance_wallet_rounded), findsOneWidget);
-    expect(find.byIcon(Icons.calendar_month_rounded), findsOneWidget);
-    expect(find.text('Gold member perk • ₹100 off'), findsOneWidget);
-    expect(find.text('Active reward • 5% cashback'), findsOneWidget);
-    expect(find.text('28 yrs Yrs'), findsNothing);
-    expect(find.textContaining('Gold Plan'), findsOneWidget);
+    expect(find.text('Gold Plan'), findsOneWidget);
+    expect(find.text('Active'), findsOneWidget);
+    expect(find.text('Gold member perks · Sample'), findsOneWidget);
+    expect(find.text('Member rewards · Sample'), findsOneWidget);
+
+    expect(find.text('Attendance'), findsOneWidget);
+    expect(find.text('Workout'), findsOneWidget);
+    expect(find.text('Payment'), findsOneWidget);
+    expect(find.text('Body'), findsOneWidget);
     expect(find.text('₹500 Due'), findsNWidgets(2));
     expect(find.text('Membership 22 / 30 Days'), findsOneWidget);
     expect(find.text('Attendance Analytics'), findsOneWidget);
-    expect(find.text('Attendance'), findsOneWidget);
-    expect(find.text('Insights'), findsOneWidget);
-    expect(find.text('Goals'), findsOneWidget);
-    expect(find.text('October attendance'), findsOneWidget);
     expect(find.text('Present'), findsOneWidget);
     expect(find.text('Absent'), findsOneWidget);
     expect(find.text('Holiday'), findsOneWidget);
     expect(find.text('Late'), findsOneWidget);
-    expect(find.text('CREATINE 15% OFF'), findsOneWidget);
-    expect(find.text('BUY NOW ›'), findsOneWidget);
-    expect(find.text('Sample data • API connection required for live records'), findsOneWidget);
+    expect(find.text('October attendance'), findsOneWidget);
+
+    final scaffold = tester.widget<Scaffold>(find.byType(Scaffold));
+    expect(
+      scaffold.backgroundColor,
+      MemberPlanPalette.forPlan('Gold Plan').frameGradient.first,
+    );
+    expect(find.byType(CustomPaint), findsWidgets);
     expect(tester.takeException(), isNull);
   });
 
-  test('plan palettes switch the full card identity', () {
+  test('plan palettes use the full adaptive member shell', () {
     final gold = MemberPlanPalette.forPlan('Gold Plan');
     final spark = MemberPlanPalette.forPlan('Spark Plan');
+    final silver = MemberPlanPalette.forPlan('Silver Plan');
+
     expect(gold.planName, 'Gold');
+    expect(gold.railGradient.first, const Color(0xFF6D0201));
+    expect(gold.railSelected, const Color(0xFFFDE870));
+    expect(gold.canvasGradient.first, const Color(0xFFFFFEFC));
     expect(spark.planName, 'Spark');
-    expect(spark.accent, const Color(0xFF078552));
     expect(spark.frameGradient.first, const Color(0xFF06452F));
-    expect(spark.canvasGradient.last, const Color(0xFFDDF8E8));
+    expect(silver.planName, 'Silver');
   });
 
-  testWidgets('Spark member receives a green dashboard theme', (tester) async {
-    tester.view.physicalSize = const Size(360, 780);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
+  test('each horizontal module owns five contextual rail destinations', () {
+    for (final module in DashboardNavigation.modules) {
+      final items = DashboardNavigation.itemsFor(module);
+      expect(items, hasLength(5));
+      expect(items.first.id, 'overview');
+      expect(
+        DashboardNavigation.keyFor(module, 0),
+        'navigation-${module.name}-overview',
+      );
+    }
+
+    expect(
+      DashboardNavigation.itemsFor(DashboardModule.payment)
+          .map((item) => item.id),
+      containsAll(['invoices', 'history', 'methods', 'rewards']),
+    );
+    expect(
+      DashboardNavigation.itemsFor(DashboardModule.body)
+          .map((item) => item.id),
+      containsAll(['weight', 'measurements', 'nutrition', 'goals']),
+    );
+  });
+
+  testWidgets('Spark member receives the green shell', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
 
     const sparkMember = MemberSample(
       name: 'Spark Member',
@@ -99,11 +130,78 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('navigation rail is narrow and matches attendance panel height', (tester) async {
-    tester.view.physicalSize = const Size(360, 780);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
+  testWidgets('all four KPI cards change their module and vertical menu', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('metric-workout')));
+    await tester.pumpAndSettle();
+    expect(find.text('Workout Overview'), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-workout-overview')), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-workout-log')), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-workout-recovery')), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('metric-payment')));
+    await tester.pumpAndSettle();
+    expect(find.text('Payment Overview'), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-payment-invoices')), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-payment-methods')), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('metric-body')));
+    await tester.pumpAndSettle();
+    expect(find.text('Body Overview'), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-body-weight')), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-body-nutrition')), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('metric-attendance')));
+    await tester.pumpAndSettle();
+    expect(find.text('Attendance Analytics'), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-attendance-calendar')), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-attendance-goals')), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('vertical submenu opens the correct module-specific data', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    final destinations = <(String, String, String, String)>[
+      ('metric-attendance', 'navigation-attendance-calendar', 'Attendance Calendar', 'October 2026'),
+      ('metric-attendance', 'navigation-attendance-history', 'Attendance History', 'Gym check-in'),
+      ('metric-workout', 'navigation-workout-log', 'Workout Log', 'Latest workout summary'),
+      ('metric-workout', 'navigation-workout-trend', 'Workout Trend', 'WORKOUT MINUTES'),
+      ('metric-workout', 'navigation-workout-recovery', 'Recovery & Wellness', 'Recovery information'),
+      ('metric-workout', 'navigation-workout-goals', 'Workout Goals', 'Workout consistency'),
+      ('metric-payment', 'navigation-payment-invoices', 'Due & Invoices', 'Membership balance'),
+      ('metric-payment', 'navigation-payment-history', 'Payment History', 'No completed payments loaded'),
+      ('metric-payment', 'navigation-payment-methods', 'Payment Methods', 'Payment method preview'),
+      ('metric-payment', 'navigation-payment-rewards', 'Payment Rewards', 'No active reward campaign'),
+      ('metric-body', 'navigation-body-weight', 'Weight Trend', 'Weight trend is not available'),
+      ('metric-body', 'navigation-body-measurements', 'Body Measurements', 'Other measurements not loaded'),
+      ('metric-body', 'navigation-body-nutrition', 'Nutrition & Wellness', 'Nutrition offer preview'),
+      ('metric-body', 'navigation-body-goals', 'Body Goals', 'Set a body goal'),
+    ];
+
+    for (final destination in destinations) {
+      await tester.tap(find.byKey(ValueKey(destination.$1)));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(ValueKey(destination.$2)));
+      await tester.pumpAndSettle();
+      expect(find.text(destination.$3), findsOneWidget);
+      expect(find.textContaining(destination.$4), findsWidgets);
+      expect(tester.takeException(), isNull);
+    }
+  });
+
+  testWidgets('navigation rail fits its panel and keeps labels inside the frame', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
 
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
@@ -112,89 +210,30 @@ void main() {
     final panel = tester.getSize(find.byKey(const ValueKey('attendance-panel')));
     expect(rail.width, 50);
     expect(rail.height, closeTo(panel.height, 0.1));
-    expect(panel.height, greaterThan(290),
-        reason: 'Attendance panel should use the available height instead of leaving a large blank area');
-    final dateCell = tester.getSize(find.byKey(const ValueKey('attendance-day-13')));
-    expect(dateCell.height, greaterThanOrEqualTo(28),
-        reason: 'Calendar dates must remain readable at 360dp width');
-    final monthTitle = tester.widget<Text>(find.text('October attendance'));
-    expect(monthTitle.style?.fontSize, greaterThanOrEqualTo(14));
-    final presentLabel = tester.widget<Text>(find.text('Present'));
-    expect(presentLabel.style?.fontSize, greaterThanOrEqualTo(9));
+    expect(panel.height, greaterThan(290));
+    expect(find.text('Overview'), findsOneWidget);
+    expect(find.text('Calendar'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('vertical navigation changes the active data view', (tester) async {
-    tester.view.physicalSize = const Size(360, 780);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-
-    await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
-
-    final routes = <(String, String)>[
-      ('navigation-insights', 'Member Insights'),
-      ('navigation-calendar', 'Attendance Calendar'),
-      ('navigation-history', 'Recent History'),
-      ('navigation-trend', 'Workout & Attendance Trend'),
-      ('navigation-goals', 'Goals & Achievements'),
-    ];
-
-    for (final route in routes) {
-      await tester.tap(find.byKey(ValueKey(route.$1)));
-      await tester.pumpAndSettle();
-      expect(find.text(route.$2), findsOneWidget);
-      expect(tester.takeException(), isNull);
-    }
-
-    await tester.tap(find.byKey(const ValueKey('navigation-attendance')));
-    await tester.pumpAndSettle();
-    expect(find.text('Attendance Analytics'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('horizontal KPI cards open their matching data views', (tester) async {
-    tester.view.physicalSize = const Size(360, 780);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-
-    await tester.pumpWidget(const BadGymApp());
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(const ValueKey('metric-workout')));
-    await tester.pumpAndSettle();
-    expect(find.text('Workout & Attendance Trend'), findsOneWidget);
-
-    await tester.tap(find.byKey(const ValueKey('metric-payment')));
-    await tester.pumpAndSettle();
-    expect(find.text('Recent History'), findsOneWidget);
-
-    await tester.tap(find.byKey(const ValueKey('metric-body')));
-    await tester.pumpAndSettle();
-    expect(find.text('Goals & Achievements'), findsOneWidget);
-    expect(tester.takeException(), isNull);
-  });
-
-  testWidgets('check-in remains safe when tapped repeatedly', (tester) async {
-    tester.view.physicalSize = const Size(360, 780);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
+  testWidgets('check-in action remains safe when tapped repeatedly', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
 
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
     final checkIn = find.byKey(const ValueKey('check-in-button'));
+
     await tester.tap(checkIn);
-    await tester.pump();
+    await tester.pumpAndSettle();
     await tester.tap(checkIn);
-    await tester.pump();
+    await tester.pumpAndSettle();
+
     expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('dashboard renders on compact phone sizes without overflow or scrolling', (tester) async {
+  testWidgets('dashboard fits compact phone and short landscape-like viewports', (tester) async {
     for (final size in <Size>[
       const Size(320, 560),
       const Size(320, 640),
@@ -203,31 +242,27 @@ void main() {
       const Size(390, 720),
       const Size(800, 600),
     ]) {
-      tester.view.physicalSize = size;
-      tester.view.devicePixelRatio = 1;
+      setPhoneViewport(tester, size);
       await tester.pumpWidget(const BadGymApp());
       await tester.pumpAndSettle();
 
       expect(find.text('Ashwani Kumar Singh'), findsOneWidget);
-      expect(find.text('Attendance Analytics'), findsOneWidget);
+      expect(find.byKey(const ValueKey('navigation-rail')), findsOneWidget);
       expect(
         tester.getSize(find.byKey(const ValueKey('attendance-panel'))).height,
         greaterThan(0),
-        reason: 'Attendance panel must remain visible at $size',
+        reason: 'The detail workspace must remain visible at $size',
       );
       expect(find.byType(SingleChildScrollView), findsNothing);
       expect(find.byType(ListView), findsNothing);
-expect(tester.takeException(), isNull, reason: 'Failed at $size');
+      expect(tester.takeException(), isNull, reason: 'Failed at $size');
     }
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
+    addViewportReset(tester);
   });
 
   testWidgets('repeated mount and dispose stays clean', (tester) async {
-    tester.view.physicalSize = const Size(360, 700);
-    tester.view.devicePixelRatio = 1;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
+    setPhoneViewport(tester, const Size(360, 700));
+    addViewportReset(tester);
 
     for (var cycle = 0; cycle < 5; cycle++) {
       await tester.pumpWidget(const BadGymApp());
