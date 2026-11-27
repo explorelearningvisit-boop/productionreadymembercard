@@ -636,7 +636,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           const SizedBox(width: 8),
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 1),
+              padding: EdgeInsets.zero,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -653,7 +653,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       letterSpacing: -0.25,
                     ),
                   ),
-                  SizedBox(height: compact ? 2 : 5),
+                  SizedBox(height: compact ? 1 : 5),
                   Row(
                     children: [
                       const Icon(
@@ -722,7 +722,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: compact ? 3 : 6),
+                  SizedBox(height: compact ? 1 : 6),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -911,7 +911,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             radius: 17,
             padding: EdgeInsets.symmetric(
               horizontal: 5,
-              vertical: compact ? 3 : 5,
+              vertical: compact ? 2 : 5,
             ),
             child: Row(
               children: [
@@ -942,7 +942,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           fontStyle: FontStyle.italic,
                         ),
                       ),
-                      SizedBox(height: compact ? 2 : 3),
+                      SizedBox(height: compact ? 1 : 3),
                       Text(
                         '25% OFF',
                         maxLines: 1,
@@ -953,11 +953,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                      SizedBox(height: compact ? 2 : 4),
+                      SizedBox(height: compact ? 1 : 4),
                       Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: compact ? 6 : 8,
-                          vertical: compact ? 1 : 3,
+                          vertical: compact ? 0.5 : 3,
                         ),
                         decoration: BoxDecoration(
                           gradient: const LinearGradient(
@@ -1055,11 +1055,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               ),
             ],
           ),
-          SizedBox(height: compact ? 4 : 6),
+          SizedBox(height: compact ? 3 : 6),
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: SizedBox(
-              height: compact ? 9 : 12,
+              height: compact ? 8 : 12,
               width: double.infinity,
               child: Stack(
                 fit: StackFit.expand,
