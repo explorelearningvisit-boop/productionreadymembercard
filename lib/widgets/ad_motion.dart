@@ -124,3 +124,93 @@ class ArtworkEntrance extends StatelessWidget {
     );
   }
 }
+
+
+/// Rotates sponsor artwork independently from the member's data visualizations.
+/// Assets are bundled locally so ad changes never depend on network availability.
+class RotatingAdArtwork extends StatefulWidget {
+  const RotatingAdArtwork({
+    required this.assets,
+    required this.width,
+    required this.height,
+    this.interval = const Duration(seconds: 6),
+    this.fit = BoxFit.contain,
+    super.key,
+  });
+
+  final List<String> assets;
+  final double width;
+  final double height;
+  final Duration interval;
+  final BoxFit fit;
+
+  @override
+  State<RotatingAdArtwork> createState() => _RotatingAdArtworkState();
+}
+
+class _RotatingAdArtworkState extends State<RotatingAdArtwork> {
+  Timer? _timer;
+  int _index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _startRotation();
+  }
+
+  @override
+  void didUpdateWidget(covariant RotatingAdArtwork oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.assets != widget.assets ||
+        oldWidget.interval != widget.interval) {
+      _timer?.cancel();
+      _index = 0;
+      _startRotation();
+    }
+  }
+
+  void _startRotation() {
+    if (widget.assets.length > 1) {
+      _timer = Timer.periodic(widget.interval, (_) {
+        if (!mounted) return;
+        setState(() => _index = (_index + 1) % widget.assets.length);
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.assets.isEmpty) return SizedBox(width: widget.width, height: widget.height);
+    final asset = widget.assets[_index];
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 520),
+        switchInCurve: Curves.easeOutCubic,
+        switchOutCurve: Curves.easeInCubic,
+        transitionBuilder: (child, animation) => FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.88, end: 1).animate(animation),
+            child: child,
+          ),
+        ),
+        child: Image.asset(
+          asset,
+          key: ValueKey(asset),
+          width: widget.width,
+          height: widget.height,
+          fit: widget.fit,
+          filterQuality: FilterQuality.high,
+        ),
+      ),
+    );
+  }
+}
