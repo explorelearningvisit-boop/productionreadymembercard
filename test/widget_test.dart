@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bad_gym_member_intelligence/main.dart';
@@ -217,6 +218,17 @@ void main() {
       );
       expect(find.byType(SingleChildScrollView), findsNothing);
       expect(find.byType(ListView), findsNothing);
+      if (size == const Size(800, 600)) {
+        for (final element in tester.allElements) {
+          final renderObject = element.renderObject;
+          if (renderObject is RenderFlex) {
+            final dump = renderObject.toStringDeep();
+            if (dump.contains('OVERFLOWING')) {
+              debugPrint('OVERFLOW DEBUG TREE: $dump');
+            }
+          }
+        }
+      }
       expect(tester.takeException(), isNull, reason: 'Failed at $size');
     }
     addTearDown(tester.view.resetPhysicalSize);
