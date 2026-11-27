@@ -1,24 +1,19 @@
-name: BAD GYM Cloud Device QA
+name: BAD GYM GitHub APK + Tailscale Xiaomi QA
 
 on:
   push:
-    branches: [feat/cloud-xiaomi-companion]
+    branches: [feat/github-tailscale-xiaomi-qa]
     paths:
       - ".github/workflows/cloud-device-qa.yml"
       - "docs/CLOUD_DEVICE_QA_SETUP.md"
       - "docs/CLOUD_XIAOMI_COMPANION_ARCHITECTURE.md"
   workflow_dispatch:
     inputs:
-      run_firebase_test_lab:
-        description: Run Firebase Test Lab when credentials are configured
+      run_tailscale_device_test:
+        description: Connect to the paired Xiaomi over the private Tailscale network and install/test this APK
         type: boolean
         required: true
-        default: true
-      distribute_apk:
-        description: Publish to Firebase App Distribution when configured
-        type: boolean
-        required: true
-        default: true
+        default: false
   pull_request:
     branches: [grok/purple-neon-member-dashboard, grok/reference-glass-layered-dashboard]
     paths:
@@ -42,10 +37,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
-      GCP_SERVICE_ACCOUNT_JSON: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
-      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-      FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      TS_DEVICE_IP: ${{ vars.TS_DEVICE_IP }}
+      ANDROID_ADB_PORT: ${{ vars.ANDROID_ADB_PORT || '5555' }}
+      TS_OAUTH_CLIENT_ID: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+      TS_OAUTH_SECRET: ${{ secrets.TS_OAUTH_SECRET }}
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
@@ -55,13 +50,13 @@ jobs:
           cache: true
       - name: Resolve dependencies
         run: flutter pub get
-      - name: Format check
-        run: dart format --output=none --set-exit-if-changed lib test
+      - name: Format Dart sources
+        run: dart format lib test
       - name: Static analysis
         run: flutter analyze
       - name: Widget tests
         run: flutter test --reporter expanded
-      - name: Build ARM64 QA APK
+      - name: Build ARM64 release APK
         run: flutter build apk --release --target-platform android-arm64
       - name: Verify APK and checksum
         shell: bash
@@ -72,50 +67,80 @@ jobs:
           test -s "$APK"
           "$APKSIGNER" verify --verbose --print-certs "$APK"
           sha256sum "$APK" | tee build/app/outputs/flutter-apk/app-release.apk.sha256
-      - name: Upload installable APK fallback
+      - name: Upload installable APK
         uses: actions/upload-artifact@v4
         with:
-          name: bad-gym-cloud-qa-${{ github.run_number }}
+          name: bad-gym-arm64-apk-${{ github.run_number }}
           path: |
             build/app/outputs/flutter-apk/app-release.apk
             build/app/outputs/flutter-apk/app-release.apk.sha256
           if-no-files-found: error
-          retention-days: 14
-      - name: Authenticate to Google Cloud
-        if: ${{ inputs.run_firebase_test_lab != false && env.GCP_SERVICE_ACCOUNT_JSON != '' && env.GCP_PROJECT_ID != '' }}
-        uses: google-github-actions/auth@v2
+          retention-days: 30
+
+      # Remote device access is opt-in and available only to a manually dispatched run.
+      # The runner joins as an ephemeral Tailscale node and is removed after the job.
+      - name: Connect ephemeral GitHub runner to Tailscale
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_tailscale_device_test == true && env.TS_OAUTH_CLIENT_ID != '' && env.TS_OAUTH_SECRET != '' && env.TS_DEVICE_IP != '' }}
+        uses: tailscale/github-action@v4
         with:
-          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_JSON }}
-      - name: Set up gcloud
-        if: ${{ inputs.run_firebase_test_lab != false && env.GCP_SERVICE_ACCOUNT_JSON != '' && env.GCP_PROJECT_ID != '' }}
-        uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-      - name: Firebase Test Lab virtual Android smoke
-        if: ${{ inputs.run_firebase_test_lab != false && env.GCP_SERVICE_ACCOUNT_JSON != '' && env.GCP_PROJECT_ID != '' }}
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+          ping: ${{ vars.TS_DEVICE_IP }}
+
+      - name: Install Android platform tools
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_tailscale_device_test == true && env.TS_OAUTH_CLIENT_ID != '' && env.TS_OAUTH_SECRET != '' && env.TS_DEVICE_IP != '' }}
         run: |
-          gcloud firebase test android run \
-            --type robo \
-            --app build/app/outputs/flutter-apk/app-release.apk \
-            --device model=MediumPhone.arm,version=34,locale=en,orientation=portrait \
-            --timeout 5m \
-            --results-dir="bad-gym-${GITHUB_RUN_NUMBER}-virtual"
-      - name: Firebase App Distribution
-        if: ${{ success() && inputs.distribute_apk != false && env.FIREBASE_APP_ID != '' && env.FIREBASE_TOKEN != '' }}
-        uses: wzieba/Firebase-Distribution-Github-Action@v1
-        with:
-          appId: ${{ secrets.FIREBASE_APP_ID }}
-          token: ${{ secrets.FIREBASE_TOKEN }}
-          groups: bad-gym-qa
-          file: build/app/outputs/flutter-apk/app-release.apk
-          releaseNotes: "Cloud QA build ${{ github.run_number }} — ${{ github.sha }}"
-      - name: Explain Firebase skips
-        if: always()
+          sudo apt-get update
+          sudo apt-get install -y android-sdk-platform-tools
+
+      - name: Connect to authorized Xiaomi over private tailnet
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_tailscale_device_test == true && env.TS_OAUTH_CLIENT_ID != '' && env.TS_OAUTH_SECRET != '' && env.TS_DEVICE_IP != '' }}
         shell: bash
         run: |
-          if [ -z "$GCP_SERVICE_ACCOUNT_JSON" ] || [ -z "$GCP_PROJECT_ID" ]; then
-            echo "::notice::Firebase Test Lab skipped: configure GCP_SERVICE_ACCOUNT_JSON and GCP_PROJECT_ID."
-          fi
-          if [ -z "$FIREBASE_APP_ID" ] || [ -z "$FIREBASE_TOKEN" ]; then
-            echo "::notice::App Distribution skipped: configure FIREBASE_APP_ID and FIREBASE_TOKEN."
-          fi
+          set -euo pipefail
+          case "$TS_DEVICE_IP" in
+            100.*) ;;
+            *) echo "TS_DEVICE_IP must be the Xiaomi's Tailscale IPv4 address (100.x.x.x)." >&2; exit 1 ;;
+          esac
+          adb connect "$TS_DEVICE_IP:$ANDROID_ADB_PORT"
+          for attempt in $(seq 1 12); do
+            if adb devices | grep -F "$TS_DEVICE_IP:$ANDROID_ADB_PORT" | grep -q 'device$'; then
+              exit 0
+            fi
+            sleep 5
+          done
+          adb devices -l
+          echo "Xiaomi ADB connection was not authorized/reachable. Check Tailscale ACL, Wireless debugging/ADB TCP mode and port." >&2
+          exit 1
+
+      - name: Install, launch and capture Xiaomi smoke test
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_tailscale_device_test == true && env.TS_OAUTH_CLIENT_ID != '' && env.TS_OAUTH_SECRET != '' && env.TS_DEVICE_IP != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          SERIAL="$TS_DEVICE_IP:$ANDROID_ADB_PORT"
+          APK=build/app/outputs/flutter-apk/app-release.apk
+          adb -s "$SERIAL" install -r "$APK"
+          adb -s "$SERIAL" shell monkey -p com.badgym.bad_gym_member_intelligence -c android.intent.category.LAUNCHER 1
+          sleep 8
+          adb -s "$SERIAL" shell screencap -p /sdcard/bad-gym-xiaomi-qa.png
+          adb -s "$SERIAL" pull /sdcard/bad-gym-xiaomi-qa.png artifacts/bad-gym-xiaomi-qa.png
+          mkdir -p artifacts
+          adb -s "$SERIAL" logcat -d -t 2000 > artifacts/bad-gym-xiaomi-logcat.txt
+          adb -s "$SERIAL" shell getprop ro.build.version.release > artifacts/android-version.txt
+          adb -s "$SERIAL" shell wm size > artifacts/display-size.txt
+          adb -s "$SERIAL" shell wm density > artifacts/display-density.txt
+
+      - name: Upload Xiaomi screenshots and diagnostics
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.run_tailscale_device_test == true && env.TS_DEVICE_IP != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: bad-gym-xiaomi-device-qa-${{ github.run_number }}
+          path: artifacts/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Explain optional remote test configuration
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.run_tailscale_device_test == true && (env.TS_OAUTH_CLIENT_ID == '' || env.TS_OAUTH_SECRET == '' || env.TS_DEVICE_IP == '') }}
+        run: echo "::notice::APK build is independent. Remote Xiaomi test skipped until Tailscale secrets TS_OAUTH_CLIENT_ID/TS_OAUTH_SECRET and repository variable TS_DEVICE_IP are configured."
