@@ -1,54 +1,56 @@
 # BAD GYM — Current product design direction
 
-**Product.** A phone-first gym member dashboard for members and gym staff to understand plan status, check-in, dues, attendance, workout activity, body progress and goals at a glance.
+**Product.** A phone-first gym member dashboard for members and gym staff to understand check-in, attendance, workout, payment, body composition and membership status.
 
-**Character.** Athletic, assured, warm and precise. It should feel like a considered fitness-club product, not a generic AI dashboard or a neon gaming interface.
+**Character.** Athletic, confident, tactile and data-rich.
 
-**World.** A premium training club with a plan-specific member shell and a quiet pearl information workspace. The shell follows the member's purchased tier; ads and campaign artwork retain their own brand palettes.
+**World.** A premium fitness club rendered in lilac pearl glass: lavender glass surfaces, deep-violet navigation, purple highlights, bright green success/progress, amber caution and rose absence/due states.
 
-## Member-plan colour contract
+## Reference-derived visual system
 
-| Plan | Shell and rail | Inner canvas | Active accent |
-|---|---|---|---|
-| Gold | Metallic gold / amber, dark bronze rail, champagne rim | Warm pearl and cream | Deep gold with a pale-gold selected state |
-| Silver | Cool steel and silver rail | White and cool mist | Steel blue / silver |
-| Diamond | Ice blue, silver-blue rail and icy rim | Pearl white and pale blue | Cyan / ice blue |
-| Spark | Forest green and emerald rail | White, mint and pale green | Emerald / lime |
+- Use the supplied five dashboard references as the visual authority for the four KPI modules and payment detail variations.
+- Apply the lilac/purple glass shell consistently across Gold, Silver, Diamond and Spark plans. Plan identity stays in its own badge and membership copy; it must not recolour the entire application shell.
+- Keep operational semantics stable: present/success green, late amber, absent/payment due rose, holiday neutral/violet.
+- Use a pale lavender canvas, soft raised pearl cards, restrained inner highlights, thin lavender edges and controlled shadows. Avoid dark page backgrounds and indiscriminate neon glow.
+- Use glassmorphism and soft neumorphic depth on containers, with selective skeuomorphic details only for meaningful controls (progress, rings, payment state, chart markers). Do not make every surface equally glossy.
+- Campaign artwork retains its own brand colours and must remain marked as a demo until a real merchant is connected.
 
-Plan identity is derived from the member's plan record. A tier changes the full member shell coherently; it must not change operational status semantics. Present remains green, absent rose, holiday violet and late amber. Payment due remains rose. Advertising is not recoloured to match a plan.
+## Information architecture
 
-## Visual hierarchy
+- Horizontal KPI tabs: Attendance, Workout, Payment and Body.
+- Tapping a KPI changes the contextual vertical rail.
+- Each module exposes six destinations; selecting one opens exactly one corresponding detail widget in the content pane.
+- Attendance: overview, insights, calendar, history, trend and goals.
+- Workout: overview, insights, log, trend, recovery and goals.
+- Payment: overview, insights, invoices, history, methods and rewards.
+- Body: overview, insights, weight trend, measurements, nutrition and goals.
+- Preserve the member identity/progress header; module-specific content must add unique information rather than duplicate the same KPI values repeatedly.
 
-- **Member shell:** Check-in, Freeze, identity, membership progress, KPI module cards and the vertical rail share the active member-plan palette.
-- **Data workspace:** Keep the analytics/detail workspace pearl-white or warm white with quiet borders and restrained shadows.
-- **Member identity:** Name, member ID, plan and active state remain the first-read identity. Portrait proportions and the name baseline must not be compressed by decorative backplates.
-- **KPI cards:** Attendance, Workout, Payment and Body are the four primary modules. Values lead; captions and product campaign strips remain secondary.
-- **Navigation:** Selecting a KPI changes the six-item contextual rail. Each rail item opens the matching module-specific panel. Module changes reset the submenu to that module's overview. Both navigation surfaces share one state.
-- **Campaigns:** Keep each advert as one paired creative, offer and action. Demo campaign cards must disclose that purchase/merchant destinations are not connected. Never invent advertiser relationships or live discounts.
-- **Surface treatment:** Use soft raised surfaces sparingly. Use a contained outer rim and one or two deliberate depth moments. Avoid universal glow, excessive blur and rainbow gradients.
-- **Typography:** Main member name, payment amount, KPI values, attendance percentage and calendar dates take priority. Do not shrink primary text to hide an overflow.
-- **Graphics:** Use the supplied PulseVault assets, preserve aspect ratio and transparent edges, and do not hot-link arbitrary artwork at runtime.
+## Charts, data and visual assets
+
+- Charts must use real, labelled axes/units and consistent semantic series colours. Sample charts must be explicitly marked as sample.
+- Use the existing Flutter drawing/widgets and project dependencies where they meet the design; add a chart dependency only when it is actually used in production code.
+- Prefer existing PulseVault transparent cut-outs and preserve their aspect ratio. Generate new transparent PNG assets only for a specific missing visual slot; never invent assets as decoration.
+- Keep the current member sample data clearly marked. No chart, AI insight, payment, attendance or check-in value may be represented as live until its data source is connected.
 
 ## Motion and interaction
 
-- Use 160–220 ms ease-out transitions for hover, focus and selection, and a short fade/slide transition when the detail panel changes.
-- Product cut-outs may use a one-shot entrance plus subtle perspective tilt on hover and a tiny pressed response on touch.
-- Do not continuously spin product bottles, rotate text or animate whole cards indefinitely.
-- Honor Android's reduced-animation preference. Motion must never carry information needed to complete an action.
-- Hover is progressive enhancement for pointer devices; every action must remain usable by touch and keyboard/focus.
+- Use 160–220 ms ease-out selection and state transitions, and 220–360 ms fade/slide transitions between module widgets.
+- Add restrained depth/tilt and press feedback to artwork and interactive cards; never continuously spin product imagery.
+- Respect Android reduced-motion settings. All actions remain usable by touch, keyboard/focus and TalkBack.
 
-## Layout and behaviour
+## Layout and validation
 
-- Primary target is 360 dp width. Verify 320, 360 and 390 dp widths and usable heights from 560–800 dp.
-- Preserve the compact, no-unnecessary-scroll composition. Recover space from duplicated captions and low-priority padding before reducing primary text or artwork.
-- Keep six clearly tappable contextual rail destinations; every one must open a unique content view.
-- Calendar dates and labels must agree with the displayed period. Charts must describe the metric they actually plot.
-- Until live services are connected, mark sample member, analytics, goals and campaign values as sample/demo. Never describe sample data as live.
+- Primary target: 360 dp wide, with 320, 360 and 390 dp width checks and 560–800 dp usable height checks.
+- Keep the dashboard compact and avoid unnecessary scrolling, but do not shrink primary data to hide overflow.
+- Every menu item must have a unique content widget and an honest demo/live status.
+- Run formatting, static analysis, widget tests, ARM64 release build and APK signature checks after changes.
+- CI success is not physical-device visual verification. Record Xiaomi 11i screenshot comparison separately.
 
 ## Direction summary
 
-- **Product:** A member intelligence card for a gym member and their club team.
-- **Character:** Athletic, calm, premium and trustworthy.
-- **World:** A plan-coloured membership shell around a bright pearl data workspace.
-- **Moments:** Member identity, four KPI modules, contextual rail, and the attendance analytics calendar.
-- **Signature:** Plan-tier metal colour, clear operational status colours, supplied fitness artwork and restrained tactile depth.
+- **Product:** Member intelligence and progress for a gym member.
+- **Character:** Athletic, tactile, assured.
+- **World:** Lavender pearl glass with deep violet chrome and semantic data colours.
+- **Moments:** Attendance calendar, workout analytics, payment behaviour and body composition.
+- **Signature:** One coherent purple glass system with bright semantic data and tier-specific member badges.
