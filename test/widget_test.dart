@@ -39,25 +39,33 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  test('Gold member uses purple neon and pearl glass, while Spark and Silver remain distinct', () {
+  test('Gold, Silver, Diamond and Spark use distinct member palettes', () {
     final gold = MemberPlanPalette.forPlan('Gold Plan');
     final spark = MemberPlanPalette.forPlan('Spark Plan');
     final silver = MemberPlanPalette.forPlan('Silver Plan');
+    final diamond = MemberPlanPalette.forPlan('Diamond Plan');
     expect(gold.planName, 'Gold');
-    expect(gold.frameGradient.first, const Color(0xFF210047));
-    expect(gold.railGradient.first, const Color(0xFF7410C9));
-    expect(gold.railSelected, const Color(0xFFFFE45E));
-    expect(gold.canvasGradient.first, const Color(0xFFFFFCFF));
+    expect(gold.frameGradient.first, const Color(0xFF3B2500));
+    expect(gold.railGradient.first, const Color(0xFF765000));
+    expect(gold.railSelected, const Color(0xFFFFE7A1));
+    expect(gold.canvasGradient.first, const Color(0xFFFFFEF8));
     expect(spark.frameGradient.first, const Color(0xFF06452F));
     expect(silver.frameGradient.first, const Color(0xFF23334C));
+    expect(diamond.planName, 'Diamond');
+    expect(diamond.frameGradient.first, const Color(0xFF18364B));
   });
 
   test('each module has six destinations in the screenshot rail contract', () {
     for (final module in DashboardNavigation.modules) {
       final items = DashboardNavigation.itemsFor(module);
       expect(items, hasLength(6));
-      expect(items.first.label, 'Attend');
-      expect(items.last.label, 'Goals');
+      expect(items.first.label, switch (module) {
+        DashboardModule.attendance => 'Attend',
+        DashboardModule.workout => 'Workout',
+        DashboardModule.payment => 'Payment',
+        DashboardModule.body => 'Body',
+      });
+      expect(items.last.label, module == DashboardModule.payment ? 'Rewards' : 'Goals');
     }
     expect(
       DashboardNavigation.itemsFor(DashboardModule.attendance).map((item) => item.id),
