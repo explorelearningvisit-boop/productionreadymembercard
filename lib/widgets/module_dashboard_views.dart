@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import '../data/dashboard_navigation.dart';
@@ -5,8 +6,9 @@ import '../data/sample_member.dart';
 import '../theme/member_theme.dart';
 import 'member_charts.dart';
 
-/// A dedicated compact intelligence surface for every contextual rail item.
-class ModuleDashboardView extends StatelessWidget {
+/// Reference-led content for the 24 member intelligence destinations.
+/// Illustrative data is marked as preview; verified history requires a service.
+class ModuleDashboardView extends StatefulWidget {
   const ModuleDashboardView({
     required this.module,
     required this.sectionIndex,
@@ -22,376 +24,830 @@ class ModuleDashboardView extends StatelessWidget {
   final MemberPlanPalette palette;
   final MemberSample member;
 
+  @override
+  State<ModuleDashboardView> createState() => _ModuleDashboardViewState();
+}
+
+enum _PreviewRange { week, month, quarter, year }
+
+class _ModuleDashboardViewState extends State<ModuleDashboardView> {
+  _PreviewRange _range = _PreviewRange.month;
+  DateTime _calendarMonth = DateTime(2026, 10);
+  int? _selectedCalendarDay = 16;
+
+  bool get compact => widget.compact;
+  MemberPlanPalette get palette => widget.palette;
+  MemberSample get member => widget.member;
   double get gap => compact ? 4 : 6;
 
   @override
-  Widget build(BuildContext context) => switch (module) {
-    DashboardModule.attendance => _attendance(),
-    DashboardModule.workout => _workout(),
-    DashboardModule.payment => _payment(),
-    DashboardModule.body => _body(),
-  };
+  Widget build(BuildContext context) => switch (widget.module) {
+        DashboardModule.attendance => _attendance(),
+        DashboardModule.workout => _workout(),
+        DashboardModule.payment => _payment(),
+        DashboardModule.body => _body(),
+      };
 
-  Widget _attendance() => switch (sectionIndex) {
-    1 => _page([
-      _stats('Attendance', member.attendance, 'Streak', 'Preview', MemberTheme.green, MemberTheme.amber),
-      _line('WEEKLY ACTIVITY', 'Check-in distribution · illustrative sample', const [[42,58,51,72,63,84,76]], [MemberTheme.green]),
-      _note('Weekly visit score', 'Dated check-in history is required for personal insights', Icons.insights_rounded),
-    ]),
-    2 => _calendar(),
-    3 => _page([
-      _stats('Attendance', member.attendance, 'Check-in', 'Preview', MemberTheme.green, palette.accent),
-      _history('Gym check-in', [
-        ['Latest visit', 'Demo event · server history not connected', 'Preview'],
-        ['Previous visits', 'Dated attendance log not available', '—'],
-        ['Check-in time', 'Waiting for the attendance service', '—'],
-      ]),
-      _note('Verified visit records', 'Only dated, server-confirmed visits can appear here', Icons.history_rounded),
-    ]),
-    4 => _page([
-      _stats('Attendance average', member.attendance, 'Next goal', '90%', MemberTheme.green, palette.accent),
-      _line('Attendance trend', '12-month illustrative trend · not member history', const [[61,68,74,70,58,81,76,86,78,83,75,81]], [palette.accent]),
-      _stats('Best month', '—', 'Tracked months', '0 / 12', MemberTheme.amber, palette.accent),
-      _note('Attendance trend is not connected', 'Dated monthly check-ins are required for an accurate trend', Icons.show_chart_rounded),
-    ]),
-    5 => _page([
-      _goal('Monthly attendance target', 'Goal: 24 visits · sample', 0.81, MemberTheme.green),
-      _goal('Attendance consistency', 'Suggested target: 90%', 0.81, palette.accent),
-      _goal('Weekly routine', 'Suggested target: 5 visits', 0.72, MemberTheme.amber),
-      _line('Monthly attendance', 'Illustrative goal progress', const [[35,42,48,61,66,72,81]], [MemberTheme.green]),
-      _note('Personal attendance targets', 'Targets stay previews until a member goal is saved', Icons.flag_rounded),
-    ]),
-    _ => const SizedBox.shrink(),
-  };
+  Widget _attendance() => switch (widget.sectionIndex) {
+        0 => _page([
+            _pairStats('Attendance rate', member.attendance, 'Attendance data',
+                'Sample only', MemberTheme.green, palette.accent),
+            _donutBreakdown(
+              'Attendance distribution',
+              'Illustrative monthly counts · not a live record',
+              const [23, 2, 2, 4],
+              const [MemberTheme.green, MemberTheme.amber, MemberTheme.rose, MemberTheme.purple],
+              const [['Present', '23'], ['Late', '2'], ['Absent', '2'], ['Holiday', '4']],
+            ),
+            _note('Attendance overview',
+                'Connect the attendance service to replace this preview with dated visits',
+                Icons.event_available_rounded),
+          ]),
+        1 => _page([
+            _pairStats('Attendance score', member.attendance, 'Visit history',
+                'Not synced', MemberTheme.green, palette.accent),
+            _donutBreakdown(
+              'Attendance distribution',
+              'Present · late · absent · holiday · Demo',
+              const [23, 2, 2, 4],
+              const [MemberTheme.green, MemberTheme.amber, MemberTheme.rose, MemberTheme.purple],
+              const [['Present', '23'], ['Late', '2'], ['Absent', '2'], ['Holiday', '4']],
+            ),
+            _chart('WEEKLY ACTIVITY', 'Visit consistency · illustrative sample',
+                const [3, 4, 2, 5, 4, 6, 5], MemberTheme.green, unit: 'visits'),
+            _note('Attendance insight',
+                'Streaks and personal patterns require a dated check-in history',
+                Icons.insights_rounded),
+          ]),
+        2 => _calendar(),
+        3 => _page([
+            _pairStats('Attendance rate', member.attendance, 'Verified visits',
+                'Not synced', MemberTheme.green, palette.accent),
+            _historyCard('Gym check-in',
+                'No dated check-in records have been returned by the attendance service',
+                Icons.history_rounded),
+            _note('History is waiting for sync',
+                'A visit appears here only after the gym server confirms it',
+                Icons.verified_user_outlined),
+          ]),
+        4 => _page([
+            _pairStats('Attendance trend', member.attendance, 'Tracked months',
+                'Not available', MemberTheme.green, palette.accent),
+            _trendChart('Attendance trend',
+                'Attendance rate (%) · illustrative only',
+                const [68, 72, 74, 70, 58, 76, 81, 78, 83, 75, 81, 81],
+                MemberTheme.green, unit: '%'),
+            _note('Attendance trend is not connected',
+                'Dated monthly check-ins are required for a reliable trend',
+                Icons.show_chart_rounded),
+          ]),
+        5 => _page([
+            _goal('Monthly attendance', 'Suggested target · not saved', 0, MemberTheme.green),
+            _goal('Attendance consistency', 'Set a personal target after history sync', 0, palette.accent),
+            _goal('Weekly routine', 'Coach-defined schedule required', 0, MemberTheme.amber),
+            _note('Monthly attendance',
+                'Goals remain suggestions until a member or coach saves them',
+                Icons.flag_rounded),
+          ]),
+        _ => const SizedBox.shrink(),
+      };
 
   Widget _calendar() {
-    const days = <int>[0,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,0,0];
-    const state = <int,int>{1:1,2:1,3:1,4:0,5:1,6:1,7:1,8:1,9:1,10:1,11:0,12:1,13:1,14:1,15:1,16:1,17:2,18:0,19:1,20:1,21:1,22:1,23:1,24:2,25:0,26:1,27:1,28:1,29:1,30:1,31:1};
-    const colors = <int,Color>{0:Color(0xFFE7E2ED),1:Color(0xFFD6F5E0),2:Color(0xFFFFE0E6)};
-    return Column(children: [
-      Row(children: [
-        const Expanded(child: Text('October 2026', style: TextStyle(color: MemberTheme.ink,fontSize:12,fontWeight:FontWeight.w900))),
-        _legend(MemberTheme.green,'Present'),_legend(MemberTheme.rose,'Absent'),_legend(MemberTheme.amber,'Late'),
-      ]),
-      SizedBox(height: gap),
-      const Row(children: [_Tick('Mon'),_Tick('Tue'),_Tick('Wed'),_Tick('Thu'),_Tick('Fri'),_Tick('Sat'),_Tick('Sun')]),
-      Expanded(child: Column(children: [
-        for (var w=0; w<5; w++) Expanded(child: Row(children: [
-          for (var d=0; d<7; d++) Expanded(child: Builder(builder: (context) {
-            final day = days[w*7+d];
-            return Container(
-              margin: const EdgeInsets.all(1.5),
-              decoration: BoxDecoration(
-                color: day == 0 ? Colors.transparent : colors[state[day] ?? 0],
-                borderRadius: BorderRadius.circular(8),
-                border: day == 16 ? Border.all(color: MemberTheme.purple,width:2) : Border.all(color: Colors.white.withOpacity(0.85)),
+    const weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final firstWeekday = DateTime(_calendarMonth.year, _calendarMonth.month, 1).weekday - 1;
+    final daysInMonth = DateTime(_calendarMonth.year, _calendarMonth.month + 1, 0).day;
+    final cellCount = ((firstWeekday + daysInMonth + 6) ~/ 7) * 7;
+    final monthName = _monthName(_calendarMonth.month);
+    final selectedStatus = _selectedCalendarDay == null
+        ? 'No date selected'
+        : _calendarStatus(_selectedCalendarDay!);
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            IconButton(
+              key: const ValueKey('calendar-prev'),
+              tooltip: 'Previous month',
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints.tightFor(width: 28, height: 28),
+              onPressed: () => setState(() {
+                _calendarMonth = DateTime(_calendarMonth.year, _calendarMonth.month - 1);
+                _selectedCalendarDay = null;
+              }),
+              icon: const Icon(Icons.chevron_left_rounded, size: 20),
+              color: palette.accent,
+            ),
+            Expanded(
+              child: Text('$monthName ' + _calendarMonth.year.toString(),
+                  key: const ValueKey('calendar-month-label'),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: MemberTheme.ink, fontSize: 12, fontWeight: FontWeight.w900)),
+            ),
+            IconButton(
+              key: const ValueKey('calendar-next'),
+              tooltip: 'Next month',
+              visualDensity: VisualDensity.compact,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints.tightFor(width: 28, height: 28),
+              onPressed: () => setState(() {
+                _calendarMonth = DateTime(_calendarMonth.year, _calendarMonth.month + 1);
+                _selectedCalendarDay = null;
+              }),
+              icon: const Icon(Icons.chevron_right_rounded, size: 20),
+              color: palette.accent,
+            ),
+          ],
+        ),
+        SizedBox(height: gap),
+        Row(
+          children: [
+            for (final label in weekdayLabels)
+              Expanded(
+                child: Center(
+                  child: Text(label,
+                      style: const TextStyle(color: MemberTheme.muted, fontSize: 8, fontWeight: FontWeight.w800)),
+                ),
               ),
-              child: Center(child: Text(day == 0 ? '' : day.toString(),
-                style: const TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w900))),
-            );
-          })),
-        ])),
-      ])),
-      _note('Sample day status','Live calendar dates require the attendance service',Icons.calendar_month_rounded),
-    ]);
+          ],
+        ),
+        SizedBox(height: gap),
+        Expanded(
+          child: Column(
+            children: [
+              for (var row = 0; row < cellCount ~/ 7; row++)
+                Expanded(
+                  child: Row(
+                    children: [
+                      for (var col = 0; col < 7; col++)
+                        Expanded(child: _calendarCell(row * 7 + col - firstWeekday + 1, daysInMonth)),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+        SizedBox(height: compact ? 3 : 5),
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          spacing: 5,
+          runSpacing: 2,
+          children: [
+            _legend(MemberTheme.green, 'Present'),
+            _legend(MemberTheme.amber, 'Late'),
+            _legend(MemberTheme.rose, 'Absent'),
+            _legend(MemberTheme.purple, 'Holiday'),
+            _legend(const Color(0xFFE5E1EB), 'Off'),
+          ],
+        ),
+        SizedBox(height: compact ? 3 : 5),
+        _note('Calendar preview · $selectedStatus',
+            'Sample status colours only; no live attendance dates are stored',
+            Icons.calendar_month_rounded),
+      ],
+    );
   }
 
-  Widget _workout() => switch (sectionIndex) {
-    0 => _page([
-      _stats('Workout average', member.workout, 'Weekly sessions', 'Not linked', palette.accent, MemberTheme.green),
-      _stats('Best session', 'Not linked', 'Consistency', 'Not linked', MemberTheme.amber, palette.accent),
-      _bar('Daily Workout Trend', 'Illustrative minutes · waiting for dated sessions', const [32,48,26,64,42,76,58], palette.accent, 90),
-      _note('Session data preview','Session statistics are preview cards until workout tracking is connected',Icons.fitness_center_rounded),
-    ]),
-    1 => _page([
-      _stats('Average duration', member.workout, 'Consistency', 'Not linked', palette.accent, MemberTheme.green),
-      _line('Training load','Training load · illustrative chart',const [[26,42,35,61,48,78,58]],[palette.accent]),
-      _note('Workout insights not connected','Personal insights need session history, exercise sets and recovery records',Icons.insights_rounded),
-    ]),
-    2 => _page([
-      _stats('Latest workout summary', member.workout, 'Exercise sets', 'Not linked', palette.accent, MemberTheme.green),
-      _history('Session record detail',[
-        ['Exercises and sets','Reps and weights not connected','—'],
-        ['Session duration','Current member sample only',member.workout],
-        ['Workout date','Session date not available','—'],
-      ]),
-      _note('Workout log','No workout dates or exercise sets are fabricated in this preview',Icons.receipt_long_rounded),
-    ]),
-    3 => _page([
-      _stats('Current duration',member.workout,'Monthly sessions','Not linked',palette.accent,MemberTheme.green),
-      _bar('WORKOUT MINUTES • LAST 7 DAYS','Illustrative weekly load',const [32,48,26,64,42,76,58],palette.accent,90),
-      _stats('Active days','—','Goal days','—',MemberTheme.green,MemberTheme.amber),
-    ]),
-    4 => _page([
-      _stats('Sleep duration','Not linked','Hydration','Not linked',const Color(0xFF6C5BA7),const Color(0xFF278FC2)),
-      _goal('Sleep target','Requires sleep tracking',0,const Color(0xFF6C5BA7)),
-      _goal('Hydration target','Requires water log',0,const Color(0xFF278FC2)),
-      _goal('Rest and mobility','Requires recovery plan',0,MemberTheme.green),
-      _note('Recovery products','Supplement creative preview · Demo',Icons.spa_rounded),
-    ]),
-    5 => _page([
-      _goal('Workout consistency','Target: 4 sessions · suggested',0.72,palette.accent),
-      _goal('Session completion','Workout plan needed',0,MemberTheme.green),
-      _goal('Recovery routine','Recovery plan needed',0,MemberTheme.amber),
-      _line('Weekly goal trend','Illustrative goal progress',const [[32,42,48,57,62,69,72]],[palette.accent]),
-      _note('Training goals','A coach-defined workout plan is needed for personal goals',Icons.flag_rounded),
-    ]),
-    _ => const SizedBox.shrink(),
-  };
+  Widget _calendarCell(int day, int daysInMonth) {
+    if (day < 1 || day > daysInMonth) return const SizedBox.expand();
+    final date = DateTime(_calendarMonth.year, _calendarMonth.month, day);
+    final isOff = date.weekday == DateTime.sunday;
+    final status = _calendarStatus(day);
+    final tint = isOff ? const Color(0xFFE5E1EB) : _calendarColor(status);
+    final selected = day == _selectedCalendarDay;
 
-  Widget _payment() => switch (sectionIndex) {
-    0 => _page([
-      _stats('Payment due',member.paymentDue,'Days remaining',member.daysRemaining.toString(),MemberTheme.rose,palette.accent),
-      _statusCard(),
-      _goal('Membership period used','${member.membershipDays} / ${member.membershipTotalDays} days',member.membershipProgress.clamp(0.0,1.0).toDouble(),MemberTheme.green),
-      
-      _note('Balance and renewal','Transactions and receipts require a connected gym billing service',Icons.account_balance_wallet_rounded),
-    ]),
-    1 => _page([
-      _stats('Payment due',member.paymentDue,'Renewal in','${member.daysRemaining} days',MemberTheme.rose,palette.accent),
-       SizedBox(height: compact ? 132 : 148, child: GlassChartFrame(title:'Payment behaviour',subtitle:'Illustrative distribution · replace with ledger data',
-        child: Row(children:[
-          SizedBox(width:compact?82:100,child:const GlassDonutChart(values:[64,22,14],colors:[MemberTheme.green,Color(0xFF3298D4),MemberTheme.amber],centerValue:'Demo',centerLabel:'behaviour')),
-          const SizedBox(width:5),
-           Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
-            _LegendRow(color:MemberTheme.green,label:'On time',value:'Demo'),
-            _LegendRow(color:Color(0xFF3298D4),label:'Early',value:'Demo'),
-            _LegendRow(color:MemberTheme.amber,label:'Late',value:'Demo'),
-          ])),
-         ]))),
-      _note('Payment insights not connected','Dated transactions are required to calculate payment reliability',Icons.insights_rounded),
-    ]),
-    2 => _page([
-      _stats('Balance due',member.paymentDue,'Renewal countdown','${member.daysRemaining} days',MemberTheme.rose,palette.accent),
-      _history('Membership balance',[
-        ['Invoice number','Generated after billing integration','—'],
-        ['Membership period','${member.membershipDays} / ${member.membershipTotalDays} days used','${(member.membershipProgress*100).round()}%'],
-        ['Download receipt','PDF receipt service not connected','Unavailable'],
-      ]),
-      _note('Invoice preview','No invoice ID or payment receipt is fabricated',Icons.description_rounded),
-    ]),
-    3 => _page([
-      _stats('Outstanding membership amount',member.paymentDue,'Settled payments','Not linked',MemberTheme.rose,MemberTheme.green),
-      _history('Transaction timeline',[
-        ['Latest payment','No settled transaction returned','—'],
-        ['Previous receipts','No payment records loaded','—'],
-        ['Payment confirmation','Server verification not available','—'],
-      ]),
-      _note('Payment history','Only the current sample balance is displayed until transactions sync',Icons.history_rounded),
-    ]),
-    4 => _page([
-      Expanded(child:Center(child:Image.asset('assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',fit:BoxFit.contain,width:compact?130:180))),
-      _stats('UPI','Not saved','Card','Not saved',palette.accent,const Color(0xFF328BC0)),
-      _note('Payment method preview','No payment credentials are stored in this demo dashboard',Icons.security_rounded),
-    ]),
-    5 => _page([
-      _assetBanner('29_sbi_payment_card_graphic.webp','Member reward preview','Campaign creative only · Demo',const Color(0xFFEFE4FF)),
-      _stats('Reward points','Not linked','Cashback','Not linked',MemberTheme.amber,MemberTheme.green),
-      const Spacer(),
-      _note('Rewards not connected','Reward eligibility and balances require a configured campaign service',Icons.card_giftcard_rounded),
-    ]),
-    _ => const SizedBox.shrink(),
-  };
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: 'Day $day, $status, sample preview',
+      child: InkWell(
+        onTap: () => setState(() => _selectedCalendarDay = day),
+        borderRadius: BorderRadius.circular(7),
+        child: Container(
+          margin: const EdgeInsets.all(1.5),
+          decoration: BoxDecoration(
+            color: tint,
+            borderRadius: BorderRadius.circular(7),
+            border: Border.all(color: selected ? palette.accent : Colors.white,
+                width: selected ? 1.8 : 0.8),
+          ),
+          child: Center(
+            child: Text('$day',
+                style: TextStyle(color: MemberTheme.ink, fontSize: compact ? 9 : 10,
+                    fontWeight: FontWeight.w800)),
+          ),
+        ),
+      ),
+    );
+  }
 
-  Widget _body() => switch (sectionIndex) {
-    0 => _page([
-      _stats('Current weight',member.bodyWeight,'Target weight','Not set',MemberTheme.green,palette.accent),
-      Expanded(child:GlassChartFrame(title:'Transformation Goal',subtitle:'Body-composition breakdown needs dated measurements',
-        child:Row(children:[
-          Expanded(child:Center(child:Image.asset('assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp',fit:BoxFit.contain,width:compact?82:105))),
-          SizedBox(width:compact?80:100,child:GlassDonutChart(values:const [1.0],colors:const [MemberTheme.green],centerValue:'69.5',centerLabel:'kg now')),
-          const SizedBox(width:4),
-           Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
-            _LegendRow(color:MemberTheme.green,label:'Latest weight',value:'Member data'),
-            _LegendRow(color:MemberTheme.lavender,label:'Goal target',value:'Not set'),
-          ])),
-        ]))),
-      _note('Body Intelligence','Weight is available; composition and circumference values are not connected',Icons.monitor_weight_rounded),
-    ]),
-    1 => _page([
-      _stats('Current weight',member.bodyWeight,'BMI','Not recorded',MemberTheme.green,palette.accent),
-      _history('Composition indicators',[
-        ['Body fat','No measurement record','—'],
-        ['Muscle mass','No measurement record','—'],
-        ['Circumference','No measurement record','—'],
-      ]),
-      _note('Body insights not connected','No unverified body-composition values are shown',Icons.insights_rounded),
-    ]),
-    2 => _page([
-      _stats('Latest recorded weight',member.bodyWeight,'Weight goal','Not set',MemberTheme.green,palette.accent),
-      Expanded(child:GlassChartFrame(title:'Weight & Composition Trend',subtitle:'Illustrative multi-series layout · dated values not connected',
-        child:Column(children:[
-          Expanded(child:GlassLineChart(series:const [[66,67,67.5,68.2,69.5],[54,55,55.8,56.4,57.2],[22,21.5,20.8,19.3,18.5]],
-            colors:const [MemberTheme.purple,MemberTheme.green,MemberTheme.amber],minY:0,maxY:80)),
-          const Row(mainAxisAlignment:MainAxisAlignment.spaceAround,children:[_Tick('Jun'),_Tick('Jul'),_Tick('Aug'),_Tick('Sep'),_Tick('Oct')]),
-        ]))),
-      _note('Weight trend preview','Connect dated measurements before treating any trend as personal progress',Icons.timeline_rounded),
-    ]),
-    3 => _page([
-      GlassMetricCard(label:'Body weight',value:member.bodyWeight,icon:Icons.monitor_weight_rounded,tint:MemberTheme.green,compact:compact),
-      _history('Measurement detail',[
-        ['Chest','Circumference record','Not recorded'],
-        ['Waist','Circumference record','Not recorded'],
-        ['Arms','Circumference record','Not recorded'],
-        ['Body fat','Composition record','Not recorded'],
-      ]),
-      _note('Measurements','Add dated measurements to unlock comparisons',Icons.straighten_rounded),
-    ]),
-    4 => _page([
-      Expanded(child:Row(children:[
-        Expanded(child:Image.asset('assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',fit:BoxFit.contain)),
-        Expanded(child:Image.asset('assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',fit:BoxFit.contain)),
-      ])),
-      _stats('Meal journal','Not linked','Nutrition plan','Not set',MemberTheme.green,palette.accent),
-      _note('Nutrition offer preview','Meal logs, macros and nutrition plans need a connected source',Icons.restaurant_menu_rounded),
-    ]),
-    5 => _page([
-      _goal('Weight target','Set a personal target first',0,palette.accent),
-      _goal('Composition target','Add a body-composition record',0,MemberTheme.green),
-      _goal('Measurement milestone','Add baseline measurements',0,MemberTheme.amber),
-      const Spacer(),
-      _note('Set a body goal','Goals are not inferred from the sample member record',Icons.flag_rounded),
-    ]),
-    _ => const SizedBox.shrink(),
-  };
+  String _calendarStatus(int day) {
+    final date = DateTime(_calendarMonth.year, _calendarMonth.month, day);
+    if (date.weekday == DateTime.sunday) return 'Off';
+    if (day == 3 || day == 17 || day == 24) return 'Absent';
+    if (day == 7 || day == 21) return 'Late';
+    if (day == 10 || day == 25) return 'Holiday';
+    return 'Present';
+  }
 
-  Widget _page(List<Widget> children) => Column(children: children);
+  Color _calendarColor(String status) => switch (status) {
+        'Present' => const Color(0xFFD9F5E2),
+        'Late' => const Color(0xFFFFE9BD),
+        'Absent' => const Color(0xFFFFDDE4),
+        'Holiday' => const Color(0xFFEBDDFC),
+        _ => const Color(0xFFE5E1EB),
+      };
 
-  Widget _metric(String label,String value,IconData icon,Color tint,String caption) =>
-    GlassMetricCard(label:label,value:value,icon:icon,tint:tint,compact:compact,caption:caption);
+  String _monthName(int month) => const [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ][month - 1];
 
-  Widget _stats(String labelA,String valueA,String labelB,String valueB,Color colorA,Color colorB) =>
-    Row(children:[
-      Expanded(child:_metric(labelA,valueA,Icons.insights_rounded,colorA,'Member / demo')),
-      SizedBox(width:gap),
-      Expanded(child:_metric(labelB,valueB,Icons.track_changes_rounded,colorB,'Preview status')),
-    ]);
+  Widget _workout() => switch (widget.sectionIndex) {
+        0 => _page([
+            _pairStats('Workout average', member.workout, 'Session history',
+                'Not synced', palette.accent, MemberTheme.green),
+            _chart('DAILY WORKOUT TREND', 'Training minutes · illustrative preview',
+                const [32, 48, 26, 64, 42, 76, 58], palette.accent, unit: 'min', bars: true),
+            _note('Workout overview',
+                'Session totals and personal averages need a connected workout log',
+                Icons.fitness_center_rounded),
+          ]),
+        1 => _page([
+            _pairStats('Training time', member.workout, 'Training split',
+                'Demo', palette.accent, MemberTheme.green),
+            _donutBreakdown(
+              'Training distribution',
+              'Muscle-group split · illustrative sample',
+              const [22, 18, 16, 14, 20, 10],
+              const [MemberTheme.purple, MemberTheme.green, MemberTheme.amber,
+                Color(0xFF3298D4), Color(0xFFE56AB2), Color(0xFF7F8B9D)],
+              const [['Chest', '22%'], ['Back', '18%'], ['Legs', '16%'],
+                ['Shoulder', '14%'], ['Arms', '20%'], ['Core', '10%']],
+            ),
+            _note('Workout insights not connected',
+                'Exercise frequency, PRs and training load need dated session records',
+                Icons.insights_rounded),
+          ]),
+        2 => _page([
+            _pairStats('Latest workout summary', 'Not synced', 'Exercise sets',
+                'Not available', palette.accent, MemberTheme.green),
+            _historyCard('Workout log',
+                'No workout sessions or exercise sets have been synced for this member',
+                Icons.receipt_long_rounded),
+            _note('Workout log',
+                'Add a session to record exercises, sets, reps, load and duration',
+                Icons.fitness_center_rounded),
+          ]),
+        3 => _page([
+            _pairStats('Training duration', member.workout, 'Date range',
+                _rangeLabel, palette.accent, MemberTheme.green),
+            _trendChart('WORKOUT MINUTES • LAST 7 DAYS',
+                'Duration (min) · illustrative preview',
+                const [32, 48, 26, 64, 42, 76, 58], palette.accent,
+                unit: 'min', bars: true),
+            _note('Workout trend preview',
+                'Best session and monthly totals appear after dated workout sync',
+                Icons.timeline_rounded),
+          ]),
+        4 => _page([
+            _pairStats('Sleep', 'Not connected', 'Hydration', 'Not connected',
+                const Color(0xFF6C5BA7), const Color(0xFF278FC2)),
+            _assetFeature('Recovery products', 'PulseVault recovery artwork',
+                'Demo creative · no product or health data connected',
+                '03_whey_protein_tub.webp', MemberTheme.lavender),
+            _goal('Sleep routine', 'Connect a wearable or recovery log', 0, const Color(0xFF6C5BA7)),
+            _note('Recovery data unavailable',
+                'Sleep, mobility and hydration values are not inferred',
+                Icons.spa_rounded),
+          ]),
+        5 => _page([
+            _goal('Weekly sessions', 'Suggested goal · not saved', 0, palette.accent),
+            _goal('Workout consistency', 'Coach-defined programme required', 0, MemberTheme.green),
+            _goal('Recovery routine', 'Sleep and mobility data not connected', 0, MemberTheme.amber),
+            _note('Workout consistency',
+                'Training targets become personal after a coach saves the programme',
+                Icons.flag_rounded),
+          ]),
+        _ => const SizedBox.shrink(),
+      };
 
-  Widget _line(String title,String subtitle,List<List<double>> series,List<Color> colors) =>
-    Expanded(child:GlassChartFrame(title:title,subtitle:subtitle,child:GlassLineChart(series:series,colors:colors)));
+  Widget _payment() => switch (widget.sectionIndex) {
+        0 => _page([
+            _pairStats('Payment due', member.paymentDue, 'Days remaining',
+                member.daysRemaining.toString(), MemberTheme.rose, palette.accent),
+            _paymentStatus(),
+            _goal('Membership period used',
+                member.membershipDays.toString() + ' / ' + member.membershipTotalDays.toString() + ' days · sample',
+                member.membershipProgress.clamp(0.0, 1.0).toDouble(), MemberTheme.green),
+            _note('Membership balance',
+                'The displayed balance is local sample data until billing sync is connected',
+                Icons.account_balance_wallet_rounded),
+          ]),
+        1 => _page([
+            _pairStats('Payment due', member.paymentDue, 'Ledger status',
+                'Not connected', MemberTheme.rose, palette.accent),
+            _donutBreakdown(
+              'Payment behaviour',
+              'On time · early · late · illustrative only',
+              const [64, 22, 14],
+              const [MemberTheme.green, Color(0xFF3298D4), MemberTheme.amber],
+              const [['On time', '64%'], ['Early', '22%'], ['Late', '14%']],
+            ),
+            _note('Payment insights not connected',
+                'Payment reliability must be calculated from a verified transaction ledger',
+                Icons.insights_rounded),
+          ]),
+        2 => _page([
+            _pairStats('Outstanding membership amount', member.paymentDue,
+                'Invoice status', 'Not generated', MemberTheme.rose, palette.accent),
+            _historyCard('Membership balance',
+                'Invoice number, billing date and receipt will appear after billing integration',
+                Icons.request_quote_rounded),
+            _note('Invoice preview',
+                'No invoice ID or payment receipt is generated in this local preview',
+                Icons.description_rounded),
+          ]),
+        3 => _page([
+            _pairStats('Outstanding amount', member.paymentDue, 'Settled transactions',
+                'Not synced', MemberTheme.rose, MemberTheme.green),
+            _historyCard('Payment history',
+                'No verified transactions have been returned by the gym billing service',
+                Icons.history_rounded),
+            _note('Transaction timeline',
+                'Only server-confirmed payments and receipts can be shown here',
+                Icons.verified_user_outlined),
+          ]),
+        4 => _page([
+            _assetFeature('Payment method preview', 'Secure payment setup',
+                'Payment-card artwork · Demo only',
+                '29_sbi_payment_card_graphic.webp', MemberTheme.sky),
+            _pairStats('UPI', 'Not saved', 'Card', 'Not saved',
+                palette.accent, const Color(0xFF328BC0)),
+            _note('Payment methods are not connected',
+                'No card credentials or UPI handles are stored in this app preview',
+                Icons.security_rounded),
+          ]),
+        5 => _page([
+            _assetFeature('Member reward preview', 'Payment and rewards artwork',
+                'Campaign creative only · no live offer',
+                '29_sbi_payment_card_graphic.webp', MemberTheme.lavender),
+            _pairStats('Reward points', 'Not linked', 'Cashback', 'Not linked',
+                MemberTheme.amber, MemberTheme.green),
+            _note('Rewards not connected',
+                'Reward balances and eligibility need a configured campaign service',
+                Icons.card_giftcard_rounded),
+          ]),
+        _ => const SizedBox.shrink(),
+      };
 
-  Widget _bar(String title,String subtitle,List<double> values,Color tint,double maxY) =>
-    Expanded(child:GlassChartFrame(title:title,subtitle:subtitle,child:Column(children:[
-      Expanded(child:GlassBarChart(values:values,color:tint,maxY:maxY)),
-      const Row(mainAxisAlignment:MainAxisAlignment.spaceAround,children:[_Tick('M'),_Tick('T'),_Tick('W'),_Tick('T'),_Tick('F'),_Tick('S'),_Tick('S')]),
-    ])));
+  Widget _body() => switch (widget.sectionIndex) {
+        0 => _page([
+            _pairStats('Current weight', member.bodyWeight, 'Target weight',
+                'Not set', MemberTheme.green, palette.accent),
+            _assetFeature('Body overview', 'Member transformation artwork',
+                'Current weight only · target not recorded',
+                '01_member_bodybuilder.webp', MemberTheme.mint),
+            _note('Body Intelligence',
+                'Composition and circumference values need dated assessment records',
+                Icons.monitor_weight_rounded),
+          ]),
+        1 => _page([
+            _pairStats('Current weight', member.bodyWeight, 'Composition records',
+                'Not recorded', MemberTheme.green, palette.accent),
+            _historyCard('Composition indicators',
+                'BMI, body fat, muscle mass and visceral-fat values are not available',
+                Icons.health_and_safety_rounded),
+            _note('Body insights not connected',
+                'Only verified measurements can be used to calculate personal indicators',
+                Icons.insights_rounded),
+          ]),
+        2 => _page([
+            _pairStats('Latest recorded weight', member.bodyWeight, 'Weight goal',
+                'Not set', MemberTheme.green, palette.accent),
+            _trendChart('Weight & body trend',
+                'Weight (kg) · illustrative layout only',
+                const [66, 67, 67.5, 68.2, 69.5, 69.2, 69.5],
+                MemberTheme.green, unit: 'kg', minimum: 60, maximum: 76),
+            _note('Weight trend preview',
+                'A real trend requires multiple dated measurements',
+                Icons.timeline_rounded),
+          ]),
+        3 => _page([
+            _pairStats('Body weight', member.bodyWeight, 'Measurements',
+                'Not recorded', MemberTheme.green, palette.accent),
+            _historyCard('Body measurements',
+                'Chest, waist, arms, hips and circumference history have not been added',
+                Icons.straighten_rounded),
+            _note('Measurement history',
+                'Add a dated assessment to compare current values with a baseline',
+                Icons.monitor_weight_rounded),
+          ]),
+        4 => _page([
+            _assetFeature('Nutrition offer preview', 'Nutrition and meal artwork',
+                'PulseVault transparent product graphics · Demo',
+                '28_protinex_tub.webp', MemberTheme.mint),
+            _pairStats('Meal journal', 'Not linked', 'Nutrition plan',
+                'Not set', MemberTheme.green, palette.accent),
+            _note('Nutrition data unavailable',
+                'Meal history, calories and macros require a connected nutrition log',
+                Icons.restaurant_menu_rounded),
+          ]),
+        5 => _page([
+            _goal('Weight target', 'Set a personal target first', 0, palette.accent),
+            _goal('Body composition', 'Add a baseline assessment', 0, MemberTheme.green),
+            _goal('Measurement milestone', 'Add dated circumference records', 0, MemberTheme.amber),
+            _assetFeature('Transformation gallery', 'Before / after photo space',
+                'No member photos have been added',
+                '01_member_bodybuilder.webp', MemberTheme.lavender),
+            _note('Set a body goal',
+                'Progress goals are not inferred from the sample member record',
+                Icons.flag_rounded),
+          ]),
+        _ => const SizedBox.shrink(),
+      };
 
-  Widget _history(String title,List<List<String>> rows) =>
-    Expanded(child:GlassChartFrame(title:title,subtitle:'Dated records · sample source only',child:Column(mainAxisAlignment:MainAxisAlignment.spaceEvenly,children:[
-      for(final row in rows) _historyRow(Icons.history_rounded,row[0],row[1],row[2],palette.accent),
-    ])));
+  String get _rangeLabel => switch (_range) {
+        _PreviewRange.week => '7 days',
+        _PreviewRange.month => '30 days',
+        _PreviewRange.quarter => '90 days',
+        _PreviewRange.year => '12 months',
+      };
 
-  Widget _goal(String label,String subtitle,double value,Color tint) => Padding(
-    padding:EdgeInsets.symmetric(vertical:compact?2:3),
-    child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
-      Row(children:[
-        Expanded(child:Text(label,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.ink,fontSize:10,fontWeight:FontWeight.w800))),
-        Text('${(value*100).round()}%',style:TextStyle(color:tint,fontSize:10,fontWeight:FontWeight.w900)),
-      ]),
-      const SizedBox(height:2),
-      ClipRRect(borderRadius:BorderRadius.circular(6),child:LinearProgressIndicator(
-        value:value.clamp(0.0,1.0),minHeight:compact?5:6,backgroundColor:MemberTheme.glassEdge.withOpacity(0.5),
-        valueColor:AlwaysStoppedAnimation<Color>(tint))),
-      Text(subtitle,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.muted,fontSize:8,fontWeight:FontWeight.w600)),
-    ]),
-  );
+  List<double> _rangeValues(List<double> source) {
+    final count = switch (_range) {
+      _PreviewRange.week => 7,
+      _PreviewRange.month => 8,
+      _PreviewRange.quarter => 10,
+      _PreviewRange.year => 12,
+    };
+    if (count == source.length) return source;
+    return List<double>.generate(count,
+        (index) => source[(index * source.length / count).floor()]);
+  }
 
-  Widget _historyRow(IconData icon,String title,String subtitle,String value,Color tint) => Padding(
-    padding:EdgeInsets.symmetric(vertical:compact?2:3),
-    child:Row(children:[
-      Container(width:26,height:26,decoration:BoxDecoration(color:tint.withOpacity(0.10),borderRadius:BorderRadius.circular(8)),
-        child:Icon(icon,color:tint,size:15)),
-      const SizedBox(width:6),
-      Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
-        Text(title,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w800)),
-        Text(subtitle,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.muted,fontSize:8,fontWeight:FontWeight.w500)),
-      ])),
-      const SizedBox(width:4),
-      Text(value,maxLines:1,style:TextStyle(color:tint,fontSize:9,fontWeight:FontWeight.w900)),
-    ]),
-  );
+  List<String> _rangeLabels() => switch (_range) {
+        _PreviewRange.week => const ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+        _PreviewRange.month => const ['1', '5', '9', '13', '17', '21', '25', '30'],
+        _PreviewRange.quarter => const ['W1', 'W2', 'W3', 'W4', 'W5', 'W6', 'W7', 'W8', 'W9', 'W10'],
+        _PreviewRange.year => const ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      };
 
-  Widget _note(String title,String description,IconData icon) => Container(
-    width:double.infinity,padding:EdgeInsets.symmetric(horizontal:8,vertical:compact?5:7),
-    decoration:BoxDecoration(gradient:const LinearGradient(colors:[Color(0xFFF2E7FF),Colors.white]),
-      borderRadius:BorderRadius.circular(10),border:Border.all(color:MemberTheme.glassEdge.withOpacity(0.8))),
-    child:Row(children:[
-      Icon(icon,color:MemberTheme.purple,size:17),const SizedBox(width:6),
-      Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
-        Text(title,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w900)),
-        Text(description,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.muted,fontSize:7.5,fontWeight:FontWeight.w600)),
-      ])),
-    ]),
-  );
+  String _rangeKey(_PreviewRange range) => switch (range) {
+        _PreviewRange.week => '7D',
+        _PreviewRange.month => '30D',
+        _PreviewRange.quarter => '90D',
+        _PreviewRange.year => '12M',
+      };
 
-  Widget _statusCard() => Container(
-    padding:EdgeInsets.all(compact?7:9),
-    decoration:BoxDecoration(gradient:const LinearGradient(colors:[Color(0xFFE5F9EA),Color(0xFFF4E9FF)]),
-      borderRadius:BorderRadius.circular(12),border:Border.all(color:const Color(0xFFB9E7C9))),
-    child:Row(children:[
-      Icon(member.paymentDue=='₹0'?Icons.verified_rounded:Icons.pending_actions_rounded,
-        color:member.paymentDue=='₹0'?MemberTheme.green:MemberTheme.rose,size:22),
-      const SizedBox(width:7),
-      Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
-        const Text('Payment status',style:TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w800)),
-        Text(member.paymentDue=='₹0'?'Paid':'Due',
-          style:TextStyle(color:member.paymentDue=='₹0'?MemberTheme.green:MemberTheme.rose,fontSize:16,fontWeight:FontWeight.w900)),
-      ])),
-      Column(crossAxisAlignment:CrossAxisAlignment.end,children:[
-        Text(member.plan,style:const TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w800)),
-        Text('${member.membershipTotalDays} day plan',style:const TextStyle(color:MemberTheme.muted,fontSize:8,fontWeight:FontWeight.w600)),
-      ]),
-    ]),
-  );
+  Widget _periodFilter() => Wrap(
+        spacing: 2,
+        runSpacing: 2,
+        children: [
+          for (final range in _PreviewRange.values)
+            ChoiceChip(
+              key: ValueKey('range-\${_rangeKey(range)}'),
+              label: Text(_rangeKey(range)),
+              selected: _range == range,
+              onSelected: (_) => setState(() => _range = range),
+              visualDensity: VisualDensity.compact,
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              labelPadding: const EdgeInsets.symmetric(horizontal: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              side: BorderSide(color: _range == range
+                  ? palette.accent.withOpacity(0.35)
+                  : MemberTheme.glassEdge),
+              backgroundColor: Colors.white,
+              selectedColor: MemberTheme.lavender,
+              labelStyle: TextStyle(
+                color: _range == range ? palette.accent : MemberTheme.muted,
+                fontSize: 8,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+        ],
+      );
 
-  Widget _assetBanner(String file,String title,String subtitle,Color tint) => Container(
-    height:compact?34:44,padding:const EdgeInsets.symmetric(horizontal:7,vertical:3),
-    decoration:BoxDecoration(color:tint.withOpacity(0.32),borderRadius:BorderRadius.circular(10),border:Border.all(color:MemberTheme.glassEdge)),
-    child:Row(children:[
-      Image.asset('assets/material_pack/inbox/PulseVault/$file',fit:BoxFit.contain,width:compact?36:46),
-      const SizedBox(width:6),
-      Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
-        Text(title,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w900)),
-        Text(subtitle,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.muted,fontSize:7.5,fontWeight:FontWeight.w600)),
-      ])),
-      const Text('DEMO',style:TextStyle(color:MemberTheme.purple,fontSize:7,fontWeight:FontWeight.w900)),
-    ]),
-  );
+  Widget _trendChart(
+    String title,
+    String subtitle,
+    List<double> values,
+    Color tint, {
+    required String unit,
+    bool bars = false,
+    double minimum = 0,
+    double? maximum,
+  }) {
+    final rangeValues = _rangeValues(values);
+    final labels = _rangeLabels();
+    final chartMaximum = maximum ??
+        (rangeValues.isEmpty ? 1 : rangeValues.reduce((a, b) => a > b ? a : b) * 1.2);
+    final chart = bars
+        ? GlassBarChart(values: rangeValues, color: tint, maxY: chartMaximum,
+            highlightIndex: rangeValues.length - 1)
+        : GlassLineChart(series: [rangeValues], colors: [tint],
+            minY: minimum, maxY: chartMaximum);
 
-  Widget _legend(Color color,String text) => Padding(
-    padding:const EdgeInsets.only(left:5),
-    child:Row(mainAxisSize:MainAxisSize.min,children:[
-      Container(width:6,height:6,decoration:BoxDecoration(color:color,shape:BoxShape.circle)),
-      const SizedBox(width:2),
-      Text(text,style:const TextStyle(color:MemberTheme.muted,fontSize:7,fontWeight:FontWeight.w700)),
-    ]),
-  );
-}
+    return Expanded(
+      child: GlassChartFrame(
+        title: title,
+        subtitle: subtitle,
+        child: Column(
+          children: [
+            Expanded(child: chart),
+            const SizedBox(height: 2),
+            Row(
+              children: [
+                for (final label in labels)
+                  Expanded(
+                    child: Center(
+                      child: Text(label, maxLines: 1,
+                          style: const TextStyle(color: MemberTheme.muted,
+                              fontSize: 7, fontWeight: FontWeight.w700)),
+                    ),
+                  ),
+              ],
+            ),
+            SizedBox(height: compact ? 2 : 4),
+            Row(
+              children: [
+                Expanded(
+                  child: Text('Illustrative preview · $unit',
+                      maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: MemberTheme.muted,
+                          fontSize: 7.5, fontWeight: FontWeight.w700)),
+                ),
+                _periodFilter(),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-class _Tick extends StatelessWidget {
-  const _Tick(this.label);
-  final String label;
-  @override
-  Widget build(BuildContext context)=>Expanded(child:Center(child:Text(label,maxLines:1,
-    style:const TextStyle(color:MemberTheme.muted,fontSize:7,fontWeight:FontWeight.w800))));
-}
+  Widget _chart(String title, String subtitle, List<double> values, Color tint,
+          {required String unit, bool bars = false}) =>
+      _trendChart(title, subtitle, values, tint, unit: unit, bars: bars);
 
-class _LegendRow extends StatelessWidget {
-  const _LegendRow({required this.color,required this.label,required this.value});
-  final Color color;
-  final String label;
-  final String value;
-  @override
-  Widget build(BuildContext context)=>Padding(
-    padding:const EdgeInsets.symmetric(vertical:2),
-    child:Row(children:[
-      Container(width:7,height:7,decoration:BoxDecoration(color:color,shape:BoxShape.circle)),
-      const SizedBox(width:4),
-      Expanded(child:Text(label,maxLines:1,overflow:TextOverflow.ellipsis,
-        style:const TextStyle(color:MemberTheme.ink,fontSize:7.5,fontWeight:FontWeight.w700))),
-      const SizedBox(width:2),
-      SizedBox(width:18,child:Align(alignment:Alignment.centerRight,child:FittedBox(
-        fit:BoxFit.scaleDown,child:Text(value,style:const TextStyle(color:MemberTheme.muted,fontSize:7,fontWeight:FontWeight.w700))))),
-    ]),
-  );
+  Widget _pairStats(String labelA, String valueA, String labelB, String valueB,
+          Color colorA, Color colorB) =>
+      Row(
+        children: [
+          Expanded(child: _metric(labelA, valueA, Icons.insights_rounded, colorA)),
+          SizedBox(width: gap),
+          Expanded(child: _metric(labelB, valueB, Icons.track_changes_rounded, colorB)),
+        ],
+      );
+
+  Widget _metric(String label, String value, IconData icon, Color tint) =>
+      GlassMetricCard(label: label, value: value, icon: icon, tint: tint,
+          compact: compact, caption: 'Demo / preview');
+
+  Widget _donutBreakdown(String title, String subtitle, List<double> values,
+          List<Color> colors, List<List<String>> labels) =>
+      Expanded(
+        child: GlassChartFrame(
+          title: title,
+          subtitle: subtitle,
+          child: Row(
+            children: [
+              SizedBox(
+                width: compact ? 82 : 98,
+                child: GlassDonutChart(
+                  values: values,
+                  colors: colors,
+                  centerValue: 'Demo',
+                  centerLabel: 'sample',
+                ),
+              ),
+              SizedBox(width: gap),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (var i = 0; i < labels.length; i++)
+                      _legendValue(colors[i], labels[i][0], labels[i][1]),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+
+  Widget _historyCard(String title, String message, IconData icon) =>
+      Expanded(
+        child: GlassChartFrame(
+          title: title,
+          subtitle: 'Verified records only',
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(icon, color: palette.accent, size: compact ? 23 : 28),
+                  SizedBox(height: compact ? 4 : 6),
+                  Text('No records synced',
+                      style: TextStyle(color: MemberTheme.ink,
+                          fontSize: compact ? 10 : 11, fontWeight: FontWeight.w900)),
+                  const SizedBox(height: 3),
+                  Text(message, maxLines: 2, textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: MemberTheme.muted,
+                          fontSize: 8, height: 1.15, fontWeight: FontWeight.w600)),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+
+  Widget _paymentStatus() => Container(
+        padding: EdgeInsets.all(compact ? 7 : 9),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFE5F9EA), Color(0xFFF4E9FF)]),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFB9E7C9)),
+        ),
+        child: Row(
+          children: [
+            Icon(member.paymentDue == '₹0'
+                    ? Icons.verified_rounded
+                    : Icons.pending_actions_rounded,
+                color: member.paymentDue == '₹0' ? MemberTheme.green : MemberTheme.rose,
+                size: 22),
+            const SizedBox(width: 7),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Payment status',
+                      style: TextStyle(color: MemberTheme.ink, fontSize: 9, fontWeight: FontWeight.w800)),
+                  Text(member.paymentDue == '₹0' ? 'Paid' : 'Due',
+                      style: TextStyle(color: member.paymentDue == '₹0'
+                          ? MemberTheme.green : MemberTheme.rose,
+                          fontSize: 16, fontWeight: FontWeight.w900)),
+                ],
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(member.plan,
+                    style: const TextStyle(color: MemberTheme.ink, fontSize: 9, fontWeight: FontWeight.w800)),
+                Text(member.membershipTotalDays.toString() + ' day plan · sample',
+                    style: const TextStyle(color: MemberTheme.muted, fontSize: 8, fontWeight: FontWeight.w600)),
+              ],
+            ),
+          ],
+        ),
+      );
+
+  Widget _goal(String label, String subtitle, double value, Color tint) =>
+      Padding(
+        padding: EdgeInsets.symmetric(vertical: compact ? 3 : 4),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: MemberTheme.ink,
+                          fontSize: 10, fontWeight: FontWeight.w800)),
+                ),
+                Text(value > 0 ? (value * 100).round().toString() + '%' : 'Not set',
+                    style: TextStyle(color: tint, fontSize: 9, fontWeight: FontWeight.w900)),
+              ],
+            ),
+            const SizedBox(height: 3),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: LinearProgressIndicator(
+                value: value.clamp(0.0, 1.0),
+                minHeight: compact ? 5 : 6,
+                backgroundColor: MemberTheme.glassEdge.withOpacity(0.5),
+                valueColor: AlwaysStoppedAnimation<Color>(tint),
+              ),
+            ),
+            Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis,
+                style: const TextStyle(color: MemberTheme.muted,
+                    fontSize: 8, fontWeight: FontWeight.w600)),
+          ],
+        ),
+      );
+
+  Widget _assetFeature(String title, String subtitle, String caption,
+          String file, Color tint) =>
+      Container(
+        width: double.infinity,
+        height: compact ? 48 : 60,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: [Colors.white, tint.withOpacity(0.45)]),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: MemberTheme.glassEdge),
+        ),
+        child: Row(
+          children: [
+            Image.asset('assets/material_pack/inbox/PulseVault/$file',
+                width: compact ? 44 : 56, height: compact ? 40 : 52,
+                fit: BoxFit.contain),
+            const SizedBox(width: 7),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: MemberTheme.ink,
+                          fontSize: 10, fontWeight: FontWeight.w900)),
+                  Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: MemberTheme.muted,
+                          fontSize: 8, fontWeight: FontWeight.w600)),
+                  Text(caption, maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: MemberTheme.purple,
+                          fontSize: 7, fontWeight: FontWeight.w800)),
+                ],
+              ),
+            ),
+            const Text('DEMO',
+                style: TextStyle(color: MemberTheme.purple, fontSize: 7, fontWeight: FontWeight.w900)),
+          ],
+        ),
+      );
+
+  Widget _note(String title, String description, IconData icon) => Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: compact ? 5 : 7),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(colors: [Color(0xFFF2E7FF), Colors.white]),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: MemberTheme.glassEdge.withOpacity(0.8)),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: MemberTheme.purple, size: 17),
+            const SizedBox(width: 6),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: MemberTheme.ink,
+                          fontSize: 9, fontWeight: FontWeight.w900)),
+                  Text(description, maxLines: 1, overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: MemberTheme.muted,
+                          fontSize: 7.5, fontWeight: FontWeight.w600)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _legend(Color color, String label) => Padding(
+        padding: const EdgeInsets.only(left: 3),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(width: 6, height: 6,
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+            const SizedBox(width: 3),
+            Text(label, style: const TextStyle(color: MemberTheme.muted,
+                fontSize: 7, fontWeight: FontWeight.w700)),
+          ],
+        ),
+      );
+
+  Widget _legendValue(Color color, String label, String value) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2),
+        child: Row(
+          children: [
+            Container(width: 7, height: 7,
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+            const SizedBox(width: 4),
+            Expanded(
+              child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(color: MemberTheme.ink,
+                      fontSize: 8, fontWeight: FontWeight.w700)),
+            ),
+            Text(value, style: const TextStyle(color: MemberTheme.muted,
+                fontSize: 8, fontWeight: FontWeight.w800)),
+          ],
+        ),
+      );
+
+  Widget _page(List<Widget> children) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < children.length; i++) ...[
+            if (i > 0) SizedBox(height: gap),
+            children[i],
+          ],
+        ],
+      );
 }
