@@ -453,7 +453,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         ArtworkEntrance(
                           motion: 3,
                           child: Image.asset(
-                            'assets/member_card/05_blinkit_grocery_bag.webp',
+                            'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp',
                             width: 35,
                             height: 27,
                             fit: BoxFit.contain,
@@ -505,7 +505,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ArtworkEntrance(
                   motion: 1,
                   child: Image.asset(
-                    'assets/member_card/23_freeze_snowflake_graphic.webp',
+                    'assets/material_pack/inbox/PulseVault/23_freeze_snowflake_graphic.webp',
                     width: 23,
                     height: 27,
                     fit: BoxFit.contain,
@@ -571,7 +571,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ArtworkEntrance(
                   motion: 2,
                   child: Image.asset(
-                    'assets/member_card/04_purple_shaker.webp',
+                    'assets/material_pack/inbox/PulseVault/04_purple_shaker.webp',
                     width: compact ? 30 : 32,
                     height: compact ? 34 : 40,
                     fit: BoxFit.contain,
@@ -612,7 +612,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               image: palette.planName == 'Gold'
                   ? const DecorationImage(
                       image: AssetImage(
-                        'assets/member_card/10_gold_photo_backplate.webp',
+                        'assets/material_pack/inbox/PulseVault/10_gold_photo_backplate.webp',
                       ),
                       fit: BoxFit.cover,
                     )
@@ -632,7 +632,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               child: ArtworkEntrance(
                 motion: 0,
                 child: Image.asset(
-                  'assets/member_card/01_member_bodybuilder.webp',
+                  'assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp',
                   fit: BoxFit.contain,
                   alignment: Alignment.bottomCenter,
                 ),
@@ -932,7 +932,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ArtworkEntrance(
                   motion: 1,
                   child: Image.asset(
-                    'assets/member_card/03_whey_protein_tub.webp',
+                    'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
                     width: compact ? 38 : 48,
                     height: compact ? 39 : 50,
                     fit: BoxFit.contain,
@@ -1151,7 +1151,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             valueColor: const Color(0xFF087E40),
             note: 'PROTEIN 10% OFF',
             color: const Color(0xFFFFE96A),
-            asset: 'assets/member_card/28_protinex_tub.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',
             motion: 0,
             noteColor: const Color(0xFFE52B52),
             noteTextColor: Colors.white,
@@ -1170,7 +1170,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             trend: '↑ +12%',
             note: 'CREATINE 15% OFF',
             color: const Color(0xFFF2D7FF),
-            asset: 'assets/member_card/06_creatine_tub.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp',
             motion: 1,
             noteColor: const Color(0xFFB20BE4),
             noteTextColor: Colors.white,
@@ -1189,7 +1189,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             note: 'SBI 5% OFF',
             valueColor: const Color(0xFFD71939),
             color: const Color(0xFFD9F1FF),
-            asset: 'assets/member_card/29_sbi_payment_card_graphic.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',
             motion: 2,
             noteColor: const Color(0xFF1269DB),
             noteTextColor: Colors.white,
@@ -1208,7 +1208,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             trend: '↓ -0.8 kg',
             note: 'FAT LOSS 20% OFF',
             color: const Color(0xFFD8FFE2),
-            asset: 'assets/member_card/fat_loss_support_tub.png',
+            asset: 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png',
             motion: 3,
             noteColor: const Color(0xFF0B9C4C),
             noteTextColor: Colors.white,
