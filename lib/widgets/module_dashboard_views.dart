@@ -36,7 +36,7 @@ class ModuleDashboardView extends StatelessWidget {
     1 => _page([
       _stats('Attendance', member.attendance, 'Streak', 'Preview', MemberTheme.green, MemberTheme.amber),
       _line('WEEKLY ACTIVITY', 'Check-in distribution · illustrative sample', const [[42,58,51,72,63,84,76]], [MemberTheme.green]),
-      _note('Attendance Insights', 'Dated check-in history is required for personal insights', Icons.insights_rounded),
+      _note('Weekly visit score', 'Dated check-in history is required for personal insights', Icons.insights_rounded),
     ]),
     2 => _calendar(),
     3 => _page([
@@ -105,7 +105,7 @@ class ModuleDashboardView extends StatelessWidget {
     ]),
     1 => _page([
       _stats('Average duration', member.workout, 'Consistency', 'Not linked', palette.accent, MemberTheme.green),
-      _line('Workout insights not connected','Training load · illustrative chart',const [[26,42,35,61,48,78,58]],[palette.accent]),
+      _line('Training load','Training load · illustrative chart',const [[26,42,35,61,48,78,58]],[palette.accent]),
       _note('Workout insights not connected','Personal insights need session history, exercise sets and recovery records',Icons.insights_rounded),
     ]),
     2 => _page([
@@ -144,7 +144,7 @@ class ModuleDashboardView extends StatelessWidget {
       _stats('Payment due',member.paymentDue,'Days remaining',member.daysRemaining.toString(),MemberTheme.rose,palette.accent),
       _statusCard(),
       _goal('Membership period used','${member.membershipDays} / ${member.membershipTotalDays} days',member.membershipProgress.clamp(0.0,1.0).toDouble(),MemberTheme.green),
-      _line('Monthly payment pattern','Illustrative ledger trend · not a transaction record',const [[42,54,48,66,60,72,68,82]],[palette.accent]),
+      
       _note('Payment Overview','Transactions and receipts require a connected gym billing service',Icons.account_balance_wallet_rounded),
     ]),
     1 => _page([
@@ -162,7 +162,7 @@ class ModuleDashboardView extends StatelessWidget {
       _note('Payment insights not connected','Dated transactions are required to calculate payment reliability',Icons.insights_rounded),
     ]),
     2 => _page([
-      _stats('Membership balance',member.paymentDue,'Renewal countdown','${member.daysRemaining} days',MemberTheme.rose,palette.accent),
+      _stats('Balance due',member.paymentDue,'Renewal countdown','${member.daysRemaining} days',MemberTheme.rose,palette.accent),
       _history('Membership balance',[
         ['Invoice number','Generated after billing integration','—'],
         ['Membership period','${member.membershipDays} / ${member.membershipTotalDays} days used','${(member.membershipProgress*100).round()}%'],
@@ -199,18 +199,18 @@ class ModuleDashboardView extends StatelessWidget {
       Expanded(child:GlassChartFrame(title:'Transformation Goal',subtitle:'Body-composition breakdown needs dated measurements',
         child:Row(children:[
           Expanded(child:Center(child:Image.asset('assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp',fit:BoxFit.contain,width:compact?82:105))),
-          SizedBox(width:compact?80:100,child:GlassDonutChart(values:const [69.5,30.5],colors:const [MemberTheme.green,MemberTheme.lavender],centerValue:'69.5',centerLabel:'kg now')),
+          SizedBox(width:compact?80:100,child:GlassDonutChart(values:const [1.0],colors:const [MemberTheme.green],centerValue:'69.5',centerLabel:'kg now')),
           const SizedBox(width:4),
           const Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
             _LegendRow(color:MemberTheme.green,label:'Current weight',value:'Member data'),
-            _LegendRow(color:MemberTheme.lavender,label:'Goal weight',value:'Not set'),
+            _LegendRow(color:MemberTheme.lavender,label:'Goal target',value:'Not set'),
           ])),
         ]))),
       _note('Body Intelligence','Weight is available; composition and circumference values are not connected',Icons.monitor_weight_rounded),
     ]),
     1 => _page([
       _stats('Current weight',member.bodyWeight,'BMI','Not recorded',MemberTheme.green,palette.accent),
-      _history('Body insights not connected',[
+      _history('Composition indicators',[
         ['Body fat','No measurement record','—'],
         ['Muscle mass','No measurement record','—'],
         ['Circumference','No measurement record','—'],
@@ -225,11 +225,11 @@ class ModuleDashboardView extends StatelessWidget {
             colors:const [MemberTheme.purple,MemberTheme.green,MemberTheme.amber],minY:0,maxY:80)),
           const Row(mainAxisAlignment:MainAxisAlignment.spaceAround,children:[_Tick('Jun'),_Tick('Jul'),_Tick('Aug'),_Tick('Sep'),_Tick('Oct')]),
         ]))),
-      _note('Latest recorded weight','Connect dated measurements before treating any trend as personal progress',Icons.timeline_rounded),
+      _note('Weight trend preview','Connect dated measurements before treating any trend as personal progress',Icons.timeline_rounded),
     ]),
     3 => _page([
       GlassMetricCard(label:'Body weight',value:member.bodyWeight,icon:Icons.monitor_weight_rounded,tint:MemberTheme.green,compact:compact),
-      _history('Body weight',[
+      _history('Measurement detail',[
         ['Chest','Circumference record','Not recorded'],
         ['Waist','Circumference record','Not recorded'],
         ['Arms','Circumference record','Not recorded'],
@@ -334,7 +334,7 @@ class ModuleDashboardView extends StatelessWidget {
       const SizedBox(width:7),
       Expanded(child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
         const Text('Payment status',style:TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w800)),
-        Text(member.paymentDue=='₹0'?'Paid':'Payment due',
+        Text(member.paymentDue=='₹0'?'Paid':'Due',
           style:TextStyle(color:member.paymentDue=='₹0'?MemberTheme.green:MemberTheme.rose,fontSize:16,fontWeight:FontWeight.w900)),
       ])),
       Column(crossAxisAlignment:CrossAxisAlignment.end,children:[
@@ -388,8 +388,10 @@ class _LegendRow extends StatelessWidget {
       Container(width:7,height:7,decoration:BoxDecoration(color:color,shape:BoxShape.circle)),
       const SizedBox(width:4),
       Expanded(child:Text(label,maxLines:1,overflow:TextOverflow.ellipsis,
-        style:const TextStyle(color:MemberTheme.ink,fontSize:8,fontWeight:FontWeight.w700))),
-      Text(value,style:const TextStyle(color:MemberTheme.muted,fontSize:7,fontWeight:FontWeight.w700)),
+        style:const TextStyle(color:MemberTheme.ink,fontSize:7.5,fontWeight:FontWeight.w700))),
+      const SizedBox(width:2),
+      SizedBox(width:18,child:Align(alignment:Alignment.centerRight,child:FittedBox(
+        fit:BoxFit.scaleDown,child:Text(value,style:const TextStyle(color:MemberTheme.muted,fontSize:7,fontWeight:FontWeight.w700))))),
     ]),
   );
 }
