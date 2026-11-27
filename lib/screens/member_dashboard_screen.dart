@@ -739,12 +739,26 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               compact: compact,
                             ),
                             SizedBox(height: compact ? 1 : 2),
-                            Text(
-                              'Gold member perk • ₹100 off',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            RotatingAdMessage(
+                              messages: palette.planName == 'Gold'
+                                  ? const [
+                                      'Gold member perk • ₹100 off',
+                                      'Priority offer • save 15%',
+                                      'Premium member pricing',
+                                    ]
+                                  : palette.planName == 'Spark'
+                                      ? const [
+                                          'Spark member deal • save 10%',
+                                          'Daily essentials • member price',
+                                          'Fresh-start reward',
+                                        ]
+                                      : const [
+                                          'Silver member deal • save 8%',
+                                          'Member pricing on essentials',
+                                          'Wellness reward unlocked',
+                                        ],
                               style: TextStyle(
-                                color: Color(0xFF80531B),
+                                color: palette.accent,
                                 fontSize: compact ? 6.8 : 7.8,
                                 height: 1,
                                 fontWeight: FontWeight.w900,
@@ -770,13 +784,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               compact: compact,
                             ),
                             SizedBox(height: compact ? 1 : 2),
-                            Text(
-                              'Active reward • 5% cashback',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            RotatingAdMessage(
+                              messages: const [
+                                'Active reward • 5% cashback',
+                                'Training gear • member rate',
+                                'Partner rewards • unlocked',
+                              ],
                               style: TextStyle(
-                                color: const Color(0xFF3D668A),
-                                fontSize: compact ? 7 : 8.2,
+                                color: const Color(0xFF23694E),
+                                fontSize: compact ? 6.8 : 7.8,
                                 height: 1,
                                 fontWeight: FontWeight.w900,
                               ),
