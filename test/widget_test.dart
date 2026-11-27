@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show debugDumpRenderTree;
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bad_gym_member_intelligence/data/dashboard_navigation.dart';
