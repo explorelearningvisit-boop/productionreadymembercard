@@ -1,15 +1,13 @@
 # BAD GYM Companion
 
-Architecture scaffold only; this folder is not yet a runnable Android application.
+A standalone Android Companion application is not implemented yet.
 
-Planned opt-in companion for the owner's Xiaomi:
-- explicit pairing and revocation;
-- model, Android version, resolution and density diagnostics;
-- user-approved MediaProjection screenshot sessions;
-- AccessibilityService gestures limited to tap/swipe;
-- visible stop/disconnect control;
-- private upload of approved screenshots and bounded logs.
+## Current physical-device testing path
 
-It will not offer arbitrary shell, unrestricted gallery/file access, silent installation, background screen recording or public ADB.
+The current workflow uses the Xiaomi's explicitly authorized Android Debug Bridge (ADB) endpoint over Tailscale. It can install and launch the QA APK, capture one screenshot and collect bounded diagnostics. See [Cloud Device QA Setup](../docs/CLOUD_DEVICE_QA_SETUP.md).
 
-See ../docs/CLOUD_XIAOMI_COMPANION_ARCHITECTURE.md. Firebase provisioning and native Android implementation remain outstanding.
+## Possible future companion
+
+A native companion may later add explicit pairing/revocation, device diagnostics, user-approved MediaProjection screenshot sessions, narrow AccessibilityService gestures and a visible stop/disconnect control.
+
+It must not offer arbitrary shell, unrestricted gallery/file access, silent background recording, silent installation or public ADB.
