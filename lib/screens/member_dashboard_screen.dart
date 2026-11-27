@@ -92,46 +92,6 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: -78,
-                        left: -62,
-                        child: IgnorePointer(
-                          child: SizedBox(
-                            width: 228,
-                            height: 228,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: RadialGradient(
-                                  colors: [
-                                    Colors.white.withOpacity(0.45),
-                                    Colors.white.withOpacity(0),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        right: -78,
-                        bottom: -92,
-                        child: IgnorePointer(
-                          child: SizedBox(
-                            width: 230,
-                            height: 230,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: RadialGradient(
-                                  colors: [
-                                    palette.accent.withOpacity(0.10),
-                                    palette.accent.withOpacity(0),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
                       Column(
                         children: [
                           _dashboardTop(
@@ -275,7 +235,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                       : const Color(0xFFFFF8E9),
                                   fontSize: labelSize,
                                   height: 1.05,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
@@ -415,13 +375,13 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'CHECK-IN',
+                            'Check-in',
                             maxLines: 1,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 14,
                               height: 1,
-                              fontWeight: FontWeight.w900,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -436,7 +396,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               color: Colors.white,
                               fontSize: 10,
                               height: 1,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
@@ -493,13 +453,13 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'FREEZE',
+                        'Freeze',
                         maxLines: 1,
                         style: TextStyle(
                           color: MemberTheme.ink,
                           fontSize: 14,
                           height: 1,
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -670,7 +630,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         style: TextStyle(
                           color: const Color(0xFF573274),
                           fontSize: compact ? 9.5 : 10.5,
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(width: 7),
@@ -720,7 +680,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                             ),
                             SizedBox(height: compact ? 1 : 2),
                             Text(
-                              '${palette.planName} member perks · Demo',
+                              '${palette.planName} member perks · Sample',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -752,7 +712,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                             ),
                             SizedBox(height: compact ? 1 : 2),
                             Text(
-                              'Member rewards · Demo',
+                              'Member rewards · Sample',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -1103,12 +1063,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(
           child: DashboardMetricTile(
             key: const ValueKey('metric-attendance'),
-            label: 'ATTENDANCE',
+            label: 'Attendance',
             compact: compact,
             value: member.attendance,
             trend: '↑ +6%',
             valueColor: const Color(0xFF087E40),
-            note: 'PROTEIN 10% OFF',
+            note: 'Protein 10% off',
             color: const Color(0xFFFFE96A),
             asset: 'assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',
             motion: 0,
@@ -1123,11 +1083,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(
           child: DashboardMetricTile(
             key: const ValueKey('metric-workout'),
-            label: 'WORKOUT',
+            label: 'Workout',
             compact: compact,
             value: member.workout,
             trend: '↑ +12%',
-            note: 'CREATINE 15% OFF',
+            note: 'Creatine 15% off',
             color: const Color(0xFFF2D7FF),
             asset: 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp',
             motion: 1,
@@ -1142,10 +1102,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(
           child: DashboardMetricTile(
             key: const ValueKey('metric-payment'),
-            label: 'PAYMENT',
+            label: 'Payment',
             compact: compact,
             value: '${member.paymentDue} Due',
-            note: 'SBI 5% OFF',
+            note: 'SBI 5% off',
             valueColor: const Color(0xFFD71939),
             color: const Color(0xFFD9F1FF),
             asset: 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',
@@ -1161,11 +1121,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(
           child: DashboardMetricTile(
             key: const ValueKey('metric-body'),
-            label: 'BODY',
+            label: 'Body',
             compact: compact,
             value: member.bodyWeight,
             trend: '↓ -0.8 kg',
-            note: 'FAT LOSS 20% OFF',
+            note: 'Fat loss 20% off',
             color: const Color(0xFFD8FFE2),
             asset: 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png',
             motion: 3,
