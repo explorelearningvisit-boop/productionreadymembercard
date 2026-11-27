@@ -6,7 +6,7 @@
 
 | Plan | Frame and navigation | Inner canvas | Active accent |
 |---|---|---|---|
-| Gold | Espresso / antique-bronze with champagne rim | Warm pearl, cream and pale champagne glass | Antique gold / bronze |
+| Gold | Forest emerald shell, deep wine rail, champagne rim | Warm pearl and cream | Emerald action; gold rail selection |
 | Spark | Forest green / emerald with pale lime rim | White, mint and pale green glass | Emerald |
 | Silver | Slate / steel blue | White, cool mist and blue glass | Steel blue |
 
@@ -20,8 +20,8 @@ Semantic colors remain consistent across plans: present = green, absent = rose, 
 - The area outside the frame uses the active plan's dark frame tone, so the shell reads as one contained piece.
 - All top-level panels have a 2–4 dp horizontal inset. Membership progress is intentionally narrower than its parent row to stop left/right borders and shadows from visually colliding.
 - Glass panels use their own fine edge and restrained shadow. Avoid a single purple shadow around every panel.
-- The plan and Active pills are 30 dp high with 8 dp sponsor captions underneath.
-- Check-in no longer repeats the member portrait artwork. It uses a partner-offer asset and a separate sponsor caption.
+- The plan and Active pills use the supplied Gold/Active PulseVault badge backgrounds where available. Keep offers as quiet, short Demo text, not generic AD SPACE labels.
+- Check-in uses the bodybuilder cutout as in the final owner reference. Do not place an unrelated grocery campaign graphic in the check-in action.
 - Freeze has a 14 sp heading, readable secondary copy and a separate member-offer badge.
 - Payment due has a proper wallet icon, high-contrast amount and days-left detail.
 
@@ -48,15 +48,15 @@ The app previously used Flutter's `Icons.*` widgets but declared `uses-material-
 ## Advertising and motion
 
 - Sponsor locations are explicit preview inventory, not claims of actual brand partnerships: `AD SPACE • BLINKIT` and `AD SPACE • SBI REWARDS`.
-- Check-in and Freeze rotate their short partner/offer messages every seven seconds using an AnimatedSwitcher fade + vertical slide.
+- Campaign artwork and offer copy stay paired in the same banner. Until a real campaign feed exists, show one static Demo creative rather than rotating mismatched products or invented partner claims.
 - Four KPI artworks have distinct one-shot entrances: rise, settle, tilt and lateral fade.
 - Product artwork preserves aspect ratio with `BoxFit.contain`. No external image is hot-linked at runtime.
-- Motion is brief and finite on image entrance; only sponsor text rotates. No forever-loop animation is added to dense dashboard content, reducing GPU/battery cost and keeping widget tests deterministic.
+- Motion is brief and finite on image entrance and module selection. No periodic timers, forever-loops or idle animation are added to dense dashboard content, reducing GPU/battery cost and keeping widget tests deterministic.
 - Future sponsor creatives should be represented as a local asset + title + offer + motion style, not baked into a screenshot.
 
 ## Assets
 
-Use the existing PulseVault / `assets/member_card` source pack for the current visual prototype. Use Material icons where a functional symbol is needed. Do not pull arbitrary Pinterest images into the app: an asset must have a clear source and usable license before it is copied into the repository. Brand marks shown in ad-space previews must remain illustrative until an actual advertiser relationship is confirmed.
+Use the canonical PulseVault runtime path `assets/material_pack/inbox/PulseVault`. The existing `assets/member_card` files remain the retained source archive. Use Material icons where a functional symbol is needed. Do not pull arbitrary Pinterest images into the app: an asset must have a clear source and usable license before it is copied into the repository. Brand marks shown in ad-space previews must remain illustrative until an actual advertiser relationship is confirmed.
 
 ## QA gates
 
