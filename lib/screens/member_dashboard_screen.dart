@@ -52,11 +52,22 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 borderRadius: BorderRadius.circular(27),
                 border: Border.all(color: MemberTheme.gold, width: 2),
                 boxShadow: const [
-                  BoxShadow(color: Color(0xCCB12CFF), blurRadius: 20, spreadRadius: 1),
-                  BoxShadow(color: Color(0x887A38FF), blurRadius: 7),
+                  BoxShadow(color: Color(0xBFAE37FF), blurRadius: 18, spreadRadius: 1),
+                  BoxShadow(color: Color(0x66FF67D8), blurRadius: 8),
+                  BoxShadow(color: Color(0x667A38FF), blurRadius: 3),
                 ],
               ),
-              child: Column(
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    colors: [Color(0xFFFFFDFF), Color(0xFFF7F0FF), Color(0xFFEBDDFF)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(color: const Color(0x66FFFFFF), width: 1),
+                ),
+                child: Column(
                 children: [
                   _dashboardTop(compact: compact, compactProgress: compactProgress),
                   const SizedBox(height: 5),
@@ -91,6 +102,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     ),
                   ),
                 ],
+                ),
               ),
             );
           },
@@ -284,7 +296,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   ),
                   const SizedBox(width: 2),
                   Image.asset(
-                    'reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
+                    'assets/member_card/01_member_bodybuilder.webp',
                     width: 37,
                     height: 40,
                     fit: BoxFit.contain,
@@ -310,7 +322,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             ),
             child: Row(
               children: [
-                const Icon(Icons.ac_unit_rounded, color: Color(0xFF5526D5), size: 27),
+                Image.asset(
+                  'assets/member_card/23_freeze_snowflake_graphic.webp',
+                  width: 29,
+                  height: 31,
+                  fit: BoxFit.contain,
+                ),
                 const SizedBox(width: 4),
                 const Expanded(
                   child: Column(
@@ -343,7 +360,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ),
                 const SizedBox(width: 2),
                 Image.asset(
-                  'reference_library/recovered_from_history/assets/material_pack/pulsevault/08_purple_shaker_bottle_cutout.png',
+                  'assets/member_card/04_purple_shaker.webp',
                   width: 28,
                   height: 38,
                   fit: BoxFit.contain,
@@ -364,7 +381,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         ? 56.0 + 12.0 * compactProgress
         : 84.0;
     return DashboardPanel(
-      borderColor: MemberTheme.gold,
+      color: const Color(0xFFFCF9FF),
+      borderColor: const Color(0xFFFFD56A),
       radius: 20,
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
       child: Row(
@@ -374,7 +392,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             height: portrait,
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFFFFEA91), Color(0xFFFFB51D), Color(0xFFFFF3B9)],
+                colors: [Color(0xFFFFE46E), Color(0xFFFFB51D), Color(0xFFFFF7C8)],
+              ),
+              image: const DecorationImage(
+                image: AssetImage('assets/member_card/10_gold_photo_backplate.webp'),
+                fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(19),
               border: Border.all(color: MemberTheme.gold, width: 1.8),
@@ -383,7 +405,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(17),
               child: Image.asset(
-                'reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png',
+                'assets/member_card/01_member_bodybuilder.webp',
                 fit: BoxFit.contain,
                 alignment: Alignment.bottomCenter,
               ),
@@ -398,13 +420,13 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(member.name, maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.white,
+                    style: TextStyle(color: MemberTheme.ink,
                       fontSize: compact ? 17 : 20, height: 1,
                       fontWeight: FontWeight.w900)),
                   SizedBox(height: compact ? 3 : 6),
                   Text('▦  ${member.memberId}  |  ${member.age} Yrs  |  ♂ ${member.gender}',
                     maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Colors.white, fontSize: compact ? 9 : 10,
+                    style: TextStyle(color: const Color(0xFF5E2C87), fontSize: compact ? 9 : 10,
                       height: 1, fontWeight: FontWeight.w800)),
                   SizedBox(height: compact ? 4 : 7),
                   Row(
@@ -431,8 +453,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           child: PulseGlow(
             glowColor: const Color(0xFFFF415D),
             child: DashboardPanel(
-              color: const Color(0xFFB80928),
-              borderColor: const Color(0xFFFF7184),
+              color: const Color(0xFFFFF8FC),
+              borderColor: const Color(0xFFF0B9D0),
               radius: 18,
               padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
               child: Row(
@@ -440,9 +462,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   Container(
                     width: compact ? 34 : 39,
                     height: compact ? 34 : 39,
-                    decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFF5E6FF), Color(0xFFE6D2FF)],
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFFDCC0F4)),
+                    ),
                     child: const Icon(Icons.account_balance_wallet_rounded,
-                      color: Color(0xFFE51B43), size: 23),
+                      color: MemberTheme.purple, size: 23),
                   ),
                   const SizedBox(width: 6),
                   Expanded(
@@ -451,16 +479,16 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text('PAYMENT DUE  ⚠', maxLines: 1,
-                          style: TextStyle(color: Colors.white, fontSize: 8,
+                          style: TextStyle(color: MemberTheme.ink, fontSize: 8,
                             height: 1, fontWeight: FontWeight.w900)),
                         const SizedBox(height: 1),
                         Text('${member.paymentDue} Due', maxLines: 1,
-                          style: TextStyle(color: Colors.white,
+                          style: TextStyle(color: MemberTheme.rose,
                             fontSize: compact ? 14 : 17, height: 1,
                             fontWeight: FontWeight.w900)),
                         const SizedBox(height: 3),
                         Text('${member.daysRemaining} Days Left', maxLines: 1,
-                          style: const TextStyle(color: Colors.white, fontSize: 7,
+                          style: const TextStyle(color: MemberTheme.muted, fontSize: 7,
                             height: 1, fontWeight: FontWeight.w800)),
                       ],
                     ),
@@ -473,14 +501,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         const SizedBox(width: 5),
         Expanded(
           child: DashboardPanel(
-            color: const Color(0xFF6D1AA8),
-            borderColor: const Color(0xFFE77CFF),
+            color: const Color(0xFFF4E7FF),
+            borderColor: const Color(0xFFD7AEF7),
             radius: 18,
             padding: EdgeInsets.symmetric(horizontal: 5, vertical: compact ? 2 : 5),
             child: Row(
               children: [
                 Image.asset(
-                  'reference_library/recovered_from_history/assets/material_pack/pulsevault/01_whey_protein_tub_cutout.png',
+                  'assets/member_card/03_whey_protein_tub.webp',
                   width: compact ? 34 : 43,
                   height: compact ? 34 : 44,
                   fit: BoxFit.contain,
@@ -492,11 +520,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Whey Protein', maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: TextStyle(color: MemberTheme.gold, fontSize: compact ? 7 : 9,
+                        style: TextStyle(color: const Color(0xFF5C198C), fontSize: compact ? 7 : 9,
                           fontWeight: FontWeight.w900, fontStyle: FontStyle.italic)),
                       SizedBox(height: compact ? 1 : 2),
                       Text('25% OFF', maxLines: 1,
-                        style: TextStyle(color: Colors.white, fontSize: compact ? 13 : 15,
+                        style: TextStyle(color: MemberTheme.purple, fontSize: compact ? 13 : 15,
                           height: 1, fontWeight: FontWeight.w900)),
                       SizedBox(height: compact ? 1 : 4),
                       DecoratedBox(
@@ -524,8 +552,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   Widget _membershipProgress({required bool compact}) {
     const member = MemberSample.demo;
     return DashboardPanel(
-      color: const Color(0xFF39116D),
-      borderColor: const Color(0xFFE4C5FF),
+      color: const Color(0xFFF5EDFF),
+      borderColor: const Color(0xFFD9B9F2),
       radius: 16,
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: compact ? 2 : 4),
       child: Column(
@@ -536,7 +564,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               Expanded(
                 child: Text('Membership ${member.membershipDays} / ${member.membershipTotalDays} Days',
                   maxLines: 1, overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: Colors.white, fontSize: compact ? 10 : 13,
+                  style: TextStyle(color: MemberTheme.ink, fontSize: compact ? 10 : 13,
                     height: 1, fontWeight: FontWeight.w900)),
               ),
               Container(
@@ -552,7 +580,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               ),
               const SizedBox(width: 5),
               Text('${(member.membershipProgress * 100).round()}%',
-                style: TextStyle(color: Colors.white, fontSize: compact ? 15 : 19,
+                style: TextStyle(color: MemberTheme.purple, fontSize: compact ? 15 : 19,
                   height: 1, fontWeight: FontWeight.w900)),
             ],
           ),
@@ -570,9 +598,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   child: const DecoratedBox(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Color(0xFF19E65E), Color(0xFF00B84E), Color(0xFF45FA82)],
+                        colors: [Color(0xFF9B38F0), Color(0xFF6712C9), Color(0xFFB75BFF)],
                       ),
-                      boxShadow: [BoxShadow(color: Color(0xAA00FF68), blurRadius: 7)],
+                      boxShadow: [BoxShadow(color: Color(0x887E25D2), blurRadius: 7)],
                     ),
                   ),
                 ),
@@ -592,26 +620,30 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
           compact: compact, value: member.attendance,
           note: 'Protein 10% OFF',
           color: const Color(0xFFFFE96A),
-          asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/10_member_bodybuilder_cutout.png')),
+          asset: 'assets/member_card/01_member_bodybuilder.webp',
+          noteColor: const Color(0xFFE52B52), noteTextColor: Colors.white)),
         const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
           label: 'WORKOUT',
           compact: compact, value: member.workout, trend: '↑ +12%',
           note: 'Creatine 15% OFF', color: const Color(0xFFF2D7FF),
-          asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/07_creatine_monohydrate_tub_cutout.png')),
+          asset: 'assets/member_card/06_creatine_tub.webp',
+          noteColor: const Color(0xFFB20BE4), noteTextColor: Colors.white)),
         const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
           label: 'PAYMENT',
           compact: compact, value: '${member.paymentDue} Due',
           note: 'Get 5% OFF  ›', valueColor: const Color(0xFFD71939),
           color: const Color(0xFFD9F1FF),
-          asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/11_sbi_payment_card_cutout.png')),
+          asset: 'assets/member_card/29_sbi_payment_card_graphic.webp',
+          noteColor: const Color(0xFF1269DB), noteTextColor: Colors.white)),
         const SizedBox(width: 4),
         Expanded(child: DashboardMetricTile(
           label: '▣ BODY',
           compact: compact, value: member.bodyWeight, trend: '↓ -0.8 kg',
           note: 'Fat Loss 20% OFF', color: const Color(0xFFD8FFE2),
-          asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/04_fat_loss_support_tub_cutout.png')),
+          asset: 'assets/member_card/fat_loss_support_tub.png',
+          noteColor: const Color(0xFF0B9C4C), noteTextColor: Colors.white)),
       ],
     );
   }
