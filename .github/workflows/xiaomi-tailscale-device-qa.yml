@@ -56,6 +56,7 @@ jobs:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ci
+          ping: ${{ inputs.device_host }}
 
       - name: Validate phone address and reachability
         shell: bash
@@ -74,7 +75,6 @@ jobs:
               raise SystemExit('ADB_PORT must be 1..65535')
           PY
           tailscale status
-          tailscale ping --timeout=10s "$DEVICE_HOST"
           timeout 8 bash -c "</dev/tcp/$DEVICE_HOST/$ADB_PORT"
 
       - name: Install BAD GYM and capture Xiaomi device evidence
