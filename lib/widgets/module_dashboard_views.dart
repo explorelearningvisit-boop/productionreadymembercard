@@ -46,7 +46,7 @@ class ModuleDashboardView extends StatelessWidget {
         ['Previous visits', 'Dated attendance log not available', '—'],
         ['Check-in time', 'Waiting for the attendance service', '—'],
       ]),
-      _note('Attendance History', 'Only dated, server-confirmed visits can appear here', Icons.history_rounded),
+      _note('Verified visit records', 'Only dated, server-confirmed visits can appear here', Icons.history_rounded),
     ]),
     4 => _page([
       _stats('Attendance average', member.attendance, 'Next goal', '90%', MemberTheme.green, palette.accent),
@@ -59,7 +59,7 @@ class ModuleDashboardView extends StatelessWidget {
       _goal('Attendance consistency', 'Suggested target: 90%', 0.81, palette.accent),
       _goal('Weekly routine', 'Suggested target: 5 visits', 0.72, MemberTheme.amber),
       _line('Monthly attendance', 'Illustrative goal progress', const [[35,42,48,61,66,72,81]], [MemberTheme.green]),
-      _note('Attendance Goals', 'Targets stay previews until a member goal is saved', Icons.flag_rounded),
+      _note('Personal attendance targets', 'Targets stay previews until a member goal is saved', Icons.flag_rounded),
     ]),
     _ => const SizedBox.shrink(),
   };
@@ -101,7 +101,7 @@ class ModuleDashboardView extends StatelessWidget {
       _stats('Workout average', member.workout, 'Weekly sessions', 'Not linked', palette.accent, MemberTheme.green),
       _stats('Best session', 'Not linked', 'Consistency', 'Not linked', MemberTheme.amber, palette.accent),
       _bar('Daily Workout Trend', 'Illustrative minutes · waiting for dated sessions', const [32,48,26,64,42,76,58], palette.accent, 90),
-      _note('Workout Overview','Session statistics are preview cards until workout tracking is connected',Icons.fitness_center_rounded),
+      _note('Session data preview','Session statistics are preview cards until workout tracking is connected',Icons.fitness_center_rounded),
     ]),
     1 => _page([
       _stats('Average duration', member.workout, 'Consistency', 'Not linked', palette.accent, MemberTheme.green),
@@ -110,7 +110,7 @@ class ModuleDashboardView extends StatelessWidget {
     ]),
     2 => _page([
       _stats('Latest workout summary', member.workout, 'Exercise sets', 'Not linked', palette.accent, MemberTheme.green),
-      _history('Workout Log',[
+      _history('Session record detail',[
         ['Exercises and sets','Reps and weights not connected','—'],
         ['Session duration','Current member sample only',member.workout],
         ['Workout date','Session date not available','—'],
@@ -134,7 +134,7 @@ class ModuleDashboardView extends StatelessWidget {
       _goal('Session completion','Workout plan needed',0,MemberTheme.green),
       _goal('Recovery routine','Recovery plan needed',0,MemberTheme.amber),
       _line('Weekly goal trend','Illustrative goal progress',const [[32,42,48,57,62,69,72]],[palette.accent]),
-      _note('Workout consistency','A coach-defined workout plan is needed for personal goals',Icons.flag_rounded),
+      _note('Training goals','A coach-defined workout plan is needed for personal goals',Icons.flag_rounded),
     ]),
     _ => const SizedBox.shrink(),
   };
@@ -145,7 +145,7 @@ class ModuleDashboardView extends StatelessWidget {
       _statusCard(),
       _goal('Membership period used','${member.membershipDays} / ${member.membershipTotalDays} days',member.membershipProgress.clamp(0.0,1.0).toDouble(),MemberTheme.green),
       
-      _note('Payment Overview','Transactions and receipts require a connected gym billing service',Icons.account_balance_wallet_rounded),
+      _note('Balance and renewal','Transactions and receipts require a connected gym billing service',Icons.account_balance_wallet_rounded),
     ]),
     1 => _page([
       _stats('Payment due',member.paymentDue,'Renewal in','${member.daysRemaining} days',MemberTheme.rose,palette.accent),
@@ -172,7 +172,7 @@ class ModuleDashboardView extends StatelessWidget {
     ]),
     3 => _page([
       _stats('Outstanding membership amount',member.paymentDue,'Settled payments','Not linked',MemberTheme.rose,MemberTheme.green),
-      _history('Payment History',[
+      _history('Transaction timeline',[
         ['Latest payment','No settled transaction returned','—'],
         ['Previous receipts','No payment records loaded','—'],
         ['Payment confirmation','Server verification not available','—'],
@@ -188,7 +188,7 @@ class ModuleDashboardView extends StatelessWidget {
       _assetBanner('29_sbi_payment_card_graphic.webp','Member reward preview','Campaign creative only · Demo',const Color(0xFFEFE4FF)),
       _stats('Reward points','Not linked','Cashback','Not linked',MemberTheme.amber,MemberTheme.green),
       const Spacer(),
-      _note('Member reward preview','Reward eligibility and balances require a configured campaign service',Icons.card_giftcard_rounded),
+      _note('Rewards not connected','Reward eligibility and balances require a configured campaign service',Icons.card_giftcard_rounded),
     ]),
     _ => const SizedBox.shrink(),
   };
