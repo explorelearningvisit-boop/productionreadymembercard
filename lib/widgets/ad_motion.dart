@@ -29,12 +29,18 @@ class ArtworkEntrance extends StatelessWidget {
           3 => Offset((1 - progress) * 6, 0),
           _ => Offset(0, (1 - progress) * 6),
         };
-        final scale = 0.96 + (0.04 * progress);
+        final scale = 0.94 + (0.06 * progress);
         return Opacity(
           opacity: progress,
           child: Transform.translate(
             offset: offset,
-            child: Transform.scale(scale: scale, child: child),
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 0.0012)
+                ..rotateY((motion.isEven ? 1 : -1) * (1 - progress) * 0.10),
+              child: Transform.scale(scale: scale, child: child),
+            ),
           ),
         );
       },
