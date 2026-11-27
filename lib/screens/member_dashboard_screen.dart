@@ -59,10 +59,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               final compactProgress =
                   ((bounds.maxHeight - 600.0) / 100.0).clamp(0.0, 1.0);
               final railWidth = bounds.maxWidth < 340
-                  ? 48.0
+                  ? 54.0
                   : bounds.maxWidth < 380
-                      ? 50.0
-                      : 52.0;
+                      ? 58.0
+                      : 62.0;
 
               return Container(
                 margin: const EdgeInsets.all(2),
@@ -151,8 +151,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     return LayoutBuilder(
       builder: (context, constraints) {
         final itemHeight = constraints.maxHeight / items.length;
-        final iconSize = (itemHeight * 0.28).clamp(14.0, 18.0);
-        final labelSize = (itemHeight * 0.15).clamp(8.0, 9.5);
+        final iconSize = (itemHeight * 0.30).clamp(18.0, 22.0);
+        final labelSize = (itemHeight * 0.17).clamp(10.5, 12.0);
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 2),
           decoration: BoxDecoration(
@@ -235,7 +235,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                       : const Color(0xFFFFF8E9),
                                   fontSize: labelSize,
                                   height: 1.05,
-                                  fontWeight: FontWeight.w600,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                             ),
@@ -605,7 +605,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           maxLines: 1,
                           style: TextStyle(
                             color: MemberTheme.ink,
-                            fontSize: compact ? 9 : 10.5,
+                            fontSize: compact ? 11 : 12,
                             height: 1,
                             fontWeight: FontWeight.w900,
                           ),
@@ -629,8 +629,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         maxLines: 1,
                         style: TextStyle(
                           color: const Color(0xFF573274),
-                          fontSize: compact ? 9.5 : 10.5,
-                          fontWeight: FontWeight.w600,
+                          fontSize: compact ? 10.5 : 11.5,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       const SizedBox(width: 7),
@@ -652,7 +652,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           maxLines: 1,
                           style: TextStyle(
                             color: const Color(0xFF573274),
-                            fontSize: compact ? 9.5 : 10.5,
+                            fontSize: compact ? 10.5 : 11.5,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
@@ -673,9 +673,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               palette.planBadgeText,
                               icon: Icons.workspace_premium_rounded,
                               gradient: palette.planBadgeGradient,
-                              backgroundAsset: palette.planName == 'Gold'
-                                  ? 'assets/material_pack/inbox/PulseVault/21_gold_plan_badge_background.webp'
-                                  : null,
+                              backgroundAsset: null,
                               compact: compact,
                             ),
                             SizedBox(height: compact ? 1 : 2),
@@ -707,7 +705,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 Color(0xFF2BE184),
                                 Color(0xFF08B962),
                               ],
-                              backgroundAsset: 'assets/material_pack/inbox/PulseVault/22_green_active_badge_background.webp',
+                              backgroundAsset: null,
                               compact: compact,
                             ),
                             SizedBox(height: compact ? 1 : 2),
@@ -790,7 +788,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: MemberTheme.ink,
-                                  fontSize: compact ? 8.5 : 9.2,
+                                  fontSize: compact ? 10 : 11,
                                   height: 1,
                                   fontWeight: FontWeight.w900,
                                   letterSpacing: 0.15,
@@ -814,7 +812,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: MemberTheme.muted,
-                                  fontSize: compact ? 7.5 : 8.5,
+                                  fontSize: compact ? 10 : 11,
                                   height: 1,
                                   fontWeight: FontWeight.w800,
                                 ),
@@ -993,7 +991,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           maxLines: 1,
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: compact ? 8 : 9,
+                            fontSize: compact ? 9.5 : 10.5,
                             height: 1,
                             fontWeight: FontWeight.w900,
                           ),
@@ -1195,7 +1193,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 maxLines: 1,
                 style: TextStyle(
                   color: foreground,
-                  fontSize: compact ? 10 : 11,
+                  fontSize: compact ? 11.5 : 12.5,
                   height: 1,
                   fontWeight: FontWeight.w900,
                 ),
