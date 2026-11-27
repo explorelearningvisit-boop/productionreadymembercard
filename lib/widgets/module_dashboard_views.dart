@@ -162,7 +162,7 @@ class ModuleDashboardView extends StatelessWidget {
       _note('Payment insights not connected','Dated transactions are required to calculate payment reliability',Icons.insights_rounded),
     ]),
     2 => _page([
-      _stats('Membership balance',member.paymentDue,'Renewal countdown',member.daysRemaining.toString()+' days',MemberTheme.rose,palette.accent),
+      _stats('Membership balance',member.paymentDue,'Renewal countdown','${member.daysRemaining} days',MemberTheme.rose,palette.accent),
       _history('Membership balance',[
         ['Invoice number','Generated after billing integration','—'],
         ['Membership period','${member.membershipDays} / ${member.membershipTotalDays} days used','${(member.membershipProgress*100).round()}%'],
