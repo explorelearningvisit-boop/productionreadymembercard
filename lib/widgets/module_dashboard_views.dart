@@ -142,12 +142,12 @@ class ModuleDashboardView extends StatelessWidget {
     0 => _page([
       _stats('Payment due',member.paymentDue,'Days remaining',member.daysRemaining.toString(),MemberTheme.rose,palette.accent),
       _statusCard(),
-      _goal('Membership period used',member.membershipDays.toString()+' / '+member.membershipTotalDays.toString()+' days',member.membershipProgress.clamp(0.0,1.0).toDouble(),MemberTheme.green),
+      _goal('Membership period used','${member.membershipDays} / ${member.membershipTotalDays} days',member.membershipProgress.clamp(0.0,1.0).toDouble(),MemberTheme.green),
       _line('Monthly payment pattern','Illustrative ledger trend · not a transaction record',const [[42,54,48,66,60,72,68,82]],[palette.accent]),
       _note('Payment Overview','Transactions and receipts require a connected gym billing service',Icons.account_balance_wallet_rounded),
     ]),
     1 => _page([
-      _stats('Payment due',member.paymentDue,'Renewal in',member.daysRemaining.toString()+' days',MemberTheme.rose,palette.accent),
+      _stats('Payment due',member.paymentDue,'Renewal in','${member.daysRemaining} days',MemberTheme.rose,palette.accent),
       Expanded(child: GlassChartFrame(title:'Payment behaviour',subtitle:'Illustrative distribution · replace with ledger data',
         child: Row(children:[
           SizedBox(width:compact?82:100,child:const GlassDonutChart(values:[64,22,14],colors:[MemberTheme.green,Color(0xFF3298D4),MemberTheme.amber],centerValue:'Demo',centerLabel:'behaviour')),
@@ -164,7 +164,7 @@ class ModuleDashboardView extends StatelessWidget {
       _stats('Membership balance',member.paymentDue,'Renewal countdown',member.daysRemaining.toString()+' days',MemberTheme.rose,palette.accent),
       _history('Membership balance',[
         ['Invoice number','Generated after billing integration','—'],
-        ['Membership period',member.membershipDays.toString()+' / '+member.membershipTotalDays.toString()+' days used',(member.membershipProgress*100).round().toString()+'%'],
+        ['Membership period','${member.membershipDays} / ${member.membershipTotalDays} days used','${(member.membershipProgress*100).round()}%'],
         ['Download receipt','PDF receipt service not connected','Unavailable'],
       ]),
       _note('Invoice preview','No invoice ID or payment receipt is fabricated',Icons.description_rounded),
@@ -285,7 +285,7 @@ class ModuleDashboardView extends StatelessWidget {
     child:Column(crossAxisAlignment:CrossAxisAlignment.start,children:[
       Row(children:[
         Expanded(child:Text(label,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.ink,fontSize:10,fontWeight:FontWeight.w800))),
-        Text((value*100).round().toString()+'%',style:TextStyle(color:tint,fontSize:10,fontWeight:FontWeight.w900)),
+        Text('${(value*100).round()}%',style:TextStyle(color:tint,fontSize:10,fontWeight:FontWeight.w900)),
       ]),
       const SizedBox(height:2),
       ClipRRect(borderRadius:BorderRadius.circular(6),child:LinearProgressIndicator(
@@ -338,7 +338,7 @@ class ModuleDashboardView extends StatelessWidget {
       ])),
       Column(crossAxisAlignment:CrossAxisAlignment.end,children:[
         Text(member.plan,style:const TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w800)),
-        Text(member.membershipTotalDays.toString()+' day plan',style:const TextStyle(color:MemberTheme.muted,fontSize:8,fontWeight:FontWeight.w600)),
+        Text('${member.membershipTotalDays} day plan',style:const TextStyle(color:MemberTheme.muted,fontSize:8,fontWeight:FontWeight.w600)),
       ]),
     ]),
   );
@@ -347,7 +347,7 @@ class ModuleDashboardView extends StatelessWidget {
     height:compact?34:44,padding:const EdgeInsets.symmetric(horizontal:7,vertical:3),
     decoration:BoxDecoration(color:tint.withOpacity(0.32),borderRadius:BorderRadius.circular(10),border:Border.all(color:MemberTheme.glassEdge)),
     child:Row(children:[
-      Image.asset('assets/material_pack/inbox/PulseVault/'+file,fit:BoxFit.contain,width:compact?36:46),
+      Image.asset('assets/material_pack/inbox/PulseVault/$file',fit:BoxFit.contain,width:compact?36:46),
       const SizedBox(width:6),
       Expanded(child:Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start,children:[
         Text(title,maxLines:1,overflow:TextOverflow.ellipsis,style:const TextStyle(color:MemberTheme.ink,fontSize:9,fontWeight:FontWeight.w900)),
