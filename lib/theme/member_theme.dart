@@ -122,16 +122,18 @@ class MemberPlanPalette {
     // Gold is the approved reference treatment and the safe fallback.
     return const MemberPlanPalette(
       planName: 'Gold',
-      frameGradient: [Color(0xFF25004D), Color(0xFF6415B4), Color(0xFF26004F)],
-      canvasGradient: [Color(0xFFFFFDFF), Color(0xFFFFF8EA), Color(0xFFF4E9FF)],
-      railGradient: [Color(0xFF4B087F), Color(0xFF280052)],
-      checkInGradient: [Color(0xFF4B176F), Color(0xFF7931A8), Color(0xFF35104F)],
-      progressGradient: [Color(0xFFFFD76A), Color(0xFFE9A927), Color(0xFFFFE58A)],
-      frameRim: Color(0xFFFFD34E),
-      panelEdge: Color(0xFFE7CDA4),
-      accent: Color(0xFF6B12C9),
-      accentSoft: Color(0xFFF1E4FF),
-      railSelected: Color(0xFFFFE77A),
+      // Espresso / antique-gold chrome deliberately avoids a one-note purple
+      // look while retaining the same premium glass and gold member badge.
+      frameGradient: [Color(0xFF2D1B0B), Color(0xFF74521E), Color(0xFF2B1A0A)],
+      canvasGradient: [Color(0xFFFFFFFF), Color(0xFFFFF9EC), Color(0xFFF9F1E4)],
+      railGradient: [Color(0xFF4A3313), Color(0xFF261B0B)],
+      checkInGradient: [Color(0xFF59401B), Color(0xFF8A6425), Color(0xFF402B0F)],
+      progressGradient: [Color(0xFFF3C75A), Color(0xFFD79A2D), Color(0xFFFFE48C)],
+      frameRim: Color(0xFFF5C65E),
+      panelEdge: Color(0xFFE7D2AD),
+      accent: Color(0xFF8B5B17),
+      accentSoft: Color(0xFFFFF5DE),
+      railSelected: Color(0xFFF8DE8C),
       planBadgeGradient: [Color(0xFFFFE36A), Color(0xFFFFB91E)],
       planBadgeText: Color(0xFF3B2600),
       surface: Color(0xFFFFFCF7),
