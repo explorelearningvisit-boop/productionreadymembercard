@@ -38,4 +38,4 @@ This project uses a project-owned Purple Neon / Gold design system. External ski
 - 2026-11-26: Removed the fixed 290 dp cap from the outer dashboard content region; the attendance panel now expands when the phone has spare height and only scales down on short viewports.
 - 2026-11-26: Removed decorative badge-background images from the Gold Plan/Active pills to prevent graphic text from overlapping the live Flutter label.
 - 2026-11-26: Updated widget tests to check adaptive attendance-panel sizing and compact viewport visibility.
-- 2026-11-28: Attendance mini-stats now select their stacked compact layout from the actual detail-panel width; payment-plan metadata is constrained and ellipsized so the Payment Status card cannot expand vertically on narrow phones.
+- 2026-11-28: Attendance mini-stats now select their stacked compact layout when the detail panel is under 290 dp wide; payment-plan metadata is constrained and ellipsized so the Payment Status card cannot expand vertically on narrow phones.
