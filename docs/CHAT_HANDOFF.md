@@ -39,14 +39,14 @@ Unslop is design audit workflow. Animmaster, Skiper and Vengeance are reference 
 - Compact vertical row budgets target about 20dp saved net. Sponsored artwork uses finite entrance motion and slightly larger placements.
 - Mandatory owner asset rule: read docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md. Earlier derivative pack was repetitive copies, not unique artwork. The optimized folder was absent from live Git tree. The derivative generator and auto-commit workflow are withdrawn. Flutter will reference original PulseVault assets directly where suitable.
 - Current implementation commits: timer/toggle ba8d4c7e36902d5f3f7447046fd942d15b718cde; ads/assets/tests ef65e9ed67ab4c8c4492052c16ea4d0615458348.
-- New APK and image-diff evidence are pending CI; do not reuse Build #720 APK as the latest version.
+- Latest successful QA APK is Build #733 (artifact ID 15266626403; SHA-256 `f48548f08cf3e39867796bb0949ecb5cfa6bf29ea64858b2e1ee9e8f38be9b19`; 19,189,331 bytes). CI passed format/analyzer/widget tests/ARM64/signature/upload. Firebase Test Lab/App Distribution skipped for missing credentials. Physical device and screenshot diff remain pending.
 
 ## Resume checklist
-1. Verify GitHub asset workflow generated and committed PulseVault/optimized.
-2. Inspect optimized alpha/dimension audit.
-3. Inspect current Android CI format/analyzer/widget/ARM64/signature/artifact.
-4. Then capture 320/360/390dp and compare with screenshot overlay/diff.
-5. Record exact build+commit here before claiming completion.
+1. Read docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md before any art work; do not recreate the withdrawn derivative generator/optimized pack.
+2. Install Build #733 QA APK on the actual Xiaomi 11i/owner target device and record launch/overflow behavior.
+3. Capture the four dashboard states (Attendance, Workout, Payment, Body) at the 360dp target and run aligned screenshot overlay/diff against approved references.
+4. Capture 320/390dp and actual short-height scenarios; fix only measured component-level gaps.
+5. Record device model/OS/API/viewport, captures, exact commit and CI run before claiming pixel-perfect.
 
 ## Previous baseline
 Build #717 on 1c3ca6cf06e2035d39122a40909b8335e5da9e65 passed format, analyzer, widget tests, ARM64 build, signature and artifact upload. Firebase Test Lab/App Distribution skipped due unavailable credentials. This is pre-Emerald baseline.
@@ -54,3 +54,14 @@ Build #717 on 1c3ca6cf06e2035d39122a40909b8335e5da9e65 passed format, analyzer, 
 
 ## Owner-mandated permanent project rule
 No duplicate/near-duplicate asset packs. Never convert existing PulseVault artwork into small WebP copies and present it as unique art. New detailed images target an 8K-quality 7,680px-long-edge master; record actual native resolution and any genuine super-resolution method. Verify real alpha, subject bbox, margins, silhouette edges, crop and 100% detail over light/dark backgrounds. Store approved master and a downsampled 3× runtime derivative separately with parent SHA. No visual gap means no generation. Every new agent must read the policy and AGENTS.md.
+
+
+## Latest verified build — 2026-11-28
+- Commit: `f413dc9c34fe2976e91e46ada5d61f099f865d2a`.
+- Build #733: SUCCESS — https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/46152936686
+- Format, analyzer, widget suite, coverage upload, ARM64 APK, signature check and artifact upload all pass.
+- APK artifact: `bad-gym-member-card-arm64-release`, ID `15266626403`, 19,189,331 bytes; SHA-256 `f48548f08cf3e39867796bb0949ecb5cfa6bf29ea64858b2e1ee9e8f38be9b19`.
+- Verified native ARM64 libraries `libapp.so` and `libflutter.so` present.
+- Test Lab/App Distribution skipped because Google/Firebase secrets are not configured.
+- CI now has responsive tests for 320×560, 320×640, 360×600, 360×700, 390×720 and 800×600, plus 3-second rotation/progress/toggle and reduced-motion tests.
+- Still not pixel-perfect certified: no physical Xiaomi 11i capture or aligned visual diff has been done in this checkpoint.

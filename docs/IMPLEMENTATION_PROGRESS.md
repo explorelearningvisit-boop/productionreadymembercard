@@ -26,10 +26,14 @@ Resume rule: verify current HEAD and latest CI before trusting this ledger.
 - Previous generator made low-value copies of existing artwork; its script and auto-commit workflow are being removed. No optimized/ binary files were present in the live Git tree despite earlier claims.
 
 ## Validation state
-- Latest app code CI: Build #727 failed in analyzer. Diagnostics: missing MemberTheme import in dashboard_campaigns.dart and missing ArtworkEntrance import in module_dashboard_views.dart. Tests/APK skipped; targeted fix is next.
-- Optimized asset binary commit and alpha report: pending.
-- Screenshot overlay/diff and physical Xiaomi device verification: not yet run.
-- New APK: pending. Do not reuse Build #720 as the latest UI build.
+- Latest verified app CI: **Build #733 SUCCESS** on commit `f413dc9c34fe2976e91e46ada5d61f099f865d2a`.
+- Build #733 passed: original PulseVault audit + source archive, Dart format, Flutter analyzer, full widget tests (including compact 320×560 / 360×780 responsive layouts, auto-rotation, timer progress and detail toggle), ARM64 release APK build, APK signature verification and artifact upload.
+- The initial test failures were corrected in focused commits: analyzer import fixes (`413ab34`), const lint (`0247c95`), narrow KPI ad footer width (`fa24060`, `e41b583`), compact header breakpoint and Freeze/member identity height budgets (`e48618b`), conditional Text const (`f413dc9`). No tests were disabled or weakened.
+- Build #733 APK: 19,189,331 bytes; SHA-256 `f48548f08cf3e39867796bb0949ecb5cfa6bf29ea64858b2e1ee9e8f38be9b19`; `lib/arm64-v8a/libapp.so` and `libflutter.so` verified in package; apksigner verification passed.
+- GitHub artifact: `bad-gym-member-card-arm64-release`, artifact ID `15266626403`; run https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/46152936686.
+- Firebase Test Lab/App Distribution skipped because required Google/Firebase credentials are not configured.
+- Physical Xiaomi device install/launch and actual reference screenshot overlay/diff remain pending. CI/widget viewport tests are not device or pixel-perfect certification.
+- No new unique art generated. The owner’s originality/8K/real-alpha policy remains mandatory; the old duplicate derivative generator is withdrawn.
 
 ## Next action
 1. Inspect asset generation workflow and verify all nine optimized files are actually committed to the branch.
@@ -40,3 +44,14 @@ Resume rule: verify current HEAD and latest CI before trusting this ledger.
 
 - 2026-11-28: Owner mandated unique artwork only, 8K-quality master targets, true transparency/edge verification and no repetitive low-quality WebP duplicates. Durable rule stored in AGENTS.md and docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md.
 - 2026-11-28: Live Git tree had no optimized binaries; earlier statement that these were uploaded was inaccurate. Duplicate derivative workflow withdrawn.
+
+
+## Latest successful checkpoint — Build #733
+- Current code commit: `f413dc9c34fe2976e91e46ada5d61f099f865d2a`.
+- GitHub Actions: Build #733 SUCCESS — https://github.com/explorelearningvisit-boop/productionreadymembercard/actions/runs/46152936686
+- Passed: original asset metadata audit, source asset archive upload, formatting, analyzer, widget tests, coverage upload, ARM64 release build, signature verification, installable artifact upload.
+- Widget suite covers: four dashboard module states/navigation, three-second progress sweep and auto-advance, center details expand/collapse, reduced-motion handling, 320×560/320×640/360×600/360×700/390×720/800×600 layout cases and payment panel states.
+- APK artifact ID: 15266626403 (`bad-gym-member-card-arm64-release`); size 19,189,331 bytes; SHA-256 `f48548f08cf3e39867796bb0949ecb5cfa6bf29ea64858b2e1ee9e8f38be9b19`.
+- Verified APK contains `lib/arm64-v8a/libapp.so` and `lib/arm64-v8a/libflutter.so`; signature check passed.
+- Firebase Test Lab/App Distribution skipped because credentials are not configured.
+- Remaining: physical-device validation and actual screenshot overlay/diff across the four approved views. Do not claim pixel-perfect until measured capture comparison is complete.

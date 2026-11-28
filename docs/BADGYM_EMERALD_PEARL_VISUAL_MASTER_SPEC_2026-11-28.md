@@ -288,3 +288,11 @@ Fresh chat: read live HEAD and docs/IMPLEMENTATION_PROGRESS.md, verify last stag
 
 ## 19. Owner-mandated asset originality/quality policy
 Read docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md before any artwork task. This policy supersedes earlier derivative-pack instructions. New imagery must be unique against the full repository, genuinely 8K-quality at a 7,680px long-edge target (native or honestly labelled super-resolution), and pass real-alpha, silhouette, margin and 100%-detail checks. Re-encoding existing source images into small WebP copies is not asset generation. The previous duplicate derivative generator and auto-commit workflow are withdrawn. If no visual gap exists, create nothing.
+
+
+## 20. Latest UI validation checkpoint — Build #733 (2026-11-28)
+- Compact header now activates below 800dp usable SafeArea height, and Freeze/member identity compact text/spacing was refined to prevent the measured vertical overflows.
+- Narrow KPI campaign footer now adapts by actual available width (<80dp), retains 20dp product art and passes the widget regression suite.
+- Build #733 on commit `f413dc9c34fe2976e91e46ada5d61f099f865d2a` passed format, analyzer, widget tests, ARM64 APK build, signature and artifact upload.
+- APK: SHA-256 `f48548f08cf3e39867796bb0949ecb5cfa6bf29ea64858b2e1ee9e8f38be9b19`, 19,189,331 bytes; ARM64 Flutter libraries present.
+- Physical device capture and screenshot overlay/diff against the four approved states remain mandatory before pixel-perfect certification.
