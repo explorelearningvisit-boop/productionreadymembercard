@@ -15,7 +15,7 @@ Resume rule: Verify actual HEAD and CI before trusting this ledger.
 ## Checkpoint
 - Stage 0 visual spec: complete in this checkpoint.
 - Stage 1 theme migration: implementation/CI verification pending.
-- Stage 2 PulseVault alpha/dimension/crop audit and transparent asset pack: **next stage; not started**.
+- Stage 2 PulseVault alpha/dimension/crop audit and transparent asset pack: **in progress**; automated audit script is being added to CI and its report artifact will be inspected before replacements.
 - Stage 3 shell/check-in/Freeze/profile: pending after Stage 2.
 - Stages 4–11 pending.
 
