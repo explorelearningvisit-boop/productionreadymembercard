@@ -38,7 +38,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
   bool get compact => widget.compact;
   MemberPlanPalette get palette => widget.palette;
   MemberSample get member => widget.member;
-  double get gap => compact ? 3 : 6;
+  double get gap => compact ? 2 : 6;
 
   @override
   Widget build(BuildContext context) => switch (widget.module) {
@@ -587,12 +587,16 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
 
   Widget _pairStats(String labelA, String valueA, String labelB, String valueB,
           Color colorA, Color colorB) =>
-      Row(
-        children: [
-          Expanded(child: _metric(labelA, valueA, Icons.insights_rounded, colorA)),
-          SizedBox(width: gap),
-          Expanded(child: _metric(labelB, valueB, Icons.track_changes_rounded, colorB)),
-        ],
+      SizedBox(
+        height: compact ? 50 : 72,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(child: _metric(labelA, valueA, Icons.insights_rounded, colorA)),
+            SizedBox(width: gap),
+            Expanded(child: _metric(labelB, valueB, Icons.track_changes_rounded, colorB)),
+          ],
+        ),
       );
 
   Widget _metric(String label, String value, IconData icon, Color tint) =>
@@ -660,7 +664,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
       );
 
   Widget _paymentStatus() => Container(
-        padding: EdgeInsets.all(compact ? 7 : 9),
+        padding: EdgeInsets.all(compact ? 5 : 9),
         decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [Color(0xFFE5F9EA), Color(0xFFF4E9FF)]),
           borderRadius: BorderRadius.circular(12),
@@ -672,8 +676,8 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
                     ? Icons.verified_rounded
                     : Icons.pending_actions_rounded,
                 color: member.paymentDue == '₹0' ? MemberTheme.green : MemberTheme.rose,
-                size: 22),
-            const SizedBox(width: 7),
+                size: compact ? 18 : 22),
+            SizedBox(width: compact ? 5 : 7),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -683,7 +687,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
                   Text(member.paymentDue == '₹0' ? 'Paid' : 'Due',
                       style: TextStyle(color: member.paymentDue == '₹0'
                           ? MemberTheme.green : MemberTheme.rose,
-                          fontSize: 16, fontWeight: FontWeight.w900)),
+                          fontSize: compact ? 14 : 16, fontWeight: FontWeight.w900)),
                 ],
               ),
             ),
@@ -702,7 +706,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
 
   Widget _goal(String label, String subtitle, double value, Color tint) =>
       Padding(
-        padding: EdgeInsets.symmetric(vertical: compact ? 3 : 4),
+        padding: EdgeInsets.symmetric(vertical: compact ? 2 : 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -722,7 +726,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
               borderRadius: BorderRadius.circular(6),
               child: LinearProgressIndicator(
                 value: value.clamp(0.0, 1.0),
-                minHeight: compact ? 5 : 6,
+                minHeight: compact ? 4 : 6,
                 backgroundColor: MemberTheme.glassEdge.withOpacity(0.5),
                 valueColor: AlwaysStoppedAnimation<Color>(tint),
               ),
@@ -776,7 +780,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
 
   Widget _note(String title, String description, IconData icon) => Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: compact ? 5 : 7),
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: compact ? 3 : 7),
         decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [Color(0xFFF2E7FF), Colors.white]),
           borderRadius: BorderRadius.circular(10),
@@ -784,7 +788,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
         ),
         child: Row(
           children: [
-            Icon(icon, color: MemberTheme.purple, size: 17),
+            Icon(icon, color: MemberTheme.purple, size: compact ? 15 : 17),
             const SizedBox(width: 6),
             Expanded(
               child: Column(

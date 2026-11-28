@@ -524,7 +524,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 1),
                       const Text(
                         'Stay Cool · Pause Plan',
                         maxLines: 1,
@@ -535,11 +535,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: 1),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 6,
-                          vertical: 2,
+                          vertical: 1,
                         ),
                         decoration: BoxDecoration(
                           color: palette.railSelected,
@@ -1329,7 +1329,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     bool compact = false,
   }) {
     return Container(
-      height: compact ? 22 : 30,
+      height: compact ? 20 : 30,
       width: double.infinity,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),

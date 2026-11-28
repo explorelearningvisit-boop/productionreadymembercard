@@ -77,13 +77,13 @@ class AttendancePanel extends StatelessWidget {
         member: member,
       );
     }
-    final headerHeight = compact ? 28.0 : 36.0;
-    final chartHeight = compact ? 68.0 : 82.0;
-    final ringSize = compact ? 62.0 : 74.0;
-    final recoveryHeight = compact ? 22.0 : 30.0;
-    final calendarTitleHeight = compact ? 22.0 : 27.0;
-    final cellHeight = compact ? 27.0 : 34.0;
-    final summaryHeight = compact ? 14.0 : 18.0;
+    final headerHeight = compact ? 26.0 : 36.0;
+    final chartHeight = compact ? 64.0 : 82.0;
+    final ringSize = compact ? 60.0 : 74.0;
+    final recoveryHeight = compact ? 20.0 : 30.0;
+    final calendarTitleHeight = compact ? 20.0 : 27.0;
+    final cellHeight = compact ? 26.0 : 34.0;
+    final summaryHeight = compact ? 13.0 : 18.0;
 
     return Container(
       padding: EdgeInsets.fromLTRB(7, compact ? 4 : 6, 7, compact ? 4 : 6),
@@ -606,20 +606,20 @@ class _MiniStat extends StatelessWidget {
         Icon(
           icon,
           color: palette.accent,
-          size: compact ? 10 : 12,
+          size: compact ? 8 : 12,
         ),
-        const SizedBox(width: 2),
+        const SizedBox(width: 1),
         Text(
           value,
           maxLines: 1,
           style: TextStyle(
             color: palette.accent,
-            fontSize: compact ? 10 : 11,
+            fontSize: compact ? 9 : 11,
             height: 1,
             fontWeight: FontWeight.w900,
           ),
         ),
-        const SizedBox(width: 3),
+        const SizedBox(width: 2),
         Flexible(
           child: Text(
             label,
@@ -627,7 +627,7 @@ class _MiniStat extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: MemberTheme.muted,
-              fontSize: compact ? 7.5 : 8.5,
+              fontSize: compact ? 7 : 8.5,
               height: 1,
               fontWeight: FontWeight.w700,
             ),

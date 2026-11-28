@@ -48,7 +48,7 @@ class _ArtworkEntranceState extends State<ArtworkEntrance> {
           tween: Tween<double>(begin: 0, end: 1),
           duration: reduceMotion
               ? Duration.zero
-              : const Duration(milliseconds: 420),
+              : const Duration(milliseconds: 220),
           curve: Curves.easeOutCubic,
           child: widget.child,
           builder: (context, value, child) {
