@@ -240,12 +240,16 @@ abstract final class CampaignPreviewSheet {
               children: [
                 Icon(Icons.campaign_outlined, color: accent, size: 20),
                 const SizedBox(width: 7),
-                const Text(
-                  'Sponsored offer preview',
-                  style: TextStyle(
-                    color: MemberTheme.ink,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
+                const Expanded(
+                  child: Text(
+                    'Sponsored offer preview',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: MemberTheme.ink,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
               ],

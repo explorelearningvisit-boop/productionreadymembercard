@@ -599,68 +599,38 @@ class _MiniStat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = MemberPlanTheme.of(context);
-    if (compact) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: palette.accent, size: 10),
-          const SizedBox(width: 2),
-          Text(
-            value,
-            style: TextStyle(
-              color: palette.accent,
-              fontSize: 10,
-              height: 1,
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          const SizedBox(width: 3),
-          Flexible(
-            child: Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: MemberTheme.muted,
-                fontSize: 7.5,
-                height: 1,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-    return Column(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: palette.accent, size: 13),
-            const SizedBox(width: 2),
-            Text(
-              value,
-              style: TextStyle(
-                color: palette.accent,
-                fontSize: 12,
-                height: 0.95,
-                fontWeight: FontWeight.w800,
-              ),
-            ),
-          ],
+        Icon(
+          icon,
+          color: palette.accent,
+          size: compact ? 10 : 12,
         ),
+        const SizedBox(width: 2),
         Text(
-          label,
+          value,
           maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            color: MemberTheme.muted,
-            fontSize: 8.5,
-            height: 0.95,
-            fontWeight: FontWeight.w600,
+          style: TextStyle(
+            color: palette.accent,
+            fontSize: compact ? 10 : 11,
+            height: 1,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+        const SizedBox(width: 3),
+        Flexible(
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: MemberTheme.muted,
+              fontSize: compact ? 7.5 : 8.5,
+              height: 1,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ],
