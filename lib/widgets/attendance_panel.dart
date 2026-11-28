@@ -204,7 +204,7 @@ class AttendancePanel extends StatelessWidget {
             ),
           ),
           SizedBox(height: compact ? 1 : 2),
-          const Divider(height: 1, color: Color(0xFFD8C6E9)),
+          const Divider(height: 1, color: MemberTheme.glassEdge),
           SizedBox(height: compact ? 1 : 2),
           SizedBox(
             height: recoveryHeight,

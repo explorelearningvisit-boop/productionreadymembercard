@@ -29,7 +29,7 @@ class GlassChartFrame extends StatelessWidget {
         borderRadius: BorderRadius.circular(14),
         border: Border.all(color: MemberTheme.glassEdge.withOpacity(0.82)),
         boxShadow: const [
-          BoxShadow(color: Color(0x180F0630), blurRadius: 8, offset: Offset(0, 3)),
+          BoxShadow(color: Color(0x120A2E22), blurRadius: 8, offset: Offset(0, 3)),
           BoxShadow(color: Color(0xBFFFFFFF), blurRadius: 1, offset: Offset(0, -1)),
         ],
       ),
@@ -88,7 +88,7 @@ class GlassMetricCard extends StatelessWidget {
           begin: Alignment.topLeft, end: Alignment.bottomRight),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: tint.withOpacity(0.18)),
-        boxShadow: const [BoxShadow(color: Color(0x120E0630), blurRadius: 5, offset: Offset(0, 2))],
+        boxShadow: const [BoxShadow(color: Color(0x100A2E22), blurRadius: 5, offset: Offset(0, 2))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

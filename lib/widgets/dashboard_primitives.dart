@@ -77,7 +77,7 @@ class DashboardMetricTile extends StatelessWidget {
     this.valueColor = MemberTheme.ink,
     this.compact = false,
     this.selected = false,
-    this.selectionColor = MemberTheme.purple,
+    this.selectionColor = MemberTheme.emerald,
     this.onTap,
     super.key,
   });
@@ -250,7 +250,7 @@ class AttendanceLegend extends StatelessWidget {
               child: LinearProgressIndicator(
                 value: value.clamp(0.0, 1.0).toDouble(),
                 minHeight: compact ? 6 : 8,
-                backgroundColor: const Color(0xFFE2D7EC),
+                backgroundColor: MemberTheme.raised,
                 valueColor: AlwaysStoppedAnimation<Color>(color),
               ),
             ),
@@ -288,10 +288,10 @@ class WeekdayLabel extends StatelessWidget {
 class AttendanceDayCell extends StatelessWidget {
   const AttendanceDayCell(
     this.day, {
-    this.color = const Color(0xFFD7F8DF),
+    this.color = MemberTheme.mint,
     this.selected = false,
     this.off = false,
-    this.selectedColor = MemberTheme.purple,
+    this.selectedColor = MemberTheme.emerald,
     this.height = 25,
     this.compact = false,
     super.key,
@@ -342,7 +342,7 @@ class AttendanceDayCell extends StatelessWidget {
               ),
               if (off)
                 Text('OFF', style: TextStyle(
-                  color: Color(0xFF635B6B), fontSize: compact ? 7.5 : 8.5, fontWeight: FontWeight.w600,
+                  color: MemberTheme.muted, fontSize: compact ? 7.5 : 8.5, fontWeight: FontWeight.w600,
                 )),
             ],
           ),

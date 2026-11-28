@@ -42,7 +42,7 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  test('all plans share the lilac glass shell and retain tier badges', () {
+  test('all plans share the Emerald Pearl shell and retain tier badges', () {
     final gold = MemberPlanPalette.forPlan('Gold Plan');
     final spark = MemberPlanPalette.forPlan('Spark Plan');
     final silver = MemberPlanPalette.forPlan('Silver Plan');
@@ -52,7 +52,10 @@ void main() {
     expect(gold.frameGradient, diamond.frameGradient);
     expect(gold.canvasGradient, spark.canvasGradient);
     expect(gold.railGradient, diamond.railGradient);
-    expect(gold.accent, MemberTheme.purple);
+    expect(gold.frameGradient.first, MemberTheme.forestInk);
+    expect(gold.canvasGradient.last, MemberTheme.surface);
+    expect(gold.railSelected, MemberTheme.mint);
+    expect(gold.accent, MemberTheme.emerald);
     expect(gold.planBadgeGradient, isNot(spark.planBadgeGradient));
     expect(gold.planBadgeGradient, isNot(silver.planBadgeGradient));
     expect(gold.planBadgeGradient, isNot(diamond.planBadgeGradient));

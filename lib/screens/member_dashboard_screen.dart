@@ -241,11 +241,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 1),
                         decoration: BoxDecoration(
                           color: _selectedSubmenu == i
-                              ? const Color(0xFFFFE18A)
+                              ? palette.railSelected
                               : Colors.transparent,
                           gradient: _selectedSubmenu == i
                               ? const LinearGradient(
-                                  colors: [Color(0xFFFFF0B0), Color(0xFFFFD45A)],
+                                  colors: [Color(0xFFE7F9ED), Color(0xFFCBEED8)],
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 )
@@ -253,7 +253,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           borderRadius: BorderRadius.circular(10),
                           border: _selectedSubmenu == i
                               ? Border.all(
-                                  color: const Color(0xFFFFF7D9),
+                                  color: const Color(0xFFEAF8EF),
                                   width: 1,
                                 )
                               : null,
@@ -274,7 +274,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                             Icon(
                               items[i].icon,
                               color: _selectedSubmenu == i
-                                  ? const Color(0xFF452900)
+                                  ? const Color(0xFF154A35)
                                   : const Color(0xFFFFF8E9),
                               size: iconSize,
                             ),
@@ -761,8 +761,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               Colors.white,
                               icon: Icons.check_circle_rounded,
                               gradient: const [
-                                Color(0xFF2BE184),
-                                Color(0xFF08B962),
+                                Color(0xFF2BBE79),
+                                Color(0xFF0D925D),
                               ],
                               backgroundAsset: null,
                               compact: compact,
@@ -910,8 +910,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
         Expanded(
           child: DashboardPanel(
             key: const ValueKey('whey-offer-preview'),
-            color: const Color(0xFF6310AE),
-            borderColor: const Color(0xFFE47AFF),
+            color: const Color(0xFF07533E),
+            borderColor: const Color(0xFF78B99A),
             radius: 17,
             onTap: () => CampaignPreviewSheet.show(
               context,
@@ -1166,7 +1166,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             trendColor: MemberTheme.green,
             valueColor: const Color(0xFF087E40),
             note: 'Protinex',
-            color: const Color(0xFFFFE96A),
+            color: MemberTheme.mint,
             asset: 'assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',
             campaign: DashboardCampaigns.protinexAttendance,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.protinexAttendance, accent: palette.accent),
@@ -1185,7 +1185,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             trend: '↑ +12%',
             trendColor: MemberTheme.green,
             note: 'Creatine',
-            color: const Color(0xFFF2D7FF),
+            color: MemberTheme.lavender,
             asset: 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp',
             campaign: DashboardCampaigns.creatineWorkout,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.creatineWorkout, accent: palette.accent),
@@ -1203,7 +1203,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             value: '${member.paymentDue} Due',
             note: 'SBI',
             valueColor: const Color(0xFFD71939),
-            color: const Color(0xFFD9F1FF),
+            color: MemberTheme.sky,
             asset: 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',
             campaign: DashboardCampaigns.sbiPayment,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.sbiPayment, accent: palette.accent),
@@ -1222,7 +1222,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             trend: '↓ -0.8 kg',
             trendColor: MemberTheme.green,
             note: 'Fat Loss',
-            color: const Color(0xFFD8FFE2),
+            color: MemberTheme.mint,
             asset: 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png',
             campaign: DashboardCampaigns.fatLossBody,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.fatLossBody, accent: palette.accent),

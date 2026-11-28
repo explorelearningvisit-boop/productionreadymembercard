@@ -667,9 +667,9 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
         key: const ValueKey('payment-status-card'),
         padding: EdgeInsets.all(compact ? 5 : 9),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [Color(0xFFE5F9EA), Color(0xFFF4E9FF)]),
+          gradient: const LinearGradient(colors: [Color(0xFFE8F6EE), Color(0xFFFCFDFD)]),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFFB9E7C9)),
+          border: Border.all(color: const Color(0xFFD4E6DC)),
         ),
         child: Row(
           children: [
@@ -797,7 +797,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
               ),
             ),
             const Text('DEMO',
-                style: TextStyle(color: MemberTheme.purple, fontSize: 7, fontWeight: FontWeight.w900)),
+                style: TextStyle(color: MemberTheme.emerald, fontSize: 7, fontWeight: FontWeight.w900)),
           ],
         ),
       );
@@ -806,13 +806,13 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: compact ? 3 : 7),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(colors: [Color(0xFFF2E7FF), Colors.white]),
+          gradient: const LinearGradient(colors: [Color(0xFFEAF5EF), Colors.white]),
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: MemberTheme.glassEdge.withOpacity(0.8)),
         ),
         child: Row(
           children: [
-            Icon(icon, color: MemberTheme.purple, size: compact ? 15 : 17),
+            Icon(icon, color: MemberTheme.emerald, size: compact ? 15 : 17),
             const SizedBox(width: 6),
             Expanded(
               child: Column(
