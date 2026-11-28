@@ -582,6 +582,7 @@ class AttendancePanel extends StatelessWidget {
       ),
     );
   }
+}
 
 class _MiniStat extends StatelessWidget {
   const _MiniStat({
