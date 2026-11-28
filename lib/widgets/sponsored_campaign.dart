@@ -118,7 +118,7 @@ class SponsoredCampaignBanner extends StatelessWidget {
             onTap: onTap,
             borderRadius: BorderRadius.circular(9),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: compact ? 3 : 5, vertical: 2),
+              padding: EdgeInsets.symmetric(horizontal: compact ? 3 : 5, vertical: compact ? 1 : 2),
               decoration: BoxDecoration(
                 color: campaign.surface,
                 borderRadius: BorderRadius.circular(9),
@@ -162,19 +162,19 @@ class SponsoredCampaignBanner extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: MemberTheme.ink,
-                            fontSize: compact ? 8.5 : 9.5,
+                            fontSize: compact ? 8 : 9.5,
                             height: 1,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(height: compact ? 1 : 2),
                         Text(
                           campaign.offer,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             color: campaign.accentText == Colors.white ? campaign.accent : MemberTheme.ink,
-                            fontSize: compact ? 7.5 : 8.5,
+                            fontSize: compact ? 7 : 8.5,
                             height: 1,
                             fontWeight: FontWeight.w900,
                           ),

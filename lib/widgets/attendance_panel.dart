@@ -77,13 +77,13 @@ class AttendancePanel extends StatelessWidget {
         member: member,
       );
     }
-    final headerHeight = compact ? 30.0 : 36.0;
-    final chartHeight = compact ? 70.0 : 82.0;
+    final headerHeight = compact ? 28.0 : 36.0;
+    final chartHeight = compact ? 68.0 : 82.0;
     final ringSize = compact ? 62.0 : 74.0;
-    final recoveryHeight = compact ? 23.0 : 30.0;
-    final calendarTitleHeight = compact ? 23.0 : 27.0;
-    final cellHeight = compact ? 28.0 : 34.0;
-    final summaryHeight = compact ? 15.0 : 18.0;
+    final recoveryHeight = compact ? 22.0 : 30.0;
+    final calendarTitleHeight = compact ? 22.0 : 27.0;
+    final cellHeight = compact ? 27.0 : 34.0;
+    final summaryHeight = compact ? 14.0 : 18.0;
 
     return Container(
       padding: EdgeInsets.fromLTRB(7, compact ? 4 : 6, 7, compact ? 4 : 6),
