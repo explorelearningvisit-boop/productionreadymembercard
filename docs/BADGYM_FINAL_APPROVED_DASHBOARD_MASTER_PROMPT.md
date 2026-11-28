@@ -1,48 +1,18 @@
-# BAD GYM — Pearl Glass / Purple Neon Member Intelligence Dashboard
+# BAD GYM — Approved Dashboard Master Prompt
 
-**Status:** Updated 2026-11-27 from the owner's second reference screenshot. The target is a bright pearl-glass content field framed by purple neon and gold—not a full-screen purple surface. The detailed tokens and component treatments are in `docs/REFERENCE_GLASS_VISUAL_SPEC.md`. This document supersedes the 2026-11-25 visual direction where they conflict.
+**Replaced 2026-11-28** by docs/BADGYM_EMERALD_PEARL_VISUAL_MASTER_SPEC_2026-11-28.md.
 
-## Product boundary
-One compact Android member dashboard card for the gym check-in flow. The app's own top menu, bottom navigation and Android system navigation are outside this component and must not be implemented here. The supplied full screenshot includes a six-item vertical navigation rail (Attend, Insights, Cal, History, Trend, Goals); reproduce it inside this dashboard.
+Owner-approved design is Emerald + Pearl. Purple Neon/Lilac Glass is superseded.
 
-## Master visual reference
-Use the owner's second uploaded screenshot as the visual authority. Reproduce its component order, pearl/lilac frosted-glass canvas, dark grape outer shell, selective gold/violet edging, distinct yellow/lavender/sky/mint KPI surfaces, localized glow, typography hierarchy and transparent product-art placements. Do not flatten all cards into one purple treatment. See `docs/REFERENCE_GLASS_VISUAL_SPEC.md` for the complete implementation specification.
+- Reference 841×1870px, ratio 0.4497; logical target 360×800dp with real SafeArea/system insets.
+- Deep forest-emerald frame/rail; pearl-white workspace.
+- Gold Plan champagne, Active emerald, Freeze ice.
+- Attendance mint, Workout muted lavender, Payment sky, Body mint.
+- One Days Left chip in Membership Progress. No AD label in Payment Due.
+- Preserve one-screen order, four KPI tiles, six contextual rail destinations.
+- PulseVault art must be alpha/dimension/crop checked; new transparent cut-outs 3× slot size, no embedded text/logos/UI.
+- Flutter/Dart only; no React/GSAP/Three.js/Framer/Vite runtime.
+- All sample charts/actions remain Demo until verified data source exists.
+- Pixel-perfect requires real 360dp capture, overlay and diff; CI alone is not enough.
 
-## Component order
-1. Top row: Check-in action/status and Freeze promo.
-2. Member identity: portrait/bodybuilder graphic, name, member ID, age, gender, Gold Plan and Active status.
-3. Payment and promo row: amount due / days left, whey promotion.
-4. Membership progress: days used / total, days remaining, percentage and progress track.
-5. Four compact metric tiles: attendance, workout duration, payment, body weight.
-6. Attendance analytics: title/live status, partner banner, attendance ring, present/absent/holiday/late legend and bars, streak stats, recovery offer, month label, weekday row and compact calendar.
-7. Six-item vertical navigation rail: Attend, Insights, Cal, History, Trend and Goals. Match the reference position, width, active-state treatment and icon/label spacing.
-
-## Layout constraints
-- Mobile-first; 360 dp is the primary target. Verify 320 dp and 390 dp.
-- Compact, fixed card layout; no vertical scrolling, no horizontal scrolling, no clipping or overflow.
-- Must fit inside the bounded area supplied by the host dashboard; scale proportionally when the available area is smaller.
-- Reproduce the six-item vertical navigation rail visible in the supplied reference. Do not add any additional app-level top menu or bottom menu.
-- Keep all important labels legible at the smallest supported size.
-
-## Asset authority
-The authoritative 14-image source pack is:
-`reference_library/recovered_from_history/assets/material_pack/pulsevault/`
-Read its README before choosing assets. Do not use the full-screen screenshot as a runtime background. Prefer the already optimized transparent WebP assets from:
-`reference_library/recovered_from_history/assets/material_pack/inbox/`
-and sibling categorized folders. Use BoxFit.contain for transparent cutouts and preserve their aspect ratio. Keep all labels, amounts, dates and controls as live Flutter widgets.
-
-## Data
-Current demo member: Ashwani Kumar Singh, BG215, 28 yrs, Male, Gold Plan, Active; 22/30 membership days, 8 days left, ₹500 due; attendance 81%, workout 58 min, body weight 69.5 kg. Clearly mark sample data until a real gym API is connected.
-
-## Engineering rules
-- Keep the existing Flutter app and Android application ID.
-- Flutter SDK only; no new runtime packages.
-- No nested scrolling, GlobalKeys, Hero transitions, overlays, modal routes, snackbars or animation controllers.
-- Use a single stable widget tree; check-in state is local and must not create routes or overlays.
-- Keep reference archive outside pubspec assets. Only register the selected optimized runtime assets.
-- Build a signed ARM64 QA APK and verify format, analysis, widget tests, emulator launch, APK signature and exact size. Real-device verification must be reported separately.
-
-
-## 2026-11-27 member-plan correction
-
-The member's purchased plan controls the entire card identity. Gold uses a champagne / bronze / espresso frame, Spark uses forest / emerald / mint, and Silver uses slate / steel-blue. Never apply one universal purple palette to all members. Keep the glass content field bright and clipped inside the outer rim; do not draw a large external glow outside the card. The navigation rail must use real bundled icons (`uses-material-design: true`), and the wallet/payment glyph must never be a text square. Plan and Active badges are 30 dp high with sponsor-preview captions underneath. Analytics labels and calendar dates must meet the readability sizes in `docs/MEMBER_PLAN_ADAPTIVE_VISUAL_SYSTEM.md`. Sponsor messages rotate with finite fade/slide transitions; product art uses short one-shot entrances rather than battery-draining forever loops.
+Full component contracts, wireframe, asset export, tokens, animation, stages and QA are in the Emerald Pearl master specification.

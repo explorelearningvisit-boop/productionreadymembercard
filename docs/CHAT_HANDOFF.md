@@ -1,33 +1,36 @@
-# BAD GYM — Cross-chat handoff
+# BAD GYM — Cross-chat implementation handoff
 
-Updated: 2026-11-25
+Updated: 2026-11-28  
+Repository: https://github.com/explorelearningvisit-boop/productionreadymembercard  
+Working branch: grok/purple-neon-member-dashboard
 
-## Repository
-- https://github.com/explorelearningvisit-boop/productionreadymembercard
-- Branch: `grok/purple-neon-member-dashboard`
+## Resume every new chat/agent
+1. Read AGENTS.md and DESIGN.md.
+2. Read docs/BADGYM_EMERALD_PEARL_VISUAL_MASTER_SPEC_2026-11-28.md.
+3. Read docs/IMPLEMENTATION_PROGRESS.md.
+4. Read assets/design_system/emerald_pearl_theme.json and PulseVault README/manifest.
+5. Verify live branch HEAD, latest commit diff and latest Actions run before editing.
+6. Continue at first incomplete stage. Do not ask owner to repeat recorded requirements.
 
-## Current visual authority
-The owner's 2026-11-25 uploaded purple-neon screenshot and `docs/BADGYM_FINAL_APPROVED_DASHBOARD_MASTER_PROMPT.md`.
-The new full compact dashboard scope supersedes the earlier minimal-card-only prompt.
+## Visual master
+Emerald + Pearl approved 2026-11-28 replaces Purple Neon/Lilac Glass. Reference 841×1870px, ratio 0.4497; logical 360×800dp with real system bars/SafeArea. Emerald frame + pearl workspace; Gold badge; ice Freeze; mint/lavender/sky KPI roles; semantic status colors.
 
-## Reference assets
-- Authoritative 14-image source pack: `reference_library/recovered_from_history/assets/material_pack/pulsevault/`
-- 30-file mobile-optimized WebP pack: `reference_library/recovered_from_history/assets/material_pack/inbox/`
-- Recovered historical files: `reference_library/recovered_from_history/`
-- Reference-only screenshots must never be used as runtime backgrounds.
-- Only selected optimized WebP cutouts are registered in pubspec.
-
-## Current UI
-One compact fixed card: check-in/freeze, member identity, payment/promo, membership progress, four metrics, attendance analytics and mini calendar. No app-level top/bottom menu or left/right rail.
+## Repository map
+- Full spec/prompt: docs/BADGYM_EMERALD_PEARL_VISUAL_MASTER_SPEC_2026-11-28.md
+- Resume ledger: docs/IMPLEMENTATION_PROGRESS.md
+- Theme pack: assets/design_system/emerald_pearl_theme.json
+- Theme: lib/theme/member_theme.dart
+- Screen: lib/screens/member_dashboard_screen.dart
+- Analytics: lib/widgets/attendance_panel.dart and module_dashboard_views.dart
+- Primitives: lib/widgets/dashboard_primitives.dart
+- Art: assets/material_pack/inbox/PulseVault/
+- Tests: test/widget_test.dart
 
 ## Hard constraints
-- 360 dp primary; verify 320/390 dp.
-- No vertical/horizontal scrolling, clipping or overflow.
-- Fit into bounded host dashboard area.
-- Flutter SDK only; no extra runtime packages.
-- Keep app ID: com.badgym.bad_gym_member_intelligence.
-- Demo data label until API exists.
-- QA APK ARM64 release; don't claim real-device verification without evidence.
+Preserve app ID com.badgym.bad_gym_member_intelligence. Flutter/Dart only. 360dp primary; verify 320/360/390dp and 560–800dp usable heights. No scroll/clipping/overflow at reference. Transparent art has real alpha and BoxFit.contain. Sample data remains Demo; no fake LIVE/partner claims. CI is not physical-device verification. Never print credentials or change signing secrets.
 
-## Last known history
-The earlier minimal version was 15 MB on build #389, but the owner's new reference request now expands the dashboard. Rebuild and report the actual new APK size; do not reuse the previous APK link.
+## Skills
+Unslop is design audit workflow. Animmaster, Skiper and Vengeance are reference patterns; port to Flutter. Respect license/free/premium and attribution when copying source. No web runtime.
+
+## Previous baseline
+Build #717 on 1c3ca6cf06e2035d39122a40909b8335e5da9e65 passed format, analyzer, widget tests, ARM64 build, signature and artifact upload. Firebase Test Lab/App Distribution skipped due unavailable credentials. This is pre-Emerald baseline.

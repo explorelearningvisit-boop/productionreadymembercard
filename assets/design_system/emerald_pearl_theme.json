@@ -1,0 +1,13 @@
+{
+  "name":"BAD GYM Emerald Pearl",
+  "version":"1.0.0",
+  "ownerApprovedAt":"2026-11-28",
+  "reference":{"sourceCanvasPx":{"width":841,"height":1870},"aspectRatio":0.4497,"logicalFullDeviceDp":{"width":360,"height":800},"safeArea":"Read actual MediaQuery system insets; image includes OS chrome.","sourcePngSha256":"d49be4260ddb9fe1f9f5424af58a5e7c0f09cc261b20a5d4a5dbf8e4d409f740"},
+  "colors":{"forestShell":"#012022","emeraldShell":"#01493C","emeraldPrimary":"#0F8457","emeraldDeep":"#07533E","pearlBackground":"#F6FAFA","pearlSurface":"#FCFDFD","raisedPearl":"#F0F6F7","softMint":"#E0F6E7","mintBorder":"#CBE8D5","ink":"#142C25","secondaryInk":"#536A61","mutedInk":"#788C83","champagne":"#D6AA3C","sky":"#E3F2FA","skyInk":"#236C98","lavender":"#EEEAF6","ice":"#E5F4FC","iceInk":"#267CA3","rose":"#D94B5D","amber":"#D69A2D","mutedViolet":"#766899","neutralOff":"#E4E8E7"},
+  "semantic":{"present":"#0F8457","late":"#D69A2D","absent":"#D94B5D","holiday":"#766899","off":"#7A8983","paymentDue":"#D94B5D","active":"#0F8457","sampleDemo":"#536A61"},
+  "surfaces":{"globalShell":["#012022","#01493C"],"globalCanvas":["#F6FAFA","#ECF3EE","#FCFDFD"],"rail":["#07533E","#063D31"],"railSelected":["#E7F9ED","#CBEED8"],"checkIn":["#0B6B49","#16885A"],"freeze":["#E5F4FC","#FCFDFD"],"goldPlan":["#FFF1C8","#D6AA3C"],"active":["#2BBE79","#0D925D"],"attendanceKpi":"#E0F6E7","workoutKpi":"#EEEAF6","paymentKpi":"#E3F2FA","bodyKpi":"#E7F6EB","paymentPromo":["#07533E","#0F7655"],"progress":["#37B978","#0F8457"]},
+  "geometry":{"referenceWidthDp":360,"fullDeviceHeightDp":800,"outerShellRadiusDp":26,"majorCardRadiusDp":16,"smallControlRadiusDp":10,"spacingGridDp":4,"outerMarginDp":4,"innerPaddingDp":5,"navigationRailWidthDp":54,"railContentGapDp":4,"kpiCount":4,"navigationCount":6,"noScrollAtReferenceViewport":true},
+  "typography":{"fontFamily":"Roboto (Android/system)","weights":{"regular":400,"medium":500,"semibold":600,"bold":700},"memberNameSp":[18,21],"sectionHeadingSp":[14,16],"kpiValueSp":[18,22],"kpiLabelSp":[9.5,11],"memberMetaSp":[10.5,12],"attendanceLegendSp":[10,11],"calendarDateSp":[12,13]},
+  "assets":{"runtimeRoot":"assets/material_pack/inbox/PulseVault","newAssetsExportScale":"3x logical slot","format":["WebP with real alpha","PNG RGBA"],"noEmbeddedTextOrUI":true,"boxFit":"contain","preserveAspectRatio":true,"slotExportPx":{"memberPortrait":[252,264],"checkInCutout":[162,144],"freezeBottle":[138,144],"wheyPromo":[228,156],"kpiProduct":[180,162],"paymentCard":[192,144],"partnerOffer":[132,102],"recoveryBanner":[198,126]}},
+  "motion":{"selectionMs":[160,200],"panelSwitchMs":[220,280],"progressMs":[300,450],"pressMs":[100,140],"ringMs":[350,500],"curve":"easeOutCubic","respectDisableAnimations":true,"idleLoops":false}
+}

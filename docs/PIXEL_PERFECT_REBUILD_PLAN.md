@@ -1,26 +1,24 @@
-# BAD GYM — Purple Neon Dashboard implementation plan
+# BAD GYM — Emerald Pearl implementation plan
 
-## Authority
-Follow `BADGYM_FINAL_APPROVED_DASHBOARD_MASTER_PROMPT.md`, `REFERENCE_GLASS_VISUAL_SPEC.md` and the owner's second screenshot supplied on 2026-11-27. Use a pearl/lilac inner field, dark grape/gold shell and independent semantic KPI surfaces; never use one purple fill for the entire screen.
+Visual master: docs/BADGYM_EMERALD_PEARL_VISUAL_MASTER_SPEC_2026-11-28.md  
+Resume record: docs/IMPLEMENTATION_PROGRESS.md  
+Branch: grok/purple-neon-member-dashboard
 
-## Components in order
-1. Check-in / Freeze header row
-2. Member identity and plan status
-3. Payment due / whey promotion
-4. Membership progress
-5. Four compact metric tiles
-6. Attendance analytics, partner promotion, ring + legend, streaks, recovery promotion and mini calendar
-7. Six-item vertical navigation rail: Attend, Insights, Cal, History, Trend and Goals
+| Stage | Work | Acceptance |
+|---|---|---|
+| 0 Visual lock | Spec, DESIGN, tokens, wireframe, prompt, handoff | Authority fixed |
+| 1 Theme tokens | MemberTheme/MemberPlanPalette/tests | Emerald/Pearl actual Flutter theme |
+| 2 Asset pack | PulseVault alpha/dim/crop audit and missing art | Real alpha, ratio, manifest/pubspec |
+| 3 Shell/identity | Frame, check-in, Freeze, profile | 360dp top aligned |
+| 4 Payment/membership | Due, offer, progress | One Days Left, no AD |
+| 5 KPI row | Four equal cards | Semantic fills/art |
+| 6 Intelligence | Rail, ring, legend, stats, offer, calendar | Correct default and six destinations |
+| 7 Motion/accessibility | Native motion, semantics, reduced motion | Focused tests, no loops |
+| 8 Pixel QA | 320/360/390 captures + diff | Measured geometry, no overflow |
+| 9 Android QA | Format/analyze/tests/ARM64/signature/SHA | CI gates pass |
+| 10 Device | Xiaomi 11i install/launch/capture | Separately recorded |
+| 11 Backend | Auth and real data/actions | Never faked during UI scope |
 
-## Exclusions
-No additional app-level top/bottom menus, scroll views, multiple screens, backend/API, unrelated modules, third-party runtime packages, custom fonts or full-screen screenshot background. The six-item rail in the supplied reference is required.
+Reference 841×1870px, ratio 0.4497; full logical device 360×800dp. Dashboard uses SafeArea and real OS bars. Verify 320/360/390dp and 560–800dp usable heights. No scrolling/clipping/stretched art/overflow at 360dp.
 
-## Layout QA
-360 dp target; test 320 dp and 390 dp widths and compact heights. The card must scale to its bounded parent area, show all components at once and have no scroll, clipping or RenderFlex overflow.
-
-## Asset policy
-Source pack: `reference_library/recovered_from_history/assets/material_pack/pulsevault/` (14 original PNGs).
-For runtime use, select only optimized transparent WebP files from the recovered material pack and register only those selected files in pubspec.yaml. Use BoxFit.contain.
-
-## Verification
-Format, analyze, widget tests, no-scroll/overflow checks, Android emulator launch, ARM64 release APK, signature and size report. Real-device install/launch remains a separate check.
+No app identity/signing changes, unrelated refactor, web runtime, unnecessary package, fake live data, screenshot background, mass asset deletion or production release claim without separate signing/device validation.
