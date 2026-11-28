@@ -152,35 +152,51 @@ class SponsoredCampaignBanner extends StatelessWidget {
                   ),
                   const SizedBox(width: 2),
                   Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          campaign.brand,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: MemberTheme.ink,
-                            fontSize: compact ? 8 : 9.5,
-                            height: 1,
-                            fontWeight: FontWeight.w800,
+                    child: compact
+                        ? Text(
+                            '${campaign.brand} · ${campaign.offer}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: campaign.accentText == Colors.white
+                                  ? campaign.accent
+                                  : MemberTheme.ink,
+                              fontSize: 7,
+                              height: 1,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                campaign.brand,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: MemberTheme.ink,
+                                  fontSize: 9.5,
+                                  height: 1,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                campaign.offer,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: campaign.accentText == Colors.white
+                                      ? campaign.accent
+                                      : MemberTheme.ink,
+                                  fontSize: 8.5,
+                                  height: 1,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(height: compact ? 1 : 2),
-                        Text(
-                          campaign.offer,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: campaign.accentText == Colors.white ? campaign.accent : MemberTheme.ink,
-                            fontSize: compact ? 7 : 8.5,
-                            height: 1,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                   const SizedBox(width: 2),
                   Icon(Icons.open_in_new_rounded, color: MemberTheme.muted, size: compact ? 10 : 12),

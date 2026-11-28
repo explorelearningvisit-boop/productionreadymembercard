@@ -599,19 +599,52 @@ class _MiniStat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = MemberPlanTheme.of(context);
+    if (compact) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: palette.accent, size: 10),
+          const SizedBox(width: 2),
+          Text(
+            value,
+            style: TextStyle(
+              color: palette.accent,
+              fontSize: 10,
+              height: 1,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          const SizedBox(width: 3),
+          Flexible(
+            child: Text(
+              label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                color: MemberTheme.muted,
+                fontSize: 7.5,
+                height: 1,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: palette.accent, size: compact ? 12 : 14),
+            Icon(icon, color: palette.accent, size: 14),
             const SizedBox(width: 3),
             Text(
               value,
               style: TextStyle(
                 color: palette.accent,
-                fontSize: compact ? 11 : 12.5,
+                fontSize: 12.5,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -621,9 +654,9 @@ class _MiniStat extends StatelessWidget {
           label,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
+          style: const TextStyle(
             color: MemberTheme.muted,
-            fontSize: compact ? 8.5 : 9.5,
+            fontSize: 9.5,
             fontWeight: FontWeight.w600,
           ),
         ),
