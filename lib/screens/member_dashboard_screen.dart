@@ -1286,14 +1286,6 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     );
   }
 
-  void _showOfferDetails(BuildContext context) {
-    CampaignPreviewSheet.show(
-      context,
-      DashboardCampaigns.wheyTop,
-      accent: MemberPlanPalette.forPlan(widget.member.plan).accent,
-    );
-  }
-
   void _showMemberProfile(BuildContext context) {
     final member = widget.member;
     final palette = MemberPlanPalette.forPlan(member.plan);
