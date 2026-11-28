@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 import '../data/sample_member.dart';
 import '../data/dashboard_navigation.dart';
+import '../data/dashboard_campaigns.dart';
 import '../theme/member_theme.dart';
 import 'ad_motion.dart';
 import 'dashboard_primitives.dart';
 import 'module_dashboard_views.dart';
+import 'sponsored_campaign.dart';
 
 class AttendancePanel extends StatelessWidget {
   const AttendancePanel({
@@ -76,8 +78,7 @@ class AttendancePanel extends StatelessWidget {
         member: member,
       );
     }
-    final headerHeight = compact ? 22.0 : 26.0;
-    final offerHeight = compact ? 24.0 : 30.0;
+    final headerHeight = compact ? 30.0 : 36.0;
     final chartHeight = compact ? 70.0 : 82.0;
     final ringSize = compact ? 62.0 : 74.0;
     final recoveryHeight = compact ? 23.0 : 30.0;
@@ -104,9 +105,12 @@ class AttendancePanel extends StatelessWidget {
         // This avoids the large dead zone below the calendar in tall layouts.
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _header(compact: compact, height: headerHeight, palette: palette),
-          SizedBox(height: compact ? 2 : 3),
-          _offerBanner(compact: compact, height: offerHeight),
+          _header(
+            context: context,
+            compact: compact,
+            height: headerHeight,
+            palette: palette,
+          ),
           SizedBox(height: compact ? 2 : 3),
           SizedBox(
             height: chartHeight,
@@ -193,38 +197,57 @@ class AttendancePanel extends StatelessWidget {
           SizedBox(height: compact ? 1 : 2),
           const Divider(height: 1, color: Color(0xFFD8C6E9)),
           SizedBox(height: compact ? 1 : 2),
-          Row(
-            children: [
-              Expanded(
-                child: _MiniStat(
-                  icon: Icons.local_fire_department_rounded,
-                  value: '5d',
-                  label: 'Streak',
-                  compact: compact,
+          SizedBox(
+            height: recoveryHeight,
+            child: Row(
+              children: [
+                Expanded(
+                  child: _MiniStat(
+                    icon: Icons.local_fire_department_rounded,
+                    value: '5d',
+                    label: 'Streak',
+                    compact: compact,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: _MiniStat(
-                  icon: Icons.emoji_events_rounded,
-                  value: '14d',
-                  label: 'Best',
-                  compact: compact,
+                Expanded(
+                  child: _MiniStat(
+                    icon: Icons.emoji_events_rounded,
+                    value: '14d',
+                    label: 'Best',
+                    compact: compact,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: _MiniStat(
-                  icon: Icons.trending_up_rounded,
-                  value: '+6%',
-                  label: 'This Month',
-                  compact: compact,
+                Expanded(
+                  child: _MiniStat(
+                    icon: Icons.trending_up_rounded,
+                    value: '+6%',
+                    label: 'This Month',
+                    compact: compact,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(width: 3),
+                SponsoredCampaignBanner(
+                  campaign: DashboardCampaigns.recoveryHydration,
+                  onTap: () => CampaignPreviewSheet.show(
+                    context,
+                    DashboardCampaigns.recoveryHydration,
+                    accent: palette.accent,
+                  ),
+                  width: compact ? 88 : 112,
+                  height: recoveryHeight,
+                  imageWidth: compact ? 18 : 22,
+                  compact: true,
+                ),
+              ],
+            ),
           ),
           SizedBox(height: compact ? 1 : 2),
-          _recoveryBanner(compact: compact, height: recoveryHeight),
-          SizedBox(height: compact ? 1 : 2),
-          _calendarTitle(compact: compact, height: calendarTitleHeight, palette: palette),
+          _calendarTitle(
+            context: context,
+            compact: compact,
+            height: calendarTitleHeight,
+            palette: palette,
+          ),
           SizedBox(
             height: summaryHeight,
             child: Align(
@@ -341,32 +364,7 @@ class AttendancePanel extends StatelessWidget {
     final safeIndex = sectionIndex.clamp(0, items.length - 1).toInt();
     final item = items[safeIndex];
 
-    late final String offerAsset;
-    late final String offerTitle;
-    late final String offerSubtitle;
-    late final Color offerSurface;
-    switch (module) {
-      case DashboardModule.attendance:
-        offerAsset = 'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp';
-        offerTitle = 'Healthy snacks & gym essentials';
-        offerSubtitle = 'Campaign creative · Preview only';
-        offerSurface = const Color(0xFFFFF8E8);
-      case DashboardModule.workout:
-        offerAsset = 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp';
-        offerTitle = 'Creatine & training essentials';
-        offerSubtitle = 'Campaign creative · Preview only';
-        offerSurface = const Color(0xFFF5F0FA);
-      case DashboardModule.payment:
-        offerAsset = 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp';
-        offerTitle = 'Member payment rewards';
-        offerSubtitle = 'Campaign creative · Preview only';
-        offerSurface = const Color(0xFFEFF6FC);
-      case DashboardModule.body:
-        offerAsset = 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png';
-        offerTitle = 'Body & nutrition support';
-        offerSubtitle = 'Campaign creative · Preview only';
-        offerSurface = const Color(0xFFEDF7EF);
-    }
+
 
     return Container(
       key: ValueKey('member-detail-${module.name}-$sectionIndex'),
@@ -435,17 +433,6 @@ class AttendancePanel extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: compact ? 3 : 5),
-          _smallBanner(
-            compact: compact,
-            height: compact ? 30 : 36,
-            asset: offerAsset,
-            assetWidth: compact ? 38 : 48,
-            motion: 1,
-            title: offerTitle,
-            subtitle: offerSubtitle,
-            colors: [offerSurface, Colors.white],
-          ),
           SizedBox(height: compact ? 4 : 7),
           Expanded(
             child: AnimatedSwitcher(
@@ -505,229 +492,96 @@ class AttendancePanel extends StatelessWidget {
     palette: palette,
     member: member,
   );
-  Widget _header({required bool compact, required double height, required MemberPlanPalette palette}) {
+  Widget _header({
+    required BuildContext context,
+    required bool compact,
+    required double height,
+    required MemberPlanPalette palette,
+  }) {
     return SizedBox(
       height: height,
       child: Row(
         children: [
           Container(
-            width: compact ? 20 : 23,
-            height: compact ? 20 : 23,
+            width: compact ? 20 : 24,
+            height: compact ? 20 : 24,
             decoration: BoxDecoration(
-              color: palette.accent,
-              shape: BoxShape.circle,
+              color: palette.accentSoft,
+              borderRadius: BorderRadius.circular(7),
+              border: Border.all(color: palette.panelEdge),
             ),
-            child: Icon(
-              Icons.trending_up_rounded,
-              color: Colors.white,
-              size: compact ? 14 : 16,
-            ),
+            child: Icon(Icons.event_available_rounded, color: palette.accent, size: compact ? 14 : 17),
           ),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
               'Attendance Analytics',
               maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: MemberTheme.ink,
-                fontSize: compact ? 14.2 : 16,
-                fontWeight: FontWeight.w900,
+                fontSize: compact ? 12 : 14,
+                height: 1,
+                fontWeight: FontWeight.w800,
               ),
-            ),
-          ),
-          Icon(
-            Icons.notifications_active,
-            color: palette.accent,
-            size: compact ? 16 : 18,
-          ),
-          const SizedBox(width: 4),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: compact ? 6 : 8,
-              vertical: compact ? 2 : 3,
-            ),
-            decoration: BoxDecoration(
-              color: palette.accentSoft,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: palette.panelEdge),
-            ),
-            child: Text(
-              'Demo',
-              style: TextStyle(
-                color: palette.accent,
-                fontSize: compact ? 8 : 9,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _offerBanner({required bool compact, required double height}) {
-    return _smallBanner(
-      compact: compact,
-      height: height,
-      asset: 'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp',
-      assetWidth: compact ? 31 : 40,
-      motion: 3,
-      title: 'Healthy Snacks & Gym Essentials',
-      subtitle: 'Campaign creative · Preview only',
-      colors: const [Color(0xFFFFF8E8), Color(0xFFFFFEFC)],
-    );
-  }
-
-  Widget _recoveryBanner({required bool compact, required double height}) {
-    return _smallBanner(
-      compact: compact,
-      height: height,
-      asset: 'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
-      assetWidth: compact ? 25 : 31,
-      motion: 2,
-      title: 'Recovery products',
-      subtitle: 'Product preview · No live offer',
-      colors: const [Color(0xFFF5F0E8), Color(0xFFFFFEFC)],
-    );
-  }
-
-  Widget _smallBanner({
-    required bool compact,
-    required double height,
-    required String asset,
-    required double assetWidth,
-    required int motion,
-    required String title,
-    required String subtitle,
-    required List<Color> colors,
-  }) {
-    return Container(
-      height: height,
-      padding: const EdgeInsets.symmetric(horizontal: 7),
-      decoration: BoxDecoration(
-        color: colors.first,
-        borderRadius: BorderRadius.circular(11),
-        border: Border.all(color: const Color(0xFFE4D9C9), width: 1),
-      ),
-      child: Row(
-        children: [
-          ArtworkEntrance(
-            motion: motion,
-            child: Image.asset(
-              asset,
-              width: assetWidth,
-              height: height - 4,
-              fit: BoxFit.contain,
-              filterQuality: FilterQuality.high,
-            ),
-          ),
-          const SizedBox(width: 6),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: MemberTheme.ink,
-                    fontSize: compact ? 10.5 : 11.5,
-                    height: 1.05,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  subtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: MemberTheme.muted,
-                    fontSize: compact ? 7.5 : 8.5,
-                    height: 1.05,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
             ),
           ),
           const SizedBox(width: 3),
-          Icon(
-            Icons.chevron_right_rounded,
-            color: MemberTheme.muted,
-            size: compact ? 16 : 18,
+          SponsoredCampaignBanner(
+            campaign: DashboardCampaigns.blinkitAttendance,
+            onTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.blinkitAttendance, accent: palette.accent),
+            width: compact ? 105 : 128,
+            height: height - 2,
+            imageWidth: compact ? 19 : 25,
+            compact: true,
           ),
         ],
       ),
     );
   }
 
-  Widget _calendarTitle({required bool compact, required double height, required MemberPlanPalette palette}) {
+  Widget _calendarTitle({
+    required BuildContext context,
+    required bool compact,
+    required double height,
+    required MemberPlanPalette palette,
+  }) {
     return SizedBox(
       height: height,
       child: Row(
         children: [
-          ArtworkEntrance(
-            motion: 1,
-            child: Image.asset(
-              'assets/material_pack/inbox/PulseVault/25_calendar_graphic.webp',
-              width: compact ? 20 : 23,
-              height: compact ? 20 : 23,
-              fit: BoxFit.contain,
-            ),
+          Image.asset(
+            'assets/material_pack/inbox/PulseVault/25_calendar_graphic.webp',
+            width: compact ? 20 : 23,
+            height: compact ? 20 : 23,
+            fit: BoxFit.contain,
           ),
           const SizedBox(width: 4),
           Expanded(
             child: Text(
               'October attendance',
               maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: MemberTheme.ink,
-                fontSize: compact ? 14.3 : 16,
-                fontWeight: FontWeight.w900,
+                fontSize: compact ? 12.5 : 15,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: compact ? 5 : 7,
-              vertical: compact ? 2 : 3,
-            ),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [palette.accent, palette.railGradient.last],
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  Icons.fitness_center_rounded,
-                  color: Colors.white,
-                  size: compact ? 12 : 14,
-                ),
-                const SizedBox(width: 3),
-                Text(
-                  'Sample',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: compact ? 9 : 10,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ],
-            ),
+          const SizedBox(width: 3),
+          SponsoredCampaignBanner(
+            campaign: DashboardCampaigns.trainMore,
+            onTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.trainMore, accent: palette.accent),
+            width: compact ? 100 : 120,
+            height: height - 2,
+            imageWidth: compact ? 18 : 22,
+            compact: true,
           ),
         ],
       ),
     );
   }
-}
 
 class _MiniStat extends StatelessWidget {
   const _MiniStat({
