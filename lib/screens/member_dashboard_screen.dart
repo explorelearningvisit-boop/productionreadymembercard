@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 
 import '../data/sample_member.dart';
 import '../data/dashboard_navigation.dart';
+import '../data/dashboard_campaigns.dart';
 import '../theme/member_theme.dart';
 import '../widgets/ad_motion.dart';
 import '../widgets/attendance_panel.dart';
 import '../widgets/dashboard_primitives.dart';
+import '../widgets/sponsored_campaign.dart';
 
 class MemberDashboardScreen extends StatefulWidget {
   const MemberDashboardScreen({
@@ -238,8 +240,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 1),
                         decoration: BoxDecoration(
                           color: _selectedSubmenu == i
-                              ? palette.railSelected
+                              ? const Color(0xFFFFE18A)
                               : Colors.transparent,
+                          gradient: _selectedSubmenu == i
+                              ? const LinearGradient(
+                                  colors: [Color(0xFFFFF0B0), Color(0xFFFFD45A)],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                )
+                              : null,
                           borderRadius: BorderRadius.circular(10),
                           border: _selectedSubmenu == i
                               ? Border.all(
@@ -264,7 +273,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                             Icon(
                               items[i].icon,
                               color: _selectedSubmenu == i
-                                  ? palette.planBadgeText
+                                  ? const Color(0xFF452900)
                                   : const Color(0xFFFFF8E9),
                               size: iconSize,
                             ),
@@ -277,7 +286,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: _selectedSubmenu == i
-                                      ? palette.planBadgeText
+                                      ? const Color(0xFF452900)
                                       : const Color(0xFFFFF8E9),
                                   fontSize: labelSize,
                                   height: 1.05,
@@ -436,9 +445,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           fit: BoxFit.scaleDown,
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            _checkedIn
-                                ? 'PREVIEW · CHECKED IN'
-                                : 'TAP TO PREVIEW',
+                            _checkedIn ? '07:12 AM' : 'TAP TO PREVIEW',
                             maxLines: 1,
                             style: const TextStyle(
                               color: Colors.white,
@@ -519,7 +526,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       ),
                       const SizedBox(height: 2),
                       const Text(
-                        'Pause plan · Stay flexible',
+                        'Stay Cool · Pause Plan',
                         maxLines: 1,
                         style: TextStyle(
                           color: MemberTheme.muted,
@@ -540,7 +547,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           border: Border.all(color: palette.frameRim, width: 0.7),
                         ),
                         child: Text(
-                          'DEMO • REQUEST PREVIEW',
+                          'UP TO 20% OFF',
                           maxLines: 1,
                           style: TextStyle(
                             color: palette.planBadgeText,
@@ -780,6 +787,15 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               ),
             ),
           ),
+          IconButton(
+            key: const ValueKey('member-profile-button'),
+            tooltip: 'Open member profile preview',
+            visualDensity: VisualDensity.compact,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints.tightFor(width: 26, height: 30),
+            onPressed: () => _showMemberProfile(context),
+            icon: Icon(Icons.chevron_right_rounded, color: palette.accent, size: 22),
+          ),
         ],
       ),
     );
@@ -793,7 +809,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     );
     final paymentIsDue = dueValue == null || dueValue > 0;
     final paymentLabel = paymentIsDue ? 'PAYMENT DUE' : 'PAYMENT STATUS';
-    final paymentValue = paymentIsDue ? '${member.paymentDue} Due' : 'Paid';
+    final paymentValue = paymentIsDue ? member.paymentDue : 'Paid';
     final paymentColor = paymentIsDue ? MemberTheme.rose : MemberTheme.green;
     final paymentIcon = paymentIsDue
         ? Icons.error_rounded
@@ -805,6 +821,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             color: palette.surface,
             borderColor: palette.panelEdge,
             radius: 17,
+            onTap: () => _selectModule(DashboardModule.payment),
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
             child: Row(
               children: [
@@ -868,17 +885,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                   letterSpacing: -0.35,
                                 ),
                               ),
-                              SizedBox(height: compact ? 1 : 3),
-                              Text(
-                                '${member.daysRemaining} Days Left',
-                                maxLines: 1,
-                                style: TextStyle(
-                                  color: MemberTheme.muted,
-                                  fontSize: compact ? 11.5 : 12.5,
-                                  height: 1,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
+
                             ],
                           ),
                         ),
@@ -905,7 +912,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             color: const Color(0xFF6310AE),
             borderColor: const Color(0xFFE47AFF),
             radius: 17,
-            onTap: () => _showOfferDetails(context),
+            onTap: () => CampaignPreviewSheet.show(
+              context,
+              DashboardCampaigns.wheyTop,
+              accent: palette.accent,
+            ),
             padding: EdgeInsets.symmetric(
               horizontal: 5,
               vertical: compact ? 2 : 5,
@@ -949,7 +960,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               ),
                               SizedBox(height: compact ? 1 : 3),
                               Text(
-                                'Preview only',
+                                '25% OFF',
                                 maxLines: 1,
                                 style: TextStyle(
                                   color: Colors.white,
@@ -971,7 +982,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
-                                  'VIEW PREVIEW',
+                                  'BUY NOW',
                                   maxLines: 1,
                                   style: TextStyle(
                                     color: MemberTheme.ink,
@@ -1052,15 +1063,22 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                             ),
                           ],
                         ),
-                        child: Text(
-                          '⚠ ${member.daysRemaining} Days Left',
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: compact ? 9.5 : 10.5,
-                            height: 1,
-                            fontWeight: FontWeight.w900,
-                          ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.schedule_rounded, color: Colors.white, size: 10),
+                            const SizedBox(width: 3),
+                            Text(
+                              '${member.daysRemaining} Days Left',
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: compact ? 9.5 : 10.5,
+                                height: 1,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       const SizedBox(width: 6),
@@ -1094,8 +1112,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                 .toDouble(),
                             child: DecoratedBox(
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: palette.progressGradient,
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFFC27AF5),
+                                    Color(0xFF8A2BE2),
+                                    Color(0xFF5A0DAA),
+                                  ],
                                 ),
                                 boxShadow: [
                                   BoxShadow(
@@ -1119,7 +1141,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     );
   }
 
-    Widget _metrics({required bool compact}) {
+  Widget _metrics({required bool compact}) {
     final member = widget.member;
     final palette = MemberPlanPalette.forPlan(member.plan);
     return Row(
@@ -1130,14 +1152,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             label: 'Attendance',
             compact: compact,
             value: member.attendance,
-            trend: null,
+            trend: '↑ +6%',
+            trendColor: MemberTheme.green,
             valueColor: const Color(0xFF087E40),
-            note: 'Campaign preview',
+            note: 'Protinex',
             color: const Color(0xFFFFE96A),
             asset: 'assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',
-            motion: 0,
-            noteColor: const Color(0xFFE52B52),
-            noteTextColor: Colors.white,
+            campaign: DashboardCampaigns.protinexAttendance,
+            onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.protinexAttendance, accent: palette.accent),
             selectionColor: palette.accent,
             selected: _activeModule == DashboardModule.attendance,
             onTap: () => _selectModule(DashboardModule.attendance),
@@ -1150,13 +1172,13 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             label: 'Workout',
             compact: compact,
             value: member.workout,
-            trend: null,
-            note: 'Campaign preview',
+            trend: '↑ +12%',
+            trendColor: MemberTheme.green,
+            note: 'Creatine',
             color: const Color(0xFFF2D7FF),
             asset: 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp',
-            motion: 1,
-            noteColor: const Color(0xFFB20BE4),
-            noteTextColor: Colors.white,
+            campaign: DashboardCampaigns.creatineWorkout,
+            onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.creatineWorkout, accent: palette.accent),
             selectionColor: palette.accent,
             selected: _activeModule == DashboardModule.workout,
             onTap: () => _selectModule(DashboardModule.workout),
@@ -1169,13 +1191,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             label: 'Payment',
             compact: compact,
             value: '${member.paymentDue} Due',
-            note: 'Payment creative · Demo',
+            note: 'SBI',
             valueColor: const Color(0xFFD71939),
             color: const Color(0xFFD9F1FF),
             asset: 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',
-            motion: 2,
-            noteColor: const Color(0xFF1269DB),
-            noteTextColor: Colors.white,
+            campaign: DashboardCampaigns.sbiPayment,
+            onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.sbiPayment, accent: palette.accent),
             selectionColor: palette.accent,
             selected: _activeModule == DashboardModule.payment,
             onTap: () => _selectModule(DashboardModule.payment),
@@ -1188,13 +1209,13 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             label: 'Body',
             compact: compact,
             value: member.bodyWeight,
-            trend: null,
-            note: 'Wellness creative · Demo',
+            trend: '↓ -0.8 kg',
+            trendColor: MemberTheme.green,
+            note: 'Fat Loss',
             color: const Color(0xFFD8FFE2),
             asset: 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png',
-            motion: 3,
-            noteColor: const Color(0xFF0B9C4C),
-            noteTextColor: Colors.white,
+            campaign: DashboardCampaigns.fatLossBody,
+            onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.fatLossBody, accent: palette.accent),
             selectionColor: palette.accent,
             selected: _activeModule == DashboardModule.body,
             onTap: () => _selectModule(DashboardModule.body),
@@ -1266,61 +1287,43 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }
 
   void _showOfferDetails(BuildContext context) {
+    CampaignPreviewSheet.show(
+      context,
+      DashboardCampaigns.wheyTop,
+      accent: MemberPlanPalette.forPlan(widget.member.plan).accent,
+    );
+  }
+
+  void _showMemberProfile(BuildContext context) {
+    final member = widget.member;
+    final palette = MemberPlanPalette.forPlan(member.plan);
     showModalBottomSheet<void>(
       context: context,
+      useSafeArea: true,
       showDragHandle: true,
       backgroundColor: Colors.transparent,
-      builder: (sheetContext) {
-        final palette = MemberPlanPalette.forPlan(widget.member.plan);
-        return Container(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-          decoration: BoxDecoration(
-            color: palette.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            border: Border.all(color: palette.panelEdge),
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Member offer',
-                style: TextStyle(
-                  color: palette.accent,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Whey Protein · Demo preview',
-                style: TextStyle(
-                  color: MemberTheme.ink,
-                  fontSize: 17,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                'Sample campaign preview. A live purchase destination has not been connected yet.',
-                style: TextStyle(color: MemberTheme.muted, fontSize: 13),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: palette.accent,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: () => Navigator.of(sheetContext).pop(),
-                  child: const Text('Close offer'),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+      builder: (sheetContext) => Container(
+        key: const ValueKey('member-profile-preview'),
+        padding: const EdgeInsets.fromLTRB(18, 10, 18, 18),
+        decoration: BoxDecoration(
+          color: palette.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
+          border: Border.all(color: palette.panelEdge),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(member.name, style: const TextStyle(color: MemberTheme.ink, fontSize: 18, fontWeight: FontWeight.w800)),
+            const SizedBox(height: 6),
+            Text('${member.memberId} · ${member.age} · ${member.gender}', style: const TextStyle(color: MemberTheme.muted, fontSize: 13)),
+            const SizedBox(height: 4),
+            Text('${member.plan} · Active', style: TextStyle(color: palette.accent, fontSize: 13, fontWeight: FontWeight.w700)),
+            const SizedBox(height: 14),
+            SizedBox(width: double.infinity, child: FilledButton(onPressed: () => Navigator.of(sheetContext).pop(), child: const Text('Close profile'))),
+          ],
+        ),
+      ),
     );
   }
 
