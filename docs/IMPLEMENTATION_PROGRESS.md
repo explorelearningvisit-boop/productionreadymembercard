@@ -15,14 +15,14 @@ Resume rule: Verify actual HEAD and CI before trusting this ledger.
 ## Checkpoint
 - Stage 0 visual spec: complete in this checkpoint.
 - Stage 1 theme migration: implementation/CI verification pending.
-- Stage 2 PulseVault alpha/dimension/crop audit: not started.
-- Stage 3 shell/check-in/Freeze/profile: not started.
+- Stage 2 PulseVault alpha/dimension/crop audit and transparent asset pack: **next stage; not started**.
+- Stage 3 shell/check-in/Freeze/profile: pending after Stage 2.
 - Stages 4–11 pending.
 
 ## Previous baseline
 - Last previous-theme commit 1c3ca6cf06e2035d39122a40909b8335e5da9e65.
 - Build #717 passed format, analyzer, widget tests, ARM64/signature and artifact upload; Test Lab/App Distribution skipped due credentials.
-- Previous APK is not Emerald release.
+- Previous pre-Emerald APK is not the new build. New Stage 1 ARM64 QA APK from Build #720 has SHA-256 8f2c80749bde3b8fdb43ea1c28dcdf0e98c112ff9b10d2f51e03730a9a004511, size 19,189,131 bytes; apksigner verification passed. Firebase Test Lab/App Distribution skipped due missing credentials.
 
 ## Next action
 1. Verify live HEAD.
@@ -33,4 +33,4 @@ Resume rule: Verify actual HEAD and CI before trusting this ledger.
 
 ## Stage log
 - 2026-11-28: Emerald/Pearl visual direction and spec prepared.
-- 2026-11-28: Stage 1 theme-token and first component migration prepared; CI pending.
+- 2026-11-28: Stage 1 Emerald/Pearl theme migration + component surfaces committed; Build #719 failed on one undefined identifier, fixed in c23eb0a; Build #720 passed format, analyzer, widget tests, ARM64 release build, signature verification and artifact upload.

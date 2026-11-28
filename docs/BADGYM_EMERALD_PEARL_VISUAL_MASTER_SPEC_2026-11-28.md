@@ -277,3 +277,10 @@ Fresh chat: read live HEAD and docs/IMPLEMENTATION_PROGRESS.md, verify last stag
 - 2026-11-28: Emerald + Pearl approved; Purple Neon/Lilac superseded.
 - 2026-11-28: Locked 841×1870px source, 0.4497 ratio, 360×800dp logical target.
 - 2026-11-28: Defined visual, wireframe, asset, motion, QA and cross-chat contracts.
+
+
+## 18. Stage checkpoint — 2026-11-28
+- Stage 1 theme tokens and first-pass component color migration implemented on grok/purple-neon-member-dashboard.
+- Commits: 4f6ddbb (master docs), 7e77819 (theme migration), c23eb0a (analyzer identifier fix).
+- Build #720 on c23eb0a passed format, analyzer, widget tests, ARM64 release APK and signature verification.
+- Next: Stage 2 audit all PulseVault images for actual dimensions, alpha channel, subject bbox and semantic/color suitability; never delete originals before verified replacements.
