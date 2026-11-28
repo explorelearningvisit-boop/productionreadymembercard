@@ -94,7 +94,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
         _appLifecycleState != AppLifecycleState.resumed) {
       return;
     }
-    final modules = DashboardNavigation.modules;
+    const modules = DashboardNavigation.modules;
     final currentIndex = modules.indexOf(_activeModule);
     setState(() {
       _activeModule = modules[(currentIndex + 1) % modules.length];
