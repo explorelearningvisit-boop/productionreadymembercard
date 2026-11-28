@@ -32,7 +32,7 @@ class CampaignFooterButton extends StatelessWidget {
           child: Container(
             height: compact ? 22 : 24,
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 4),
+            padding: EdgeInsets.symmetric(horizontal: compact ? 2 : 4),
             decoration: BoxDecoration(
               color: campaign.accent,
               borderRadius: BorderRadius.circular(8),
@@ -56,7 +56,7 @@ class CampaignFooterButton extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 3),
+                SizedBox(width: compact ? 2 : 3),
                 if (campaign.asset.isNotEmpty)
                   ArtworkEntrance(
                     motion: 2,
@@ -66,7 +66,7 @@ class CampaignFooterButton extends StatelessWidget {
                 else
                   Icon(campaign.fallbackIcon ?? Icons.local_offer_outlined,
                       color: campaign.accentText, size: compact ? 13 : 16),
-                const SizedBox(width: 3),
+                SizedBox(width: compact ? 2 : 3),
                 Expanded(
                   child: Text(
                     '${campaign.brand} ${campaign.offer}',
@@ -83,7 +83,7 @@ class CampaignFooterButton extends StatelessWidget {
                 Icon(
                   Icons.chevron_right_rounded,
                   color: campaign.accentText,
-                  size: compact ? 13 : 15,
+                  size: compact ? 11 : 15,
                 ),
               ],
             ),
