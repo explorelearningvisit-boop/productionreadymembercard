@@ -167,7 +167,6 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               ),
                             ),
                           ),
-                          ),
                         ],
                       ),
                     ],
