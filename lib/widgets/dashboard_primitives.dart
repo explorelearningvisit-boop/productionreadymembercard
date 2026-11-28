@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../theme/member_theme.dart';
+import '../data/dashboard_campaigns.dart';
 import 'ad_motion.dart';
+import 'sponsored_campaign.dart';
 
 
 class DashboardPanel extends StatelessWidget {
@@ -67,13 +69,13 @@ class DashboardMetricTile extends StatelessWidget {
     required this.value,
     required this.note,
     required this.color,
+    required this.campaign,
+    required this.onCampaignTap,
     required this.asset,
     this.trend,
+    this.trendColor,
     this.valueColor = MemberTheme.ink,
     this.compact = false,
-    this.noteColor = const Color(0xCCFFFFFF),
-    this.noteTextColor = MemberTheme.ink,
-    this.motion = 0,
     this.selected = false,
     this.selectionColor = MemberTheme.purple,
     this.onTap,
@@ -85,12 +87,12 @@ class DashboardMetricTile extends StatelessWidget {
   final String note;
   final Color color;
   final String asset;
+  final DashboardCampaign campaign;
+  final VoidCallback onCampaignTap;
   final String? trend;
+  final Color? trendColor;
   final Color valueColor;
   final bool compact;
-  final Color noteColor;
-  final Color noteTextColor;
-  final int motion;
   final bool selected;
   final Color selectionColor;
   final VoidCallback? onTap;
@@ -99,118 +101,91 @@ class DashboardMetricTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final radius = BorderRadius.circular(14);
     return Material(
+      key: super.key,
       color: Colors.transparent,
       borderRadius: radius,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: radius,
-        mouseCursor: SystemMouseCursors.click,
-        hoverColor: Colors.white.withOpacity(0.16),
-        focusColor: Colors.white.withOpacity(0.20),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOutCubic,
-          clipBehavior: Clip.antiAlias,
-          padding: compact
-              ? const EdgeInsets.fromLTRB(3, 3, 3, 2)
-              : const EdgeInsets.fromLTRB(3, 4, 3, 3),
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: radius,
-            border: Border.all(
-              color: selected ? selectionColor : Colors.white,
-              width: selected ? 1.8 : 1.3,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeOutCubic,
+        clipBehavior: Clip.antiAlias,
+        padding: EdgeInsets.fromLTRB(3, compact ? 3 : 4, 3, 3),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: radius,
+          border: Border.all(
+            color: selected ? selectionColor : Colors.white,
+            width: selected ? 1.8 : 1.1,
+          ),
+          boxShadow: const [
+            BoxShadow(color: Color(0x160D0905), blurRadius: 3, offset: Offset(0, 1)),
+            BoxShadow(color: Color(0xBFFFFFFF), blurRadius: 1, offset: Offset(0, -1)),
+          ],
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  key: ValueKey('metric-\${label.toLowerCase()}-menu'),
+                  onTap: onTap,
+                  borderRadius: BorderRadius.circular(10),
+                  mouseCursor: SystemMouseCursors.click,
+                  hoverColor: Colors.white.withOpacity(0.16),
+                  focusColor: Colors.white.withOpacity(0.20),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
+                    child: Column(
+                      children: [
+                        _fit(label, compact ? 11.5 : 12.5, MemberTheme.ink),
+                        SizedBox(height: compact ? 1 : 2),
+                        _fit(value, compact ? 21 : 24, valueColor),
+                        if (trend != null) ...[
+                          const SizedBox(height: 1),
+                          _fit(trend!, compact ? 9 : 10, trendColor ?? MemberTheme.green),
+                        ],
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 1),
+                            child: ArtworkEntrance(
+                              key: ValueKey('artwork-$label'),
+                              motion: label == 'Attendance'
+                                  ? 0
+                                  : label == 'Workout'
+                                      ? 1
+                                      : label == 'Payment'
+                                          ? 2
+                                          : 3,
+                              child: Image.asset(
+                                asset,
+                                fit: BoxFit.contain,
+                                filterQuality: FilterQuality.high,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'Open',
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: MemberTheme.ink.withOpacity(0.72),
+                            fontSize: compact ? 8 : 8.5,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0x160D0905),
-                blurRadius: selected ? 5 : 3,
-                offset: const Offset(0, 1),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              _fit(label, compact ? 12 : 13, MemberTheme.ink),
-              SizedBox(height: compact ? 1 : 2),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: _fit(
-                      value,
-                      compact ? 23 : 25,
-                      valueColor,
-                    ),
-                  ),
-                  if (trend != null) ...[
-                    const SizedBox(width: 2),
-                    Flexible(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: compact ? 3 : 4,
-                          vertical: compact ? 2 : 2.5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.78),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: _fit(
-                          trend!,
-                          compact ? 10.5 : 11.5,
-                          const Color(0xFF087E40),
-                        ),
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-              SizedBox(height: compact ? 2 : 3),
-              Container(
-                height: 1,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.white.withOpacity(0.15),
-                      Colors.white.withOpacity(0.95),
-                      Colors.white.withOpacity(0.15),
-                    ],
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: compact ? 0 : 1,
-                    horizontal: 1,
-                  ),
-                  child: ArtworkEntrance(
-                    key: ValueKey('artwork-$label'),
-                    motion: motion,
-                    child: Image.asset(
-                      asset,
-                      fit: BoxFit.contain,
-                      filterQuality: FilterQuality.high,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(
-                  horizontal: 2,
-                  vertical: compact ? 2 : 3,
-                ),
-                decoration: BoxDecoration(
-                  color: noteColor,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.white.withOpacity(0.76)),
-                ),
-                child: _fit(note, compact ? 10.5 : 11.5, noteTextColor),
-              ),
-            ],
-          ),
+            const SizedBox(height: 2),
+            CampaignFooterButton(
+              campaign: campaign,
+              compact: compact,
+              onTap: onCampaignTap,
+            ),
+          ],
         ),
       ),
     );
@@ -228,7 +203,7 @@ class DashboardMetricTile extends StatelessWidget {
             color: color,
             fontSize: size,
             height: 1,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
