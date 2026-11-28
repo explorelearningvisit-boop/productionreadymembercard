@@ -313,11 +313,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }) {
     // Recover height across every row rather than shrinking customer-critical
     // text. The short-phone baseline is 560 dp; larger screens expand gently.
-    final topHeight = compact ? 44.0 + 4.0 * compactProgress : 58.0;
-    final identityHeight = compact ? 76.0 + 6.0 * compactProgress : 100.0;
-    final offerHeight = compact ? 44.0 + 4.0 * compactProgress : 62.0;
-    final progressHeight = compact ? 38.0 + 4.0 * compactProgress : 52.0;
-    final metricsHeight = compact ? 90.0 + 8.0 * compactProgress : 130.0;
+    final topHeight = compact ? 42.0 + 3.0 * compactProgress : 58.0;
+    final identityHeight = compact ? 72.0 + 5.0 * compactProgress : 100.0;
+    final offerHeight = compact ? 42.0 + 3.0 * compactProgress : 62.0;
+    final progressHeight = compact ? 36.0 + 3.0 * compactProgress : 52.0;
+    final metricsHeight = compact ? 86.0 + 6.0 * compactProgress : 130.0;
     final sectionGap = compact ? 1.2 : 3.5;
 
     return Column(
@@ -585,7 +585,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }) {
     final member = widget.member;
     final palette = MemberPlanPalette.forPlan(widget.member.plan);
-    final portrait = compact ? 62.0 + 5.0 * compactProgress : 84.0;
+    final portrait = compact ? 60.0 + 4.0 * compactProgress : 84.0;
 
     return DashboardPanel(
       color: palette.surface,

@@ -5,6 +5,7 @@ class DashboardCampaign {
   const DashboardCampaign({
     required this.id,
     required this.advertiserId,
+    required this.placementId,
     required this.brand,
     required this.headline,
     required this.offer,
@@ -17,6 +18,7 @@ class DashboardCampaign {
 
   final String id;
   final String advertiserId;
+  final String placementId;
   final String brand;
   final String headline;
   final String offer;
@@ -33,6 +35,7 @@ abstract final class DashboardCampaigns {
   static const wheyTop = DashboardCampaign(
     id: 'whey-top-25',
     advertiserId: 'whey-nutrition',
+    placementId: 'member-header-whey',
     brand: 'Whey Protein',
     headline: 'Whey Protein',
     offer: '25% OFF',
@@ -45,6 +48,7 @@ abstract final class DashboardCampaigns {
   static const protinexAttendance = DashboardCampaign(
     id: 'protinex-attendance-10',
     advertiserId: 'protinex',
+    placementId: 'kpi-attendance-protinex',
     brand: 'Protinex',
     headline: 'Protein',
     offer: '10% OFF',
@@ -57,6 +61,7 @@ abstract final class DashboardCampaigns {
   static const creatineWorkout = DashboardCampaign(
     id: 'creatine-workout-15',
     advertiserId: 'creatine-partner',
+    placementId: 'kpi-workout-creatine',
     brand: 'Creatine',
     headline: 'Creatine',
     offer: '15% OFF',
@@ -69,6 +74,7 @@ abstract final class DashboardCampaigns {
   static const sbiPayment = DashboardCampaign(
     id: 'sbi-payment-5',
     advertiserId: 'sbi-bank',
+    placementId: 'kpi-payment-sbi',
     brand: 'SBI',
     headline: 'SBI',
     offer: 'GET 5% OFF',
@@ -81,6 +87,7 @@ abstract final class DashboardCampaigns {
   static const fatLossBody = DashboardCampaign(
     id: 'fat-loss-body-20',
     advertiserId: 'fat-loss-partner',
+    placementId: 'kpi-body-fat-loss',
     brand: 'Fat Loss',
     headline: 'Fat Loss',
     offer: '20% OFF',
@@ -93,6 +100,7 @@ abstract final class DashboardCampaigns {
   static const blinkitAttendance = DashboardCampaign(
     id: 'blinkit-attendance-30',
     advertiserId: 'blinkit',
+    placementId: 'attendance-header-blinkit',
     brand: 'Blinkit',
     headline: 'Healthy snacks & gym essentials',
     offer: 'UP TO 30% OFF',
@@ -105,6 +113,7 @@ abstract final class DashboardCampaigns {
   static const recoveryHydration = DashboardCampaign(
     id: 'recovery-hydration-30',
     advertiserId: 'recovery-hydration-partner',
+    placementId: 'attendance-strip-recovery',
     brand: 'Recovery',
     headline: 'Recovery combo',
     offer: 'UP TO 30% OFF',
@@ -117,6 +126,7 @@ abstract final class DashboardCampaigns {
   static const trainMore = DashboardCampaign(
     id: 'train-more-15',
     advertiserId: 'train-more-partner',
+    placementId: 'attendance-calendar-train-more',
     brand: 'Train More',
     headline: 'Train More',
     offer: 'GET 15% OFF',
@@ -143,4 +153,7 @@ abstract final class DashboardCampaigns {
 
   static bool get hasUniqueAdvertisers =>
       placements.map((campaign) => campaign.advertiserId).toSet().length == placements.length;
+
+  static bool get hasUniquePlacementIds =>
+      placements.map((campaign) => campaign.placementId).toSet().length == placements.length;
 }

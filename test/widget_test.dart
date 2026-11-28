@@ -367,6 +367,7 @@ void main() {
     expect(DashboardCampaigns.placements, hasLength(8));
     expect(DashboardCampaigns.hasUniqueCampaignIds, isTrue);
     expect(DashboardCampaigns.hasUniqueAdvertisers, isTrue);
+    expect(DashboardCampaigns.hasUniquePlacementIds, isTrue);
   });
 
   testWidgets('menu and ad hit areas open different actions', (tester) async {
@@ -392,6 +393,29 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Sponsored offer preview'), findsOneWidget);
     expect(find.byKey(const ValueKey('navigation-attendance-attend')), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+
+  testWidgets('compact sponsor controls keep readable labels and isolated tap targets', (tester) async {
+    setPhoneViewport(tester, const Size(360, 700));
+    addViewportReset(tester);
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    final footer = find.byKey(const ValueKey('campaign-footer-protinex-attendance-10'));
+    expect(footer, findsOneWidget);
+    expect(tester.getSize(footer).height, 22);
+
+    final bannerText = tester.widget<Text>(
+      find.text('Blinkit · UP TO 30% OFF'),
+    );
+    expect(bannerText.style?.fontSize, 8.5);
+
+    await tester.tap(footer);
+    await tester.pumpAndSettle();
+    expect(find.text('Sponsored offer preview'), findsOneWidget);
+    expect(find.text('Attendance Analytics'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 

@@ -29,7 +29,7 @@ class CampaignFooterButton extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(8),
           child: Container(
-            height: compact ? 21 : 24,
+            height: compact ? 22 : 24,
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 4),
             decoration: BoxDecoration(
@@ -49,7 +49,7 @@ class CampaignFooterButton extends StatelessWidget {
                     'AD',
                     style: TextStyle(
                       color: campaign.accentText,
-                      fontSize: compact ? 7.5 : 8,
+                      fontSize: compact ? 8 : 8.5,
                       height: 1,
                       fontWeight: FontWeight.w900,
                     ),
@@ -63,7 +63,7 @@ class CampaignFooterButton extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: campaign.accentText,
-                      fontSize: compact ? 9 : 9.5,
+                      fontSize: compact ? 9.25 : 9.5,
                       height: 1,
                       fontWeight: FontWeight.w800,
                     ),
@@ -136,7 +136,7 @@ class SponsoredCampaignBanner extends StatelessWidget {
                       'AD',
                       style: TextStyle(
                         color: campaign.accentText,
-                        fontSize: compact ? 7 : 8,
+                        fontSize: compact ? 7.5 : 8,
                         height: 1,
                         fontWeight: FontWeight.w900,
                       ),
@@ -161,7 +161,7 @@ class SponsoredCampaignBanner extends StatelessWidget {
                               color: campaign.accentText == Colors.white
                                   ? campaign.accent
                                   : MemberTheme.ink,
-                              fontSize: 7,
+                              fontSize: 8.5,
                               height: 1,
                               fontWeight: FontWeight.w900,
                             ),

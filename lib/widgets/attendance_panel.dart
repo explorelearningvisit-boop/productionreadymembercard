@@ -28,10 +28,10 @@ class AttendancePanel extends StatelessWidget {
       builder: (context, constraints) {
         final palette = MemberPlanTheme.of(context);
         const fullHeight = 370.0;
-        // The compact canvas has extra internal room for the fixed chart,
-        // calendar and legend rows. FittedBox scales it uniformly on short
-        // phones instead of letting the panel's Column overflow.
-        const compactHeight = 324.0;
+        // Keep the compact content canvas close to its intrinsic row budget.
+        // A smaller scale-down threshold protects text size on short phones;
+        // the dashboard header also reserves more height for this workspace.
+        const compactHeight = 260.0;
         final availableHeight = constraints.maxHeight;
         if (availableHeight < compactHeight) {
           final scale = (availableHeight / compactHeight).clamp(0.01, 1.0);

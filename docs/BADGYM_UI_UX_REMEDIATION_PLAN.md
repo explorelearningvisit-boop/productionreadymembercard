@@ -49,3 +49,13 @@ Keep PR #12 open and Draft. Do not merge or publish while any production gate ab
 - This change does not claim live financial data: the chart remains illustrative and is labelled as such.
 - Full Flutter formatting, analyzer, widget suite, ARM64 APK build and signature checks must pass on this new commit before calling the QA build verified.
 - Physical Xiaomi 11i screenshot comparison remains an external device gate; CI cannot substitute for it.
+
+ 
+## Compact viewport and sponsor clarity pass — 2026-11-28
+
+- Reduced the compact header stack by approximately 15 dp across check-in, identity, offer, membership and KPI rows, preserving the existing information hierarchy and PulseVault art.
+- Reduced the attendance panel's compact scale-down canvas from 324 dp to 260 dp so short screens do not shrink its text and calendar as aggressively.
+- Increased compact sponsor-footer and banner label sizes; sponsor controls retain their own sibling tap targets, separate from the KPI/menu action.
+- Added stable placementId values to all eight local campaign records and a regression assertion for unique placement IDs, campaign IDs and advertisers. These identifiers are client-side preview metadata only; production frequency caps and billing still require server enforcement.
+- Added a widget regression for sponsor tap isolation and compact label sizing.
+- No new Flutter runtime dependencies were added. Animmaster, Skiper and Vengeance patterns remain native Flutter adaptations, with reduced-motion handling retained.
