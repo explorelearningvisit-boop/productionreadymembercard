@@ -258,6 +258,37 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('rail and KPI surfaces respect reduced-motion preference', (tester) async {
+    setPhoneViewport(tester, const Size(360, 700));
+    addViewportReset(tester);
+    await tester.pumpWidget(
+      const MediaQuery(
+        data: MediaQueryData(disableAnimations: true),
+        child: BadGymApp(),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final attendanceTile = find.byKey(const ValueKey('metric-attendance'));
+    final attendanceMotion = find.descendant(
+      of: attendanceTile,
+      matching: find.byType(AnimatedContainer),
+    ).first;
+    expect(tester.widget<AnimatedContainer>(attendanceMotion).duration, Duration.zero);
+    expect(
+      find.descendant(of: attendanceTile, matching: find.text('Open')),
+      findsNothing,
+    );
+
+    final navigationRail = find.byKey(const ValueKey('navigation-rail'));
+    final railMotion = find.descendant(
+      of: navigationRail,
+      matching: find.byType(AnimatedContainer),
+    ).first;
+    expect(tester.widget<AnimatedContainer>(railMotion).duration, Duration.zero);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('rail layout remains inside compact and primary viewports', (tester) async {
     for (final size in <Size>[
       const Size(320, 560),

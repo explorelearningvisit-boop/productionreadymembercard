@@ -187,6 +187,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
     final items = DashboardNavigation.itemsFor(_activeModule);
     return LayoutBuilder(
       builder: (context, constraints) {
+        final reduceMotion = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
         final itemHeight = constraints.maxHeight / items.length;
         // Very short phones need a denser rail; keep every label visible rather
         // than letting the icon/label stack overflow its six equal slots.
@@ -234,7 +235,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       focusColor: Colors.white.withOpacity(0.16),
                       onTap: () => setState(() => _selectedSubmenu = i),
                       child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 180),
+                        duration: reduceMotion ? Duration.zero : const Duration(milliseconds: 180),
                         curve: Curves.easeOutCubic,
                         margin: const EdgeInsets.symmetric(vertical: 1),
                         padding: const EdgeInsets.symmetric(horizontal: 1),

@@ -99,12 +99,13 @@ class DashboardMetricTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final reduceMotion = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
     final radius = BorderRadius.circular(14);
     return Material(
       color: Colors.transparent,
       borderRadius: radius,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
+        duration: reduceMotion ? Duration.zero : const Duration(milliseconds: 180),
         curve: Curves.easeOutCubic,
         clipBehavior: Clip.antiAlias,
         padding: EdgeInsets.fromLTRB(3, compact ? 3 : 4, 3, 3),
@@ -161,15 +162,6 @@ class DashboardMetricTile extends StatelessWidget {
                                 filterQuality: FilterQuality.high,
                               ),
                             ),
-                          ),
-                        ),
-                        Text(
-                          'Open',
-                          maxLines: 1,
-                          style: TextStyle(
-                            color: MemberTheme.ink.withOpacity(0.72),
-                            fontSize: compact ? 8 : 8.5,
-                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
