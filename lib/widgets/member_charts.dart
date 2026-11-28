@@ -82,7 +82,7 @@ class GlassMetricCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(compact ? 6 : 8),
+      padding: EdgeInsets.all(compact ? 4 : 8),
       decoration: BoxDecoration(
         gradient: LinearGradient(colors: [Colors.white, tint.withOpacity(0.065)],
           begin: Alignment.topLeft, end: Alignment.bottomRight),
@@ -104,7 +104,7 @@ class GlassMetricCard extends StatelessWidget {
           FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerLeft,
             child: Text(value, style: TextStyle(color: MemberTheme.ink,
               fontSize: compact ? 16 : 19, height: 1, fontWeight: FontWeight.w900))),
-          if (caption != null)
+          if (caption != null && !compact)
             Text(caption!, maxLines: 1, overflow: TextOverflow.ellipsis,
               style: TextStyle(color: MemberTheme.muted, fontSize: compact ? 7 : 8, fontWeight: FontWeight.w600)),
         ],
