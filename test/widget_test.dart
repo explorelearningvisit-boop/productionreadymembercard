@@ -312,6 +312,13 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('navigation-payment-overview')));
       await tester.pumpAndSettle();
       expect(find.text('Payment Overview'), findsOneWidget);
+      final paymentStatusCard = find.byKey(const ValueKey('payment-status-card'));
+      expect(paymentStatusCard, findsOneWidget);
+      expect(
+        tester.getSize(paymentStatusCard).height,
+        lessThan(72),
+        reason: 'Payment status metadata must stay compact at $size',
+      );
       final paymentException = tester.takeException();
       if (paymentException != null) {
         debugPrint('Payment overview render exception at $size: $paymentException');

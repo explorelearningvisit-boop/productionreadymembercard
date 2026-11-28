@@ -664,6 +664,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
       );
 
   Widget _paymentStatus() => Container(
+        key: const ValueKey('payment-status-card'),
         padding: EdgeInsets.all(compact ? 5 : 9),
         decoration: BoxDecoration(
           gradient: const LinearGradient(colors: [Color(0xFFE5F9EA), Color(0xFFF4E9FF)]),
@@ -683,6 +684,8 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('Payment status',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(color: MemberTheme.ink, fontSize: 9, fontWeight: FontWeight.w800)),
                   Text(member.paymentDue == '₹0' ? 'Paid' : 'Due',
                       style: TextStyle(color: member.paymentDue == '₹0'
@@ -691,14 +694,35 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(member.plan,
-                    style: const TextStyle(color: MemberTheme.ink, fontSize: 9, fontWeight: FontWeight.w800)),
-                Text('${member.membershipTotalDays} day plan · sample',
-                    style: const TextStyle(color: MemberTheme.muted, fontSize: 8, fontWeight: FontWeight.w600)),
-              ],
+            SizedBox(
+              width: compact ? 82 : 112,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    member.plan,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                      color: MemberTheme.ink,
+                      fontSize: 9,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  Text(
+                    '${member.membershipTotalDays} day plan · sample',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                      color: MemberTheme.muted,
+                      fontSize: 8,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

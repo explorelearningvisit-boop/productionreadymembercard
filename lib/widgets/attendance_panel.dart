@@ -48,7 +48,9 @@ class AttendancePanel extends StatelessWidget {
             ),
           );
         }
-        final compact = availableHeight < fullHeight;
+        // The six-slot rail leaves a narrow detail surface on phones. Choose the
+        // compact mini-stat composition from real panel width as well as height.
+        final compact = availableHeight < fullHeight || constraints.maxWidth < 270;
         return SizedBox(
           key: const ValueKey('attendance-panel'),
           width: constraints.maxWidth,
