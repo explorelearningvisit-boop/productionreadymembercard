@@ -742,7 +742,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         'Freeze',
                         maxLines: 1,
                         style: TextStyle(
