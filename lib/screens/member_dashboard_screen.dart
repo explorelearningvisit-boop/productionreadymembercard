@@ -13,26 +13,123 @@ import '../widgets/sponsored_campaign.dart';
 class MemberDashboardScreen extends StatefulWidget {
   const MemberDashboardScreen({
     this.member = MemberSample.demo,
+    this.autoRotateModules = false,
     super.key,
   });
 
   final MemberSample member;
+  final bool autoRotateModules;
 
   @override
   State<MemberDashboardScreen> createState() => _MemberDashboardScreenState();
 }
 
-class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
+class _MemberDashboardScreenState extends State<MemberDashboardScreen>
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   bool _checkedIn = true;
+  bool _detailsExpanded = true;
+  bool _reduceMotion = false;
+  AppLifecycleState _appLifecycleState = AppLifecycleState.resumed;
   DashboardModule _activeModule = DashboardModule.attendance;
   int _selectedSubmenu = 0;
+  late final AnimationController _moduleProgress;
 
-  void _selectModule(DashboardModule module) {
-    if (_activeModule == module && _selectedSubmenu == 0) return;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _moduleProgress = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..addStatusListener(_handleModuleCycle);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _reduceMotion = MediaQuery.maybeOf(context)?.disableAnimations ?? false;
+    _syncModuleCycle();
+  }
+
+  @override
+  void didUpdateWidget(covariant MemberDashboardScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.autoRotateModules != widget.autoRotateModules) {
+      _syncModuleCycle();
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _appLifecycleState = state;
+    _syncModuleCycle();
+  }
+
+  void _syncModuleCycle() {
+    if (!mounted) return;
+    final shouldRun = widget.autoRotateModules &&
+        !_reduceMotion &&
+        _appLifecycleState == AppLifecycleState.resumed;
+    if (!shouldRun) {
+      _moduleProgress.stop();
+      if (_moduleProgress.value != 0) _moduleProgress.value = 0;
+      return;
+    }
+    if (!_moduleProgress.isAnimating) _moduleProgress.forward(from: 0);
+  }
+
+  void _restartModuleCycle() {
+    if (widget.autoRotateModules &&
+        !_reduceMotion &&
+        _appLifecycleState == AppLifecycleState.resumed) {
+      _moduleProgress.forward(from: 0);
+    }
+  }
+
+  void _handleModuleCycle(AnimationStatus status) {
+    if (status != AnimationStatus.completed ||
+        !mounted ||
+        !widget.autoRotateModules ||
+        _reduceMotion ||
+        _appLifecycleState != AppLifecycleState.resumed) {
+      return;
+    }
+    final modules = DashboardNavigation.modules;
+    final currentIndex = modules.indexOf(_activeModule);
     setState(() {
-      _activeModule = module;
+      _activeModule = modules[(currentIndex + 1) % modules.length];
       _selectedSubmenu = 0;
     });
+    _moduleProgress.forward(from: 0);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _moduleProgress.removeStatusListener(_handleModuleCycle);
+    _moduleProgress.dispose();
+    super.dispose();
+  }
+
+  void _selectModule(DashboardModule module) {
+    if (_activeModule != module || _selectedSubmenu != 0) {
+      setState(() {
+        _activeModule = module;
+        _selectedSubmenu = 0;
+      });
+    }
+    _restartModuleCycle();
+  }
+
+  void _selectSubmenu(int index) {
+    if (_selectedSubmenu != index) {
+      setState(() => _selectedSubmenu = index);
+    }
+    _restartModuleCycle();
+  }
+
+  void _toggleDetails() {
+    setState(() => _detailsExpanded = !_detailsExpanded);
   }
 
   @override
@@ -110,9 +207,74 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                             compact: compact,
                             compactProgress: compactProgress,
                           ),
-                          const SizedBox(height: 4),
+                          const SizedBox(height: 2),
+                          _detailsToggle(),
+                          const SizedBox(height: 2),
                           Expanded(
-                            child: Padding(
+                            child: AnimatedSwitcher(
+                              duration: MediaQuery.of(context).disableAnimations
+                                  ? Duration.zero
+                                  : const Duration(milliseconds: 220),
+                              switchInCurve: Curves.easeOutCubic,
+                              switchOutCurve: Curves.easeInCubic,
+                              child: _detailsExpanded
+                                  ? KeyedSubtree(
+                                      key: const ValueKey('expanded-details'),
+                                      child: _expandedWorkspace(railWidth: railWidth),
+                                    )
+                                  : KeyedSubtree(
+                                      key: const ValueKey('quick-summary-view'),
+                                      child: _quickSummary(compact: compact),
+                                    ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget _detailsToggle() {
+    final label = _detailsExpanded ? 'Hide detailed menu' : 'Show detailed menu';
+    return SizedBox(
+      key: const ValueKey('details-toggle'),
+      height: 16,
+      child: Center(
+        child: Semantics(
+          button: true,
+          toggled: _detailsExpanded,
+          label: label,
+          child: InkWell(
+            onTap: _toggleDetails,
+            borderRadius: BorderRadius.circular(10),
+            child: SizedBox(
+              width: 54,
+              height: 16,
+              child: Icon(
+                _detailsExpanded
+                    ? Icons.keyboard_arrow_down_rounded
+                    : Icons.keyboard_arrow_up_rounded,
+                color: MemberTheme.emeraldDeep,
+                size: 15,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _expandedWorkspace({required double railWidth}) => Padding(
                               padding: const EdgeInsets.fromLTRB(3, 0, 3, 2),
                               child: LayoutBuilder(
                                 builder: (context, contentBounds) {
@@ -165,19 +327,84 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                                   );
                                 },
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
+                            );
+
+  Widget _quickSummary({required bool compact}) {
+    final member = widget.member;
+    final (String title, String value, IconData icon, Color tint) =
+        switch (_activeModule) {
+      DashboardModule.attendance => (
+          'Attendance', member.attendance,
+          Icons.event_available_rounded, MemberTheme.emerald
+        ),
+      DashboardModule.workout => (
+          'Workout', member.workout,
+          Icons.fitness_center_rounded, MemberTheme.holiday
+        ),
+      DashboardModule.payment => (
+          'Payment due', member.paymentDue,
+          Icons.account_balance_wallet_rounded, MemberTheme.rose
+        ),
+      DashboardModule.body => (
+          'Body weight', member.bodyWeight,
+          Icons.monitor_weight_outlined, MemberTheme.emerald
+        ),
+    };
+    return Container(
+      key: ValueKey('quick-summary-${_activeModule.name}'),
+      width: double.infinity,
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(compact ? 8 : 14),
+      decoration: BoxDecoration(
+        color: MemberTheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: MemberTheme.glassEdge),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: compact ? 38 : 48,
+            height: compact ? 38 : 48,
+            decoration: BoxDecoration(
+              color: tint.withOpacity(0.11),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: tint, size: compact ? 22 : 28),
           ),
-        ),
-        ),
-        ),
+          SizedBox(height: compact ? 4 : 7),
+          Text(
+            title,
+            style: TextStyle(
+              color: MemberTheme.muted,
+              fontSize: compact ? 10 : 12,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 2),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              value,
+              style: TextStyle(
+                color: MemberTheme.ink,
+                fontSize: compact ? 21 : 27,
+                height: 1,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Quick view',
+            style: TextStyle(
+              color: MemberTheme.mutedSoft,
+              fontSize: compact ? 8 : 9,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -233,7 +460,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       mouseCursor: SystemMouseCursors.click,
                       hoverColor: Colors.white.withOpacity(0.12),
                       focusColor: Colors.white.withOpacity(0.16),
-                      onTap: () => setState(() => _selectedSubmenu = i),
+                      onTap: () => _selectSubmenu(i),
                       child: AnimatedContainer(
                         duration: reduceMotion ? Duration.zero : const Duration(milliseconds: 180),
                         curve: Curves.easeOutCubic,
@@ -314,12 +541,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }) {
     // Recover height across every row rather than shrinking customer-critical
     // text. The short-phone baseline is 560 dp; larger screens expand gently.
-    final topHeight = compact ? 42.0 + 3.0 * compactProgress : 58.0;
-    final identityHeight = compact ? 72.0 + 5.0 * compactProgress : 100.0;
-    final offerHeight = compact ? 42.0 + 3.0 * compactProgress : 62.0;
-    final progressHeight = compact ? 36.0 + 3.0 * compactProgress : 52.0;
-    final metricsHeight = compact ? 86.0 + 6.0 * compactProgress : 130.0;
-    final sectionGap = compact ? 1.2 : 3.5;
+    final topHeight = compact ? 34.0 + 3.0 * compactProgress : 58.0;
+    final identityHeight = compact ? 64.0 + 5.0 * compactProgress : 100.0;
+    final offerHeight = compact ? 35.0 + 3.0 * compactProgress : 62.0;
+    final progressHeight = compact ? 30.0 + 3.0 * compactProgress : 52.0;
+    final metricsHeight = compact ? 83.0 + 6.0 * compactProgress : 130.0;
+    final sectionGap = compact ? 0.0 : 3.5;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -401,8 +628,8 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               child: Row(
                 children: [
                   Container(
-                    width: 29,
-                    height: 29,
+                    width: compact ? 26 : 29,
+                    height: compact ? 26 : 29,
                     decoration: BoxDecoration(
                       color: const Color(0xFF0EA86A),
                       shape: BoxShape.circle,
@@ -418,7 +645,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                     child: Icon(
                       _checkedIn ? Icons.check_rounded : Icons.login_rounded,
                       color: Colors.white,
-                      size: 21,
+                      size: compact ? 19 : 21,
                     ),
                   ),
                   const SizedBox(width: 5),
@@ -463,9 +690,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                   ArtworkEntrance(
                     motion: 3,
                     child: Image.asset(
-                      'assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp',
-                      width: compact ? 34 : 42,
-                      height: compact ? 38 : 44,
+                      'assets/material_pack/inbox/PulseVault/optimized/01_member_portrait_cutout.webp',
+                      width: compact ? 28 : 42,
+                      height: compact ? 30 : 44,
                       fit: BoxFit.contain,
                       alignment: Alignment.bottomCenter,
                     ),
@@ -503,9 +730,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ArtworkEntrance(
                   motion: 1,
                   child: Image.asset(
-                    'assets/material_pack/inbox/PulseVault/23_freeze_snowflake_graphic.webp',
-                    width: 23,
-                    height: 27,
+                    'assets/material_pack/inbox/PulseVault/optimized/23_freeze_snowflake_cutout.webp',
+                    width: compact ? 20 : 23,
+                    height: compact ? 22 : 27,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -565,9 +792,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ArtworkEntrance(
                   motion: 2,
                   child: Image.asset(
-                    'assets/material_pack/inbox/PulseVault/04_purple_shaker.webp',
-                    width: compact ? 34 : 38,
-                    height: compact ? 38 : 44,
+                    'assets/material_pack/inbox/PulseVault/optimized/04_freeze_shaker_cutout.webp',
+                    width: compact ? 27 : 38,
+                    height: compact ? 30 : 44,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -586,7 +813,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   }) {
     final member = widget.member;
     final palette = MemberPlanPalette.forPlan(widget.member.plan);
-    final portrait = compact ? 60.0 + 4.0 * compactProgress : 84.0;
+    final portrait = compact ? 56.0 + 4.0 * compactProgress : 84.0;
 
     return DashboardPanel(
       color: palette.surface,
@@ -622,7 +849,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
               child: ArtworkEntrance(
                 motion: 0,
                 child: Image.asset(
-                  'assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp',
+                  'assets/material_pack/inbox/PulseVault/optimized/01_member_portrait_cutout.webp',
                   fit: BoxFit.contain,
                   alignment: Alignment.bottomCenter,
                 ),
@@ -823,12 +1050,12 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             borderColor: palette.panelEdge,
             radius: 17,
             onTap: () => _selectModule(DashboardModule.payment),
-            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 7, vertical: compact ? 1 : 4),
             child: Row(
               children: [
                 Container(
-                  width: compact ? 35 : 43,
-                  height: compact ? 34 : 43,
+                  width: compact ? 30 : 43,
+                  height: compact ? 29 : 43,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [palette.accentSoft, palette.panelEdge],
@@ -927,9 +1154,9 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                 ArtworkEntrance(
                   motion: 1,
                   child: Image.asset(
-                    'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
-                    width: compact ? 38 : 48,
-                    height: compact ? 39 : 50,
+                    'assets/material_pack/inbox/PulseVault/optimized/03_whey_promo_cutout.webp',
+                    width: compact ? 32 : 48,
+                    height: compact ? 34 : 50,
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -1017,7 +1244,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
       radius: 15,
       padding: EdgeInsets.symmetric(
         horizontal: 9,
-        vertical: compact ? 3 : 5,
+        vertical: compact ? 1 : 5,
       ),
       child: LayoutBuilder(
         builder: (context, constraints) {
@@ -1094,11 +1321,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: compact ? 2 : 6),
+                  SizedBox(height: compact ? 1 : 6),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: SizedBox(
-                      height: compact ? 7 : 12,
+                      height: compact ? 5 : 12,
                       width: double.infinity,
                       child: Stack(
                         fit: StackFit.expand,
@@ -1154,8 +1381,11 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
   Widget _metrics({required bool compact}) {
     final member = widget.member;
     final palette = MemberPlanPalette.forPlan(member.plan);
-    return Row(
+    return Column(
       children: [
+        Expanded(
+          child: Row(
+            children: [
         Expanded(
           child: DashboardMetricTile(
             key: const ValueKey('metric-attendance'),
@@ -1167,7 +1397,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             valueColor: const Color(0xFF087E40),
             note: 'Protinex',
             color: MemberTheme.mint,
-            asset: 'assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/optimized/28_protinex_product_cutout.webp',
             campaign: DashboardCampaigns.protinexAttendance,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.protinexAttendance, accent: palette.accent),
             selectionColor: palette.accent,
@@ -1186,7 +1416,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             trendColor: MemberTheme.green,
             note: 'Creatine',
             color: MemberTheme.lavender,
-            asset: 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/optimized/06_creatine_product_cutout.webp',
             campaign: DashboardCampaigns.creatineWorkout,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.creatineWorkout, accent: palette.accent),
             selectionColor: palette.accent,
@@ -1204,7 +1434,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             note: 'SBI',
             valueColor: const Color(0xFFD71939),
             color: MemberTheme.sky,
-            asset: 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/optimized/29_sbi_payment_card_cutout.webp',
             campaign: DashboardCampaigns.sbiPayment,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.sbiPayment, accent: palette.accent),
             selectionColor: palette.accent,
@@ -1223,7 +1453,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             trendColor: MemberTheme.green,
             note: 'Fat Loss',
             color: MemberTheme.mint,
-            asset: 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png',
+            asset: 'assets/material_pack/inbox/PulseVault/optimized/fat_loss_support_tub_cutout.webp',
             campaign: DashboardCampaigns.fatLossBody,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.fatLossBody, accent: palette.accent),
             selectionColor: palette.accent,
@@ -1231,6 +1461,25 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
             onTap: () => _selectModule(DashboardModule.body),
           ),
         ),
+            ],
+          ),
+        ),
+        if (widget.autoRotateModules) ...[
+          const SizedBox(height: 2),
+          AnimatedBuilder(
+            animation: _moduleProgress,
+            builder: (context, _) => ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: LinearProgressIndicator(
+                key: const ValueKey('module-cycle-progress'),
+                value: _reduceMotion ? 0 : _moduleProgress.value,
+                minHeight: 2,
+                backgroundColor: MemberTheme.glassEdge.withOpacity(0.7),
+                valueColor: const AlwaysStoppedAnimation<Color>(MemberTheme.emerald),
+              ),
+            ),
+          ),
+        ],
       ],
     );
   }
