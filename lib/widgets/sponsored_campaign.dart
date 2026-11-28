@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/dashboard_campaigns.dart';
 import '../theme/member_theme.dart';
+import 'ad_motion.dart';
 
 /// An ad footer is a sibling of the module hit-area, never nested inside it.
 class CampaignFooterButton extends StatelessWidget {
@@ -55,6 +56,16 @@ class CampaignFooterButton extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(width: 3),
+                if (campaign.asset.isNotEmpty)
+                  ArtworkEntrance(
+                    motion: 2,
+                    child: Image.asset(campaign.asset, width: compact ? 17 : 20,
+                        height: compact ? 15 : 17, fit: BoxFit.contain),
+                  )
+                else
+                  Icon(campaign.fallbackIcon ?? Icons.local_offer_outlined,
+                      color: campaign.accentText, size: compact ? 13 : 16),
                 const SizedBox(width: 3),
                 Expanded(
                   child: Text(
@@ -143,13 +154,16 @@ class SponsoredCampaignBanner extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 2),
-                  Image.asset(
-                    campaign.asset,
-                    width: imageWidth,
-                    height: height - 6,
-                    fit: BoxFit.contain,
-                    filterQuality: FilterQuality.high,
-                  ),
+                  if (campaign.asset.isNotEmpty)
+                    ArtworkEntrance(
+                      motion: 3,
+                      child: Image.asset(campaign.asset, width: imageWidth,
+                          height: height - 6, fit: BoxFit.contain,
+                          filterQuality: FilterQuality.high),
+                    )
+                  else
+                    Icon(campaign.fallbackIcon ?? Icons.local_offer_outlined,
+                        color: campaign.accent, size: imageWidth * 0.78),
                   const SizedBox(width: 2),
                   Expanded(
                     child: compact
@@ -257,7 +271,14 @@ abstract final class CampaignPreviewSheet {
             const SizedBox(height: 12),
             Row(
               children: [
-                Image.asset(campaign.asset, width: 70, height: 64, fit: BoxFit.contain),
+                if (campaign.asset.isNotEmpty)
+                  ArtworkEntrance(
+                    motion: 2,
+                    child: Image.asset(campaign.asset, width: 78, height: 72, fit: BoxFit.contain),
+                  )
+                else
+                  Icon(campaign.fallbackIcon ?? Icons.local_offer_outlined,
+                      size: 54, color: campaign.accent),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Column(

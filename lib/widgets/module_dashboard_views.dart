@@ -763,8 +763,16 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
       );
 
   Widget _assetFeature(String title, String subtitle, String caption,
-          String file, Color tint) =>
-      Container(
+          String file, Color tint) {
+    final optimizedFile = switch (file) {
+      '01_member_bodybuilder.webp' => 'optimized/01_member_portrait_cutout.webp',
+      '03_whey_protein_tub.webp' => 'optimized/03_whey_promo_cutout.webp',
+      '06_creatine_tub.webp' => 'optimized/06_creatine_product_cutout.webp',
+      '28_protinex_tub.webp' => 'optimized/28_protinex_product_cutout.webp',
+      '29_sbi_payment_card_graphic.webp' => 'optimized/29_sbi_payment_card_cutout.webp',
+      _ => file,
+    };
+    return Container(
         width: double.infinity,
         height: compact ? 48 : 60,
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -775,9 +783,12 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
         ),
         child: Row(
           children: [
-            Image.asset('assets/material_pack/inbox/PulseVault/$file',
-                width: compact ? 44 : 56, height: compact ? 40 : 52,
-                fit: BoxFit.contain),
+            ArtworkEntrance(
+              motion: 2,
+              child: Image.asset('assets/material_pack/inbox/PulseVault/$optimizedFile',
+                  width: compact ? 48 : 62, height: compact ? 42 : 54,
+                  fit: BoxFit.contain),
+            ),
             const SizedBox(width: 7),
             Expanded(
               child: Column(
@@ -801,6 +812,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
           ],
         ),
       );
+  }
 
   Widget _note(String title, String description, IconData icon) => Container(
         width: double.infinity,

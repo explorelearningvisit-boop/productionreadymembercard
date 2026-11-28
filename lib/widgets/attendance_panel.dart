@@ -244,7 +244,7 @@ class AttendancePanel extends StatelessWidget {
                   ),
                   width: compact ? 88 : 112,
                   height: recoveryHeight,
-                  imageWidth: compact ? 18 : 22,
+                  imageWidth: compact ? 22 : 26,
                   compact: true,
                 ),
               ],
@@ -541,7 +541,7 @@ class AttendancePanel extends StatelessWidget {
             onTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.blinkitAttendance, accent: palette.accent),
             width: compact ? 105 : 128,
             height: height - 2,
-            imageWidth: compact ? 19 : 25,
+            imageWidth: compact ? 23 : 28,
             compact: true,
           ),
         ],
@@ -559,12 +559,7 @@ class AttendancePanel extends StatelessWidget {
       height: height,
       child: Row(
         children: [
-          Image.asset(
-            'assets/material_pack/inbox/PulseVault/25_calendar_graphic.webp',
-            width: compact ? 20 : 23,
-            height: compact ? 20 : 23,
-            fit: BoxFit.contain,
-          ),
+          Icon(Icons.calendar_month_rounded, color: palette.accent, size: compact ? 20 : 23),
           const SizedBox(width: 4),
           Expanded(
             child: Text(

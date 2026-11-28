@@ -479,4 +479,55 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+
+  testWidgets('KPI menu advances after a three-second progress sweep', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+    await tester.pumpWidget(const BadGymApp(autoRotateModules: true));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 2700));
+    final progress = tester.widget<LinearProgressIndicator>(
+      find.byKey(const ValueKey('module-cycle-progress')),
+    );
+    expect(progress.value, greaterThan(0.8));
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(find.text('Workout Overview'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('center arrow collapses detailed workspace into a simple snapshot', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('navigation-rail')), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('details-toggle')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('navigation-rail')), findsNothing);
+    expect(find.text('Quick view'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('details-toggle')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('navigation-rail')), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('reduced motion keeps the selected module stable', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+    await tester.pumpWidget(
+      MediaQuery(
+        data: const MediaQueryData(disableAnimations: true),
+        child: MaterialApp(
+          theme: MemberTheme.light,
+          home: const MemberDashboardScreen(autoRotateModules: true),
+        ),
+      ),
+    );
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 6));
+    expect(find.text('Attendance Analytics'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+
 }
