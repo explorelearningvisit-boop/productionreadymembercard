@@ -312,7 +312,12 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('navigation-payment-overview')));
       await tester.pumpAndSettle();
       expect(find.text('Payment Overview'), findsOneWidget);
-      expect(tester.takeException(), isNull, reason: 'Payment overview at $size');
+      final paymentException = tester.takeException();
+      if (paymentException != null) {
+        debugPrint('Payment overview render exception at $size: $paymentException');
+        debugDumpRenderTree();
+      }
+      expect(paymentException, isNull, reason: 'Payment overview at $size');
 
       await tester.tap(find.byKey(const ValueKey('navigation-payment-insights')));
       await tester.pumpAndSettle();

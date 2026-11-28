@@ -599,40 +599,61 @@ class _MiniStat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final palette = MemberPlanTheme.of(context);
+    final valueText = Text(
+      value,
+      maxLines: 1,
+      style: TextStyle(
+        color: palette.accent,
+        fontSize: compact ? 9 : 11,
+        height: 1,
+        fontWeight: FontWeight.w900,
+      ),
+    );
+    final iconWidget = Icon(
+      icon,
+      color: palette.accent,
+      size: compact ? 8 : 12,
+    );
+    final labelText = Text(
+      label,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        color: MemberTheme.muted,
+        fontSize: compact ? 7 : 8.5,
+        height: 1,
+        fontWeight: FontWeight.w700,
+      ),
+    );
+
+    if (compact) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              iconWidget,
+              const SizedBox(width: 2),
+              valueText,
+            ],
+          ),
+          const SizedBox(height: 1),
+          labelText,
+        ],
+      );
+    }
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(
-          icon,
-          color: palette.accent,
-          size: compact ? 8 : 12,
-        ),
-        const SizedBox(width: 1),
-        Text(
-          value,
-          maxLines: 1,
-          style: TextStyle(
-            color: palette.accent,
-            fontSize: compact ? 9 : 11,
-            height: 1,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
-        const SizedBox(width: 2),
-        Flexible(
-          child: Text(
-            label,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              color: MemberTheme.muted,
-              fontSize: compact ? 7 : 8.5,
-              height: 1,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
+        iconWidget,
+        const SizedBox(width: 3),
+        valueText,
+        const SizedBox(width: 4),
+        Flexible(child: labelText),
       ],
     );
   }
