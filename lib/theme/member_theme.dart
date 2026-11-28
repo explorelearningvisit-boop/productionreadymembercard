@@ -120,7 +120,7 @@ class MemberPlanPalette {
         ? const Color(0xFF557684)
         : isDiamond
             ? const Color(0xFF277D98)
-            : emerald;
+            : MemberTheme.emerald;
     final tierAccentSoft = isSilver
         ? const Color(0xFFEAF0F2)
         : isDiamond
