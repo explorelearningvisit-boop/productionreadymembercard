@@ -29,12 +29,10 @@ This is the canonical runtime asset directory for the member-card/dashboard UI.
 - `fat_loss_support_tub.png`
 
 
-## Emerald Pearl optimized cut-outs
+## Asset originality / quality gate
 
-The original 16 PulseVault images remain unchanged. Nine padded WebP cut-outs are created in `optimized/` by `tools/build_pulsevault_emerald_derivatives.py`. The dedicated GitHub asset workflow commits this generated binary directory after inspection; Android build CI also regenerates and audits it before `flutter pub get`.
+Before adding/changing art, read docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md.
 
-- Every derivative is reopened after export and checked for true alpha (range 0–255), expected pixel dimensions, SHA-256 and subject bounding box.
-- A minimum 5% transparent margin is enforced on all four edges (target 6.7%).
-- Fat Loss source art is almost opaque despite its alpha channel; OpenCV GrabCut isolates the product before creating its transparent derivative.
-- UI uses `BoxFit.contain`; no stretch or fake checkerboard transparency.
-- Source images are never overwritten or removed.
+The earlier generated optimized derivative pack was withdrawn: it repeated existing source images in smaller WebP files and did not provide genuinely new artwork. Do not recreate it. Existing originals remain here and may be used directly where appropriate.
+
+New detailed artwork must be unique against the whole repository. Target an 8K-quality master (7,680px long edge); record actual native dimensions and any genuine super-resolution method. Verify real alpha, subject bounds, 5–8% transparent margin, silhouette and edge quality at 100% over pearl and emerald backgrounds. Keep approved master and separately downsampled 3× runtime derivative, recording parent SHA-256. Cropping, recoloring, resizing or WebP conversion of existing source art is never described as new or unique artwork.

@@ -68,3 +68,7 @@ These are target export canvases for new derivatives; first compare them with re
 ## Next audit action
 
 Build #723 should export a read-only ZIP of the 16 source files as a temporary GitHub Actions artifact so the visual contact sheet and edge crops can be inspected. This must not alter or replace any source file. Only after visual confirmation should the new derivatives be generated, added to PulseVault with new filenames, mapped in pubspec/manifest and checked by widget/screenshot tests.
+
+
+## Owner quality correction — 2026-11-28
+The earlier proposal to create padded WebP copies from existing source files is withdrawn. Those outputs are technical duplicates and were judged repetitive/low quality; they are not acceptable unique creative assets. Metadata/alpha audit does not establish visual quality or originality. Do not follow earlier derivative recommendations as a generation task. Read docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md. New detailed imagery requires a distinct concept, repository-wide similarity review, an 8K-quality 7,680px-long-edge master (native or honestly labelled super-resolution), real alpha and 100% visual inspection. No new image is needed when an existing source is already suitable.

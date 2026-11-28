@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../theme/member_theme.dart';
+
 @immutable
 class DashboardCampaign {
   const DashboardCampaign({
@@ -42,7 +44,7 @@ abstract final class DashboardCampaigns {
     headline: 'Whey Protein',
     offer: '25% OFF',
     cta: 'BUY NOW',
-    asset: 'assets/material_pack/inbox/PulseVault/optimized/03_whey_promo_cutout.webp',
+    asset: 'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
     surface: Color(0xFF07533E),
     accent: Color(0xFFFFD94F),
     accentText: Color(0xFF271140),
@@ -55,7 +57,7 @@ abstract final class DashboardCampaigns {
     headline: 'Protein',
     offer: '10% OFF',
     cta: 'VIEW',
-    asset: 'assets/material_pack/inbox/PulseVault/optimized/28_protinex_product_cutout.webp',
+    asset: 'assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',
     surface: MemberTheme.mint,
     accent: MemberTheme.emerald,
     accentText: MemberTheme.forestInk,
@@ -68,7 +70,7 @@ abstract final class DashboardCampaigns {
     headline: 'Creatine',
     offer: '15% OFF',
     cta: 'VIEW',
-    asset: 'assets/material_pack/inbox/PulseVault/optimized/06_creatine_product_cutout.webp',
+    asset: 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp',
     surface: Color(0xFFF0D9FF),
     accent: Color(0xFF8F29C9),
     accentText: Colors.white,
@@ -81,7 +83,7 @@ abstract final class DashboardCampaigns {
     headline: 'SBI',
     offer: 'GET 5% OFF',
     cta: 'VIEW',
-    asset: 'assets/material_pack/inbox/PulseVault/optimized/29_sbi_payment_card_cutout.webp',
+    asset: 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',
     surface: Color(0xFFD8EFFF),
     accent: Color(0xFF1769C2),
     accentText: Colors.white,
@@ -94,7 +96,7 @@ abstract final class DashboardCampaigns {
     headline: 'Fat Loss',
     offer: '20% OFF',
     cta: 'VIEW',
-    asset: 'assets/material_pack/inbox/PulseVault/optimized/fat_loss_support_tub_cutout.webp',
+    asset: 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png',
     surface: Color(0xFFDFF8E8),
     accent: Color(0xFF159B52),
     accentText: Colors.white,
@@ -107,7 +109,7 @@ abstract final class DashboardCampaigns {
     headline: 'Healthy snacks & gym essentials',
     offer: 'UP TO 30% OFF',
     cta: 'SHOP',
-    asset: 'assets/material_pack/inbox/PulseVault/optimized/05_partner_offer_cutout.webp',
+    asset: 'assets/material_pack/inbox/PulseVault/05_blinkit_grocery_bag.webp',
     surface: Color(0xFFFFF3C8),
     accent: Color(0xFFFFD943),
     accentText: Color(0xFF29163E),
@@ -120,7 +122,7 @@ abstract final class DashboardCampaigns {
     headline: 'Recovery combo',
     offer: 'UP TO 30% OFF',
     cta: 'VIEW',
-    asset: 'assets/material_pack/inbox/PulseVault/optimized/04_freeze_shaker_cutout.webp',
+    asset: 'assets/material_pack/inbox/PulseVault/04_purple_shaker.webp',
     surface: MemberTheme.ice,
     accent: MemberTheme.iceInk,
     accentText: MemberTheme.ink,

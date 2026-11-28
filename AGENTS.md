@@ -20,6 +20,16 @@
 - No scrolling at reference size; do not shrink key data to hide overflow.
 - Sponsor art/copy/offer remain paired and Demo until verified.
 
+## Asset originality and quality — mandatory
+- Read docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md before any visual asset task.
+- Never duplicate, crop, recolor, resize or re-encode repository artwork and claim it is unique.
+- Search the full repository, compare contact sheets + SHA/perceptual similarity and document a real visual gap before generation.
+- New detailed art targets an 8K-quality 7,680px-long-edge master; record native resolution and genuine super-resolution method if not native. Never fake 8K by metadata/simple resize.
+- Verify true alpha, bbox, four-side margins, silhouette/crop/halo and quality at 100% over pearl and emerald backgrounds.
+- Keep approved master separate from runtime derivative; record parent SHA. Derivative is not new art.
+- No automated mass generation/commit. If no gap, generate nothing.
+- Never claim assets uploaded unless binary files exist in live Git tree and are verified.
+
 ## Validation
 After Dart changes: pub get, format check, flutter analyze, flutter test, ARM64 release build. Check contrast, hit areas, semantics, reduced motion and responsive viewports; add focused regression tests.
 

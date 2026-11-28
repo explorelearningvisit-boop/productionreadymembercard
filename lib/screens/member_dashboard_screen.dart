@@ -690,7 +690,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                   ArtworkEntrance(
                     motion: 3,
                     child: Image.asset(
-                      'assets/material_pack/inbox/PulseVault/optimized/01_member_portrait_cutout.webp',
+                      'assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp',
                       width: compact ? 28 : 42,
                       height: compact ? 30 : 44,
                       fit: BoxFit.contain,
@@ -730,7 +730,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                 ArtworkEntrance(
                   motion: 1,
                   child: Image.asset(
-                    'assets/material_pack/inbox/PulseVault/optimized/23_freeze_snowflake_cutout.webp',
+                    'assets/material_pack/inbox/PulseVault/23_freeze_snowflake_graphic.webp',
                     width: compact ? 20 : 23,
                     height: compact ? 22 : 27,
                     fit: BoxFit.contain,
@@ -792,7 +792,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                 ArtworkEntrance(
                   motion: 2,
                   child: Image.asset(
-                    'assets/material_pack/inbox/PulseVault/optimized/04_freeze_shaker_cutout.webp',
+                    'assets/material_pack/inbox/PulseVault/04_purple_shaker.webp',
                     width: compact ? 27 : 38,
                     height: compact ? 30 : 44,
                     fit: BoxFit.contain,
@@ -849,7 +849,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
               child: ArtworkEntrance(
                 motion: 0,
                 child: Image.asset(
-                  'assets/material_pack/inbox/PulseVault/optimized/01_member_portrait_cutout.webp',
+                  'assets/material_pack/inbox/PulseVault/01_member_bodybuilder.webp',
                   fit: BoxFit.contain,
                   alignment: Alignment.bottomCenter,
                 ),
@@ -1154,7 +1154,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                 ArtworkEntrance(
                   motion: 1,
                   child: Image.asset(
-                    'assets/material_pack/inbox/PulseVault/optimized/03_whey_promo_cutout.webp',
+                    'assets/material_pack/inbox/PulseVault/03_whey_protein_tub.webp',
                     width: compact ? 32 : 48,
                     height: compact ? 34 : 50,
                     fit: BoxFit.contain,
@@ -1397,7 +1397,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
             valueColor: const Color(0xFF087E40),
             note: 'Protinex',
             color: MemberTheme.mint,
-            asset: 'assets/material_pack/inbox/PulseVault/optimized/28_protinex_product_cutout.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/28_protinex_tub.webp',
             campaign: DashboardCampaigns.protinexAttendance,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.protinexAttendance, accent: palette.accent),
             selectionColor: palette.accent,
@@ -1416,7 +1416,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
             trendColor: MemberTheme.green,
             note: 'Creatine',
             color: MemberTheme.lavender,
-            asset: 'assets/material_pack/inbox/PulseVault/optimized/06_creatine_product_cutout.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/06_creatine_tub.webp',
             campaign: DashboardCampaigns.creatineWorkout,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.creatineWorkout, accent: palette.accent),
             selectionColor: palette.accent,
@@ -1434,7 +1434,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
             note: 'SBI',
             valueColor: const Color(0xFFD71939),
             color: MemberTheme.sky,
-            asset: 'assets/material_pack/inbox/PulseVault/optimized/29_sbi_payment_card_cutout.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/29_sbi_payment_card_graphic.webp',
             campaign: DashboardCampaigns.sbiPayment,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.sbiPayment, accent: palette.accent),
             selectionColor: palette.accent,
@@ -1453,7 +1453,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
             trendColor: MemberTheme.green,
             note: 'Fat Loss',
             color: MemberTheme.mint,
-            asset: 'assets/material_pack/inbox/PulseVault/optimized/fat_loss_support_tub_cutout.webp',
+            asset: 'assets/material_pack/inbox/PulseVault/fat_loss_support_tub.png',
             campaign: DashboardCampaigns.fatLossBody,
             onCampaignTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.fatLossBody, accent: palette.accent),
             selectionColor: palette.accent,

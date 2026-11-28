@@ -263,7 +263,7 @@ Design: Emerald + Pearl; forest-emerald frame/rail, pearl workspace. Gold only G
 
 Build check-in/Freeze; member identity/Gold/Active; payment/product offer; membership progress with one Days Left chip; four equal KPI cards; Member Intelligence with six-item rail, attendance ring/legend, streak stats, recovery offer, October calendar and sample-sync footnote. Payment has no AD tag and no duplicate Days Left.
 
-Assets: true transparent PNG RGBA/alpha WebP, 3× slot size, Section asset rules. No fake alpha, embedded text/logo/UI, stretched art or full-screen background. Update manifest/pubspec only after validation.
+Assets: obey docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md. New detailed artwork needs a unique 8K-quality master (7,680px long edge; native or honestly labelled super-resolution), real RGBA/WebP alpha, 5–8% margin, silhouette/crop/halo checks and visual duplicate review against the full repo. Runtime exports are downsampled from an approved master at 3× measured Flutter slot and record parent SHA. Never re-encode existing PulseVault images and call them unique. If no visual gap exists, generate nothing.
 
 Flutter/Dart native only. No web runtime. Use Flutter animation primitives and CustomPainter only when helpful. Keep blur/shadow low-cost. Respect reduced motion; no loops.
 
@@ -284,3 +284,7 @@ Fresh chat: read live HEAD and docs/IMPLEMENTATION_PROGRESS.md, verify last stag
 - Commits: 4f6ddbb (master docs), 7e77819 (theme migration), c23eb0a (analyzer identifier fix).
 - Build #720 on c23eb0a passed format, analyzer, widget tests, ARM64 release APK and signature verification.
 - Next: Stage 2 audit all PulseVault images for actual dimensions, alpha channel, subject bbox and semantic/color suitability; never delete originals before verified replacements.
+
+
+## 19. Owner-mandated asset originality/quality policy
+Read docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md before any artwork task. This policy supersedes earlier derivative-pack instructions. New imagery must be unique against the full repository, genuinely 8K-quality at a 7,680px long-edge target (native or honestly labelled super-resolution), and pass real-alpha, silhouette, margin and 100%-detail checks. Re-encoding existing source images into small WebP copies is not asset generation. The previous duplicate derivative generator and auto-commit workflow are withdrawn. If no visual gap exists, create nothing.

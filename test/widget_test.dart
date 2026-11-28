@@ -87,7 +87,7 @@ void main() {
     );
   });
 
-  testWidgets('Spark member receives the shared lilac glass shell and Spark badge', (tester) async {
+  testWidgets('Spark member receives the shared Emerald Pearl shell and Spark badge', (tester) async {
     setPhoneViewport(tester, const Size(360, 780));
     addViewportReset(tester);
     const sparkMember = MemberSample(

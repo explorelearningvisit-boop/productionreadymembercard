@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../data/dashboard_navigation.dart';
 import '../data/sample_member.dart';
 import '../theme/member_theme.dart';
+import 'ad_motion.dart';
 import 'member_charts.dart';
 
 /// Reference-led content for the 24 member intelligence destinations.
@@ -764,14 +765,7 @@ class _ModuleDashboardViewState extends State<ModuleDashboardView> {
 
   Widget _assetFeature(String title, String subtitle, String caption,
           String file, Color tint) {
-    final optimizedFile = switch (file) {
-      '01_member_bodybuilder.webp' => 'optimized/01_member_portrait_cutout.webp',
-      '03_whey_protein_tub.webp' => 'optimized/03_whey_promo_cutout.webp',
-      '06_creatine_tub.webp' => 'optimized/06_creatine_product_cutout.webp',
-      '28_protinex_tub.webp' => 'optimized/28_protinex_product_cutout.webp',
-      '29_sbi_payment_card_graphic.webp' => 'optimized/29_sbi_payment_card_cutout.webp',
-      _ => file,
-    };
+    final optimizedFile = file;
     return Container(
         width: double.infinity,
         height: compact ? 48 : 60,

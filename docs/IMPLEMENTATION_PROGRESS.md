@@ -17,17 +17,16 @@ Resume rule: verify current HEAD and latest CI before trusting this ledger.
 - Stage 1 Emerald/Pearl theme verified by Build #720 on c23eb0a779d00e973d76e6838341e93ceb0952d0.
 - Original PulseVault metadata audit Build #722 (16/16 files) and source-image review Build #723 completed.
 - Earlier report: docs/PULSEVAULT_ASSET_AUDIT_2026-11-28.md.
-- Optimized image folder was not present on branch at initial inspection. The reproducible generator and separate binary-commit workflow have now been added; do not claim binaries uploaded until that workflow commits them.
+- Live Git tree inspection confirmed PulseVault/optimized does not exist. The derivative generator was not delivering unique creative art and is withdrawn.
 
 ## Current change batch
 - Timer + centered details toggle + quick snapshot mode: commit ba8d4c7e36902d5f3f7447046fd942d15b718cde.
 - Campaign asset path migration, finite ad-art entrances, increased image slots, native fallback for cropped dumbbell campaign, and new widget tests: commit ef65e9ed67ab4c8c4492052c16ea4d0615458348.
-- Binary derivative generator: tools/build_pulsevault_emerald_derivatives.py.
-- Asset-generation workflow: .github/workflows/pulsevault-assets.yml (commits nine generated binaries into PulseVault/optimized/).
-- Android build workflow will generate + audit optimized assets before Flutter asset bundling.
+- Owner quality rule is mandatory in AGENTS.md and docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md: no duplicates, no fake 8K, unique concept first, true transparency/edge checks and provenance.
+- Previous generator made low-value copies of existing artwork; its script and auto-commit workflow are being removed. No optimized/ binary files were present in the live Git tree despite earlier claims.
 
 ## Validation state
-- Latest app code CI: pending.
+- Latest app code CI: Build #727 failed in analyzer. Diagnostics: missing MemberTheme import in dashboard_campaigns.dart and missing ArtworkEntrance import in module_dashboard_views.dart. Tests/APK skipped; targeted fix is next.
 - Optimized asset binary commit and alpha report: pending.
 - Screenshot overlay/diff and physical Xiaomi device verification: not yet run.
 - New APK: pending. Do not reuse Build #720 as the latest UI build.
@@ -38,3 +37,6 @@ Resume rule: verify current HEAD and latest CI before trusting this ledger.
 3. Review format/analyzer/widget test and ARM64 APK/signature/artifact results.
 4. Only after CI passes, render 320/360/390dp and perform reference overlay/diff.
 5. Record exact commit/run results here and in docs/CHAT_HANDOFF.md.
+
+- 2026-11-28: Owner mandated unique artwork only, 8K-quality master targets, true transparency/edge verification and no repetitive low-quality WebP duplicates. Durable rule stored in AGENTS.md and docs/ASSET_ORIGINALITY_AND_QUALITY_POLICY.md.
+- 2026-11-28: Live Git tree had no optimized binaries; earlier statement that these were uploaded was inaccurate. Duplicate derivative workflow withdrawn.
