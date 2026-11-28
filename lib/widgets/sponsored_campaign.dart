@@ -29,64 +29,86 @@ class CampaignFooterButton extends StatelessWidget {
           key: ValueKey('campaign-footer-${campaign.id}'),
           onTap: onTap,
           borderRadius: BorderRadius.circular(8),
-          child: Container(
-            height: compact ? 22 : 24,
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(horizontal: compact ? 2 : 4),
-            decoration: BoxDecoration(
-              color: campaign.accent,
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: Colors.white.withOpacity(0.82)),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 1),
-                  decoration: BoxDecoration(
-                    color: campaign.accentText.withOpacity(0.16),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    'AD',
-                    style: TextStyle(
-                      color: campaign.accentText,
-                      fontSize: compact ? 8 : 8.5,
-                      height: 1,
-                      fontWeight: FontWeight.w900,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              // KPI ad footers can be narrower than the overall screen.
+              // Compactness must be driven by the actual card width as well
+              // as the dashboard height to avoid a fractional RenderFlex
+              // overflow at the 360dp reference viewport.
+              final tight = constraints.maxWidth < 80;
+              final horizontalPadding = tight ? 2.0 : 4.0;
+              final itemGap = tight ? 2.0 : 3.0;
+              final artworkWidth = tight ? 20.0 : (compact ? 17.0 : 20.0);
+              final artworkHeight = tight ? 15.0 : (compact ? 15.0 : 17.0);
+              final chevronSize = tight ? 11.0 : (compact ? 13.0 : 15.0);
+              final badgePadding = tight ? 2.0 : 3.0;
+              return Container(
+                height: compact ? 22 : 24,
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                decoration: BoxDecoration(
+                  color: campaign.accent,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.white.withOpacity(0.82)),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: badgePadding, vertical: 1),
+                      decoration: BoxDecoration(
+                        color: campaign.accentText.withOpacity(0.16),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Text(
+                        'AD',
+                        style: TextStyle(
+                          color: campaign.accentText,
+                          fontSize: compact ? 8 : 8.5,
+                          height: 1,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(width: compact ? 2 : 3),
-                if (campaign.asset.isNotEmpty)
-                  ArtworkEntrance(
-                    motion: 2,
-                    child: Image.asset(campaign.asset, width: compact ? 17 : 20,
-                        height: compact ? 15 : 17, fit: BoxFit.contain),
-                  )
-                else
-                  Icon(campaign.fallbackIcon ?? Icons.local_offer_outlined,
-                      color: campaign.accentText, size: compact ? 13 : 16),
-                SizedBox(width: compact ? 2 : 3),
-                Expanded(
-                  child: Text(
-                    '${campaign.brand} ${campaign.offer}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: campaign.accentText,
-                      fontSize: compact ? 9.25 : 9.5,
-                      height: 1,
-                      fontWeight: FontWeight.w800,
+                    SizedBox(width: itemGap),
+                    if (campaign.asset.isNotEmpty)
+                      ArtworkEntrance(
+                        motion: 2,
+                        child: Image.asset(
+                          campaign.asset,
+                          width: artworkWidth,
+                          height: artworkHeight,
+                          fit: BoxFit.contain,
+                        ),
+                      )
+                    else
+                      Icon(
+                        campaign.fallbackIcon ?? Icons.local_offer_outlined,
+                        color: campaign.accentText,
+                        size: tight ? 14 : (compact ? 13 : 16),
+                      ),
+                    SizedBox(width: itemGap),
+                    Expanded(
+                      child: Text(
+                        '${campaign.brand} ${campaign.offer}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: campaign.accentText,
+                          fontSize: compact ? 9.25 : 9.5,
+                          height: 1,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
                     ),
-                  ),
+                    Icon(
+                      Icons.chevron_right_rounded,
+                      color: campaign.accentText,
+                      size: chevronSize,
+                    ),
+                  ],
                 ),
-                Icon(
-                  Icons.chevron_right_rounded,
-                  color: campaign.accentText,
-                  size: compact ? 11 : 15,
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),
