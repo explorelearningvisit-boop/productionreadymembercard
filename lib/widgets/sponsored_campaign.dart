@@ -223,6 +223,7 @@ abstract final class CampaignPreviewSheet {
       backgroundColor: Colors.transparent,
       builder: (sheetContext) => Container(
         key: ValueKey('campaign-preview-${campaign.id}'),
+        width: double.infinity,
         padding: const EdgeInsets.fromLTRB(18, 10, 18, 20),
         decoration: BoxDecoration(
           color: MemberTheme.surface,
@@ -231,7 +232,7 @@ abstract final class CampaignPreviewSheet {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
               children: [

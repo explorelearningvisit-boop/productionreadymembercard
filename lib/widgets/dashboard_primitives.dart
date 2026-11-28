@@ -101,7 +101,6 @@ class DashboardMetricTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final radius = BorderRadius.circular(14);
     return Material(
-      key: super.key,
       color: Colors.transparent,
       borderRadius: radius,
       child: AnimatedContainer(

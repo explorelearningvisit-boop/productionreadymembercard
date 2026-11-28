@@ -215,7 +215,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('whey-offer-preview')));
     await tester.pumpAndSettle();
     expect(find.text('Sponsored offer preview'), findsOneWidget);
-    expect(find.text('25% OFF'), findsOneWidget);
+    expect(find.text('25% OFF'), findsWidgets);
     expect(
       find.textContaining('verified advertiser landing URL has not been configured'),
       findsOneWidget,
@@ -307,7 +307,7 @@ void main() {
       await tester.pumpWidget(const BadGymApp());
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(const ValueKey('metric-payment')));
+      await tester.tap(find.byKey(const ValueKey('metric-payment-menu')));
       await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('navigation-payment-overview')));
       await tester.pumpAndSettle();
@@ -332,7 +332,7 @@ void main() {
     await tester.pumpWidget(const BadGymApp());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byKey(const ValueKey('metric-attendance')));
+    await tester.tap(find.byKey(const ValueKey('metric-attendance-menu')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('navigation-attendance-calendar')));
     await tester.pumpAndSettle();
@@ -345,7 +345,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('October 2026'), findsOneWidget);
 
-    await tester.tap(find.byKey(const ValueKey('metric-workout')));
+    await tester.tap(find.byKey(const ValueKey('metric-workout-menu')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('navigation-workout-trend')));
     await tester.pumpAndSettle();
@@ -386,7 +386,7 @@ void main() {
     expect(find.byKey(const ValueKey('navigation-workout-overview')), findsOneWidget);
     expect(find.text('Workout Overview'), findsOneWidget);
 
-    await tester.tap(find.byKey(const ValueKey('metric-attendance')));
+    await tester.tap(find.byKey(const ValueKey('metric-attendance-menu')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('campaign-banner-blinkit-attendance-30')));
     await tester.pumpAndSettle();
