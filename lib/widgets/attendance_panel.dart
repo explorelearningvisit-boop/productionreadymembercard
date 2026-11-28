@@ -1,27 +1,50 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
+import '../data/sample_member.dart';
+import '../data/dashboard_navigation.dart';
+import '../data/dashboard_campaigns.dart';
 import '../theme/member_theme.dart';
 import 'dashboard_primitives.dart';
+import 'module_dashboard_views.dart';
+import 'sponsored_campaign.dart';
 
 class AttendancePanel extends StatelessWidget {
-  const AttendancePanel({super.key});
+  const AttendancePanel({
+    required this.module,
+    required this.sectionIndex,
+    required this.member,
+    super.key,
+  });
+
+  final DashboardModule module;
+  final int sectionIndex;
+  final MemberSample member;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        const fullHeight = 340.0;
-        const compactHeight = 280.0;
+        final palette = MemberPlanTheme.of(context);
+        const fullHeight = 370.0;
+        // Keep the compact content canvas close to its intrinsic row budget.
+        // A smaller scale-down threshold protects text size on short phones;
+        // the dashboard header also reserves more height for this workspace.
+        const compactHeight = 260.0;
         final availableHeight = constraints.maxHeight;
         if (availableHeight < compactHeight) {
+          final scale = (availableHeight / compactHeight).clamp(0.01, 1.0);
           return FittedBox(
             key: const ValueKey('attendance-panel'),
             fit: BoxFit.scaleDown,
             alignment: Alignment.topCenter,
             child: SizedBox(
-              width: constraints.maxWidth,
+              // Compensate for FittedBox's uniform scale so the panel still
+              // fills the rail's available content width on short screens.
+              width: constraints.maxWidth / scale,
               height: compactHeight,
-              child: _panel(compact: true),
+              child: _panel(context, compact: true, palette: palette, module: module, sectionIndex: sectionIndex, member: member),
             ),
           );
         }
@@ -30,36 +53,50 @@ class AttendancePanel extends StatelessWidget {
           key: const ValueKey('attendance-panel'),
           width: constraints.maxWidth,
           height: availableHeight,
-          child: _panel(compact: compact),
+          child: _panel(context, compact: compact, palette: palette, module: module, sectionIndex: sectionIndex, member: member),
         );
       },
     );
   }
 
-  Widget _panel({bool compact = false}) {
-    final headerHeight = compact ? 20.0 : 24.0;
-    final offerHeight = compact ? 23.0 : 30.0;
-    final chartHeight = compact ? 58.0 : 68.0;
-    final ringSize = compact ? 56.0 : 62.0;
-    final ringWidth = compact ? 8.0 : 9.0;
-    final recoveryHeight = compact ? 23.0 : 30.0;
-    final calendarTitleHeight = compact ? 20.0 : 24.0;
-    final cellHeight = compact ? 26.0 : 30.0;
-    final summaryHeight = compact ? 14.0 : 16.0;
+  Widget _panel(
+    BuildContext context, {
+    bool compact = false,
+    required MemberPlanPalette palette,
+    required DashboardModule module,
+    required int sectionIndex,
+    required MemberSample member,
+  }) {
+    if (module != DashboardModule.attendance || sectionIndex != 0) {
+      return _alternatePanel(
+        context: context,
+        module: module,
+        sectionIndex: sectionIndex,
+        compact: compact,
+        palette: palette,
+        member: member,
+      );
+    }
+    final headerHeight = compact ? 28.0 : 36.0;
+    final chartHeight = compact ? 68.0 : 82.0;
+    final ringSize = compact ? 62.0 : 74.0;
+    final recoveryHeight = compact ? 22.0 : 30.0;
+    final calendarTitleHeight = compact ? 22.0 : 27.0;
+    final cellHeight = compact ? 27.0 : 34.0;
+    final summaryHeight = compact ? 14.0 : 18.0;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(7, compact ? 4 : 5, 7, compact ? 4 : 5),
+      padding: EdgeInsets.fromLTRB(7, compact ? 4 : 6, 7, compact ? 4 : 6),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFFFFFDFF), Color(0xFFEAD9FF), Color(0xFFF5E9FF)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.circular(19),
-        border: Border.all(color: const Color(0xFFEBCFFF), width: 1.6),
+        color: palette.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: palette.panelEdge, width: 1),
         boxShadow: const [
-          BoxShadow(color: Color(0x669B4CFF), blurRadius: 9),
-          BoxShadow(color: Color(0x44FFFFFF), blurRadius: 2),
+          BoxShadow(
+            color: Color(0x120F0B07),
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
         ],
       ),
       child: Column(
@@ -67,9 +104,12 @@ class AttendancePanel extends StatelessWidget {
         // This avoids the large dead zone below the calendar in tall layouts.
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _header(compact: compact, height: headerHeight),
-          SizedBox(height: compact ? 2 : 3),
-          _offerBanner(compact: compact, height: offerHeight),
+          _header(
+            context: context,
+            compact: compact,
+            height: headerHeight,
+            palette: palette,
+          ),
           SizedBox(height: compact ? 2 : 3),
           SizedBox(
             height: chartHeight,
@@ -83,33 +123,33 @@ class AttendancePanel extends StatelessWidget {
                       SizedBox(
                         width: ringSize,
                         height: ringSize,
-                        child: CircularProgressIndicator(
-                          value: 0.81,
-                          strokeWidth: ringWidth,
-                          backgroundColor: const Color(0xFFE3D5F2),
-                          valueColor: const AlwaysStoppedAnimation<Color>(MemberTheme.green),
+                        child: CustomPaint(
+                          painter: const _AttendanceRingPainter(),
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  '81%',
+                                  style: TextStyle(
+                                    color: MemberTheme.ink,
+                                    fontSize: compact ? 18 : 21,
+                                    height: 1,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                                Text(
+                                  '25/31',
+                                  style: TextStyle(
+                                    color: MemberTheme.ink,
+                                    fontSize: compact ? 10.5 : 11.5,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            '81%',
-                            style: TextStyle(
-                              color: MemberTheme.ink,
-                              fontSize: compact ? 17 : 20,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                          Text(
-                            '25/31',
-                            style: TextStyle(
-                              color: MemberTheme.ink,
-                              fontSize: compact ? 8 : 9,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
@@ -156,17 +196,57 @@ class AttendancePanel extends StatelessWidget {
           SizedBox(height: compact ? 1 : 2),
           const Divider(height: 1, color: Color(0xFFD8C6E9)),
           SizedBox(height: compact ? 1 : 2),
-          Row(
-            children: [
-              Expanded(child: _MiniStat(icon: '🔥', value: '5d', compact: compact)),
-              Expanded(child: _MiniStat(icon: '🏆', value: '14d', compact: compact)),
-              Expanded(child: _MiniStat(icon: '↗', value: '+6%', compact: compact)),
-            ],
+          SizedBox(
+            height: recoveryHeight,
+            child: Row(
+              children: [
+                Expanded(
+                  child: _MiniStat(
+                    icon: Icons.local_fire_department_rounded,
+                    value: '5d',
+                    label: 'Streak',
+                    compact: compact,
+                  ),
+                ),
+                Expanded(
+                  child: _MiniStat(
+                    icon: Icons.emoji_events_rounded,
+                    value: '14d',
+                    label: 'Best',
+                    compact: compact,
+                  ),
+                ),
+                Expanded(
+                  child: _MiniStat(
+                    icon: Icons.trending_up_rounded,
+                    value: '+6%',
+                    label: 'This Month',
+                    compact: compact,
+                  ),
+                ),
+                const SizedBox(width: 3),
+                SponsoredCampaignBanner(
+                  campaign: DashboardCampaigns.recoveryHydration,
+                  onTap: () => CampaignPreviewSheet.show(
+                    context,
+                    DashboardCampaigns.recoveryHydration,
+                    accent: palette.accent,
+                  ),
+                  width: compact ? 88 : 112,
+                  height: recoveryHeight,
+                  imageWidth: compact ? 18 : 22,
+                  compact: true,
+                ),
+              ],
+            ),
           ),
           SizedBox(height: compact ? 1 : 2),
-          _recoveryBanner(compact: compact, height: recoveryHeight),
-          SizedBox(height: compact ? 1 : 2),
-          _calendarTitle(compact: compact, height: calendarTitleHeight),
+          _calendarTitle(
+            context: context,
+            compact: compact,
+            height: calendarTitleHeight,
+            palette: palette,
+          ),
           SizedBox(
             height: summaryHeight,
             child: Align(
@@ -177,7 +257,7 @@ class AttendancePanel extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: MemberTheme.ink,
-                  fontSize: compact ? 8 : 9,
+                  fontSize: compact ? 10.5 : 11.5,
                   height: 1,
                   fontWeight: FontWeight.w900,
                 ),
@@ -208,6 +288,7 @@ class AttendancePanel extends StatelessWidget {
               AttendanceDayCell(
                 '16',
                 selected: true,
+                selectedColor: palette.accent,
                 height: cellHeight,
                 compact: compact,
               ),
@@ -260,7 +341,7 @@ class AttendancePanel extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: MemberTheme.muted,
-              fontSize: compact ? 5.5 : 6,
+              fontSize: compact ? 8.5 : 9.5,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -269,166 +350,209 @@ class AttendancePanel extends StatelessWidget {
     );
   }
 
-  Widget _header({required bool compact, required double height}) {
+
+  Widget _alternatePanel({
+    required BuildContext context,
+    required DashboardModule module,
+    required int sectionIndex,
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) {
+    final items = DashboardNavigation.itemsFor(module);
+    final safeIndex = sectionIndex.clamp(0, items.length - 1).toInt();
+    final item = items[safeIndex];
+
+
+
+    return Container(
+      key: ValueKey('member-detail-${module.name}-$sectionIndex'),
+      padding: EdgeInsets.fromLTRB(8, compact ? 4 : 6, 8, compact ? 4 : 6),
+      decoration: BoxDecoration(
+        color: palette.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: palette.panelEdge, width: 1),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x100D0905),
+            blurRadius: 5,
+            offset: Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          SizedBox(
+            height: compact ? 24 : 28,
+            child: Row(
+              children: [
+                Container(
+                  width: compact ? 22 : 24,
+                  height: compact ? 22 : 24,
+                  decoration: BoxDecoration(
+                    color: palette.accentSoft,
+                    borderRadius: BorderRadius.circular(7),
+                    border: Border.all(color: palette.panelEdge),
+                  ),
+                  child: Icon(
+                    item.icon,
+                    color: palette.accent,
+                    size: compact ? 14 : 16,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    item.title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: MemberTheme.ink,
+                      fontSize: compact ? 14 : 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: palette.accentSoft,
+                    borderRadius: BorderRadius.circular(7),
+                    border: Border.all(color: palette.panelEdge),
+                  ),
+                  child: Text(
+                    'Demo',
+                    style: TextStyle(
+                      color: palette.accent,
+                      fontSize: compact ? 10.5 : 11.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: compact ? 4 : 7),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: MediaQuery.maybeOf(context)?.disableAnimations == true
+                  ? Duration.zero
+                  : const Duration(milliseconds: 220),
+              switchInCurve: Curves.easeOutCubic,
+              switchOutCurve: Curves.easeInCubic,
+              transitionBuilder: (child, animation) => FadeTransition(
+                opacity: animation,
+                child: SlideTransition(
+                  position: Tween<Offset>(
+                    begin: const Offset(0.015, 0),
+                    end: Offset.zero,
+                  ).animate(animation),
+                  child: child,
+                ),
+              ),
+              child: KeyedSubtree(
+                key: ValueKey('${module.name}-$sectionIndex'),
+                child: _sectionContent(
+                  module: module,
+                  sectionIndex: sectionIndex,
+                  compact: compact,
+                  palette: palette,
+                  member: member,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: compact ? 2 : 4),
+          Text(
+            'Sample member data · Live sync not connected',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: MemberTheme.muted,
+              fontSize: compact ? 10.5 : 11.5,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _sectionContent({
+    required DashboardModule module,
+    required int sectionIndex,
+    required bool compact,
+    required MemberPlanPalette palette,
+    required MemberSample member,
+  }) => ModuleDashboardView(
+    module: module,
+    sectionIndex: sectionIndex,
+    compact: compact,
+    palette: palette,
+    member: member,
+  );
+  Widget _header({
+    required BuildContext context,
+    required bool compact,
+    required double height,
+    required MemberPlanPalette palette,
+  }) {
     return SizedBox(
       height: height,
       child: Row(
         children: [
           Container(
-            width: compact ? 18 : 21,
-            height: compact ? 18 : 21,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color(0xFF8D27DC), Color(0xFF4B0A91)],
-              ),
-              shape: BoxShape.circle,
+            width: compact ? 20 : 24,
+            height: compact ? 20 : 24,
+            decoration: BoxDecoration(
+              color: palette.accentSoft,
+              borderRadius: BorderRadius.circular(7),
+              border: Border.all(color: palette.panelEdge),
             ),
-            child: Icon(
-              Icons.trending_up_rounded,
-              color: Colors.white,
-              size: compact ? 13 : 15,
-            ),
+            child: Icon(Icons.event_available_rounded, color: palette.accent, size: compact ? 14 : 17),
           ),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
               'Attendance Analytics',
               maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: MemberTheme.ink,
-                fontSize: compact ? 13 : 15,
-                fontWeight: FontWeight.w900,
+                fontSize: compact ? 12 : 14,
+                height: 1,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
-          Icon(
-            Icons.notifications_active,
-            color: MemberTheme.purple,
-            size: compact ? 14 : 17,
-          ),
-          const SizedBox(width: 4),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: compact ? 6 : 8,
-              vertical: compact ? 2 : 3,
-            ),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFFE5E8),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.redAccent),
-            ),
-            child: Text(
-              '● DEMO',
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: compact ? 7 : 8,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
+          const SizedBox(width: 3),
+          SponsoredCampaignBanner(
+            campaign: DashboardCampaigns.blinkitAttendance,
+            onTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.blinkitAttendance, accent: palette.accent),
+            width: compact ? 105 : 128,
+            height: height - 2,
+            imageWidth: compact ? 19 : 25,
+            compact: true,
           ),
         ],
       ),
     );
   }
 
-  Widget _offerBanner({required bool compact, required double height}) {
-    return _smallBanner(
-      compact: compact,
-      height: height,
-      asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/13_blinkit_grocery_bag_cutout.png',
-      assetWidth: compact ? 30 : 39,
-      title: 'Healthy Snacks & Gym Essentials',
-      subtitle: 'Member partner offer • Up to 30% OFF',
-      colors: const [Color(0xFFFFF3C7), Color(0xFFF4D9FF)],
-    );
-  }
-
-  Widget _recoveryBanner({required bool compact, required double height}) {
-    return _smallBanner(
-      compact: compact,
-      height: height,
-      asset: 'reference_library/recovered_from_history/assets/material_pack/pulsevault/06_whey_recovery_tub_cutout.png',
-      assetWidth: compact ? 23 : 29,
-      title: 'Recovery Combo',
-      subtitle: 'Up to 30% OFF',
-      colors: const [Color(0xFFF9E9FF), Color(0xFFE5C4FF)],
-    );
-  }
-
-  Widget _smallBanner({
+  Widget _calendarTitle({
+    required BuildContext context,
     required bool compact,
     required double height,
-    required String asset,
-    required double assetWidth,
-    required String title,
-    required String subtitle,
-    required List<Color> colors,
+    required MemberPlanPalette palette,
   }) {
-    return Container(
-      height: height,
-      padding: const EdgeInsets.symmetric(horizontal: 6),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(colors: colors),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFD8B3F3)),
-        boxShadow: const [BoxShadow(color: Color(0x448B40C4), blurRadius: 4)],
-      ),
-      child: Row(
-        children: [
-          Image.asset(
-            asset,
-            width: assetWidth,
-            height: height - 3,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(width: 5),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: MemberTheme.ink,
-                    fontSize: compact ? 7.5 : 9,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                Text(
-                  subtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: const Color(0xFF6E258F),
-                    fontSize: compact ? 6 : 7,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Icon(
-            Icons.chevron_right,
-            color: MemberTheme.ink,
-            size: compact ? 16 : 20,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _calendarTitle({required bool compact, required double height}) {
     return SizedBox(
       height: height,
       child: Row(
         children: [
           Image.asset(
-            'assets/member_card/25_calendar_graphic.webp',
-            width: compact ? 18 : 21,
-            height: compact ? 18 : 21,
+            'assets/material_pack/inbox/PulseVault/25_calendar_graphic.webp',
+            width: compact ? 20 : 23,
+            height: compact ? 20 : 23,
             fit: BoxFit.contain,
           ),
           const SizedBox(width: 4),
@@ -436,32 +560,22 @@ class AttendancePanel extends StatelessWidget {
             child: Text(
               'October attendance',
               maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: MemberTheme.ink,
-                fontSize: compact ? 13.5 : 15.5,
-                fontWeight: FontWeight.w900,
+                fontSize: compact ? 12.5 : 15,
+                fontWeight: FontWeight.w800,
               ),
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: compact ? 5 : 7,
-              vertical: compact ? 2 : 3,
-            ),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFF7D16B9), Color(0xFF3B0878)],
-              ),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Text(
-              '🏋 Train More • 15% OFF',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: compact ? 5.5 : 7,
-                fontWeight: FontWeight.w900,
-              ),
-            ),
+          const SizedBox(width: 3),
+          SponsoredCampaignBanner(
+            campaign: DashboardCampaigns.trainMore,
+            onTap: () => CampaignPreviewSheet.show(context, DashboardCampaigns.trainMore, accent: palette.accent),
+            width: compact ? 100 : 120,
+            height: height - 2,
+            imageWidth: compact ? 18 : 22,
+            compact: true,
           ),
         ],
       ),
@@ -473,29 +587,98 @@ class _MiniStat extends StatelessWidget {
   const _MiniStat({
     required this.icon,
     required this.value,
+    required this.label,
     required this.compact,
   });
 
-  final String icon;
+  final IconData icon;
   final String value;
+  final String label;
   final bool compact;
 
   @override
   Widget build(BuildContext context) {
+    final palette = MemberPlanTheme.of(context);
     return Row(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(icon, style: TextStyle(fontSize: compact ? 9 : 10)),
-        const SizedBox(width: 3),
+        Icon(
+          icon,
+          color: palette.accent,
+          size: compact ? 10 : 12,
+        ),
+        const SizedBox(width: 2),
         Text(
           value,
+          maxLines: 1,
           style: TextStyle(
-            color: MemberTheme.purple,
-            fontSize: compact ? 9 : 11,
+            color: palette.accent,
+            fontSize: compact ? 10 : 11,
+            height: 1,
             fontWeight: FontWeight.w900,
+          ),
+        ),
+        const SizedBox(width: 3),
+        Flexible(
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: MemberTheme.muted,
+              fontSize: compact ? 7.5 : 8.5,
+              height: 1,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ],
     );
   }
+}
+
+class _AttendanceRingPainter extends CustomPainter {
+  const _AttendanceRingPainter();
+
+  static const _segments = <(double, Color)>[
+    (23, Color(0xFF13CA69)),
+    (2, Color(0xFFE52B52)),
+    (4, Color(0xFF8A35D5)),
+    (2, Color(0xFFFFB21C)),
+  ];
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final stroke = size.width < 64 ? 8.0 : 9.5;
+    final rect = Offset(stroke / 2, stroke / 2) &
+        Size(size.width - stroke, size.height - stroke);
+    final track = Paint()
+      ..color = const Color(0xFFE3D7EC)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = stroke;
+    canvas.drawArc(rect, 0, math.pi * 2, false, track);
+
+    var start = -math.pi / 2;
+    const gap = 0.035;
+    for (final segment in _segments) {
+      final sweep = math.pi * 2 * segment.$1 / 31;
+      final paint = Paint()
+        ..color = segment.$2
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = stroke
+        ..strokeCap = StrokeCap.round;
+      canvas.drawArc(
+        rect,
+        start + gap / 2,
+        math.max(0.0, sweep - gap),
+        false,
+        paint,
+      );
+      start += sweep;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _AttendanceRingPainter oldDelegate) => false;
 }

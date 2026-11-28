@@ -1,12 +1,12 @@
-# BAD GYM — Purple Neon Member Intelligence Dashboard
+# BAD GYM — Pearl Glass / Purple Neon Member Intelligence Dashboard
 
-**Status:** Current approved visual reference supplied by the product owner on 2026-11-25. This document supersedes the earlier minimal-card-only scope.
+**Status:** Updated 2026-11-27 from the owner's second reference screenshot. The target is a bright pearl-glass content field framed by purple neon and gold—not a full-screen purple surface. The detailed tokens and component treatments are in `docs/REFERENCE_GLASS_VISUAL_SPEC.md`. This document supersedes the 2026-11-25 visual direction where they conflict.
 
 ## Product boundary
 One compact Android member dashboard card for the gym check-in flow. The app's own top menu, bottom navigation and Android system navigation are outside this component and must not be implemented here. The supplied full screenshot includes a six-item vertical navigation rail (Attend, Insights, Cal, History, Trend, Goals); reproduce it inside this dashboard.
 
 ## Master visual reference
-Use the owner's uploaded purple neon / gold dashboard screenshot. Reproduce its component order, color language, dense card hierarchy, glow, rounded outlines and asset placements. Do not invent a different visual direction.
+Use the owner's second uploaded screenshot as the visual authority. Reproduce its component order, pearl/lilac frosted-glass canvas, dark grape outer shell, selective gold/violet edging, distinct yellow/lavender/sky/mint KPI surfaces, localized glow, typography hierarchy and transparent product-art placements. Do not flatten all cards into one purple treatment. See `docs/REFERENCE_GLASS_VISUAL_SPEC.md` for the complete implementation specification.
 
 ## Component order
 1. Top row: Check-in action/status and Freeze promo.
@@ -41,3 +41,8 @@ Current demo member: Ashwani Kumar Singh, BG215, 28 yrs, Male, Gold Plan, Active
 - Use a single stable widget tree; check-in state is local and must not create routes or overlays.
 - Keep reference archive outside pubspec assets. Only register the selected optimized runtime assets.
 - Build a signed ARM64 QA APK and verify format, analysis, widget tests, emulator launch, APK signature and exact size. Real-device verification must be reported separately.
+
+
+## 2026-11-27 member-plan correction
+
+The member's purchased plan controls the entire card identity. Gold uses a champagne / bronze / espresso frame, Spark uses forest / emerald / mint, and Silver uses slate / steel-blue. Never apply one universal purple palette to all members. Keep the glass content field bright and clipped inside the outer rim; do not draw a large external glow outside the card. The navigation rail must use real bundled icons (`uses-material-design: true`), and the wallet/payment glyph must never be a text square. Plan and Active badges are 30 dp high with sponsor-preview captions underneath. Analytics labels and calendar dates must meet the readability sizes in `docs/MEMBER_PLAN_ADAPTIVE_VISUAL_SYSTEM.md`. Sponsor messages rotate with finite fade/slide transitions; product art uses short one-shot entrances rather than battery-draining forever loops.

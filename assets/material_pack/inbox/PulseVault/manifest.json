@@ -1,0 +1,104 @@
+{
+  "name": "PulseVault",
+  "purpose": "BAD GYM member dashboard assets",
+  "source": "assets/member_card",
+  "runtimeRoot": "assets/material_pack/inbox/PulseVault",
+  "files": [
+    {
+      "name": "01_member_bodybuilder.webp",
+      "blob_sha": "75f704ea89f3e5787aacab9479f03c2966e39bff",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "03_whey_protein_tub.webp",
+      "blob_sha": "94f16ce3ca85345c53fbd25b61a72c3ee2b72500",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "04_purple_shaker.webp",
+      "blob_sha": "d3368a25f00acd1d0dfb0dcc621dd8fca4d6e0b6",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "05_blinkit_grocery_bag.webp",
+      "blob_sha": "72fc0c62fe1b733dd7b0ff3a6938ec4dc865fb76",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "06_creatine_tub.webp",
+      "blob_sha": "54c396f2c35c0240bcbc8b83fef59892f52d59fb",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "08_gold_profile_badge_panel.webp",
+      "blob_sha": "f57cf4badc45d7ef9a8791a05b4e0974a20467a9",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "10_gold_photo_backplate.webp",
+      "blob_sha": "f3ae6b41fc63550744d0423ea592827ded397b44",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "15_purple_progress_bar.webp",
+      "blob_sha": "30851d776de6f999e6487ab20ebdebde3a76ece7",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "21_gold_plan_badge_background.webp",
+      "blob_sha": "df84bb11e3939e4f4cfaefcca0d3ae4730fec2d5",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "22_green_active_badge_background.webp",
+      "blob_sha": "d9179752fe6e1d024fda4f34cd514014cca54ba8",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "23_freeze_snowflake_graphic.webp",
+      "blob_sha": "97d40279340c49f69e33aae5333430212a7544a3",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "25_calendar_graphic.webp",
+      "blob_sha": "f037c393e6860970b6587c2323fad210331eb46c",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "27_dumbbell_promo_graphic.webp",
+      "blob_sha": "fb49ede3adb8559cf40693fd2c7a311a5ea08514",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "28_protinex_tub.webp",
+      "blob_sha": "22d848712d5377d28d829cf1e2475c6f7b470ac3",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "29_sbi_payment_card_graphic.webp",
+      "blob_sha": "d5d4291234dfb383a035ed8872317a6eee894e0a",
+      "format": "webp",
+      "source": "existing repository asset"
+    },
+    {
+      "name": "fat_loss_support_tub.png",
+      "blob_sha": "4748e3088d20af936ce99bb34ade26b6a3248809",
+      "format": "png",
+      "source": "existing repository asset"
+    }
+  ]
+}

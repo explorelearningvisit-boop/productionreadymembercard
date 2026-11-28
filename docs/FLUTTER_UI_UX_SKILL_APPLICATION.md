@@ -14,7 +14,7 @@ This project uses a project-owned Purple Neon / Gold design system. External ski
 
 ## Project routing
 
-1. Use the custom-design-system route. Preserve `MemberTheme`, the Purple Neon / Gold palette, approved typography, and PulseVault asset authority. Do not replace the interface with default Material 3 styling.
+1. Use the custom-design-system route. Preserve `MemberTheme`, the Pearl Glass / Purple Neon / Gold design tokens, approved typography hierarchy, bright glass content field, semantic per-card color zoning, and PulseVault asset authority. Purple is reserved primarily for the frame, rail and selected accents. Do not replace the interface with default Material 3 styling.
 2. Use responsive/adaptive layout practices for 320, 360, and 390 dp widths and short/tall phone viewports. Respect parent constraints and SafeArea.
 3. Use design-polish review for hierarchy, readable labels, spacing, image aspect ratios, and elimination of accidental overlap.
 4. Use accessibility review for semantic labels, contrast, minimum practical touch targets, text scaling, and TalkBack behavior. Never use color as the only status signal.

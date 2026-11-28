@@ -1,0 +1,124 @@
+name: BAD GYM Xiaomi Device QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      device_host:
+        description: 'Xiaomi phone Tailscale IPv4 (100.64.0.0/10)'
+        required: true
+        type: string
+      adb_port:
+        description: 'ADB TCP port enabled on the phone (default 5555)'
+        required: true
+        default: '5555'
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bad-gym-xiaomi-device-qa
+  cancel-in-progress: false
+
+jobs:
+  install-capture-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout approved dashboard branch
+        uses: actions/checkout@v4
+        with:
+          ref: grok/reference-glass-layered-dashboard
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.50.1'
+          channel: stable
+          cache: true
+
+      - name: Build and validate exact ARM64 QA APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          flutter pub get
+          dart format --output=none --set-exit-if-changed lib test
+          flutter analyze
+          flutter test --reporter expanded
+          flutter build apk --release --target-platform android-arm64
+          mkdir -p device-qa
+          cp build/app/outputs/flutter-apk/app-release.apk device-qa/bad-gym-arm64-qa.apk
+          sha256sum device-qa/bad-gym-arm64-qa.apk | tee device-qa/apk.sha256
+
+      - name: Join private Tailscale network
+        uses: tailscale/github-action@v4
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+          ping: ${{ inputs.device_host }}
+
+      - name: Validate phone address and reachability
+        shell: bash
+        env:
+          DEVICE_HOST: ${{ inputs.device_host }}
+          ADB_PORT: ${{ inputs.adb_port }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import ipaddress, os
+          host = ipaddress.ip_address(os.environ['DEVICE_HOST'])
+          if host.version != 4 or host not in ipaddress.ip_network('100.64.0.0/10'):
+              raise SystemExit('device_host must be the phone Tailscale IPv4 in 100.64.0.0/10')
+          port = int(os.environ['ADB_PORT'])
+          if not 1 <= port <= 65535:
+              raise SystemExit('ADB_PORT must be 1..65535')
+          PY
+          tailscale status
+          timeout 8 bash -c "</dev/tcp/$DEVICE_HOST/$ADB_PORT"
+
+      - name: Install BAD GYM and capture Xiaomi device evidence
+        shell: bash
+        env:
+          DEVICE_HOST: ${{ inputs.device_host }}
+          ADB_PORT: ${{ inputs.adb_port }}
+        run: |
+          set -euo pipefail
+          APK=device-qa/bad-gym-arm64-qa.apk
+          PACKAGE=com.badgym.bad_gym_member_intelligence
+          adb connect "$DEVICE_HOST:$ADB_PORT"
+          adb -s "$DEVICE_HOST:$ADB_PORT" wait-for-device
+          adb -s "$DEVICE_HOST:$ADB_PORT" get-state
+          adb -s "$DEVICE_HOST:$ADB_PORT" install -r "$APK"
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell am force-stop "$PACKAGE"
+          adb -s "$DEVICE_HOST:$ADB_PORT" logcat -c
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell monkey -p "$PACKAGE" -c android.intent.category.LAUNCHER 1
+          sleep 18
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell getprop ro.product.manufacturer | tee device-qa/manufacturer.txt
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell getprop ro.product.model | tee device-qa/model.txt
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell getprop ro.build.version.release | tee device-qa/android-version.txt
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell wm size | tee device-qa/screen-size.txt
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell wm density | tee device-qa/screen-density.txt
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell dumpsys window | grep -E 'mCurrentFocus|mFocusedApp' | head -n 10 | tee device-qa/focused-window.txt || true
+          adb -s "$DEVICE_HOST:$ADB_PORT" exec-out screencap -p > device-qa/xiaomi-installed-initial.png
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell uiautomator dump /sdcard/badgym-window.xml >/dev/null
+          adb -s "$DEVICE_HOST:$ADB_PORT" pull /sdcard/badgym-window.xml device-qa/window-hierarchy.xml
+          # Non-destructive gesture probes; retain each rendered frame for visual comparison.
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell input swipe 80 1050 280 1050 350
+          sleep 2
+          adb -s "$DEVICE_HOST:$ADB_PORT" exec-out screencap -p > device-qa/xiaomi-after-horizontal-swipe.png
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell input swipe 180 1250 180 550 350
+          sleep 2
+          adb -s "$DEVICE_HOST:$ADB_PORT" exec-out screencap -p > device-qa/xiaomi-after-vertical-swipe.png
+          adb -s "$DEVICE_HOST:$ADB_PORT" logcat -d -t 6000 > device-qa/logcat.txt
+          adb -s "$DEVICE_HOST:$ADB_PORT" shell dumpsys activity activities > device-qa/activities.txt
+          adb disconnect "$DEVICE_HOST:$ADB_PORT"
+
+      - name: Upload Xiaomi screenshots and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bad-gym-xiaomi-device-qa-${{ github.run_number }}
+          path: device-qa/
+          if-no-files-found: warn
+          retention-days: 14
