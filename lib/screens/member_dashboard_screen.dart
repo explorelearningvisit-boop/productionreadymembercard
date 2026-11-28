@@ -164,7 +164,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
         body: SafeArea(
           child: LayoutBuilder(
             builder: (context, bounds) {
-              final compact = bounds.maxHeight < 760;
+              final compact = bounds.maxHeight < 800;
               final compactProgress =
                   ((bounds.maxHeight - 600.0) / 100.0).clamp(0.0, 1.0);
               final railWidth = bounds.maxWidth < 340
@@ -747,27 +747,27 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                         maxLines: 1,
                         style: TextStyle(
                           color: MemberTheme.ink,
-                          fontSize: 14,
+                          fontSize: compact ? 13 : 14,
                           height: 1,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 1),
-                      const Text(
+                      SizedBox(height: compact ? 0 : 1),
+                      Text(
                         'Stay Cool · Pause Plan',
                         maxLines: 1,
                         style: TextStyle(
                           color: MemberTheme.muted,
-                          fontSize: 8,
+                          fontSize: compact ? 7 : 8,
                           height: 1,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 1),
+                      SizedBox(height: compact ? 0 : 1),
                       Container(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 6,
-                          vertical: 1,
+                          vertical: compact ? 0 : 1,
                         ),
                         decoration: BoxDecoration(
                           color: palette.railSelected,
@@ -779,7 +779,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                           maxLines: 1,
                           style: TextStyle(
                             color: palette.planBadgeText,
-                            fontSize: 7,
+                            fontSize: compact ? 6.3 : 7,
                             height: 1,
                             fontWeight: FontWeight.w900,
                           ),
@@ -870,82 +870,84 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: MemberTheme.ink,
-                      fontSize: compact ? 18.5 : 22,
-                      height: 1.03,
+                      fontSize: compact ? 17.5 : 22,
+                      height: compact ? 1 : 1.03,
                       fontWeight: FontWeight.w900,
                       letterSpacing: -0.25,
                     ),
                   ),
-                  SizedBox(height: compact ? 1 : 5),
+                  SizedBox(height: compact ? 0 : 5),
                   Row(
                     children: [
                       Icon(
                         Icons.badge_outlined,
-                        size: 12,
+                        size: compact ? 11 : 12,
                         color: palette.accent,
                       ),
-                      const SizedBox(width: 3),
+                      SizedBox(width: compact ? 2 : 3),
                       Flexible(
                         child: Text(
                           member.memberId,
                           maxLines: 1,
                           style: TextStyle(
                             color: MemberTheme.ink,
-                            fontSize: compact ? 11 : 12,
+                            fontSize: compact ? 10 : 12,
                             height: 1,
                             fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
-                      const SizedBox(width: 7),
+                      SizedBox(width: compact ? 4 : 7),
                       Container(
                         width: 1,
-                        height: 12,
+                        height: compact ? 10 : 12,
                         color: palette.panelEdge,
                       ),
-                      const SizedBox(width: 7),
+                      SizedBox(width: compact ? 4 : 7),
                       Icon(
                         Icons.cake_outlined,
-                        size: 12,
+                        size: compact ? 11 : 12,
                         color: palette.accent,
                       ),
-                      const SizedBox(width: 3),
+                      SizedBox(width: compact ? 2 : 3),
                       Text(
                         member.age,
                         maxLines: 1,
                         style: TextStyle(
                           color: palette.accent,
-                          fontSize: compact ? 10.5 : 11.5,
+                          fontSize: compact ? 9.5 : 11.5,
+                          height: compact ? 1 : null,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      const SizedBox(width: 7),
+                      SizedBox(width: compact ? 4 : 7),
                       Container(
                         width: 1,
-                        height: 12,
+                        height: compact ? 10 : 12,
                         color: palette.panelEdge,
                       ),
-                      const SizedBox(width: 7),
+                      SizedBox(width: compact ? 4 : 7),
                       Icon(
                         Icons.person_outline_rounded,
-                        size: 13,
+                        size: compact ? 11 : 13,
                         color: palette.accent,
                       ),
-                      const SizedBox(width: 2),
+                      SizedBox(width: compact ? 1 : 2),
                       Flexible(
                         child: Text(
                           member.gender,
                           maxLines: 1,
                           style: TextStyle(
                             color: palette.accent,
-                            fontSize: compact ? 10.5 : 11.5,
+                            fontSize: compact ? 9.5 : 11.5,
+                            height: compact ? 1 : null,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: compact ? 1 : 6),
+                  SizedBox(height: compact ? 0 : 6),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -962,14 +964,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                               backgroundAsset: null,
                               compact: compact,
                             ),
-                            SizedBox(height: compact ? 1 : 2),
+                            SizedBox(height: compact ? 0 : 2),
                             Text(
                               '${palette.planName} member perks · Sample',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: palette.accent,
-                                fontSize: compact ? 9 : 9.5,
+                                fontSize: compact ? 8 : 9.5,
                                 height: 1,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -994,14 +996,14 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
                               backgroundAsset: null,
                               compact: compact,
                             ),
-                            SizedBox(height: compact ? 1 : 2),
+                            SizedBox(height: compact ? 0 : 2),
                             Text(
                               'Member rewards · Sample',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: const Color(0xFF23694E),
-                                fontSize: compact ? 9 : 9.5,
+                                fontSize: compact ? 8 : 9.5,
                                 height: 1,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -1588,10 +1590,10 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen>
     bool compact = false,
   }) {
     return Container(
-      height: compact ? 20 : 30,
+      height: compact ? 18 : 30,
       width: double.infinity,
       alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+      padding: EdgeInsets.symmetric(horizontal: 3, vertical: compact ? 1 : 3),
       decoration: BoxDecoration(
         gradient: backgroundAsset == null
             ? LinearGradient(
