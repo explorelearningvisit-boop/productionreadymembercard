@@ -167,6 +167,7 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                               ),
                             ),
                           ),
+                          ),
                         ],
                       ),
                     ],
@@ -1105,11 +1106,20 @@ class _MemberDashboardScreenState extends State<MemberDashboardScreen> {
                           ColoredBox(
                             color: palette.panelEdge.withOpacity(0.34),
                           ),
-                          FractionallySizedBox(
-                            alignment: Alignment.centerLeft,
-                            widthFactor: member.membershipProgress
-                                .clamp(0.0, 1.0)
-                                .toDouble(),
+                          TweenAnimationBuilder<double>(
+                            tween: Tween<double>(
+                              begin: 0,
+                              end: member.membershipProgress.clamp(0.0, 1.0).toDouble(),
+                            ),
+                            duration: MediaQuery.maybeOf(context)?.disableAnimations == true
+                                ? Duration.zero
+                                : const Duration(milliseconds: 360),
+                            curve: Curves.easeOutCubic,
+                            builder: (context, progress, child) => FractionallySizedBox(
+                              alignment: Alignment.centerLeft,
+                              widthFactor: progress,
+                              child: child,
+                            ),
                             child: DecoratedBox(
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(

@@ -123,8 +123,12 @@ class AttendancePanel extends StatelessWidget {
                       SizedBox(
                         width: ringSize,
                         height: ringSize,
-                        child: CustomPaint(
-                          painter: const _AttendanceRingPainter(),
+                        child: TweenAnimationBuilder<double>(
+                          tween: Tween<double>(begin: 0, end: 1),
+                          duration: MediaQuery.maybeOf(context)?.disableAnimations == true
+                              ? Duration.zero
+                              : const Duration(milliseconds: 360),
+                          curve: Curves.easeOutCubic,
                           child: Center(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -148,6 +152,10 @@ class AttendancePanel extends StatelessWidget {
                                 ),
                               ],
                             ),
+                          ),
+                          builder: (context, progress, child) => CustomPaint(
+                            painter: _AttendanceRingPainter(progress: progress),
+                            child: child,
                           ),
                         ),
                       ),
@@ -660,7 +668,9 @@ class _MiniStat extends StatelessWidget {
 }
 
 class _AttendanceRingPainter extends CustomPainter {
-  const _AttendanceRingPainter();
+  const _AttendanceRingPainter({this.progress = 1});
+
+  final double progress;
 
   static const _segments = <(double, Color)>[
     (23, Color(0xFF13CA69)),
@@ -684,6 +694,8 @@ class _AttendanceRingPainter extends CustomPainter {
     const gap = 0.035;
     for (final segment in _segments) {
       final sweep = math.pi * 2 * segment.$1 / 31;
+      final visibleSweep = sweep * progress.clamp(0.0, 1.0);
+      final visibleGap = gap * progress.clamp(0.0, 1.0);
       final paint = Paint()
         ..color = segment.$2
         ..style = PaintingStyle.stroke
@@ -691,8 +703,8 @@ class _AttendanceRingPainter extends CustomPainter {
         ..strokeCap = StrokeCap.round;
       canvas.drawArc(
         rect,
-        start + gap / 2,
-        math.max(0.0, sweep - gap),
+        start + visibleGap / 2,
+        math.max(0.0, visibleSweep - visibleGap),
         false,
         paint,
       );
@@ -701,5 +713,6 @@ class _AttendanceRingPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _AttendanceRingPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _AttendanceRingPainter oldDelegate) =>
+      oldDelegate.progress != progress;
 }
