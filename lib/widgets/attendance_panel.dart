@@ -633,18 +633,20 @@ class _MiniStat extends StatelessWidget {
       );
     }
     return Column(
+      mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: palette.accent, size: 14),
-            const SizedBox(width: 3),
+            Icon(icon, color: palette.accent, size: 13),
+            const SizedBox(width: 2),
             Text(
               value,
               style: TextStyle(
                 color: palette.accent,
-                fontSize: 12.5,
+                fontSize: 12,
+                height: 0.95,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -656,7 +658,8 @@ class _MiniStat extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             color: MemberTheme.muted,
-            fontSize: 9.5,
+            fontSize: 8.5,
+            height: 0.95,
             fontWeight: FontWeight.w600,
           ),
         ),

@@ -221,10 +221,12 @@ abstract final class CampaignPreviewSheet {
       useSafeArea: true,
       showDragHandle: true,
       backgroundColor: Colors.transparent,
-      builder: (sheetContext) => Container(
-        key: ValueKey('campaign-preview-${campaign.id}'),
-        width: double.infinity,
-        padding: const EdgeInsets.fromLTRB(18, 10, 18, 20),
+      builder: (sheetContext) => SizedBox(
+        width: MediaQuery.sizeOf(sheetContext).width,
+        child: Container(
+          key: ValueKey('campaign-preview-${campaign.id}'),
+          width: double.infinity,
+          padding: const EdgeInsets.fromLTRB(18, 10, 18, 20),
         decoration: BoxDecoration(
           color: MemberTheme.surface,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
@@ -285,6 +287,7 @@ abstract final class CampaignPreviewSheet {
               ),
             ),
           ],
+        ),
         ),
       ),
     );
