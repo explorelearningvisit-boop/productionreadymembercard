@@ -100,5 +100,19 @@
       "format": "png",
       "source": "existing repository asset"
     }
-  ]
+  ],
+  "optimizedDirectory": "assets/material_pack/inbox/PulseVault/optimized/",
+  "generationScript": "tools/build_pulsevault_emerald_derivatives.py",
+  "outputFiles": [
+    "01_member_portrait_cutout.webp",
+    "03_whey_promo_cutout.webp",
+    "04_freeze_shaker_cutout.webp",
+    "05_partner_offer_cutout.webp",
+    "06_creatine_product_cutout.webp",
+    "23_freeze_snowflake_cutout.webp",
+    "28_protinex_product_cutout.webp",
+    "29_sbi_payment_card_cutout.webp",
+    "fat_loss_support_tub_cutout.webp"
+  ],
+  "derivativePolicy": "Nine 3x WebP cut-outs with real alpha extrema 0-255 and at least 5% measured margins on every edge. Source art is never overwritten."
 }

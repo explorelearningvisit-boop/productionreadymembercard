@@ -27,3 +27,14 @@ This is the canonical runtime asset directory for the member-card/dashboard UI.
 - `28_protinex_tub.webp`
 - `29_sbi_payment_card_graphic.webp`
 - `fat_loss_support_tub.png`
+
+
+## Emerald Pearl optimized cut-outs
+
+The original 16 PulseVault images remain unchanged. Nine padded WebP cut-outs are created in `optimized/` by `tools/build_pulsevault_emerald_derivatives.py`. The dedicated GitHub asset workflow commits this generated binary directory after inspection; Android build CI also regenerates and audits it before `flutter pub get`.
+
+- Every derivative is reopened after export and checked for true alpha (range 0–255), expected pixel dimensions, SHA-256 and subject bounding box.
+- A minimum 5% transparent margin is enforced on all four edges (target 6.7%).
+- Fat Loss source art is almost opaque despite its alpha channel; OpenCV GrabCut isolates the product before creating its transparent derivative.
+- UI uses `BoxFit.contain`; no stretch or fake checkerboard transparency.
+- Source images are never overwritten or removed.

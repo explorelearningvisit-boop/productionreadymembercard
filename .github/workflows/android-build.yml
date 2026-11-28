@@ -40,6 +40,39 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
+      - name: Install PulseVault image tooling
+        run: python -m pip install --disable-pip-version-check "Pillow>=10,<13" "opencv-python-headless==4.10.0.84"
+
+      - name: Generate real-alpha PulseVault cut-outs
+        run: |
+          python tools/build_pulsevault_emerald_derivatives.py \
+            --root assets/material_pack/inbox/PulseVault \
+            --out assets/material_pack/inbox/PulseVault/optimized
+
+      - name: Audit generated PulseVault cut-outs
+        run: |
+          python tools/audit_pulsevault_assets.py \
+            --root assets/material_pack/inbox/PulseVault/optimized \
+            --manifest assets/material_pack/inbox/PulseVault/optimized/manifest.json \
+            --json-out build/audits/pulsevault_optimized_audit.json \
+            --markdown-out build/audits/pulsevault_optimized_audit.md
+
+      - name: Archive optimized PulseVault image pack
+        run: |
+          mkdir -p build/audits
+          zip -q -r build/audits/pulsevault_emerald_pearl_pack.zip assets/material_pack/inbox/PulseVault/optimized
+
+      - name: Upload optimized PulseVault image pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: bad-gym-pulsevault-emerald-pearl-pack
+          path: |
+            build/audits/pulsevault_emerald_pearl_pack.zip
+            build/audits/pulsevault_optimized_audit.json
+            build/audits/pulsevault_optimized_audit.md
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Resolve Flutter dependencies
         run: flutter pub get
 

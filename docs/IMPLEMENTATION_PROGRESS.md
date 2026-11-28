@@ -2,37 +2,39 @@
 
 Updated: 2026-11-28  
 Branch: grok/purple-neon-member-dashboard  
-Resume rule: Verify actual HEAD and CI before trusting this ledger.
+Resume rule: verify current HEAD and latest CI before trusting this ledger.
 
-## Owner direction locked
-- Approved visual: Emerald + Pearl dashboard generated 2026-11-28.
-- Source 841×1870px, ratio 0.4497.
-- SHA-256 d49be4260ddb9fe1f9f5424af58a5e7c0f09cc261b20a5d4a5dbf8e4d409f740.
-- Logical reference 360×800dp full device with SafeArea/system bars.
-- Forest emerald frame/rail, pearl workspace; Gold badge, ice Freeze, mint Attendance, lavender Workout, sky Payment, mint Body.
-- Purple Neon/Lilac superseded.
+## Approved visual and behavior
+- Emerald + Pearl master remains current; specification in docs/BADGYM_EMERALD_PEARL_VISUAL_MASTER_SPEC_2026-11-28.md.
+- Four KPI states: Attendance, Workout, Payment, Body; one dashboard and four contextual lower-panel views.
+- Main app cycles through the four KPI states every 3 seconds. A thin line below the KPI row fills from zero to full; no countdown number.
+- Center arrow toggles the lower workspace between contextual rail/details and a simple quick snapshot for users who prefer less information.
+- Manual KPI taps remain enabled. Reduced-motion or non-resumed lifecycle pauses the timer.
+- Compact row budgets reclaim about 20dp net on the 360dp target while retaining labels/values.
+- Sponsored product artwork uses finite entrance motion; no perpetual animation.
 
-## Checkpoint
-- Stage 0 visual spec: complete in this checkpoint.
-- Stage 1 theme migration: implementation/CI verification pending.
-- Stage 2 PulseVault metadata audit: **completed** (Build #722, 16/16, no missing files, all true-alpha); visual contact-sheet/crop review: **in progress**. See docs/PULSEVAULT_ASSET_AUDIT_2026-11-28.md. Build #723 is configured to export a read-only source-image ZIP for visual inspection. No source image was changed or deleted.
-- Stage 3 shell/check-in/Freeze/profile: pending after Stage 2.
-- Stages 4–11 pending.
+## Previous verified checkpoints
+- Stage 1 Emerald/Pearl theme verified by Build #720 on c23eb0a779d00e973d76e6838341e93ceb0952d0.
+- Original PulseVault metadata audit Build #722 (16/16 files) and source-image review Build #723 completed.
+- Earlier report: docs/PULSEVAULT_ASSET_AUDIT_2026-11-28.md.
+- Optimized image folder was not present on branch at initial inspection. The reproducible generator and separate binary-commit workflow have now been added; do not claim binaries uploaded until that workflow commits them.
 
-## Previous baseline
-- Last previous-theme commit 1c3ca6cf06e2035d39122a40909b8335e5da9e65.
-- Build #717 passed format, analyzer, widget tests, ARM64/signature and artifact upload; Test Lab/App Distribution skipped due credentials.
-- Previous pre-Emerald APK is not the new build. New Stage 1 ARM64 QA APK from Build #720 has SHA-256 8f2c80749bde3b8fdb43ea1c28dcdf0e98c112ff9b10d2f51e03730a9a004511, size 19,189,131 bytes; apksigner verification passed. Firebase Test Lab/App Distribution skipped due missing credentials.
+## Current change batch
+- Timer + centered details toggle + quick snapshot mode: commit ba8d4c7e36902d5f3f7447046fd942d15b718cde.
+- Campaign asset path migration, finite ad-art entrances, increased image slots, native fallback for cropped dumbbell campaign, and new widget tests: commit ef65e9ed67ab4c8c4492052c16ea4d0615458348.
+- Binary derivative generator: tools/build_pulsevault_emerald_derivatives.py.
+- Asset-generation workflow: .github/workflows/pulsevault-assets.yml (commits nine generated binaries into PulseVault/optimized/).
+- Android build workflow will generate + audit optimized assets before Flutter asset bundling.
+
+## Validation state
+- Latest app code CI: pending.
+- Optimized asset binary commit and alpha report: pending.
+- Screenshot overlay/diff and physical Xiaomi device verification: not yet run.
+- New APK: pending. Do not reuse Build #720 as the latest UI build.
 
 ## Next action
-1. Verify live HEAD.
-2. Inspect Actions run/logs.
-3. Fix evidenced failures only; never weaken tests.
-4. After Stage 1 CI passes, inventory dimensions/alpha/crop for all PulseVault art; generate only missing cut-outs per Section 7.
-5. Update this ledger and CHAT_HANDOFF after every stage.
-
-## Stage log
-- 2026-11-28: Emerald/Pearl visual direction and spec prepared.
-- 2026-11-28: Stage 1 Emerald/Pearl theme migration + component surfaces committed; Build #719 failed on one undefined identifier, fixed in c23eb0a; Build #720 passed format, analyzer, widget tests, ARM64 release build, signature verification and artifact upload.
-
-- 2026-11-28: Build #722 asset audit measured 16/16 manifest images; all include alpha, visible alpha touches at least one canvas edge; Fat Loss PNG 2.08 MB. See dedicated measured report.
+1. Inspect asset generation workflow and verify all nine optimized files are actually committed to the branch.
+2. Inspect Android workflow's true-alpha/dimension audit artifact.
+3. Review format/analyzer/widget test and ARM64 APK/signature/artifact results.
+4. Only after CI passes, render 320/360/390dp and perform reference overlay/diff.
+5. Record exact commit/run results here and in docs/CHAT_HANDOFF.md.
