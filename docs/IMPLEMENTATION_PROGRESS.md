@@ -15,7 +15,7 @@ Resume rule: Verify actual HEAD and CI before trusting this ledger.
 ## Checkpoint
 - Stage 0 visual spec: complete in this checkpoint.
 - Stage 1 theme migration: implementation/CI verification pending.
-- Stage 2 PulseVault alpha/dimension/crop audit and transparent asset pack: **in progress**; automated audit script is being added to CI and its report artifact will be inspected before replacements.
+- Stage 2 PulseVault metadata audit: **completed** (Build #722, 16/16, no missing files, all true-alpha); visual contact-sheet/crop review: **in progress**. See docs/PULSEVAULT_ASSET_AUDIT_2026-11-28.md. Build #723 is configured to export a read-only source-image ZIP for visual inspection. No source image was changed or deleted.
 - Stage 3 shell/check-in/Freeze/profile: pending after Stage 2.
 - Stages 4–11 pending.
 
@@ -34,3 +34,5 @@ Resume rule: Verify actual HEAD and CI before trusting this ledger.
 ## Stage log
 - 2026-11-28: Emerald/Pearl visual direction and spec prepared.
 - 2026-11-28: Stage 1 Emerald/Pearl theme migration + component surfaces committed; Build #719 failed on one undefined identifier, fixed in c23eb0a; Build #720 passed format, analyzer, widget tests, ARM64 release build, signature verification and artifact upload.
+
+- 2026-11-28: Build #722 asset audit measured 16/16 manifest images; all include alpha, visible alpha touches at least one canvas edge; Fat Loss PNG 2.08 MB. See dedicated measured report.

@@ -64,6 +64,19 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+      - name: Archive original PulseVault images for visual review
+        run: |
+          mkdir -p build/audits
+          zip -q -r build/audits/pulsevault_source_assets.zip assets/material_pack/inbox/PulseVault
+
+      - name: Upload read-only PulseVault source images
+        uses: actions/upload-artifact@v4
+        with:
+          name: bad-gym-pulsevault-source-assets
+          path: build/audits/pulsevault_source_assets.zip
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Format Dart sources in CI checkout
         run: dart format lib test
 
