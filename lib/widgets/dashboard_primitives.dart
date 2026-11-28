@@ -127,7 +127,7 @@ class DashboardMetricTile extends StatelessWidget {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  key: ValueKey('metric-\${label.toLowerCase()}-menu'),
+                  key: ValueKey('metric-${label.toLowerCase()}-menu'),
                   onTap: onTap,
                   borderRadius: BorderRadius.circular(10),
                   mouseCursor: SystemMouseCursors.click,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:bad_gym_member_intelligence/data/dashboard_navigation.dart';
+import 'package:bad_gym_member_intelligence/data/dashboard_campaigns.dart';
 import 'package:bad_gym_member_intelligence/data/sample_member.dart';
 import 'package:bad_gym_member_intelligence/main.dart';
 import 'package:bad_gym_member_intelligence/screens/member_dashboard_screen.dart';
@@ -213,14 +214,13 @@ void main() {
 
     await tester.tap(find.byKey(const ValueKey('whey-offer-preview')));
     await tester.pumpAndSettle();
-    expect(find.text('Whey Protein · Demo preview'), findsOneWidget);
+    expect(find.text('Sponsored offer preview'), findsOneWidget);
+    expect(find.text('25% OFF'), findsOneWidget);
     expect(
-      find.text(
-        'Sample campaign preview. A live purchase destination has not been connected yet.',
-      ),
+      find.textContaining('verified advertiser landing URL has not been configured'),
       findsOneWidget,
     );
-    await tester.tap(find.text('Close offer'));
+    await tester.tap(find.text('Close preview'));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
@@ -292,7 +292,7 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(checkIn);
     await tester.pumpAndSettle();
-    expect(find.text('PREVIEW · CHECKED IN'), findsOneWidget);
+    expect(find.text('07:12 AM'), findsOneWidget);
     expect(find.byKey(const ValueKey('check-in-freeze-header-image')), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
@@ -361,5 +361,52 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+
+
+  test('campaign preview inventory uses distinct ids and advertisers', () {
+    expect(DashboardCampaigns.placements, hasLength(8));
+    expect(DashboardCampaigns.hasUniqueCampaignIds, isTrue);
+    expect(DashboardCampaigns.hasUniqueAdvertisers, isTrue);
+  });
+
+  testWidgets('menu and ad hit areas open different actions', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('campaign-footer-creatine-workout-15')));
+    await tester.pumpAndSettle();
+    expect(find.text('Sponsored offer preview'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('close-campaign-preview-creatine-workout-15')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('metric-workout-menu')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('navigation-workout-overview')), findsOneWidget);
+    expect(find.text('Workout Overview'), findsOneWidget);
+
+    await tester.tap(find.byKey(const ValueKey('metric-attendance')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const ValueKey('campaign-banner-blinkit-attendance-30')));
+    await tester.pumpAndSettle();
+    expect(find.text('Sponsored offer preview'), findsOneWidget);
+    expect(find.byKey(const ValueKey('navigation-attendance-attend')), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('module detail pages do not repeat the attendance ad placements', (tester) async {
+    setPhoneViewport(tester, const Size(360, 780));
+    addViewportReset(tester);
+    await tester.pumpWidget(const BadGymApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const ValueKey('metric-body-menu')));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('member-detail-body-0')), findsOneWidget);
+    expect(find.byKey(const ValueKey('campaign-banner-blinkit-attendance-30')), findsNothing);
+    expect(find.byKey(const ValueKey('campaign-banner-train-more-15')), findsNothing);
+    expect(tester.takeException(), isNull);
+  });
 
 }

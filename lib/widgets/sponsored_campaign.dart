@@ -20,12 +20,12 @@ class CampaignFooterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: 'Advertisement. \${campaign.brand}. \${campaign.offer}. Open preview.',
+      label: 'Advertisement. ${campaign.brand}. ${campaign.offer}. Open preview.',
       child: Material(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(8),
         child: InkWell(
-          key: ValueKey('campaign-footer-\${campaign.id}'),
+          key: ValueKey('campaign-footer-${campaign.id}'),
           onTap: onTap,
           borderRadius: BorderRadius.circular(8),
           child: Container(
@@ -58,7 +58,7 @@ class CampaignFooterButton extends StatelessWidget {
                 const SizedBox(width: 3),
                 Expanded(
                   child: Text(
-                    '\${campaign.brand} \${campaign.offer}',
+                    '${campaign.brand} ${campaign.offer}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -109,12 +109,12 @@ class SponsoredCampaignBanner extends StatelessWidget {
       height: height,
       child: Semantics(
         button: true,
-        label: 'Sponsored advertisement. \${campaign.brand}. \${campaign.offer}. \${campaign.cta}.',
+        label: 'Sponsored advertisement. ${campaign.brand}. ${campaign.offer}. ${campaign.cta}.',
         child: Material(
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(9),
           child: InkWell(
-            key: ValueKey('campaign-banner-\${campaign.id}'),
+            key: ValueKey('campaign-banner-${campaign.id}'),
             onTap: onTap,
             borderRadius: BorderRadius.circular(9),
             child: Container(
@@ -206,7 +206,7 @@ abstract final class CampaignPreviewSheet {
       showDragHandle: true,
       backgroundColor: Colors.transparent,
       builder: (sheetContext) => Container(
-        key: ValueKey('campaign-preview-\${campaign.id}'),
+        key: ValueKey('campaign-preview-${campaign.id}'),
         padding: const EdgeInsets.fromLTRB(18, 10, 18, 20),
         decoration: BoxDecoration(
           color: MemberTheme.surface,
@@ -257,7 +257,7 @@ abstract final class CampaignPreviewSheet {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                key: ValueKey('close-campaign-preview-\${campaign.id}'),
+                key: ValueKey('close-campaign-preview-${campaign.id}'),
                 style: FilledButton.styleFrom(
                   backgroundColor: accent,
                   foregroundColor: Colors.white,

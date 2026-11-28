@@ -52,3 +52,12 @@ The reference's member and attendance figures are sample UI data. Retain Ashwani
 - Test module navigation and sponsor actions independently.
 - No new runtime packages. Keep the existing Android application ID and QA workflow.
 - Retain Unslop by Damir Sokolovsky attribution under CC BY 4.0 in adaptations.
+
+
+## Implemented component pass
+
+- KPI/menu card and campaign footer are sibling tap targets. The menu opens only the module; the campaign footer opens only its sponsored preview.
+- The top whey campaign, KPI campaigns, Blinkit attendance banner, recovery strip and Train More calendar banner have distinct campaign IDs and advertiser IDs in the local preview inventory.
+- Alternate detail pages no longer inject the same generic ad automatically.
+- The member payment card opens Payment; the amount is shown once and days remaining is reserved for the membership-progress strip.
+- Sponsored preview sheets are non-transactional until a verified advertiser landing URL is configured.
